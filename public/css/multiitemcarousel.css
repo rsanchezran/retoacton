@@ -1,0 +1,32 @@
+.multi-item-carousel .carousel-inner .item{
+    transition: 500ms ease-in-out left;
+}
+
+.multi-item-carousel .active .left{
+     left:-33%;
+ }
+
+.multi-item-carousel .active .right{
+     left:33%;
+ }
+
+.multi-item-carousel .next{
+    left: 33%;
+}
+.multi-item-carousel .prev{
+    left: -33%;
+}
+
+@media all and (transform-3d), (-webkit-transform-3d) {
+    > .item{
+    // use your favourite prefixer here
+    transition: 500ms ease-in-out left;
+        transition: 500ms ease-in-out all;
+        backface-visibility: visible;
+        transform: none!important;
+    }
+}
+
+.carouse-control .left, .carouse-control.right{
+    background-image: none;
+}

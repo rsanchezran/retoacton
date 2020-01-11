@@ -1,0 +1,108 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Code\Utils;
+use App\Code\ValidarCorreo;
+use App\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+
+class CuentaController extends Controller
+{
+    public function index(Request $request)
+    {
+        $user = $request->user();
+        $user->pass = substr($user->password, 0, 6);
+        return view('cuenta.index', ['user' => $user]);
+    }
+
+    public function save(Request $request)
+    {
+        $validator = Validator::make($request->all(),
+            [
+                'pass' => 'confirmed|max:20|min:4',
+                'pass_confirmation' => 'required|max:20|min:4',
+                'tarjeta' => 'nullable|numeric|min:0|digits:16'
+            ],
+            [
+                'pass.required' => 'Este campo es obligatorio',
+                'pass.max' => 'Debe tener máximo 20 caracteres',
+                'pass.min' => 'Debe tener mínimo 4 caracteres',
+                'pass.confirmed' => 'Los datos deben ser iguales al campo Contraseña',
+                'pass_confirmation.required' => 'Este campo es obligatorio',
+                'pass_confirmation.max' => 'Debe tener máximo 20 caracteres',
+                'pass_confirmation.min' => 'Debe tener mínimo 4 caracteres',
+                'tarjeta.numeric' => 'Debe capturar únicamente números',
+                'tarjeta.digits' => 'Debe tener exactamente 16 caracteres',
+                'tarjeta.min' => 'No debe ser negativo'
+            ]
+        );
+        $validator->validate();
+
+        \DB::beginTransaction();
+        $user = User::find($request->id);
+        if ($user !== null) {
+            if ($request->pass != substr($user->password, 0, 6)){
+                $user->password = bcrypt($request->pass);
+            }
+            $user->tarjeta = $request->tarjeta;
+            $user->save();
+        }
+        \DB::commit();
+
+        return response()->json(['status' => 'ok', 'redirect' => url('home')]);
+    }
+
+    public function subirFoto(Request $request)
+    {
+        $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [], []);
+        $validator->after(function ($validator) use ($request) {
+            $dia = $request->dia - 1;
+            $extension = $request->file('imagen')->getClientOriginalExtension();
+            if ($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png') {
+                $size = ((($request->file('imagen')->getSize() / 1024) / 1024) * 100) / 100;
+                if ($size > 20) {
+                    $validator->errors()->add("imagen$dia", "El tamaño de la imagen debe ser menor a 20MB");
+                }
+            } else {
+                $validator->errors()->add("imagen$dia", "El formato de la imagen no está permitido");
+            }
+        });
+        $validator->validate();
+        $user = User::find($request->id);
+        if ($request->file('imagen') != null) {
+
+            $image = \Intervention\Image\Facades\Image::make($request->file('imagen'));
+            $image->orientate()
+                ->fit(350, 600, function ($constraint) {
+                    $constraint->upsize();
+                });
+            Storage::disk('local')->makeDirectory('public/users');
+            $image->save(storage_path("app/public/users/$user->id.png"));
+        }
+        return response()->json(['status' => 'ok', 'imagen' => url("/cuenta/getFotografia/$user->id/" . rand(0, 100))]);
+    }
+
+    public function getFotografia($id, $random)
+    {
+        if (Storage::disk('local')->exists("public/users/$id.png")) {
+            return response()->download(
+                storage_path("app/public/users/$id.png"),
+                'filename.png',
+                ['Content-Type' => 'image/png']
+            );
+        } else {
+            return response()->file(public_path('img/user.png'));
+        }
+    }
+
+    public function cambiarModo(Request $request)
+    {
+        $user = $request->user();
+        $user->modo = $request->lugar;
+        $user->save();
+        return response()->json(['status' => 'ok']);
+    }
+}

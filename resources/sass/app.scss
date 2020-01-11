@@ -1,0 +1,344 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+$fa-font-path: "~@fortawesome/fontawesome-pro/webfonts" !default;
+@import "~@fortawesome/fontawesome-pro/scss/fontawesome";
+@import "~@fortawesome/fontawesome-pro/scss/solid";
+@import "~@fortawesome/fontawesome-pro/scss/regular";
+@import "~@fortawesome/fontawesome-pro/scss/light";
+@import "~@fortawesome/fontawesome-pro/scss/brands";
+@import "~bootstrap-select/dist/css/bootstrap-select.css";
+@import "~bootstrap-datepicker/dist/css/bootstrap-datepicker3.css";
+@import "~vue-wysiwyg/dist/vueWysiwyg.css";
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+html {
+    min-height: 100%;
+    position: relative;
+    font-size: 12pt;
+    color: #1b1e21;
+}
+
+body {
+  margin: 0;
+  font-size: 14px;
+  color: #0b2e13;
+}
+
+#acton {
+  z-index: -1;
+  position: absolute;
+  bottom: 0%;
+  right: 1px;
+}
+
+#app{
+    background-color: #fff !important;
+}
+
+#imagen{
+  z-index: -1;
+  position: sticky;
+  float: right;
+}
+
+.navbar-laravel {
+  background-color: #fff;
+}
+
+.bigbutton {
+  border: 0;
+  display: block;
+  width: 20vw;
+  background-color: #1b4b72;
+  color: #FFF;
+  text-decoration: none;
+  padding: 25px;
+  text-align: center;
+  margin: auto;
+  text-transform: uppercase;
+}
+
+.bigbutton:hover {
+  color: #FFF;
+  text-decoration: none;
+  box-shadow: 2px 2px 10px 0px #1b4b72;
+}
+
+footer {
+  margin-top: auto;
+  padding: 0.5rem 0;
+  color: white;
+}
+
+footer a, footer a:hover{
+  color: #FFF;
+}
+
+.acton{
+  color: #1c4565;
+  text-transform: uppercase;
+}
+
+.modal-full{
+  max-width: 90%;
+  max-height: 90%;
+}
+
+.btn-default{
+  border: 1px solid #95999c;
+}
+
+.card {
+  margin: 5px;
+}
+
+.card-header, .table-header {
+  color: #fff;
+  background-color: #007FDC;
+}
+
+.card-header button {
+  color: #fff;
+
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #009ee2;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #8cb61e;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #8cb61e;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+#pago{
+    background-color: #f2f2f2;
+    background-image: url("../../public/images/rayogris.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    color: #1b1e21;
+}
+
+#pagar{
+    padding: 15px 10px;
+    background-color:#e60f17;
+    border: 0;
+    border-radius: 0;
+    color:#FFF;
+}
+
+#header{
+    background-image: url("../../public/images/postergris.png");
+    background-repeat: no-repeat;
+    background-position: top right;
+    background-size: 150px;
+}
+
+.bigText{
+    font-size: 1.5em;
+}
+
+.biggerText{
+    font-size: 2em;
+}
+
+.biggestText{
+    font-size: 4em;
+}
+
+.btn-success{
+    background-color: #007FDC;
+    border-color: #007FDC;
+    padding: 10px;
+}
+
+.required::after {
+    content: " * ";
+    color: #e60f17;
+}
+
+#cobro_anterior{
+    text-decoration: none;
+    position: relative;
+}
+
+#cobro_anterior:before {
+    content: " ";
+    display: block;
+    width: 140%;
+    border-top: 2px solid red;
+    height: 12px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transform: rotate(-2deg);
+    padding-top:15px;
+    margin-left:-20px;
+}
+
+.tooltip {
+  display: block !important;
+  z-index: 10000;
+
+  .tooltip-inner {
+    background: black;
+    color: white;
+    border-radius: 16px;
+    padding: 5px 10px 4px;
+  }
+
+  .tooltip-arrow {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    position: absolute;
+    margin: 5px;
+    border-color: black;
+    z-index: 1;
+  }
+
+  &[x-placement^="top"] {
+    margin-bottom: 5px;
+
+    .tooltip-arrow {
+      border-width: 5px 5px 0 5px;
+      border-left-color: transparent !important;
+      border-right-color: transparent !important;
+      border-bottom-color: transparent !important;
+      bottom: -5px;
+      left: calc(50% - 5px);
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
+
+  &[x-placement^="bottom"] {
+    margin-top: 5px;
+
+    .tooltip-arrow {
+      border-width: 0 5px 5px 5px;
+      border-left-color: transparent !important;
+      border-right-color: transparent !important;
+      border-top-color: transparent !important;
+      top: -5px;
+      left: calc(50% - 5px);
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
+
+  &[x-placement^="right"] {
+    margin-left: 5px;
+
+    .tooltip-arrow {
+      border-width: 5px 5px 5px 0;
+      border-left-color: transparent !important;
+      border-top-color: transparent !important;
+      border-bottom-color: transparent !important;
+      left: -5px;
+      top: calc(50% - 5px);
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+
+  &[x-placement^="left"] {
+    margin-right: 5px;
+
+    .tooltip-arrow {
+      border-width: 5px 0 5px 5px;
+      border-top-color: transparent !important;
+      border-right-color: transparent !important;
+      border-bottom-color: transparent !important;
+      right: -5px;
+      top: calc(50% - 5px);
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+
+  &.popover {
+    $color: #f9f9f9;
+
+    .popover-inner {
+      background: $color;
+      color: black;
+      padding: 24px;
+      border-radius: 5px;
+      box-shadow: 0 5px 30px rgba(black, .1);
+    }
+
+    .popover-arrow {
+      border-color: $color;
+    }
+  }
+
+  &[aria-hidden='true'] {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity .15s, visibility .15s;
+  }
+
+  &[aria-hidden='false'] {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity .15s;
+  }
+}

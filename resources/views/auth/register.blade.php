@@ -1,0 +1,220 @@
+@extends('layouts.welcome')
+@section('header')
+    <style>
+        .form-control {
+            border: 0;
+            border-radius: 0;
+        }
+
+        input.form-control {
+            margin: 10px 0;
+        }
+
+        input[type="email"] {
+            width: 100%;
+        }
+
+        a.btn-primary {
+            font-size: 15pt;
+            background-color: #1c4565;
+            border-color: #1c4565;
+            padding: 2% 20%;
+        }
+
+        a.btn-primary:hover {
+            background-color: #2c628c;
+        }
+
+        #vue {
+            background-color: #f2f2f2;
+            background-image: url("{{asset('img/rayogris.png')}}");
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        h6 {
+            color: #929292;
+        }
+
+        #pagar {
+            display: flex;
+            align-items: center;
+            width: 200px;
+            margin: auto;
+            padding: 5px 10px;
+            border:2px solid #BA1811;
+            border-radius: 8px;
+            background-color: #FFDA00;
+            color: #9C1F2D;
+            font-family: unitext_bold_cursive;
+        }
+
+        #infoPago{
+            display: flex;
+            flex-direction: column;
+        }
+
+        #infoPago label{
+            margin-bottom: 0;
+        }
+
+    </style>
+@endsection
+@section('content')
+    <div id="vue" class="container flex-center">
+        <registro class="pt-5" :urls="{{$urls}}" :medios="{{$medios}}"></registro>
+    </div>
+
+    <template id="registro-template">
+        <div class="container">
+            <div align="center">
+                <div>
+                    <img class="float-right" src="{{asset('img/postergris.png')}}" width="150">
+                    <h6 class="text-uppercase" style="font-size: 1.5em">Bienvenido al</h6>
+                    <h6 class="text-uppercase font-weight-bold" style="color: #013451; font-size: 2em">Reto Acton</h6>
+                </div>
+                <h5 class="text-left" style="color:#0080DD">Antes de comenzar nos gustaría saber un poco más sobre ti</h5>
+                <select class="form-control" v-model="informacion.medio">
+                    <option value="" disabled>¿Cómo te enteraste del reto acton?</option>
+                    <option v-for="medio in medios" :value="medio">@{{medio}}</option>
+                </select>
+                <div v-if="informacion.medio=='Por medio de un migo'" class="text-left">
+                    <span style="color: #929292">
+                        Si conoces el código de referencia de tu amigo, por favor ingresalo aquí
+                        <i v-if="loading" class="far fa-spinner fa-spin"></i>
+                    </span>
+                    <input class="form-control col-6 text-center" v-model="informacion.codigo" placeholder="REFERENCIA"
+                           @blur="buscarReferencia()">
+                    <div v-if="encontrado!==null">
+                        <span v-if="encontrado" class="font-weight-bold">El código que ingresaste corresponde al usuario :
+                            <i style="font-size:1.1rem">@{{ referencia }}</i>
+                        </span>
+                        <span v-else class="font-weight-bold">[No se encontró al alguien con ese código de referencia]</span>
+                    </div>
+                </div>
+                <div v-if="informacion.medio!=''">
+                    <input class="form-control" placeholder="Nombres" :class="informacion.nombres.length>2?'success':''"
+                           v-model="informacion.nombres" @blur="saveContacto" @keyup.enter="saveContacto">
+                    <input class="form-control" placeholder="Apellidos"
+                           :class="informacion.apellidos.length>2?'success':''"
+                           v-model="informacion.apellidos" @blur="saveContacto" @keyup.enter="saveContacto">
+                    <input type="email" class="form-control" placeholder="Correo electrónico"
+                           :class="informacion.email.includes('@') && informacion.email.length>4?'success':''"
+                           v-model="informacion.email" @blur="saveContacto" @keyup.enter="saveContacto">
+                    <input class="form-control" placeholder="Teléfono"
+                           :class="informacion.email.length==10 ?'success':''"
+                           v-model="informacion.telefono" @blur="saveContacto" @keyup.enter="saveContacto">
+                    <form-error name="nombres" :errors="errors"></form-error>
+                    <form-error name="apellidos" :errors="errors"></form-error>
+                    <form-error name="email" :errors="errors"></form-error>
+                    <form-error name="telefono" :errors="errors"></form-error>
+                </div>
+            </div>
+            <br>
+            <div class="d-flex col-12" style="display: block; margin: auto">
+                <div  id="pago" class="col-12 text-center" style="display: block; margin: auto">
+                    <h6 style="font-size: 1.7em">¡Gracias por compartirnos tus datos,</h6>
+                    <h6 style="font-size: 1.7em"> nos encantará ayudarte!</h6>
+                    <h6 style="font-size: 1.7em"> El costo para unirte y tener los </h6>
+                    <h6 style="font-size: 1.7em"> beneficios del <b class="text-uppercase">Reto Acton</b> es de: </h6>
+                    <label style="font-size: 1.4rem; font-family: unitext_bold_cursive">
+                        <money id="cobro_anterior" cantidad="{{env("COBRO_ORIGINAL")}}" :decimales="0"
+                               estilo="font-size:1.2em; color:#000000" adicional=" MXN"
+                               :caracter="true"></money>
+                    </label>
+                    <div id="infoPago">
+                        <label style="font-size: 1rem; color: #000; font-family: unitext_bold_cursive">aprovecha el </label>
+                        <label style="font-size: 1.4rem; margin-top: -5px; font-family: unitext_bold_cursive">55% de descuento </label>
+                        <label style="color: #000; font-weight: bold; font-family: unitext_bold_cursive">ÚLTIMO DIA</label>
+                    </div>
+                    <div id="pagar">
+                            <div>a solo</div>
+                            <div style="font-size: 1.5rem; margin-left: 5px">
+                                <money cantidad="{{env('COBRO')}}" :caracter="true" :decimales="0"
+                                       estilo="font-size:1.5em; font-weight: bold"></money>
+                            </div>
+                    </div>
+                    <br>
+                    <h6 style="color: #000;">Estas son las formas de realizar tu pago de manera segura</h6>
+                    <cobro ref="cobro" :cobro="'{{env('COBRO')}}'" :url="'{{url('/')}}'" :id="'{{env('OPENPAY_ID')}}'"
+                           :llave="'{{env('OPENPAY_PUBLIC')}}'" :sandbox="'{{env('SANDBOX')}}'==true" :meses="true"
+                           @terminado="terminado"></cobro>
+                </div>
+            </div>
+        </div>
+    </template>
+@endsection
+@section('scripts')
+    <script src="https://www.paypal.com/sdk/js?client-id={{env('PAYPAL_SANDBOX_API_PASSWORD')}}&currency=MXN"></script>
+    <script src="https://openpay.s3.amazonaws.com/openpay.v1.min.js"></script>
+    <script src="https://openpay.s3.amazonaws.com/openpay-data.v1.min.js"></script>
+
+    <script>
+        Vue.component('registro', {
+            template: '#registro-template',
+            props: ['urls', 'medios'],
+            data: function () {
+                return {
+                    errors: [],
+                    sent: false,
+                    srcVideo: '',
+                    informacion: {
+                        nombres: '',
+                        apellidos: '',
+                        email: '',
+                        telefono: '',
+                        medio: '',
+                        codigo: ''
+                    },
+                    loading: false,
+                    encontrado: null,
+                    referencia: '',
+                }
+            },
+            methods: {
+                terminado: function () {
+                    window.location.href = "{{url('/login')}}";
+                },
+                buscarReferencia: function () {
+                    let vm = this;
+                    vm.referencia = '';
+                    vm.loading = true;
+                    axios.get('{{url('buscarReferencia')}}/' + vm.informacion.codigo).then(function (response) {
+                        vm.referencia = response.data.usuario;
+                        vm.loading = false;
+                        vm.encontrado = true;
+                    }).catch(function () {
+                        vm.loading = false;
+                        vm.encontrado = false;
+                    });
+                },
+                saveContacto: function () {
+                    let vm = this;
+                    vm.errors = [];
+                    if (vm.informacion.nombres != '' && vm.informacion.apellidos != '' && vm.informacion.email != '') {
+                        axios.post("{{url("saveContacto")}}", this.informacion).then(function (response) {
+                            if (response.data.status == 'ok') {
+                                vm.sent = true;
+                                vm.$refs.cobro.configurar(
+                                    vm.informacion.nombres,
+                                    vm.informacion.apellidos,
+                                    vm.informacion.email,
+                                    vm.informacion.telefono,
+                                    vm.informacion.codigo,
+                                    vm.informacion.referenciado
+                                );
+                            }
+                        }).catch(function (error) {
+                            vm.sent = false;
+                            vm.errors = error.response.data.errors;
+                        });
+                    }
+                }
+            }
+        });
+
+        var vue = new Vue({
+            el: '#vue'
+        });
+    </script>
+@endsection
