@@ -127,6 +127,7 @@ class UserController extends Controller
 
     public function bajar(Request $request){
         $usuario = User::find($request->id);
+        $usuario->pass = '';
         $usuario->delete();
         return response()->json(['status'=>'ok', 'redirect'=>url('/usuarios/')]);
     }

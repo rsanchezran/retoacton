@@ -160,10 +160,10 @@
                     <div>
                         <h4 class="comida">Calendario @{{ semana }}</h4>
                         <div class="col-12" v-for="(sem, index) in semanas">
-                            <h6 v-if="(index+1)<=semana" class="font-weight-bold">Semana @{{ index+1  }}</h6>
-                            <div v-if="(index+1)<=semana" class="d-flex flex-wrap ">
+                            <h6 v-if="(index)<semana" class="font-weight-bold">Semana @{{ index+1  }}</h6>
+                            <div v-if="(index)<=semana" class="d-flex flex-wrap ">
                                 <div v-for="d in sem" :class="d>dias?'nodia':'dia'" @click="getDia(d)">
-                                    <a v-if="d<=dias" :href="'{{url('/reto/dia/')}}/'+d+'/'+genero+'/'+objetivo">
+                                    <a v-if="d<=dias">
                                         @{{ d }}
                                     </a>
                                 </div>
@@ -248,8 +248,8 @@
                 this.dia = this.p_dia;
                 this.dia.nota = this.p_dia.nota.descripcion;
                 for(let i = 0; i < 56; i++){
-                    if(i+1==this.dia){
-                        this.semana = parseInt(i/7);
+                    if(i+1==this.dias){
+                        this.semana = parseInt((i/7)+1);
                     }
                     if(i % 7 == 0){
                         this.semanas.push([]);
