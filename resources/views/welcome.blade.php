@@ -53,10 +53,14 @@
         }
 
         .feature{
-            margin-bottom: 10px;
+            padding-bottom: 10px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            height: 100%;
+        }
+
+        .feature .img{
             height: 100%;
         }
 
@@ -70,7 +74,7 @@
             /*position: absolute;*/
             /*height: 200px;*/
             background-color: #F0F0F0;
-            padding: 20px;
+            padding:10px 20px;
             font-size: .7rem;
             font-family: unitext_light;
             flex-grow: 1;
@@ -343,11 +347,15 @@
             margin-left: -19px !important;
         }
 
-        @media only screen and (max-width: 361px) {
+        @media only screen and (max-width: 420px) {
             #bonus{
                 margin-top: 140px;
                 margin-left: 10px;
                 margin-right:-300px;
+            }
+
+            #features .subtitle {
+                font-size: 4.5vw !important;
             }
         }
 
@@ -410,7 +418,7 @@
             }
 
             #chica{
-                margin-top: -250px;
+                margin-top: -200px;
                 margin-left:0;
                 width: 100%;
             }
@@ -490,7 +498,7 @@
             }
 
             #compensacion{
-                width: 60%;
+                width: 80%;
                 font-size: 0.65rem;
             }
 
@@ -507,7 +515,14 @@
             }
 
             #features .subtitle {
-                font-size: 5vw;
+                font-size: 3.5vw;
+            }
+        }
+
+        @media only screen and (max-width: 990px) {
+            #features .subtitle {
+                font-size: 2.5vw;
+
             }
         }
 
@@ -563,9 +578,9 @@
             </div>
             <div class="">
                 <div id="features" class="d-flex flex-wrap mr-auto ml-auto">
-                    <div class="col-sm-6 col-md-3 col-12">
+                    <div class="col-sm-6 col-md-6 col-lg-3 col-12">
                         <div id="comidasFeature" class="feature" @mouseleave="ocultar('comidas')" @mouseover="mostrar('comidas')" @click="mostrar('comidas')">
-                            <img id="comidasImg" src="{{asset('/img/comidasblanco.jpg')}}" width="100%">
+                            <img id="comidasImg" class="img" src="{{asset('/img/comidasblanco.jpg')}}" width="100%">
                             <h3 id="comidasSub" class="subtitle">
                                 <span>Plan de alimentación</span>
                                 <span class="small text-lowercase">ver más</span>
@@ -579,9 +594,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-md-3 col-12">
+                    <div class="col-sm-6 col-md-6 col-lg-3 col-12">
                         <div id="entrenamientoFeature" class="feature" @mouseleave="ocultar('entrenamiento')" @mouseover="mostrar('entrenamiento')" @click="mostrar('entrenamiento')">
-                            <img id="entrenamientoImg" src="{{asset('/img/entrenamientoblanco.jpg')}}" width="100%">
+                            <img id="entrenamientoImg" class="img" src="{{asset('/img/entrenamientoblanco.jpg')}}" width="100%">
                             <h3 id="entrenamientoSub"  class="subtitle">
                                 <span>Plan flexible de entrenamiento</span>
                                 <span class="small text-lowercase">ver más</span>
@@ -596,9 +611,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-md-3 col-12">
+                    <div class="col-sm-6 col-md-6 col-lg-3 col-12">
                         <div id="suplementosFeature" class="feature" @mouseleave="ocultar('suplementos')" @mouseover="mostrar('suplementos')" @click="mostrar('suplementos')">
-                            <img id="suplementosImg" src="{{asset('/img/suplementosblanco.jpg')}}" width="100%">
+                            <img id="suplementosImg" class="img" src="{{asset('/img/suplementosblanco.jpg')}}" width="100%">
                             <h3 id="suplementosSub" class="subtitle">
                                 <span>Guía de suplementación</span>
                                 <span class="small text-lowercase">ver más</span>
@@ -608,9 +623,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-md-3 col-12">
+                    <div class="col-sm-6 col-md-6 col-lg-3 col-12">
                         <div id="videosFeature" class="feature" @mouseleave="ocultar('videos')" @mouseover="mostrar('videos')" @click="mostrar('videos')">
-                            <img id="videosImg" src="{{asset('/img/videosblanco.jpg')}}" width="100%">
+                            <img id="videosImg" class="img" src="{{asset('/img/videosblanco.jpg')}}" width="100%">
                             <h3 id="videosSub" class="subtitle">
                                 <span>Videos personalizados</span>
                                 <span class="small text-lowercase">ver más</span>
@@ -756,7 +771,7 @@
                         <div class="col-sm-12 col-md-12 col-lg-5 col-12 text-center">
                             <img src="{{asset("img/garantia.png")}}" width="300">
                         </div>
-                        <div id="garantiaDiv" class="col-sm-10 col-md-10 col-lg-6 col-10 d-block mr-auto ml-auto">
+                        <div id="garantiaDiv" class="col-sm-10 col-md-10 col-lg-6 col-10">
                             <h4 id="garantia" class="text-uppercase bigger thin">Garantía de reembolso</h4>
                             <h4 id="ganar" class="text-uppercase bigger font-weight-bold">¡Aquí todo es ganar!</h4>
                             <div id="garantiaDes" class="col-sm-12 col-md-12 col-lg-9">
@@ -900,7 +915,7 @@
                     <br>
                     <br>
                     <br>
-                    <div class="col-6 col-sm-4 text-center d-block mr-auto ml-auto" style="margin-bottom:40px">
+                    <div class="col-10 col-sm-4 col-md-4 text-center d-block mr-auto ml-auto" style="margin-bottom:40px">
                         <a class="btn btn-primary" href="{{url('register')}}" style="font-family: unitext_bold_cursive; width:100%; padding: 15px">Acepto el reto</a>
                     </div>
                 </div>
@@ -1055,6 +1070,7 @@
                         Vue.nextTick(function () {
                             $('#'+object+"Sub").hide();
                             $('#'+object+"Img").prop('src', '{{asset('img')}}'+'/'+object+'.jpg');
+                            $('#'+object+"Img").removeClass('img');
                             $('#'+object).show().css( {'opacity': 0} ).animate( { 'opacity': '1'}, 1000 );
                         });
                     }
@@ -1065,6 +1081,7 @@
                         Vue.nextTick(function () {
                             $('#'+object+"Sub").show();
                             $('#'+object+"Img").prop('src', '{{asset('img')}}'+'/'+object+'blanco.jpg');
+                            $('#'+object+"Img").addClass('img');
                             $('#'+object).hide();
                         });
                     }
@@ -1084,10 +1101,6 @@
                     let bottom_of_screen = $(window).scrollTop() + $(window).innerHeight();
                     let top_of_screen = $(window).scrollTop();
                     if ((bottom_of_screen > top_of_element) && (top_of_screen < bottom_of_element)){
-                        console.log(top_of_screen);
-                        console.log(bottom_of_screen);
-                        console.log(top_of_element);
-                        console.log(bottom_of_element);
                         this.mostrar(feature)
                     }
                 },
