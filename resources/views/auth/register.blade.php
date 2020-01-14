@@ -58,6 +58,14 @@
             margin-bottom: 0;
         }
 
+        #bienvenida{
+            background-repeat: no-repeat;
+            background-image: url('{{asset('/img/postergris.png')}}');
+            background-position: top right;
+            background-size: 150px;
+            height: 100px;
+        }
+
     </style>
 @endsection
 @section('content')
@@ -68,10 +76,9 @@
     <template id="registro-template">
         <div class="container">
             <div align="center">
-                <div>
-                    <img class="float-right" src="{{asset('img/postergris.png')}}" width="150">
-                    <h6 class="text-uppercase" style="font-size: 1.5em">Bienvenido al</h6>
-                    <h6 class="text-uppercase font-weight-bold" style="color: #013451; font-size: 2em">Reto Acton</h6>
+                <div id="header" align="center">
+                    <h6 class="text-uppercase bigText" >Bienvenido al</h6>
+                    <h6 class="text-uppercase biggerText font-weight-bold acton">Reto Acton</h6>
                 </div>
                 <h5 class="text-left" style="color:#0080DD">Antes de comenzar nos gustaría saber un poco más sobre ti</h5>
                 <select class="form-control" v-model="informacion.medio">
@@ -112,7 +119,7 @@
             </div>
             <br>
             <div class="d-flex col-12" style="display: block; margin: auto">
-                <div  id="pago" class="col-12 text-center" style="display: block; margin: auto">
+                <div v-show="sent" id="pago" class="col-12 text-center" style="display: block; margin: auto">
                     <h6 style="font-size: 1.7em">¡Gracias por compartirnos tus datos,</h6>
                     <h6 style="font-size: 1.7em"> nos encantará ayudarte!</h6>
                     <h6 style="font-size: 1.7em"> El costo para unirte y tener los </h6>

@@ -48857,12 +48857,15 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "d-flex flex-wrap col-12 col-sm-6 d-block mr-auto ml-auto" },
+    {
+      staticClass:
+        "d-flex flex-wrap col-12 col-sm-6 col-md-12 d-block mr-auto ml-auto"
+    },
     [
       _c(
         "div",
         {
-          staticClass: "col-12 col-sm-5 formaPago",
+          staticClass: "col-12 col-sm-5 col-md-5 formaPago",
           on: {
             click: function($event) {
               return _vm.metodoPago("openpay")
@@ -48893,7 +48896,7 @@ var render = function() {
       _c(
         "div",
         {
-          staticClass: "col-12 col-sm-5 formaPago",
+          staticClass: "col-12 col-sm-5 col-md-5 formaPago",
           on: {
             click: function($event) {
               return _vm.metodoPago("spei")
@@ -48912,7 +48915,7 @@ var render = function() {
       _c(
         "div",
         {
-          staticClass: "col-12 col-sm-5 formaPago",
+          staticClass: "col-12 col-sm-5 col-md-5 formaPago",
           on: {
             click: function($event) {
               return _vm.metodoPago("oxxo")
@@ -48931,7 +48934,7 @@ var render = function() {
       ),
       _vm._v(" "),
       _vm.response.referencia != ""
-        ? _c("div", { staticClass: "col-12 col-sm-6" }, [
+        ? _c("div", { staticClass: "col-12 col-sm-6 col-md-5" }, [
             _c(
               "button",
               {
@@ -50009,7 +50012,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-12 col-sm-5 formaPago" }, [
+    return _c("div", { staticClass: "col-12 col-sm-5 col-md-5 formaPago" }, [
       _c("h6", [_vm._v("La forma rápida de pagar")]),
       _vm._v(" "),
       _c("br"),
