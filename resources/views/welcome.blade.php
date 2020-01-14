@@ -92,7 +92,7 @@
             text-justify: distribute;
             text-align: center;
             font-weight: bold;
-            font-size: 1.5rem;
+            font-size: 1.5vw;
         }
 
         #features .subinfo h6{
@@ -247,6 +247,9 @@
         #pipoImg{
             width: 430px;
             margin-top: -120px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         #monitores h6{
@@ -340,7 +343,15 @@
             margin-left: -19px !important;
         }
 
-        @media only screen and (max-width: 800px) {
+        @media only screen and (max-width: 361px) {
+            #bonus{
+                margin-top: 140px;
+                margin-left: 10px;
+                margin-right:-300px;
+            }
+        }
+
+        @media only screen and (max-width: 801px) {
 
             #testtitulo{
                 background: none;
@@ -359,8 +370,8 @@
             }
 
             #pipoImg{
-                width: 200px !important;
-                margin-top: -80px;
+                width: 210px !important;
+                margin-top: -70px;
             }
 
             #pipoDiv{
@@ -389,19 +400,13 @@
                 font-size:0.65rem;
             }
 
-            #momento{
+            .momento{
                 font-size: 1.2rem !important;
                 text-align: center;
             }
 
             #cree h6{
                 font-size:0.8rem;
-            }
-
-            #bonus{
-                margin-top: 140px;
-                margin-left:10px;
-                margin-right:-300px;
             }
 
             #chica{
@@ -627,7 +632,7 @@
             </div>
             <div class="section">
                 <div id="audios" class="d-flex flex-wrap">
-                    <div class="col-sm-4 col-12 d-flex align-items-center" style="padding-bottom: 0; padding-left: 0">
+                    <div class="col-sm-6 col-md-5 col-lg-4 col-12 d-flex align-items-center" style="padding-bottom: 0; padding-left: 0">
                         <div>
                             <div class="d-block ml-auto mr-auto" style="width: max-content;">
                                 <div class="d-flex">
@@ -646,7 +651,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-4 col-12">
+                    <div class="col-sm-5 col-md-5 col-lg-4 col-12">
                         <div class="d-flex flex-column">
                             <div class="semana">
                                 <h6 class="font-weight-bold">SEMANA 1</h6>
@@ -684,8 +689,7 @@
                     </div>
                 </div>
                 <div id="pipo" class="d-flex flex-wrap">
-                    <div class="col-0 col-sm-1"></div>
-                    <div class="col-sm-4 col-5" id="pipoDiv">
+                    <div class="col-sm-5 col-5" id="pipoDiv">
                         <img id="pipoImg" src="{{asset('img/pipo.png')}}">
                     </div>
                     <div class="col-sm-7 col-7" id="quote">
@@ -703,7 +707,7 @@
                             <span class="turquesa text-uppercase float-right" style="font-family: unitext_cursive; font-weight:bold">- Reto Acton</span>
                             <br>
                             <br>
-                            <h6 id="momento" class="biggest text-uppercase font-weight-bold" style="font-style: oblique"><span class="turquesa">Tu momento </span>es hoy</h6>
+                            <h6 class="momento biggest text-uppercase font-weight-bold" style="font-style: oblique"><span class="turquesa">Tu momento </span> es hoy</h6>
                         </div>
                     </div>
                 </div>
@@ -731,12 +735,12 @@
                                 </p>
                             </div>
                         </div>
-                        <a v-if="screen>800" class="btn btn-primary text-uppercase" href="{{url('register')}}" style="width: 60%; font-family: unitext_bold_cursive; padding: 10px">Quiero ganar</a>
+                        <a v-if="screen>801" class="btn btn-primary text-uppercase" href="{{url('register')}}" style="width: 60%; font-family: unitext_bold_cursive; padding: 10px">Quiero ganar</a>
                     </div>
                     <div class="col-sm-6 col-12">
                         <img class="mr-auto ml-auto d-block" src="{{asset('img/celular.png')}}" width="250">
                     </div>
-                    <div v-if="screen<800" class="col-10 d-block mr-auto ml-auto text-center">
+                    <div v-if="screen<801" class="col-10 d-block mr-auto ml-auto text-center">
                         <br>
                         <a class="btn btn-primary text-uppercase" href="{{url('register')}}" style="width: 80%; font-family: unitext_bold_cursive; padding: 10px">Quiero ganar</a>
                     </div>
@@ -745,13 +749,13 @@
             <div style="margin-top: 40px;">
                 <div style="margin-top:60px; margin-bottom: 70px">
                     <div class="d-flex flex-wrap">
-                        <div class="col-sm-5 col-12 text-center">
+                        <div class="col-sm-12 col-md-12 col-lg-5 col-12 text-center">
                             <img src="{{asset("img/garantia.png")}}" width="300">
                         </div>
-                        <div id="garantiaDiv" class="col-sm-6 col-10">
+                        <div id="garantiaDiv" class="col-sm-10 col-md-10 col-lg-6 col-10 d-block mr-auto ml-auto">
                             <h4 id="garantia" class="text-uppercase bigger thin">Garantía de reembolso</h4>
                             <h4 id="ganar" class="text-uppercase bigger font-weight-bold">¡Aquí todo es ganar!</h4>
-                            <div id="garantiaDes" class="col-sm-9">
+                            <div id="garantiaDes" class="col-sm-12 col-md-12 col-lg-9">
                                 <h6 class="font-weight-bold">Estamos seguros que al finalizar el reto serás una persona totalmente diferente, también sabemos que estas 8 semanas será una experiencia que disfrutarás al máximo.</h6>
                                 <h6 style="margin: 10px 0;" class="font-weight-bold">Sin embargo, para hacerte saber que no tienes nada que perder, decidimos ofrecerte las primeras 24 horas para poder pedir un <b style="font-family: unitext_bold_cursive">REEMBOLSO TOTAL</b> si el reto no superó tus expectativas.</h6>
                                 <h6 class="font-weight-bold">Solo, nos enviarías un correo y sin hacer preguntas se te devuelve <span id="inscripcion">el total de tu inscripción.</span></h6>
@@ -772,7 +776,7 @@
                                 <br>
                                 <div class="d-flex">
                                     <div>
-                                        <img v-if="screen<800" style="margin-top:10px;" src="{{asset('img/trofeo.png')}}" alt="trofeo" width="40">
+                                        <img v-if="screen<801" style="margin-top:10px;" src="{{asset('img/trofeo.png')}}" alt="trofeo" width="40">
                                         <img v-else style="margin-top:10px;" src="{{asset('img/trofeo.png')}}" alt="trofeo" width="60">
                                     </div>
                                     <div id="trofeobonus">
@@ -786,14 +790,14 @@
                                 <p>recompensa sorpresa al finalizar el reto.</p>
                                 <br>
                                 <br>
-                                <br v-if="screen>800">
-                                <br v-if="screen>800">
+                                <br v-if="screen>801">
+                                <br v-if="screen>801">
                                 <a class="btn btn-primary" href="{{url('register')}}" style="width: 90%; font-family: unitext_bold_cursive; padding: 10px">Unirme al reto acton</a>
                             </div>
                         </div>
                     </div>
                     <div>
-                        <img v-if="screen>800" id="chica" src="{{asset('img/chica.png')}}">
+                        <img v-if="screen>801" id="chica" src="{{asset('img/chica.png')}}">
                         <img v-else id="chica" src="{{asset('img/chicamovil.png')}}">
                     </div>
                 </div>
@@ -805,7 +809,7 @@
                         <h6 class="text-uppercase biggest font-weight-bold" style="color: #fff; font-size:3rem">Historias reales</h6>
                     </div>
                     <br>
-                    <div v-show="screen<800" id="videosCarousel" class="carousel col-sm-8 mr-auto ml-auto" data-ride="carousel" style="margin-top:60px;">
+                    <div v-show="screen<801" id="videosCarousel" class="carousel col-sm-8 mr-auto ml-auto" data-ride="carousel" style="margin-top:60px;">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
                                 <video id="video1" @ended="terminar(1)" controls poster="{{asset('/img/poster.png')}}" width="100%">
@@ -851,7 +855,7 @@
                             <span class="sr-only">Next</span>
                         </a>
                     </div>
-                    <div v-show="screen>800" class="col-sm-8 mr-auto ml-auto" style="margin-top:60px;">
+                    <div v-show="screen>801" class="col-sm-8 mr-auto ml-auto" style="margin-top:60px;">
                         <div class="d-flex flex-wrap">
                             <div class="col-sm-4 col-12">
                                 <video controls poster="{{asset('/img/poster.png')}}" width="100%">
@@ -1099,7 +1103,7 @@
             mounted:function () {
                 this.screen = screen.width;
                 let vm = this;
-                if(this.screen<800){
+                if(this.screen<801){
                     $(window).scroll(function() {
                         vm.checarFeature('comidas');
                         vm.checarFeature('entrenamiento');
@@ -1117,6 +1121,9 @@
                     wrap: false
                 });
                 this.cambiarFaqs('reto');
+                window.onresize = () => {
+                    this.screen = window.innerWidth
+                }
             }
         });
         var vue = new Vue({
