@@ -505,6 +505,10 @@
             #actividad{
                 margin-left: -10px !important;
             }
+
+            #features .subtitle {
+                font-size: 5vw;
+            }
         }
 
     </style>
@@ -1075,17 +1079,20 @@
                     });
                 },
                 checarFeature: function (feature) {
-                    let top_of_element = $("#"+feature+"Feature").offset().top;
-                    let bottom_of_element = $("#"+feature+"Feature").offset().top + $("#"+feature+"Feature").outerHeight();
+                    let top_of_element = $("#"+feature+"Feature").offset().top+400;
+                    let bottom_of_element = top_of_element + $("#"+feature+"Feature").outerHeight()+400;
                     let bottom_of_screen = $(window).scrollTop() + $(window).innerHeight();
                     let top_of_screen = $(window).scrollTop();
-
                     if ((bottom_of_screen > top_of_element) && (top_of_screen < bottom_of_element)){
+                        console.log(top_of_screen);
+                        console.log(bottom_of_screen);
+                        console.log(top_of_element);
+                        console.log(bottom_of_element);
                         this.mostrar(feature)
                     }
                 },
                 terminar: function (video) {
-                        $("#videosCarousel .carousel-control-next").click();
+                    $("#videosCarousel .carousel-control-next").click();
                     if(video==1){
                         let elemento = $('#video2').first();
                         if (elemento.prop("tagName") == "VIDEO") {
@@ -1097,7 +1104,6 @@
                             elemento.get(0).play();
                         }
                     }
-
                 }
             },
             mounted:function () {
@@ -1111,6 +1117,7 @@
                         vm.checarFeature('videos');
                     });
                 }
+
                 $('#carouselExampleControls').carousel({
                     interval: 1500,
                     wrap: false

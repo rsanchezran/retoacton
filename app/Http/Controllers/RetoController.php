@@ -81,7 +81,7 @@ class RetoController extends Controller
         $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [], []);
         $validator->after(function ($validator) use ($request) {
             $dia = $request->dia - 1;
-            $extension = $request->file('imagen')->getClientOriginalExtension();
+            $extension = strtolower($request->file('imagen')->getClientOriginalExtension());
             if ($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png') {
                 $size = ((($request->file('imagen')->getSize() / 1024) / 1024) * 100) / 100;
                 if ($size > 20) {

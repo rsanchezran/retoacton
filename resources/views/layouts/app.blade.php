@@ -15,6 +15,16 @@
         footer{
             background-color: #007fdc;
         }
+
+        .navbar-brand img{
+            width: 300px;
+        }
+
+        @media only screen and (max-width: 800px) {
+            .navbar-brand img{
+                width: 150px;
+            }
+        }
     </style>
     @yield('header')
 </head>
@@ -25,9 +35,9 @@
         <div class="container">
             <a class="navbar-brand" href="{{ url('/home') }}">
                 @guest
-                    <img src="{{asset('img/postergris.png')}}" width="300" style="z-index: 2; position: absolute; top: 5px;">
+                    <img src="{{asset('img/postergris.png')}}"  style="z-index: 2; position: absolute; top: 5px;">
                 @else
-                    <img src="{{asset('img/postergris.png')}}" width="150">
+                    <img src="{{asset('img/postergris.png')}}">
                 @endguest
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"

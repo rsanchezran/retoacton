@@ -237,6 +237,10 @@ class PagoController extends Controller
             $usuario->pagado = true;
             $usuario->fecha_inscripcion = Carbon::now();
             $usuario->save();
+            $mensaje = new \stdClass();
+            $mensaje->subject = "Bienvenido de nuevo al Reto Acton";
+            $mensaje->pass = "";
+            Mail::queue(new Registro($usuario, $mensaje));
         }
         return response()->json(['status' => 'ok', 'redirect' => url('login')]);
     }
