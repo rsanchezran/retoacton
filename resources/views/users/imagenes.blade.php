@@ -26,7 +26,7 @@
                         <div class="card-body">
                             <div class="d-flex">
                                 <img :src="link.imagen" width="100%"/>
-                                <div>
+                                <div v-if="link.id!=null">
                                     <button class="btn btn-sm btn-light" @click="comentar(link)">
                                         <i class="fa fa-comment"></i>
                                     </button>
@@ -47,7 +47,7 @@
                     <h5>[No hay datos para mostrar]</h5>
                 </div>
             </div>
-            <modal ref="modalImagen" title="Imagen">
+            <modal ref="modalImagen" title="Imagen" :showok="false" :showcancel="false">
                 <img :src="link.imagen" width="100%">
             </modal>
         </div>

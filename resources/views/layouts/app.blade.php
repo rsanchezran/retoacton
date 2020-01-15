@@ -129,7 +129,7 @@
             </div>
         </div>
     </nav>
-    <main class="my-4 d-flex flex-column flex-grow-1 position-relative">
+    <main class="d-flex flex-column flex-grow-1 position-relative">
         @if(\Illuminate\Support\Facades\Auth::user()!=null&&\Illuminate\Support\Facades\Auth::user()->rol==\App\Code\RolUsuario::CLIENTE &&
                             \Illuminate\Support\Facades\Auth::user()->inicio_reto!=null&&
                             (\Carbon\Carbon::parse(\Illuminate\Support\Facades\Auth::user()->inicio_reto)->diffInDays(\Carbon\Carbon::now())>intval(env('DIAS'))))

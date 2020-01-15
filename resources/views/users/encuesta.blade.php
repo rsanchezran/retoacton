@@ -14,14 +14,15 @@
     </div>
     <template id="temp">
         <div class="card">
-            <div class="card-body">
+            <div class="card-header d-flex justify-content-between">
                 <h3>Encuesta: {{$usuario->name.' '.$usuario->last_name }}</h3>
-                <hr>
+            </div>
+            <div class="card-body">
                 <div style="display: flex; flex-direction: column">
                     <div v-for="(pregunta,index) in usuario.encuesta">
                         <label>@{{ index+1 }}.- @{{ pregunta.pregunta }}:</label>
                         <span v-if="pregunta.multiple==0 || pregunta.multiple==null">@{{ pregunta.respuesta}}</span>
-                        <div v-else >
+                        <div v-else>
                             <span v-for="(respuesta, index) in pregunta.respuesta" >
                                 @{{ respuesta + ((pregunta.respuesta.length-1)==index?'.':',')}}
                             </span>

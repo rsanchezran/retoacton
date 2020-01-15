@@ -72,7 +72,7 @@
                 </div>
                 <div align="center" v-show="!buscando">
                     <div style="border:1px dashed grey; padding: 10px;" class="col-12 col-sm-6">
-                        <h1>@{{ dia.dia }}</h1>
+                        <h1>Día @{{ dia.dia }}</h1>
                         <audio v-if="ejemplo.audio!=''" :src="ejemplo.audio" controls></audio>
                         <p id="comentarios"></p>
                         <img :src="ejemplo.imagen" height="200">
@@ -84,7 +84,8 @@
                                 <i class="fa fa-cloud-upload"></i> Sube tu foto aquí
                             </label>
                             <br>
-                            <span class="small">O arrastra la imagen desde tu computadora</span>
+                            <span v-if="loading" class="small">Estamos procesando la imagen, porfavor espera un momento...</span>
+                            <span v-else class="small">O arrastra la imagen desde tu computadora</span>
                             <br>
                             <div>
                                 <i v-if="loading" class="fa fa-spinner fa-spin"></i>
@@ -92,8 +93,9 @@
                             </div>
                             <input id="file" type="file" accept="image/x-png,image/jpg,image/jpeg"
                                    @change="agregarImagen($event)">
+                            <br>
+                            <p>@{{ dia.comentario }}</p>
                         </div>
-                        <p>@{{ dia.comentario }}</p>
                     </div>
                     <form-error name="imagen" :errors="errors"></form-error>
                 </div>

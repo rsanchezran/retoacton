@@ -655,7 +655,7 @@
                         <div>
                             <div class="d-block ml-auto mr-auto" style="width: max-content;">
                                 <div class="d-flex">
-                                    <i style="margin-top: 5px" class="far fa-4x fa-trophy-alt acton"></i>
+                                    <img src="{{asset('img/trofeoazul.png')}}" alt="trofeo" width="60">
                                     <div>
                                         <h4 class="text-uppercase font-weight-bold acton text-center">Hemos incluido</h4>
                                         <h4 class="text-uppercase font-weight-bold acton text-center">un bonus para ti</h4>

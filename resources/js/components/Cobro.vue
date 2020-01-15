@@ -222,7 +222,7 @@
                         <img :src="url+'/img/mastercard.png'" width="60">
                     </div>
                 </div>
-                <p class="text-center">La cantidad a cobrar será de <money :cantidad="cobro"></money></p>
+                <p class="text-center">La cantidad a cobrar será de <money :cantidad="cobro" decimales="0"></money></p>
                 <p>Al concluir tu pago se enviará tu usuario y contraseña al correo que proporcionaste en tus datos de contacto</p>
                 <div class="payment" align="left">
                     <input class="form-control" v-model="informacion.nombres" disabled   />
@@ -262,7 +262,7 @@
         </modal>
         <modal ref="oxxo" :title="'Pago en oxxo'" @ok="OxxoSpei" :btncerrar="true" :showok="acuerdo">
             <div style="background-color: #f6f6f6; color: #0b2e13">
-                <p class="text-center">La cantidad a cobrar será de <money :cantidad="cobro"></money></p>
+                <p class="text-center">La cantidad a cobrar será de <money :cantidad="cobro" decimales="0"></money></p>
                 <p>Al concluir el ingreso de tus datos de contacto envíaremos a tu correo la ficha de déposito para que acudas a cualquier tienda Oxxo y hagas el pago correspondiente</p>
                 <div class="payment">
                     <input class="form-control" v-model="informacion.nombres" placeholder="Nombres" disabled />
@@ -283,7 +283,7 @@
         </modal>
         <modal ref="spei" :title="'Pago con SPEI'" @ok="OxxoSpei" :showok="acuerdo">
             <div style="background-color: #f6f6f6; color: #0b2e13">
-                <p class="text-center">La cantidad a cobrar será de <money :cantidad="cobro"></money></p>
+                <p class="text-center">La cantidad a cobrar será de <money :cantidad="cobro" decimales="0"></money></p>
                 <p>Al concluir el ingreso de tus datos de contacto envíaremos a tu correo la ficha de déposito para que entres a tu banco en línea y hagas la transferencia a la cuenta CLABE proporcionada en esa ficha</p>
                 <div class="payment">
                     <input class="form-control" v-model="informacion.nombres" placeholder="Nombres" disabled />
@@ -313,7 +313,7 @@
                         </div>
                         <div class="opps-ammount">
                             <h3>Monto a pagar</h3>
-                            <h2>$ {{response.monto}} <sup>MXN</sup></h2>
+                            <h2><money :cantidad="response.monto" caracter="true" adicional="MXN" decimales="0"></money></h2>
                         </div>
                     </div>
                     <div class="opps-reference">

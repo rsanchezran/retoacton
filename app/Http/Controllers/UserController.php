@@ -88,15 +88,24 @@ class UserController extends Controller
     public function imagenes($usuario_id)
     {
         $web = '/reto/getImagen/reto/'; //ruta para imagenes route /reto/getImagen... en carpeta .../reto
-        $usuario = User::select('id', 'name')->where('id', $usuario_id)->get()->first();
-        $dias = UsuarioDia::where('usuario_id', $usuario_id)->orderBy('dia_id')->get();
-        foreach ($dias as $index => $dia) {
+        $usuario = User::select('id', 'name','inicio_reto')->where('id', $usuario_id)->get()->first();
+        $links = collect();
+        $dias = UsuarioDia::where('usuario_id', $usuario_id)->orderBy('dia_id')->get()->keyBy('dia_id');
+        $dias_reto = Carbon::now()->diffInDays($usuario->inicio_reto);
+        for ($i=1;$i<$dias_reto;$i++){
+            $dia = $dias->get($i);
+            if ($dia === null) {
+                $dia = new UsuarioDia();
+                $dia->imagen = '/images/none.png';
+                $dia->comentario = '';
+            }else{
+                $dia->imagen = $web . $usuario_id . '/' . ($i);
+                $dia->comentario = $dia->comentario == null ? '' : $dia->comentario;
+            }
             $dia->comentar = 0;
-            $dia->imagen = $web . $usuario_id . '/' . ($index + 1);
-            $dia->comentario = $dia->comentario == null ? '' : $dia->comentario;
+            $links->push($dia);
         }
-
-        return view('users.imagenes', ['links' => $dias, 'usuario' => $usuario]);
+        return view('users.imagenes', ['links' => $links, 'usuario' => $usuario]);
     }
 
     public function showEncuesta($usuario_id)
@@ -105,8 +114,8 @@ class UserController extends Controller
             $encuesta->select('usuario_id', 'pregunta_id', 'respuesta', 'pregunta', 'multiple');
         }])->where('id', $usuario_id)->get()->first();
 
-        foreach ($usuario->encuesta as $encuesta) {
-            $encuesta->respuesta = json_decode($encuesta->respuesta);
+        foreach ($usuario->encuesta as $pregunta) {
+            $pregunta->respuesta = json_decode($pregunta->respuesta);
         }
         return view('users.encuesta', ['usuario' => $usuario]);
     }

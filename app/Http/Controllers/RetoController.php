@@ -105,7 +105,7 @@ class RetoController extends Controller
 
         $image = \Intervention\Image\Facades\Image::make($request->file('imagen'));
         $image->orientate()
-            ->fit(600, 1020, function ($constraint) {
+            ->fit(800, 1360, function ($constraint) {
                 $constraint->upsize();
             });
         $image->save(storage_path("app/public/reto/$usuario_id/$request->dia.jpg"));

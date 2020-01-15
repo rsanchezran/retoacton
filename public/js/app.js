@@ -48992,7 +48992,9 @@ var render = function() {
                 { staticClass: "text-center" },
                 [
                   _vm._v("La cantidad a cobrar será de "),
-                  _c("money", { attrs: { cantidad: _vm.cobro } })
+                  _c("money", {
+                    attrs: { cantidad: _vm.cobro, decimales: "0" }
+                  })
                 ],
                 1
               ),
@@ -49413,7 +49415,9 @@ var render = function() {
                 { staticClass: "text-center" },
                 [
                   _vm._v("La cantidad a cobrar será de "),
-                  _c("money", { attrs: { cantidad: _vm.cobro } })
+                  _c("money", {
+                    attrs: { cantidad: _vm.cobro, decimales: "0" }
+                  })
                 ],
                 1
               ),
@@ -49619,7 +49623,9 @@ var render = function() {
                 { staticClass: "text-center" },
                 [
                   _vm._v("La cantidad a cobrar será de "),
-                  _c("money", { attrs: { cantidad: _vm.cobro } })
+                  _c("money", {
+                    attrs: { cantidad: _vm.cobro, decimales: "0" }
+                  })
                 ],
                 1
               ),
@@ -49856,10 +49862,20 @@ var render = function() {
                 _c("div", { staticClass: "opps-ammount" }, [
                   _c("h3", [_vm._v("Monto a pagar")]),
                   _vm._v(" "),
-                  _c("h2", [
-                    _vm._v("$ " + _vm._s(_vm.response.monto) + " "),
-                    _c("sup", [_vm._v("MXN")])
-                  ])
+                  _c(
+                    "h2",
+                    [
+                      _c("money", {
+                        attrs: {
+                          cantidad: _vm.response.monto,
+                          caracter: "true",
+                          adicional: "MXN",
+                          decimales: "0"
+                        }
+                      })
+                    ],
+                    1
+                  )
                 ])
               ]),
               _vm._v(" "),
