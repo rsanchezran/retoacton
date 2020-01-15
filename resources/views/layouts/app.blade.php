@@ -17,12 +17,12 @@
         }
 
         .navbar-brand img{
-            width: 300px;
+            width: 200px;
         }
 
         @media only screen and (max-width: 800px) {
             .navbar-brand img{
-                width: 150px;
+                width: 120px;
             }
         }
     </style>

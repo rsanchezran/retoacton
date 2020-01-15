@@ -119,7 +119,7 @@
             </div>
             <br>
             <div class="d-flex col-12" style="display: block; margin: auto">
-                <div v-show="sent" id="pago" class="col-12 text-center" style="display: block; margin: auto">
+                <div  id="pago" class="col-12 text-center" style="display: block; margin: auto">
                     <h6 style="font-size: 1.7em">¡Gracias por compartirnos tus datos,</h6>
                     <h6 style="font-size: 1.7em"> nos encantará ayudarte!</h6>
                     <h6 style="font-size: 1.7em"> El costo para unirte y tener los </h6>

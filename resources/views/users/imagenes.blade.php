@@ -24,9 +24,16 @@
                             Dia: @{{ index+1 }}
                         </div>
                         <div class="card-body">
-                            <div align="center">
-                                <img :src="linkImagen(link.imagen)" @click="comentar(link)"
-                                     height="150"/>
+                            <div class="d-flex">
+                                <img :src="link.imagen" width="100%"/>
+                                <div>
+                                    <button class="btn btn-sm btn-light" @click="comentar(link)">
+                                        <i class="fa fa-comment"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-light"  @click="mostrar(link)">
+                                        <i class="fa fa-image"></i>
+                                    </button>
+                                </div>
                             </div>
                             <div v-if="link.comentar==1">
                                 <span class="small">(@{{link.comentario.length}}/255)</span>
@@ -40,6 +47,9 @@
                     <h5>[No hay datos para mostrar]</h5>
                 </div>
             </div>
+            <modal ref="modalImagen" title="Imagen">
+                <img :src="link.imagen" width="100%">
+            </modal>
         </div>
     </template>
 
@@ -53,16 +63,18 @@
                 return {
                     errors:[],
                     links: [],
+                    link:{},
                     loading: false,
                 }
             },
             methods: {
-                linkImagen: function (link) {
-                    return window.location.origin + link;
-                },
                 comentar: function (link, index) {
                     link.comentar = 1;
                     this.errors = [];
+                },
+                mostrar: function (link) {
+                  this.link = link;
+                  this.$refs.modalImagen.showModal();
                 },
                 agregarComentario: function (link) {
                     let vm = this;

@@ -183,7 +183,7 @@
 </script>
 <template>
     <div class="d-flex flex-wrap col-12 col-sm-6 col-md-12 d-block mr-auto ml-auto">
-        <div class="col-12 col-sm-5 col-md-5 formaPago" @click="metodoPago('openpay')">
+        <div class="col-sm-5 col-md-5 formaPago" @click="metodoPago('openpay')">
             <h6>Pago con tarjeta de débito o crédito</h6>
             <div class="d-flex flex-wrap">
                 <div class="col-12 col-sm-6">
@@ -194,17 +194,17 @@
                 </div>
             </div>
         </div>
-        <div class="col-12 col-sm-5 col-md-5 formaPago">
+        <div class="col-sm-5 col-md-5 formaPago">
             <h6>La forma rápida de pagar</h6>
             <br>
             <div id="paypalDiv"></div>
         </div>
-        <div class="col-12 col-sm-5 col-md-5 formaPago" @click="metodoPago('spei')">
+        <div class="col-sm-5 col-md-5 formaPago" @click="metodoPago('spei')">
             <h6>Pago con SPEI</h6>
             <br>
             <img :src="url+'/img/spei.png'" width="80">
         </div>
-        <div class="col-12 col-sm-5 col-md-5 formaPago" @click="metodoPago('oxxo')">
+        <div class="col-sm-5 col-md-5 formaPago" @click="metodoPago('oxxo')">
             <h6>Pago en Oxxo</h6>
             <br>
             <img :src="url+'/img/oxxopay.png'" width="150">

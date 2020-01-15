@@ -56,6 +56,8 @@
             flex-grow:1;
             flex-shrink: 1;
             flex-basis: 0;
+            font-weight: bold;
+            color: #0080DD;
         }
 
         .nodia{
@@ -66,6 +68,12 @@
             flex-grow:1;
             flex-shrink: 1;
             flex-basis: 0;
+        }
+
+        .btn-warning{
+            background-color: #FF9900;
+            color: #fff;
+            padding: 10px;
         }
     </style>
 @endsection
@@ -119,10 +127,12 @@
                             <span class="col-12 col-sm-6">@{{ suplemento.porcion }}</span>
                         </div>
                     </div>
-                    <h6>¿Aún no cuentas con tus suplementos?</h6>
-                    <a href="{{env("APP_TIENDA")}}" class="btn btn-sm btn-success" target="_blank">
-                        Pídelos aquí <i class="fa fa-shopping-cart"></i>
-                    </a>
+                    <div class="d-block ml-auto mr-auto text-center">
+                        <h6 class="font-weight-bold">¿Aún no cuentas con tus suplementos?</h6>
+                        <a href="{{env("APP_TIENDA")}}" class="btn btn-sm btn-warning" target="_blank">
+                            Pídelos aquí <i class="fa fa-shopping-cart"></i>
+                        </a>
+                    </div>
                 </div>
                 <hr>
                 <div>

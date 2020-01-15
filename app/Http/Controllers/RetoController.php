@@ -62,7 +62,7 @@ class RetoController extends Controller
 
     public function getImagen($carpeta, $user_id, $dia)
     {
-        if (Storage::disk('local')->exists("public//$carpeta/$user_id/$dia.jpg")) {
+        if (Storage::disk('local')->exists("public/$carpeta/$user_id/$dia.jpg")) {
             return response()->file(storage_path('app/public/' . $carpeta . '/' . $user_id . '/' . $dia . '.jpg'));
         } else {
             return response()->file(public_path('/images/none.png'));

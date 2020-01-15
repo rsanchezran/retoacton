@@ -23,7 +23,21 @@
             margin: 5px;
             padding: 5px;
             cursor: pointer;
-            width: 12% !important;
+            flex-grow:1;
+            flex-shrink: 1;
+            flex-basis: 0;
+            font-weight: bold;
+            color: #0080DD;
+        }
+
+        .nodia{
+            border: 1px solid #FFF;
+            text-align: center;
+            margin: 5px;
+            padding: 5px;
+            flex-grow:1;
+            flex-shrink: 1;
+            flex-basis: 0;
         }
 
         #buscando{
@@ -165,6 +179,7 @@
                         vm.ejemplo = response.data.ejemplo;
                         document.getElementById('comentarios').innerHTML = vm.ejemplo.comentario;
                         vm.buscando = false;
+                        window.scrollTo(50, 200);
                     });
                 }
             },
