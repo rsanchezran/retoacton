@@ -44,7 +44,7 @@ class RetoController extends Controller
                 $imagenDia->imagen = '';
                 $imagenDia->audio = '';
             } else {
-                $imagenDia->imagen = url("/reto/getImagen/reto/$usuario_id/" . ($i + 1));
+                $imagenDia->imagen = url("/reto/getImagen/reto/$usuario_id/" . ($i + 1))."/".(Utils::generarRandomString(10));
                 if (Storage::disk('local')->exists("public/reto/$usuario_id/" . ($i + 1) . '.mp3')) {
                     $imagenDia->audio = url("/reto/getAudio/reto/$usuario_id/" . ($i + 1));
                 } else {
@@ -220,7 +220,7 @@ class RetoController extends Controller
         for ($i = 0; $i < $dias_activo && $i < env('DIAS', 90); $i++) {//construir arreglo y ruta de las imagenes para la vista
             $datos_reto[$i] = [
                 'nombre' => 'Subir Imagen',
-                'imagen' => $web . 1 . '/' . ($i + 1),
+                'imagen' => $web . 1 . '/' . ($i + 1).'/'.(Utils::generarRandomString(10)),
                 'subir' => false,
                 'disabled' => true,
                 'comentario' => '',

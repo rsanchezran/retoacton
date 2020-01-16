@@ -367,6 +367,10 @@
             #features .subtitle {
                 font-size: 4.5vw !important;
             }
+
+            .feature{
+                height: 200px;
+            }
         }
 
         @media only screen and (max-width: 801px) {
@@ -576,7 +580,7 @@
             </div>
             <div class="info text-center">
                 <div class="col-12 col-sm-8 mr-auto ml-auto" style="padding: 40px 10px">
-                    <h6 class="text-uppercase bigger thin" style="color:#929494; font-size: 2.4rem">El mejor momento s</h6>
+                    <h6 class="text-uppercase bigger thin" style="color:#929494; font-size: 2.4rem">El mejor momento</h6>
                     <h6 class="text-uppercase font-weight-bold biggest">para empezar</h6>
                     <h6 class="text-uppercase font-weight-bold biggest"> es hoy</h6>
                     <br>
@@ -811,12 +815,12 @@
                                     <div id="trofeobonus">
                                         <span id="otrobonus" class="text-uppercase">OTRO BONUS</span>
                                         <br>
-                                        <p>Cada día se te presentará una actividad a </p>
-                                        <p id="actividad">realizar, tu decides si quieres hacerla, nuestra </p>
+                                        <h6>Cada día se te presentará una actividad a </h6>
+                                        <h6 id="actividad">realizar, tu decides si quieres hacerla, nuestra </h6>
                                     </div>
                                 </div>
-                                <p>recomendación es realizar todas para obtener una</p>
-                                <p>recompensa sorpresa al finalizar el reto.</p>
+                                <h6>recomendación es realizar todas para obtener una</h6>
+                                <h6>recompensa sorpresa al finalizar el reto.</h6>
                                 <br>
                                 <br>
                                 <br v-if="screen>801">
@@ -841,7 +845,7 @@
                     <div v-show="screen<801" id="videosCarousel" class="carousel col-sm-8 mr-auto ml-auto" data-ride="carousel" style="margin-top:60px;">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
-                                <video id="video1" @ended="terminar(1)" controls poster="{{asset('/img/poster.png')}}" width="100%">
+                                <video playsinline id="video1" @ended="terminar(1)" controls poster="{{asset('/img/luis.png')}}" width="100%">
                                     <source src="{{asset('/assets/test2.mp4')}}" type="video/mp4"/>
                                 </video>
                                 <div class="testimonio">
@@ -853,7 +857,7 @@
                                 </div>
                             </div>
                             <div class="carousel-item">
-                                <video id="video2" @ended="terminar(2)" controls poster="{{asset('/img/poster.png')}}" width="100%">
+                                <video playsinline id="video2" @ended="terminar(2)" controls poster="{{asset('/img/miguel.png')}}" width="100%">
                                     <source src="{{asset('/assets/test3.mp4')}}" type="video/mp4"/>
                                 </video>
                                 <div class="testimonio">
@@ -863,7 +867,7 @@
                                 </div>
                             </div>
                             <div class="carousel-item">
-                                <video id="video3" controls poster="{{asset('/img/poster.png')}}" width="100%">
+                                <video playsinline id="video3" controls poster="{{asset('/img/vicente.png')}}" width="100%">
                                     <source src="{{asset('/assets/test1.mp4')}}" type="video/mp4"/>
                                 </video>
                                 <div class="testimonio">
@@ -887,7 +891,7 @@
                     <div v-show="screen>801" class="col-sm-8 mr-auto ml-auto" style="margin-top:60px;">
                         <div class="d-flex flex-wrap">
                             <div class="col-sm-4 col-12 video">
-                                <video controls poster="{{asset('/img/poster.png')}}" width="100%">
+                                <video playsinline controls poster="{{asset('/img/luis.png')}}" width="100%">
                                     <source src="{{asset('/assets/test2.mp4')}}" type="video/mp4"/>
                                 </video>
                                 <div class="testimonio">
@@ -899,7 +903,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-4 col-12 video">
-                                <video controls poster="{{asset('/img/poster.png')}}" width="100%">
+                                <video playsinline controls poster="{{asset('/img/miguel.png')}}" width="100%">
                                     <source src="{{asset('/assets/test3.mp4')}}" type="video/mp4"/>
                                 </video>
                                 <div class="testimonio">
@@ -909,7 +913,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-4 col-12 video">
-                                <video controls poster="{{asset('/img/poster.png')}}" width="100%">
+                                <video playsinline controls poster="{{asset('/img/vicente.png')}}" width="100%">
                                     <source src="{{asset('/assets/test1.mp4')}}" type="video/mp4"/>
                                 </video>
                                 <div class="testimonio">

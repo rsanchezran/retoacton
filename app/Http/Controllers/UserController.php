@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Code\RolUsuario;
+use App\Code\Utils;
 use App\User;
 use App\UsuarioDia;
 use Illuminate\Http\Request;
@@ -99,7 +100,7 @@ class UserController extends Controller
                 $dia->imagen = '/images/none.png';
                 $dia->comentario = '';
             }else{
-                $dia->imagen = $web . $usuario_id . '/' . ($i);
+                $dia->imagen = $web . $usuario_id . '/' . ($i).'/'.(Utils::generarRandomString(10));
                 $dia->comentario = $dia->comentario == null ? '' : $dia->comentario;
             }
             $dia->comentar = 0;
