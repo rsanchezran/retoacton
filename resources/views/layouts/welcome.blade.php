@@ -114,20 +114,42 @@
             left: 20px;
             z-index:4;
         }
+
+        @media only screen and (max-width: 420px) {
+           .navbar{
+               padding:0;
+           }
+
+            .navbar-brand{
+                padding: 0;
+            }
+
+            .navbar-nav{
+                margin-top:-20px;
+                padding: 0;
+            }
+
+            #logo{
+                left: 0;
+            }
+            .navbar-toggler{
+                margin: 0;
+            }
+        }
     </style>
     @yield('header')
 </head>
 <body  class="h-100">
 <div id="app" class="d-flex flex-column">
     {{--<img id="onda" src="{{asset('img/ondas.png')}}" alt="acton">--}}
-    <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
+    <nav class="navbar navbar-expand-md navbar-light navbar-laravel d-flex justify-content-between">
         <a class="navbar-brand" href="{{ url('/') }}">
-            <img src="{{asset('img/header.png')}}" width="250" id="logo">
+            <img src="{{asset('img/header.png')}}" width="250" id="log<o">
         </a>
         <div class="navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item links">
-                    <a href="{{ route('login') }}">Acceso a miembros</a>
+                    <a href="{{ route('login') }}">Iniciar sesión</a>
                 </li>
             </ul>
         </div>
