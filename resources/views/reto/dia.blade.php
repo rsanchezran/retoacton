@@ -168,7 +168,7 @@
                 </div>
                     @endif
                     <div>
-                        <h4 class="comida">Calendario @{{ semana }}</h4>
+                        <h4 class="comida">Calendario</h4>
                         <div class="col-12" v-for="(sem, index) in semanas">
                             <h6 v-if="(index)<semana" class="font-weight-bold">Semana @{{ index+1  }}</h6>
                             <div v-if="(index)<=semana" class="d-flex flex-wrap ">

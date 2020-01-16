@@ -1,6 +1,12 @@
 @extends('layouts.welcome')
 @section('header')
     <style>
+
+        video{
+            height: 200px;
+            width: 100%;
+        }
+
         .info {
             padding: 20px 10px;
             background-color: #f6f6f6;
@@ -347,6 +353,10 @@
             margin-left: -19px !important;
         }
 
+        #entrenamiento img{
+            height: 40px;
+        }
+
         @media only screen and (max-width: 420px) {
             #bonus{
                 margin-top: 140px;
@@ -566,7 +576,7 @@
             </div>
             <div class="info text-center">
                 <div class="col-12 col-sm-8 mr-auto ml-auto" style="padding: 40px 10px">
-                    <h6 class="text-uppercase bigger thin" style="color:#929494; font-size: 2.4rem">El mejor momento </h6>
+                    <h6 class="text-uppercase bigger thin" style="color:#929494; font-size: 2.4rem">El mejor momento s</h6>
                     <h6 class="text-uppercase font-weight-bold biggest">para empezar</h6>
                     <h6 class="text-uppercase font-weight-bold biggest"> es hoy</h6>
                     <br>
@@ -605,8 +615,8 @@
                                 <h6 class="text-justify">Puedes elegir si deseas entrenar en el gym, desde la comodidad de tu hogar o en el lugar donde te encuentres, ya que dentro de tu sesión tienes un botón en el cual puedes cambiar tu rutina a </h6>
                                 <h6 class="font-weight-bold text-center" style="font-family: unitext;">Modo: GYM o Modo: CASA</h6>
                                 <div class="d-flex justify-content-between">
-                                    <img src="{{asset('img/Boton01.png')}}" width="80">
-                                    <img src="{{asset('img/Boton02.png')}}" width="80">
+                                    <img src="{{asset('img/Boton01.png')}}"/>
+                                    <img src="{{asset('img/Boton02.png')}}"/>
                                 </div>
                             </div>
                         </div>
@@ -655,7 +665,7 @@
                         <div>
                             <div class="d-block ml-auto mr-auto" style="width: max-content;">
                                 <div class="d-flex">
-                                    <img src="{{asset('img/trofeoazul.png')}}" alt="trofeo" width="60">
+                                    <img src="{{asset('img/trofeoazul.png')}}" alt="trofeo" height="60">
                                     <div>
                                         <h4 class="text-uppercase font-weight-bold acton text-center">Hemos incluido</h4>
                                         <h4 class="text-uppercase font-weight-bold acton text-center">un bonus para ti</h4>
@@ -795,8 +805,8 @@
                                 <br>
                                 <div class="d-flex">
                                     <div>
-                                        <img v-if="screen<801" style="margin-top:10px;" src="{{asset('img/trofeo.png')}}" alt="trofeo" width="40">
-                                        <img v-else style="margin-top:10px;" src="{{asset('img/trofeo.png')}}" alt="trofeo" width="60">
+                                        <img v-if="screen<801" style="margin-top:10px;" src="{{asset('img/trofeo.png')}}" alt="trofeo" height="20">
+                                        <img v-else style="margin-top:10px;" src="{{asset('img/trofeo.png')}}" alt="trofeo" height="40">
                                     </div>
                                     <div id="trofeobonus">
                                         <span id="otrobonus" class="text-uppercase">OTRO BONUS</span>
@@ -876,7 +886,7 @@
                     </div>
                     <div v-show="screen>801" class="col-sm-8 mr-auto ml-auto" style="margin-top:60px;">
                         <div class="d-flex flex-wrap">
-                            <div class="col-sm-4 col-12">
+                            <div class="col-sm-4 col-12 video">
                                 <video controls poster="{{asset('/img/poster.png')}}" width="100%">
                                     <source src="{{asset('/assets/test2.mp4')}}" type="video/mp4"/>
                                 </video>
@@ -888,7 +898,7 @@
                                     <h6 style="font-size: .8em;font-family: unitext_light; font-weight: bold;">Vi resultados super contundentes</h6>
                                 </div>
                             </div>
-                            <div class="col-sm-4 col-12">
+                            <div class="col-sm-4 col-12 video">
                                 <video controls poster="{{asset('/img/poster.png')}}" width="100%">
                                     <source src="{{asset('/assets/test3.mp4')}}" type="video/mp4"/>
                                 </video>
@@ -898,7 +908,7 @@
                                     <h6 style="font-size: .8em;font-family: unitext_light; font-weight: bold;">El programa me pareció muy motivador con dietas muy practicas y accesibles, rutinas muy bien explicadas y muy buenos resultados.</h6>
                                 </div>
                             </div>
-                            <div class="col-sm-4 col-12">
+                            <div class="col-sm-4 col-12 video">
                                 <video controls poster="{{asset('/img/poster.png')}}" width="100%">
                                     <source src="{{asset('/assets/test1.mp4')}}" type="video/mp4"/>
                                 </video>

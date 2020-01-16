@@ -69,7 +69,7 @@
                                 <label :for="'file'+index" class="custom-file-upload">
                                     <i class="fa fa-cloud-upload"></i> Subir foto
                                 </label>
-                                <input :id="'file'+index" type="file" accept="image/x-png,image/jpg,image/jpeg"
+                                <input :id="'file'+index" type="file" accept="image/png,image/jpg,image/jpeg"
                                        @change="agregarImagen(index, $event)" :disabled="loading">
                             </div>
                             <div>
@@ -83,6 +83,7 @@
                             <form-error :name="'audio'+index" :errors="errors"></form-error>
                         </div>
                         <div align="center">
+                            <span v-if="dato.loading">Estamos procesando el archivo, espera un momento porfavor...</span>
                             <i v-if="dato.loading" class="fa fa-spinner fa-spin"></i>
                             <img v-if="dato.imagen!='' && !dato.loading" :id="'img'+index" :src="dato.imagen" width="160"
                                  @click="mostrarImagen(dato.imagen)"/>

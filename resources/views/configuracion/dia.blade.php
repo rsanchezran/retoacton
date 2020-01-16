@@ -254,7 +254,7 @@
                     <div v-for="(ejercicio, iejercicio) in serie.ejercicios" class="ejercicio col-sm-5">
                         <div class="video d-flex">
                             <div v-if="ejercicio.video==''" class="vid">[Selecciona un video]</div>
-                            <video v-else class="embed-responsive-item" preload="none" controls="auto"
+                            <video poster="{{asset('img/poster.png')}}" v-else class="embed-responsive-item" preload="none" controls="auto"
                                    :src="'{{url('configuracion/ejercicio/')}}/'+ejercicio.video">
                                 <source :src="'{{url('configuracion/ejercicio/')}}/'+ejercicio.video"
                                         type="video/mp4">

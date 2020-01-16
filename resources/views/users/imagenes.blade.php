@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('header')
     <style>
-        #vue img {
-            cursor: pointer;
+        .link{
+            height: 200px;
         }
     </style>
 @endsection
@@ -25,7 +25,7 @@
                         </div>
                         <div class="card-body">
                             <div class="d-flex">
-                                <img :src="link.imagen" width="100%"/>
+                                <img class="link" :src="link.imagen" width="100%"/>
                                 <div v-if="link.id!=null">
                                     <button class="btn btn-sm btn-light" @click="comentar(link)">
                                         <i class="fa fa-comment"></i>
