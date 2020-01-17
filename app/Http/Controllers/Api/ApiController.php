@@ -51,7 +51,11 @@ class ApiController extends Controller
                         $mensaje = new \stdClass();
                         $mensaje->subject = "Bienvenido de nuevo al Reto Acton";
                         $mensaje->pass = "";
-                        Mail::queue(new Registro($usuario, $mensaje));
+                        try{
+                            Mail::queue(new Registro($usuario, $mensaje));
+                            $usuario->correo_enviado = 1;
+                            $usuario->save();
+                        }catch (\Exception $e){}
                     }
                 }
             }

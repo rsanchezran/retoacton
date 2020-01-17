@@ -113,8 +113,7 @@ class PagoController extends Controller
             $openpay->charges->create($chargeRequest);
             $tarjeta = $request->deposito ? $request->numero : null;
             if ($usuario == null) {
-                User::crear($request->nombres, $request->apellidos, $request->email, 'tarjeta',
-                    $tarjeta, 0, $request->pregunta);
+                User::crear($request->nombres, $request->apellidos, $request->email, 'tarjeta', 0, $request->pregunta);
                 if ($request->pregunta != '')
                     $this->aumentarSaldo($request->pregunta);
                 $usuario = User::where('email', $request->email)->get()->first();
@@ -266,7 +265,7 @@ class PagoController extends Controller
         $objetivo = 0;
         if ($usuario == null) {
             User::crear($request->nombres, $request->apellidos, $request->email,
-                'paypal', $objetivo, $request->genero, $request->pregunta);
+                'paypal', $objetivo, $request->pregunta);
             $this->aumentarSaldo($request->pregunta);
         } else {
             $usuario->objetivo = $objetivo;
