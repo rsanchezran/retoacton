@@ -44,7 +44,7 @@ class RetoController extends Controller
                 $imagenDia->imagen = '';
                 $imagenDia->audio = '';
             } else {
-                $imagenDia->imagen = url("/reto/getImagen/reto/$usuario_id/" . ($i + 1))."/".(Utils::generarRandomString(10));
+                $imagenDia->imagen = url("/reto/getImagen/reto/$usuario_id/" . ($i + 1)) . "/" . (Utils::generarRandomString(10));
                 if (Storage::disk('local')->exists("public/reto/$usuario_id/" . ($i + 1) . '.mp3')) {
                     $imagenDia->audio = url("/reto/getAudio/reto/$usuario_id/" . ($i + 1));
                 } else {
@@ -198,7 +198,7 @@ class RetoController extends Controller
             $dia->nota = "";
             $dia->ejercicioss = collect();
             return view('reto.dia', ['dia' => $dia, 'genero' => $genero, 'objetivo' => $objetivo, 'lugar' => $user->modo,
-                'dias'=>env('DIAS')]);
+                'dias' => env('DIAS')]);
         } else {
             if ($usuarioDieta->dieta == 2) {
                 if ($dia < env("DIASDIETA")) {
@@ -234,7 +234,7 @@ class RetoController extends Controller
         for ($i = 0; $i < $dias_activo && $i < env('DIAS', 90); $i++) {//construir arreglo y ruta de las imagenes para la vista
             $datos_reto[$i] = [
                 'nombre' => 'Subir Imagen',
-                'imagen' => $web . 1 . '/' . ($i + 1).'/'.(Utils::generarRandomString(10)),
+                'imagen' => $web . 1 . '/' . ($i + 1) . '/' . (Utils::generarRandomString(10)),
                 'subir' => false,
                 'disabled' => true,
                 'comentario' => '',
@@ -260,9 +260,13 @@ class RetoController extends Controller
             $user->inicio_reto = Carbon::now();
             $user->save();
         }
-        $diasTranscurridos = Carbon::now()->diffInDays($user->inicio_reto);
-        if ($diasTranscurridos > env('DIAS')) {
+        if ($user->created_at->startOfDay() != Carbon::parse($user->fecha_inscripcion)) {
             $diasTranscurridos = env('DIAS');
+        }else{
+            $diasTranscurridos = Carbon::now()->diffInDays($user->inicio_reto);
+            if ($diasTranscurridos > env('DIAS')) {
+                $diasTranscurridos = env('DIAS');
+            }
         }
         return view('reto.cliente', ['dias' => $diasTranscurridos == 0 ? 1 : $diasTranscurridos]);
     }

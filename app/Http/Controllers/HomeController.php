@@ -27,7 +27,10 @@ class HomeController extends Controller
 
     public function home(Request $request)
     {
+        $comision = intval(env('COMISION'));
         $usuario = User::where('id', $request->user()->id)->get()->first();
+        $usuario->total = $usuario->ingresados * $comision;
+        $usuario->depositado = $usuario->total - $usuario->saldo;
         $referencias = User::select(['id', 'name', 'email', 'created_at'])
             ->where('codigo', $request->user()->referencia)->whereNotNull('codigo')->get();
         return view('home', ['usuario' => ($usuario), 'referencias' => $referencias]);
