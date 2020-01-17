@@ -39,6 +39,7 @@
                     nombres: '',
                     apellidos: '',
                     email: '',
+                    email_confirmacion: '',
                     numero: '',
                     pregunta:{},
                     mes: '',
@@ -229,20 +230,21 @@
                     <input class="form-control" v-model="informacion.apellidos" placeholder="Apellidos" disabled />
                     <input class="form-control" v-model="informacion.email" placeholder="Correo electrónico" disabled />
                     <input class="form-control" v-model="informacion.email_confirmacion" placeholder="Por favor ingresa de nuevo tu correo electrónico"/>
+                    <form-error name="email_confirmacion" :errors="errors"></form-error>
                     <input class="form-control" v-model="informacion.numero" placeholder="Número de tarjeta">
-                    <form-error style="margin-left:10px;" name="numero" :errors="errors"></form-error>
+                    <form-error name="numero" :errors="errors"></form-error>
                     <div class="d-flex">
                         <div class="col-sm-4">
                             <input class="form-control" placeholder="Mes" v-model="informacion.mes">
-                            <form-error style="margin-left:10px;" name="mes" :errors="errors"></form-error>
+                            <form-error name="mes" :errors="errors"></form-error>
                         </div>
                         <div class="col-sm-4">
                             <input class="form-control" placeholder="Año" v-model="informacion.ano">
-                            <form-error style="margin-left:10px;" name="ano" :errors="errors"></form-error>
+                            <form-error name="ano" :errors="errors"></form-error>
                         </div>
                         <div class="col-sm-4">
                             <input class="form-control" placeholder="CVV" v-model="informacion.codigo">
-                            <form-error style="margin-left:10px;" name="codigo" :errors="errors"></form-error>
+                            <form-error name="codigo" :errors="errors"></form-error>
                         </div>
                     </div>
                     <div v-if="meses">
@@ -432,6 +434,10 @@
         border: 1px solid #b0afb5;
         border-radius: 4px;
         background: #f8f9fa;
+    }
+
+    .form-error{
+        margin-left: 10px;
     }
 
 </style>

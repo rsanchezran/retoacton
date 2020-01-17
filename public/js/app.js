@@ -1741,6 +1741,7 @@ __webpack_require__.r(__webpack_exports__);
         nombres: '',
         apellidos: '',
         email: '',
+        email_confirmacion: '',
         numero: '',
         pregunta: {},
         mes: '',
@@ -48859,7 +48860,7 @@ var render = function() {
     "div",
     {
       staticClass:
-        "d-flex flex-wrap col-12 col-sm-6 col-md-12 d-block mr-auto ml-auto"
+        "d-flex flex-wrap col-12 col-sm-12 col-md-12 col-lg-6 d-block mr-auto ml-auto"
     },
     [
       _c(
@@ -48957,8 +48958,7 @@ var render = function() {
           attrs: {
             title: "Pago con tarjeta",
             high: "500",
-            btncerrar: true,
-            showok: _vm.acuerdo
+            okdisabled: !_vm.acuerdo
           },
           on: {
             ok: function($event) {
@@ -48992,9 +48992,7 @@ var render = function() {
                 { staticClass: "text-center" },
                 [
                   _vm._v("La cantidad a cobrar será de "),
-                  _c("money", {
-                    attrs: { cantidad: _vm.cobro, decimales: "0" }
-                  })
+                  _c("money", { attrs: { cantidad: _vm.cobro, decimales: 0 } })
                 ],
                 1
               ),
@@ -49019,7 +49017,7 @@ var render = function() {
                       }
                     ],
                     staticClass: "form-control",
-                    attrs: { disabled: "" },
+                    attrs: { placeholder: "Nombres", disabled: "" },
                     domProps: { value: _vm.informacion.nombres },
                     on: {
                       input: function($event) {
@@ -49045,7 +49043,7 @@ var render = function() {
                       }
                     ],
                     staticClass: "form-control",
-                    attrs: { disabled: "" },
+                    attrs: { placeholder: "Apellidos", disabled: "" },
                     domProps: { value: _vm.informacion.apellidos },
                     on: {
                       input: function($event) {
@@ -49081,6 +49079,40 @@ var render = function() {
                         _vm.$set(_vm.informacion, "email", $event.target.value)
                       }
                     }
+                  }),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.informacion.email_confirmacion,
+                        expression: "informacion.email_confirmacion"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: {
+                      placeholder:
+                        "Por favor ingresa de nuevo tu correo electrónico"
+                    },
+                    domProps: { value: _vm.informacion.email_confirmacion },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.informacion,
+                          "email_confirmacion",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("form-error", {
+                    staticStyle: { "margin-left": "10px" },
+                    attrs: { name: "email_confirmacion", errors: _vm.errors }
                   }),
                   _vm._v(" "),
                   _c("input", {
@@ -49396,11 +49428,7 @@ var render = function() {
         "modal",
         {
           ref: "oxxo",
-          attrs: {
-            title: "Pago en oxxo",
-            btncerrar: true,
-            showok: _vm.acuerdo
-          },
+          attrs: { title: "Pago en oxxo", okdisabled: !_vm.acuerdo },
           on: { ok: _vm.OxxoSpei }
         },
         [
@@ -49415,9 +49443,7 @@ var render = function() {
                 { staticClass: "text-center" },
                 [
                   _vm._v("La cantidad a cobrar será de "),
-                  _c("money", {
-                    attrs: { cantidad: _vm.cobro, decimales: "0" }
-                  })
+                  _c("money", { attrs: { cantidad: _vm.cobro, decimales: 0 } })
                 ],
                 1
               ),
@@ -49442,7 +49468,7 @@ var render = function() {
                       }
                     ],
                     staticClass: "form-control",
-                    attrs: { placeholder: "Nombres", disabled: "" },
+                    attrs: { placeholder: "Nombre", disabled: "" },
                     domProps: { value: _vm.informacion.nombres },
                     on: {
                       input: function($event) {
@@ -49468,7 +49494,7 @@ var render = function() {
                       }
                     ],
                     staticClass: "form-control",
-                    attrs: { disabled: "" },
+                    attrs: { placeholder: "Apellidos", disabled: "" },
                     domProps: { value: _vm.informacion.apellidos },
                     on: {
                       input: function($event) {
@@ -49502,6 +49528,35 @@ var render = function() {
                           return
                         }
                         _vm.$set(_vm.informacion, "email", $event.target.value)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.informacion.email_confirmacion,
+                        expression: "informacion.email_confirmacion"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: {
+                      placeholder:
+                        "Por favor ingresa de nuevo tu correo electrónico"
+                    },
+                    domProps: { value: _vm.informacion.email_confirmacion },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.informacion,
+                          "email_confirmacion",
+                          $event.target.value
+                        )
                       }
                     }
                   }),
@@ -49608,7 +49663,7 @@ var render = function() {
         "modal",
         {
           ref: "spei",
-          attrs: { title: "Pago con SPEI", showok: _vm.acuerdo },
+          attrs: { title: "Pago con SPEI", okdisabled: !_vm.acuerdo },
           on: { ok: _vm.OxxoSpei }
         },
         [
@@ -49623,9 +49678,7 @@ var render = function() {
                 { staticClass: "text-center" },
                 [
                   _vm._v("La cantidad a cobrar será de "),
-                  _c("money", {
-                    attrs: { cantidad: _vm.cobro, decimales: "0" }
-                  })
+                  _c("money", { attrs: { cantidad: _vm.cobro, decimales: 0 } })
                 ],
                 1
               ),
@@ -49676,7 +49729,7 @@ var render = function() {
                       }
                     ],
                     staticClass: "form-control",
-                    attrs: { disabled: "" },
+                    attrs: { placeholder: "Apellidos", disabled: "" },
                     domProps: { value: _vm.informacion.apellidos },
                     on: {
                       input: function($event) {
@@ -49710,6 +49763,35 @@ var render = function() {
                           return
                         }
                         _vm.$set(_vm.informacion, "email", $event.target.value)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.informacion.email_confirmacion,
+                        expression: "informacion.email_confirmacion"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: {
+                      placeholder:
+                        "Por favor ingresa de nuevo tu correo electrónico"
+                    },
+                    domProps: { value: _vm.informacion.email_confirmacion },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.informacion,
+                          "email_confirmacion",
+                          $event.target.value
+                        )
                       }
                     }
                   }),
@@ -49820,7 +49902,6 @@ var render = function() {
             title: "Ficha de pago",
             showcancel: false,
             btncerrar: false,
-            showok: _vm.acuerdo,
             oktext: "Salir"
           },
           on: {
@@ -49870,7 +49951,7 @@ var render = function() {
                           cantidad: _vm.response.monto,
                           caracter: "true",
                           adicional: "MXN",
-                          decimales: "0"
+                          decimales: 0
                         }
                       })
                     ],

@@ -1,7 +1,7 @@
 <template>
     <div>
         <slot></slot>
-        <strong v-if="errors[name]!=undefined" class="small text-danger">
+        <strong class="form-error" v-if="errors[name]!=undefined" class="small text-danger">
             {{ getError }}
         </strong>
     </div>

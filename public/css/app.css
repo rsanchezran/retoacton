@@ -22021,3 +22021,15 @@ input:checked + .slider:before {
   transition: opacity 0.15s;
 }
 
+@media only screen and (max-width: 801px) {
+  #header {
+    background-size: 120px;
+  }
+}
+
+@media only screen and (max-width: 420px) {
+  #header {
+    background-size: 75px;
+  }
+}
+
