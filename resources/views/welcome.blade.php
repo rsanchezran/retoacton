@@ -241,6 +241,7 @@
         #bonus{
             margin-left: 140px;
             margin-top: 120px;
+            z-index: 10;
         }
 
         #bonus p{
@@ -349,31 +350,25 @@
             margin-left: 10px;
         }
 
-        #actividad{
-            margin-left: -19px !important;
-        }
-
         #entrenamiento img{
-            height: 40px;
+            height: 2rem;
         }
 
-        @media only screen and (max-width: 420px) {
-            #bonus{
-                margin-top: 140px;
-                margin-left: 10px;
-                margin-right:-300px;
-            }
+        #frase{
+            margin:40px auto;
+        }
 
+        @media only screen and (max-width: 990px) {
             #features .subtitle {
-                font-size: 4.5vw !important;
-            }
+                font-size: 2.5vw;
 
-            .feature{
-                height: 200px;
             }
         }
 
         @media only screen and (max-width: 801px) {
+            .feature .subinfo{
+                height: 200px;
+            }
 
             #testtitulo{
                 background: none;
@@ -389,6 +384,10 @@
 
             #pipo{
                 min-height: auto;
+            }
+
+            #frase{
+                margin: 20px auto;
             }
 
             #pipoImg{
@@ -524,19 +523,37 @@
                 margin-left: 10px;
             }
 
-            #actividad{
-                margin-left: -10px !important;
-            }
-
             #features .subtitle {
                 font-size: 3.5vw;
             }
+
+            #bonus{
+                margin-left:60px;
+            }
         }
 
-        @media only screen and (max-width: 990px) {
-            #features .subtitle {
-                font-size: 2.5vw;
+        @media only screen and (max-width: 420px) {
+            #bonus{
+                margin-top: 140px;
+                margin-left: 10px;
+                margin-right:-300px;
+            }
 
+            #features .subtitle {
+                font-size: 4.5vw !important;
+            }
+
+            #cree{
+                font-size: .55rem !important;
+            }
+
+            #pipoImg{
+                width: 160px !important;
+                margin-top: -60px;
+            }
+
+            #frase{
+                margin: 0px auto;
             }
         }
 
@@ -618,7 +635,7 @@
                             <div id="entrenamiento" class="subinfo">
                                 <h6 class="text-justify">Puedes elegir si deseas entrenar en el gym, desde la comodidad de tu hogar o en el lugar donde te encuentres, ya que dentro de tu sesión tienes un botón en el cual puedes cambiar tu rutina a </h6>
                                 <h6 class="font-weight-bold text-center" style="font-family: unitext;">Modo: GYM o Modo: CASA</h6>
-                                <div class="d-flex justify-content-between">
+                                <div class="col-sm-8 d-flex justify-content-between" style="margin: auto; padding: 0">
                                     <img src="{{asset('img/Boton01.png')}}"/>
                                     <img src="{{asset('img/Boton02.png')}}"/>
                                 </div>
@@ -726,7 +743,7 @@
                         <img id="pipoImg" src="{{asset('img/pipo.png')}}">
                     </div>
                     <div class="col-sm-7 col-7" id="quote">
-                        <div style="margin: 40px auto;">
+                        <div id="frase">
                             <div id="cree">
                                 <p class="text-uppercase">Tus más grandes deseos llegarán a ti tarde o temprano</p>
                                 <br>
@@ -737,7 +754,7 @@
                                 <p class="text-uppercase">¡Cree en ti y todo sera posible! </p>
                             </div>
                             <br>
-                            <span class="turquesa text-uppercase float-right" style="font-family: unitext_cursive; font-weight:bold">- Reto Acton</span>
+                            <span class="turquesa text-uppercase float-right" style="font-family: unitext_cursive; font-weight:bold;">- Reto Acton</span>
                             <br>
                             <br>
                             <h6 class="momento biggest text-uppercase font-weight-bold" style="font-style: oblique"><span class="turquesa">Tu momento </span> es hoy</h6>
@@ -815,16 +832,14 @@
                                     <div id="trofeobonus">
                                         <span id="otrobonus" class="text-uppercase">OTRO BONUS</span>
                                         <br>
-                                        <h6>Cada día se te presentará una actividad a </h6>
-                                        <h6 id="actividad">realizar, tu decides si quieres hacerla, nuestra </h6>
                                     </div>
                                 </div>
+                                <h6>Cada día se te presentará una actividad a </h6>
+                                <h6>realizar, tu decides si quieres hacerla, nuestra </h6>
                                 <h6>recomendación es realizar todas para obtener una</h6>
                                 <h6>recompensa sorpresa al finalizar el reto.</h6>
                                 <br>
                                 <br>
-                                <br v-if="screen>801">
-                                <br v-if="screen>801">
                                 <a class="btn btn-primary" href="{{url('register')}}" style="width: 90%; font-family: unitext_bold_cursive; padding: 10px">Unirme al reto acton</a>
                             </div>
                         </div>
@@ -837,7 +852,7 @@
             </div>
             <div>
                 <div id="test" class="marino" style="padding-top:100px; padding-bottom:10px;">
-                    <div id="testtitulo" class="text-center col-sm-8 col-8 d-block mr-auto ml-auto">
+                    <div id="testtitulo" class="text-center col-12 col-sm-8 col-8 d-block mr-auto ml-auto">
                         <h6 class="text-uppercase bigger thin font-weight-bold" style="color: #00abe5">Gente real, resultados reales</h6>
                         <h6 class="text-uppercase biggest font-weight-bold" style="color: #fff; font-size:3rem">Historias reales</h6>
                     </div>

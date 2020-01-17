@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="referrer" content="strict-origin" />
+    <meta name="referrer" content="strict-origin"/>
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -20,7 +20,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link rel="shortcut icon" href="{{asset('img/favicon.png')}}" />
+    <link rel="shortcut icon" href="{{asset('img/favicon.png')}}"/>
     <style>
         @font-face {
             font-family: unitext;
@@ -44,16 +44,16 @@
             src: url("{{asset('fonts/unitext cursive.ttf')}}");
         }
 
-        #app{
+        #app {
             min-height: 100%;
             font-family: unitext;
         }
 
-        .thin{
+        .thin {
             font-family: unitext_light;
         }
 
-        footer{
+        footer {
             background-color: #007fdc;
         }
 
@@ -65,7 +65,7 @@
             text-decoration: none;
         }
 
-        input[type=text], input[type=email]{
+        input[type=text], input[type=email] {
             padding: 15px;
             border: 1px solid #ccc;
             border-radius: 3px;
@@ -76,13 +76,13 @@
             font-size: 13px;
         }
 
-        #logo{
+        #logo {
             position: absolute;
             top: 10px;
             left: 40px;
         }
 
-        .navbar{
+        .navbar {
             padding: 40px;
             box-shadow: none;
             background-image: url('{{asset('/img/header_back.png')}}');
@@ -90,56 +90,59 @@
             background-size: 100%;
         }
 
-        main{
+        main {
             margin-top: 0 !important;
         }
 
-        .navbar-toggler{
+        .navbar-toggler {
             display: block;
             margin: 20px auto 0 auto;
         }
 
-        #_op_data_r, #_op_data_antifraud{
+        #_op_data_r, #_op_data_antifraud {
             display: none;
         }
 
-        .navbar-toggler{
+        .navbar-toggler {
             border: 0 !important;
         }
 
-        #onda{
-            width:100%;
+        #onda {
+            width: 100%;
             position: absolute;
             top: 10px;
             left: 20px;
-            z-index:4;
+            z-index: 4;
         }
 
         @media only screen and (max-width: 420px) {
-           .navbar{
-               padding:0;
-           }
-
-            .navbar-brand{
+            .navbar {
                 padding: 0;
             }
 
-            .navbar-nav{
-                margin-top:-20px;
+            .navbar-brand {
+                padding: 0;
+                height: 60px;
+            }
+
+            .navbar-nav {
                 padding: 0;
             }
 
-            #logo{
-                left: 0;
+            .navbar-toggler {
+                position: absolute;
+                top: 20px;
+                right: 2px;
             }
-            .navbar-toggler{
-                margin: 0;
+
+            .nav-item a {
+                padding: 1px;
             }
         }
     </style>
     @yield('header')
 </head>
-<body  class="h-100">
+<body class="h-100">
 <div id="app" class="d-flex flex-column">
     {{--<img id="onda" src="{{asset('img/ondas.png')}}" alt="acton">--}}
     <nav class="navbar navbar-expand-md navbar-light navbar-laravel d-flex justify-content-between">
@@ -149,7 +152,7 @@
         <div class="navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item links">
-                    <a href="{{ route('login') }}">Iniciar sesión</a>
+                    <a href="{{ route('login') }}">Acceso a miembros</a>
                 </li>
             </ul>
         </div>
@@ -158,14 +161,14 @@
             </ul>
             <ul class="navbar-nav ml-auto">
                 @guest
-                <li class="nav-item links">
-                    <a href="{{ route('login') }}">Acceso a miembros</a>
-                </li>
-                @else
                     <li class="nav-item links">
-                    <a href="{{ url('/home') }}">Acceso a miembros</a>
-                </li>
-                @endguest
+                        <a href="{{ route('login') }}">Acceso a miembros</a>
+                    </li>
+                    @else
+                        <li class="nav-item links">
+                            <a href="{{ url('/home') }}">Acceso a miembros</a>
+                        </li>
+                        @endguest
             </ul>
         </div>
     </nav>
@@ -186,8 +189,10 @@
             <div class="col-sm-3">
                 <h5>SÍGUENOS EN</h5>
                 <ul class="list-unstyled">
-                    <li><a href="https://www.facebook.com/eladepiesacabeza/"><i class="fab fa-facebook-square"></i> Facebook</a></li>
-                    <li><a href="https://www.instagram.com/calzadoela/"><i class="fab fa-instagram"></i> Instagram</a></li>
+                    <li><a href="https://www.facebook.com/eladepiesacabeza/"><i class="fab fa-facebook-square"></i>
+                            Facebook</a></li>
+                    <li><a href="https://www.instagram.com/calzadoela/"><i class="fab fa-instagram"></i> Instagram</a>
+                    </li>
                 </ul>
             </div>
             <div class="col-sm-3">

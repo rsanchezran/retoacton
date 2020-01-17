@@ -37,11 +37,38 @@ class PagoController extends Controller
     public function validarOpenpay(Request $request)
     {
         $this->validate($request, [
+            'nombres' => ['required', 'max:100', 'min:2', 'regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ\s]( )?)+$/'],
+            'apellidos' => 'required|max:100|min:2|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ\s]( )?)+$/',
+            'email' => 'required|max:100|min:3|email',
+            'email_confirmation' => 'required|max:100|min:3|email|same:email',
+            'telefono' => 'nullable|numeric|max:9999999999|integer',
             'numero' => 'required|max:16|min:16', //numero tarjeta
             'codigo' => 'required|digits:3', //cvv
             'mes' => ['required','digits:2','regex:/((0[1-9])|(1[0-2])){1}/'],
             'ano' => ['required','digits:2'],
         ], [
+            'nombres.required' => 'Este campo es obligatorio',
+            'nombres.min' => 'Debe capturar mínimo 2 caracteres',
+            'nombres.max' => 'Debe capturar máximo 100 caracteres',
+            'nombres.regex' => 'Debe capturar únicamente letras',
+            'apellidos.required' => 'Este campo es obligatorio',
+            'apellidos.min' => 'Debe capturar mínimo 2 caracteres',
+            'apellidos.max' => 'Debe capturar máximo 100 caracteres',
+            'apellidos.regex' => 'Debe capturar únicamente letras',
+            'email.required' => 'Este campo es obligatorio',
+            'email.min' => 'Debe capturar minimo 3 caracteres',
+            'email.max' => 'Debe capturar máximo 100 caracteres',
+            'email.unique' => 'El correo ya ha sido registrado',
+            'email.email' => 'El formato no es válido',
+            'email_confirmation.required' => 'Este campo es obligatorio',
+            'email_confirmation.min' => 'Debe capturar minimo 3 caracteres',
+            'email_confirmationmail.max' => 'Debe capturar máximo 100 caracteres',
+            'email_confirmation.unique' => 'El correo ya ha sido registrado',
+            'email_confirmation.email' => 'El formato no es válido',
+            'email_confirmation.same' => 'El correo electrónico de confirmación no es igual al primer correo que ingresaste',
+            'telefono.max' => 'Debe ser menor a 12 caracteres',
+            'telefono.numeric' => 'Debe ser numérico',
+            'telefono.integer' => 'No puede ingresar números negativos',
             'numero.required' => 'El número de tarjeta es requerido',
             'numero.max' => 'El número de tarjeta debe tener máximo 16 caracteres',
             'numero.min' => 'El número de tarjeta debe tener mínimo 16 caracteres',
@@ -248,13 +275,36 @@ class PagoController extends Controller
     public function validarTelefono ($request)
     {
         $this->validate($request, [
-            'nombres' => 'required',
-            'telefono' => 'required|numeric|integer|digits_between:10,19'
+            'nombres' => ['required', 'max:100', 'min:2', 'regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ\s]( )?)+$/'],
+            'apellidos' => 'required|max:100|min:2|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ\s]( )?)+$/',
+            'email' => 'required|max:100|min:3|email',
+            'email_confirmation' => 'required|max:100|min:3|email|same:email',
+            'telefono' => 'nullable|numeric|max:9999999999|integer',
+            'referencia' => 'max:5',
         ], [
-            'telefono.required' => 'El teléfono es obligatorio',
-            'telefono.digits_between' => 'El teléfono debe ser mayor a 10 y menor a 19 dígitos',
-            'telefono.numeric' => 'El teléfono debe ser numérico',
-            'telelfono.integer' => 'Debe capturar números enteros'
+            'nombres.required' => 'Este campo es obligatorio',
+            'nombres.min' => 'Debe capturar mínimo 2 caracteres',
+            'nombres.max' => 'Debe capturar máximo 100 caracteres',
+            'nombres.regex' => 'Debe capturar únicamente letras',
+            'apellidos.required' => 'Este campo es obligatorio',
+            'apellidos.min' => 'Debe capturar mínimo 2 caracteres',
+            'apellidos.max' => 'Debe capturar máximo 100 caracteres',
+            'apellidos.regex' => 'Debe capturar únicamente letras',
+            'email.required' => 'Este campo es obligatorio',
+            'email.min' => 'Debe capturar minimo 3 caracteres',
+            'email.max' => 'Debe capturar máximo 100 caracteres',
+            'email.unique' => 'El correo ya ha sido registrado',
+            'email.email' => 'El formato no es válido',
+            'email_confirmation.required' => 'Este campo es obligatorio',
+            'email_confirmation.min' => 'Debe capturar minimo 3 caracteres',
+            'email_confirmationmail.max' => 'Debe capturar máximo 100 caracteres',
+            'email_confirmation.unique' => 'El correo ya ha sido registrado',
+            'email_confirmation.email' => 'El formato no es válido',
+            'email_confirmation.same' => 'El correo electrónico de confirmación no es igual al primer correo que ingresaste',
+            'referencia.max' => 'Debe ser menor a 6 caracteres',
+            'telefono.max' => 'Debe ser menor a 12 caracteres',
+            'telefono.numeric' => 'Debe ser numérico',
+            'telefono.integer' => 'No puede ingresar números negativos'
         ]);
     }
 

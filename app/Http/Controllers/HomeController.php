@@ -439,11 +439,11 @@ class HomeController extends Controller
     {
         $validator = Validator::make($request->all(),
             [
-                'nombres' => 'required|max:100',
-                'apellidos' => 'required|max:100',
-                'email' => 'required|max:100|email',
+                'nombres' => ['required', 'max:100', 'min:2', 'regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ\s]( )?)+$/'],
+                'apellidos' => 'required|max:100|min:2|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ\s]( )?)+$/',
+                'email' => 'required|max:100|min:3|email',
+                'telefono' => 'nullable|numeric|max:9999999999|integer',
                 'mensaje' => 'required|max:500',
-                'telefono' => 'max:20',
             ], [
                 'nombres.required' => 'Es necesario que captures tu nombre',
                 'apellidos.required' => 'Es necesario que captures por lo menos tu primer apellido',

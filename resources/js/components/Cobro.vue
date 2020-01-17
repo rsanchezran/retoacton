@@ -182,7 +182,7 @@
     };
 </script>
 <template>
-    <div class="d-flex flex-wrap col-12 col-sm-6 col-md-12 d-block mr-auto ml-auto">
+    <div class="d-flex flex-wrap col-12 col-sm-12 col-md-12 col-lg-6 d-block mr-auto ml-auto">
         <div class="col-sm-5 col-md-5 formaPago" @click="metodoPago('openpay')">
             <h6>Pago con tarjeta de débito o crédito</h6>
             <div class="d-flex flex-wrap">
@@ -212,7 +212,7 @@
         <div class="col-12 col-sm-6 col-md-5" v-if="response.referencia!=''">
             <button class="bigbutton" @click="$refs.referencia.showModal()">Ver ficha</button>
         </div>
-        <modal ref="openpay" title="Pago con tarjeta" @ok="openpay()" :high="'500'" :btncerrar="true" :showok="acuerdo">
+        <modal ref="openpay" title="Pago con tarjeta" @ok="openpay()" :high="'500'" :okdisabled="!acuerdo">
             <div style="background-color: #f6f6f6; color: #0b2e13">
                 <div class="d-flex">
                     <div class="col-12 col-sm-6">
@@ -222,12 +222,13 @@
                         <img :src="url+'/img/mastercard.png'" width="60">
                     </div>
                 </div>
-                <p class="text-center">La cantidad a cobrar será de <money :cantidad="cobro" decimales="0"></money></p>
+                <p class="text-center">La cantidad a cobrar será de <money :cantidad="cobro" :decimales="0"></money></p>
                 <p>Al concluir tu pago se enviará tu usuario y contraseña al correo que proporcionaste en tus datos de contacto</p>
                 <div class="payment" align="left">
-                    <input class="form-control" v-model="informacion.nombres" disabled   />
-                    <input class="form-control" v-model="informacion.apellidos" disabled />
+                    <input class="form-control" v-model="informacion.nombres" placeholder="Nombres" disabled />
+                    <input class="form-control" v-model="informacion.apellidos" placeholder="Apellidos" disabled />
                     <input class="form-control" v-model="informacion.email" placeholder="Correo electrónico" disabled />
+                    <input class="form-control" v-model="informacion.email_confirmacion" placeholder="Por favor ingresa de nuevo tu correo electrónico"/>
                     <input class="form-control" v-model="informacion.numero" placeholder="Número de tarjeta">
                     <form-error style="margin-left:10px;" name="numero" :errors="errors"></form-error>
                     <div class="d-flex">
@@ -260,14 +261,15 @@
                 </div>
             </div>
         </modal>
-        <modal ref="oxxo" :title="'Pago en oxxo'" @ok="OxxoSpei" :btncerrar="true" :showok="acuerdo">
+        <modal ref="oxxo" :title="'Pago en oxxo'" @ok="OxxoSpei" :okdisabled="!acuerdo">
             <div style="background-color: #f6f6f6; color: #0b2e13">
-                <p class="text-center">La cantidad a cobrar será de <money :cantidad="cobro" decimales="0"></money></p>
+                <p class="text-center">La cantidad a cobrar será de <money :cantidad="cobro" :decimales="0"></money></p>
                 <p>Al concluir el ingreso de tus datos de contacto envíaremos a tu correo la ficha de déposito para que acudas a cualquier tienda Oxxo y hagas el pago correspondiente</p>
                 <div class="payment">
-                    <input class="form-control" v-model="informacion.nombres" placeholder="Nombres" disabled />
-                    <input class="form-control" v-model="informacion.apellidos" disabled />
+                    <input class="form-control" v-model="informacion.nombres" placeholder="Nombre" disabled />
+                    <input class="form-control" v-model="informacion.apellidos" placeholder="Apellidos" disabled />
                     <input class="form-control" v-model="informacion.email" placeholder="Correo electrónico" disabled />
+                    <input class="form-control" v-model="informacion.email_confirmacion" placeholder="Por favor ingresa de nuevo tu correo electrónico"/>
                     <input class="form-control" v-model="informacion.telefono" placeholder="Teléfono"/>
                     <form-error name="telefono" :errors="errors"></form-error>
                     <form-error name="nombres" :errors="errors"></form-error>
@@ -281,14 +283,15 @@
                 </div>
             </div>
         </modal>
-        <modal ref="spei" :title="'Pago con SPEI'" @ok="OxxoSpei" :showok="acuerdo">
+        <modal ref="spei" :title="'Pago con SPEI'" @ok="OxxoSpei" :okdisabled="!acuerdo">
             <div style="background-color: #f6f6f6; color: #0b2e13">
-                <p class="text-center">La cantidad a cobrar será de <money :cantidad="cobro" decimales="0"></money></p>
+                <p class="text-center">La cantidad a cobrar será de <money :cantidad="cobro" :decimales="0"></money></p>
                 <p>Al concluir el ingreso de tus datos de contacto envíaremos a tu correo la ficha de déposito para que entres a tu banco en línea y hagas la transferencia a la cuenta CLABE proporcionada en esa ficha</p>
                 <div class="payment">
                     <input class="form-control" v-model="informacion.nombres" placeholder="Nombres" disabled />
-                    <input class="form-control" v-model="informacion.apellidos" disabled />
+                    <input class="form-control" v-model="informacion.apellidos" placeholder="Apellidos" disabled />
                     <input class="form-control" v-model="informacion.email" placeholder="Correo electrónico" disabled />
+                    <input class="form-control" v-model="informacion.email_confirmacion" placeholder="Por favor ingresa de nuevo tu correo electrónico"/>
                     <input class="form-control" v-model="informacion.telefono" placeholder="Teléfono"/>
                     <form-error name="nombres" :errors="errors"></form-error>
                     <form-error name="email" :errors="errors"></form-error>
@@ -302,7 +305,7 @@
                 </div>
             </div>
         </modal>
-        <modal ref="referencia" :title="'Ficha de pago'" @ok="redirect()" :showcancel="false" :btncerrar="false" :showok="acuerdo" :oktext="'Salir'">
+        <modal ref="referencia" :title="'Ficha de pago'" @ok="redirect()" :showcancel="false" :btncerrar="false" :oktext="'Salir'">
             <div class="opps">
                 <div class="opps-header">
                     <div class="opps-reminder">Ficha digital. No es necesario imprimir.</div>
@@ -313,7 +316,7 @@
                         </div>
                         <div class="opps-ammount">
                             <h3>Monto a pagar</h3>
-                            <h2><money :cantidad="response.monto" caracter="true" adicional="MXN" decimales="0"></money></h2>
+                            <h2><money :cantidad="response.monto" caracter="true" adicional="MXN" :decimales="0"></money></h2>
                         </div>
                     </div>
                     <div class="opps-reference">

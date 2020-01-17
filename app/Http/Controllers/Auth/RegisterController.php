@@ -79,7 +79,7 @@ class RegisterController extends Controller
             'nombres' => ['required', 'max:100', 'min:2', 'regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ\s]( )?)+$/'],
             'apellidos' => 'required|max:100|min:2|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ\s]( )?)+$/',
             'email' => 'required|max:100|min:3|email',
-            'telefono' => 'nullable|numeric|max:99999999999|integer',
+            'telefono' => 'nullable|numeric|max:9999999999|integer',
             'referencia' => 'max:5',
         ], [
             'nombres.required' => 'Este campo es obligatorio',
