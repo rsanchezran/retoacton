@@ -74,11 +74,18 @@ class CuentaController extends Controller
         $user = User::find($request->id);
         if ($request->file('imagen') != null) {
 
-            $image = \Intervention\Image\Facades\Image::make($request->file('imagen'));
-            $image->orientate()
-                ->fit(350, 600, function ($constraint) {
+            $image = \Intervention\Image\Facades\Image::make($request->file('imagen'))->orientate();
+            if ($image->width() < $image->height()) {
+                $image->resize(null, 720, function ($constraint) {
+                    $constraint->aspectRatio();
                     $constraint->upsize();
                 });
+            } else {
+                $image->resize(1280, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                });
+            }
             Storage::disk('local')->makeDirectory('public/users');
             $image->save(storage_path("app/public/users/$user->id.png"));
         }

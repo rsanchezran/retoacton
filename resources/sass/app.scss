@@ -209,6 +209,11 @@ input:checked + .slider:before {
     padding: 10px;
 }
 
+btn-success.disabled, .btn-success:disabled{
+  background-color: #007FDC;
+  border-color: #007FDC;
+}
+
 .required::after {
     content: " * ";
     color: #e60f17;
@@ -341,6 +346,28 @@ input:checked + .slider:before {
     opacity: 1;
     transition: opacity .15s;
   }
+}
+
+#pagar {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  margin: auto;
+  padding: 5px 10px;
+  border:2px solid #BA1811;
+  border-radius: 8px;
+  background-color: #FFDA00;
+  color: #9C1F2D;
+  font-family: unitext_bold_cursive;
+}
+
+#infoPago{
+  display: flex;
+  flex-direction: column;
+}
+
+#infoPago label{
+  margin-bottom: 0;
 }
 
 @media only screen and (max-width: 801px) {

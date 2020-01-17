@@ -103,11 +103,18 @@ class RetoController extends Controller
         $usuarioDia->save();
         Storage::disk('local')->makeDirectory("public/reto/$usuario_id");
 
-        $image = \Intervention\Image\Facades\Image::make($request->file('imagen'));
-        $image->orientate()
-            ->fit(800, 1360, function ($constraint) {
+        $image = \Intervention\Image\Facades\Image::make($request->file('imagen'))->orientate();
+        if ($image->width() < $image->height()) {
+            $image->resize(null, 720, function ($constraint) {
+                $constraint->aspectRatio();
                 $constraint->upsize();
             });
+        } else {
+            $image->resize(1280, null, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+        }
         $image->save(storage_path("app/public/reto/$usuario_id/$request->dia.jpg"));
 
         return response()->json(['respuesta' => 'ok', 'imagen' => url("/reto/getImagen/reto/$usuario_id/$request->dia/" . rand(0, 100))]);
@@ -140,11 +147,18 @@ class RetoController extends Controller
         ini_set('max_execution_time', 3000);
         ini_set('memory_limit', '2GB');
         $usuario_id = $request->user()->id;
-        $image = \Intervention\Image\Facades\Image::make($request->file('imagen'));
-        $image->orientate()
-            ->fit(600,1020, function ($constraint) {
+        $image = \Intervention\Image\Facades\Image::make($request->file('imagen'))->orientate();
+        if ($image->width() < $image->height()) {
+            $image->resize(null, 720, function ($constraint) {
+                $constraint->aspectRatio();
                 $constraint->upsize();
             });
+        } else {
+            $image->resize(1280, null, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+        }
         $image->save(storage_path("app/public/reto/$usuario_id/$request->dia.jpg"));
         return response()->json(['respuesta' => 'ok']);
     }

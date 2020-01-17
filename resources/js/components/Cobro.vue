@@ -39,7 +39,7 @@
                     nombres: '',
                     apellidos: '',
                     email: '',
-                    email_confirmacion: '',
+                    email_confirmation: '',
                     numero: '',
                     pregunta:{},
                     mes: '',
@@ -60,17 +60,28 @@
                 this.$refs[pago].showModal();
                 this.pago = pago;
             },
+            limpiarInformacion: function(){
+                this.informacion.nombres = this.informacion.nombres.trim();
+                this.informacion.apellidos = this.informacion.apellidos.trim();
+                this.informacion.email = this.informacion.email.trim();
+                this.informacion.telefono = this.informacion.telefono.trim();
+                this.informacion.pregunta = this.informacion.pregunta.trim();
+                this.informacion.numero = this.informacion.numero.trim();
+                this.informacion.codigo = this.informacion.codigo.trim();
+                this.informacion.mes = this.informacion.mes.trim();
+                this.informacion.ano = this.informacion.ano.trim();
+            },
             openpay: function () {
                 let vm = this;
 
                 vm.errors = {};
                 vm.terminar = false;
                 OpenPay.token.create({
-                        "holder_name": vm.informacion.nombres,
-                        "card_number": vm.informacion.numero,
-                        "cvv2": vm.informacion.codigo,
-                        "expiration_month": vm.informacion.mes,
-                        "expiration_year": vm.informacion.ano
+                        "holder_name": vm.informacion.nombres.trim(),
+                        "card_number": vm.informacion.numero.trim(),
+                        "cvv2": vm.informacion.codigo.trim(),
+                        "expiration_month": vm.informacion.mes.trim(),
+                        "expiration_year": vm.informacion.ano.trim()
                     },
                     function (response) {
                         vm.informacion.token = response.data.id;
@@ -229,8 +240,8 @@
                     <input class="form-control" v-model="informacion.nombres" placeholder="Nombres" disabled />
                     <input class="form-control" v-model="informacion.apellidos" placeholder="Apellidos" disabled />
                     <input class="form-control" v-model="informacion.email" placeholder="Correo electrónico" disabled />
-                    <input class="form-control" v-model="informacion.email_confirmacion" placeholder="Por favor ingresa de nuevo tu correo electrónico"/>
-                    <form-error name="email_confirmacion" :errors="errors"></form-error>
+                    <input class="form-control" v-model="informacion.email_confirmation" placeholder="Por favor ingresa de nuevo tu correo electrónico"/>
+                    <form-error name="email_confirmation" :errors="errors"></form-error>
                     <input class="form-control" v-model="informacion.numero" placeholder="Número de tarjeta">
                     <form-error name="numero" :errors="errors"></form-error>
                     <div class="d-flex">
@@ -271,7 +282,7 @@
                     <input class="form-control" v-model="informacion.nombres" placeholder="Nombre" disabled />
                     <input class="form-control" v-model="informacion.apellidos" placeholder="Apellidos" disabled />
                     <input class="form-control" v-model="informacion.email" placeholder="Correo electrónico" disabled />
-                    <input class="form-control" v-model="informacion.email_confirmacion" placeholder="Por favor ingresa de nuevo tu correo electrónico"/>
+                    <input class="form-control" v-model="informacion.email_confirmation" placeholder="Por favor ingresa de nuevo tu correo electrónico"/>
                     <input class="form-control" v-model="informacion.telefono" placeholder="Teléfono"/>
                     <form-error name="telefono" :errors="errors"></form-error>
                     <form-error name="nombres" :errors="errors"></form-error>
@@ -293,7 +304,7 @@
                     <input class="form-control" v-model="informacion.nombres" placeholder="Nombres" disabled />
                     <input class="form-control" v-model="informacion.apellidos" placeholder="Apellidos" disabled />
                     <input class="form-control" v-model="informacion.email" placeholder="Correo electrónico" disabled />
-                    <input class="form-control" v-model="informacion.email_confirmacion" placeholder="Por favor ingresa de nuevo tu correo electrónico"/>
+                    <input class="form-control" v-model="informacion.email_confirmation" placeholder="Por favor ingresa de nuevo tu correo electrónico"/>
                     <input class="form-control" v-model="informacion.telefono" placeholder="Teléfono"/>
                     <form-error name="nombres" :errors="errors"></form-error>
                     <form-error name="email" :errors="errors"></form-error>
@@ -435,9 +446,4 @@
         border-radius: 4px;
         background: #f8f9fa;
     }
-
-    .form-error{
-        margin-left: 10px;
-    }
-
 </style>

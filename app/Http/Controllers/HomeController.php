@@ -307,7 +307,7 @@ class HomeController extends Controller
 
         Validator::make($preguntas,
             [
-                'Peso en Kg.respuesta' => ['required', 'numeric', 'min:40','max:180',
+                'Peso en Kg.respuesta' => ['required', 'numeric', 'min:40', 'max:180',
                     'regex:/^([1-9]([0-9]{1,2}))(\.([0-9][0-9]?))?$/'],
                 'Estatura en cm.respuesta' => 'required|numeric|min:100|max:230|integer',
             ],
@@ -389,7 +389,8 @@ class HomeController extends Controller
             $nombre = $nombre[count($nombre) - 1];
             $urls->push(url("getCombo/" . $nombre));
         }
-        return view("auth.objetivo", ['urls' => $urls, 'pregunta' => $pregunta, 'contacto' => $contacto]);
+        return view("auth.objetivo", ['urls' => $urls, 'pregunta' => $pregunta, 'contacto' => $contacto,
+            'monto' => env('COBRO_ORIGINAL'), 'descuento' => env('COBRO')]);
     }
 
     public function etapa2($id)
@@ -402,7 +403,8 @@ class HomeController extends Controller
             $nombre = $nombre[count($nombre) - 1];
             $urls->push(url("getCombo/" . $nombre));
         }
-        return view("auth.peso", ['urls' => $urls, 'contacto' => $contacto]);
+        return view("auth.peso", ['urls' => $urls, 'contacto' => $contacto, 'monto' => env('COBRO_ORIGINAL'),
+            'descuento' => env('COBRO')]);
     }
 
     public function etapa3($id)
@@ -415,7 +417,8 @@ class HomeController extends Controller
             $nombre = $nombre[count($nombre) - 1];
             $urls->push(url("getCombo/" . $nombre));
         }
-        return view("auth.ultimo", ['urls' => $urls, 'contacto' => $contacto]);
+        return view("auth.ultimo", ['urls' => $urls, 'contacto' => $contacto, 'monto' => env('COBRO_ORIGINAL'),
+            'descuento' => env('COBRO')]);
     }
 
     public function terminos()
@@ -481,11 +484,11 @@ class HomeController extends Controller
         $contacto->nombres = $request->nombres;
         $contacto->apellidos = $request->apellidos;
         $contacto->telefono = $request->telefono;
-        $contacto->objetivo = strpos("Bajar", $request->objetivo)!==false?Objetivo::BAJAR:Objetivo::SUBIR;
+        $contacto->objetivo = strpos("Bajar", $request->objetivo) !== false ? Objetivo::BAJAR : Objetivo::SUBIR;
         $contacto->mensaje = $request->mensaje;
         $contacto->etapa = 1;
         $contacto->medio = "Contacto";
         $contacto->save();
-        return response()->json(['status'=>'ok', 'redirect'=>url('/')]);
+        return response()->json(['status' => 'ok', 'redirect' => url('/')]);
     }
 }
