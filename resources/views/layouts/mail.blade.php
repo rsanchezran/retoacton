@@ -32,7 +32,7 @@
         <tbody>
         <tr class="header" >
             <td>
-                <img width="250" src="{{env('APP_URL')}}/images/postergris.png" />
+                <img alt="poster" width="250" src="{{env('APP_URL')}}/images/postergris.png" />
             </td>
         </tr>
         <tr>
@@ -47,7 +47,7 @@
         </tr>
         <tr class="footer">
             <td colspan="2">
-                <img width="200" src="{{env('APP_URL')}}/img/header.png" style="float: right">
+                <img alt="footer" width="200" src="{{env('APP_URL')}}/img/header.png" style="float: right">
             </td>
         </tr>
         </tbody>

@@ -29,7 +29,7 @@
                     <h3>Referencia</h3>
                     <h1 class="reference">{{ $orden->referencia }}</h1>
                     <div>
-                        <img align="center"  width="300" style="display: block; margin:auto; float: none !important;"
+                        <img alt="referencia" align="center"  width="300" style="display: block; margin:auto; float: none !important;"
                             src="{{ $message->embedData(base64_decode(Milon\Barcode\DNS1D::getBarcodePNG($orden->referencia, "C128")), 'logo.png') }}">
                     </div>
                 </div>
