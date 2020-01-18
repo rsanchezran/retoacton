@@ -164,7 +164,7 @@ class PagoController extends Controller
                 'currency' => 'mxn',
                 'customer_info' => array(
                     'name' => $request->nombres,
-                    'phone' => $request->telefono,
+                    'phone' => '52'.$request->telefono,
                     'email' => $request->email
                 ),
                 'charges' => array(
@@ -222,7 +222,7 @@ class PagoController extends Controller
                 "customer_info" => array(
                     "name" => $request->nombres,
                     "email" => $request->email,
-                    "phone" => $request->telefono
+                    'phone' => '52'.$request->telefono,
                 ), //customer_info
                 "charges" => array(
                     array(
