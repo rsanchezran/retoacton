@@ -85,7 +85,7 @@
                     <option value="" disabled>¿Cómo te enteraste del reto acton?</option>
                     <option v-for="medio in medios" :value="medio">@{{medio}}</option>
                 </select>
-                <div v-if="informacion.medio=='Por medio de un migo'" class="text-left">
+                <div v-if="informacion.medio=='Por medio de un amigo'" class="text-left">
                     <span style="color: #929292">
                         Si conoces el código de referencia de tu amigo, por favor ingresalo aquí
                         <i v-if="loading" class="far fa-spinner fa-spin"></i>
