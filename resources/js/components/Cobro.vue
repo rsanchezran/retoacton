@@ -238,8 +238,11 @@
                 <p>Al concluir tu pago se enviará tu usuario y contraseña al correo que proporcionaste en tus datos de contacto</p>
                 <div class="payment" align="left">
                     <input class="form-control" v-model="informacion.nombres" placeholder="Nombres" disabled />
+                    <form-error name="nombres" :errors="errors"></form-error>
                     <input class="form-control" v-model="informacion.apellidos" placeholder="Apellidos" disabled />
+                    <form-error name="apellidos" :errors="errors"></form-error>
                     <input class="form-control" v-model="informacion.email" placeholder="Correo electrónico" disabled />
+                    <form-error name="email" :errors="errors"></form-error>
                     <input class="form-control" v-model="informacion.email_confirmation" placeholder="Por favor ingresa de nuevo tu correo electrónico"/>
                     <form-error name="email_confirmation" :errors="errors"></form-error>
                     <input class="form-control" v-model="informacion.numero" placeholder="Número de tarjeta">
@@ -280,10 +283,15 @@
                 <p>Al concluir el ingreso de tus datos de contacto envíaremos a tu correo la ficha de déposito para que acudas a cualquier tienda Oxxo y hagas el pago correspondiente</p>
                 <div class="payment">
                     <input class="form-control" v-model="informacion.nombres" placeholder="Nombre" disabled />
+                    <form-error name="nombres" :errors="errors"></form-error>
                     <input class="form-control" v-model="informacion.apellidos" placeholder="Apellidos" disabled />
+                    <form-error name="apellidos" :errors="errors"></form-error>
                     <input class="form-control" v-model="informacion.email" placeholder="Correo electrónico" disabled />
+                    <form-error name="email" :errors="errors"></form-error>
                     <input class="form-control" v-model="informacion.email_confirmation" placeholder="Por favor ingresa de nuevo tu correo electrónico"/>
+                    <form-error name="email_confirmation" :errors="errors"></form-error>
                     <input class="form-control" v-model="informacion.telefono" placeholder="Teléfono"/>
+                    <form-error name="telefono" :errors="errors"></form-error>
                     <form-error name="telefono" :errors="errors"></form-error>
                     <form-error name="nombres" :errors="errors"></form-error>
                     <form-error name="email" :errors="errors"></form-error>
@@ -302,10 +310,15 @@
                 <p>Al concluir el ingreso de tus datos de contacto envíaremos a tu correo la ficha de déposito para que entres a tu banco en línea y hagas la transferencia a la cuenta CLABE proporcionada en esa ficha</p>
                 <div class="payment">
                     <input class="form-control" v-model="informacion.nombres" placeholder="Nombres" disabled />
+                    <form-error name="nombres" :errors="errors"></form-error>
                     <input class="form-control" v-model="informacion.apellidos" placeholder="Apellidos" disabled />
+                    <form-error name="apellidos" :errors="errors"></form-error>
                     <input class="form-control" v-model="informacion.email" placeholder="Correo electrónico" disabled />
+                    <form-error name="email" :errors="errors"></form-error>
                     <input class="form-control" v-model="informacion.email_confirmation" placeholder="Por favor ingresa de nuevo tu correo electrónico"/>
+                    <form-error name="email_confirmation" :errors="errors"></form-error>
                     <input class="form-control" v-model="informacion.telefono" placeholder="Teléfono"/>
+                    <form-error name="telefono" :errors="errors"></form-error>
                     <form-error name="nombres" :errors="errors"></form-error>
                     <form-error name="email" :errors="errors"></form-error>
                     <form-error name="telefono" :errors="errors"></form-error>
