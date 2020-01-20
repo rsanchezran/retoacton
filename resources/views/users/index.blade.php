@@ -101,13 +101,18 @@
                                 @endif
                             </td>
                             <td class="text-center">
-                                <button class="btn btn-sm btn-light" @click="verReferencias(usuario)">@{{ usuario.ingresados }}</button>
+                                <button class="btn btn-sm btn-light" @click="verReferencias(usuario)">
+                                    <span>@{{ usuario.ingresados }}</span>
+                                    (<money :cantidad="''+usuario.total" :caracter="true"></money>)
+                                </button>
                             </td>
-                            <td class="text-center">@{{ usuario.ingresados_reto }}</td>
+                            <td class="text-center">
+                                <span>@{{ usuario.pagados }}</span>
+                                (<money :cantidad="''+usuario.depositado" :caracter="true"></money>)
+                            </td>
                             <td class="text-right">
-                                <span v-if="usuario.depositado>0" class="badge badge-success">$ <money :cantidad="''+usuario.depositado"></money></span>
-                                <br v-if="usuario.depositado>0">
-                                <span class="badge badge-light">$ <money :cantidad="usuario.saldo"></money></span>
+                                <span>@{{ usuario.pendientes }}</span>
+                                (<money :cantidad="''+usuario.saldo" :caracter="true"></money>)
                             </td>
                             <td style="display: flex; flex-direction: column">
                                 <div>

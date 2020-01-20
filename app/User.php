@@ -27,8 +27,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'last_name', 'email', 'password', 'rol', 'inicio_reto', 'referencia', 'saldo', 'pagado', 'tarjeta','tipo_pago',
-        'encuestado','objetivo', 'codigo',
+        'name', 'last_name', 'email', 'password', 'rol', 'inicio_reto', 'referencia', 'saldo', 'pagado', 'tarjeta', 'tipo_pago',
+        'encuestado', 'objetivo', 'codigo',
     ];
 
     /**
@@ -64,7 +64,7 @@ class User extends Authenticatable
         return $this->hasMany('App\Respuesta', 'usuario_id', 'id')->join('preguntas', 'pregunta_id', 'preguntas.id');
     }
 
-    public static function crear($nombre, $apellidos='', $email, $tipo, $tarjeta = null, $objetivo, $codigo ='')
+    public static function crear($nombre, $apellidos = '', $email, $tipo, $objetivo, $codigo = '')
     {
         $pass = Utils::generarRandomString();
         $usuario = User::create([
@@ -79,14 +79,18 @@ class User extends Authenticatable
             'codigo' => $codigo,
             'rol' => RolUsuario::CLIENTE,
             'tipo_pago' => $tipo,
-            'tarjeta'=>$tarjeta,
-            'modo'=>LugarEjercicio::GYM,
-            'fecha_inscripcion'=>Carbon::now()
+            'modo' => LugarEjercicio::GYM,
+            'fecha_inscripcion' => Carbon::now(),
+            'correo_enviado' => 0
         ]);
 
         $mensaje = new \stdClass();
         $mensaje->subject = "Bienvenido al Reto Acton de 8 semanas";
         $mensaje->pass = $pass;
-        Mail::queue(new Registro($usuario, $mensaje));
+        try {
+            Mail::queue(new Registro($usuario, $mensaje));
+            $usuario->correo_enviado = 1;
+            $usuario->save();
+        } catch (\Exception $e) {}
     }
 }

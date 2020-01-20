@@ -10,6 +10,7 @@ use App\Contacto;
 use App\Http\Controllers\Controller;
 use App\Pregunta;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -44,7 +45,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest', ['saveContacto', 'saveObjetivo','save$peso','buscarReferencia','unsuscribe',
+        $this->middleware('guest', ['saveContacto', 'saveObjetivo', 'save$peso', 'buscarReferencia', 'unsuscribe',
             'unsuscribeSave']);
 
     }
@@ -69,7 +70,7 @@ class RegisterController extends Controller
         }
         $preguntas->opciones = $opciones->toArray();
         $medios = MedioContacto::all();
-        return view('auth.register', ['urls' => $urls, 'preguntas' => $preguntas, 'medios'=>$medios]);
+        return view('auth.register', ['urls' => $urls, 'preguntas' => $preguntas, 'medios' => $medios]);
     }
 
     public function saveContacto(Request $request)
@@ -118,7 +119,25 @@ class RegisterController extends Controller
         $contacto->medio = $request->medio;
         $contacto->codigo = $request->codigo;
         $contacto->save();
-        return response()->json(['status' => 'ok']);
+        $usuario = User::withTrashed()->where('email', $request->email)->first();
+        $monto = env('COBRO_ORIGINAL');
+        $descuento = env('COBRO');
+        $mensaje = '';
+        if ($usuario !== null) {
+            if ($usuario->deleted_at == null) {
+                if ($usuario->inicio_reto == null) {
+                    $mensaje = 'Todavía no has iniciado tu reto, te invitamos a comenzar para que disfrutes sus beneficios.';
+                } else {
+                    if (Carbon::parse($usuario->inicio_reto)->diffInDays(Carbon::now()) > intval(env('DIAS'))) {
+                        $monto = env('COBRO_ORIGINAL2');
+                        $descuento = env('COBRO2');
+                    } else {
+                        $mensaje = 'Todavía no termina tu reto, te invitamos a seguir esforzandote para que disfrutes sus beneficios.';
+                    }
+                }
+            }
+        }
+        return response()->json(['status' => 'ok', 'monto' => $monto, 'descuento' => $descuento, 'mensaje' => $mensaje]);
     }
 
     public function saveObjetivo(Request $request)
@@ -139,51 +158,52 @@ class RegisterController extends Controller
         return $this->calcularAlcanzable($contacto->peso, $contacto->ideal);
     }
 
-    private function calcularAlcanzable($peso, $ideal) {
-        if($peso < 50){
-            if($peso < $ideal){
-                return ($peso+5);
-            }else{
-                return ($peso-5);
+    private function calcularAlcanzable($peso, $ideal)
+    {
+        if ($peso < 50) {
+            if ($peso < $ideal) {
+                return ($peso + 5);
+            } else {
+                return ($peso - 5);
             }
         }
-        if($peso >= 50 && $peso < 60){
-            if($peso < $ideal){
-                return ($peso+5);
-            }else{
-                return ($peso-5);
+        if ($peso >= 50 && $peso < 60) {
+            if ($peso < $ideal) {
+                return ($peso + 5);
+            } else {
+                return ($peso - 5);
             }
         }
-        if($peso >= 60 && $peso < 70){
-            if($peso < $ideal){
-                return ($peso+4);
-            }else{
-                return ($peso-3);
+        if ($peso >= 60 && $peso < 70) {
+            if ($peso < $ideal) {
+                return ($peso + 4);
+            } else {
+                return ($peso - 3);
             }
-    
+
         }
-        if($peso >= 70 && $peso < 80){
-            if($peso < $ideal){
-                return ($peso+4.5);
-            }else{
-                return ($peso-3);
-            }
-        }
-        if($peso >= 80 && $peso <= 90){
-            if($peso < $ideal){
-                return ($peso+3);
-            }else{
-                return ($peso-4);
+        if ($peso >= 70 && $peso < 80) {
+            if ($peso < $ideal) {
+                return ($peso + 4.5);
+            } else {
+                return ($peso - 3);
             }
         }
-        if($peso > 90){
-            if($peso < $ideal){
-                return ($peso+2);
-            }else{
-                return ($peso-5);
+        if ($peso >= 80 && $peso <= 90) {
+            if ($peso < $ideal) {
+                return ($peso + 3);
+            } else {
+                return ($peso - 4);
             }
         }
-        if($peso === $ideal){
+        if ($peso > 90) {
+            if ($peso < $ideal) {
+                return ($peso + 2);
+            } else {
+                return ($peso - 5);
+            }
+        }
+        if ($peso === $ideal) {
             return ($peso);
         }
         return 0;
@@ -198,12 +218,14 @@ class RegisterController extends Controller
         return response()->json(['usuario' => $user->name . ' ' . $user->last_name]);
     }
 
-    public function unsuscribe($email){
+    public function unsuscribe($email)
+    {
         $contacto = Contacto::where('email', $email)->first();
-        return view('unsuscribe', ['contacto'=>$contacto]);
+        return view('unsuscribe', ['contacto' => $contacto]);
     }
 
-    public function unsuscribeSave(Request $request){
+    public function unsuscribeSave(Request $request)
+    {
         $contacto = Contacto::where('email', $request->email)->first();
         if ($contacto !== null) {
             $contacto->delete();

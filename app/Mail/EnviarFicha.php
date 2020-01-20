@@ -22,10 +22,12 @@ class EnviarFicha extends Mailable
 
     public function build()
     {
+
         $send = $this->from(env('MAIL_ADDRESS'), 'Acton')
-            ->subject("Ficha para pago en ".$this->orden->origen)
+            ->subject("Ficha para pago en " . $this->orden->origen)
             ->to($this->contacto->email);
-        $send->view('correo.ficha', ['contacto' => $this->contacto, 'orden'=>$this->orden,'email'=>$this->contacto->email]);
+        $send->view('correo.ficha', ['contacto' => $this->contacto, 'orden' => $this->orden, 'email' => $this->contacto->email])
+            ->text('correo.ficha_plano', ['orden' => $this->orden]);
         return $send;
     }
 }

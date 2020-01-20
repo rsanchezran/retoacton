@@ -9,6 +9,9 @@
             margin-top: 5px;
             margin-bottom: 5px;
         }
+        .money{
+            margin-left: 5px;
+        }
     </style>
 @endsection
 @section('content')
@@ -31,13 +34,11 @@
                             <img :src="'{{url('cuenta/getFotografia/'.\Illuminate\Support\Facades\Auth::user()->id.'/'.rand(0,10))}}'"
                                  width="100">
                             <h4>Código de referencia</h4>
-                            <h6 class="small">Recuerda que este código puedes dárselo a tus amigos para ganar saldo a favor</h6>
                             <h4 class="acton">{{\Illuminate\Support\Facades\Auth::user()->referencia}}</h4>
                         </div>
                         <div class="col-12 col-sm-6 d-flex" style="align-items: flex-end;">
                             <div class="d-block ml-auto mr-auto text-center">
                                 <h4>Saldo a favor</h4>
-                                <h6 class="small">Este es el dinero que has acumulado de acuerdo a los amigos que has invitado</h6>
                                 <h4 class="acton">$<money :cantidad="usuario.saldo"></money></h4>
                                 <a v-if="usuario.inicio_reto==null" class="btn btn-lg btn-primary" href="{{url('/reto/cliente/')}}">
                                     <span>EMPEZAR RETO</span>
@@ -55,8 +56,17 @@
                     </div>
                     <hr>
                     <div class="dash">
-                        <div class="table-responsive" >
-                            <h6>Estas son las personas que han usado tu código de referencia: </h6>
+                        <div class="table-responsive">
+                            <div class="d-flex">
+                                <div class="col-12 col-sm-6">
+                                    <h6>Estas son las personas que han usado tu código de referencia: </h6>
+                                </div>
+                                <div class="col-12 col-sm-6 d-flex" style="justify-content:flex-end">
+                                    <span class="badge badge-light money"><money :caracter="true" :cantidad="''+usuario.total"></money></span>
+                                    <span class="badge badge-light money"><money :caracter="true" :cantidad="''+usuario.depositado"></money></span>
+                                    <span class="badge badge-light money"><money :caracter="true" :cantidad="''+usuario.saldo"></money></span>
+                                </div>
+                            </div>
                             <table class="table" style="margin: 0px;">
                                 <tr v-for="referencia in referenciados.data">
                                     <td>@{{ referencia.name }}</td>
@@ -72,11 +82,6 @@
                                 <br>
                             </div>
                         </div>
-                    </div>
-                    <hr>
-                    <div class="dash" v-if="usuario.tarjeta==null">
-                        <p><span class="text-danger">Nota:</span>Te recordamos que no has configurado algún método de pago donde te depositaremos tus
-                            comisiones, si no lo haces el saldo acumulado se perderá al finalizar tu servicio</p>
                     </div>
                 </div>
             </div>

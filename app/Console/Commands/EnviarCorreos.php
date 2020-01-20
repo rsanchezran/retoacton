@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Contacto;
 use App\Events\EnviarCorreosEvent;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
@@ -43,6 +44,20 @@ class EnviarCorreos extends Command
         $this->etapa(1, $contactos1);
         $this->etapa(2, $contactos2);
         $this->etapa(3, $contactos3);
+        $usuarios = User::where('correo_enviado', false)->get();
+        foreach ($usuarios as $usuario) {
+            $pass = Utils::generarRandomString();
+            $mensaje = new \stdClass();
+            $mensaje->subject = "Bienvenido al Reto Acton de 8 semanas";
+            $mensaje->pass = $pass;
+            try {
+                $usuario->password = $pass;
+                Mail::queue(new Registro($usuario, $mensaje));
+                $usuario->correo_enviado = 1;
+                $usuario->save();
+            } catch (\Exception $e) {
+            }
+        }
         \DB::commit();
     }
 
@@ -50,7 +65,10 @@ class EnviarCorreos extends Command
     {
 
         if ($contactos->count() > 0) {
-            event(new EnviarCorreosEvent($contactos));
+            try {
+                event(new EnviarCorreosEvent($contactos));
+            } catch (\Exception $e) {
+            }
             foreach ($contactos as $contacto) {
                 $contacto->etapa = $etapa + 1;
                 $contacto->save();

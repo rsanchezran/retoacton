@@ -113,6 +113,7 @@ var buildURL = __webpack_require__(/*! ./../helpers/buildURL */ "./node_modules/
 var parseHeaders = __webpack_require__(/*! ./../helpers/parseHeaders */ "./node_modules/axios/lib/helpers/parseHeaders.js");
 var isURLSameOrigin = __webpack_require__(/*! ./../helpers/isURLSameOrigin */ "./node_modules/axios/lib/helpers/isURLSameOrigin.js");
 var createError = __webpack_require__(/*! ../core/createError */ "./node_modules/axios/lib/core/createError.js");
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(/*! ./../helpers/btoa */ "./node_modules/axios/lib/helpers/btoa.js");
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -124,6 +125,22 @@ module.exports = function xhrAdapter(config) {
     }
 
     var request = new XMLHttpRequest();
+    var loadEvent = 'onreadystatechange';
+    var xDomain = false;
+
+    // For IE 8/9 CORS support
+    // Only supports POST and GET calls and doesn't returns the response headers.
+    // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
+    if ( true &&
+        typeof window !== 'undefined' &&
+        window.XDomainRequest && !('withCredentials' in request) &&
+        !isURLSameOrigin(config.url)) {
+      request = new window.XDomainRequest();
+      loadEvent = 'onload';
+      xDomain = true;
+      request.onprogress = function handleProgress() {};
+      request.ontimeout = function handleTimeout() {};
+    }
 
     // HTTP basic authentication
     if (config.auth) {
@@ -138,8 +155,8 @@ module.exports = function xhrAdapter(config) {
     request.timeout = config.timeout;
 
     // Listen for ready state
-    request.onreadystatechange = function handleLoad() {
-      if (!request || request.readyState !== 4) {
+    request[loadEvent] = function handleLoad() {
+      if (!request || (request.readyState !== 4 && !xDomain)) {
         return;
       }
 
@@ -156,8 +173,9 @@ module.exports = function xhrAdapter(config) {
       var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
       var response = {
         data: responseData,
-        status: request.status,
-        statusText: request.statusText,
+        // IE sends 1223 instead of 204 (https://github.com/axios/axios/issues/201)
+        status: request.status === 1223 ? 204 : request.status,
+        statusText: request.status === 1223 ? 'No Content' : request.statusText,
         headers: responseHeaders,
         config: config,
         request: request
@@ -970,6 +988,54 @@ module.exports = function bind(fn, thisArg) {
 
 /***/ }),
 
+/***/ "./node_modules/axios/lib/helpers/btoa.js":
+/*!************************************************!*\
+  !*** ./node_modules/axios/lib/helpers/btoa.js ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// btoa polyfill for IE<10 courtesy https://github.com/davidchambers/Base64.js
+
+var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+
+function E() {
+  this.message = 'String contains an invalid character';
+}
+E.prototype = new Error;
+E.prototype.code = 5;
+E.prototype.name = 'InvalidCharacterError';
+
+function btoa(input) {
+  var str = String(input);
+  var output = '';
+  for (
+    // initialize result and counter
+    var block, charCode, idx = 0, map = chars;
+    // if the next str index does not exist:
+    //   change the mapping table to "="
+    //   check if d has no fractional digits
+    str.charAt(idx | 0) || (map = '=', idx % 1);
+    // "8 - idx % 1 * 8" generates the sequence 2, 4, 6, 8
+    output += map.charAt(63 & block >> 8 - idx % 1 * 8)
+  ) {
+    charCode = str.charCodeAt(idx += 3 / 4);
+    if (charCode > 0xFF) {
+      throw new E();
+    }
+    block = block << 8 | charCode;
+  }
+  return output;
+}
+
+module.exports = btoa;
+
+
+/***/ }),
+
 /***/ "./node_modules/axios/lib/helpers/buildURL.js":
 /*!****************************************************!*\
   !*** ./node_modules/axios/lib/helpers/buildURL.js ***!
@@ -1741,7 +1807,7 @@ __webpack_require__.r(__webpack_exports__);
         nombres: '',
         apellidos: '',
         email: '',
-        email_confirmacion: '',
+        email_confirmation: '',
         numero: '',
         pregunta: {},
         mes: '',
@@ -1762,16 +1828,27 @@ __webpack_require__.r(__webpack_exports__);
       this.$refs[pago].showModal();
       this.pago = pago;
     },
+    limpiarInformacion: function limpiarInformacion() {
+      this.informacion.nombres = this.informacion.nombres.trim();
+      this.informacion.apellidos = this.informacion.apellidos.trim();
+      this.informacion.email = this.informacion.email.trim();
+      this.informacion.telefono = this.informacion.telefono.trim();
+      this.informacion.pregunta = this.informacion.pregunta.trim();
+      this.informacion.numero = this.informacion.numero.trim();
+      this.informacion.codigo = this.informacion.codigo.trim();
+      this.informacion.mes = this.informacion.mes.trim();
+      this.informacion.ano = this.informacion.ano.trim();
+    },
     openpay: function openpay() {
       var vm = this;
       vm.errors = {};
       vm.terminar = false;
       OpenPay.token.create({
-        "holder_name": vm.informacion.nombres,
-        "card_number": vm.informacion.numero,
-        "cvv2": vm.informacion.codigo,
-        "expiration_month": vm.informacion.mes,
-        "expiration_year": vm.informacion.ano
+        "holder_name": vm.informacion.nombres.trim(),
+        "card_number": vm.informacion.numero.trim(),
+        "cvv2": vm.informacion.codigo.trim(),
+        "expiration_month": vm.informacion.mes.trim(),
+        "expiration_year": vm.informacion.ano.trim()
       }, function (response) {
         vm.informacion.token = response.data.id;
         axios.post(vm.url + '/pago/openpay', vm.informacion).then(function (respuesta) {
@@ -2390,7 +2467,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
- * Datepicker for Bootstrap v1.9.0 (https://github.com/uxsolutions/bootstrap-datepicker)
+ * Datepicker for Bootstrap v1.8.0 (https://github.com/uxsolutions/bootstrap-datepicker)
  *
  * Licensed under the Apache License v2.0 (http://www.apache.org/licenses/LICENSE-2.0)
  */
@@ -2479,10 +2556,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 	var Datepicker = function(element, options){
 		$.data(element, 'datepicker', this);
-
-		this._events = [];
-		this._secondaryEvents = [];
-
 		this._process_options(options);
 
 		this.dates = new DateArray();
@@ -2492,7 +2565,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 		this.element = $(element);
 		this.isInput = this.element.is('input');
 		this.inputField = this.isInput ? this.element : this.element.find('input');
-		this.component = this.element.hasClass('date') ? this.element.find('.add-on, .input-group-addon, .input-group-append, .input-group-prepend, .btn') : false;
+		this.component = this.element.hasClass('date') ? this.element.find('.add-on, .input-group-addon, .btn') : false;
 		if (this.component && this.component.length === 0)
 			this.component = false;
 		this.isInline = !this.component && this.element.is('div');
@@ -2702,6 +2775,8 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 				o.defaultViewDate = UTCToday();
 			}
 		},
+		_events: [],
+		_secondaryEvents: [],
 		_applyEvents: function(evs){
 			for (var i=0, el, ch, ev; i < evs.length; i++){
 				el = evs[i][0];
@@ -2857,7 +2932,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 		},
 
 		show: function(){
-			if (this.inputField.is(':disabled') || (this.inputField.prop('readonly') && this.o.enableOnReadonly === false))
+			if (this.inputField.prop('disabled') || (this.inputField.prop('readonly') && this.o.enableOnReadonly === false))
 				return;
 			if (!this.isInline)
 				this.picker.appendTo(this.o.container);
@@ -3354,9 +3429,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 				endMonth = this.o.endDate !== Infinity ? this.o.endDate.getUTCMonth() : Infinity,
 				todaytxt = dates[this.o.language].today || dates['en'].today || '',
 				cleartxt = dates[this.o.language].clear || dates['en'].clear || '',
-        titleFormat = dates[this.o.language].titleFormat || dates['en'].titleFormat,
-        todayDate = UTCToday(),
-        titleBtnVisible = (this.o.todayBtn === true || this.o.todayBtn === 'linked') && todayDate >= this.o.startDate && todayDate <= this.o.endDate && !this.weekOfDateIsDisabled(todayDate),
+				titleFormat = dates[this.o.language].titleFormat || dates['en'].titleFormat,
 				tooltip,
 				before;
 			if (isNaN(year) || isNaN(month))
@@ -3365,7 +3438,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 						.text(DPGlobal.formatDate(d, titleFormat, this.o.language));
 			this.picker.find('tfoot .today')
 						.text(todaytxt)
-            .css('display', titleBtnVisible ? 'table-cell' : 'none');
+						.css('display', this.o.todayBtn === true || this.o.todayBtn === 'linked' ? 'table-cell' : 'none');
 			this.picker.find('tfoot .clear')
 						.text(cleartxt)
 						.css('display', this.o.clearBtn === true ? 'table-cell' : 'none');
@@ -3545,12 +3618,12 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 					factor *= 10;
 					/* falls through */
 				case 1:
-					prevIsDisabled = Math.floor(year / factor) * factor <= startYear;
+					prevIsDisabled = Math.floor(year / factor) * factor < startYear;
 					nextIsDisabled = Math.floor(year / factor) * factor + factor > endYear;
 					break;
 				case 0:
-					prevIsDisabled = year <= startYear && month <= startMonth;
-					nextIsDisabled = year >= endYear && month >= endMonth;
+					prevIsDisabled = year <= startYear && month < startMonth;
+					nextIsDisabled = year >= endYear && month > endMonth;
 					break;
 			}
 
@@ -4397,7 +4470,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 	/* DATEPICKER VERSION
 	 * =================== */
-	$.fn.datepicker.version = '1.9.0';
+	$.fn.datepicker.version = '1.8.0';
 
 	$.fn.datepicker.deprecated = function(msg){
 		var console = window.console;
@@ -4439,7 +4512,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
- * Bootstrap-select v1.13.12 (https://developer.snapappointments.com/bootstrap-select)
+ * Bootstrap-select v1.13.10 (https://developer.snapappointments.com/bootstrap-select)
  *
  * Copyright 2012-2019 SnapAppointments, LLC
  * Licensed under MIT (https://github.com/snapappointments/bootstrap-select/blob/master/LICENSE)
@@ -5293,7 +5366,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
     this.init();
   };
 
-  Selectpicker.VERSION = '1.13.12';
+  Selectpicker.VERSION = '1.13.10';
 
   // part of this is duplicated in i18n/defaults-en_US.js. Make sure to update both.
   Selectpicker.DEFAULTS = {
@@ -5493,7 +5566,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
       if (this.options.liveSearch) {
         searchbox =
           '<div class="bs-searchbox">' +
-            '<input type="search" class="form-control" autocomplete="off"' +
+            '<input type="text" class="form-control" autocomplete="off"' +
               (
                 this.options.liveSearchPlaceholder === null ? ''
                 :
@@ -5646,6 +5719,15 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
         that.selectpicker.view.scrollTop = scrollTop;
 
+        if (isVirtual === true) {
+          // if an option that is encountered that is wider than the current menu width, update the menu width accordingly
+          if (that.sizeInfo.hasScrollBar && that.$menu[0].offsetWidth > that.sizeInfo.totalMenuWidth) {
+            that.sizeInfo.menuWidth = that.$menu[0].offsetWidth;
+            that.sizeInfo.totalMenuWidth = that.sizeInfo.menuWidth + that.sizeInfo.scrollBarWidth;
+            that.$menu.css('min-width', that.sizeInfo.menuWidth);
+          }
+        }
+
         chunkSize = Math.ceil(that.sizeInfo.menuInnerHeight / that.sizeInfo.liHeight * 1.5); // number of options in a chunk
         chunkCount = Math.round(size / chunkSize) || 1; // number of chunks
 
@@ -5663,7 +5745,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
           if (!size) break;
 
-          if (currentChunk === undefined && scrollTop - 1 <= that.selectpicker.current.data[endOfChunk - 1].position - that.sizeInfo.menuInnerHeight) {
+          if (currentChunk === undefined && scrollTop <= that.selectpicker.current.data[endOfChunk - 1].position - that.sizeInfo.menuInnerHeight) {
             currentChunk = i;
           }
         }
@@ -5768,29 +5850,6 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
             }
 
             menuInner.firstChild.appendChild(menuFragment);
-
-            // if an option is encountered that is wider than the current menu width, update the menu width accordingly
-            // switch to ResizeObserver with increased browser support
-            if (isVirtual === true && that.sizeInfo.hasScrollBar) {
-              var menuInnerInnerWidth = menuInner.firstChild.offsetWidth;
-
-              if (init && menuInnerInnerWidth < that.sizeInfo.menuInnerInnerWidth && that.sizeInfo.totalMenuWidth > that.sizeInfo.selectWidth) {
-                menuInner.firstChild.style.minWidth = that.sizeInfo.menuInnerInnerWidth + 'px';
-              } else if (menuInnerInnerWidth > that.sizeInfo.menuInnerInnerWidth) {
-                // set to 0 to get actual width of menu
-                that.$menu[0].style.minWidth = 0;
-
-                var actualMenuWidth = menuInner.firstChild.offsetWidth;
-
-                if (actualMenuWidth > that.sizeInfo.menuInnerInnerWidth) {
-                  that.sizeInfo.menuInnerInnerWidth = actualMenuWidth;
-                  menuInner.firstChild.style.minWidth = that.sizeInfo.menuInnerInnerWidth + 'px';
-                }
-
-                // reset to default CSS styling
-                that.$menu[0].style.minWidth = '';
-              }
-            }
           }
         }
 
@@ -6273,7 +6332,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
       text.className = 'text';
       a.className = 'dropdown-item ' + (firstOption ? firstOption.className : '');
       newElement.className = this.$menu[0].parentNode.className + ' ' + classNames.SHOW;
-      newElement.style.width = 0; // ensure button width doesn't affect natural width of menu when calculating
+      newElement.style.width = this.sizeInfo.selectWidth + 'px';
       if (this.options.width === 'auto') menu.style.minWidth = 0;
       menu.className = classNames.MENU + ' ' + classNames.SHOW;
       menuInner.className = 'inner ' + classNames.SHOW;
@@ -6356,7 +6415,6 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
       this.sizeInfo.menuPadding = menuPadding;
       this.sizeInfo.menuExtras = menuExtras;
       this.sizeInfo.menuWidth = menuWidth;
-      this.sizeInfo.menuInnerInnerWidth = menuWidth - menuPadding.horiz;
       this.sizeInfo.totalMenuWidth = this.sizeInfo.menuWidth;
       this.sizeInfo.scrollBarWidth = scrollBarWidth;
       this.sizeInfo.selectHeight = this.$newElement[0].offsetHeight;
@@ -6441,6 +6499,10 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
         minHeight = menuInnerMinHeight = '';
       }
 
+      if (this.options.dropdownAlignRight === 'auto') {
+        this.$menu.toggleClass(classNames.MENURIGHT, this.sizeInfo.selectOffsetLeft > this.sizeInfo.selectOffsetRight && this.sizeInfo.selectOffsetRight < (this.sizeInfo.totalMenuWidth - selectWidth));
+      }
+
       this.$menu.css({
         'max-height': maxHeight + 'px',
         'overflow': 'hidden',
@@ -6459,10 +6521,8 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
       if (this.selectpicker.current.data.length && this.selectpicker.current.data[this.selectpicker.current.data.length - 1].position > this.sizeInfo.menuInnerHeight) {
         this.sizeInfo.hasScrollBar = true;
         this.sizeInfo.totalMenuWidth = this.sizeInfo.menuWidth + this.sizeInfo.scrollBarWidth;
-      }
 
-      if (this.options.dropdownAlignRight === 'auto') {
-        this.$menu.toggleClass(classNames.MENURIGHT, this.sizeInfo.selectOffsetLeft > this.sizeInfo.selectOffsetRight && this.sizeInfo.selectOffsetRight < (this.sizeInfo.totalMenuWidth - selectWidth));
+        this.$menu.css('min-width', this.sizeInfo.totalMenuWidth);
       }
 
       if (this.dropdown && this.dropdown._popper) this.dropdown._popper.update();
@@ -6727,6 +6787,8 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
     },
 
     checkDisabled: function () {
+      var that = this;
+
       if (this.isDisabled()) {
         this.$newElement[0].classList.add(classNames.DISABLED);
         this.$button.addClass(classNames.DISABLED).attr('tabindex', -1).attr('aria-disabled', true);
@@ -6740,6 +6802,10 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
           this.$button.removeAttr('tabindex');
         }
       }
+
+      this.$button.on('click', function () {
+        return !that.isDisabled();
+      });
     },
 
     tabIndex: function () {
@@ -6836,7 +6902,8 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
         // Don't run if the select is disabled
         if (!that.isDisabled() && !$this.parent().hasClass(classNames.DISABLED)) {
-          var option = clickedData.option,
+          var $options = that.$element.find('option'),
+              option = clickedData.option,
               $option = $(option),
               state = option.selected,
               $optgroup = $option.parent('optgroup'),
@@ -6852,7 +6919,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
           }
 
           if (!that.multiple) { // Deselect all others if not multi select box
-            if (prevOption) prevOption.selected = false;
+            prevOption.selected = false;
             option.selected = true;
             that.setSelected(clickedIndex, true);
           } else { // Toggle the one we have chosen if we are multi select.
@@ -6862,22 +6929,28 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
             $this.trigger('blur');
 
             if (maxOptions !== false || maxOptionsGrp !== false) {
-              var maxReached = maxOptions < getSelectedOptions(element).length,
+              var maxReached = maxOptions < $options.filter(':selected').length,
                   maxReachedGrp = maxOptionsGrp < $optgroup.find('option:selected').length;
 
               if ((maxOptions && maxReached) || (maxOptionsGrp && maxReachedGrp)) {
                 if (maxOptions && maxOptions == 1) {
-                  element.selectedIndex = -1;
-                  option.selected = true;
-                  that.setOptionStatus(true);
-                } else if (maxOptionsGrp && maxOptionsGrp == 1) {
-                  for (var i = 0; i < $optgroupOptions.length; i++) {
-                    var _option = $optgroupOptions[i];
-                    _option.selected = false;
-                    that.setSelected(_option.liIndex, false);
+                  $options.prop('selected', false);
+                  $option.prop('selected', true);
+
+                  for (var i = 0; i < $options.length; i++) {
+                    that.setSelected(i, false);
                   }
 
-                  option.selected = true;
+                  that.setSelected(clickedIndex, true);
+                } else if (maxOptionsGrp && maxOptionsGrp == 1) {
+                  $optgroup.find('option:selected').prop('selected', false);
+                  $option.prop('selected', true);
+
+                  for (var i = 0; i < $optgroupOptions.length; i++) {
+                    var option = $optgroupOptions[i];
+                    that.setSelected($options.index(option), false);
+                  }
+
                   that.setSelected(clickedIndex, true);
                 } else {
                   var maxOptionsText = typeof that.options.maxOptionsText === 'string' ? [that.options.maxOptionsText, that.options.maxOptionsText] : that.options.maxOptionsText,
@@ -6892,7 +6965,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
                     maxTxtGrp = maxTxtGrp.replace('{var}', maxOptionsArr[2][maxOptionsGrp > 1 ? 0 : 1]);
                   }
 
-                  option.selected = false;
+                  $option.prop('selected', false);
 
                   that.$menu.append($notify);
 
@@ -6912,11 +6985,9 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
                     that.setSelected(clickedIndex, false);
                   }, 10);
 
-                  $notify[0].classList.add('fadeOut');
-
-                  setTimeout(function () {
-                    $notify.remove();
-                  }, 1050);
+                  $notify.delay(750).fadeOut(300, function () {
+                    $(this).remove();
+                  });
                 }
               }
             }
@@ -7189,9 +7260,6 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
           scrollTop = that.$menuInner[0].scrollTop,
           isVirtual = that.isVirtual(),
           position0 = isVirtual === true ? that.selectpicker.view.position0 : 0;
-
-      // do nothing if a function key is pressed
-      if (e.which >= 112 && e.which <= 123) return;
 
       isActive = that.$newElement.hasClass(classNames.SHOW);
 
@@ -7557,7 +7625,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
   };
 
   $(document)
-    .off('keydown.bs.dropdown.data-api', '.bootstrap-select [data-toggle="dropdown"], .bootstrap-select .dropdown-menu')
+    .off('keydown.bs.dropdown.data-api')
     .on('keydown' + EVENT_KEY, '.bootstrap-select [data-toggle="dropdown"], .bootstrap-select [role="listbox"], .bootstrap-select .bs-searchbox input', Selectpicker.prototype.keydown)
     .on('focusin.modal', '.bootstrap-select [data-toggle="dropdown"], .bootstrap-select [role="listbox"], .bootstrap-select .bs-searchbox input', function (e) {
       e.stopPropagation();
@@ -12036,7 +12104,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.formaPago[data-v-3c5f3158] {\n    border: 2px solid #e6e6e6;\n    border-radius: 20px;\n    padding: 10px;\n    margin: 10px;\n    align-content: center;\n    text-align: center;\n}\n.payment[data-v-3c5f3158] {\n    margin-right: 15px;\n}\n.payment input[data-v-3c5f3158] {\n    margin: 10px;\n}\n.left[data-v-3c5f3158] {\n    text-align: justify;\n}\n.imagen[data-v-3c5f3158] {\n    border: 1px solid #6c757d;\n    padding: 5px;\n    margin: 5px;\n}\n.opps[data-v-3c5f3158] {\n    border: 1px solid grey;\n    width: 450px;\n    margin: 10px auto;\n    padding: 20px;\n    text-align: left;\n    font-size: 12px;\n}\n.opps-reminder[data-v-3c5f3158] {\n    padding: 9px 0 10px;\n    font-size: 11px;\n    text-transform: uppercase;\n    text-align: center;\n    color: #ffffff;\n    background: #000000;\n}\n.opps-info[data-v-3c5f3158] {\n    display: -webkit-box;\n    display: flex;\n    align-content: center;\n    text-align: center;\n    padding: 20px;\n}\n.reference[data-v-3c5f3158] {\n    text-align: center;\n    padding: 6px 0 7px;\n    border: 1px solid #b0afb5;\n    border-radius: 4px;\n    background: #f8f9fa;\n}\n\n", ""]);
+exports.push([module.i, "\n.formaPago[data-v-3c5f3158] {\n    border: 2px solid #e6e6e6;\n    border-radius: 20px;\n    padding: 10px;\n    margin: 10px;\n    align-content: center;\n    text-align: center;\n}\n.payment[data-v-3c5f3158] {\n    margin-right: 15px;\n}\n.payment input[data-v-3c5f3158] {\n    margin: 10px;\n}\n.left[data-v-3c5f3158] {\n    text-align: justify;\n}\n.imagen[data-v-3c5f3158] {\n    border: 1px solid #6c757d;\n    padding: 5px;\n    margin: 5px;\n}\n.opps[data-v-3c5f3158] {\n    border: 1px solid grey;\n    width: 450px;\n    margin: 10px auto;\n    padding: 20px;\n    text-align: left;\n    font-size: 12px;\n}\n.opps-reminder[data-v-3c5f3158] {\n    padding: 9px 0 10px;\n    font-size: 11px;\n    text-transform: uppercase;\n    text-align: center;\n    color: #ffffff;\n    background: #000000;\n}\n.opps-info[data-v-3c5f3158] {\n    display: flex;\n    align-content: center;\n    text-align: center;\n    padding: 20px;\n}\n.reference[data-v-3c5f3158] {\n    text-align: center;\n    padding: 6px 0 7px;\n    border: 1px solid #b0afb5;\n    border-radius: 4px;\n    background: #f8f9fa;\n}\n", ""]);
 
 // exports
 
@@ -12055,7 +12123,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.modal[data-v-53ab54d2] {\n    display: block;\n}\n.modal-enter-active[data-v-53ab54d2] {\n    -webkit-transition: all .2s ease;\n    transition: all .2s ease;\n}\n.modal-leave-active[data-v-53ab54d2] {\n    -webkit-transition: all .2s ease;\n    transition: all .2s ease;\n}\n.modal-enter[data-v-53ab54d2], .modal-leave-to[data-v-53ab54d2]\n{\n    /*transform: translatey(-100px);*/\n    opacity: 0;\n}\n.modal-body[data-v-53ab54d2] {\n    overflow: auto;\n}\n.modal-backdrop[data-v-53ab54d2] {\n    opacity: 0.7;\n}\n\n", ""]);
+exports.push([module.i, "\n.modal[data-v-53ab54d2] {\n    display: block;\n}\n.modal-enter-active[data-v-53ab54d2] {\n    transition: all .2s ease;\n}\n.modal-leave-active[data-v-53ab54d2] {\n    transition: all .2s ease;\n}\n.modal-enter[data-v-53ab54d2], .modal-leave-to[data-v-53ab54d2]\n{\n    /*transform: translatey(-100px);*/\n    opacity: 0;\n}\n.modal-body[data-v-53ab54d2] {\n    overflow: auto;\n}\n.modal-backdrop[data-v-53ab54d2] {\n    opacity: 0.7;\n}\n\n", ""]);
 
 // exports
 
@@ -12163,9 +12231,19 @@ function toComment(sourceMap) {
  * @license  MIT
  */
 
-module.exports = function isBuffer (obj) {
-  return obj != null && obj.constructor != null &&
-    typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
+// The _isBuffer check is for Safari 5-7 support, because it's missing
+// Object.prototype.constructor. Remove this eventually
+module.exports = function (obj) {
+  return obj != null && (isBuffer(obj) || isSlowBuffer(obj) || !!obj._isBuffer)
+}
+
+function isBuffer (obj) {
+  return !!obj.constructor && typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
+}
+
+// For Node v0.10 support. Remove this eventually.
+function isSlowBuffer (obj) {
+  return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
 }
 
 
@@ -12179,7 +12257,7 @@ module.exports = function isBuffer (obj) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
- * jQuery JavaScript Library v3.4.1
+ * jQuery JavaScript Library v3.4.0
  * https://jquery.com/
  *
  * Includes Sizzle.js
@@ -12189,7 +12267,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
  * Released under the MIT license
  * https://jquery.org/license
  *
- * Date: 2019-05-01T21:04Z
+ * Date: 2019-04-10T19:48Z
  */
 ( function( global, factory ) {
 
@@ -12322,7 +12400,7 @@ function toType( obj ) {
 
 
 var
-	version = "3.4.1",
+	version = "3.4.0",
 
 	// Define a local copy of jQuery
 	jQuery = function( selector, context ) {
@@ -16678,12 +16756,8 @@ var documentElement = document.documentElement;
 		},
 		composed = { composed: true };
 
-	// Support: IE 9 - 11+, Edge 12 - 18+, iOS 10.0 - 10.2 only
 	// Check attachment across shadow DOM boundaries when possible (gh-3504)
-	// Support: iOS 10.0-10.2 only
-	// Early iOS 10 versions support `attachShadow` but not `getRootNode`,
-	// leading to errors. We need to check for `getRootNode`.
-	if ( documentElement.getRootNode ) {
+	if ( documentElement.attachShadow ) {
 		isAttached = function( elem ) {
 			return jQuery.contains( elem.ownerDocument, elem ) ||
 				elem.getRootNode( composed ) === elem.ownerDocument;
@@ -17543,7 +17617,8 @@ jQuery.event = {
 
 				// Claim the first handler
 				if ( rcheckableType.test( el.type ) &&
-					el.click && nodeName( el, "input" ) ) {
+					el.click && nodeName( el, "input" ) &&
+					dataPriv.get( el, "click" ) === undefined ) {
 
 					// dataPriv.set( el, "click", ... )
 					leverageNative( el, "click", returnTrue );
@@ -17560,7 +17635,8 @@ jQuery.event = {
 
 				// Force setup before triggering a click
 				if ( rcheckableType.test( el.type ) &&
-					el.click && nodeName( el, "input" ) ) {
+					el.click && nodeName( el, "input" ) &&
+					dataPriv.get( el, "click" ) === undefined ) {
 
 					leverageNative( el, "click" );
 				}
@@ -17601,9 +17677,7 @@ function leverageNative( el, type, expectSync ) {
 
 	// Missing expectSync indicates a trigger call, which must force setup through jQuery.event.add
 	if ( !expectSync ) {
-		if ( dataPriv.get( el, type ) === undefined ) {
-			jQuery.event.add( el, type, returnTrue );
-		}
+		jQuery.event.add( el, type, returnTrue );
 		return;
 	}
 
@@ -17618,13 +17692,9 @@ function leverageNative( el, type, expectSync ) {
 			if ( ( event.isTrigger & 1 ) && this[ type ] ) {
 
 				// Interrupt processing of the outer synthetic .trigger()ed event
-				// Saved data should be false in such cases, but might be a leftover capture object
-				// from an async native handler (gh-4350)
-				if ( !saved.length ) {
+				if ( !saved ) {
 
 					// Store arguments for use when handling the inner native event
-					// There will always be at least one argument (an event object), so this array
-					// will not be confused with a leftover capture object.
 					saved = slice.call( arguments );
 					dataPriv.set( this, type, saved );
 
@@ -17637,14 +17707,14 @@ function leverageNative( el, type, expectSync ) {
 					if ( saved !== result || notAsync ) {
 						dataPriv.set( this, type, false );
 					} else {
-						result = {};
+						result = undefined;
 					}
 					if ( saved !== result ) {
 
 						// Cancel the outer synthetic event
 						event.stopImmediatePropagation();
 						event.preventDefault();
-						return result.value;
+						return result;
 					}
 
 				// If this is an inner synthetic event for an event with a bubbling surrogate
@@ -17659,19 +17729,17 @@ function leverageNative( el, type, expectSync ) {
 
 			// If this is a native event triggered above, everything is now in order
 			// Fire an inner synthetic event with the original arguments
-			} else if ( saved.length ) {
+			} else if ( saved ) {
 
 				// ...and capture the result
-				dataPriv.set( this, type, {
-					value: jQuery.event.trigger(
+				dataPriv.set( this, type, jQuery.event.trigger(
 
-						// Support: IE <=9 - 11+
-						// Extend with the prototype to reset the above stopImmediatePropagation()
-						jQuery.extend( saved[ 0 ], jQuery.Event.prototype ),
-						saved.slice( 1 ),
-						this
-					)
-				} );
+					// Support: IE <=9 - 11+
+					// Extend with the prototype to reset the above stopImmediatePropagation()
+					jQuery.extend( saved.shift(), jQuery.Event.prototype ),
+					saved,
+					this
+				) );
 
 				// Abort handling of the native event
 				event.stopImmediatePropagation();
@@ -22791,7 +22859,7 @@ return jQuery;
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
  * @license
  * Lodash <https://lodash.com/>
- * Copyright OpenJS Foundation and other contributors <https://openjsf.org/>
+ * Copyright JS Foundation and other contributors <https://js.foundation/>
  * Released under MIT license <https://lodash.com/license>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
  * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -22802,7 +22870,7 @@ return jQuery;
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.17.15';
+  var VERSION = '4.17.11';
 
   /** Used as the size to enable large array optimizations. */
   var LARGE_ARRAY_SIZE = 200;
@@ -25461,10 +25529,16 @@ return jQuery;
         value.forEach(function(subValue) {
           result.add(baseClone(subValue, bitmask, customizer, subValue, value, stack));
         });
-      } else if (isMap(value)) {
+
+        return result;
+      }
+
+      if (isMap(value)) {
         value.forEach(function(subValue, key) {
           result.set(key, baseClone(subValue, bitmask, customizer, key, value, stack));
         });
+
+        return result;
       }
 
       var keysFunc = isFull
@@ -26388,8 +26462,8 @@ return jQuery;
         return;
       }
       baseFor(source, function(srcValue, key) {
-        stack || (stack = new Stack);
         if (isObject(srcValue)) {
+          stack || (stack = new Stack);
           baseMergeDeep(object, source, key, srcIndex, baseMerge, customizer, stack);
         }
         else {
@@ -28206,7 +28280,7 @@ return jQuery;
       return function(number, precision) {
         number = toNumber(number);
         precision = precision == null ? 0 : nativeMin(toInteger(precision), 292);
-        if (precision && nativeIsFinite(number)) {
+        if (precision) {
           // Shift with exponential notation to avoid floating-point issues.
           // See [MDN](https://mdn.io/round#Examples) for more details.
           var pair = (toString(number) + 'e').split('e'),
@@ -29389,7 +29463,7 @@ return jQuery;
     }
 
     /**
-     * Gets the value at `key`, unless `key` is "__proto__" or "constructor".
+     * Gets the value at `key`, unless `key` is "__proto__".
      *
      * @private
      * @param {Object} object The object to query.
@@ -29397,10 +29471,6 @@ return jQuery;
      * @returns {*} Returns the property value.
      */
     function safeGet(object, key) {
-      if (key === 'constructor' && typeof object[key] === 'function') {
-        return;
-      }
-
       if (key == '__proto__') {
         return;
       }
@@ -33201,7 +33271,6 @@ return jQuery;
           }
           if (maxing) {
             // Handle invocations in a tight loop.
-            clearTimeout(timerId);
             timerId = setTimeout(timerExpired, wait);
             return invokeFunc(lastCallTime);
           }
@@ -37588,12 +37657,9 @@ return jQuery;
       , 'g');
 
       // Use a sourceURL for easier debugging.
-      // The sourceURL gets injected into the source that's eval-ed, so be careful
-      // with lookup (in case of e.g. prototype pollution), and strip newlines if any.
-      // A newline wouldn't be a valid sourceURL anyway, and it'd enable code injection.
       var sourceURL = '//# sourceURL=' +
-        (hasOwnProperty.call(options, 'sourceURL')
-          ? (options.sourceURL + '').replace(/[\r\n]/g, ' ')
+        ('sourceURL' in options
+          ? options.sourceURL
           : ('lodash.templateSources[' + (++templateCounter) + ']')
         ) + '\n';
 
@@ -37626,9 +37692,7 @@ return jQuery;
 
       // If `variable` is not specified wrap a with-statement around the generated
       // code to add the data object to the top of the scope chain.
-      // Like with sourceURL, we take care to not check the option's prototype,
-      // as this configuration is a code injection vector.
-      var variable = hasOwnProperty.call(options, 'variable') && options.variable;
+      var variable = options.variable;
       if (!variable) {
         source = 'with (obj) {\n' + source + '\n}\n';
       }
@@ -39833,11 +39897,10 @@ return jQuery;
     baseForOwn(LazyWrapper.prototype, function(func, methodName) {
       var lodashFunc = lodash[methodName];
       if (lodashFunc) {
-        var key = lodashFunc.name + '';
-        if (!hasOwnProperty.call(realNames, key)) {
-          realNames[key] = [];
-        }
-        realNames[key].push({ 'name': methodName, 'func': lodashFunc });
+        var key = (lodashFunc.name + ''),
+            names = realNames[key] || (realNames[key] = []);
+
+        names.push({ 'name': methodName, 'func': lodashFunc });
       }
     });
 
@@ -39908,7 +39971,7 @@ return jQuery;
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function(global) {/**!
  * @fileOverview Kickass library to create and place poppers near their reference elements.
- * @version 1.16.0
+ * @version 1.15.0
  * @license
  * Copyright (c) 2016 Federico Zivolo and contributors
  *
@@ -39930,17 +39993,16 @@ __webpack_require__.r(__webpack_exports__);
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-var isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined' && typeof navigator !== 'undefined';
+var isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
 
-var timeoutDuration = function () {
-  var longerTimeoutBrowsers = ['Edge', 'Trident', 'Firefox'];
-  for (var i = 0; i < longerTimeoutBrowsers.length; i += 1) {
-    if (isBrowser && navigator.userAgent.indexOf(longerTimeoutBrowsers[i]) >= 0) {
-      return 1;
-    }
+var longerTimeoutBrowsers = ['Edge', 'Trident', 'Firefox'];
+var timeoutDuration = 0;
+for (var i = 0; i < longerTimeoutBrowsers.length; i += 1) {
+  if (isBrowser && navigator.userAgent.indexOf(longerTimeoutBrowsers[i]) >= 0) {
+    timeoutDuration = 1;
+    break;
   }
-  return 0;
-}();
+}
 
 function microtaskDebounce(fn) {
   var called = false;
@@ -40058,17 +40120,6 @@ function getScrollParent(element) {
   }
 
   return getScrollParent(getParentNode(element));
-}
-
-/**
- * Returns the reference node of the reference object, or the reference object itself.
- * @method
- * @memberof Popper.Utils
- * @param {Element|Object} reference - the reference element (the popper will be relative to this)
- * @returns {Element} parent
- */
-function getReferenceNode(reference) {
-  return reference && reference.referenceNode ? reference.referenceNode : reference;
 }
 
 var isIE11 = isBrowser && !!(window.MSInputMethodContext && document.documentMode);
@@ -40379,8 +40430,8 @@ function getBoundingClientRect(element) {
 
   // subtract scrollbar size from sizes
   var sizes = element.nodeName === 'HTML' ? getWindowSizes(element.ownerDocument) : {};
-  var width = sizes.width || element.clientWidth || result.width;
-  var height = sizes.height || element.clientHeight || result.height;
+  var width = sizes.width || element.clientWidth || result.right - result.left;
+  var height = sizes.height || element.clientHeight || result.bottom - result.top;
 
   var horizScrollbar = element.offsetWidth - width;
   var vertScrollbar = element.offsetHeight - height;
@@ -40532,7 +40583,7 @@ function getBoundaries(popper, reference, padding, boundariesElement) {
   // NOTE: 1 DOM access here
 
   var boundaries = { top: 0, left: 0 };
-  var offsetParent = fixedPosition ? getFixedPositionOffsetParent(popper) : findCommonOffsetParent(popper, getReferenceNode(reference));
+  var offsetParent = fixedPosition ? getFixedPositionOffsetParent(popper) : findCommonOffsetParent(popper, reference);
 
   // Handle viewport case
   if (boundariesElement === 'viewport') {
@@ -40660,7 +40711,7 @@ function computeAutoPlacement(placement, refRect, popper, reference, boundariesE
 function getReferenceOffsets(state, popper, reference) {
   var fixedPosition = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
 
-  var commonOffsetParent = fixedPosition ? getFixedPositionOffsetParent(popper) : findCommonOffsetParent(popper, getReferenceNode(reference));
+  var commonOffsetParent = fixedPosition ? getFixedPositionOffsetParent(popper) : findCommonOffsetParent(popper, reference);
   return getOffsetRectRelativeToArbitraryNode(reference, commonOffsetParent, fixedPosition);
 }
 
@@ -40922,7 +40973,7 @@ function destroy() {
 
   this.disableEventListeners();
 
-  // remove the popper if user explicitly asked for the deletion on destroy
+  // remove the popper if user explicity asked for the deletion on destroy
   // do not use `remove` because IE11 doesn't support it
   if (this.options.removeOnDestroy) {
     this.popper.parentNode.removeChild(this.popper);
@@ -48068,13 +48119,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /* styles */
-__webpack_require__(8)
+__webpack_require__(7)
 
-var Component = __webpack_require__(6)(
+var Component = __webpack_require__(5)(
   /* script */
   __webpack_require__(1),
   /* template */
-  __webpack_require__(7),
+  __webpack_require__(6),
   /* scopeId */
   "data-v-25adc6c0",
   /* cssModules */
@@ -48090,7 +48141,6 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils__ = __webpack_require__(3);
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 //
@@ -48136,13 +48186,25 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 //
 //
 
-
-
 var DEFAULT_COLOR_CHECKED = '#75c791';
 var DEFAULT_COLOR_UNCHECKED = '#bfcbd9';
 var DEFAULT_LABEL_CHECKED = 'on';
 var DEFAULT_LABEL_UNCHECKED = 'off';
 var DEFAULT_SWITCH_COLOR = '#fff';
+
+var contains = function contains(object, title) {
+  return (typeof object === 'undefined' ? 'undefined' : _typeof(object)) === 'object' && object.hasOwnProperty(title);
+};
+
+var px = function px(v) {
+  return v + 'px';
+};
+
+var translate3d = function translate3d(x, y) {
+  var z = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '0px';
+
+  return 'translate3d(' + x + ', ' + y + ', ' + z + ')';
+};
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ToggleButton',
@@ -48158,9 +48220,6 @@ var DEFAULT_SWITCH_COLOR = '#fff';
       type: Boolean,
       default: false
     },
-    tag: {
-      type: String
-    },
     sync: {
       type: Boolean,
       default: false
@@ -48172,13 +48231,13 @@ var DEFAULT_SWITCH_COLOR = '#fff';
     color: {
       type: [String, Object],
       validator: function validator(value) {
-        return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__utils__["a" /* isString */])(value) || __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__utils__["b" /* has */])(value, 'checked') || __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__utils__["b" /* has */])(value, 'unchecked') || __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__utils__["b" /* has */])(value, 'disabled');
+        return (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object' ? value.checked || value.unchecked || value.disabled : typeof value === 'string';
       }
     },
     switchColor: {
       type: [String, Object],
       validator: function validator(value) {
-        return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__utils__["a" /* isString */])(value) || __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__utils__["b" /* has */])(value, 'checked') || __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__utils__["b" /* has */])(value, 'unchecked');
+        return (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object' ? value.checked || value.unchecked : typeof value === 'string';
       }
     },
     cssColors: {
@@ -48214,36 +48273,33 @@ var DEFAULT_SWITCH_COLOR = '#fff';
           disabled = this.disabled;
 
 
-      return ['vue-js-switch', {
-        toggled: toggled,
-        disabled: disabled
-      }];
+      return ['vue-js-switch', { toggled: toggled, disabled: disabled }];
     },
     coreStyle: function coreStyle() {
       return {
-        width: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__utils__["c" /* px */])(this.width),
-        height: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__utils__["c" /* px */])(this.height),
+        width: px(this.width),
+        height: px(this.height),
         backgroundColor: this.cssColors ? null : this.disabled ? this.colorDisabled : this.colorCurrent,
-        borderRadius: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__utils__["c" /* px */])(Math.round(this.height / 2))
+        borderRadius: px(Math.round(this.height / 2))
       };
     },
     buttonRadius: function buttonRadius() {
       return this.height - this.margin * 2;
     },
     distance: function distance() {
-      return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__utils__["c" /* px */])(this.width - this.height + this.margin);
+      return px(this.width - this.height + this.margin);
     },
     buttonStyle: function buttonStyle() {
       var transition = 'transform ' + this.speed + 'ms';
-      var margin = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__utils__["c" /* px */])(this.margin);
+      var margin = px(this.margin);
 
-      var transform = this.toggled ? __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__utils__["d" /* translate3d */])(this.distance, margin) : __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__utils__["d" /* translate3d */])(margin, margin);
+      var transform = this.toggled ? translate3d(this.distance, margin) : translate3d(margin, margin);
 
       var background = this.switchColor ? this.switchColorCurrent : null;
 
       return {
-        width: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__utils__["c" /* px */])(this.buttonRadius),
-        height: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__utils__["c" /* px */])(this.buttonRadius),
+        width: px(this.buttonRadius),
+        height: px(this.buttonRadius),
         transition: transition,
         transform: transform,
         background: background
@@ -48251,47 +48307,65 @@ var DEFAULT_SWITCH_COLOR = '#fff';
     },
     labelStyle: function labelStyle() {
       return {
-        lineHeight: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__utils__["c" /* px */])(this.height),
-        fontSize: this.fontSize ? __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__utils__["c" /* px */])(this.fontSize) : null
+        lineHeight: px(this.height),
+        fontSize: this.fontSize ? px(this.fontSize) : null
       };
     },
     colorChecked: function colorChecked() {
       var color = this.color;
 
 
-      if (!__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__utils__["e" /* isObject */])(color)) {
+      if ((typeof color === 'undefined' ? 'undefined' : _typeof(color)) !== 'object') {
         return color || DEFAULT_COLOR_CHECKED;
       }
 
-      return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__utils__["f" /* get */])(color, 'checked', DEFAULT_COLOR_CHECKED);
+      return contains(color, 'checked') ? color.checked : DEFAULT_COLOR_CHECKED;
     },
     colorUnchecked: function colorUnchecked() {
-      return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__utils__["f" /* get */])(this.color, 'unchecked', DEFAULT_COLOR_UNCHECKED);
+      var color = this.color;
+
+
+      return contains(color, 'unchecked') ? color.unchecked : DEFAULT_COLOR_UNCHECKED;
     },
     colorDisabled: function colorDisabled() {
-      return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__utils__["f" /* get */])(this.color, 'disabled', this.colorCurrent);
+      var color = this.color;
+
+
+      return contains(color, 'disabled') ? color.disabled : this.colorCurrent;
     },
     colorCurrent: function colorCurrent() {
       return this.toggled ? this.colorChecked : this.colorUnchecked;
     },
     labelChecked: function labelChecked() {
-      return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__utils__["f" /* get */])(this.labels, 'checked', DEFAULT_LABEL_CHECKED);
+      var labels = this.labels;
+
+
+      return contains(labels, 'checked') ? labels.checked : DEFAULT_LABEL_CHECKED;
     },
     labelUnchecked: function labelUnchecked() {
-      return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__utils__["f" /* get */])(this.labels, 'unchecked', DEFAULT_LABEL_UNCHECKED);
+      var labels = this.labels;
+
+
+      return contains(labels, 'unchecked') ? labels.unchecked : DEFAULT_LABEL_UNCHECKED;
     },
     switchColorChecked: function switchColorChecked() {
-      return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__utils__["f" /* get */])(this.switchColor, 'checked', DEFAULT_SWITCH_COLOR);
+      var switchColor = this.switchColor;
+
+
+      return contains(switchColor, 'checked') ? switchColor.checked : DEFAULT_SWITCH_COLOR;
     },
     switchColorUnchecked: function switchColorUnchecked() {
-      return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__utils__["f" /* get */])(this.switchColor, 'unchecked', DEFAULT_SWITCH_COLOR);
+      var switchColor = this.switchColor;
+
+
+      return contains(switchColor, 'unchecked') ? switchColor.unchecked : DEFAULT_SWITCH_COLOR;
     },
     switchColorCurrent: function switchColorCurrent() {
       var switchColor = this.switchColor;
 
 
-      if (!__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__utils__["e" /* isObject */])(this.switchColor)) {
-        return this.switchColor || DEFAULT_SWITCH_COLOR;
+      if ((typeof switchColor === 'undefined' ? 'undefined' : _typeof(switchColor)) !== 'object') {
+        return switchColor || DEFAULT_SWITCH_COLOR;
       }
 
       return this.toggled ? this.switchColorChecked : this.switchColorUnchecked;
@@ -48312,16 +48386,10 @@ var DEFAULT_SWITCH_COLOR = '#fff';
 
   methods: {
     toggle: function toggle(event) {
-      var toggled = !this.toggled;
-
-      if (!this.sync) {
-        this.toggled = toggled;
-      }
-
-      this.$emit('input', toggled);
+      this.toggled = !this.toggled;
+      this.$emit('input', this.toggled);
       this.$emit('change', {
-        value: toggled,
-        tag: this.tag,
+        value: this.toggled,
         srcEvent: event
       });
     }
@@ -48356,53 +48424,9 @@ var installed = false;
 
 /***/ }),
 /* 3 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return isString; });
-/* unused harmony export isBoolean */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return isObject; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return has; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return get; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return px; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return translate3d; });
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-var isString = function isString(value) {
-  return typeof value === 'string';
-};
-
-var isBoolean = function isBoolean(value) {
-  return typeof value === 'boolean';
-};
-
-var isObject = function isObject(value) {
-  return (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object';
-};
-
-var has = function has(object, key) {
-  return isObject(object) && object.hasOwnProperty(key);
-};
-
-var get = function get(object, key, defaultValue) {
-  return has(object, key) ? object[key] : defaultValue;
-};
-
-var px = function px(value) {
-  return value + 'px';
-};
-
-var translate3d = function translate3d(x, y) {
-  var z = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '0px';
-
-  return 'translate3d(' + x + ', ' + y + ', ' + z + ')';
-};
-
-/***/ }),
-/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(5)();
+exports = module.exports = __webpack_require__(4)();
 // imports
 
 
@@ -48413,7 +48437,7 @@ exports.push([module.i, ".vue-js-switch[data-v-25adc6c0]{display:inline-block;po
 
 
 /***/ }),
-/* 5 */
+/* 4 */
 /***/ (function(module, exports) {
 
 /*
@@ -48469,7 +48493,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 6 */
+/* 5 */
 /***/ (function(module, exports) {
 
 // this module is a runtime utility for cleaner component module output and will
@@ -48526,7 +48550,7 @@ module.exports = function normalizeComponent (
 
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -48568,20 +48592,20 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 },staticRenderFns: []}
 
 /***/ }),
-/* 8 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(4);
+var content = __webpack_require__(3);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(9)("2283861f", content, true);
+var update = __webpack_require__(8)("2283861f", content, true);
 
 /***/ }),
-/* 9 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -48600,7 +48624,7 @@ if (typeof DEBUG !== 'undefined' && DEBUG) {
   ) }
 }
 
-var listToStyles = __webpack_require__(10)
+var listToStyles = __webpack_require__(9)
 
 /*
 type StyleObject = {
@@ -48802,7 +48826,7 @@ function applyToTag (styleElement, obj) {
 
 
 /***/ }),
-/* 10 */
+/* 9 */
 /***/ (function(module, exports) {
 
 /**
@@ -49033,6 +49057,10 @@ var render = function() {
                     }
                   }),
                   _vm._v(" "),
+                  _c("form-error", {
+                    attrs: { name: "nombres", errors: _vm.errors }
+                  }),
+                  _vm._v(" "),
                   _c("input", {
                     directives: [
                       {
@@ -49059,6 +49087,10 @@ var render = function() {
                     }
                   }),
                   _vm._v(" "),
+                  _c("form-error", {
+                    attrs: { name: "apellidos", errors: _vm.errors }
+                  }),
+                  _vm._v(" "),
                   _c("input", {
                     directives: [
                       {
@@ -49081,13 +49113,17 @@ var render = function() {
                     }
                   }),
                   _vm._v(" "),
+                  _c("form-error", {
+                    attrs: { name: "email", errors: _vm.errors }
+                  }),
+                  _vm._v(" "),
                   _c("input", {
                     directives: [
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.informacion.email_confirmacion,
-                        expression: "informacion.email_confirmacion"
+                        value: _vm.informacion.email_confirmation,
+                        expression: "informacion.email_confirmation"
                       }
                     ],
                     staticClass: "form-control",
@@ -49095,7 +49131,7 @@ var render = function() {
                       placeholder:
                         "Por favor ingresa de nuevo tu correo electrónico"
                     },
-                    domProps: { value: _vm.informacion.email_confirmacion },
+                    domProps: { value: _vm.informacion.email_confirmation },
                     on: {
                       input: function($event) {
                         if ($event.target.composing) {
@@ -49103,7 +49139,7 @@ var render = function() {
                         }
                         _vm.$set(
                           _vm.informacion,
-                          "email_confirmacion",
+                          "email_confirmation",
                           $event.target.value
                         )
                       }
@@ -49111,8 +49147,7 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c("form-error", {
-                    staticStyle: { "margin-left": "10px" },
-                    attrs: { name: "email_confirmacion", errors: _vm.errors }
+                    attrs: { name: "email_confirmation", errors: _vm.errors }
                   }),
                   _vm._v(" "),
                   _c("input", {
@@ -49138,7 +49173,6 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c("form-error", {
-                    staticStyle: { "margin-left": "10px" },
                     attrs: { name: "numero", errors: _vm.errors }
                   }),
                   _vm._v(" "),
@@ -49174,7 +49208,6 @@ var render = function() {
                         }),
                         _vm._v(" "),
                         _c("form-error", {
-                          staticStyle: { "margin-left": "10px" },
                           attrs: { name: "mes", errors: _vm.errors }
                         })
                       ],
@@ -49212,7 +49245,6 @@ var render = function() {
                         }),
                         _vm._v(" "),
                         _c("form-error", {
-                          staticStyle: { "margin-left": "10px" },
                           attrs: { name: "ano", errors: _vm.errors }
                         })
                       ],
@@ -49250,7 +49282,6 @@ var render = function() {
                         }),
                         _vm._v(" "),
                         _c("form-error", {
-                          staticStyle: { "margin-left": "10px" },
                           attrs: { name: "codigo", errors: _vm.errors }
                         })
                       ],
@@ -49484,6 +49515,10 @@ var render = function() {
                     }
                   }),
                   _vm._v(" "),
+                  _c("form-error", {
+                    attrs: { name: "nombres", errors: _vm.errors }
+                  }),
+                  _vm._v(" "),
                   _c("input", {
                     directives: [
                       {
@@ -49510,6 +49545,10 @@ var render = function() {
                     }
                   }),
                   _vm._v(" "),
+                  _c("form-error", {
+                    attrs: { name: "apellidos", errors: _vm.errors }
+                  }),
+                  _vm._v(" "),
                   _c("input", {
                     directives: [
                       {
@@ -49532,13 +49571,17 @@ var render = function() {
                     }
                   }),
                   _vm._v(" "),
+                  _c("form-error", {
+                    attrs: { name: "email", errors: _vm.errors }
+                  }),
+                  _vm._v(" "),
                   _c("input", {
                     directives: [
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.informacion.email_confirmacion,
-                        expression: "informacion.email_confirmacion"
+                        value: _vm.informacion.email_confirmation,
+                        expression: "informacion.email_confirmation"
                       }
                     ],
                     staticClass: "form-control",
@@ -49546,7 +49589,7 @@ var render = function() {
                       placeholder:
                         "Por favor ingresa de nuevo tu correo electrónico"
                     },
-                    domProps: { value: _vm.informacion.email_confirmacion },
+                    domProps: { value: _vm.informacion.email_confirmation },
                     on: {
                       input: function($event) {
                         if ($event.target.composing) {
@@ -49554,11 +49597,15 @@ var render = function() {
                         }
                         _vm.$set(
                           _vm.informacion,
-                          "email_confirmacion",
+                          "email_confirmation",
                           $event.target.value
                         )
                       }
                     }
+                  }),
+                  _vm._v(" "),
+                  _c("form-error", {
+                    attrs: { name: "email_confirmation", errors: _vm.errors }
                   }),
                   _vm._v(" "),
                   _c("input", {
@@ -49585,6 +49632,10 @@ var render = function() {
                         )
                       }
                     }
+                  }),
+                  _vm._v(" "),
+                  _c("form-error", {
+                    attrs: { name: "telefono", errors: _vm.errors }
                   }),
                   _vm._v(" "),
                   _c("form-error", {
@@ -49719,6 +49770,10 @@ var render = function() {
                     }
                   }),
                   _vm._v(" "),
+                  _c("form-error", {
+                    attrs: { name: "nombres", errors: _vm.errors }
+                  }),
+                  _vm._v(" "),
                   _c("input", {
                     directives: [
                       {
@@ -49745,6 +49800,10 @@ var render = function() {
                     }
                   }),
                   _vm._v(" "),
+                  _c("form-error", {
+                    attrs: { name: "apellidos", errors: _vm.errors }
+                  }),
+                  _vm._v(" "),
                   _c("input", {
                     directives: [
                       {
@@ -49767,13 +49826,17 @@ var render = function() {
                     }
                   }),
                   _vm._v(" "),
+                  _c("form-error", {
+                    attrs: { name: "email", errors: _vm.errors }
+                  }),
+                  _vm._v(" "),
                   _c("input", {
                     directives: [
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.informacion.email_confirmacion,
-                        expression: "informacion.email_confirmacion"
+                        value: _vm.informacion.email_confirmation,
+                        expression: "informacion.email_confirmation"
                       }
                     ],
                     staticClass: "form-control",
@@ -49781,7 +49844,7 @@ var render = function() {
                       placeholder:
                         "Por favor ingresa de nuevo tu correo electrónico"
                     },
-                    domProps: { value: _vm.informacion.email_confirmacion },
+                    domProps: { value: _vm.informacion.email_confirmation },
                     on: {
                       input: function($event) {
                         if ($event.target.composing) {
@@ -49789,11 +49852,15 @@ var render = function() {
                         }
                         _vm.$set(
                           _vm.informacion,
-                          "email_confirmacion",
+                          "email_confirmation",
                           $event.target.value
                         )
                       }
                     }
+                  }),
+                  _vm._v(" "),
+                  _c("form-error", {
+                    attrs: { name: "email_confirmation", errors: _vm.errors }
                   }),
                   _vm._v(" "),
                   _c("input", {
@@ -49820,6 +49887,10 @@ var render = function() {
                         )
                       }
                     }
+                  }),
+                  _vm._v(" "),
+                  _c("form-error", {
+                    attrs: { name: "telefono", errors: _vm.errors }
                   }),
                   _vm._v(" "),
                   _c("form-error", {
@@ -50198,7 +50269,7 @@ var render = function() {
       _vm._t("default"),
       _vm._v(" "),
       _vm.errors[_vm.name] != undefined
-        ? _c("strong", { staticClass: "small text-danger" }, [
+        ? _c("strong", { staticClass: "form-error small text-danger" }, [
             _vm._v("\n        " + _vm._s(_vm.getError) + "\n    ")
           ])
         : _vm._e()
@@ -63706,8 +63777,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/laptop-2/Documents/code/acton/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/laptop-2/Documents/code/acton/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/david/code/acton/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/david/code/acton/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

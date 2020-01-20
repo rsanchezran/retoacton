@@ -73,6 +73,7 @@ class UserController extends Controller
         }
 
         $usuarios = $usuarios->select(['users.*', 'contactos.medio'])->paginate(20);
+        $comision = intval(env('COMISION'));
 
         foreach ($usuarios as $usuario) {
             $usuario->dias_reto = 0;
@@ -80,7 +81,10 @@ class UserController extends Controller
                 $dias = Carbon::now()->diffInDays(Carbon::parse($usuario->inicio_reto));
                 $usuario->dias_reto = $dias;
             }
-            $usuario->depositado = $usuario->ingresados_reto*(intval(env('COMISION')));
+            $usuario->total = $usuario->ingresados * $comision;
+            $usuario->depositado = $usuario->total - $usuario->saldo;
+            $usuario->pendientes = $usuario->saldo / $comision;
+            $usuario->pagados = $usuario->depositado / $comision;
         }
 
         return $usuarios;
@@ -89,18 +93,18 @@ class UserController extends Controller
     public function imagenes($usuario_id)
     {
         $web = '/reto/getImagen/reto/'; //ruta para imagenes route /reto/getImagen... en carpeta .../reto
-        $usuario = User::select('id', 'name','inicio_reto')->where('id', $usuario_id)->get()->first();
+        $usuario = User::select('id', 'name', 'inicio_reto')->where('id', $usuario_id)->get()->first();
         $links = collect();
         $dias = UsuarioDia::where('usuario_id', $usuario_id)->orderBy('dia_id')->get()->keyBy('dia_id');
         $dias_reto = Carbon::now()->diffInDays($usuario->inicio_reto);
-        for ($i=1;$i<$dias_reto;$i++){
+        for ($i = 1; $i < $dias_reto; $i++) {
             $dia = $dias->get($i);
             if ($dia === null) {
                 $dia = new UsuarioDia();
                 $dia->imagen = '/images/none.png';
                 $dia->comentario = '';
-            }else{
-                $dia->imagen = $web . $usuario_id . '/' . ($i).'/'.(Utils::generarRandomString(10));
+            } else {
+                $dia->imagen = $web . $usuario_id . '/' . ($i) . '/' . (Utils::generarRandomString(10));
                 $dia->comentario = $dia->comentario == null ? '' : $dia->comentario;
             }
             $dia->comentar = 0;
@@ -121,28 +125,32 @@ class UserController extends Controller
         return view('users.encuesta', ['usuario' => $usuario]);
     }
 
-    public function pagar(Request $request){
+    public function pagar(Request $request)
+    {
         $user = User::find($request->id);
-        if ($user != null && $user->saldo > 0){
+        if ($user != null && $user->saldo > 0) {
             $user->cobrado = 1;
             $user->saldo = 0;
             $user->save();
         }
     }
 
-    public function getReferencias(Request $request){
+    public function getReferencias(Request $request)
+    {
         $referencias = User::select(["id", "name", "email", "created_at"])->where('codigo', $request->user()->referencia);
         return $referencias->paginate(5);
     }
 
-    public function bajar(Request $request){
+    public function bajar(Request $request)
+    {
         $usuario = User::find($request->id);
         $usuario->pass = '';
         $usuario->delete();
-        return response()->json(['status'=>'ok', 'redirect'=>url('/usuarios/')]);
+        return response()->json(['status' => 'ok', 'redirect' => url('/usuarios/')]);
     }
 
-    public function verReferencias(Request $request){
+    public function verReferencias(Request $request)
+    {
         $usuario = User::find($request->id);
         if ($usuario !== null) {
             $referencias = User::where('codigo', $usuario->referencia)->whereNull('deleted_at')->get();
@@ -150,16 +158,18 @@ class UserController extends Controller
         }
     }
 
-    public function cambiarDias(Request $request){
+    public function cambiarDias(Request $request)
+    {
         $usuario = User::find($request->id);
         if ($usuario !== null) {
             $usuario->inicio_reto = Carbon::now();
-            $usuario->inicio_reto->subDays($request->dias_reto-1);
+            $usuario->inicio_reto->subDays($request->dias_reto - 1);
             $usuario->save();
         }
     }
 
-    public function exportar($filtros){
+    public function exportar($filtros)
+    {
         $this->authorize('usuarios');
         $campos = json_decode($filtros);
         $usuarios = User::join('contactos', 'contactos.email', 'users.email')->where('rol', '!=', RolUsuario::ADMIN);
@@ -224,8 +234,8 @@ class UserController extends Controller
         $sheet->setCellValueByColumnAndRow(9, 1, 'objetivo');
         $sheet->setCellValueByColumnAndRow(10, 1, 'Tipo de pago');
         $row++;
-        foreach ($usuarios as $usuario){
-            $sheet->setCellValueByColumnAndRow(1, $row, $usuario->name.' '.$usuario->last_name);
+        foreach ($usuarios as $usuario) {
+            $sheet->setCellValueByColumnAndRow(1, $row, $usuario->name . ' ' . $usuario->last_name);
             $sheet->setCellValueByColumnAndRow(2, $row, $usuario->email);
             $sheet->setCellValueByColumnAndRow(3, $row, $usuario->referencia);
             $sheet->setCellValueByColumnAndRow(4, $row, $usuario->fecha_inscripcion);

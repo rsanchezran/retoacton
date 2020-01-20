@@ -36,34 +36,16 @@
             color: #929292;
         }
 
-        #pagar {
-            display: flex;
-            align-items: center;
-            width: 200px;
-            margin: auto;
-            padding: 5px 10px;
-            border:2px solid #BA1811;
-            border-radius: 8px;
-            background-color: #FFDA00;
-            color: #9C1F2D;
-            font-family: unitext_bold_cursive;
-        }
-
-        #infoPago{
-            display: flex;
-            flex-direction: column;
-        }
-
-        #infoPago label{
-            margin-bottom: 0;
-        }
-
         #bienvenida{
             background-repeat: no-repeat;
             background-image: url('{{asset('/img/postergris.png')}}');
             background-position: top right;
             background-size: 150px;
             height: 100px;
+        }
+
+        .form-error{
+            margin-left: 10px;
         }
 
     </style>
@@ -119,13 +101,13 @@
             </div>
             <br>
             <div class="d-flex col-12" style="display: block; margin: auto">
-                <div  id="pago" class="col-12 text-center" style="display: block; margin: auto">
+                <div v-show="sent" id="pago" class="col-12 text-center" style="display: block; margin: auto">
                     <h6 style="font-size: 1.7em">¡Gracias por compartirnos tus datos,</h6>
                     <h6 style="font-size: 1.7em"> nos encantará ayudarte!</h6>
                     <h6 style="font-size: 1.7em"> El costo para unirte y tener los </h6>
                     <h6 style="font-size: 1.7em"> beneficios del <b class="text-uppercase">Reto Acton</b> es de: </h6>
                     <label style="font-size: 1.4rem; font-family: unitext_bold_cursive">
-                        <money id="cobro_anterior" cantidad="{{env("COBRO_ORIGINAL")}}" :decimales="0"
+                        <money id="cobro_anterior" :cantidad="monto" :decimales="0"
                                estilo="font-size:1.2em; color:#000000" adicional=" MXN"
                                :caracter="true"></money>
                     </label>
@@ -137,13 +119,13 @@
                     <div id="pagar">
                             <div>a solo</div>
                             <div style="font-size: 1.5rem; margin-left: 5px">
-                                <money cantidad="{{env('COBRO')}}" :caracter="true" :decimales="0"
+                                <money :cantidad="descuento" :caracter="true" :decimales="0"
                                        estilo="font-size:1.5em; font-weight: bold"></money>
                             </div>
                     </div>
                     <br>
                     <h6 style="color: #000;">Estas son las formas de realizar tu pago de manera segura</h6>
-                    <cobro ref="cobro" :cobro="'{{env('COBRO')}}'" :url="'{{url('/')}}'" :id="'{{env('OPENPAY_ID')}}'"
+                    <cobro ref="cobro" :cobro="descuento" :url="'{{url('/')}}'" :id="'{{env('OPENPAY_ID')}}'"
                            :llave="'{{env('OPENPAY_PUBLIC')}}'" :sandbox="'{{env('SANDBOX')}}'==true" :meses="true"
                            @terminado="terminado"></cobro>
                 </div>
@@ -176,6 +158,8 @@
                     loading: false,
                     encontrado: null,
                     referencia: '',
+                    monto:'0',
+                    descuento:'0'
                 }
             },
             methods: {
@@ -199,8 +183,16 @@
                     let vm = this;
                     vm.errors = [];
                     if (vm.informacion.nombres != '' && vm.informacion.apellidos != '' && vm.informacion.email != '') {
+                        this.informacion.nombres = this.informacion.nombres.trim();
+                        this.informacion.apellidos = this.informacion.apellidos.trim();
+                        this.informacion.email = this.informacion.email.trim();
+                        this.informacion.telefono = this.informacion.telefono.trim();
+                        this.informacion.codigo = this.informacion.codigo.trim();
+
                         axios.post("{{url("saveContacto")}}", this.informacion).then(function (response) {
                             if (response.data.status == 'ok') {
+                                vm.monto = response.data.monto;
+                                vm.descuento = response.data.descuento;
                                 vm.sent = true;
                                 vm.$refs.cobro.configurar(
                                     vm.informacion.nombres,

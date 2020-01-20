@@ -42,11 +42,16 @@
         .card-b {
             border-bottom: 1px solid lightgray ;
         }
+
+        h6 {
+            color: #929292;
+        }
     </style>
 @endsection
 @section('content')
     <div id="pago" class="container flex-center">
-        <registro class="pt-5" :urls="{{$urls}}" :p_pregunta="{{$pregunta}}" :p_contacto="{{$contacto}}"></registro>
+        <registro class="pt-5" :urls="{{$urls}}" :p_pregunta="{{$pregunta}}" :p_contacto="{{$contacto}}" :monto="'{{$monto}}'"
+                  :descuento="'{{$descuento}}'"></registro>
     </div>
     <template id="registro-template">
         <div>
@@ -73,15 +78,29 @@
                         <source :src="'{{url('/getVideo')}}/'+srcVideo">
                     </video>
                 </div>
-                <div class="d-block mr-auto ml-auto col-8">
-                    <div class="col-8 text-center d-block ml-auto mr-auto">
+                <div class="d-flex col-12" style="display: block; margin: auto">
+                    <div id="pago" class="col-12 text-center" style="display: block; margin: auto">
                         <h6 class="bigText">Para unirte y tener los beneficios del <b class="acton">Reto Acton</b> el costo es de</h6>
-                        <money id="cobro_anterior" cantidad="{{env("COBRO_ORIGINAL")}}" estilo="font-size:1.2em; color:#000000" :caracter="true"></money>
-                        <h6 style="color: #000;">aprovecha el 50% de descuento ÚLTIMOS DIAS</h6>
-                        <button id="pagar">a solo <money cantidad="{{env('COBRO')}}" :caracter="true" estilo="font-size:1.5em; font-weight: bold"></money></button>
-                        <h6 style="color: #000;">Estas son las formas en que puedes hacer tu pago:</h6>
+                        <label style="font-size: 1.4rem; font-family: unitext_bold_cursive">
+                            <money id="cobro_anterior" :cantidad="monto" :decimales="0"
+                                   estilo="font-size:1.2em; color:#000000" adicional=" MXN"
+                                   :caracter="true"></money>
+                        </label>
+                        <div id="infoPago">
+                            <label style="font-size: 1rem; color: #000; font-family: unitext_bold_cursive">aprovecha el </label>
+                            <label style="font-size: 1.4rem; margin-top: -5px; font-family: unitext_bold_cursive">55% de descuento </label>
+                            <label style="color: #000; font-weight: bold; font-family: unitext_bold_cursive">ÚLTIMO DIA</label>
+                        </div>
+                        <div id="pagar">
+                            <div>a solo</div>
+                            <div style="font-size: 1.5rem; margin-left: 5px">
+                                <money :cantidad="descuento" :caracter="true" :decimales="0"
+                                       estilo="font-size:1.5em; font-weight: bold"></money>
+                            </div>
+                        </div>
                         <br>
-                        <cobro ref="cobro" :cobro="'{{env('COBRO')}}'" :url="'{{url('/')}}'" :id="'{{env('OPENPAY_ID')}}'"
+                        <h6 style="color: #000;">Estas son las formas de realizar tu pago de manera segura</h6>
+                        <cobro ref="cobro" :cobro="descuento" :url="'{{url('/')}}'" :id="'{{env('OPENPAY_ID')}}'"
                                :llave="'{{env('OPENPAY_PUBLIC')}}'" :sandbox="'{{env('SANDBOX')}}'==true" :meses="true"
                                @terminado="terminado"></cobro>
                     </div>
@@ -98,7 +117,7 @@
 <script>
     Vue.component('registro', {
         template: '#registro-template',
-        props: ['urls', 'p_pregunta','p_contacto'],
+        props: ['urls', 'p_pregunta','p_contacto', 'monto', 'descuento'],
         data: function () {
             return {
                 errors: [],

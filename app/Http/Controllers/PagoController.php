@@ -44,8 +44,8 @@ class PagoController extends Controller
             'telefono' => 'nullable|numeric|max:9999999999|integer',
             'numero' => 'required|max:16|min:16', //numero tarjeta
             'codigo' => 'required|digits:3', //cvv
-            'mes' => ['required','digits:2','regex:/((0[1-9])|(1[0-2])){1}/'],
-            'ano' => ['required','digits:2'],
+            'mes' => ['required', 'digits:2', 'regex:/((0[1-9])|(1[0-2])){1}/'],
+            'ano' => ['required', 'digits:2'],
         ], [
             'nombres.required' => 'Este campo es obligatorio',
             'nombres.min' => 'Debe capturar mínimo 2 caracteres',
@@ -90,7 +90,7 @@ class PagoController extends Controller
             $cobro = $usuario == null ? env("COBRO") : env("COBRO2");
             $openpay = \Openpay::getInstance(
                 env('OPENPAY_ID'),
-                 env('OPENPAY_PRIVATE')
+                env('OPENPAY_PRIVATE')
             );
             \Openpay::setSandboxMode(env('SANDBOX'));
             $customer = array(
@@ -107,15 +107,14 @@ class PagoController extends Controller
                 'device_session_id' => $request->deviceSessionId,
                 'customer' => $customer
             );
-            if ($request->meses){
-                $chargeRequest["payment_plan"]=["payments"=>3];
+            if ($request->meses) {
+                $chargeRequest["payment_plan"] = ["payments" => 3];
             }
             $openpay->charges->create($chargeRequest);
             $tarjeta = $request->deposito ? $request->numero : null;
             if ($usuario == null) {
-                User::crear($request->nombres, $request->apellidos, $request->email,'tarjeta',
-                    $tarjeta, 0, $request->pregunta);
-                if($request->pregunta != '')
+                User::crear($request->nombres, $request->apellidos, $request->email, 'tarjeta', 0, $request->pregunta);
+                if ($request->pregunta != '')
                     $this->aumentarSaldo($request->pregunta);
                 $usuario = User::where('email', $request->email)->get()->first();
                 $respuesta = new Respuesta();
@@ -125,6 +124,7 @@ class PagoController extends Controller
                 $respuesta->save();
             } else {
                 $usuario->objetivo = 0;
+                $usuario->correo_enviado = 0;
                 $usuario->pagado = true;
                 $usuario->fecha_inscripcion = Carbon::now();
                 $usuario->inicio_reto = Carbon::now();
@@ -132,11 +132,15 @@ class PagoController extends Controller
                 $mensaje = new \stdClass();
                 $mensaje->subject = "Bienvenido de nuevo al Reto Acton";
                 $mensaje->pass = "";
-                Mail::queue(new Registro($usuario, $mensaje));
+                try{
+                    Mail::queue(new Registro($usuario, $mensaje));
+                    $usuario->correo_enviado = 1;
+                    $usuario->save();
+                }catch (\Exception $e){}
             }
             \DB::commit();
         } catch (\Exception $e) {
-            return response()->json(['status' => 'error', 'redirect' => url('login'), 'codigo'=>$e->getCode(),'error'=>$e->getMessage()]);
+            return response()->json(['status' => 'error', 'redirect' => url('login'), 'codigo' => $e->getCode(), 'error' => $e->getMessage()]);
         }
         return response()->json(['status' => 'ok', 'redirect' => url('login')]);
     }
@@ -153,14 +157,14 @@ class PagoController extends Controller
                     array(
                         'name' => 'Acton',
                         'description' => 'Acton reto',
-                        'unit_price' => ($usuario == null ? env("COBRO") : env("COBRO2"))."00",
+                        'unit_price' => ($usuario == null ? env("COBRO") : env("COBRO2")) . "00",
                         'quantity' => 1,
                     )
                 ),
                 'currency' => 'mxn',
                 'customer_info' => array(
                     'name' => $request->nombres,
-                    'phone' => $request->telefono,
+                    'phone' => '52'.$request->telefono,
                     'email' => $request->email
                 ),
                 'charges' => array(
@@ -185,7 +189,9 @@ class PagoController extends Controller
             $contacto->objetivo = 0;
             $contacto->codigo = $request->pregunta;
             $contacto->save();
-            Mail::queue(new EnviarFicha($contacto, $orden));
+            try{
+                Mail::queue(new EnviarFicha($contacto, $orden));
+            }catch(\Exception $e){}
             return response()->json(['status' => 'ok', 'referencia' => $orden->referencia, 'monto' => $orden->monto,
                 'origen' => $orden->origen]);
         } catch (\Conekta\ProcessingError $e) {
@@ -208,7 +214,7 @@ class PagoController extends Controller
                     array(
                         "name" => "Acton",
                         "description" => "Acton reto",
-                        'unit_price' => ($usuario == null ? env("COBRO") : env("COBRO2"))."00",
+                        'unit_price' => ($usuario == null ? env("COBRO") : env("COBRO2")) . "00",
                         "quantity" => 1
                     )//first line_item
                 ), //line_items
@@ -216,7 +222,7 @@ class PagoController extends Controller
                 "customer_info" => array(
                     "name" => $request->nombres,
                     "email" => $request->email,
-                    "phone" => $request->telefono
+                    'phone' => '52'.$request->telefono,
                 ), //customer_info
                 "charges" => array(
                     array(
@@ -236,11 +242,13 @@ class PagoController extends Controller
             $orden->referencia = $order["charges"][0]["payment_method"]["clabe"];
             $orden->monto = ($order->amount / 100);
             $orden->origen = "spei";
-            Mail::queue(new EnviarFicha($contacto, $orden));
             $contacto->telefono = $request->telefono;
             $contacto->objetivo = 0;
             $contacto->codigo = $request->pregunta;
             $contacto->save();
+            try{
+                Mail::queue(new EnviarFicha($contacto, $orden));
+            }catch (\Exception $e){}
             return response()->json(['status' => 'ok', 'referencia' => $orden->referencia, 'monto' => $orden->monto,
                 'origen' => $orden->origen]);
         } catch (\Conekta\ProcessingError $e) {
@@ -257,7 +265,7 @@ class PagoController extends Controller
         $objetivo = 0;
         if ($usuario == null) {
             User::crear($request->nombres, $request->apellidos, $request->email,
-                'paypal', $objetivo, $request->genero, $request->pregunta);
+                'paypal', $objetivo, $request->pregunta);
             $this->aumentarSaldo($request->pregunta);
         } else {
             $usuario->objetivo = $objetivo;
@@ -267,12 +275,16 @@ class PagoController extends Controller
             $mensaje = new \stdClass();
             $mensaje->subject = "Bienvenido de nuevo al Reto Acton";
             $mensaje->pass = "";
-            Mail::queue(new Registro($usuario, $mensaje));
+            try{
+                Mail::queue(new Registro($usuario, $mensaje));
+                $usuario->correo_enviado = 1;
+                $usuario->save();
+            }catch (\Exception $e){}
         }
         return response()->json(['status' => 'ok', 'redirect' => url('login')]);
     }
 
-    public function validarTelefono ($request)
+    public function validarTelefono($request)
     {
         $this->validate($request, [
             'nombres' => ['required', 'max:100', 'min:2', 'regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ\s]( )?)+$/'],
@@ -308,7 +320,8 @@ class PagoController extends Controller
         ]);
     }
 
-    public function aumentarSaldo($codigo){
+    public function aumentarSaldo($codigo)
+    {
         $user_referencia = User::where('referencia', $codigo)->get()->first();
         if ($user_referencia != null) {
             $user_referencia->ingresados_reto += 1;
