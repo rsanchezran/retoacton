@@ -20822,6 +20822,15 @@ btn-success.disabled,
   font-family: unitext_bold_cursive;
 }
 
+#infoPago {
+  display: flex;
+  flex-direction: column;
+}
+
+#infoPago label {
+  margin-bottom: 0;
+}
+
 @media only screen and (max-width: 801px) {
   #header {
     background-size: 120px;

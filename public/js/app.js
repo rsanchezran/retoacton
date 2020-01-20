@@ -49057,6 +49057,10 @@ var render = function() {
                     }
                   }),
                   _vm._v(" "),
+                  _c("form-error", {
+                    attrs: { name: "nombres", errors: _vm.errors }
+                  }),
+                  _vm._v(" "),
                   _c("input", {
                     directives: [
                       {
@@ -49083,6 +49087,10 @@ var render = function() {
                     }
                   }),
                   _vm._v(" "),
+                  _c("form-error", {
+                    attrs: { name: "apellidos", errors: _vm.errors }
+                  }),
+                  _vm._v(" "),
                   _c("input", {
                     directives: [
                       {
@@ -49103,6 +49111,10 @@ var render = function() {
                         _vm.$set(_vm.informacion, "email", $event.target.value)
                       }
                     }
+                  }),
+                  _vm._v(" "),
+                  _c("form-error", {
+                    attrs: { name: "email", errors: _vm.errors }
                   }),
                   _vm._v(" "),
                   _c("input", {
@@ -49503,6 +49515,10 @@ var render = function() {
                     }
                   }),
                   _vm._v(" "),
+                  _c("form-error", {
+                    attrs: { name: "nombres", errors: _vm.errors }
+                  }),
+                  _vm._v(" "),
                   _c("input", {
                     directives: [
                       {
@@ -49529,6 +49545,10 @@ var render = function() {
                     }
                   }),
                   _vm._v(" "),
+                  _c("form-error", {
+                    attrs: { name: "apellidos", errors: _vm.errors }
+                  }),
+                  _vm._v(" "),
                   _c("input", {
                     directives: [
                       {
@@ -49549,6 +49569,10 @@ var render = function() {
                         _vm.$set(_vm.informacion, "email", $event.target.value)
                       }
                     }
+                  }),
+                  _vm._v(" "),
+                  _c("form-error", {
+                    attrs: { name: "email", errors: _vm.errors }
                   }),
                   _vm._v(" "),
                   _c("input", {
@@ -49580,6 +49604,10 @@ var render = function() {
                     }
                   }),
                   _vm._v(" "),
+                  _c("form-error", {
+                    attrs: { name: "email_confirmation", errors: _vm.errors }
+                  }),
+                  _vm._v(" "),
                   _c("input", {
                     directives: [
                       {
@@ -49604,6 +49632,10 @@ var render = function() {
                         )
                       }
                     }
+                  }),
+                  _vm._v(" "),
+                  _c("form-error", {
+                    attrs: { name: "telefono", errors: _vm.errors }
                   }),
                   _vm._v(" "),
                   _c("form-error", {
@@ -49738,6 +49770,10 @@ var render = function() {
                     }
                   }),
                   _vm._v(" "),
+                  _c("form-error", {
+                    attrs: { name: "nombres", errors: _vm.errors }
+                  }),
+                  _vm._v(" "),
                   _c("input", {
                     directives: [
                       {
@@ -49764,6 +49800,10 @@ var render = function() {
                     }
                   }),
                   _vm._v(" "),
+                  _c("form-error", {
+                    attrs: { name: "apellidos", errors: _vm.errors }
+                  }),
+                  _vm._v(" "),
                   _c("input", {
                     directives: [
                       {
@@ -49784,6 +49824,10 @@ var render = function() {
                         _vm.$set(_vm.informacion, "email", $event.target.value)
                       }
                     }
+                  }),
+                  _vm._v(" "),
+                  _c("form-error", {
+                    attrs: { name: "email", errors: _vm.errors }
                   }),
                   _vm._v(" "),
                   _c("input", {
@@ -49815,6 +49859,10 @@ var render = function() {
                     }
                   }),
                   _vm._v(" "),
+                  _c("form-error", {
+                    attrs: { name: "email_confirmation", errors: _vm.errors }
+                  }),
+                  _vm._v(" "),
                   _c("input", {
                     directives: [
                       {
@@ -49839,6 +49887,10 @@ var render = function() {
                         )
                       }
                     }
+                  }),
+                  _vm._v(" "),
+                  _c("form-error", {
+                    attrs: { name: "telefono", errors: _vm.errors }
                   }),
                   _vm._v(" "),
                   _c("form-error", {
