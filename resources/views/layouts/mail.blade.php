@@ -44,7 +44,7 @@
             </tr>
             <tr>
                 <td>
-                    <a href="{{env('APP_URL').'/unsuscribe/'.$email}}" target="_blank">Dejar de recibir correos del RETO ACTON</a>
+                    <a href="{{env('APP_URL').'/unsuscribe/'.$email}}" target="_blank">Unsubscribe</a>
                 </td>
             </tr>
             <tr class="footer">
