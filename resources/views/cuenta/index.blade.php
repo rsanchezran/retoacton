@@ -11,6 +11,14 @@
             padding: 6px 12px;
             cursor: pointer;
         }
+
+        label.disabled{
+            background-color: #f3f3f3;
+        }
+
+        input.required{
+            border-color: #9c1f2d;
+        }
     </style>
     @endsection
 @section('content')
@@ -42,8 +50,8 @@
                     </div>
                     <div class="col-sm-8 col-12">
                         <div>
-                            <label class="required">Correo</label>
-                            <label class="form-control">@{{ user.email }}</label>
+                            <label>Correo</label>
+                            <label class="form-control disabled">@{{ user.email }}</label>
                             <br>
                         </div>
                         <div>
@@ -57,8 +65,8 @@
                             <form-error name="pass" :errors="errors"></form-error>
                         </div>
                         <div>
-                            <label>Tarjeta para depositar comisiones(porfavor verifica que sea correcta)</label>
-                            <input class="form-control" v-model="user.tarjeta">
+                            <label>Tarjeta para depositar comisiones <span class="small">(porfavor verifica que sea correcta)</span></label>
+                            <input :class="'form-control '+(user.tarjeta==null?'required':'not')" v-model="user.tarjeta">
                             <form-error name="tarjeta" :errors="errors"></form-error>
                         </div>
                         <div>

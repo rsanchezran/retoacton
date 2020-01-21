@@ -59,13 +59,15 @@
                             <i class="far fa-home"></i> Inicio
                         </a>
                         @if(\Illuminate\Support\Facades\Auth::user()->rol==\App\Code\RolUsuario::CLIENTE)
-                            <a class="nav-link {{\Illuminate\Support\Facades\Auth::user()->tarjeta==''?'tarjeta':''}}" href="{{url('cuenta')}}">
-                                @if(\Illuminate\Support\Facades\Auth::user()->tarjeta=='')
+                            @if(\Illuminate\Support\Facades\Auth::user()->tarjeta=='')
+                                <a class="nav-link tarjeta" href="{{url('cuenta')}}" title="Es necesario que registres una tarjeta para depositarte tus comisiones">
                                     <i class="fas fa-user text-danger"></i> Mi cuenta
-                                @else
+                                </a>
+                            @else
+                                <a class="nav-link" href="{{url('cuenta')}}">
                                     <i class="far fa-user"></i> Mi cuenta
-                                @endif
-                            </a>
+                                </a>
+                            @endif
                         @else
                             <a class="nav-link" href="{{url('cuenta')}}">
                                 <i class="far fa-user"></i> Mi cuenta
