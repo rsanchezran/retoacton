@@ -260,7 +260,7 @@ class RetoController extends Controller
             $user->inicio_reto = Carbon::now();
             $user->save();
         }
-        if ($user->created_at->startOfDay() != Carbon::parse($user->fecha_inscripcion)) {
+        if ($user->created_at->startOfDay() != Carbon::parse($user->fecha_inscripcion)->startOfDay()) {
             $diasTranscurridos = env('DIAS');
         }else{
             $diasTranscurridos = Carbon::now()->diffInDays($user->inicio_reto);
