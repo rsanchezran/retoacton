@@ -67,7 +67,7 @@
                     <option value="" disabled>¿Cómo te enteraste del reto acton?</option>
                     <option v-for="medio in medios" :value="medio">@{{medio}}</option>
                 </select>
-                <div v-if="informacion.medio=='Por medio de un migo'" class="text-left">
+                <div v-if="informacion.medio=='Por medio de un amigo'" class="text-left">
                     <span style="color: #929292">
                         Si conoces el código de referencia de tu amigo, por favor ingresalo aquí
                         <i v-if="loading" class="far fa-spinner fa-spin"></i>
@@ -101,6 +101,9 @@
             </div>
             <br>
             <div class="d-flex col-12" style="display: block; margin: auto">
+                <div v-if="!sent&&mensaje!=''">
+                    <h6 style="font-size: 1.7em">@{{ mensaje }}</h6>
+                </div>
                 <div v-show="sent" id="pago" class="col-12 text-center" style="display: block; margin: auto">
                     <h6 style="font-size: 1.7em">¡Gracias por compartirnos tus datos,</h6>
                     <h6 style="font-size: 1.7em"> nos encantará ayudarte!</h6>
@@ -159,7 +162,8 @@
                     encontrado: null,
                     referencia: '',
                     monto:'0',
-                    descuento:'0'
+                    descuento:'0',
+                    mensaje:''
                 }
             },
             methods: {
@@ -202,6 +206,8 @@
                                     vm.informacion.codigo,
                                     vm.informacion.referenciado
                                 );
+                            }else{
+                                vm.mensaje = response.data.mensaje;
                             }
                         }).catch(function (error) {
                             vm.sent = false;

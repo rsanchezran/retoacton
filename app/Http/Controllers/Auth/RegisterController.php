@@ -123,21 +123,24 @@ class RegisterController extends Controller
         $monto = env('COBRO_ORIGINAL');
         $descuento = env('COBRO');
         $mensaje = '';
+        $status = 'ok';
         if ($usuario !== null) {
             if ($usuario->deleted_at == null) {
                 if ($usuario->inicio_reto == null) {
-                    $mensaje = 'Todavía no has iniciado tu reto, te invitamos a comenzar para que disfrutes sus beneficios.';
+                    $status='error';
+                    $mensaje = 'Este usuario ya pertenece al RETO ACTON.';
                 } else {
                     if (Carbon::parse($usuario->inicio_reto)->diffInDays(Carbon::now()) > intval(env('DIAS'))) {
                         $monto = env('COBRO_ORIGINAL2');
                         $descuento = env('COBRO2');
                     } else {
-                        $mensaje = 'Todavía no termina tu reto, te invitamos a seguir esforzandote para que disfrutes sus beneficios.';
+                        $status='error';
+                        $mensaje = 'Este usuario ya pertenece al RETO ACTON.';
                     }
                 }
             }
         }
-        return response()->json(['status' => 'ok', 'monto' => $monto, 'descuento' => $descuento, 'mensaje' => $mensaje]);
+        return response()->json(['status' => $status, 'monto' => $monto, 'descuento' => $descuento, 'mensaje' => $mensaje]);
     }
 
     public function saveObjetivo(Request $request)
