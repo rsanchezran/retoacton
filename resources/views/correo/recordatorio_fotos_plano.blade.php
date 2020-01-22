@@ -1,0 +1,1 @@
+{{$datos->name}} recuerda subir diariamente tus fotos del Reto Acton

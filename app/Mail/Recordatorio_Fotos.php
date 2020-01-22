@@ -22,6 +22,7 @@ class Recordatorio_Fotos extends Mailable{
         $send = $this->from(env('MAIL_ADDRESS'), 'Acton')
             ->subject($this->subject)
             ->to($this->datos->email);
-        $send->view('correo.recordatorio_fotos', ['email'=>$this->datos->email]);
+        $send->view('correo.recordatorio_fotos', ['email'=>$this->datos->email])
+            ->text('correo.recordatorio_fotos_plano', ['email' => $this->datos->email]);
     }
 }

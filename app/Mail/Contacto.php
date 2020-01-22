@@ -24,7 +24,8 @@ class Contacto extends Mailable
         $send = $this->from(env('MAIL_ADDRESS'), 'Acton')
             ->subject("Reto Acton")
             ->to($this->contacto->email);
-        $send->view('correo.contacto', ['contacto' => $this->contacto, 'email'=>$this->contacto->email]);
+        $send->view('correo.contacto', ['contacto' => $this->contacto, 'email'=>$this->contacto->email])
+            ->text('correo.contacto_plano', ['contacto' => $this->contacto]);
         return $send;
     }
 }

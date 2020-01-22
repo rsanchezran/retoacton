@@ -24,7 +24,8 @@ class Contactos extends Mailable
         $send = $this->from(env('MAIL_ADDRESS'), 'Acton')
             ->subject("Reto Acton")
             ->to($this->contactos->pluck('email'));
-        $send->view('correo.contacto', ['etapa' => $this->contactos->first()->etapa, 'email'=>'']);
+        $send->view('correo.contacto', ['etapa' => $this->contactos->first()->etapa, 'email'=>''])
+            ->text('correo.contacto_plano', ['etapa' => $this->contactos->first()->etapa]);
         return $send;
     }
 }

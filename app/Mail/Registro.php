@@ -26,7 +26,8 @@ class Registro extends Mailable
             ->subject($this->mensaje->subject)
             ->to($this->usuario->email);
         $this->usuario->pass = $this->mensaje->pass;
-        $send->view('correo.registro', ['usuario' => $this->usuario, 'email'=>$this->usuario->email]);
+        $send->view('correo.registro', ['usuario' => $this->usuario, 'email'=>$this->usuario->email])
+            ->text('correo.registro_plano', ['usuario' => $this->usuario]);
         return $send;
     }
 }

@@ -40,8 +40,10 @@ class Dieta extends Mailable
             ->subject("Dieta")
             ->to($this->usuario->email);
         $send->view('correo.dieta', ['dia' => $diaDB->dia, 'comidas' => $diaDB->comidas, 'suplementos' => $diaDB->suplementos,
-            'ejercicios' => $diaDB->ejercicios, 'cardio' => $diaDB->cardio,'email'=>$this->usuario->email])
-            ->attachdata($pdf->output(), 'dia.pdf');
+            'ejercicios' => $diaDB->ejercicios, 'cardio' => $diaDB->cardio, 'email' => $this->usuario->email])
+            ->attachdata($pdf->output(), 'dia.pdf')
+            ->text('correo.dieta_plano', ['dia' => $diaDB->dia, 'comidas' => $diaDB->comidas, 'suplementos' => $diaDB->suplementos,
+                'ejercicios' => $diaDB->ejercicios, 'cardio' => $diaDB->cardio]);
         return $send;
     }
 }
