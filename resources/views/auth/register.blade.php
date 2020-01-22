@@ -73,7 +73,7 @@
                         <i v-if="loading" class="far fa-spinner fa-spin"></i>
                     </span>
                     <input class="form-control col-6 text-center" v-model="informacion.codigo" placeholder="REFERENCIA"
-                           @blur="buscarReferencia()">
+                           @blur="buscarReferencia()" maxlength="5">
                     <div v-if="encontrado!==null">
                         <span v-if="encontrado" class="font-weight-bold">El código que ingresaste corresponde al usuario :
                             <i style="font-size:1.1rem">@{{ referencia }}</i>

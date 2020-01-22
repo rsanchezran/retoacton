@@ -49,6 +49,10 @@
             color: #FFF;
             padding: 10px;
         }
+
+        .modal-content{
+            width: max-content !important;
+        }
     </style>
 @endsection
 @section('content')
@@ -75,7 +79,7 @@
                         <h1>Día @{{ dia.dia }}</h1>
                         <audio v-if="ejemplo.audio!=''" :src="ejemplo.audio" controls></audio>
                         <p id="comentarios"></p>
-                        <img :src="ejemplo.imagen" height="200">
+                        <img :src="ejemplo.imagen" height="200" @click="mostrarImagen(ejemplo.imagen)">
                     </div>
                     <hr>
                     <div>
@@ -89,7 +93,7 @@
                             <br>
                             <div>
                                 <i v-if="loading" class="fa fa-spinner fa-spin"></i>
-                                <img v-else :src="dia.imagen" height="200">
+                                <img v-else :src="dia.imagen" height="200" @click="mostrarImagen(dia.imagen)">
                             </div>
                             <input id="file" type="file" accept="image/x-png,image/jpg,image/jpeg"
                                    @change="agregarImagen($event)">
@@ -112,6 +116,9 @@
                 </div>
             </div>
         </div>
+        <modal ref="imagenModal" :showok="false" :showcancel="false">
+            <img :src="imagen" style="width: 700px">
+        </modal>
     </div>
 </template>
 
@@ -137,7 +144,8 @@
                         comentarios:''
                     },
                     semanas:[],
-                    semana:1
+                    semana:1,
+                    imagen:''
                 }
             },
             methods: {
@@ -183,6 +191,10 @@
                         vm.buscando = false;
                         window.scrollTo(50, 200);
                     });
+                },
+                mostrarImagen: function (imagen) {
+                        this.imagen = imagen;
+                        this.$refs.imagenModal.showModal();
                 }
             },
             created: function () {
