@@ -62,8 +62,8 @@
                         </tr>
                         <tr v-for="contacto in contactos.data">
                             <th>
-                                <i v-if="contacto.contacto" class="fa fa-user"></i>
-                                <i v-else class="fa fa-user-slash"></i>
+                                <i v-if="contacto.contacto" class="fa fa-user text-info"></i>
+                                <i v-else class="fa fa-user text-default"></i>
                             </th>
                             <td>@{{ contacto.nombres +' '+contacto.apellidos }}</td>
                             <td>@{{ contacto.email }}</td>
@@ -93,7 +93,7 @@
             <modal ref="mensajeModal" title="Mensaje del contacto" :showok="false">
                 @{{ mensaje }}
             </modal>
-            <modal ref="eliminarModal" title="Desear eliminar al contacto?" @ok="quitarContacto">
+            <modal ref="eliminarModal" title="Eliminar contacto" @ok="quitarContacto">
                 <span>¿Estás seguro de querer eliminar al contacto?</span>
                 <br>
                 <span><b>Nombre : </b>@{{ contacto.nombres+' '+contacto.apellidos }}</span>

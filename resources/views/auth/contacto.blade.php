@@ -55,7 +55,7 @@
                 <form-error name="email" :errors="errors"></form-error>
             </div>
             <div>
-                <label>Teléfono <span class="small">(@{{ contacto.telefono.length }}/20)</span></label>
+                <label>Teléfono <span class="small">(@{{ contacto.telefono.length }}/10)</span></label>
                 <input type="text" class="form-control" v-model="contacto.telefono">
                 <form-error name="telefono" :errors="errors"></form-error>
             </div>
@@ -80,12 +80,12 @@
                 </div>
                 <div>
                     <button class="btn btn-info" @click="enviar" :disabled="!ready">
-                        <i class="fa fa-paper-plane"></i> Envíar
+                        <i class="fa fa-paper-plane"></i> Enviar
                     </button>
                 </div>
             </div>
-            <modal ref="modal" title="Gracias por tu interes" @ok="salir" @cancel="salir">
-                <h6>Gracias por mostrar tu interes en el <b>RETO ACTON</b> de 8 semanas</h6>
+            <modal ref="modal" title="Gracias por tu interés" @ok="salir" @cancel="salir" :showcancel="false">
+                <h6>Gracias por mostrar tu interés en el <b>RETO ACTON</b> de 8 semanas</h6>
             </modal>
         </div>
     </template>

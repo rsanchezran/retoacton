@@ -339,7 +339,7 @@ class ConfiguracionController extends Controller
         $campos = json_decode($request->campos);
         $contactos = Contacto::leftjoin('users', 'contactos.email', 'users.email')
             ->select(['contactos.id', 'contactos.nombres', 'contactos.apellidos', 'contactos.email',
-                'contactos.telefono', 'contactos.medio', 'contactos.created_at', 'contactos.etapa','users.deleted_at']);
+                'contactos.telefono', 'contactos.medio', 'contactos.created_at', 'contactos.etapa', 'users.deleted_at']);
         if ($campos->email != '') {
             $contactos = $contactos->where('contactos.email', 'like', "%$campos->email%");
         }
@@ -350,8 +350,8 @@ class ConfiguracionController extends Controller
             $contactos = $contactos->where('contactos.medio', $campos->medio);
         }
         $contactos = $contactos->paginate();
-        foreach ($contactos as $contacto){
-            $contacto->contacto = $contacto->deleted_at==null;
+        foreach ($contactos as $contacto) {
+            $contacto->contacto = $contacto->deleted_at == null;
         }
         return $contactos;
     }
@@ -399,24 +399,26 @@ class ConfiguracionController extends Controller
         return $pendientes;
     }
 
-    public function quitarContacto(Request $request){
+    public function quitarContacto(Request $request)
+    {
         $contacto = Contacto::find($request->id);
         if ($contacto !== null) {
             $contacto->etapa = 1;
             $contacto->delete();
-            $usuario = User::where('email',$contacto->email)->first();
-            if ($usuario!=null){
+            $usuario = User::where('email', $contacto->email)->first();
+            if ($usuario != null) {
                 $usuario->delete();
             }
         }
     }
 
-    public function exportarContactos($filtros){
+    public function exportarContactos($filtros)
+    {
         $this->authorize('contactos');
         $campos = json_decode($filtros);
         $contactos = Contacto::leftjoin('users', 'contactos.email', 'users.email')
             ->select(['contactos.id', 'contactos.nombres', 'contactos.apellidos', 'contactos.email',
-                'contactos.telefono', 'contactos.medio', 'contactos.created_at', 'contactos.etapa','users.deleted_at']);
+                'contactos.telefono', 'contactos.medio', 'contactos.created_at', 'contactos.etapa', 'users.deleted_at']);
         if ($campos->email != '') {
             $contactos = $contactos->where('contactos.email', 'like', "%$campos->email%");
         }
@@ -442,14 +444,14 @@ class ConfiguracionController extends Controller
         $sheet->setCellValueByColumnAndRow(6, 1, 'Medio');
         $sheet->setCellValueByColumnAndRow(7, 1, 'Registrado');
         $row++;
-        foreach ($contactos as $usuario){
-            $sheet->setCellValueByColumnAndRow(1, $row, $usuario->nombres.' '.$usuario->apellidos);
+        foreach ($contactos as $usuario) {
+            $sheet->setCellValueByColumnAndRow(1, $row, $usuario->nombres . ' ' . $usuario->apellidos);
             $sheet->setCellValueByColumnAndRow(2, $row, $usuario->email);
             $sheet->setCellValueByColumnAndRow(3, $row, "$usuario->telefono");
             $sheet->setCellValueByColumnAndRow(4, $row, $usuario->codigo);
             $sheet->setCellValueByColumnAndRow(5, $row, $usuario->etapa);
             $sheet->setCellValueByColumnAndRow(6, $row, $usuario->medio);
-            $sheet->setCellValueByColumnAndRow(7, $row, $usuario->deleted_at==null?'No registrado':'Registrado');
+            $sheet->setCellValueByColumnAndRow(7, $row, $usuario->deleted_at == null ? 'No registrado' : 'Registrado');
             $row++;
         }
         $writer = new Xlsx($spreadsheet);

@@ -621,7 +621,7 @@
                                     <h6 class="azul">-</h6>
                                     <h6 class="azul" style="font-family: unitext_bold_cursive; margin-left:5px;">Los planes de alimentación que recibes en este programa de 8 semanas son totalmente personalizados a tus características y objetivos, ya sea que, quieras eliminar grasa o aumentar músculo</h6>
                                 </div>
-                                <h6>En <b style="font-family: unitext_bold_cursive">ACTON</b> estamos seguros de que, para tener mas posibilidades de cambio, tu plan de alimentación te debe agradar, por lo que tú puedes elegir cuales alimentos NO quieres que aparezcan en tu programa para que sea más fácil llevarlo</h6>
+                                <h6>En <b style="font-family: unitext_bold_cursive">ACTON</b> estamos seguros de que, para tener más posibilidades de cambio, tu plan de alimentación te debe agradar, por lo que tú puedes elegir cuales alimentos NO quieres que aparezcan en tu programa para que sea más fácil llevarlo</h6>
                             </div>
                         </div>
                     </div>
@@ -650,7 +650,7 @@
                                 <span class="small text-lowercase">ver más</span>
                             </h3>
                             <div id="suplementos" class="subinfo">
-                                <h6>Te diremos cuales son los suplementos adecuados con las dosis optimas para alcanzar de una manera más efectiva y rápida el objetivo de que deseas <span class="font-weight-bold" style="font-family:unitext;">siempre cuidando tu salud.</span></h6>
+                                <h6>Te diremos cuales son los suplementos adecuados con las dosis óptimas para alcanzar de una manera más efectiva y rápida el objetivo de que deseas <span class="font-weight-bold" style="font-family:unitext;">siempre cuidando tu salud.</span></h6>
                             </div>
                         </div>
                     </div>
@@ -662,7 +662,7 @@
                                 <span class="small text-lowercase">ver más</span>
                             </h3>
                             <div id="videos" class="subinfo">
-                                <h6><span class="font-weight-bold text-center" style="font-family: unitext">Más de 500 videos de alta resolución </span> en tu sesión con explicación de cada ejercicio para que puedas ver la técnica correcta decada movimiento. Cada uno de los ejercicios trae video, ya sea de casa o gym.</h6>
+                                <h6><span class="font-weight-bold text-center" style="font-family: unitext">Más de 500 videos de alta resolución </span> en tu sesión con explicación de cada ejercicio para que puedas ver la técnica correcta de cada movimiento. Cada uno de los ejercicios trae video, ya sea de casa o gym.</h6>
                             </div>
                         </div>
                     </div>
@@ -696,8 +696,8 @@
                             <div id="infoAudios" class="d-block ml-auto mr-auto" >
                                 <p>Cada día recibirás un audio de contenido interesante sobre motivación y desarrollo personal, a lo largo de las 8 semanas</p>
                                 <p>El objetivo de estos audios es que te des cuenta que tu vida es el resultado de tus creencias</p>
-                                <p>Si modificas tus creencias ; transformas tu realidad.</p>
-                                <p class="font-weight-bold" style="color:#005d9c">¿Que descubrirás en estos audios?</p>
+                                <p>Si modificas tus creencias; transformas tu realidad.</p>
+                                <p class="font-weight-bold" style="color:#005d9c">¿Qué descubrirás en estos audios?</p>
                             </div>
                         </div>
                     </div>
@@ -749,9 +749,9 @@
                                 <br>
                                 <p class="text-uppercase">La rapidez con la que aparecerán en</p>
                                 <p class="text-uppercase">tu vida depende de tu nivel de fe</p>
-                                <p class="text-uppercase">en que lo conseguiras</p>
+                                <p class="text-uppercase">en que lo conseguirás</p>
                                 <br>
-                                <p class="text-uppercase">¡Cree en ti y todo sera posible! </p>
+                                <p class="text-uppercase">¡Cree en ti y todo será posible! </p>
                             </div>
                             <br>
                             <span class="turquesa text-uppercase float-right" style="font-family: unitext_cursive; font-weight:bold;">- Reto Acton</span>
@@ -1001,7 +1001,7 @@
                         específicamente planeadas para ti, es decir, nunca serán igual a la de algún otro
                         participante, ya que son 100% personalizadas.
                         Otra gran diferencia es que no nos enfocamos únicamente en el físico sino también en la salud mental.
-                        Ademas el reto acton te da la oportunidad de generar ingresos, por lo tanto todos
+                        Además el reto acton te da la oportunidad de generar ingresos, por lo tanto todos
                         pueden ganar premios en efectivo y no solo unas cuantas personas.
                     </p>
                 </div>
@@ -1026,7 +1026,7 @@
                     </div>
                     <p class="subinfo" v-show="faqs.finalizar">
                         Otra de las ventajas que tienes al inscribirte al RETO ACTON es que, una vez que lo
-                        finalizas tienes la oportunidad de obtener un seguimiento mensual para mantel la
+                        finalizas tienes la oportunidad de obtener un seguimiento mensual para mantener la
                         motivación y este estilo de vida
                     </p>
                 </div>

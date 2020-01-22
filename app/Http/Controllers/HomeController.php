@@ -452,14 +452,21 @@ class HomeController extends Controller
                 'mensaje' => 'required|max:500',
             ], [
                 'nombres.required' => 'Es necesario que captures tu nombre',
-                'apellidos.required' => 'Es necesario que captures por lo menos tu primer apellido',
-                'email.required' => 'Es necesario que captures tu correo electrónico',
+                'nombres.min' => 'Debe capturar mínimo 2 caracteres',
+                'nombres.max' => 'Debe capturar máximo 100 caracteres',
+                'nombres.regex' => 'Debe capturar únicamente letras',
+                'apellidos.required' => 'Este campo es obligatorio',
+                'apellidos.min' => 'Debe capturar mínimo 2 caracteres',
+                'apellidos.max' => 'Debe capturar máximo 100 caracteres',
+                'apellidos.regex' => 'Debe capturar únicamente letras',
+                'email.required' => 'Este campo es obligatorio',
+                'email.min' => 'Debe capturar minimo 3 caracteres',
+                'email.max' => 'Debe capturar máximo 100 caracteres',
+                'email.unique' => 'El correo ya ha sido registrado',
+                'email.email' => 'El formato no es válido',
                 'mensaje.required' => 'Es necesario que captures el mensaje que nos quieres dar',
-                'nombres.max' => 'El nombre debe ser menor a 100 caracteres',
-                'apellidos.max' => 'Los apellidos deben ser menor a 100 caracteres',
-                'email.max' => 'La dirección de correo debe ser menor a 100 caracteres',
                 'mensaje.max' => 'El mensaje debe ser menor a 500 caracteres',
-                'telefono.max' => 'El teléfono debe ser menor a 20 caracteres',
+                'telefono.max' => 'El teléfono debe ser menor a 10 caracteres',
             ]);
         $validator->after(function ($validator) use ($request) {
             curl_setopt_array($ch = curl_init(), array(
