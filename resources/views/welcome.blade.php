@@ -322,6 +322,7 @@
 
         .semana h6{
             margin-bottom: 1px;
+            color:#000;
         }
 
         #mejora{
@@ -347,7 +348,7 @@
         }
 
         #trofeobonus{
-            margin-left: 10px;
+            margin-right: 10px;
         }
 
         #entrenamiento img{
@@ -372,14 +373,6 @@
 
             #testtitulo{
                 background: none;
-            }
-
-            #audios{
-                background-image: url("{{asset('img/meditacionmovil.png')}}");
-                background-repeat: no-repeat;
-                background-position: center;
-                padding-bottom: 120px;
-                padding-top: 80px;
             }
 
             #pipo{
@@ -413,6 +406,7 @@
                 width: 80%;
                 padding: 10px 20px !important;
                 border-radius:5px;
+                font-size: .8rem;
             }
 
             #cree{
@@ -490,6 +484,16 @@
             .semana{
                 box-shadow: none;
                 border-bottom: 2px solid #AAA9A9;
+                padding: 5px;
+                height:45px;
+            }
+
+            .semana h6{
+                font-size:.7rem;
+            }
+
+            .semana p{
+                font-size:.65rem;
             }
 
             #mejora{
@@ -520,7 +524,7 @@
             }
 
             #trofeobonus{
-                margin-left: 10px;
+                margin-right: 10px;
             }
 
             #features .subtitle {
@@ -530,6 +534,12 @@
             #bonus{
                 margin-left: 40px;
                 margin-top: 100px;
+            }
+
+            #audios{
+                background-size: cover;
+                padding-bottom: 65px;
+                padding-top: 20px;
             }
         }
 
@@ -555,6 +565,23 @@
 
             #frase{
                 margin: 0px auto;
+            }
+
+            #audios{
+                background-image: url("{{asset('img/meditacionmovil.png')}}");
+                background-repeat: no-repeat;
+                background-position: center;
+                padding-bottom: 120px;
+                padding-top: 80px;
+                background-size: cover;
+            }
+
+            #garantia{
+                font-size:2.5rem;
+            }
+
+            #ganar{
+                font-size:2.8rem;
             }
         }
 
@@ -670,7 +697,7 @@
                 </div>
             </div>
             <div class="section container text-center">
-                <div class="col-12 col-sm-8 mr-auto ml-auto">
+                <div class="col-12 col-sm-9 mr-auto ml-auto">
                     <h6 class="text-uppercase bigger thin" style="color:#929494">El verdadero cambio </h6>
                     <h6 class="text-uppercase font-weight-bold biggest">Comienza</h6>
                     <h6 class="text-uppercase font-weight-bold biggest">en tu mente</h6>
@@ -825,14 +852,14 @@
                                 <h6>rápidamente, aumentar tu motivación y al mismo </h6>
                                 <h6>tiempo ganar dinero.</h6>
                                 <br>
-                                <div class="d-flex">
-                                    <div>
-                                        <img v-if="screen<801" style="margin-top:10px;" src="{{asset('img/trofeo.png')}}" alt="trofeo" height="20">
-                                        <img v-else style="margin-top:10px;" src="{{asset('img/trofeo.png')}}" alt="trofeo" height="40">
-                                    </div>
+                                <div class="d-flex" style="align-items: center">
                                     <div id="trofeobonus">
                                         <span id="otrobonus" class="text-uppercase">OTRO BONUS</span>
                                         <br>
+                                    </div>
+                                    <div>
+                                        <img v-if="screen<801" style="margin-top:10px;" src="{{asset('img/trofeo.png')}}" alt="trofeo" height="20">
+                                        <img v-else style="margin-top:10px;" src="{{asset('img/trofeo.png')}}" alt="trofeo" height="40">
                                     </div>
                                 </div>
                                 <h6>Cada día se te presentará una actividad a </h6>
