@@ -342,7 +342,7 @@
                         </div>
                         <div class="opps-ammount">
                             <h3>Monto a pagar</h3>
-                            <h2><money :cantidad="response.monto" caracter="true" adicional="MXN" :decimales="0"></money></h2>
+                            <h2 id="monto"><money :cantidad="response.monto" caracter="true" adicional=" MXN" :decimales="0"></money></h2>
                         </div>
                     </div>
                     <div class="opps-reference">
@@ -458,5 +458,19 @@
         border: 1px solid #b0afb5;
         border-radius: 4px;
         background: #f8f9fa;
+    }
+
+    @media only screen and (max-width: 420px) {
+        .opps {
+            width: 95%;
+        }
+
+        .reference{
+            font-size:1.5rem;
+        }
+
+        #monto{
+            font-size:1.2rem;
+        }
     }
 </style>

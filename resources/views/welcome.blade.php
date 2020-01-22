@@ -365,7 +365,7 @@
             }
         }
 
-        @media only screen and (max-width: 801px) {
+        @media only screen and (max-width: 800px) {
             .feature .subinfo{
                 height: 200px;
             }
@@ -431,9 +431,9 @@
             }
 
             #chica{
-                margin-top: -200px;
-                margin-left:0;
-                width: 100%;
+                margin-top: -80px;
+                margin-left:-400px;
+                height: 700px;
             }
 
             #garantiaDiv{
@@ -528,7 +528,8 @@
             }
 
             #bonus{
-                margin-left:60px;
+                margin-left: 40px;
+                margin-top: 100px;
             }
         }
 
@@ -845,7 +846,7 @@
                         </div>
                     </div>
                     <div>
-                        <img v-if="screen>801" id="chica" src="{{asset('img/chica.png')}}">
+                        <img v-if="screen>750" id="chica" src="{{asset('img/chica.png')}}">
                         <img v-else id="chica" src="{{asset('img/chicamovil.png')}}">
                     </div>
                 </div>
@@ -1160,15 +1161,18 @@
                     });
                 }
 
-                $('#carouselExampleControls').carousel({
-                    interval: 1500,
-                    wrap: false
+                Vue.nextTick(function () {
+                    $('#carouselExampleControls').carousel({
+                        interval: 1500,
+                        wrap: false
+                    });
+
+                    $('#videosCarousel').carousel({
+                        interval: 0,
+                        wrap: false
+                    });
                 });
 
-                $('#videosCarousel').carousel({
-                    interval: 0,
-                    wrap: false
-                });
                 this.cambiarFaqs('reto');
                 window.onresize = () => {
                     this.screen = window.innerWidth

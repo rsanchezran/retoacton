@@ -87,7 +87,10 @@
                             \Illuminate\Support\Facades\Auth::user()->inicio_reto!=null&&
                             (\Carbon\Carbon::parse(\Illuminate\Support\Facades\Auth::user()->inicio_reto)->diffInDays(\Carbon\Carbon::now())>intval(env('DIAS'))))
                                 <button id="breathPC" class="nav-link btn btn-sm btn-warning ld x2 ld-breath" data-toggle="modal" data-target="#terminoModal">
-                                    <i class="far fa-exclamation-triangle"></i> Reto concluído
+                                    <i class="far fa-exclamation-triangle"></i>
+                                    <span>Reto concluído</span>
+                                    <br>
+                                    <span class="small">(Ver video)</span>
                                 </button>
                         @endif
                         @if(\Illuminate\Support\Facades\Auth::user()->rol==\App\Code\RolUsuario::ADMIN)
@@ -161,7 +164,10 @@
                             (\Carbon\Carbon::parse(\Illuminate\Support\Facades\Auth::user()->inicio_reto)->diffInDays(\Carbon\Carbon::now())>intval(env('DIAS'))))
             <div class="container" id="breathMovil">
                 <button class="nav-link btn btn-sm btn-warning ld ld-breath ml-auto mr-auto" data-toggle="modal" data-target="#terminoModal">
-                    <i class="far fa-exclamation-triangle"></i> Reto concluído
+                    <i class="far fa-exclamation-triangle"></i>
+                    <span>Reto concluído</span>
+                    <br>
+                    <span class="small">(Ver video)</span>
                 </button>
             </div>
         @endif

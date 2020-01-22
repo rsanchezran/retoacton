@@ -47,7 +47,6 @@
         .form-error{
             margin-left: 10px;
         }
-
     </style>
 @endsection
 @section('content')

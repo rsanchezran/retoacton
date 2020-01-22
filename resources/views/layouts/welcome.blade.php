@@ -85,9 +85,9 @@
         .navbar {
             padding: 40px;
             box-shadow: none;
-            background-image: url('{{asset('/img/header_back.png')}}');
+            background-image: url('{{asset('/img/header_back2.png')}}');
             background-repeat: no-repeat;
-            background-size: 100%;
+            background-size: 100% 100%;
         }
 
         main {
