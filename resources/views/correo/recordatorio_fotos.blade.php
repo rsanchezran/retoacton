@@ -15,7 +15,7 @@
     <div style="display: inline;">
         <div style="background-color: #edebec; padding: 60px 20px 20px 20px; font-size: 1.4em">
             <p>
-                {{$datos->name}} recuerda subir tus fotos en el reto dia dia de Acton
+                {{$datos->name}} recuerda subir diariamente tus fotos del Reto Acton
             </p>
         </div>
     </div>

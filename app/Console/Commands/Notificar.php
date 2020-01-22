@@ -18,13 +18,7 @@ class Notificar extends Command{
     }
 
     public function handle(){
-        $this->usuariosEmails();
-    }
-
-    public function usuariosEmails(){
         $usuarios = User::all();
-        $mensaje = new \stdClass();
-        $mensaje->subject = 'Recordario semanal reto Acton';
 
         foreach ($usuarios as $usuario) { //enviar correo solo a personas que tengan mas de un dia sin subir foto
             $dias_fotos = count(Storage::allFiles('public/reto/' . $usuario->id));
@@ -33,7 +27,7 @@ class Notificar extends Command{
             $dias_reto = Carbon::now()->diffInDays($inicio_reto->format('y-m-d'))+1;
 
             if(($dias_reto-$dias_fotos)>=2) {
-                Mail::queue(new Recordatorio_Fotos($usuario, 'Recordatorio de reto Acton'));
+                Mail::queue(new Recordatorio_Fotos($usuario, 'Recordario semanal reto Acton'));
             }
         }
     }
