@@ -101,7 +101,8 @@
                         <div v-for="(categoria, index) in categorias">
                             <div class="d-flex">
                                 <div class="col-6">
-                                    <input v-if="categoria.nueva" class="form-control" v-model="categoria.nombre"/>
+                                    <span v-if="categoria.nueva" class="small float-right">Categoria(@{{ categoria.nombre.length }}/20)</span>
+                                    <input maxlength="20" v-if="categoria.nueva" class="form-control" v-model="categoria.nombre"/>
                                     <h6 v-else class="col-4">@{{ categoria.nombre }}</h6>
                                 </div>
                                 <div class="col-4">

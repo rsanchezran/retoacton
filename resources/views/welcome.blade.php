@@ -80,7 +80,7 @@
             /*position: absolute;*/
             /*height: 200px;*/
             background-color: #F0F0F0;
-            padding:10px 20px;
+            padding:20px;
             font-size: .7rem;
             font-family: unitext_light;
             flex-grow: 1;
@@ -106,7 +106,7 @@
         }
 
         #features .subinfo h6{
-            font-size: 0.95em;
+            font-size: 0.65rem;
             color: #1b1e21;
             font-weight:bold !important;
             line-height: 1.5;
@@ -663,7 +663,7 @@
                             <div id="entrenamiento" class="subinfo">
                                 <h6 class="text-justify">Puedes elegir si deseas entrenar en el gym, desde la comodidad de tu hogar o en el lugar donde te encuentres, ya que dentro de tu sesión tienes un botón en el cual puedes cambiar tu rutina a </h6>
                                 <h6 class="font-weight-bold text-center" style="font-family: unitext;">Modo: GYM o Modo: CASA</h6>
-                                <div class="col-sm-8 d-flex justify-content-between" style="margin: auto; padding: 0">
+                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 d-flex justify-content-between" style="margin: auto; padding: 0;">
                                     <img src="{{asset('img/Boton01.png')}}"/>
                                     <img src="{{asset('img/Boton02.png')}}"/>
                                 </div>
@@ -844,7 +844,7 @@
                 <div id="verde" style="margin-top: 40px; display: flex; justify-content: space-between">
                     <div class="d-flex">
                         <div id="bonus">
-                            <h6 id="meta" class="text-uppercase acton">La meta esta mas cerca de lo que crees</h6>
+                            <h6 id="meta" class="text-uppercase acton">La meta esta más cerca de lo que crees</h6>
                             <h6 id="soñarlo" class="text-uppercase bigger thin">Si puedes soñarlo,</h6>
                             <h6 id="hacerlo" class="text-uppercase bigger font-weight-bold">Puedes hacerlo</h6>
                             <div id="transformar">

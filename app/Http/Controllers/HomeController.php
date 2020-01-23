@@ -7,6 +7,7 @@ use App\Code\Objetivo;
 use App\Code\RolUsuario;
 use App\Code\TipoPago;
 use App\Code\TipoRespuesta;
+use App\Code\ValidarCorreo;
 use App\Contacto;
 use App\Dieta;
 use App\Kits;
@@ -467,6 +468,7 @@ class HomeController extends Controller
                 'mensaje.required' => 'Es necesario que captures el mensaje que nos quieres dar',
                 'mensaje.max' => 'El mensaje debe ser menor a 500 caracteres',
                 'telefono.max' => 'El teléfono debe ser menor a 10 caracteres',
+                'telefono.numeric' => 'El teléfono debe contener caracteres númericos',
             ]);
         $validator->after(function ($validator) use ($request) {
             curl_setopt_array($ch = curl_init(), array(
@@ -483,6 +485,9 @@ class HomeController extends Controller
             curl_close($ch);
             if ($response->success != 'true') {
                 $validator->errors()->add('captcha', 'Debes seleccionar el captcha');
+            }
+            if (ValidarCorreo::validarCorreo($request->email)) {
+                $validator->errors()->add("email", "El email debe tener formato correcto");
             }
         });
         $validator->validate();

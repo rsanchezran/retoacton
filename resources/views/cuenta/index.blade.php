@@ -45,8 +45,8 @@
                             <br>
                             <span>O arrastra el archivo desde tu computadora</span>
                             <input id="foto" type="file" @change="cargarFoto($event)" :disabled="loading">
+                            <form-error name="imagen" :errors="errors"></form-error>
                         </div>
-                        <form-error name="fotografia" :errors="errors"></form-error>
                     </div>
                     <div class="col-sm-8 col-12">
                         <div>
@@ -65,7 +65,7 @@
                             <form-error name="pass" :errors="errors"></form-error>
                         </div>
                         <div>
-                            <label>Tarjeta para depositar comisiones <span class="small">(porfavor verifica que sea correcta)</span></label>
+                            <label>Tarjeta para depositar comisiones <span class="small">(por favor verifica que sea correcta)</span></label>
                             <input :class="'form-control '+(user.tarjeta==null?'required':'not')" v-model="user.tarjeta">
                             <form-error name="tarjeta" :errors="errors"></form-error>
                         </div>
@@ -119,6 +119,7 @@
                         }
                     }).catch(function (error) {
                         vm.loadingFoto = false;
+                        console.log(error.response.data.errors)
                         vm.errors = error.response.data.errors;
                     });
                 },

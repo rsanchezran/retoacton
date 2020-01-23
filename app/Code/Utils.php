@@ -41,7 +41,7 @@ class Utils
         return $texto;
     }
 
-    public static function clearString($string)
+    public static function clearString($string, $ignore=null)
     {
         $nuevo = str_replace('.', '', self::quitarTildes($string));
         $nuevo = str_replace('–','', $nuevo);
@@ -63,7 +63,9 @@ class Utils
         $nuevo = str_replace('?','', $nuevo);
         $nuevo = str_replace(',','', $nuevo);
         $nuevo = str_replace('°','', $nuevo);
-        $nuevo = str_replace(' ', '', $nuevo);
+        if ($ignore !=null && !$ignore){
+            $nuevo = str_replace(' ', '', $nuevo);
+        }
         return strtolower($nuevo);
     }
 }

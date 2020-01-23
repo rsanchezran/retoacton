@@ -59,15 +59,14 @@ class CuentaController extends Controller
     {
         $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [], []);
         $validator->after(function ($validator) use ($request) {
-            $dia = $request->dia - 1;
-            $extension = $request->file('imagen')->getClientOriginalExtension();
+            $extension = strtolower($request->file('imagen')->getClientOriginalExtension());
             if ($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png') {
                 $size = ((($request->file('imagen')->getSize() / 1024) / 1024) * 100) / 100;
                 if ($size > 20) {
-                    $validator->errors()->add("imagen$dia", "El tamaño de la imagen debe ser menor a 20MB");
+                    $validator->errors()->add("imagen", "El tamaño de la imagen debe ser menor a 20MB");
                 }
             } else {
-                $validator->errors()->add("imagen$dia", "El formato de la imagen no está permitido");
+                $validator->errors()->add("imagen", "El formato de la imagen no está permitido");
             }
         });
         $validator->validate();

@@ -22,6 +22,7 @@ use App\Suplemento;
 use App\User;
 use App\UsuarioDieta;
 use Carbon\Carbon;
+use Conekta\Util;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -74,7 +75,7 @@ class ConfiguracionController extends Controller
         $categoria = Categoria::find($request->categoria);
         if ($categoria == null) {
             $categoria = new Categoria();
-            $categoria->nombre = $request->nombre;
+            $categoria->nombre = str_replace(' ','_',substr(strtolower($request->nombre),0,20));
             $categoria->save();
         }
         $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [], []);
@@ -100,8 +101,10 @@ class ConfiguracionController extends Controller
         }
         foreach ($request->archivos as $archivo) {
             $extension = $archivo->getClientOriginalExtension();
-            $nombreVideo = trim($archivo->getClientOriginalName());
-            $nombreVideo = str_replace(" ", "_", $nombreVideo);
+            $nombreVideo = $archivo->getClientOriginalName();
+            $elementos = collect(explode('.', $nombreVideo));
+            $elementos->pop();
+            $nombreVideo = Utils::clearString($elementos->implode(''), true).".".$extension;
             $nombreReplace = str_replace('.mp4', '', $nombreVideo);
             if ($extension == 'zip') {
                 $archivo->storeAs('ejercicios', $nombreVideo);

@@ -21867,7 +21867,7 @@ input:checked + .slider:before {
   background-image: url(/images/postergris.png?80f9e0b001b5244931b85692f2e3abb5);
   background-repeat: no-repeat;
   background-position: top right;
-  background-size: 140px;
+  background-size: 125px;
 }
 
 .bigText {
