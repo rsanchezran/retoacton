@@ -640,6 +640,7 @@
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
                         <div id="comidasFeature" class="feature" @mouseleave="ocultar('comidas')" @mouseover="mostrar('comidas')" @click="mostrar('comidas')">
                             <img id="comidasImg" class="img" src="{{asset('/img/comidasblanco.jpg')}}" width="100%">
+                            <img src="{{asset('img/comidas.jpg')}}" style="display: none">
                             <h3 id="comidasSub" class="subtitle">
                                 <span>Plan de alimentación</span>
                                 <span class="small text-lowercase">ver más</span>
@@ -656,6 +657,7 @@
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
                         <div id="entrenamientoFeature" class="feature" @mouseleave="ocultar('entrenamiento')" @mouseover="mostrar('entrenamiento')" @click="mostrar('entrenamiento')">
                             <img id="entrenamientoImg" class="img" src="{{asset('/img/entrenamientoblanco.jpg')}}" width="100%">
+                            <img src="{{asset('img/entrenamiento.jpg')}}" style="display: none">
                             <h3 id="entrenamientoSub"  class="subtitle">
                                 <span>Plan flexible de entrenamiento</span>
                                 <span class="small text-lowercase">ver más</span>
@@ -673,6 +675,7 @@
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
                         <div id="suplementosFeature" class="feature" @mouseleave="ocultar('suplementos')" @mouseover="mostrar('suplementos')" @click="mostrar('suplementos')">
                             <img id="suplementosImg" class="img" src="{{asset('/img/suplementosblanco.jpg')}}" width="100%">
+                            <img src="{{asset('img/suplementos.jpg')}}" style="display: none">
                             <h3 id="suplementosSub" class="subtitle">
                                 <span>Guía de suplementación</span>
                                 <span class="small text-lowercase">ver más</span>
@@ -685,6 +688,7 @@
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
                         <div id="videosFeature" class="feature" @mouseleave="ocultar('videos')" @mouseover="mostrar('videos')" @click="mostrar('videos')">
                             <img id="videosImg" class="img" src="{{asset('/img/videosblanco.jpg')}}" width="100%">
+                            <img src="{{asset('img/videos.jpg')}}" style="display: none">
                             <h3 id="videosSub" class="subtitle">
                                 <span>Videos personalizados</span>
                                 <span class="small text-lowercase">ver más</span>
