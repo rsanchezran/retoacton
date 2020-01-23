@@ -400,6 +400,8 @@ class HomeController extends Controller
     public function etapa2($id)
     {
         $contacto = Contacto::find($id);
+        unset($contacto->peso);
+        unset($contacto->ideal);
         $urls = collect();
         $photos = Storage::disk('local')->files('public/combos');
         foreach ($photos as $photo) {
@@ -476,7 +478,7 @@ class HomeController extends Controller
                     CURLOPT_POST => TRUE,
                     CURLOPT_RETURNTRANSFER => TRUE,
                     CURLOPT_POSTFIELDS => array(
-                        'secret' => '6Ley_MAUAAAAAAgsyBzBZhvwz-AE1fObmbvMwV47',
+                        'secret' => env('CAPTCHA_PRIVATE'),
                         'response' => $request->response,
                     )
                 )

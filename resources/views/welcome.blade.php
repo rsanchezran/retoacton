@@ -706,8 +706,8 @@
                     <h6 class="text-uppercase font-weight-bold biggest">Comienza</h6>
                     <h6 class="text-uppercase font-weight-bold biggest">en tu mente</h6>
                     <br>
-                    <h6 class="gris">Nuestro reto contigo durante estas 8 semanas es demostrarte que</h6>
-                    <h6 class="gris">puedes alcanzar el cuerpo que deseas cuando tu mente así lo decide.</h6>
+                    <h6 class="gris" style="font-family: unitext_light; font-weight: bold;">Nuestro reto contigo durante estas 8 semanas es demostrarte que</h6>
+                    <h6 class="gris" style="font-family: unitext_light; font-weight: bold;">puedes alcanzar el cuerpo que deseas cuando tu mente así lo decide.</h6>
                     <h6 class="text-uppercase">Buscamos ser inspiración y motivación para</h6>
                     <h6 class="text-uppercase">alcanzar cualquier meta que te propongas.</h6>
                 </div>

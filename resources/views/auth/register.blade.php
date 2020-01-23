@@ -47,6 +47,17 @@
         .form-error{
             margin-left: 10px;
         }
+
+        @media only screen and (max-width: 420px) {
+            .container{
+                margin-left:0;
+                margin-right:0;
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+        }
+
+
     </style>
 @endsection
 @section('content')
@@ -99,11 +110,11 @@
                 </div>
             </div>
             <br>
-            <div class="d-flex col-12" style="display: block; margin: auto">
+            <div class="d-flex" style="display: block; margin: auto">
                 <div v-if="!sent&&mensaje!=''">
                     <h6 style="font-size: 1.7em">@{{ mensaje }}</h6>
                 </div>
-                <div v-show="sent" id="pago" class="col-12 text-center" style="display: block; margin: auto">
+                <div v-show="sent" id="pago" class="text-center" style="display: block; margin: auto">
                     <h6 style="font-size: 1.7em">¡Gracias por compartirnos tus datos,</h6>
                     <h6 style="font-size: 1.7em"> nos encantará ayudarte!</h6>
                     <h6 style="font-size: 1.7em"> El costo para unirte y tener los </h6>

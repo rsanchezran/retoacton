@@ -22,7 +22,7 @@
             <h4>¿Tienes alguna duda?</h4>
             <h4>En este link te explicamos más sobre el reto</h4>
             <div style="padding-top:10px; margin: auto;">
-                <a style=" padding: 10px; background-color: #1b4b72; color:#FFF;" href="{{env("APP_URL")."/etapa$contacto->etapa/$contacto->id"}}">Ver informacion</a>
+                <a style=" padding: 10px; background-color: #1b4b72; color:#FFF;" href="{{env("APP_URL")."/etapa".($contacto->etapa-1)."/$contacto->id"}}">Ver informacion</a>
             </div>
         </div>
     </div>

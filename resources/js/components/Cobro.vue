@@ -194,34 +194,38 @@
     };
 </script>
 <template>
-    <div class="d-flex flex-wrap col-12 col-sm-12 col-md-12 col-lg-6 d-block mr-auto ml-auto">
-        <div class="col-sm-5 col-md-5 formaPago" @click="metodoPago('openpay')">
-            <h6>Pago con tarjeta de débito o crédito</h6>
-            <div class="d-flex flex-wrap">
-                <div class="col-12 col-sm-6">
-                    <img :src="url+'/img/visa.png'" width="60">
-                </div>
-                <div class="col-12 col-sm-6">
-                    <img :src="url+'/img/mastercard.png'" width="60">
+    <div>
+        <div class="d-flex d-block mr-auto ml-auto">
+            <div class="formaPago" @click="metodoPago('openpay')">
+                <h6>Pago con tarjeta de débito o crédito</h6>
+                <div class="d-flex flex-wrap">
+                    <div class="col-12 col-sm-6">
+                        <img :src="url+'/img/visa.png'" width="60">
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <img :src="url+'/img/mastercard.png'" width="60">
+                    </div>
                 </div>
             </div>
+            <div class="formaPago">
+                <h6>La forma rápida de pagar</h6>
+                <br>
+                <div id="paypalDiv"></div>
+            </div>
         </div>
-        <div class="col-sm-5 col-md-5 formaPago">
-            <h6>La forma rápida de pagar</h6>
-            <br>
-            <div id="paypalDiv"></div>
+        <div class="d-flex d-block mr-auto ml-auto">
+            <div class="formaPago" @click="metodoPago('spei')">
+                <h6>Pago con SPEI</h6>
+                <br>
+                <img :src="url+'/img/spei.png'" width="80">
+            </div>
+            <div class="formaPago" @click="metodoPago('oxxo')">
+                <h6>Pago en Oxxo</h6>
+                <br>
+                <img :src="url+'/img/oxxo.png'" width="80">
+            </div>
         </div>
-        <div class="col-sm-5 col-md-5 formaPago" @click="metodoPago('spei')">
-            <h6>Pago con SPEI</h6>
-            <br>
-            <img :src="url+'/img/spei.png'" width="80">
-        </div>
-        <div class="col-sm-5 col-md-5 formaPago" @click="metodoPago('oxxo')">
-            <h6>Pago en Oxxo</h6>
-            <br>
-            <img :src="url+'/img/oxxopay.png'" width="150">
-        </div>
-        <div class="col-12 col-sm-6 col-md-5" v-if="response.referencia!=''">
+        <div v-if="response.referencia!=''">
             <button class="bigbutton" @click="$refs.referencia.showModal()">Ver ficha</button>
         </div>
         <modal ref="openpay" title="Pago con tarjeta" @ok="openpay()" :high="'500'" :okdisabled="!acuerdo">
@@ -407,6 +411,7 @@
         margin: 10px;
         align-content: center;
         text-align: center;
+        width: 45%;
     }
 
     .payment {
@@ -471,6 +476,14 @@
 
         #monto{
             font-size:1.2rem;
+        }
+
+        .formaPago h6{
+            font-size: .8rem;
+        }
+
+        .formaPago img{
+            width: 50px;
         }
     }
 </style>

@@ -48,7 +48,7 @@
                                 </a>
                                 <br>
                                 <br>
-                                <a href="{{asset('/assets/cuaderno.pdf')}}" target="_blank" class="btn btn-ml btn-primary">
+                                <a href="{{asset('/assets/cuaderno.pdf')}}" target="_blank">
                                     <i class="fa fa-file-pdf"></i> Descarga aquí tu cuaderno de trabajo
                                 </a>
                             </div>

@@ -74,7 +74,7 @@
             <br>
             <div class="d-flex justify-content-between">
                 <div>
-                    <captcha ref="captcha" sitekey="6Ley_MAUAAAAAHnOqIejZE9Y5iruLmnT89n4e8wU" @verify="onVerify">
+                    <captcha ref="captcha" sitekey="{{env('CAPTCHA_PUBLIC')}}" @verify="onVerify">
                     </captcha>
                     <form-error name="captcha" :errors="errors"></form-error>
                 </div>
