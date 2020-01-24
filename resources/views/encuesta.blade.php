@@ -93,7 +93,7 @@
         }
 
         label.cuestionario {
-            font-size: 13pt;
+            font-size: 1rem;
         }
 
         input.form-control {
@@ -120,9 +120,8 @@
             flex-wrap: wrap;
         }
 
-        .respuesta {
-            margin: 5px;
-            width: 48%;
+        .respuesta{
+            font-size: .8rem;
         }
 
         a.btn-primary {
@@ -142,6 +141,20 @@
             background-repeat: no-repeat;
             background-position: center;
         }
+
+        @media only screen and (max-width: 420px) {
+            .card-body{
+                padding: 2px;
+            }
+
+            label.cuestionario {
+                font-size: .68rem;
+            }
+
+            svg{
+                width: 30px;
+            }
+        }
     </style>
 @endsection
 @section('content')
@@ -154,14 +167,14 @@
         <div>
             <div class="card">
                 <div class="card-header" v-if="inicio.mostrar">
-                    <div class="d-flex" style="padding: 20px">
-                        <div class="d-flex align-items-center col-6" style="border-right: 1px solid #fff">
+                    <div class="d-flex flex-wrap" style="padding: 20px">
+                        <div class="col-12 col-sm-6" style="border-right: 1px solid #fff">
                             <span style="font-size: 1.2em; text-align: right">
                                 Empezaremos con un breve cuestionario que nos permitirá identificar qué tipo de programa
                                 se adapta mejor a tus características físicas y objetivo.
                             </span>
                         </div>
-                        <div class="col-6 text-center">
+                        <div class="col-12 col-sm-6 text-center">
                             <button class="btn btn-light text-uppercase font-weight-bold"
                                     style="margin-top: 20px; padding: 10px 80px; color:#007dd8;"
                                     @click="mostrarAbiertas()">Empezar
@@ -169,7 +182,7 @@
                         </div>
                     </div>
                 </div>
-                <div v-else class="card-header text-center" style="padding: 20px; font-size: 2em;">
+                <div v-else class="card-header text-center" style="padding: 20px; font-size: 1.2rem;">
                     @{{ pregunta }}
                 </div>
                 <div class="card-body" :style="inicio.mostrar?'padding:0':''">
@@ -196,10 +209,10 @@
                         <transition name="encuesta"
                                     v-if="pregunta.multiple != undefined"> {{--animacion de la pantalla de css--}}
                             <div v-if="pregunta.mostrar">
-                                <div class="col-sm-12 d-block mr-auto ml-auto">
+                                <div class="d-block mr-auto ml-auto">
                                     <div class="form-group">
                                         <div class="pregunta"> {{--Preguntas con opciones--}}
-                                            <div class="respuesta " v-for="(opcion, indexR) in pregunta.opciones">
+                                            <div class="col-12 col-sm-6" v-for="(opcion, indexR) in pregunta.opciones">
                                                 <input :id="pregunta.id+''+indexR" type="checkbox" v-show="false"
                                                        v-model="opcion.selected"
                                                        @change="seleccionar(pregunta, opcion)">
@@ -367,7 +380,7 @@
                         axios.post("{{url('encuesta/save')}}", {usuario: vm.user, respuestas: respuestas})
                             .then(function (respuesta) {
                                 vm.terminar = true;
-                                vm.pregunta = "Estamos generando tu programa , en lo que terminamos te invitamos a ver este video de bienvenida"
+                                vm.pregunta = "Estamos casi listos..."
                             })
                             .catch(function (error) {
                                 vm.terminar = false;

@@ -169,7 +169,7 @@
             border: none;
             border-radius:0px 0px 30px 0px;
             background-color: #fff;
-            margin-top: 10px;
+            margin-top: 20px;
             padding: 5px 10px;
             text-align: center;
             color: #0d65a0;
@@ -185,7 +185,7 @@
             background-image: url("{{asset('img/meditacion.png')}}");
             background-repeat: no-repeat;
             background-size: 100% 100%;
-            padding-bottom: 100px;
+            padding-bottom: 120px;
             padding-top: 60px;
         }
 
@@ -250,7 +250,7 @@
         }
 
         #chica{
-            margin-top: -220px;
+            margin-top: -190px;
             margin-left: -213px;
             height: 1000px;
         }
@@ -307,7 +307,7 @@
         }
 
         #inscripcion{
-            margin-left:20px
+            margin-left:0px
         }
 
         #ganar{
@@ -584,6 +584,12 @@
                 font-size:2.8rem;
             }
         }
+        @media only screen and (min-width: 1920px) {
+            #audios{
+                padding-bottom: 320px;
+            }
+        }
+
 
     </style>
 @endsection
