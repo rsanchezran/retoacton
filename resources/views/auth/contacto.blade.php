@@ -72,7 +72,7 @@
                 <form-error name="mensaje" :errors="errors"></form-error>
             </div>
             <br>
-            <div class="d-flex justify-content-between">
+            <div class="d-flex flex-column">
                 <div>
                     <captcha ref="captcha" sitekey="{{env('CAPTCHA_PUBLIC')}}" @verify="onVerify">
                     </captcha>
