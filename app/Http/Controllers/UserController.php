@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Code\RolUsuario;
 use App\Code\Utils;
+use App\Contacto;
 use App\User;
 use App\UsuarioDia;
 use Illuminate\Http\Request;
@@ -146,6 +147,10 @@ class UserController extends Controller
         $usuario = User::find($request->id);
         $usuario->pass = '';
         $usuario->delete();
+        $contacto = Contacto::where('email', $usuario->email)->first();
+        if ($contacto !== null) {
+            $contacto->delete();
+        }
         return response()->json(['status' => 'ok', 'redirect' => url('/usuarios/')]);
     }
 
