@@ -486,6 +486,7 @@
                 border-bottom: 2px solid #AAA9A9;
                 padding: 5px;
                 height:45px;
+                margin-top:10px;
             }
 
             .semana h6{
@@ -537,8 +538,8 @@
             }
 
             #audios{
-                background-size: cover;
-                padding-bottom: 65px;
+                background-size: 100% 100%;
+                padding-bottom: 50px;
                 padding-top: 20px;
             }
         }
