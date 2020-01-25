@@ -119,7 +119,7 @@ class RegisterController extends Controller
         $contacto->medio = $request->medio;
         $contacto->codigo = $request->codigo;
         $contacto->save();
-        $usuario = User::withTrashed()->orderBy('created_at')->where('email', $request->email)->last();
+        $usuario = User::withTrashed()->orderBy('created_at')->where('email', $request->email)->get()->last();
         $monto = env('COBRO_ORIGINAL');
         $descuento = env('COBRO');
         $mensaje = '';

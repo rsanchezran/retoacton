@@ -94,11 +94,14 @@ class UserController extends Controller
     public function imagenes($usuario_id)
     {
         $web = '/reto/getImagen/reto/'; //ruta para imagenes route /reto/getImagen... en carpeta .../reto
-        $usuario = User::select('id', 'name', 'inicio_reto')->where('id', $usuario_id)->get()->first();
+        $usuario = User::select('id', 'name', 'inicio_reto','created_at')->where('id', $usuario_id)->get()->first();
         $links = collect();
         $dias = UsuarioDia::where('usuario_id', $usuario_id)->orderBy('dia_id')->get()->keyBy('dia_id');
-        $dias_reto = Carbon::now()->diffInDays($usuario->inicio_reto);
-        for ($i = 1; $i <= $dias_reto; $i++) {
+        $diasTranscurridos = Carbon::now()->diffInDays($usuario->inicio_reto);
+        if ($diasTranscurridos > env('DIAS')) {
+            $diasTranscurridos = env('DIAS');
+        }
+        for ($i = 1; $i <= $diasTranscurridos; $i++) {
             $dia = $dias->get($i);
             if ($dia === null) {
                 $dia = new UsuarioDia();
