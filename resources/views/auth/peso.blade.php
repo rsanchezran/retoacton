@@ -18,7 +18,7 @@
                 <h6 class="text-uppercase biggerText font-weight-bold acton">Reto Acton</h6>
             </div>
             <div align="center">
-                <h5>Porfavor compartenos que peso tienes actualmente y cual quieres lograr</h5>
+                <h5>Por favor compartenos que peso tienes actualmente y cual quieres lograr</h5>
                 <div class="col-sm-8">
                     <input type="number" class="form-control col-sm-4" placeholder="Peso actual" v-model="contacto.peso">
                     <input type="number" class="form-control col-sm-4" placeholder="Peso ideal"

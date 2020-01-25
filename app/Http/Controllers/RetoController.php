@@ -117,7 +117,7 @@ class RetoController extends Controller
         }
         $image->save(storage_path("app/public/reto/$usuario_id/$request->dia.jpg"));
 
-        return response()->json(['respuesta' => 'ok', 'imagen' => url("/reto/getImagen/reto/$usuario_id/$request->dia/" . rand(0, 100))]);
+        return response()->json(['respuesta' => 'ok', 'imagen' => url("/reto/getImagen/reto/$usuario_id/$request->dia/" . (Utils::generarRandomString(10)))]);
     }
 
     public function retoActon(Request $request)
@@ -279,7 +279,7 @@ class RetoController extends Controller
             $ejemplo = new UsuarioDia();
         }
         $ejemplo->comentario = Dia::find($dia)->comentarios;
-        $ejemplo->imagen = url("/reto/getImagen/reto/1/$dia");
+        $ejemplo->imagen = url("/reto/getImagen/reto/1/$dia/".Utils::generarRandomString(10));
         if (Storage::disk('local')->exists("public/reto/1/" . ($dia) . '.mp3')) {
             $ejemplo->audio = url("/reto/getAudio/reto/1/$dia");
         } else {
@@ -290,7 +290,7 @@ class RetoController extends Controller
             $usuarioDia = new UsuarioDia();
         }
         $usuarioDia->dia = $dia;
-        $usuarioDia->imagen = url("/reto/getImagen/reto/$user->id/$dia");
+        $usuarioDia->imagen = url("/reto/getImagen/reto/$user->id/$dia/".Utils::generarRandomString(10));
         return response()->json(['dia' => $usuarioDia, 'ejemplo' => $ejemplo]);
     }
 
@@ -330,6 +330,6 @@ class RetoController extends Controller
         $usuarioDia->comentario = null;
         $usuarioDia->save();
         $request->file('audio')->storeAs("public/reto/$usuario_id/", $request->dia . '.mp3');
-        return response()->json(['respuesta' => 'ok', 'audio' => url("/reto/getAudio/reto/$usuario_id/$request->dia/" . rand(0, 100))]);
+        return response()->json(['respuesta' => 'ok', 'audio' => url("/reto/getAudio/reto/$usuario_id/$request->dia/" . Utils::generarRandomString(10))]);
     }
 }

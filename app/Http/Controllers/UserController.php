@@ -98,7 +98,7 @@ class UserController extends Controller
         $links = collect();
         $dias = UsuarioDia::where('usuario_id', $usuario_id)->orderBy('dia_id')->get()->keyBy('dia_id');
         $dias_reto = Carbon::now()->diffInDays($usuario->inicio_reto);
-        for ($i = 1; $i < $dias_reto; $i++) {
+        for ($i = 1; $i <= $dias_reto; $i++) {
             $dia = $dias->get($i);
             if ($dia === null) {
                 $dia = new UsuarioDia();
