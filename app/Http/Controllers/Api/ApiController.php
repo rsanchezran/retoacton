@@ -34,28 +34,15 @@ class ApiController extends Controller
         if ($request->data["object"] != null) {
             if (array_key_exists('order_id', $request->data["object"])) {
                 $order_id = $request->data["object"]["order_id"];
+                $cobro = $request->data["object"]["amount"];
                 $contacto = Contacto::where("order_id", $order_id)->first();
                 if ($contacto !== null) {
                     $usuario = User::where('email', $contacto->email)->first();
-                    if ($usuario==null){
+                    if ($usuario == null) {
                         User::crear($contacto->nombres, $contacto->apellidos, $contacto->email,
-                            $request->data["object"]["payment_method"]["type"], 0, $contacto->codigo);
-                        $pagoController = new PagoController();
-                        $pagoController->aumentarSaldo($contacto->codigo);
-                    }else{
-                        $usuario->telefono = $contacto->telefono;
-                        $usuario->objetivo = 0;
-                        $usuario->pagado = true;
-                        $usuario->fecha_inscripcion = Carbon::now();
-                        $usuario->save();
-                        $mensaje = new \stdClass();
-                        $mensaje->subject = "Bienvenido de nuevo al Reto Acton";
-                        $mensaje->pass = "";
-                        try{
-                            Mail::queue(new Registro($usuario, $mensaje));
-                            $usuario->correo_enviado = 1;
-                            $usuario->save();
-                        }catch (\Exception $e){}
+                            $request->data["object"]["payment_method"]["type"], 0, $contacto->codigo, $cobro);
+                    } else {
+                        $usuario->refrendarPago($cobro, $contacto->telefono);
                     }
                 }
             }

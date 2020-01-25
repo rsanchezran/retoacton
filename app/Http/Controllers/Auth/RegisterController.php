@@ -120,27 +120,27 @@ class RegisterController extends Controller
         $contacto->codigo = $request->codigo;
         $contacto->save();
         $usuario = User::withTrashed()->orderBy('created_at')->where('email', $request->email)->get()->last();
-        $monto = env('COBRO_ORIGINAL');
-        $descuento = env('COBRO');
+        $cobro = User::calcularMontoCompra($request->codigo, $request->email,
+            $usuario == null ? null : $usuario->created_at,
+            $usuario == null ? null : $usuario->fecha_inscripcion,
+            $usuario == null ? null : $usuario->inicio_reto);
         $mensaje = '';
         $status = 'ok';
         if ($usuario !== null) {
             if ($usuario->deleted_at == null) {
                 if ($usuario->inicio_reto == null) {
-                    $status='error';
+                    $status = 'error';
                     $mensaje = 'Este usuario ya pertenece al RETO ACTON.';
                 } else {
-                    if (Carbon::parse($usuario->inicio_reto)->diffInDays(Carbon::now()) > intval(env('DIAS'))) {
-                        $monto = env('COBRO_ORIGINAL2');
-                        $descuento = env('COBRO2');
-                    } else {
-                        $status='error';
+                    if (Carbon::parse($usuario->inicio_reto)->diffInDays(Carbon::now()) < intval(env('DIAS'))) {
+                        $status = 'error';
                         $mensaje = 'Este usuario ya pertenece al RETO ACTON.';
                     }
                 }
             }
         }
-        return response()->json(['status' => $status, 'monto' => $monto, 'descuento' => $descuento, 'mensaje' => $mensaje]);
+        return response()->json(['status' => $status, 'original' => $cobro->original, 'descuento' => $cobro->descuento,
+            'monto' => $cobro->monto, 'mensaje' => $mensaje]);
     }
 
     public function saveObjetivo(Request $request)
@@ -214,7 +214,8 @@ class RegisterController extends Controller
 
     public function buscarReferencia($referencia)
     {
-        $user = User::select('name', 'last_name')->where('referencia', $referencia)->where('pagado', TipoPago::PAGADO)->get()->first();
+        $user = User::select('name', 'last_name')->where('referencia', $referencia)
+            ->where('id','!=',1)->where('pagado', TipoPago::PAGADO)->get()->first();
         if ($user == null) {
             abort(403, 'Unauthorized action.');
         }

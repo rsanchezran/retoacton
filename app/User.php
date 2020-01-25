@@ -64,7 +64,7 @@ class User extends Authenticatable
         return $this->hasMany('App\Respuesta', 'usuario_id', 'id')->join('preguntas', 'pregunta_id', 'preguntas.id');
     }
 
-    public static function crear($nombre, $apellidos = '', $email, $tipo, $objetivo, $codigo = '')
+    public static function crear($nombre, $apellidos = '', $email, $tipo, $objetivo, $codigo = '', $monto)
     {
         $pass = Utils::generarRandomString();
         $usuario = User::create([
@@ -83,7 +83,18 @@ class User extends Authenticatable
             'fecha_inscripcion' => Carbon::now(),
             'correo_enviado' => 0
         ]);
-
+        if ($usuario->codigo != '') {
+            $usuario->aumentarSaldo();
+        }
+//        $respuesta = new Respuesta();
+//        $respuesta->pregunta_id = 9;
+//        $respuesta->usuario_id = $usuario->id;
+//        $respuesta->respuesta = "Bajar de peso";
+//        $respuesta->save();
+        $compra = new Compra();
+        $compra->monto = $monto;
+        $compra->usuario_id = $usuario->id;
+        $compra->save();
         $mensaje = new \stdClass();
         $mensaje->subject = "Bienvenido al Reto Acton de 8 semanas";
         $mensaje->pass = $pass;
@@ -91,6 +102,85 @@ class User extends Authenticatable
             Mail::queue(new Registro($usuario, $mensaje));
             $usuario->correo_enviado = 1;
             $usuario->save();
-        } catch (\Exception $e) {}
+        } catch (\Exception $e) {
+        }
+    }
+
+    public static function calcularMontoCompra($codigo, $email, $created_at, $fecha_inscripcion, $inicio_reto)
+    {
+        $compra = new \stdClass();
+        $referenciado = User::where('referencia', $codigo)->where('id', '!=', 1)->first();
+        $monto = intval(env('COBRO_ORIGINAL'));
+        if ($created_at == null) {
+            if ($referenciado == null) {
+                $contacto = Contacto::where('email', $email)->first();
+                if ($contacto->etapa == 1) {
+                    $descuento = intval(env('DESCUENTO'));
+                } else {
+                    $descuento = intval(env("DESCUENTO" . ($contacto->etapa - 1)));
+                }
+            } else {
+                $descuento = intval(env('DESCUENTO_REFERENCIA'));
+            }
+        } else {
+            if (self::isNuevo($created_at, $fecha_inscripcion)) {
+                if (intval(env('DIAS') > Carbon::now()->diffInDays(Carbon::parse($inicio_reto)))) {
+                    $monto = 0;
+                    $descuento = 0;
+                } else {
+                    $monto = intval(env('COBRO_REFRENDO'));
+                    $descuento = 0;
+                }
+            } else {
+                $monto = intval(env('COBRO_REFRENDO'));
+                $descuento = 0;
+            }
+        }
+        $compra->original = $monto;
+        $compra->descuento = $descuento;
+        $compra->monto = $monto - ($monto * ($descuento / 100));
+        return $compra;
+    }
+
+    public static function isNuevo($created_at, $fecha_inscripcion)
+    {
+        return $created_at->startOfDay()->diffInDays(Carbon::parse($fecha_inscripcion)->startOfDay()) == 0;
+    }
+
+    public function refrendarPago($monto, $telefono = null)
+    {
+        $this->telefono = $telefono;
+        $this->objetivo = 0;
+        $this->correo_enviado = 0;
+        $this->pagado = true;
+        $this->fecha_inscripcion = Carbon::now();
+        $this->save();
+        if ($this->codigo != '') {
+            $this->aumentarSaldo();
+        }
+        $compra = new Compra();
+        $compra->monto = $monto;
+        $compra->usuario_id = $this->id;
+        $compra->save();
+        $mensaje = new \stdClass();
+        $mensaje->subject = "Bienvenido de nuevo al Reto Acton";
+        $mensaje->pass = "";
+        try {
+            Mail::queue(new Registro($this, $mensaje));
+            $this->correo_enviado = 1;
+            $this->save();
+        } catch (\Exception $e) {
+        }
+    }
+
+    public function aumentarSaldo()
+    {
+        $user_referencia = User::where('referencia', $this->codigo)->get()->first();
+        if ($user_referencia != null) {
+            $user_referencia->ingresados_reto += 1;
+            $user_referencia->ingresados += 1;
+            $user_referencia->saldo += intval(env('COMISION'));
+            $user_referencia->save();
+        }
     }
 }

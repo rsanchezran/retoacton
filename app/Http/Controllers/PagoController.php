@@ -84,10 +84,14 @@ class PagoController extends Controller
 
     public function openpay(Request $request)
     {
+        $this->validarOpenpay($request);
         try {
             \DB::beginTransaction();
-            $usuario = User::where('email', $request->email)->first();
-            $cobro = $usuario == null ? env("COBRO") : env("COBRO2");
+            $usuario = User::withTrashed()->orderBy('created_at')->where('email', $request->email)->get()->last();
+            $cobro = User::calcularMontoCompra($request->pregunta, $request->email,
+                $usuario == null ? null : $usuario->created_at,
+                $usuario == null ? null : $usuario->fecha_inscripcion,
+                $usuario == null ? null : $usuario->inicio_reto)->monto;
             $openpay = \Openpay::getInstance(
                 env('OPENPAY_ID'),
                 env('OPENPAY_PRIVATE')
@@ -101,7 +105,7 @@ class PagoController extends Controller
             $chargeRequest = array(
                 'method' => 'card',
                 'source_id' => $request->token,
-                'amount' => $cobro,
+                'amount' => "$cobro",
                 'currency' => 'MXN',
                 'description' => 'Inscripción al Reto Acton',
                 'device_session_id' => $request->deviceSessionId,
@@ -111,32 +115,11 @@ class PagoController extends Controller
                 $chargeRequest["payment_plan"] = ["payments" => 3];
             }
             $openpay->charges->create($chargeRequest);
-            $tarjeta = $request->deposito ? $request->numero : null;
             if ($usuario == null) {
-                User::crear($request->nombres, $request->apellidos, $request->email, 'tarjeta', 0, $request->pregunta);
-                if ($request->pregunta != '')
-                    $this->aumentarSaldo($request->pregunta);
-                $usuario = User::where('email', $request->email)->get()->first();
-                $respuesta = new Respuesta();
-                $respuesta->pregunta_id = 9;
-                $respuesta->usuario_id = $usuario->id;
-                $respuesta->respuesta = "Bajar de peso";
-                $respuesta->save();
+                User::crear($request->nombres, $request->apellidos, $request->email, 'tarjeta', 0,
+                    $request->pregunta, $cobro);
             } else {
-                $usuario->objetivo = 0;
-                $usuario->correo_enviado = 0;
-                $usuario->pagado = true;
-                $usuario->fecha_inscripcion = Carbon::now();
-                $usuario->inicio_reto = Carbon::now();
-                $usuario->save();
-                $mensaje = new \stdClass();
-                $mensaje->subject = "Bienvenido de nuevo al Reto Acton";
-                $mensaje->pass = "";
-                try{
-                    Mail::queue(new Registro($usuario, $mensaje));
-                    $usuario->correo_enviado = 1;
-                    $usuario->save();
-                }catch (\Exception $e){}
+                $usuario->refrendarPago($cobro);
             }
             \DB::commit();
         } catch (\Exception $e) {
@@ -148,7 +131,11 @@ class PagoController extends Controller
     public function oxxo(Request $request)
     {
         $this->validarTelefono($request);
-        $usuario = User::where('email', $request->email)->first();
+        $usuario = User::withTrashed()->orderBy('created_at')->where('email', $request->email)->get()->last();
+        $cobro = User::calcularMontoCompra($request->pregunta, $request->email,
+            $usuario == null ? null : $usuario->created_at,
+            $usuario == null ? null : $usuario->fecha_inscripcion,
+            $usuario == null ? null : $usuario->inicio_reto)->monto;
         Conekta::setApiKey(env("CONEKTA_PRIVATE"));
         Conekta::setApiVersion("2.0.0");
         $valid_order =
@@ -157,14 +144,14 @@ class PagoController extends Controller
                     array(
                         'name' => 'Acton',
                         'description' => 'Acton reto',
-                        'unit_price' => ($usuario == null ? env("COBRO") : env("COBRO2")) . "00",
+                        'unit_price' => $cobro,
                         'quantity' => 1,
                     )
                 ),
                 'currency' => 'mxn',
                 'customer_info' => array(
                     'name' => $request->nombres,
-                    'phone' => '52'.$request->telefono,
+                    'phone' => '52' . $request->telefono,
                     'email' => $request->email
                 ),
                 'charges' => array(
@@ -189,9 +176,10 @@ class PagoController extends Controller
             $contacto->objetivo = 0;
             $contacto->codigo = $request->pregunta;
             $contacto->save();
-            try{
+            try {
                 Mail::queue(new EnviarFicha($contacto, $orden));
-            }catch(\Exception $e){}
+            } catch (\Exception $e) {
+            }
             return response()->json(['status' => 'ok', 'referencia' => $orden->referencia, 'monto' => $orden->monto,
                 'origen' => $orden->origen]);
         } catch (\Conekta\ProcessingError $e) {
@@ -205,7 +193,11 @@ class PagoController extends Controller
     public function spei(Request $request)
     {
         $this->validarTelefono($request);
-        $usuario = User::where('email', $request->email)->first();
+        $usuario = User::withTrashed()->orderBy('created_at')->where('email', $request->email)->get()->last();
+        $cobro = User::calcularMontoCompra($request->pregunta, $request->email,
+            $usuario == null ? null : $usuario->created_at,
+            $usuario == null ? null : $usuario->fecha_inscripcion,
+            $usuario == null ? null : $usuario->inicio_reto)->monto;
         Conekta::setApiKey(env("CONEKTA_PRIVATE"));
         Conekta::setApiVersion("2.0.0");
         $valid_order =
@@ -214,7 +206,7 @@ class PagoController extends Controller
                     array(
                         "name" => "Acton",
                         "description" => "Acton reto",
-                        'unit_price' => ($usuario == null ? env("COBRO") : env("COBRO2")) . "00",
+                        'unit_price' => $cobro,
                         "quantity" => 1
                     )//first line_item
                 ), //line_items
@@ -222,7 +214,7 @@ class PagoController extends Controller
                 "customer_info" => array(
                     "name" => $request->nombres,
                     "email" => $request->email,
-                    'phone' => '52'.$request->telefono,
+                    'phone' => '52' . $request->telefono,
                 ), //customer_info
                 "charges" => array(
                     array(
@@ -246,9 +238,10 @@ class PagoController extends Controller
             $contacto->objetivo = 0;
             $contacto->codigo = $request->pregunta;
             $contacto->save();
-            try{
+            try {
                 Mail::queue(new EnviarFicha($contacto, $orden));
-            }catch (\Exception $e){}
+            } catch (\Exception $e) {
+            }
             return response()->json(['status' => 'ok', 'referencia' => $orden->referencia, 'monto' => $orden->monto,
                 'origen' => $orden->origen]);
         } catch (\Conekta\ProcessingError $e) {
@@ -261,25 +254,16 @@ class PagoController extends Controller
 
     public function paypal(Request $request)
     {
-        $usuario = User::where('email', $request->email)->first();
-        $objetivo = 0;
+        $usuario = User::withTrashed()->orderBy('created_at')->where('email', $request->email)->get()->last();
+        $cobro = User::calcularMontoCompra($request->pregunta, $request->email,
+            $usuario == null ? null : $usuario->created_at,
+            $usuario == null ? null : $usuario->fecha_inscripcion,
+            $usuario == null ? null : $usuario->inicio_reto)->monto;
         if ($usuario == null) {
             User::crear($request->nombres, $request->apellidos, $request->email,
-                'paypal', $objetivo, $request->pregunta);
-            $this->aumentarSaldo($request->pregunta);
+                'paypal', 0, $request->pregunta, $cobro);
         } else {
-            $usuario->objetivo = $objetivo;
-            $usuario->pagado = true;
-            $usuario->fecha_inscripcion = Carbon::now();
-            $usuario->save();
-            $mensaje = new \stdClass();
-            $mensaje->subject = "Bienvenido de nuevo al Reto Acton";
-            $mensaje->pass = "";
-            try{
-                Mail::queue(new Registro($usuario, $mensaje));
-                $usuario->correo_enviado = 1;
-                $usuario->save();
-            }catch (\Exception $e){}
+            $usuario->refrendarPago($cobro);
         }
         return response()->json(['status' => 'ok', 'redirect' => url('login')]);
     }
@@ -318,16 +302,5 @@ class PagoController extends Controller
             'telefono.numeric' => 'Debe ser numérico',
             'telefono.integer' => 'No puede ingresar números negativos'
         ]);
-    }
-
-    public function aumentarSaldo($codigo)
-    {
-        $user_referencia = User::where('referencia', $codigo)->get()->first();
-        if ($user_referencia != null) {
-            $user_referencia->ingresados_reto += 1;
-            $user_referencia->ingresados += 1;
-            $user_referencia->saldo += 500;
-            $user_referencia->save();
-        }
     }
 }

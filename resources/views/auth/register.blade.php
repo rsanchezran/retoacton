@@ -36,7 +36,7 @@
             color: #929292;
         }
 
-        #bienvenida{
+        #bienvenida {
             background-repeat: no-repeat;
             background-image: url('{{asset('/img/postergris.png')}}');
             background-position: top right;
@@ -44,14 +44,14 @@
             height: 100px;
         }
 
-        .form-error{
+        .form-error {
             margin-left: 10px;
         }
 
         @media only screen and (max-width: 420px) {
-            .container{
-                margin-left:0;
-                margin-right:0;
+            .container {
+                margin-left: 0;
+                margin-right: 0;
                 padding-left: 5px;
                 padding-right: 5px;
             }
@@ -69,11 +69,12 @@
         <div class="container">
             <div align="center">
                 <div id="header" align="center">
-                    <h6 class="text-uppercase bigText" >Bienvenido al</h6>
+                    <h6 class="text-uppercase bigText">Bienvenido al</h6>
                     <h6 class="text-uppercase biggerText font-weight-bold acton">Reto Acton</h6>
                 </div>
-                <h5 class="text-left" style="color:#0080DD">Antes de comenzar nos gustaría saber un poco más sobre ti</h5>
-                <select class="form-control" v-model="informacion.medio">
+                <h5 class="text-left" style="color:#0080DD">Antes de comenzar nos gustaría saber un poco más sobre
+                    ti</h5>
+                <select class="form-control" v-model="informacion.medio" @change="seleccionarMedio">
                     <option value="" disabled>¿Cómo te enteraste del reto acton?</option>
                     <option v-for="medio in medios" :value="medio">@{{medio}}</option>
                 </select>
@@ -88,7 +89,8 @@
                         <span v-if="encontrado" class="font-weight-bold">El código que ingresaste corresponde al usuario :
                             <i style="font-size:1.1rem">@{{ referencia }}</i>
                         </span>
-                        <span v-else class="font-weight-bold">[No se encontró al alguien con ese código de referencia]</span>
+                        <span v-else
+                              class="font-weight-bold">[No se encontró al alguien con ese código de referencia]</span>
                     </div>
                 </div>
                 <div v-if="informacion.medio!=''">
@@ -111,36 +113,40 @@
             </div>
             <br>
             <div class="d-flex" style="display: block; margin: auto">
-                <div v-if="!sent&&mensaje!=''">
-                    <h6 style="font-size: 1.7em">@{{ mensaje }}</h6>
-                </div>
                 <div v-show="sent" id="pago" class="text-center" style="display: block; margin: auto">
-                    <h6 style="font-size: 1.7em">¡Gracias por compartirnos tus datos,</h6>
-                    <h6 style="font-size: 1.7em"> nos encantará ayudarte!</h6>
-                    <h6 style="font-size: 1.7em"> El costo para unirte y tener los </h6>
-                    <h6 style="font-size: 1.7em"> beneficios del <b class="text-uppercase">Reto Acton</b> es de: </h6>
-                    <label style="font-size: 1.4rem; font-family: unitext_bold_cursive">
-                        <money id="cobro_anterior" :cantidad="monto" :decimales="0"
-                               estilo="font-size:1.2em; color:#000000" adicional=" MXN"
-                               :caracter="true"></money>
-                    </label>
-                    <div id="infoPago">
-                        <label style="font-size: 1rem; color: #000; font-family: unitext_bold_cursive">aprovecha el </label>
-                        <label style="font-size: 1.4rem; margin-top: -5px; font-family: unitext_bold_cursive">55% de descuento </label>
-                        <label style="color: #000; font-weight: bold; font-family: unitext_bold_cursive">ÚLTIMO DIA</label>
+                    <div v-show="mensaje!=''">
+                        <h6 style="font-size: 1.7em">@{{ mensaje }}</h6>
                     </div>
-                    <div id="pagar">
+                    <div v-show="mensaje==''">
+                        <h6 style="font-size: 1.7em">¡Gracias por compartirnos tus datos,</h6>
+                        <h6 style="font-size: 1.7em"> nos encantará ayudarte!</h6>
+                        <h6 style="font-size: 1.7em"> El costo para unirte y tener los </h6>
+                        <h6 style="font-size: 1.7em"> beneficios del <b class="text-uppercase">Reto Acton</b> es de:
+                        </h6>
+                        <label style="font-size: 1.4rem; font-family: unitext_bold_cursive">
+                            <money v-if="descuento>0" id="cobro_anterior" :cantidad="''+original" :decimales="0"
+                                   estilo="font-size:1.2em; color:#000000" adicional=" MXN"
+                                   :caracter="true"></money>
+                        </label>
+                        <div id="infoPago" v-if="descuento>0">
+                            <label style="font-size: 1rem; color: #000; font-family: unitext_bold_cursive">aprovecha
+                                el </label>
+                            <label style="font-size: 1.4rem; margin-top: -5px; font-family: unitext_bold_cursive">@{{descuento }}% de descuento </label>
+                            <label style="color: #000; font-weight: bold; font-family: unitext_bold_cursive">ÚLTIMO DIA</label>
+                        </div>
+                        <div id="pagar">
                             <div>a solo</div>
                             <div style="font-size: 1.5rem; margin-left: 5px">
-                                <money :cantidad="descuento" :caracter="true" :decimales="0"
+                                <money :cantidad="''+monto" :caracter="true" :decimales="0"
                                        estilo="font-size:1.5em; font-weight: bold"></money>
                             </div>
+                        </div>
+                        <br>
+                        <h6 style="color: #000;">Estas son las formas de realizar tu pago de manera segura</h6>
+                        <cobro ref="cobro" :cobro="''+monto" :url="'{{url('/')}}'" :id="'{{env('OPENPAY_ID')}}'"
+                               :llave="'{{env('OPENPAY_PUBLIC')}}'" :sandbox="'{{env('SANDBOX')}}'==true" :meses="true"
+                               @terminado="terminado"></cobro>
                     </div>
-                    <br>
-                    <h6 style="color: #000;">Estas son las formas de realizar tu pago de manera segura</h6>
-                    <cobro ref="cobro" :cobro="descuento" :url="'{{url('/')}}'" :id="'{{env('OPENPAY_ID')}}'"
-                           :llave="'{{env('OPENPAY_PUBLIC')}}'" :sandbox="'{{env('SANDBOX')}}'==true" :meses="true"
-                           @terminado="terminado"></cobro>
                 </div>
             </div>
         </div>
@@ -171,9 +177,10 @@
                     loading: false,
                     encontrado: null,
                     referencia: '',
-                    monto:'0',
-                    descuento:'0',
-                    mensaje:''
+                    original: '0',
+                    monto: '0',
+                    descuento: '0',
+                    mensaje: ''
                 }
             },
             methods: {
@@ -202,12 +209,14 @@
                         this.informacion.email = this.informacion.email.trim();
                         this.informacion.telefono = this.informacion.telefono.trim();
                         this.informacion.codigo = this.informacion.codigo.trim();
-
+                        this.mensaje = '';
+                        this.sent = false;
                         axios.post("{{url("saveContacto")}}", this.informacion).then(function (response) {
+                            vm.sent = true;
                             if (response.data.status == 'ok') {
+                                vm.original = response.data.original;
                                 vm.monto = response.data.monto;
                                 vm.descuento = response.data.descuento;
-                                vm.sent = true;
                                 vm.$refs.cobro.configurar(
                                     vm.informacion.nombres,
                                     vm.informacion.apellidos,
@@ -216,7 +225,7 @@
                                     vm.informacion.codigo,
                                     vm.informacion.referenciado
                                 );
-                            }else{
+                            } else {
                                 vm.mensaje = response.data.mensaje;
                             }
                         }).catch(function (error) {
@@ -224,6 +233,9 @@
                             vm.errors = error.response.data.errors;
                         });
                     }
+                },
+                seleccionarMedio: function () {
+                    this.informacion.codigo = '';
                 }
             }
         });

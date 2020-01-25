@@ -98,7 +98,7 @@
                             }
                             vm.$refs.openpay.working = false;
                         }).catch(function (errors) {
-                            vm.errors = {tarjeta: ['Su tarjeta no es válida']};
+                            vm.errors = errors.response.data.errors;
                             vm.$refs.openpay.working = false;
                         });
                     },

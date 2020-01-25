@@ -378,6 +378,12 @@ class HomeController extends Controller
         $contacto = Contacto::find($id);
         $urls = collect();
         $photos = Storage::disk('local')->files('public/combos');
+        $usuario = User::withTrashed()->orderBy('created_at')->where('email', $contacto->email)->get()->last();
+        $cobro = User::calcularMontoCompra($contacto->codigo, $contacto->email,
+            $usuario == null ? null : $usuario->created_at,
+            $usuario == null ? null : $usuario->fecha_inscripcion,
+            $usuario == null ? null : $usuario->inicio_reto);
+        $mensaje = $usuario == null ? '' : 'Este usuario ya pertenece al RETO ACTON.';
         $pregunta = Pregunta::select('id', 'pregunta', 'opciones')->where('id', TipoRespuesta::PREGUNTAS_REGISTRO[0])->get()->first();
         $pregunta->pregunta = strtolower($pregunta->pregunta);
         $opciones = collect();
@@ -394,7 +400,7 @@ class HomeController extends Controller
             $urls->push(url("getCombo/" . $nombre));
         }
         return view("auth.objetivo", ['urls' => $urls, 'pregunta' => $pregunta, 'contacto' => $contacto,
-            'monto' => env('COBRO_ORIGINAL'), 'descuento' => env('COBRO')]);
+            'original' => $cobro->original, 'descuento' => $cobro->descuento, 'monto' => $cobro->monto, 'mensaje' => $mensaje]);
     }
 
     public function etapa2($id)
@@ -402,6 +408,12 @@ class HomeController extends Controller
         $contacto = Contacto::find($id);
         unset($contacto->peso);
         unset($contacto->ideal);
+        $usuario = User::withTrashed()->orderBy('created_at')->where('email', $contacto->email)->get()->last();
+        $cobro = User::calcularMontoCompra($contacto->codigo, $contacto->email,
+            $usuario == null ? null : $usuario->created_at,
+            $usuario == null ? null : $usuario->fecha_inscripcion,
+            $usuario == null ? null : $usuario->inicio_reto);
+        $mensaje = $usuario == null ? '' : 'Este usuario ya pertenece al RETO ACTON.';
         $urls = collect();
         $photos = Storage::disk('local')->files('public/combos');
         foreach ($photos as $photo) {
@@ -409,13 +421,19 @@ class HomeController extends Controller
             $nombre = $nombre[count($nombre) - 1];
             $urls->push(url("getCombo/" . $nombre));
         }
-        return view("auth.peso", ['urls' => $urls, 'contacto' => $contacto, 'monto' => env('COBRO_ORIGINAL'),
-            'descuento' => env('COBRO')]);
+        return view("auth.peso", ['urls' => $urls, 'contacto' => $contacto,
+            'original' => $cobro->original, 'descuento' => $cobro->descuento, 'monto' => $cobro->monto, 'mensaje' => $mensaje]);
     }
 
     public function etapa3($id)
     {
         $contacto = Contacto::find($id);
+        $usuario = User::withTrashed()->orderBy('created_at')->where('email', $contacto->email)->get()->last();
+        $cobro = User::calcularMontoCompra($contacto->codigo, $contacto->email,
+            $usuario == null ? null : $usuario->created_at,
+            $usuario == null ? null : $usuario->fecha_inscripcion,
+            $usuario == null ? null : $usuario->inicio_reto);
+        $mensaje = $usuario == null ? '' : 'Este usuario ya pertenece al RETO ACTON.';
         $urls = collect();
         $photos = Storage::disk('local')->files('public/combos');
         foreach ($photos as $photo) {
@@ -423,8 +441,8 @@ class HomeController extends Controller
             $nombre = $nombre[count($nombre) - 1];
             $urls->push(url("getCombo/" . $nombre));
         }
-        return view("auth.ultimo", ['urls' => $urls, 'contacto' => $contacto, 'monto' => env('COBRO_ORIGINAL'),
-            'descuento' => env('COBRO')]);
+        return view("auth.ultimo", ['urls' => $urls, 'contacto' => $contacto,
+            'original' => $cobro->original, 'descuento' => $cobro->descuento, 'monto' => $cobro->monto, 'mensaje' => $mensaje]);
     }
 
     public function terminos()
