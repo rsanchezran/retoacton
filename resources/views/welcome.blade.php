@@ -80,7 +80,7 @@
             /*position: absolute;*/
             /*height: 200px;*/
             background-color: #F0F0F0;
-            padding:20px;
+            padding:10px;
             font-size: .7rem;
             font-family: unitext_light;
             flex-grow: 1;
@@ -106,7 +106,7 @@
         }
 
         #features .subinfo h6{
-            font-size: 0.65rem;
+            font-size: 0.7rem;
             color: #1b1e21;
             font-weight:bold !important;
             line-height: 1.5;
@@ -366,7 +366,11 @@
         @media only screen and (max-width: 990px) {
             #features .subtitle {
                 font-size: 2.5vw;
+            }
 
+            #features .subinfo h6{
+                font-size: .7rem !important;
+                line-height: 1.2 !important;
             }
         }
 
@@ -559,6 +563,11 @@
                 font-size: 4.5vw !important;
             }
 
+            #features .subinfo h6{
+                font-size: .7rem !important;
+                line-height: 1.2 !important;
+            }
+
             #cree{
                 font-size: .55rem !important;
             }
@@ -593,6 +602,18 @@
             #audios{
                 padding-bottom: 320px;
             }
+        }
+
+        @media only screen and (max-width: 1280px){
+            #features .subinfo h6{
+                font-size: .62rem;
+                line-height: 1;
+            }
+
+            #features .subinfo{
+                padding: 2px 5px;
+            }
+
         }
 
 
@@ -653,7 +674,7 @@
                             <img id="comidasImg" class="img" src="{{asset('/img/comidasblanco.jpg')}}" width="100%">
                             <img src="{{asset('img/comidas.jpg')}}" style="display: none">
                             <h3 id="comidasSub" class="subtitle">
-                                <span>Plan de alimentación</span>
+                                <span>Plan de alimentación @{{ screen }}</span>
                                 <span class="small text-lowercase">ver más</span>
                             </h3>
                             <div id="comidas" class="subinfo">
