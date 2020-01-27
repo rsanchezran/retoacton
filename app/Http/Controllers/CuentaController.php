@@ -57,6 +57,7 @@ class CuentaController extends Controller
 
     public function subirFoto(Request $request)
     {
+        ini_set('memory_limit', '-1');
         $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [], []);
         $validator->after(function ($validator) use ($request) {
             $extension = strtolower($request->file('imagen')->getClientOriginalExtension());

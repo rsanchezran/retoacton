@@ -78,6 +78,7 @@ class RetoController extends Controller
 
     public function saveImagen(Request $request)
     {
+        ini_set('memory_limit', '-1');
         $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [], []);
         $validator->after(function ($validator) use ($request) {
             $dia = $request->dia - 1;
@@ -144,8 +145,7 @@ class RetoController extends Controller
 
     public function saveActon(Request $request)
     {
-        ini_set('max_execution_time', 3000);
-        ini_set('memory_limit', '2GB');
+        ini_set('memory_limit', '-1');
         $usuario_id = $request->user()->id;
         $image = \Intervention\Image\Facades\Image::make($request->file('imagen'))->orientate();
         if ($image->width() < $image->height()) {
