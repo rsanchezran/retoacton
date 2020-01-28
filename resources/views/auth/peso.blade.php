@@ -42,13 +42,13 @@
                         </label>
                         <div id="infoPago">
                             <label style="font-size: 1rem; color: #000; font-family: unitext_bold_cursive">aprovecha el </label>
-                            <label style="font-size: 1.4rem; margin-top: -5px; font-family: unitext_bold_cursive">55% de descuento </label>
+                            <label style="font-size: 1.4rem; margin-top: -5px; font-family: unitext_bold_cursive">@{{ descuento }}% de descuento </label>
                             <label style="color: #000; font-weight: bold; font-family: unitext_bold_cursive">ÚLTIMO DIA</label>
                         </div>
                         <div id="pagar">
                             <div>a solo</div>
                             <div style="font-size: 1.5rem; margin-left: 5px">
-                                <money :cantidad="descuento" :caracter="true" :decimales="0"
+                                <money :cantidad="''+monto" :caracter="true" :decimales="0"
                                        estilo="font-size:1.5em; font-weight: bold"></money>
                             </div>
                         </div>
@@ -71,7 +71,7 @@
     <script>
         Vue.component('registro', {
             template: '#registro-template',
-            props: ['urls', 'p_contacto','monto','descuento'],
+            props: ['urls', 'p_contacto','monto','descuento','original'],
             data: function () {
                 return {
                     errors: [],
