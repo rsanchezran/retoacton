@@ -20,15 +20,18 @@ class ApiController extends Controller
 
     public function login(Request $request)
     {
-        $usuario = User::where('email', $request->username)->first();
+        try{
+            $usuario = User::where('email', $request->username)->get(['name','last_name','password','email'])->first();
 
-        if ($usuario != null && password_verify($request->password, $usuario->password)) {
-            $contacto = Contacto::withTrashed()->where('email',$usuario->email)->first;
-            $usuario->telefono = $contacto->telefono;
-            return response()->json(['result' => 'ok', 'user' => $usuario]);
+            if ($usuario != null && password_verify($request->password, $usuario->password)) {
+                $contacto = Contacto::withTrashed()->where('email',$usuario->email)->first();
+                $usuario->telefono = $contacto->telefono;
+                return response()->json(['result' => 'ok', 'user' => $usuario]);
+            }
+            return response()->json(['result' => 'error', 'error' => 'El usuario y/o la contraseña son incorrectos.']);
+        }catch (\Exception $e){
+            return response()->json(['result' => 'error', 'error' => $e->getMessage()]);
         }
-
-        return response()->json(['result' => 'error', 'error' => 'El usuario y/o la contraseña son incorrectos.']);
     }
 
     public function webhook(Request $request)
