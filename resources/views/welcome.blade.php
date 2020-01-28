@@ -372,7 +372,10 @@
                 font-size: .7rem !important;
                 line-height: 1.2 !important;
             }
-        }
+
+            .comienza{
+                font-size:.63rem;
+            }
 
         @media only screen and (max-width: 800px) {
             .feature .subinfo{
@@ -674,7 +677,7 @@
                             <img id="comidasImg" class="img" src="{{asset('/img/comidasblanco.jpg')}}" width="100%">
                             <img src="{{asset('img/comidas.jpg')}}" style="display: none">
                             <h3 id="comidasSub" class="subtitle">
-                                <span>Plan de alimentación @{{ screen }}</span>
+                                <span>Plan de alimentación</span>
                                 <span class="small text-lowercase">ver más</span>
                             </h3>
                             <div id="comidas" class="subinfo">

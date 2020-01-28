@@ -72,14 +72,14 @@ class UserController extends Controller
             }
             $usuarios = $usuarios->whereRaw($consulta);
         }
-
+        $usuarios = $usuarios->orderByDesc('created_at');
         $usuarios = $usuarios->select(['users.*', 'contactos.medio'])->paginate(20);
         $comision = intval(env('COMISION'));
 
         foreach ($usuarios as $usuario) {
             $usuario->dias_reto = 0;
             if ($usuario->inicio_reto != null) {
-                $dias = Carbon::now()->diffInDays(Carbon::parse($usuario->inicio_reto));
+                $dias = Carbon::now()->diffInDays(Carbon::parse($usuario->inicio_reto))+1;
                 $usuario->dias_reto = $dias;
             }
             $usuario->total = $usuario->ingresados * $comision;
@@ -97,7 +97,7 @@ class UserController extends Controller
         $usuario = User::select('id', 'name', 'inicio_reto','created_at')->where('id', $usuario_id)->get()->first();
         $links = collect();
         $dias = UsuarioDia::where('usuario_id', $usuario_id)->orderBy('dia_id')->get()->keyBy('dia_id');
-        $diasTranscurridos = Carbon::now()->diffInDays($usuario->inicio_reto);
+        $diasTranscurridos = Carbon::now()->diffInDays($usuario->inicio_reto)+1;
         if ($diasTranscurridos > env('DIAS')) {
             $diasTranscurridos = env('DIAS');
         }

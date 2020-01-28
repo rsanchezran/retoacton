@@ -383,7 +383,7 @@
                             pago para cualquier aclaración.
                         </li>
                     </ol>
-                    <div class="opps-footnote">Al completar estos pasos recibirás un correo de <strong>contacto@grupoacton.com</strong>
+                    <div class="opps-footnote">Al completar estos pasos recibirás un correo de <strong>soporte@retoacton.com</strong>
                         confirmando tu pago.<br><br>Una vez efectuado el pago, inmediatamente recibirás un correo con tu
                         usuario y contraseña para que puedas acceder a tu cuenta, no es necesario enviar el comprobante de pago a ningún lado.
                     </div>

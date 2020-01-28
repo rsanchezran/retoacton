@@ -16,11 +16,40 @@
 @endsection
 @section('content')
     <div id="vue" class="container flex-center">
-        <inicio :usuario="{{ $usuario}}" :referencias="{{$referencias}}"></inicio>
+        <inicio :usuario="{{ $usuario}}" :referencias="{{$referencias}}" :monto="{{$monto}}" :descuento="{{$descuento}}"
+        :original="{{$original}}"></inicio>
     </div>
 
     <template id="inicio-template">
         <div class="container">
+            {{--<div class="card">--}}
+                {{--<div class="card-body">--}}
+                    {{--<label style="font-size: 1.4rem; font-family: unitext_bold_cursive">--}}
+                        {{--<money v-if="descuento>0" id="cobro_anterior" :cantidad="''+original" :decimales="0"--}}
+                               {{--estilo="font-size:1.2em; color:#000000" adicional=" MXN"--}}
+                               {{--:caracter="true"></money>--}}
+                    {{--</label>--}}
+                    {{--<div id="infoPago" v-if="descuento>0">--}}
+                        {{--<label style="font-size: 1rem; color: #000; font-family: unitext_bold_cursive">aprovecha--}}
+                            {{--el </label>--}}
+                        {{--<label style="font-size: 1.4rem; margin-top: -5px; font-family: unitext_bold_cursive">@{{descuento }}% de descuento </label>--}}
+                        {{--<label style="color: #000; font-weight: bold; font-family: unitext_bold_cursive">ÚLTIMO DIA</label>--}}
+                    {{--</div>--}}
+                    {{--<div id="pagar">--}}
+                        {{--<div>a solo</div>--}}
+                        {{--<div style="font-size: 1.5rem; margin-left: 5px">--}}
+                            {{--<money :cantidad="''+monto" :caracter="true" :decimales="0"--}}
+                                   {{--estilo="font-size:1.5em; font-weight: bold"></money>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                    {{--<br>--}}
+                    {{--<h6 style="color: #000;">Estas son las formas de realizar tu pago de manera segura</h6>--}}
+                    {{--<cobro ref="cobro" :cobro="''+monto" :url="'{{url('/')}}'" :id="'{{env('OPENPAY_ID')}}'"--}}
+                           {{--:llave="'{{env('OPENPAY_PUBLIC')}}'" :sandbox="'{{env('SANDBOX')}}'==true" :meses="true"--}}
+                           {{--@terminado="terminado"></cobro>--}}
+                {{--</div>--}}
+            {{--</div>--}}
+            {{--<hr>--}}
             <div class="card">
                 <div class="card-header">Hola, @{{ usuario.name }}</div>
                 <div class="card-body" style="padding: 0">
@@ -93,7 +122,7 @@
     <script>
         Vue.component('inicio', {
             template: '#inicio-template',
-            props: ['usuario', 'referencias'],
+            props: ['usuario', 'referencias','monto','original','descuento'],
             data: function(){
                 return{
                 referenciados: [],

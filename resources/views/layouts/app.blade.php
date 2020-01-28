@@ -85,7 +85,7 @@
                         @endif
                         @if(\Illuminate\Support\Facades\Auth::user()!=null&&\Illuminate\Support\Facades\Auth::user()->rol==\App\Code\RolUsuario::CLIENTE &&
                             \Illuminate\Support\Facades\Auth::user()->inicio_reto!=null&&
-                            (\Carbon\Carbon::parse(\Illuminate\Support\Facades\Auth::user()->inicio_reto)->diffInDays(\Carbon\Carbon::now())>intval(env('DIAS'))))
+                            (\Carbon\Carbon::parse(\Illuminate\Support\Facades\Auth::user()->inicio_reto)->diffInDays(\Carbon\Carbon::now())>intval(env('DIAS')))+1)
                                 <button id="breathPC" class="nav-link btn btn-sm btn-warning ld x2 ld-breath" data-toggle="modal" data-target="#terminoModal">
                                     <i class="far fa-exclamation-triangle"></i>
                                     <span>Reto concluído</span>
@@ -161,7 +161,7 @@
     <main class="d-flex flex-column flex-grow-1 position-relative">
         @if(\Illuminate\Support\Facades\Auth::user()!=null&&\Illuminate\Support\Facades\Auth::user()->rol==\App\Code\RolUsuario::CLIENTE &&
                             \Illuminate\Support\Facades\Auth::user()->inicio_reto!=null&&
-                            (\Carbon\Carbon::parse(\Illuminate\Support\Facades\Auth::user()->inicio_reto)->diffInDays(\Carbon\Carbon::now())>intval(env('DIAS'))))
+                            (\Carbon\Carbon::parse(\Illuminate\Support\Facades\Auth::user()->inicio_reto)->diffInDays(\Carbon\Carbon::now())>intval(env('DIAS')))+1)
             <div class="container" id="breathMovil">
                 <button class="nav-link btn btn-sm btn-warning ld ld-breath ml-auto mr-auto" data-toggle="modal" data-target="#terminoModal">
                     <i class="far fa-exclamation-triangle"></i>
@@ -206,7 +206,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Término de tus 8 semanas</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">Gracias. Te veo muy pronto</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

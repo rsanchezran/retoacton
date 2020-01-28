@@ -118,6 +118,7 @@
         @media only screen and (max-width: 420px) {
             .navbar {
                 padding: 0;
+                height: 80px;
             }
 
             .navbar-brand {
@@ -131,7 +132,7 @@
 
             .navbar-toggler {
                 position: absolute;
-                top: 20px;
+                top: 30px;
                 right: 2px;
             }
 

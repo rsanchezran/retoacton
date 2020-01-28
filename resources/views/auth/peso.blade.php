@@ -8,7 +8,7 @@
 @endsection
 @section('content')
     <div id="pago" class="container flex-center">
-        <registro class="pt-5" :p_contacto="{{$contacto}}" :monto="'{{$monto}}'" :descuento="'{{$descuento}}'">
+        <registro class="pt-5" :p_contacto="{{$contacto}}" :monto="'{{$monto}}'" :descuento="'{{$descuento}}'" :original="{{$original}}">
         </registro>
     </div>
     <template id="registro-template">
@@ -18,10 +18,10 @@
                 <h6 class="text-uppercase biggerText font-weight-bold acton">Reto Acton</h6>
             </div>
             <div align="center">
-                <h5>Por favor compartenos que peso tienes actualmente y cual quieres lograr</h5>
+                <h5 v-show="!sent">Por favor compartenos que peso tienes actualmente y cual quieres lograr</h5>
                 <div class="col-sm-8">
-                    <input type="number" class="form-control col-sm-4" placeholder="Peso actual" v-model="contacto.peso">
-                    <input type="number" class="form-control col-sm-4" placeholder="Peso ideal"
+                    <input v-show="!sent" type="number" class="form-control col-sm-4" placeholder="Peso actual" v-model="contacto.peso">
+                    <input v-show="!sent" type="number" class="form-control col-sm-4" placeholder="Peso ideal"
                            v-model="contacto.ideal" @blur="savePeso" @keyup.enter="savePeso">
                     <h5 v-if="alcanzable!=''">El peso que puedes alcanzar durante los primeros 30 días del reto es de</h5>
                     <h5 v-if="alcanzable!=''" class="biggestText acton font-weight-bold">@{{ alcanzable }} kg</h5>
@@ -36,7 +36,7 @@
                     <div id="pago" class="col-12 text-center" style="display: block; margin: auto">
                         <h6 class="bigText">Para unirte y tener los beneficios del <b class="acton">Reto Acton</b> el costo es de</h6>
                         <label style="font-size: 1.4rem; font-family: unitext_bold_cursive">
-                            <money id="cobro_anterior" :cantidad="monto" :decimales="0"
+                            <money id="cobro_anterior" :cantidad="original" :decimales="0"
                                    estilo="font-size:1.2em; color:#000000" adicional=" MXN"
                                    :caracter="true"></money>
                         </label>

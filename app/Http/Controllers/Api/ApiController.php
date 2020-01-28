@@ -23,6 +23,8 @@ class ApiController extends Controller
         $usuario = User::where('email', $request->username)->first();
 
         if ($usuario != null && password_verify($request->password, $usuario->password)) {
+            $contacto = Contacto::withTrashed()->where('email',$usuario->email)->first;
+            $usuario->telefono = $contacto->telefono;
             return response()->json(['result' => 'ok', 'user' => $usuario]);
         }
 

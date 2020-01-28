@@ -147,7 +147,6 @@ class RegisterController extends Controller
     {
         $contacto = Contacto::find($request->id);
         $contacto->objetivo = $request->objetivo == 'bajar' ? 0 : 1;
-        $contacto->etapa = 2;
         $contacto->save();
     }
 
@@ -156,7 +155,6 @@ class RegisterController extends Controller
         $contacto = Contacto::find($request->id);
         $contacto->peso = intval($request->peso);
         $contacto->ideal = intval($request->ideal);
-        $contacto->etapa = 3;
         $contacto->save();
         return $this->calcularAlcanzable($contacto->peso, $contacto->ideal);
     }

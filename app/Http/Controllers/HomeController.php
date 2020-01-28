@@ -34,7 +34,11 @@ class HomeController extends Controller
         $usuario->depositado = $usuario->total - $usuario->saldo;
         $referencias = User::select(['id', 'name', 'email', 'created_at'])
             ->where('codigo', $request->user()->referencia)->whereNotNull('codigo')->get();
-        return view('home', ['usuario' => ($usuario), 'referencias' => $referencias]);
+        $monto = env('COBRO_REFRENDO');
+        $descuento = 0;
+        $original = env('COBRO_REFRENDO');
+        return view('home', ['usuario' => ($usuario), 'referencias' => $referencias,
+            'monto'=>$monto,'descuento'=>$descuento,'original'=>$original]);
     }
 
     public function index()

@@ -352,6 +352,7 @@ class ConfiguracionController extends Controller
         if ($campos->medio != '') {
             $contactos = $contactos->where('contactos.medio', $campos->medio);
         }
+        $contactos = $contactos->orderByDesc('created_at');
         $contactos = $contactos->paginate();
         foreach ($contactos as $contacto) {
             $contacto->contacto = $contacto->deleted_at == null;

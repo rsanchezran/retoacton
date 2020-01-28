@@ -75,7 +75,7 @@ class User extends Authenticatable
             'pagado' => true,
             'encuestado' => false,
             'objetivo' => (int)$objetivo,
-            'referencia' => Utils::generarRandomString(),
+            'referencia' => Utils::generarRandomString(7),
             'codigo' => $codigo,
             'rol' => RolUsuario::CLIENTE,
             'tipo_pago' => $tipo,

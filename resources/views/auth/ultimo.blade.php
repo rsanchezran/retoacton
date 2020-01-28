@@ -2,7 +2,7 @@
 @section('content')
     <div id="pago" class="container flex-center">
         <registro class="pt-5" :urls="{{$urls}}" :p_contacto="{{$contacto}}" :monto="'{{$monto}}'"
-                  :descuento="'{{$descuento}}'"></registro>
+                  :descuento="'{{$descuento}}'" :original="{{$original}}"></registro>
     </div>
     <template id="registro-template">
         <div>
@@ -18,7 +18,7 @@
                     <div id="pago" class="col-12 text-center" style="display: block; margin: auto">
                         <h6 class="bigText">Para unirte y tener los beneficios del <b class="acton">Reto Acton</b> el costo es de</h6>
                         <label style="font-size: 1.4rem; font-family: unitext_bold_cursive">
-                            <money id="cobro_anterior" :cantidad="monto" :decimales="0"
+                            <money id="cobro_anterior" :cantidad="original" :decimales="0"
                                    estilo="font-size:1.2em; color:#000000" adicional=" MXN"
                                    :caracter="true"></money>
                         </label>

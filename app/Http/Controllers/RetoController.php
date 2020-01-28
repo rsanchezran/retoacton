@@ -188,7 +188,7 @@ class RetoController extends Controller
     {
         $user = $request->user();
         $user->modo = $user->modo == true;
-        $diasTranscurridos = Carbon::now()->diffInDays($user->inicio_reto);
+        $diasTranscurridos = Carbon::now()->startOfDay()->diffInDays($user->inicio_reto)+1;
         if ($diasTranscurridos > env('DIAS')) {
             $diasTranscurridos = env('DIAS');
         }
@@ -297,7 +297,7 @@ class RetoController extends Controller
     public function diario(Request $request)
     {
         $user = $request->user();
-        $diasTranscurridos = Carbon::now()->diffInDays($user->inicio_reto);
+        $diasTranscurridos = Carbon::now()->diffInDays($user->inicio_reto)+1;
         if ($diasTranscurridos > env('DIAS')) {
             $diasTranscurridos = env('DIAS');
         }
