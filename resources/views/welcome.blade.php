@@ -368,6 +368,10 @@
                 font-size: 2.5vw;
             }
 
+            #features .subinfo{
+                padding: 20px !important;
+            }
+
             #features .subinfo h6{
                 font-size: .7rem !important;
                 line-height: 1.2 !important;
@@ -601,9 +605,14 @@
                 font-size:2.8rem;
             }
         }
+        }
         @media only screen and (min-width: 1920px) {
             #audios{
                 padding-bottom: 320px;
+            }
+
+            #features .subinfo{
+                padding: 20px !important;
             }
         }
 
