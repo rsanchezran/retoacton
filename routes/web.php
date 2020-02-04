@@ -35,7 +35,6 @@ Route::get('/terminos', 'HomeController@terminos');
 Route::get('/contacto', 'HomeController@contacto');
 Route::post('/contacto', 'HomeController@contactoSave');
 Route::get('/home', 'HomeController@home')->middleware('pago');
-Route::get('/reto/imagenes/', 'RetoController@index')->middleware('pago');
 
 Route::group(['prefix' => 'cuenta', 'middleware' => ['auth', 'pago']], function () {
     Route::get('/', 'CuentaController@index');
@@ -87,20 +86,20 @@ Route::group(['prefix' => 'usuarios', 'middleware'=>['auth', 'pago']], function 
 
 Route::group(['prefix'=>'reto', 'middleware'=>['auth', 'pago'] ],function (){
     Route::get('cliente', 'RetoController@cliente');
-    Route::get('diario', 'RetoController@diario');
+    Route::get('programa', 'RetoController@programa');
     Route::get('dia/{dia}/{genero}/{objetivo}', 'RetoController@dia');
     Route::get('pdf/{dia}/{genero}/{objetivo}/{dieta}/{lugar}', 'RetoController@pdf');
     Route::get('getImagen/{carpeta}/{id}/{imagen}/{otro?}', 'RetoController@getImagen');
     Route::get('getAudio/{carpeta}/{id}/{imagen}/{otro?}', 'RetoController@getAudio');
     Route::post('saveImagen', 'RetoController@saveImagen');
     Route::post('saveAudio', 'RetoController@saveAudio');
-    Route::get('acton', 'RetoController@retoActon');
-    Route::get('ejemplo', 'RetoController@ejemplo');
-    Route::post('saveActon', 'RetoController@saveActon');
     Route::post('comentar', 'RetoController@comentar');
     Route::post('anotar', 'RetoController@anotar');
     Route::post('correo', 'RetoController@correo');
     Route::get('getDia/{dia}', 'RetoController@getDia');
+    Route::get('configuracion', 'RetoController@index');
+    Route::get('getSemana/{semana}', 'RetoController@getSemana');
+    Route::get('getSemanaCliente/{semana}', 'RetoController@getSemanaCliente');
 });
 
 Route::group(['prefix'=>'pago'], function (){

@@ -28,7 +28,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name', 'last_name', 'email', 'password', 'rol', 'inicio_reto', 'referencia', 'saldo', 'pagado', 'tarjeta', 'tipo_pago',
-        'encuestado', 'objetivo', 'codigo','fecha_inscripcion','correo_enviado','modo'
+        'encuestado', 'objetivo', 'codigo', 'fecha_inscripcion', 'correo_enviado', 'modo', 'num_inscripciones'
     ];
 
     /**
@@ -81,7 +81,9 @@ class User extends Authenticatable
             'tipo_pago' => $tipo,
             'modo' => LugarEjercicio::GYM,
             'fecha_inscripcion' => Carbon::now(),
-            'correo_enviado' => 0
+            'correo_enviado' => 0,
+            'num_inscripciones' => 1,
+
         ]);
         if ($usuario->codigo != '') {
             $usuario->aumentarSaldo();
@@ -153,6 +155,7 @@ class User extends Authenticatable
         $this->objetivo = 0;
         $this->correo_enviado = 0;
         $this->pagado = true;
+        $this->num_inscripciones = $this->num_inscripciones + 1;
         $this->fecha_inscripcion = Carbon::now();
         $this->save();
         if ($this->codigo != '') {

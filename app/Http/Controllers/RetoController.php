@@ -23,41 +23,54 @@ class RetoController extends Controller
 
     public function index(Request $request)
     {
-        $usuario_id = $request->user()->id;
-        $usuario = User::find($usuario_id);
+        $usuario = $request->user();
+        $usuarioDias = UsuarioDia::where('usuario_id', $usuario->id)->count();
+        if ($usuarioDias == 0) {
+            $semana = 1;
+        } else {
+            $semana = $usuarioDias % 7 == 0 ? intval($usuarioDias / 7) : intval($usuarioDias / 7) + 1;
+        }
+        $dias = $this->getSemana($request, $semana);
 
-        if ($request->user()->inicio_reto == '') {//crear inicio del reto
-            Storage::makeDirectory('public/reto/' . $usuario_id);
+        return view('reto/configuracion', ['rol' => $usuario->rol, 'dias' => $dias, 'semana' => $semana,
+            'maximo' => $usuarioDias]);
+    }
+
+    public function getSemana(Request $request, $semana)
+    {
+        $dias = collect();
+        $usuario = $request->user();
+
+        if ($usuario->inicio_reto == '') {//crear inicio del reto
+            Storage::makeDirectory('public/reto/' . $usuario->id);
             $usuario->inicio_reto = Carbon::now();
             $usuario->save();
         }
-        $inicio_reto = Carbon::parse($request->user()->inicio_reto);//convertir a objeto Carbon
-        $diasTranscurridos = Carbon::now()->diffInDays($inicio_reto->format('y-m-d')) + 1; //vector de dias
-        $usuarioDias = UsuarioDia::where('usuario_id', $usuario_id)->get()->keyBy('dia_id');
-        $dias = collect();
+        $usuarioDias = UsuarioDia::where('usuario_id', $usuario->id)->get()->keyBy('dia_id');
 
-        for ($i = 0; $i < env('DIAS', 90); $i++) {//construir arreglo y ruta de las imagenes para la vista
-            $imagenDia = $usuarioDias->get($i + 1);
+        for ($i = 1; $i <= 7; $i++) {//construir arreglo y ruta de las imagenes para la vista
+            $dia = (7 * ($semana - 1)) + $i;
+            $imagenDia = $usuarioDias->get($dia);
             if ($imagenDia === null) {
                 $imagenDia = new UsuarioDia();
                 $imagenDia->comentarios = '';
                 $imagenDia->imagen = '';
                 $imagenDia->audio = '';
             } else {
-                $imagenDia->imagen = url("/reto/getImagen/reto/$usuario_id/" . ($i + 1)) . "/" . (Utils::generarRandomString(10));
-                if (Storage::disk('local')->exists("public/reto/$usuario_id/" . ($i + 1) . '.mp3')) {
-                    $imagenDia->audio = url("/reto/getAudio/reto/$usuario_id/" . ($i + 1));
+                $imagenDia->imagen = url("/reto/getImagen/reto/$usuario->id/" . $dia) . "/" . (Utils::generarRandomString(10));
+                if (Storage::disk('local')->exists("public/reto/$usuario->id/" . $dia . '.mp3')) {
+                    $imagenDia->audio = url("/reto/getAudio/reto/$usuario->id/" . $dia);
                 } else {
                     $imagenDia->audio = '';
                 }
                 $imagenDia->comentarios = Dia::find($imagenDia->dia_id)->comentarios;
             }
-            $imagenDia->dia = $i + 1;
-            $imagenDia->subir = $request->user()->rol == RolUsuario::ADMIN ? true : $i <= $diasTranscurridos;
+            $imagenDia->dia = $dia;
+            $imagenDia->subir = $usuario->rol == RolUsuario::ADMIN ? true : $dia <= $usuarioDias->count();
             $imagenDia->loading = false;
             $dias->push($imagenDia);
         }
-        return view('reto/imagenes', ['rol' => $request->user()->rol, 'datos_reto' => $dias]);
+        return $dias;
     }
 
     public function getImagen($carpeta, $user_id, $dia)
@@ -121,48 +134,6 @@ class RetoController extends Controller
         return response()->json(['respuesta' => 'ok', 'imagen' => url("/reto/getImagen/reto/$usuario_id/$request->dia/" . (Utils::generarRandomString(10)))]);
     }
 
-    public function retoActon(Request $request)
-    {
-        $usuario_id = $request->user()->id;
-
-        $web = '/reto/getImagen/reto/'; //ruta para imagenes route /reto/getImagen... en carpeta .../reto
-        $dias_activo = count(Storage::allFiles('public/reto' . $usuario_id));
-
-        if ($dias_activo == 0)
-            Storage::makeDirectory('public/reto/' . $usuario_id);
-
-        for ($i = 0; $i < env('DIAS', 90); $i++) {
-            $datos_reto[$i] = [
-                'nombre' => 'Subir Imagen',
-                'imagen' => $web . $usuario_id . '/' . ($i + 1),
-                'subir' => ($dias_activo <= $i ? true : false),
-                'disabled' => ($dias_activo == $i ? false : true)
-            ];
-        }
-
-        return view('/reto/acton', ['datos_reto' => json_encode($datos_reto)]);
-    }
-
-    public function saveActon(Request $request)
-    {
-        ini_set('memory_limit', '-1');
-        $usuario_id = $request->user()->id;
-        $image = \Intervention\Image\Facades\Image::make($request->file('imagen'))->orientate();
-        if ($image->width() < $image->height()) {
-            $image->resize(null, 720, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            });
-        } else {
-            $image->resize(1280, null, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            });
-        }
-        $image->save(storage_path("app/public/reto/$usuario_id/$request->dia.jpg"));
-        return response()->json(['respuesta' => 'ok']);
-    }
-
     public function comentar(Request $request)
     {
         $this->validate($request, [
@@ -188,7 +159,7 @@ class RetoController extends Controller
     {
         $user = $request->user();
         $user->modo = $user->modo == true;
-        $diasTranscurridos = Carbon::now()->startOfDay()->diffInDays($user->inicio_reto)+1;
+        $diasTranscurridos = Carbon::now()->startOfDay()->diffInDays($user->inicio_reto) + 1;
         if ($diasTranscurridos > env('DIAS')) {
             $diasTranscurridos = env('DIAS');
         }
@@ -224,28 +195,6 @@ class RetoController extends Controller
         return $pdf->download('reto.pdf');
     }
 
-    public function ejemplo()
-    {
-        $web = '/reto/getImagen/reto/'; //ruta para imagenes route /reto/getImagen... en carpeta .../reto
-        $dias = Dia::all()->keyBy('dia');
-        $dias_activo = count(Storage::allFiles('public/reto/1'));//contar las imagenes
-        $datos_reto = [];
-        $dias_reto = env('DIAS', 30);
-        for ($i = 0; $i < $dias_activo && $i < env('DIAS', 90); $i++) {//construir arreglo y ruta de las imagenes para la vista
-            $datos_reto[$i] = [
-                'nombre' => 'Subir Imagen',
-                'imagen' => $web . 1 . '/' . ($i + 1) . '/' . (Utils::generarRandomString(10)),
-                'subir' => false,
-                'disabled' => true,
-                'comentario' => '',
-                'mostrarImg' => $i < $dias_activo,
-                'comentarios' => $dias[$i + 1]->comentarios,
-                'dia' => $dias[$i + 1]->id,
-            ];
-        }
-        return view('reto/imagenes', ['rol' => RolUsuario::ADMIN, 'dias_reto' => $dias_reto, 'datos_reto' => json_encode($datos_reto)]);
-    }
-
     public function correo(Request $request)
     {
         Mail::queue(new \App\Mail\Dieta($request->dia, $request->genero, $request->objetivo, $request->lugar, $request->user(), $request->dieta));
@@ -260,16 +209,47 @@ class RetoController extends Controller
             $user->inicio_reto = Carbon::now();
             $user->save();
         }
-
-        if ($user->created_at->startOfDay() != Carbon::parse($user->fecha_inscripcion)->startOfDay()) {
-            $diasTranscurridos = env('DIAS');
-        }else{
-            $diasTranscurridos = Carbon::now()->startOfDay()->diffInDays($user->inicio_reto)+1;
-            if ($diasTranscurridos > env('DIAS')) {
-                $diasTranscurridos = env('DIAS');
+        $diasTranscurridos = UsuarioDia::where('usuario_id', $user->id)->count();
+        $teoricos = Carbon::now()->startOfDay()->diffInDays(Carbon::parse($user->inicio_reto));
+        if ($user->num_inscripciones > 0) {
+            if($teoricos>intval(env('DIAS2'))){
+                $teoricos = intval(env('DIAS2'));
+            }
+        } else {
+            if($teoricos>intval(env('DIAS'))){
+                $teoricos = intval(env('DIAS'));
             }
         }
-        return view('reto.cliente', ['dias' => $diasTranscurridos == 0 ? 1 : $diasTranscurridos]);
+        if ($diasTranscurridos < $teoricos) {
+            $diasTranscurridos++;
+        }
+        if ($diasTranscurridos == 0) {
+            $semana = 1;
+        } else {
+            $semana = $diasTranscurridos % 7 == 0 ? intval($diasTranscurridos / 7) : intval($diasTranscurridos / 7) + 1;
+        }
+        if ($semana * 7 < $teoricos) {
+            $dias = 7;
+        } else {
+            $dias = $teoricos - $diasTranscurridos;
+        }
+        return view('reto.cliente', ['dias' => $dias, 'semana' => $semana,
+            'maximo' => $diasTranscurridos, 'teoricos' => $teoricos]);
+    }
+
+    public function getSemanaCliente(Request $request, $semana)
+    {
+        $user = $request->user();
+        $diaInicial = ($semana * 7) - 6;
+        $diaFinal = $semana * 7;
+        $diasTranscurridos = UsuarioDia::where('usuario_id', $user->id)->whereBetween('dia_id', [$diaInicial, $diaFinal])->count();
+        $teoricos = Carbon::now()->startOfDay()->diffInDays(Carbon::parse($user->inicio_reto));
+        if ($semana * 7 < $teoricos) {
+            $dias = 7;
+        } else {
+            $dias = $teoricos - $diasTranscurridos;
+        }
+        return ($dias);
     }
 
     public function getDia(Request $request, $dia)
@@ -280,7 +260,7 @@ class RetoController extends Controller
             $ejemplo = new UsuarioDia();
         }
         $ejemplo->comentario = Dia::find($dia)->comentarios;
-        $ejemplo->imagen = url("/reto/getImagen/reto/1/$dia/".Utils::generarRandomString(10));
+        $ejemplo->imagen = url("/reto/getImagen/reto/1/$dia/" . Utils::generarRandomString(10));
         if (Storage::disk('local')->exists("public/reto/1/" . ($dia) . '.mp3')) {
             $ejemplo->audio = url("/reto/getAudio/reto/1/$dia");
         } else {
@@ -291,14 +271,14 @@ class RetoController extends Controller
             $usuarioDia = new UsuarioDia();
         }
         $usuarioDia->dia = $dia;
-        $usuarioDia->imagen = url("/reto/getImagen/reto/$user->id/$dia/".Utils::generarRandomString(10));
+        $usuarioDia->imagen = url("/reto/getImagen/reto/$user->id/$dia/" . Utils::generarRandomString(10));
         return response()->json(['dia' => $usuarioDia, 'ejemplo' => $ejemplo]);
     }
 
-    public function diario(Request $request)
+    public function programa(Request $request)
     {
         $user = $request->user();
-        $diasTranscurridos = Carbon::now()->diffInDays($user->inicio_reto)+1;
+        $diasTranscurridos = Carbon::now()->diffInDays($user->inicio_reto) + 1;
         if ($diasTranscurridos > env('DIAS')) {
             $diasTranscurridos = env('DIAS');
         }

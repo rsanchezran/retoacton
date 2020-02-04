@@ -77,11 +77,11 @@
                             @if(\Illuminate\Support\Facades\Auth::user()->inicio_reto!=null)
                                 <a class="nav-link" href="{{ url('/reto/cliente') }}"><i class="far fa-running"></i> Actividades</a>
                             @endif
-                            <a class="nav-link" href="{{ url('/reto/diario') }}">
+                            <a class="nav-link" href="{{ url('/reto/programa') }}">
                                 <i class="far fa-calendar-alt"></i> Programa</a>
                         @else
-                            <a class="nav-link" href="{{ url('/reto/imagenes') }}">
-                                <i class="far fa-image"></i> Actividades</a>
+                            <a class="nav-link" href="{{ url('/reto/configuracion') }}">
+                                <i class="far fa-running"></i> Actividades</a>
                         @endif
                         @if(\Illuminate\Support\Facades\Auth::user()!=null&&\Illuminate\Support\Facades\Auth::user()->rol==\App\Code\RolUsuario::CLIENTE &&
                             \Illuminate\Support\Facades\Auth::user()->inicio_reto!=null&&
@@ -212,9 +212,13 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <video controls poster="{{asset('/img/poster.png')}}">
-                        <source src="{{url('/getVideo/termino').'/'.rand(1,100)}}" type="video/mp4">
-                    </video>
+                    @if(\Illuminate\Support\Facades\Auth::user()!=null&&\Illuminate\Support\Facades\Auth::user()->rol==\App\Code\RolUsuario::CLIENTE &&
+                            \Illuminate\Support\Facades\Auth::user()->inicio_reto!=null&&
+                            (\Carbon\Carbon::parse(\Illuminate\Support\Facades\Auth::user()->inicio_reto)->diffInDays(\Carbon\Carbon::now())+1>intval(env('DIAS'))))
+                        <video controls poster="{{asset('/img/poster.png')}}">
+                            <source src="{{url('/getVideo/termino').'/'.rand(1,100)}}" type="video/mp4">
+                        </video>
+                    @endif
                 </div>
             </div>
         </div>
