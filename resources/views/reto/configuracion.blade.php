@@ -51,7 +51,8 @@
 
     <div id="vue">
         <div class="container">
-            <dias :rol="'{{$rol}}'" :p_dias="{{$dias}}" :p_semana="{{$semana}}" :maximo="{{$maximo}}"></dias>
+            <dias :rol="'{{$rol}}'" :p_dias="{{$dias}}" :p_semana="{{$semana}}" :maximo="{{$maximo}}"
+                :teorico="{{$teorico}}"></dias>
         </div>
     </div>
 
@@ -128,7 +129,7 @@
                     </div>
                 </div>
             </div>
-            <div id="panel">
+            <div id="panel" v-if="maximo>=teorico">
                 <button class="btn btn-sm btn-success" @click="agregarDia">
                     <i class="fa fa-plus"></i>
                 </button>
@@ -153,7 +154,7 @@
     <script>
         Vue.component('dias', {
             template: '#dias-template',
-            props: ['rol', 'p_dias', 'p_semana','maximo'],
+            props: ['rol', 'p_dias', 'p_semana','maximo','teorico'],
             data: function () {
                 return {
                     loading: false,

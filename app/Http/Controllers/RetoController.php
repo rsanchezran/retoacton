@@ -33,7 +33,7 @@ class RetoController extends Controller
         $dias = $this->getSemana($request, $semana);
 
         return view('reto/configuracion', ['rol' => $usuario->rol, 'dias' => $dias, 'semana' => $semana,
-            'maximo' => $usuarioDias]);
+            'maximo' => $usuarioDias, 'teorico'=>intval(env('DIAS'))]);
     }
 
     public function getSemana(Request $request, $semana)
@@ -231,7 +231,8 @@ class RetoController extends Controller
         if ($semana * 7 < $teoricos) {
             $dias = 7;
         } else {
-            $dias = $teoricos - $diasTranscurridos;
+            $diaInicial = ($semana * 7) - 6;
+            $dias = $teoricos - ($diaInicial-1);
         }
         return view('reto.cliente', ['dias' => $dias, 'semana' => $semana,
             'maximo' => $diasTranscurridos, 'teoricos' => $teoricos]);
@@ -247,7 +248,7 @@ class RetoController extends Controller
         if ($semana * 7 < $teoricos) {
             $dias = 7;
         } else {
-            $dias = $teoricos - $diasTranscurridos;
+            $dias = $teoricos - ($diasTranscurridos==0?$diaInicial-1:$diasTranscurridos);
         }
         return ($dias);
     }
