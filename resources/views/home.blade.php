@@ -150,10 +150,21 @@
                     this.$refs.paginador.consultar(this.filtros);
                     this.buscando = false;
                 },
+                terminado: function () {
+                    window.location.href = "{{url('/home')}}";
+                }
             },
             mounted: function () {
                 this.filtros.referencia = this.usuario.referencia;
                 this.buscar();
+                this.$refs.cobro.configurar(
+                    this.usuario.name,
+                    this.usuario.last_name,
+                    this.usuario.email,
+                    this.usuario.telefono,
+                    this.usuario.codigo,
+                    this.usuario.referenciado
+                );
             }
         });
         var vue = new Vue({

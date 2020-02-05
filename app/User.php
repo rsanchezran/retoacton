@@ -151,12 +151,12 @@ class User extends Authenticatable
 
     public function refrendarPago($monto, $telefono = null)
     {
-        $this->telefono = $telefono;
         $this->objetivo = 0;
         $this->correo_enviado = 0;
         $this->pagado = true;
         $this->num_inscripciones = $this->num_inscripciones + 1;
         $this->fecha_inscripcion = Carbon::now();
+        $this->inicio_reto = Carbon::now();
         $this->save();
         if ($this->codigo != '') {
             $this->aumentarSaldo();

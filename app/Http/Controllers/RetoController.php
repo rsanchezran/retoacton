@@ -209,15 +209,18 @@ class RetoController extends Controller
             $user->inicio_reto = Carbon::now();
             $user->save();
         }
+        $diasRetoOriginal = intval(env('DIAS'));
+        $diasReto = intval(env('DIAS2'));
         $diasTranscurridos = UsuarioDia::where('usuario_id', $user->id)->count();
-        $teoricos = Carbon::now()->startOfDay()->diffInDays(Carbon::parse($user->inicio_reto));
-        if ($user->num_inscripciones > 0) {
-            if($teoricos>intval(env('DIAS2'))){
-                $teoricos = intval(env('DIAS2'));
+        if ($user->num_inscripciones > 1) {
+            $teoricos = $diasRetoOriginal +(($user->num_inscripciones-2)*$diasReto)+ Carbon::now()->startOfDay()->diffInDays(Carbon::parse($user->inicio_reto));
+            if($teoricos > $diasRetoOriginal+(($user->num_inscripciones-1)*$diasReto)){
+                $teoricos = $diasRetoOriginal+($user->num_inscripciones-1)*$diasReto;
             }
         } else {
-            if($teoricos>intval(env('DIAS'))){
-                $teoricos = intval(env('DIAS'));
+            $teoricos = Carbon::now()->startOfDay()->diffInDays(Carbon::parse($user->inicio_reto));
+            if($teoricos > $diasRetoOriginal){
+                $teoricos = $diasRetoOriginal;
             }
         }
         if ($diasTranscurridos < $teoricos) {
@@ -257,10 +260,11 @@ class RetoController extends Controller
     {
         $user = $request->user();
         $ejemplo = UsuarioDia::where('usuario_id', 1)->where('dia_id', $dia)->first();
+        $diaEjemplo = Dia::find($dia)??new Dia();
         if ($ejemplo == null) {
             $ejemplo = new UsuarioDia();
         }
-        $ejemplo->comentario = Dia::find($dia)->comentarios;
+        $ejemplo->comentario = $diaEjemplo->comentarios;
         $ejemplo->imagen = url("/reto/getImagen/reto/1/$dia/" . Utils::generarRandomString(10));
         if (Storage::disk('local')->exists("public/reto/1/" . ($dia) . '.mp3')) {
             $ejemplo->audio = url("/reto/getAudio/reto/1/$dia");
