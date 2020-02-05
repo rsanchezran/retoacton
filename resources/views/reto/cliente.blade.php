@@ -120,7 +120,7 @@
                         </button>
                         <i v-else></i>
                         <h4>Semana @{{ semana }}</h4>
-                        <button v-if="maximo>(((semana - 1) * 7)+dias)" class="btn btn-sm btn-light" @click="mostrarSemana(semana+1)">
+                        <button v-if="maximo>=(((semana - 1) * 7)+dias)" class="btn btn-sm btn-light" @click="mostrarSemana(semana+1)">
                             <i class="fa fa-arrow-right"></i>
                         </button>
                         <i v-else></i>

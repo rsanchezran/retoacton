@@ -83,9 +83,7 @@
                             <a class="nav-link" href="{{ url('/reto/configuracion') }}">
                                 <i class="far fa-running"></i> Actividades</a>
                         @endif
-                        @if(\Illuminate\Support\Facades\Auth::user()!=null&&\Illuminate\Support\Facades\Auth::user()->rol==\App\Code\RolUsuario::CLIENTE &&
-                            \Illuminate\Support\Facades\Auth::user()->inicio_reto!=null&&
-                            (\Carbon\Carbon::parse(\Illuminate\Support\Facades\Auth::user()->inicio_reto)->diffInDays(\Carbon\Carbon::now())+1>intval(env('DIAS'))))
+                        @if(\Illuminate\Support\Facades\Auth::user()->vencido)
                                 <button id="breathPC" class="nav-link btn btn-sm btn-warning ld x2 ld-breath" data-toggle="modal" data-target="#terminoModal">
                                     <i class="far fa-exclamation-triangle"></i>
                                     <span>Reto concluído</span>
@@ -159,9 +157,7 @@
         </div>
     </nav>
     <main class="d-flex flex-column flex-grow-1 position-relative">
-        @if(\Illuminate\Support\Facades\Auth::user()!=null&&\Illuminate\Support\Facades\Auth::user()->rol==\App\Code\RolUsuario::CLIENTE &&
-                            \Illuminate\Support\Facades\Auth::user()->inicio_reto!=null&&
-                            (\Carbon\Carbon::parse(\Illuminate\Support\Facades\Auth::user()->inicio_reto)->diffInDays(\Carbon\Carbon::now())+1>intval(env('DIAS'))))
+        @if(\Illuminate\Support\Facades\Auth::user()->vencido)
             <div class="container" id="breathMovil">
                 <button class="nav-link btn btn-sm btn-warning ld ld-breath ml-auto mr-auto" data-toggle="modal" data-target="#terminoModal">
                     <i class="far fa-exclamation-triangle"></i>
