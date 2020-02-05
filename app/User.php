@@ -152,6 +152,7 @@ class User extends Authenticatable
     public function refrendarPago($monto, $telefono = null)
     {
         $this->objetivo = 0;
+        $this->encuestado = false;
         $this->correo_enviado = 0;
         $this->pagado = true;
         $this->num_inscripciones = $this->num_inscripciones + 1;

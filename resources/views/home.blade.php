@@ -26,7 +26,7 @@
                 <div class="card">
                     <div class="card-header">Reto concluido</div>
                     <div class="card-body">
-                        <h6 style="font-size: 1.7em">Tu reto ha concluido, te invitamos a realizar tu pago para que sigas gozando los beneficios</h6>
+                        <h6 style="font-size: 1.4em">Tu reto ha concluido, te invitamos a realizar tu pago para que sigas gozando los beneficios del Reto Acton</h6>
                         <hr>
                         <label style="font-size: 1.4rem; font-family: unitext_bold_cursive">
                             <money v-if="descuento>0" id="cobro_anterior" :cantidad="''+original" :decimales="0"

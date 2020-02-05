@@ -119,16 +119,18 @@
                             <i v-else></i>
                         </button>
                         <i v-else></i>
-                        <h4>Semana @{{ semana }}</h4>
-                        <button v-if="maximo>=(((semana - 1) * 7)+dias)" class="btn btn-sm btn-light" @click="mostrarSemana(semana+1)">
+                        <h4>Semana @{{ semana}}</h4>
+                        <button v-if="maximo>(((semana - 1) * 7)+dias)" class="btn btn-sm btn-light" @click="mostrarSemana(semana+1)">
                             <i class="fa fa-arrow-right"></i>
                         </button>
                         <i v-else></i>
                     </div>
                 </div>
                 <div class="d-flex flex-wrap ">
-                    <div v-for="d in dias" :class="d>dias?'nodia':'dia'" @click="getDia(((semana-1)*7)+d)">
+                    <div v-for="d in dias" class="dia" @click="getDia(((semana-1)*7)+d)">
                         <a>@{{ ((semana-1)*7)+d }}</a>
+                    </div>
+                    <div v-for="d in 7-dias" class="nodia">
                     </div>
                 </div>
             </div>
