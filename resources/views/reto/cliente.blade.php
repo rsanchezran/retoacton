@@ -223,7 +223,7 @@
                         vm.dias = response.data;
                         vm.semana = semana;
                         Vue.nextTick(function () {
-                            $('.selectpicker').selectpicker('refresh    ');
+                            $('.selectpicker').selectpicker('refresh');
                         });
                     });
                 }

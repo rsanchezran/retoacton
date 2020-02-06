@@ -211,9 +211,9 @@ class User extends Authenticatable
     public function isVencido()
     {
         if ($this->num_inscripciones == 1) {
-            $this->vencido = Carbon::now()->startOfDay()->diffInDays(Carbon::parse($this->inicio_reto)) > intval(env('DIAS'));
+            $this->vencido = Carbon::now()->startOfDay()->diffInDays(Carbon::parse($this->inicio_reto)->startOfDay()) > intval(env('DIAS'));
         } else {
-            $this->vencido = Carbon::now()->startOfDay()->diffInDays(Carbon::parse($this->inicio_reto)) > intval(env('DIAS2'));
+            $this->vencido = Carbon::now()->startOfDay()->diffInDays(Carbon::parse($this->inicio_reto)->startOfDay()) > intval(env('DIAS2'));
         }
     }
 }
