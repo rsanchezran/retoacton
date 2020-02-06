@@ -378,7 +378,8 @@
             }
 
             .comienza{
-                font-size:.62rem;
+                font-size:.60rem;
+                color:red;
             }
 
         @media only screen and (max-width: 800px) {
