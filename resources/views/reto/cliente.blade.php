@@ -112,6 +112,7 @@
                     <h4>Calendario</h4>
                     <span>@{{ maximo }} / @{{ teoricos }}</span>
                 </div>
+                <br>
                 <div class="d-flex">
                     <div class="d-flex justify-content-between col-10 col-sm-6 m-auto">
                         <button v-if="semana>1" class="btn btn-sm btn-light" @click="mostrarSemana(semana-1)">
@@ -119,7 +120,9 @@
                             <i v-else></i>
                         </button>
                         <i v-else></i>
-                        <h4>Semana @{{ semana}}</h4>
+                        <select class="selectpicker" v-model="semana" @change="mostrarSemana(semana)">
+                            <option v-for="s in semana" :value="s">Semana @{{ s }}</option>
+                        </select>
                         <button v-if="maximo>(((semana - 1) * 7)+dias)" class="btn btn-sm btn-light" @click="mostrarSemana(semana+1)">
                             <i class="fa fa-arrow-right"></i>
                         </button>

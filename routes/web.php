@@ -80,6 +80,7 @@ Route::group(['prefix' => 'usuarios', 'middleware'=>['auth', 'pago']], function 
     Route::get('referencias', 'UserController@getReferencias');
     Route::post('bajar', 'UserController@bajar');
     Route::post('verReferencias', 'UserController@verReferencias');
+    Route::post('verPagos', 'UserController@verPagos');
     Route::post('cambiarDias', 'UserController@cambiarDias');
     Route::get('exportar/{filtros}', 'UserController@exportar');
 });

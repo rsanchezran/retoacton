@@ -54,17 +54,21 @@ class RetoController extends Controller
             if ($imagenDia === null) {
                 $imagenDia = new UsuarioDia();
                 $imagenDia->comentarios = '';
+                $imagenDia->comentario = '';
                 $imagenDia->imagen = '';
                 $imagenDia->audio = '';
             } else {
-                $imagenDia->imagen = url("/reto/getImagen/reto/$usuario->id/" . $dia) . "/" . (Utils::generarRandomString(10));
+                $diaEjemplo = Dia::find($imagenDia->dia_id) ?? new Dia();
                 if (Storage::disk('local')->exists("public/reto/$usuario->id/" . $dia . '.mp3')) {
                     $imagenDia->audio = url("/reto/getAudio/reto/$usuario->id/" . $dia);
                 } else {
                     $imagenDia->audio = '';
                 }
-                $imagenDia->comentarios = Dia::find($imagenDia->dia_id)->comentarios;
+                $imagenDia->comentarios = $diaEjemplo->comentarios;
+                $imagenDia->comentario = $diaEjemplo->comentarios;
             }
+            $imagenDia->imagen = url("/reto/getImagen/reto/$usuario->id/" . $dia) . "/" . (Utils::generarRandomString(10));
+            $imagenDia->comentar = 0;
             $imagenDia->dia = $dia;
             $imagenDia->subir = $usuario->rol == RolUsuario::ADMIN ? true : $dia <= $usuarioDias->count();
             $imagenDia->loading = false;

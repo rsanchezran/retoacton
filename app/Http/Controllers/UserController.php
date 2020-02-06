@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Code\RolUsuario;
 use App\Code\Utils;
 use App\Contacto;
+use App\Dia;
+use App\Pago;
 use App\User;
 use App\UsuarioDia;
 use Illuminate\Http\Request;
@@ -78,8 +80,9 @@ class UserController extends Controller
 
         foreach ($usuarios as $usuario) {
             $usuario->dias_reto = 0;
+            $usuario->isVencido();
             if ($usuario->inicio_reto != null) {
-                $dias = Carbon::now()->diffInDays(Carbon::parse($usuario->inicio_reto))+1;
+                $dias = Carbon::now()->diffInDays(Carbon::parse($usuario->inicio_reto)) + 1;
                 $usuario->dias_reto = $dias;
             }
             $usuario->total = $usuario->ingresados * $comision;
@@ -93,28 +96,48 @@ class UserController extends Controller
 
     public function imagenes($usuario_id)
     {
-        $web = '/reto/getImagen/reto/'; //ruta para imagenes route /reto/getImagen... en carpeta .../reto
-        $usuario = User::select('id', 'name', 'inicio_reto','created_at')->where('id', $usuario_id)->get()->first();
-        $links = collect();
-        $dias = UsuarioDia::where('usuario_id', $usuario_id)->orderBy('dia_id')->get()->keyBy('dia_id');
-        $diasTranscurridos = Carbon::now()->diffInDays($usuario->inicio_reto)+1;
-        if ($diasTranscurridos > env('DIAS')) {
-            $diasTranscurridos = env('DIAS');
+        $usuario = User::select('id', 'name', 'inicio_reto', 'created_at')->where('id', $usuario_id)->get()->first();
+        $usuarioDias = UsuarioDia::where('usuario_id', $usuario->id)->count();
+        if ($usuarioDias == 0) {
+            $semana = 1;
+        } else {
+            $semana = $usuarioDias % 7 == 0 ? intval($usuarioDias / 7) : intval($usuarioDias / 7) + 1;
         }
-        for ($i = 1; $i <= $diasTranscurridos; $i++) {
-            $dia = $dias->get($i);
-            if ($dia === null) {
-                $dia = new UsuarioDia();
-                $dia->imagen = '/images/none.png';
-                $dia->comentario = '';
+        $dias = $this->getSemana($usuario, $semana);
+
+        return view('users.imagenes', ['usuario' => $usuario, 'dias' => $dias, 'semana' => $semana,
+            'maximo' => $usuarioDias, 'teorico' => intval(env('DIAS'))]);
+    }
+
+    public function getSemana($usuario, $semana)
+    {
+        $dias = collect();
+
+        if ($usuario->inicio_reto == '') {//crear inicio del reto
+            Storage::makeDirectory('public/reto/' . $usuario->id);
+            $usuario->inicio_reto = Carbon::now();
+            $usuario->save();
+        }
+        $usuarioDias = UsuarioDia::where('usuario_id', $usuario->id)->get()->keyBy('dia_id');
+
+        for ($i = 1; $i <= 7; $i++) {//construir arreglo y ruta de las imagenes para la vista
+            $dia = (7 * ($semana - 1)) + $i;
+            $imagenDia = $usuarioDias->get($dia);
+            if ($imagenDia === null) {
+                $imagenDia = new UsuarioDia();
+                $imagenDia->comentario = '';
             } else {
-                $dia->imagen = $web . $usuario_id . '/' . ($i) . '/' . (Utils::generarRandomString(10));
-                $dia->comentario = $dia->comentario == null ? '' : $dia->comentario;
+                $diaEjemplo = Dia::find($imagenDia->dia_id) ?? new Dia();
+                $imagenDia->comentario = $diaEjemplo->comentarios;
             }
-            $dia->comentar = 0;
-            $links->push($dia);
+            $imagenDia->comentar = 0;
+            $imagenDia->imagen = url("/reto/getImagen/reto/$usuario->id/" . $dia) . "/" . (Utils::generarRandomString(10));
+            $imagenDia->dia = $dia;
+            $imagenDia->subir = $usuario->rol == RolUsuario::ADMIN ? true : $dia <= $usuarioDias->count();
+            $imagenDia->loading = false;
+            $dias->push($imagenDia);
         }
-        return view('users.imagenes', ['links' => $links, 'usuario' => $usuario]);
+        return $dias;
     }
 
     public function showEncuesta($usuario_id)
@@ -131,12 +154,19 @@ class UserController extends Controller
 
     public function pagar(Request $request)
     {
+        \DB::beginTransaction();
         $user = User::find($request->id);
         if ($user != null && $user->saldo > 0) {
+            $monto = 0 + $user->saldo;
             $user->cobrado = 1;
             $user->saldo = 0;
             $user->save();
+            $pago = new Pago();
+            $pago->monto = $monto;
+            $pago->usuario_id = $user->id;
+            $pago->save();
         }
+        \DB::commit();
     }
 
     public function getReferencias(Request $request)
@@ -257,5 +287,14 @@ class UserController extends Controller
         }
         $writer = new Xlsx($spreadsheet);
         $writer->save('php://output');
+    }
+
+    public function verPagos(Request $request)
+    {
+        $usuario = User::find($request->id);
+        if ($usuario !== null) {
+            $pagos = Pago::where('usuario_id', $usuario->id)->get();
+            return $pagos;
+        }
     }
 }

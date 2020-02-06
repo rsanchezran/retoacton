@@ -12,16 +12,12 @@ class PagoConfirmar
     public function handle($request, Closure $next)
     {
         $usuario = auth()->user();
-        if($usuario != null){
+        if ($usuario != null) {
             if ((auth()->check() && $usuario->encuestado && $usuario->pagado) || $usuario->rol == RolUsuario::ADMIN) {
-                if ($usuario->rol == RolUsuario::ADMIN){
+                if ($usuario->rol == RolUsuario::ADMIN) {
                     auth()->user()->vencido = false;
-                }else{
-                    if ($usuario->num_inscripciones==1){
-                        auth()->user()->vencido = Carbon::now()->startOfDay()->diffInDays(Carbon::parse($usuario->inicio_reto))>intval(env('DIAS'));
-                    }else{
-                        auth()->user()->vencido = Carbon::now()->startOfDay()->diffInDays(Carbon::parse($usuario->inicio_reto))>intval(env('DIAS2'));
-                    }
+                } else {
+                    auth()->user()->isVencido();
                 }
                 return $next($request);
             }
@@ -30,7 +26,7 @@ class PagoConfirmar
             } else {
                 return redirect('/encuesta');
             }
-        }else{
+        } else {
             return redirect('/');
         }
 

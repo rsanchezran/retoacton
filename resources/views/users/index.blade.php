@@ -1,4 +1,13 @@
 @extends('layouts.app')
+@section('header')
+    <style>
+        .usuario{
+            padding: 5px;
+            margin: 5px;
+            border-bottom: 1px solid lightgray;
+        }
+    </style>
+@endsection
 @section('content')
     <div id="vue">
         <div class="container">
@@ -70,70 +79,56 @@
 
             <div class="card mb-3">
                 <div class="card-body">
-                    <table class="table">
-                        <tbody>
-                        <tr class="table-header">
-                            <th>Nombre</th>
-                            <th class="text-center">Días activo</th>
-                            <th class="text-center">Personas ingresadas</th>
-                            <th class="text-center">Ingresados por reto</th>
-                            <th class="text-right">Saldo a favor</th>
-                            <th class="text-center">Acciones</th>
-                        </tr>
-                        <tr v-for="usuario in usuarios.data">
-                            <td>
-                                <div class="d-flex flex-column">
-                                    <span>@{{ usuario.name+' '+usuario.last_name }}</span>
-                                    <span>@{{ usuario.email }}</span>
-                                    <span><fecha :fecha="usuario.fecha_inscripcion" formato="dd/mm/yyyy hh:ii"></fecha></span>
-                                    <span>@{{ usuario.medio }}</span>
-                                    <span class="text-capitalize">@{{ usuario.tipo_pago }}</span>
-                                </div>
-                            </td>
-                            <td class="text-center">
-                                @if(env('SANDBOX'))
-                                    <button class="btn btn-sm btn-light" @click="confirmarDias(usuario)">
-                                        @{{ usuario.dias_reto }}
-                                    </button>
-                                @else
-                                    <i v-if="usuario.dias_reto<{{env('DIASREEMBOLSO')}}" class="fa fa-undo-alt"></i>
-                                    @{{ usuario.dias_reto }}
-                                @endif
-                            </td>
-                            <td class="text-center">
-                                <button class="btn btn-sm btn-light" @click="verReferencias(usuario)">
-                                    <span>@{{ usuario.ingresados }}</span>
-                                    (<money :cantidad="''+usuario.total" :caracter="true"></money>)
+                    <div v-for="usuario in usuarios.data" class="d-flex usuario">
+                        <div class="col-4 d-flex flex-column">
+                            <span>
+                                <i v-if="usuario.vencido" class="fa fa-user text-default"></i>
+                                <i v-else class="fa fa-user text-info"></i>
+                                @{{ usuario.name+' '+usuario.last_name }}
+                            </span>
+                            <span>@{{ usuario.email }}</span>
+                            <span>@{{ usuario.medio }}</span>
+                            <span class="text-capitalize">@{{ usuario.tipo_pago }}</span>
+                        </div>
+                        <div class="col-4 d-flex flex-column text-center">
+                            <fecha :fecha="usuario.created_at" formato="dd/mm/yyyy hh:ii"></fecha>
+                            <fecha :fecha="usuario.fecha_inscripcion" formato="dd/mm/yyyy hh:ii"></fecha>
+                            @if(env('SANDBOX'))
+                                <button class="btn btn-sm btn-light" @click="confirmarDias(usuario)">
+                                    Dias activo : @{{ usuario.dias_reto }}
                                 </button>
-                            </td>
-                            <td class="text-center">
-                                <span>@{{ usuario.pagados }}</span>
-                                (<money :cantidad="''+usuario.depositado" :caracter="true"></money>)
-                            </td>
-                            <td class="text-right">
-                                <span>@{{ usuario.pendientes }}</span>
-                                (<money :cantidad="''+usuario.saldo" :caracter="true"></money>)
-                            </td>
-                            <td style="display: flex; flex-direction: column">
-                                <div>
-                                    <a v-tooltip="{content:'Ver encuesta'}" class="btn btn-sm btn-info text-light" :href="'{{ url('/usuarios/encuesta') }}/' + usuario.id">
-                                        <i class="fas fa-clipboard-list"></i>
-                                    </a>
-                                    <a v-tooltip="{content:'Ver reto'}" class="btn btn-sm btn-default" :href="'{{ url('/usuarios/imagenes') }}/' + usuario.id">
-                                        <i class="fas fa-running"></i>
-                                    </a>
-                                    <button v-tooltip="{content:'Pagar'}" v-if="usuario.saldo > 0"
-                                            class="btn btn-sm btn-warning" @click="mostrarTarjeta(usuario)">
-                                        <i class="far fa-bell"></i>
-                                    </button>
-                                    <button v-tooltip="{content:'Eliminar usuario'}" class="btn btn-sm btn-danger" @click="confirmar(usuario)">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                            @else
+                                <i v-if="usuario.dias_reto<{{env('DIASREEMBOLSO')}}" class="fa fa-undo-alt"></i>
+                                @{{ usuario.dias_reto }}
+                            @endif
+                            <button class="btn btn-sm btn-light" @click="verPagos(usuario)">
+                                Pagos efectuados
+                            </button>
+                        </div>
+                        <div class="col-4 d-flex flex-column align-items-end">
+                            <button class="btn btn-sm btn-light" @click="verReferencias(usuario)">
+                                <span>@{{ usuario.ingresados }}</span>
+                                (<money :cantidad="''+usuario.total" :caracter="true"></money>)
+                            </button>
+                            <span>@{{ usuario.pagados }} (<money :cantidad="''+usuario.depositado" :caracter="true"></money>)</span>
+                            <span>@{{ usuario.pendientes }} (<money :cantidad="''+usuario.saldo" :caracter="true"></money>)</span>
+                            <div class="d-flex">
+                                <a v-tooltip="{content:'Ver encuesta'}" class="btn btn-sm btn-info text-light" :href="'{{ url('/usuarios/encuesta') }}/' + usuario.id">
+                                    <i class="fas fa-clipboard-list"></i>
+                                </a>
+                                <a v-tooltip="{content:'Ver reto'}" class="btn btn-sm btn-default" :href="'{{ url('/usuarios/imagenes') }}/' + usuario.id">
+                                    <i class="fas fa-running"></i>
+                                </a>
+                                <button v-tooltip="{content:'Pagar'}" v-if="usuario.saldo > 0"
+                                        class="btn btn-sm btn-warning" @click="mostrarTarjeta(usuario)">
+                                    <i class="far fa-bell"></i>
+                                </button>
+                                <button v-tooltip="{content:'Eliminar usuario'}" class="btn btn-sm btn-danger" @click="confirmar(usuario)">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                     <div v-if="usuarios.length == 0 || usuarios.data.length == 0" align="center">
                         <h6 colspan="6">[No hay datos para mostrar]</h6>
                     </div>
@@ -167,6 +162,18 @@
                         <td>@{{ referencia.email}}</td>
                         <td><fecha :fecha="referencia.fecha_inscripcion"></fecha></td>
                         <td><fecha :fecha="referencia.inicio_reto"></fecha></td>
+                    </tr>
+                </table>
+            </modal>
+            <modal ref="pagosModal" :title="'Pagos efectuados al usuario : '+usuario.name" :showok="false" :showcancel="false">
+                <table class="table">
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Monto</th>
+                    </tr>
+                    <tr v-for="pago in pagos">
+                        <td><fecha :fecha="pago.created_at"></fecha></td>
+                        <td><money :cantidad="pago.monto"></money></td>
                     </tr>
                 </table>
             </modal>
@@ -209,7 +216,8 @@
                     },
                     referencias:{
                         data:[]
-                    }
+                    },
+                    pagos:[]
                 }
             },
             methods: {
@@ -272,7 +280,15 @@
                 },
                 exportar: function () {
                     window.open('{{url('/usuarios/exportar')}}/'+JSON.stringify(this.filtros),'_blank');
-                }
+                },
+                verPagos: function (usuario) {
+                    let vm = this;
+                    this.usuario = usuario;
+                    axios.post('/usuarios/verPagos', this.usuario).then(function (response) {
+                        vm.pagos = response.data;
+                        vm.$refs.pagosModal.showModal();
+                    });
+                },
             },
             mounted: function () {
                 this.buscar();
