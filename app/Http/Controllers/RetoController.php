@@ -33,7 +33,7 @@ class RetoController extends Controller
         $dias = $this->getSemana($request, $semana);
 
         return view('reto/configuracion', ['rol' => $usuario->rol, 'dias' => $dias, 'semana' => $semana,
-            'maximo' => $usuarioDias, 'teorico'=>intval(env('DIAS'))]);
+            'maximo' => $usuarioDias, 'teorico' => intval(env('DIAS'))]);
     }
 
     public function getSemana(Request $request, $semana)
@@ -54,17 +54,21 @@ class RetoController extends Controller
             if ($imagenDia === null) {
                 $imagenDia = new UsuarioDia();
                 $imagenDia->comentarios = '';
+                $imagenDia->comentario = '';
                 $imagenDia->imagen = '';
                 $imagenDia->audio = '';
             } else {
-                $imagenDia->imagen = url("/reto/getImagen/reto/$usuario->id/" . $dia) . "/" . (Utils::generarRandomString(10));
+                $diaEjemplo = Dia::find($imagenDia->dia_id) ?? new Dia();
                 if (Storage::disk('local')->exists("public/reto/$usuario->id/" . $dia . '.mp3')) {
                     $imagenDia->audio = url("/reto/getAudio/reto/$usuario->id/" . $dia);
                 } else {
                     $imagenDia->audio = '';
                 }
-                $imagenDia->comentarios = Dia::find($imagenDia->dia_id)->comentarios;
+                $imagenDia->comentarios = $diaEjemplo->comentarios;
+                $imagenDia->comentario = $diaEjemplo->comentarios;
             }
+            $imagenDia->imagen = url("/reto/getImagen/reto/$usuario->id/" . $dia) . "/" . (Utils::generarRandomString(10));
+            $imagenDia->comentar = 0;
             $imagenDia->dia = $dia;
             $imagenDia->subir = $usuario->rol == RolUsuario::ADMIN ? true : $dia <= $usuarioDias->count();
             $imagenDia->loading = false;
@@ -212,14 +216,18 @@ class RetoController extends Controller
         $diasRetoOriginal = intval(env('DIAS'));
         $diasReto = intval(env('DIAS2'));
         $diasTranscurridos = UsuarioDia::where('usuario_id', $user->id)->count();
+        $inicioReto = Carbon::parse($user->inicio_reto);
         if ($user->num_inscripciones > 1) {
-            $teoricos = $diasRetoOriginal +(($user->num_inscripciones-2)*$diasReto)+ Carbon::now()->startOfDay()->diffInDays(Carbon::parse($user->inicio_reto));
-            if($teoricos > $diasRetoOriginal+(($user->num_inscripciones-1)*$diasReto)){
-                $teoricos = $diasRetoOriginal+($user->num_inscripciones-1)*$diasReto;
+            $teoricos = $diasRetoOriginal + (($user->num_inscripciones - 2) * $diasReto) + Carbon::now()->startOfDay()->diffInDays($inicioReto);
+            if (Carbon::parse($user->fecha_inscripcion)->startOfDay() == $inicioReto->startOfDay()) {
+                $teoricos++;
+            }
+            if ($teoricos > $diasRetoOriginal + (($user->num_inscripciones - 1) * $diasReto)) {
+                $teoricos = $diasRetoOriginal + ($user->num_inscripciones - 1) * $diasReto;
             }
         } else {
             $teoricos = Carbon::now()->startOfDay()->diffInDays(Carbon::parse($user->inicio_reto));
-            if($teoricos > $diasRetoOriginal){
+            if ($teoricos > $diasRetoOriginal) {
                 $teoricos = $diasRetoOriginal;
             }
         }
@@ -228,6 +236,7 @@ class RetoController extends Controller
         }
         if ($diasTranscurridos == 0) {
             $semana = 1;
+            $teoricos++;
         } else {
             $semana = $diasTranscurridos % 7 == 0 ? intval($diasTranscurridos / 7) : intval($diasTranscurridos / 7) + 1;
         }
@@ -235,7 +244,7 @@ class RetoController extends Controller
             $dias = 7;
         } else {
             $diaInicial = ($semana * 7) - 6;
-            $dias = $teoricos - ($diaInicial-1);
+            $dias = $teoricos - ($diaInicial - 1);
         }
         return view('reto.cliente', ['dias' => $dias, 'semana' => $semana,
             'maximo' => $diasTranscurridos, 'teoricos' => $teoricos]);
@@ -244,14 +253,29 @@ class RetoController extends Controller
     public function getSemanaCliente(Request $request, $semana)
     {
         $user = $request->user();
-        $diaInicial = ($semana * 7) - 6;
-        $diaFinal = $semana * 7;
-        $diasTranscurridos = UsuarioDia::where('usuario_id', $user->id)->whereBetween('dia_id', [$diaInicial, $diaFinal])->count();
-        $teoricos = Carbon::now()->startOfDay()->diffInDays(Carbon::parse($user->inicio_reto));
+        $diasRetoOriginal = intval(env('DIAS'));
+        $diasReto = intval(env('DIAS2'));
+        $inicioReto = Carbon::parse($user->inicio_reto);
+        if ($user->num_inscripciones > 1) {
+            $teoricos = $diasRetoOriginal + (($user->num_inscripciones - 2) * $diasReto) + Carbon::now()->startOfDay()->diffInDays($inicioReto);
+            if (Carbon::parse($user->fecha_inscripcion)->startOfDay() == $inicioReto->startOfDay()) {
+                $teoricos++;
+            }
+            if ($teoricos > $diasRetoOriginal + (($user->num_inscripciones - 1) * $diasReto)) {
+                $teoricos = $diasRetoOriginal + ($user->num_inscripciones - 1) * $diasReto;
+            }
+        } else {
+            $teoricos = Carbon::now()->startOfDay()->diffInDays(Carbon::parse($user->inicio_reto));
+            if ($teoricos > $diasRetoOriginal) {
+                $teoricos = $diasRetoOriginal;
+            }
+        }
+
         if ($semana * 7 < $teoricos) {
             $dias = 7;
         } else {
-            $dias = $teoricos - ($diasTranscurridos==0?$diaInicial-1:$diasTranscurridos);
+            $diaInicial = ($semana * 7) - 6;
+            $dias = $teoricos - ($diaInicial - 1);
         }
         return ($dias);
     }
@@ -260,7 +284,7 @@ class RetoController extends Controller
     {
         $user = $request->user();
         $ejemplo = UsuarioDia::where('usuario_id', 1)->where('dia_id', $dia)->first();
-        $diaEjemplo = Dia::find($dia)??new Dia();
+        $diaEjemplo = Dia::find($dia) ?? new Dia();
         if ($ejemplo == null) {
             $ejemplo = new UsuarioDia();
         }

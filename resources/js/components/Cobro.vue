@@ -346,7 +346,7 @@
                         </div>
                         <div class="opps-ammount">
                             <h3>Monto a pagar</h3>
-                            <h2 id="monto"><money :cantidad="response.monto" caracter="true" adicional=" MXN" :decimales="0"></money></h2>
+                            <h2 id="monto"><money :cantidad="''+response.monto" :caracter="true" adicional=" MXN" :decimales="0"></money></h2>
                         </div>
                     </div>
                     <div class="opps-reference">

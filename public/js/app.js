@@ -50020,8 +50020,8 @@ var render = function() {
                     [
                       _c("money", {
                         attrs: {
-                          cantidad: _vm.response.monto,
-                          caracter: "true",
+                          cantidad: "" + _vm.response.monto,
+                          caracter: true,
                           adicional: " MXN",
                           decimales: 0
                         }
@@ -50129,7 +50129,7 @@ var render = function() {
               _vm._v(" "),
               _c("div", { staticClass: "opps-footnote" }, [
                 _vm._v("Al completar estos pasos recibirás un correo de "),
-                _c("strong", [_vm._v("contacto@grupoacton.com")]),
+                _c("strong", [_vm._v("soporte@retoacton.com")]),
                 _vm._v("\n                    confirmando tu pago."),
                 _c("br"),
                 _c("br"),

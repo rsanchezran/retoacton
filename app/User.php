@@ -152,6 +152,7 @@ class User extends Authenticatable
     public function refrendarPago($monto, $telefono = null)
     {
         $this->objetivo = 0;
+        $this->encuestado = false;
         $this->correo_enviado = 0;
         $this->pagado = true;
         $this->num_inscripciones = $this->num_inscripciones + 1;
@@ -178,12 +179,24 @@ class User extends Authenticatable
 
     public function aumentarSaldo()
     {
-        $user_referencia = User::where('referencia', $this->codigo)->get()->first();
-        if ($user_referencia != null) {
-            $user_referencia->ingresados_reto += 1;
-            $user_referencia->ingresados += 1;
-            $user_referencia->saldo += intval(env('COMISION'));
-            $user_referencia->save();
+        $usuario = User::where('referencia', $this->codigo)->get()->first();
+        if ($usuario != null) {
+            $usuario->isVencido();
+            if (!$usuario->vencido) {
+                $usuario->ingresados_reto += 1;
+                $usuario->ingresados += 1;
+                $usuario->saldo += intval(env('COMISION'));
+                $usuario->save();
+            }
+        }
+    }
+
+    public function isVencido()
+    {
+        if ($this->num_inscripciones == 1) {
+            $this->vencido = Carbon::now()->startOfDay()->diffInDays(Carbon::parse($this->inicio_reto)) > intval(env('DIAS'));
+        } else {
+            $this->vencido = Carbon::now()->startOfDay()->diffInDays(Carbon::parse($this->inicio_reto)) > intval(env('DIAS2'));
         }
     }
 }

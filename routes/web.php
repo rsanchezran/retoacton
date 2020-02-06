@@ -80,8 +80,11 @@ Route::group(['prefix' => 'usuarios', 'middleware'=>['auth', 'pago']], function 
     Route::get('referencias', 'UserController@getReferencias');
     Route::post('bajar', 'UserController@bajar');
     Route::post('verReferencias', 'UserController@verReferencias');
+    Route::post('verPagos', 'UserController@verPagos');
+    Route::post('verCompras', 'UserController@verCompras');
     Route::post('cambiarDias', 'UserController@cambiarDias');
     Route::get('exportar/{filtros}', 'UserController@exportar');
+    Route::get('getSemana/{usuario}/{semana}', 'UserController@getSemana');
 });
 
 Route::group(['prefix'=>'reto', 'middleware'=>['auth', 'pago'] ],function (){
