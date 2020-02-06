@@ -11,6 +11,7 @@ use App\User;
 use App\UsuarioDia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
@@ -109,7 +110,7 @@ class UserController extends Controller
             'maximo' => $usuarioDias, 'teorico' => intval(env('DIAS'))]);
     }
 
-    public function getSemana($usuario, $semana)
+    public function getSemana(User $usuario, $semana)
     {
         $dias = collect();
 

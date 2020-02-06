@@ -17,18 +17,18 @@
 
     <template id="dias-template">
         <div class="card">
-            <div class="card-header">@{{ usuario.name }}</div>
+            <div class="card-header">@{{ usuario.name+' '+semana }}</div>
             <div class="card-body">
                 <div class="d-flex justify-content-between col-10 col-sm-6 m-auto">
-                    <button v-if="semana>1" class="btn btn-sm btn-light" @click="mostrarSemana(semana-1)">
+                    <button v-if="semana>1" class="btn btn-sm btn-light" @click="mostrarSemana(semana-1, true)">
                         <i v-if="semana>1" class="fa fa-arrow-left"></i>
                         <i v-else></i>
                     </button>
                     <i v-else></i>
-                    <select class="selectpicker" v-model="semana" @change="mostrarSemana(semana)">
-                        <option v-for="s in semana" :value="s">Semana @{{ s }}</option>
+                    <select class="selectpicker" v-model="semana" @change="mostrarSemana(semana, false)">
+                        <option v-for="s in p_semana" :value="s">Semana @{{ s }}</option>
                     </select>
-                    <button v-if="maximo>=semana * dias.length" class="btn btn-sm btn-light" @click="mostrarSemana(semana+1)">
+                    <button v-if="maximo>(((semana - 1) * 7)+dias)" class="btn btn-sm btn-light" @click="mostrarSemana(semana+1, true)">
                         <i class="fa fa-arrow-right"></i>
                     </button>
                     <i v-else></i>
@@ -108,11 +108,13 @@
                         vm.errors = error.response.data.errors;
                     });
                 },
-                mostrarSemana: function (semana) {
+                mostrarSemana: function (semana, actualizar) {
                     let vm = this;
-                    axios.get('{{url('/reto/getSemana/')}}/' + semana).then(function (response) {
+                    axios.get('{{url('/usuarios/getSemana/')}}/' + this.usuario.id+'/'+semana).then(function (response) {
                         vm.dias = response.data;
-                        vm.semana = semana;
+                        if (actualizar){
+                            vm.semana = semana;
+                        }
                         Vue.nextTick(function () {
                             $('.selectpicker').selectpicker('refresh');
                         });

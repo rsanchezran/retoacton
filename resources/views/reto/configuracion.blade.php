@@ -72,7 +72,7 @@
                     </button>
                     <i v-else></i>
                     <select class="selectpicker" v-model="semana" @change="mostrarSemana(semana)">
-                        <option v-for="s in semana" :value="s">Semana @{{ s }}</option>
+                        <option v-for="s in p_semana" :value="s">Semana @{{ s }}</option>
                     </select>
                     <button v-if="maximo>=semana * dias.length" class="btn btn-sm btn-light" @click="mostrarSemana(semana+1)">
                         <i class="fa fa-arrow-right"></i>
@@ -256,6 +256,9 @@
                     axios.get('{{url('/reto/getSemana/')}}/' + semana).then(function (response) {
                         vm.dias = response.data;
                         vm.semana = semana;
+                        Vue.nextTick(function () {
+                            $('.selectpicker').selectpicker('refresh');
+                        });
                     });
                 }
             },
