@@ -87,7 +87,7 @@ class PagoController extends Controller
         $this->validarOpenpay($request);
         try {
             \DB::beginTransaction();
-            $usuario = User::withTrashed()->orderBy('created_at')->where('email', $request->email)->get()->last();
+            $usuario = User::orderBy('created_at')->where('email', $request->email)->get()->last();
             $cobro = User::calcularMontoCompra($request->pregunta, $request->email,
                 $usuario == null ? null : $usuario->created_at,
                 $usuario == null ? null : $usuario->fecha_inscripcion,
@@ -131,7 +131,7 @@ class PagoController extends Controller
     public function oxxo(Request $request)
     {
         $this->validarTelefono($request);
-        $usuario = User::withTrashed()->orderBy('created_at')->where('email', $request->email)->get()->last();
+        $usuario = User::orderBy('created_at')->where('email', $request->email)->get()->last();
         $cobro = User::calcularMontoCompra($request->pregunta, $request->email,
             $usuario == null ? null : $usuario->created_at,
             $usuario == null ? null : $usuario->fecha_inscripcion,
@@ -193,7 +193,7 @@ class PagoController extends Controller
     public function spei(Request $request)
     {
         $this->validarTelefono($request);
-        $usuario = User::withTrashed()->orderBy('created_at')->where('email', $request->email)->get()->last();
+        $usuario = User::orderBy('created_at')->where('email', $request->email)->get()->last();
         $cobro = User::calcularMontoCompra($request->pregunta, $request->email,
             $usuario == null ? null : $usuario->created_at,
             $usuario == null ? null : $usuario->fecha_inscripcion,
@@ -254,7 +254,7 @@ class PagoController extends Controller
 
     public function paypal(Request $request)
     {
-        $usuario = User::withTrashed()->orderBy('created_at')->where('email', $request->email)->get()->last();
+        $usuario = User::orderBy('created_at')->where('email', $request->email)->get()->last();
         $cobro = User::calcularMontoCompra($request->pregunta, $request->email,
             $usuario == null ? null : $usuario->created_at,
             $usuario == null ? null : $usuario->fecha_inscripcion,
