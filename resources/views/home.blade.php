@@ -157,14 +157,16 @@
             mounted: function () {
                 this.filtros.referencia = this.usuario.referencia;
                 this.buscar();
-                this.$refs.cobro.configurar(
-                    this.usuario.name,
-                    this.usuario.last_name,
-                    this.usuario.email,
-                    this.usuario.telefono,
-                    this.usuario.codigo,
-                    this.usuario.referenciado
-                );
+                @if(\Illuminate\Support\Facades\Auth::user()->vencido)
+                    this.$refs.cobro.configurar(
+                        this.usuario.name,
+                        this.usuario.last_name,
+                        this.usuario.email,
+                        this.usuario.telefono,
+                        this.usuario.codigo,
+                        this.usuario.referenciado
+                    );
+                @endif
             }
         });
         var vue = new Vue({

@@ -6,6 +6,10 @@
             margin: 5px;
             border-bottom: 1px solid lightgray;
         }
+
+        .settings a, .settings button{
+            margin-left: 5px;
+        }
     </style>
 @endsection
 @section('content')
@@ -88,11 +92,17 @@
                             </span>
                             <span>@{{ usuario.email }}</span>
                             <span>@{{ usuario.medio }}</span>
-                            <span class="text-capitalize">@{{ usuario.tipo_pago }}</span>
+                            <button class="btn btn-sm btn-default text-capitalize" @click="verCompras(usuario)">@{{ usuario.tipo_pago }}</button>
                         </div>
                         <div class="col-4 d-flex flex-column text-center">
-                            <fecha :fecha="usuario.created_at" formato="dd/mm/yyyy hh:ii"></fecha>
-                            <fecha :fecha="usuario.fecha_inscripcion" formato="dd/mm/yyyy hh:ii"></fecha>
+                            <div>
+                                <i class="far fa-user-clock"></i>
+                                <fecha :fecha="usuario.created_at" formato="dd/mm/yyyy hh:ii"></fecha>
+                            </div>
+                            <div>
+                                <i class="fa fa-user-check"></i>
+                                <fecha :fecha="usuario.fecha_inscripcion" formato="dd/mm/yyyy hh:ii"></fecha>
+                            </div>
                             @if(env('SANDBOX'))
                                 <button class="btn btn-sm btn-light" @click="confirmarDias(usuario)">
                                     Dias activo : @{{ usuario.dias_reto }}
@@ -112,7 +122,7 @@
                             </button>
                             <span>@{{ usuario.pagados }} (<money :cantidad="''+usuario.depositado" :caracter="true"></money>)</span>
                             <span>@{{ usuario.pendientes }} (<money :cantidad="''+usuario.saldo" :caracter="true"></money>)</span>
-                            <div class="d-flex">
+                            <div class="d-flex settings">
                                 <a v-tooltip="{content:'Ver encuesta'}" class="btn btn-sm btn-info text-light" :href="'{{ url('/usuarios/encuesta') }}/' + usuario.id">
                                     <i class="fas fa-clipboard-list"></i>
                                 </a>
@@ -177,6 +187,18 @@
                     </tr>
                 </table>
             </modal>
+            <modal ref="comprasModal" :title="'Compras realizadas por el usuario : '+usuario.name" :showok="false" :showcancel="false">
+                <table class="table">
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Monto</th>
+                    </tr>
+                    <tr v-for="compra in compras">
+                        <td><fecha :fecha="compra.created_at"></fecha></td>
+                        <td><money :cantidad="compra.monto"></money></td>
+                    </tr>
+                </table>
+            </modal>
             <modal ref="cambiarDiasModal" title="Cambiar inicio de reto del usuario" @ok="cambiarDias">
                 <span>Especifica cuantos días lleva el usuario en el reto : </span>
                 <div class="col-sm-4">
@@ -217,7 +239,8 @@
                     referencias:{
                         data:[]
                     },
-                    pagos:[]
+                    pagos:[],
+                    compras:[]
                 }
             },
             methods: {
@@ -287,6 +310,15 @@
                     axios.post('/usuarios/verPagos', this.usuario).then(function (response) {
                         vm.pagos = response.data;
                         vm.$refs.pagosModal.showModal();
+                    });
+                },
+                verCompras: function (usuario) {
+                    let vm = this;
+                    this.usuario = usuario;
+                    axios.post('/usuarios/verCompras', this.usuario).then(function (response) {
+                        vm.compras = response.data;
+                        vm.$refs.comprasModal.showModal();
+                        console.log(vm.compras);
                     });
                 },
             },

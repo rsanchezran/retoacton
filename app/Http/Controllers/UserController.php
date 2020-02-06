@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Code\RolUsuario;
 use App\Code\Utils;
+use App\Compra;
 use App\Contacto;
 use App\Dia;
 use App\Pago;
@@ -33,7 +34,8 @@ class UserController extends Controller
     {
         $this->authorize('usuarios');
         $campos = json_decode($request->campos);
-        $usuarios = User::join('contactos', 'contactos.email', 'users.email')->where('rol', '!=', RolUsuario::ADMIN);
+        $usuarios = User::join('contactos', 'contactos.email', 'users.email')
+            ->where('rol', '!=', RolUsuario::ADMIN)->whereNull('contactos.deleted_at');
 
         if ($campos->nombre != null) {
             $usuarios = $usuarios->where('name', 'like', '%' . $campos->nombre . '%');
@@ -126,11 +128,8 @@ class UserController extends Controller
             $imagenDia = $usuarioDias->get($dia);
             if ($imagenDia === null) {
                 $imagenDia = new UsuarioDia();
-                $imagenDia->comentario = '';
-            } else {
-                $diaEjemplo = Dia::find($imagenDia->dia_id) ?? new Dia();
-                $imagenDia->comentario = $diaEjemplo->comentarios;
             }
+            $imagenDia->comentario = $imagenDia->comentario ?? '';
             $imagenDia->comentar = 0;
             $imagenDia->imagen = url("/reto/getImagen/reto/$usuario->id/" . $dia) . "/" . (Utils::generarRandomString(10));
             $imagenDia->dia = $dia;
@@ -296,6 +295,15 @@ class UserController extends Controller
         if ($usuario !== null) {
             $pagos = Pago::where('usuario_id', $usuario->id)->get();
             return $pagos;
+        }
+    }
+
+    public function verCompras(Request $request)
+    {
+        $usuario = User::find($request->id);
+        if ($usuario !== null) {
+            $compras = Compra::where('usuario_id', $usuario->id)->get();
+            return $compras;
         }
     }
 }
