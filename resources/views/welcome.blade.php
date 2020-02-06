@@ -378,7 +378,7 @@
             }
 
             .comienza{
-                font-size:.63rem;
+                font-size:.62rem;
             }
 
         @media only screen and (max-width: 800px) {
@@ -752,8 +752,8 @@
                     <br>
                     <h6 class="comienza gris" style="font-family: unitext_light; font-weight: bold;">Nuestro reto contigo durante estas 8 semanas es demostrarte que</h6>
                     <h6 class="comienza gris" style="font-family: unitext_light; font-weight: bold;">puedes alcanzar el cuerpo que deseas cuando tu mente así lo decide.</h6>
-                    <h6 class="comienza text-uppercase">Buscamos ser inspiración y motivación para</h6>
-                    <h6 class="comienza text-uppercase">alcanzar cualquier meta que te propongas.</h6>
+                    <h6 class="comienza text-uppercase font-weight-bold">Buscamos ser inspiración y motivación para</h6>
+                    <h6 class="comienza text-uppercase font-weight-bold">alcanzar cualquier meta que te propongas.</h6>
                 </div>
             </div>
             <div class="section">
