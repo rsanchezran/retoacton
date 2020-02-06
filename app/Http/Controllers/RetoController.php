@@ -48,7 +48,7 @@ class RetoController extends Controller
         }
         $usuarioDias = UsuarioDia::where('usuario_id', $usuario->id)->get()->keyBy('dia_id');
 
-        for ($i = 1; $i <= 7; $i++) {//construir arreglo y ruta de las imagenes para la vista
+        for ($i = 1; $i <= 56; $i++) {//construir arreglo y ruta de las imagenes para la vista
             $dia = (7 * ($semana - 1)) + $i;
             $imagenDia = $usuarioDias->get($dia);
             if ($imagenDia === null) {
