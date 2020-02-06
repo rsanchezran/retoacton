@@ -157,9 +157,11 @@ class UserController extends Controller
         \DB::beginTransaction();
         $user = User::find($request->id);
         if ($user != null && $user->saldo > 0) {
-            $monto = 0 + $user->saldo;
+            $monto = Compra::join('users','users.id','compras.usuario_id')
+                ->whereNull('compras.deleted_at')->where('users.codigo',$user->referencia)
+                ->where('compras.created_at','<', Carbon::now()->startOfDay())->get('monto')->sum('monto');
             $user->cobrado = 1;
-            $user->saldo = 0;
+            $user->saldo = $user->saldo-$monto;
             $user->save();
             $pago = new Pago();
             $pago->monto = $monto;
@@ -303,6 +305,18 @@ class UserController extends Controller
         $usuario = User::find($request->id);
         if ($usuario !== null) {
             $compras = Compra::where('usuario_id', $usuario->id)->get();
+            return $compras;
+        }
+    }
+
+    public function verComprasByReferencia(Request $request)
+    {
+        $usuario = User::find($request->id);
+        if ($usuario !== null) {
+            $compras = Compra::join('users','users.id','compras.usuario_id')
+                ->whereNull('compras.deleted_at')->where('users.codigo',$usuario->referencia)
+                ->orderBy('created_at')
+                ->get(['users.name','users.last_name','compras.monto','compras.created_at']);
             return $compras;
         }
     }

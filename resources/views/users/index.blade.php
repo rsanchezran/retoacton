@@ -84,7 +84,7 @@
             <div class="card mb-3">
                 <div class="card-body">
                     <div v-for="usuario in usuarios.data" class="d-flex usuario">
-                        <div class="col-4 d-flex flex-column">
+                        <div class="col-4 d-flex flex-column align-items-start">
                             <span>
                                 <i v-if="usuario.vencido" class="fa fa-user text-default"></i>
                                 <i v-else class="fa fa-user text-info"></i>
@@ -149,12 +149,18 @@
             </div>
             <modal ref="modal" :title="'Pago de comisión a usuario'" @ok="pagar()" height="300" :oktext="'Pagar'">
                 <div class="d-flex flex-column">
-                    <span><b>Nombre del cliente : </b>@{{ usuario.nombre }}</span>
                     <span><b>Email : </b>@{{ usuario.email }}</span>
+                    <span><b>Nombre : </b>@{{ usuario.name }}</span>
                     <span><b>No. Tarjeta : </b>@{{ usuario.tarjeta==null?'[Este cliente no ha registrado su tarjeta]':usuario.tarjeta }}</span>
-                    <span><b>Cantidad a pagar : </b> $<money :cantidad="''+usuario.saldo"></money></span>
-                    <span class="small">Una vez que se marque el pago en este cliente,su saldo quedará en $0 hasta que nuevos clientes utilicen su código de referencia</span>
+                    <span><b>Cantidad a pagar : </b> $<money :cantidad="''+usuario.pagar"></money></span>
                 </div>
+                <table class="table">
+                    <tr v-for="compra in compras">
+                        <td :class="'badge badge-'+(compra.activo?'default':'info')">@{{compra.name+' '+compra.last_name}}</td>
+                        <td><fecha :fecha="compra.created_at"></fecha></td>
+                        <td><money :cantidad="compra.monto"></money></td>
+                    </tr>
+                <table></table>
             </modal>
             <modal ref="baja" title="Baja de usuario" @ok="bajar">
                 <h5>¿Quiere desactivar dar de baja a @{{ usuario.name +' '+usuario.last_name }}?</h5>
@@ -262,11 +268,22 @@
                     });
                 },
                 mostrarTarjeta: function (usuario) {
-                    this.usuario.id = usuario.id;
-                    this.usuario.nombre = usuario.name;
-                    this.usuario.email = usuario.email;
-                    this.usuario.tarjeta = usuario.tarjeta;
-                    this.usuario.saldo = usuario.saldo;
+                    let vm = this;
+                    vm.usuario = usuario;
+                    axios.post('/usuarios/verComprasByReferencia', this.usuario).then(function (response) {
+                        let now = new Date().toISOString().substring(0,10);
+                        vm.compras = response.data;
+                        vm.$refs.modal.showModal();
+                        vm.usuario.pagar = _.sumBy(vm.compras,function (compra) {
+                            if(compra.created_at.substring(0,10) == now){
+                                compra.activo = false;
+                                return compra.monto;
+                            }else{
+                                compra.activo = true;
+                                return 0;
+                            }
+                        })
+                    });
                     this.$refs.modal.showModal();
                 },
                 confirmar: function (usuario) {
@@ -318,7 +335,6 @@
                     axios.post('/usuarios/verCompras', this.usuario).then(function (response) {
                         vm.compras = response.data;
                         vm.$refs.comprasModal.showModal();
-                        console.log(vm.compras);
                     });
                 },
             },

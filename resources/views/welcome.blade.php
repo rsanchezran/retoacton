@@ -378,8 +378,7 @@
             }
 
             .comienza{
-                font-size:.60rem;
-                color:red;
+                font-size:.62rem;
             }
 
         @media only screen and (max-width: 800px) {
@@ -567,6 +566,15 @@
                 margin-right:-300px;
             }
 
+            #verdadero{
+                padding: 0;
+            }
+
+            .container{
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+
             #features .subtitle {
                 font-size: 4.5vw !important;
             }
@@ -746,7 +754,7 @@
                 </div>
             </div>
             <div class="section container text-center">
-                <div class="col-12 col-sm-9 mr-auto ml-auto">
+                <div class="col-12 col-sm-9 mr-auto ml-auto" id="verdadero">
                     <h6 class="text-uppercase bigger thin" style="color:#929494">El verdadero cambio </h6>
                     <h6 class="text-uppercase font-weight-bold biggest">Comienza</h6>
                     <h6 class="text-uppercase font-weight-bold biggest">en tu mente</h6>
