@@ -200,7 +200,7 @@ class UserController extends Controller
     {
         $usuario = User::find($request->id);
         if ($usuario !== null) {
-            $usuario->inicio_reto = Carbon::now();
+            $usuario->inicio_reto = Carbon::now()->startOfDay();
             $usuario->inicio_reto->subDays($request->dias_reto - 1);
             $usuario->save();
         }
