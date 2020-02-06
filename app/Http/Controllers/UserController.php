@@ -85,7 +85,7 @@ class UserController extends Controller
             $usuario->dias_reto = 0;
             $usuario->isVencido();
             if ($usuario->inicio_reto != null) {
-                $dias = Carbon::now()->diffInDays(Carbon::parse($usuario->inicio_reto)) + 1;
+                $dias = Carbon::now()->startOfDay()->diffInDays(Carbon::parse($usuario->inicio_reto)->startOfDay());
                 $usuario->dias_reto = $dias;
             }
             $usuario->total = $usuario->ingresados * $comision;
