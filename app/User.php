@@ -67,24 +67,41 @@ class User extends Authenticatable
     public static function crear($nombre, $apellidos = '', $email, $tipo, $objetivo, $codigo = '', $monto)
     {
         $pass = Utils::generarRandomString();
-        $usuario = User::create([
-            'name' => $nombre,
-            'last_name' => $apellidos,
-            'email' => $email,
-            'password' => Hash::make($pass),
-            'pagado' => true,
-            'encuestado' => false,
-            'objetivo' => (int)$objetivo,
-            'referencia' => Utils::generarRandomString(7),
-            'codigo' => $codigo,
-            'rol' => RolUsuario::CLIENTE,
-            'tipo_pago' => $tipo,
-            'modo' => LugarEjercicio::GYM,
-            'fecha_inscripcion' => Carbon::now(),
-            'correo_enviado' => 0,
-            'num_inscripciones' => 1,
+        $usuario = User::where('email',$email)->first();
+        if ($usuario == null) {
+            $usuario = User::create([
+                'name' => $nombre,
+                'last_name' => $apellidos,
+                'email' => $email,
+                'password' => Hash::make($pass),
+                'pagado' => true,
+                'encuestado' => false,
+                'objetivo' => (int)$objetivo,
+                'referencia' => Utils::generarRandomString(7),
+                'codigo' => $codigo,
+                'rol' => RolUsuario::CLIENTE,
+                'tipo_pago' => $tipo,
+                'modo' => LugarEjercicio::GYM,
+                'fecha_inscripcion' => Carbon::now(),
+                'correo_enviado' => 0,
+                'num_inscripciones' => 1,
 
-        ]);
+            ]);
+        }else{
+            $usuario->password = Hash::make($pass);
+            $usuario->pagado = true;
+            $usuario->encuestado = false;
+            $usuario->objetivo = (int)$objetivo;
+            $usuario->referencia = Utils::generarRandomString(7);
+            $usuario->codigo = $codigo;
+            $usuario->tipo_pago = $tipo;
+            $usuario->modo = LugarEjercicio::GYM;
+            $usuario->fecha_inscripcion = Carbon::now();
+            $usuario->inicio_reto = null;
+            $usuario->correo_enviado = 0;
+            $usuario->num_inscripciones = 1;
+            $usuario->save();
+        }
         if ($usuario->codigo != '') {
             $usuario->aumentarSaldo();
         }

@@ -231,14 +231,11 @@ class RetoController extends Controller
                 $teoricos = $diasRetoOriginal;
             }
         }
-        if ($diasTranscurridos < $teoricos) {
-            $diasTranscurridos++;
-        }
-        if ($diasTranscurridos == 0) {
+        if ($teoricos == 0) {
             $semana = 1;
             $teoricos++;
         } else {
-            $semana = $diasTranscurridos % 7 == 0 ? intval($diasTranscurridos / 7) : intval($diasTranscurridos / 7) + 1;
+            $semana = $teoricos % 7 == 0 ? intval($teoricos / 7) : intval($teoricos / 7) + 1;
         }
         if ($semana * 7 < $teoricos) {
             $dias = 7;
