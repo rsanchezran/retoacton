@@ -51,7 +51,7 @@
 
     <div id="vue">
         <div class="container">
-            <dias :rol="'{{$rol}}'" :p_dias="{{$dias}}" :p_semana="{{$semana}}" :maximo="{{$maximo}}"
+            <dias :p_dias="{{$dias}}" :p_semana="{{$semana}}" :maximo="{{$maximo}}"
                 :teorico="{{$teorico}}"></dias>
         </div>
     </div>
@@ -60,7 +60,7 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between">
                 <span><i class="far fa-running"></i> Actividades del Reto Acton</span>
-                <a class="btn btn-sm btn-light" v-if="rol=='cliente'" href="{{url('reto/ejemplo')}}" target="_blank">
+                <a class="btn btn-sm btn-light" href="{{url('reto/ejemplo')}}" target="_blank">
                     <i class="fa fa-camera"></i> Ver ejemplo del reto
                 </a>
             </div>
@@ -136,9 +136,7 @@
                     <i class="fa fa-plus"></i>
                 </button>
             </div>
-            <modal id="informacionModal" ref="informacionModal" title="Recomendaciones del día" @ok="anotar()"
-                   :showok="rol=='admin'">
-                <br>
+            <modal id="informacionModal" ref="informacionModal" title="Recomendaciones del día" @ok="anotar()">
                 <div>
                     <wysiwyg v-model="dia.comentarios"/>
                 </div>
@@ -156,7 +154,7 @@
     <script>
         Vue.component('dias', {
             template: '#dias-template',
-            props: ['rol', 'p_dias', 'p_semana','maximo','teorico'],
+            props: ['p_dias', 'p_semana','maximo','teorico'],
             data: function () {
                 return {
                     loading: false,
@@ -226,19 +224,17 @@
                     this.$refs.fotoModal.showModal();
                 },
                 anotar: function () {
-                    if (this.rol != 'cliente') {
-                        let vm = this;
-                        axios.post("{{url('/reto/anotar')}}", {
-                            dia: this.dia.dia,
-                            comentarios: this.dia.comentarios
-                        }).then(function (response) {
-                            vm.$refs.informacionModal.working = false;
-                            vm.$refs.informacionModal.closeModal();
-                        }).catch(function (error) {
-                            vm.$refs.informacionModal.working = false;
-                            vm.errors = error.response.data.errors;
-                        });
-                    }
+                    let vm = this;
+                    axios.post("{{url('/reto/anotar')}}", {
+                        dia: this.dia.dia,
+                        comentarios: this.dia.comentarios
+                    }).then(function (response) {
+                        vm.$refs.informacionModal.working = false;
+                        vm.$refs.informacionModal.closeModal();
+                    }).catch(function (error) {
+                        vm.$refs.informacionModal.working = false;
+                        vm.errors = error.response.data.errors;
+                    });
                 },
                 agregarDia: function () {
                     let ultimoDia=(this.semana-1)*7+this.dias.length+1;
@@ -254,7 +250,7 @@
                 },
                 mostrarSemana: function (semana) {
                     let vm = this;
-                    axios.get('{{url('/reto/getSemana/')}}/' + semana).then(function (response) {
+                    axios.get('{{url('/reto/getSemana/')}}/{{\Illuminate\Support\Facades\Auth::user()->id}}/' + semana).then(function (response) {
                         vm.dias = response.data;
                         vm.semana = semana;
                         Vue.nextTick(function () {

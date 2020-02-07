@@ -40,16 +40,15 @@ class RetoController extends Controller
         } else {
             $semana = $usuarioDias % 7 == 0 ? intval($usuarioDias / 7) : intval($usuarioDias / 7) + 1;
         }
-        $dias = $this->getSemana($request, $semana);
+        $dias = $this->getSemana($usuario, $semana);
 
-        return view('reto/configuracion', ['rol' => $usuario->rol, 'dias' => $dias, 'semana' => $semana,
-            'maximo' => $usuarioDias, 'teorico' => intval(env('DIAS'))]);
+        return view('reto.configuracion', ['dias' => $dias, 'semana' => $semana, 'maximo' => $usuarioDias,
+            'teorico' => $diasReto]);
     }
 
-    public function getSemana(Request $request, $semana)
+    public function getSemana(User $usuario, $semana)
     {
         $dias = collect();
-        $usuario = $request->user();
 
         if ($usuario->inicio_reto == '') {//crear inicio del reto
             Storage::makeDirectory('public/reto/' . $usuario->id);
@@ -65,7 +64,6 @@ class RetoController extends Controller
                 $imagenDia = new UsuarioDia();
                 $imagenDia->comentarios = '';
                 $imagenDia->comentario = '';
-                $imagenDia->imagen = '';
                 $imagenDia->audio = '';
             } else {
                 $diaEjemplo = Dia::find($imagenDia->dia_id) ?? new Dia();
@@ -80,7 +78,7 @@ class RetoController extends Controller
             $imagenDia->imagen = url("/reto/getImagen/reto/$usuario->id/" . $dia) . "/" . (Utils::generarRandomString(10));
             $imagenDia->comentar = 0;
             $imagenDia->dia = $dia;
-            $imagenDia->subir = $usuario->rol == RolUsuario::ADMIN ? true : $dia <= $usuarioDias->count();
+            $imagenDia->subir = true;
             $imagenDia->loading = false;
             $dias->push($imagenDia);
         }
@@ -275,8 +273,8 @@ class RetoController extends Controller
             $diaInicial = ($semana * 7) - 6;
             $dias = $teoricos - ($diaInicial - 1);
         }
-        return view('reto.cliente', ['dias' => $dias, 'semana' => $semana,
-            'maximo' => $diasTranscurridos, 'teoricos' => $teoricos]);
+        return view('reto.cliente', ['dias' => $dias, 'semana' => $semana, 'maximo' => $diasTranscurridos,
+            'teoricos' => $teoricos]);
     }
 
     public function getSemanaCliente(Request $request, $semana)

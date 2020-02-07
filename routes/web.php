@@ -53,6 +53,7 @@ Route::group(['prefix' => 'configuracion', 'middleware' => ['auth', 'pago']], fu
     Route::get('contactos/exportar/{filtros}', 'ConfiguracionController@exportarContactos');
     Route::get('videos', 'ConfiguracionController@videos');
     Route::get('programa', 'ConfiguracionController@programa');
+    Route::get('programa/getSemanaEjercicios/{semana}', 'ConfiguracionController@getSemanaEjercicios');
     Route::get('dia/{dia}/{genero}/{objetivo}', 'ConfiguracionController@dia');
     Route::get('getDia/{dia}/{genero}/{objetivo}', 'ConfiguracionController@getDia');
     Route::get('ejercicio/{categoria}/{ejercicio}', 'ConfiguracionController@getEjercicio');
@@ -102,7 +103,7 @@ Route::group(['prefix'=>'reto', 'middleware'=>['auth', 'pago'] ],function (){
     Route::post('correo', 'RetoController@correo');
     Route::get('getDia/{dia}', 'RetoController@getDia');
     Route::get('configuracion', 'RetoController@index');
-    Route::get('getSemana/{semana}', 'RetoController@getSemana');
+    Route::get('getSemana/{usuario}/{semana}', 'RetoController@getSemana');
     Route::get('getSemanaCliente/{semana}', 'RetoController@getSemanaCliente');
 });
 

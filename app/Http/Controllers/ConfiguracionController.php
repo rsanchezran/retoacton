@@ -121,35 +121,47 @@ class ConfiguracionController extends Controller
 
     public function programa(Request $request)
     {
-        $this->authorize('configurar.programa');
-        $usuario = $request->user();
-        $inicioReto = Carbon::parse($usuario->inicio_reto);
-        $configuracion = $usuario->rol == RolUsuario::ADMIN ? env("DIAS") : (Carbon::now()->diffInDays($inicioReto) > env("DIAS") ? env("DIAS2") : env("DIAS"));
-        $usuario = $request->user();
-        $diasDB = Dia::with(['ejercicios'])->get()->keyBy('dia');
+        $diasReto = intval(env('DIAS'));
+        $diasDB = Dia::count();
+        $diasTranscurridos = $diasDB < $diasReto ? $diasReto : $diasDB;
+        if ($diasTranscurridos == 0) {
+            $semana = 1;
+        } else {
+            $semana = $diasTranscurridos % 7 == 0 ? intval($diasTranscurridos / 7) : intval($diasTranscurridos / 7) + 1;
+        }
+        $dias = $this->getSemanaEjercicios($semana);
+        return (view('configuracion.programa', ['dias' => $dias, 'semana' => $semana, 'maximo' => $diasTranscurridos,
+            'teorico' => $diasReto]));
+    }
+
+    public function getSemanaEjercicios($semana)
+    {
         $dias = collect();
-        for ($i = 0; $i < $configuracion; $i++) {
-            if ($diasDB->get($i + 1) == null) {
-                $dia = new \stdClass();
-                $dia->dia = $i + 1;
-                $dia->ejercicios = collect();
-                $dia->cardio = collect();
-                $dia->alimentos = collect();
-                $dia->suplementos = collect();
-            } else {
-                $dia = $diasDB->get($i + 1);
+        $primerDia = (($semana-1)*7)+1;
+        $ultimoDia = $semana*7;
+        $diasDB = Dia::whereBetween('dia',[$primerDia,$ultimoDia])->with(['ejercicios'])->get()->keyBy('dia');
+
+        for ($i = 1; $i <= 7; $i++) {
+            $dia = (($semana - 1)*7) + $i;
+            $diaDB = $diasDB->get($dia);
+            if ($diaDB == null) {
+                $diaDB = new \stdClass();
+                $diaDB->dia = $dia;
+                $diaDB->ejercicios = collect();
+                $diaDB->cardio = collect();
+                $diaDB->alimentos = collect();
+                $diaDB->suplementos = collect();
             }
-            $dia->ejerciciosG = $dia->ejercicios->groupBy(function ($item) {
+            $diaDB->ejerciciosG = $diaDB->ejercicios->groupBy(function ($item) {
                 return "$item->genero-$item->objetivo";
             });
-            $dia->ejerciciosG = $dia->ejerciciosG->map(function ($item) {
+            $diaDB->ejerciciosG = $diaDB->ejerciciosG->map(function ($item) {
                 return $item->groupBy('lugar');
             });
-            $dias->push($dia);
-            unset($dia->ejercicios);
+            $diaDB->ejercicios="Sin ejercicios";
+            $dias->push($diaDB);
         }
-        return (view('configuracion.programa', ['dias' => $dias, 'fitness' => TipoFitness::All(),
-            'usuario' => $usuario, 'roles' => RolUsuario::all()]));
+        return $dias;
     }
 
     public function saveDia(Request $request)

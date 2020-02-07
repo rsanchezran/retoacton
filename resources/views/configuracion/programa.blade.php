@@ -32,103 +32,60 @@
         .card-body{
             padding: 10px;
         }
+
+        .modoActivo{
+            background-color: #0080DD;
+            border-color: #0080DD;
+            color: #FFF;
+        }
     </style>
 @endsection
 @section('content')
     <div id="vue">
-        <div class="container">
-            <div class="row justify-content-center">
-                <programa :p_dias="{{$dias}}" :usuario="{{$usuario}}"></programa>
-            </div>
-        </div>
+        <programa :p_dias="{{$dias}}" :p_semana="{{$semana}}" :maximo="{{$maximo}}" :teorico="{{$teorico}}"></programa>
     </div>
 
     <template id="programa-template">
-        <div class="card">
-            <div class="card-header"><i class="fa fa-calendar-alt"></i> Programa</div>
-            <div class="card-body">
-                <span>Bienvenido a la configuración del programa de ejercicios, recuerda que aquí debes configurar los diferentes ejercicios que los clientes realizarán
-                de acuerdo al objetivo que quieren alcanzar y al género que contestaron en la encuesta inicial</span>
-                <hr>
-                <div style="display: flex; justify-content: space-between">
-                    <ul id="opciones" class="nav nav-tabs" role="tablist">
-                        <li class="nav-item">
-                            <a :class="'nav-link '+isActive(usuario,0,0)" data-toggle="tab" href="#hombreb" role="tab"
-                               aria-selected="false" v-if="mostrarTab(usuario,0,0)">Hombre bajar</a>
-                        </li>
-                        <li class="nav-item">
-                            <a :class="'nav-link '+isActive(usuario,0,1)" data-toggle="tab" href="#hombres" role="tab"
-                               aria-selected="true" v-if="mostrarTab(usuario,0,1)">Hombre subir</a>
-                        </li>
-                        <li class="nav-item">
-                            <a :class="'nav-link '+isActive(usuario,1,0)" data-toggle="tab" href="#mujerb" role="tab"
-                               aria-selected="false" v-if="mostrarTab(usuario,1,0)">Mujer bajar</a>
-                        </li>
-                        <li class="nav-item">
-                            <a :class="'nav-link '+isActive(usuario,1,1)" data-toggle="tab" href="#mujers" role="tab"
-                               aria-selected="false" v-if="mostrarTab(usuario,1,1)">Mujer subir</a>
-                        </li>
-                    </ul>
-                    <div>
-                        @if(\Illuminate\Support\Facades\Auth::user()->rol==\App\Code\RolUsuario::CLIENTE)
-                            <toggle-button v-model="lugar"
-                                           :labels="{checked: 'Casa', unchecked: 'Gym'}"></toggle-button>
-                        @endif
+        <div class="container">
+            <div class="card">
+                <div class="card-header"><i class="fa fa-calendar-alt"></i> Programa de ejercicios</div>
+                <div class="card-body">
+                    <span>Bienvenido a la configuración del programa de ejercicios, recuerda que aquí debes configurar los diferentes ejercicios que los clientes realizarán
+                    de acuerdo al objetivo que quieren alcanzar y al género que contestaron en la encuesta inicial</span>
+                    <div class="d-flex align-items-end">
+                        <button class="btn btn-sm btn-default" :class="modo=='0-0'?'modoActivo':''" @click="mostrarModo(0,0)">
+                            <i class="fa fa-male"></i> <i class="fa fa-arrow-down"></i> <span>Hombre bajar</span>
+                        </button>
+                        <button class="btn btn-sm btn-default" :class="modo=='0-1'?'modoActivo':''" @click="mostrarModo(0,1)">
+                            <i class="fa fa-male"></i> <i class="fa fa-arrow-up"></i> <span>Hombre subir</span>
+                        </button>
+                        <button class="btn btn-sm btn-default" :class="modo=='1-0'?'modoActivo':''" @click="mostrarModo(1,0)">
+                        <i class="fa fa-female"></i> <i class="fa fa-arrow-down"></i> <span>Mujer bajar</span>
+                        </button>
+                        <button class="btn btn-sm btn-default" :class="modo=='1-1'?'modoActivo':''" @click="mostrarModo(1,1)">
+                        <i class="fa fa-female"></i> <i class="fa fa-arrow-up"></i> <span>Mujer subir</span>
+                        </button>
                     </div>
-                </div>
-                <div class="tab-content">
-                    <div :class="'tab-pane fade '+isActiveTab(usuario,0,0)" id="hombreb" role="tabpanel">
-                        <div class="dia">
-                            <div v-for="dia in dias" class="card" @click="configurar(dia.dia, 0,0)" style="width: 13rem;"
-                                 v-if="mostrarTab(usuario,0,0)">
-                                <div class="card-header">Día @{{ dia.dia }}</div>
-                                <div class="card-body">
-                                    <div v-if="dia.ejerciciosG['0-0']!=null">
-                                            <textarea cols="17" rows="6" readonly
-                                            >@{{ mostrarTexto(dia.ejerciciosG['0-0'][lugar?1:0]) }}</textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <hr>
+                    <div class="d-flex justify-content-between col-10 col-sm-6 m-auto">
+                        <button v-if="semana>1" class="btn btn-sm btn-light" @click="mostrarSemana(semana-1)">
+                            <i v-if="semana>1" class="fa fa-arrow-left"></i>
+                            <i v-else></i>
+                        </button>
+                        <i v-else></i>
+                        <select class="selectpicker" v-model="semana" @change="mostrarSemana(semana)">
+                            <option v-for="s in p_semana" :value="s">Semana @{{ s }}</option>
+                        </select>
+                        <button v-if="maximo>=semana * dias.length" class="btn btn-sm btn-light" @click="mostrarSemana(semana+1)">
+                            <i class="fa fa-arrow-right"></i>
+                        </button>
+                        <i v-else></i>
                     </div>
-                    <div :class="'tab-pane fade '+isActiveTab(usuario,0,1)" id="hombres" role="tabpanel">
-                        <div class="dia">
-                            <div v-for="dia in dias" class="card" @click="configurar(dia.dia,0,1)" style="width: 13rem;"
-                                 v-if="mostrarTab(usuario,0,1)">
-                                <div class="card-header">Día @{{ dia.dia }}</div>
-                                <div class="card-body">
-                                    <div v-if="dia.ejerciciosG['0-1']!=null">
-                                        <textarea cols="17" rows="6" readonly
-                                        >@{{ mostrarTexto(dia.ejerciciosG['0-1'][lugar?1:0]) }}</textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div :class="'tab-pane fade '+isActiveTab(usuario,1,0)" id="mujerb" role="tabpanel">
-                        <div class="dia">
-                            <div v-for="dia in dias" class="card" @click="configurar(dia.dia,1,0)" style="width: 13rem;"
-                                 v-if="mostrarTab(usuario,1,0)">
-                                <div class="card-header">Día @{{ dia.dia }}</div>
-                                <div class="card-body">
-                                    <div v-if="dia.ejerciciosG['1-0']!=null">
-                                        <textarea cols="17" rows="6" readonly
-                                        >@{{ mostrarTexto(dia.ejerciciosG['1-0'][lugar?1:0]) }}</textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div :class="'tab-pane fade '+isActiveTab(usuario,1,1)" id="mujers" role="tabpanel">
-                        <div class="dia">
-                            <div v-for="dia in dias" class="card" @click="configurar(dia.dia, 1,1)" style="width: 13rem;"
-                                 v-if="mostrarTab(usuario,1,1)">
-                                <div class="card-header">Día @{{ dia.dia }}</div>
-                                <div class="card-body">
-                                    <div v-if="dia.ejerciciosG['1-1']!=null">
-                                        <textarea cols="17" rows="6" readonly
-                                        >@{{ mostrarTexto(dia.ejerciciosG['1-1'][lugar?1:0]) }}</textarea>
-                                    </div>
+                    <div class="dia">
+                        <div v-for="dia in dias" class="card" @click="configurar(dia.dia, 1,1)" style="width: 13rem;">
+                            <div class="card-header">Día @{{ dia.dia }}</div>
+                            <div class="card-body">
+                                @{{ dia.ejercicios }}
                                 </div>
                             </div>
                         </div>
@@ -143,86 +100,52 @@
 
         Vue.component('programa', {
             template: '#programa-template',
-            props: ['p_dias', 'p_suplementos', 'usuario'],
+            props: ['p_dias', 'p_semana','maximo','teorico'],
             data: function () {
                 return {
                     dias: [],
-                    suplementos: [],
+                    semana: 1,
                     errors: [],
                     lugar:false,
-                    elimSuplementos: [],
                     disableModal:true,
-                    suplementosDB: []
+                    modo:'0-0'
                 }
             },
             methods: {
-                mostrarTexto:function(dias){
-                    let texto = '';
-                    if(dias != undefined)
-                        for (let i=0, limite=dias.length; i<limite && i<5; i++)
-                            texto += dias[i].ejercicio+'.\n';
-
-                    return texto;
-                },
                 configurar: function (dia, genero, objetivo) {
-                    if (this.usuario.rol == '{{\App\Code\RolUsuario::ADMIN}}') {
-                        window.location.href = '{{url('configuracion/dia')}}/' + dia + '/' + genero + '/' + objetivo;
-                    } else {
-                        window.location.href = '{{url('reto/dia')}}/' + dia + '/' + genero + '/' + objetivo;
-                    }
+                    window.location.href = '{{url('configuracion/dia')}}/' + dia + '/' + genero + '/' + objetivo;
                 },
-                mostrarSuplementos: function () {
-                    this.$refs.modal.showModal();
-                    this.suplementos = this.suplementosDB.slice();
-                    this.elimSuplementos = [];
-                    this.errors = [];
-                    this.disableModal=true;
+                mostrarSemana: function (semana) {
+                    let vm = this;
+                    axios.get('{{url('/configuracion/programa/getSemanaEjercicios/')}}/' + semana).then(function (response) {
+                        vm.dias = response.data;
+                        vm.semana = semana;
+                        Vue.nextTick(function () {
+                            $('.selectpicker').selectpicker('refresh');
+                            let modo = vm.modo.split('-')
+                            vm.mostrarModo(modo[0], modo[1]);
+                        });
+                    });
                 },
-                mostrarTab: function (usuario, genero, objetivo) {
-                    return usuario.rol == 'admin' || (usuario.rol == 'cliente' && usuario.genero == genero && usuario.objetivo == objetivo);
-                },
-                isActive: function (usuario, genero, objetivo) {
-                    if (usuario.rol == 'admin') {
-                        if (genero == 0 && objetivo == 0) {
-                            return 'active';
-                        } else {
-                            return '';
+                mostrarModo: function (genero, objetivo) {
+                    let modo = genero+'-'+objetivo;;
+                    this.modo = modo;
+                    _.each(this.dias, function (dia) {
+                        if(dia.ejerciciosG[modo] == null){
+                            dia.ejercicios = "Sin ejercicios";
+                        }else{
+                            dia.ejercicios = dia.ejerciciosG[modo][0].map(function (ejercicio) {
+                                    return ejercicio.ejercicio;
+                                }).join(' , ');
                         }
-                    } else {
-                        return usuario.genero == genero && usuario.objetivo == objetivo ? 'active' : '';
-                    }
-                },
-                isActiveTab: function (usuario, genero, objetivo) {
-                    if (usuario.rol == 'admin') {
-                        if (genero == 0 && objetivo == 0) {
-                            return 'active show';
-                        } else {
-                            return '';
-                        }
-                    } else {
-                        return usuario.genero == genero && usuario.objetivo == objetivo ? 'active show' : '';
-                    }
+                    });
                 }
             },
             created: function () {
                 this.dias = this.p_dias;
+                this.semana = this.p_semana;
             },
             mounted:function () {
-                if (localStorage.getItem('genero')!=null){
-                    if (localStorage.getItem('genero')=='0'){
-                        if(localStorage.getItem('objetivo')=='0'){
-                            $('#opciones a')[0].click();
-                        }else{
-                            $('#opciones a')[1].click();
-                        }
-                    }else{
-                        if (localStorage.getItem('objetivo')=='0'){
-                            $('#opciones a')[2].click();
-                        }else{
-                            $('#opciones a')[3].click();
-                        }
-                    }
-                }
             }
         });
 
