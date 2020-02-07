@@ -27,12 +27,12 @@ class RetoController extends Controller
         $usuario = $request->user();
         $usuarioDias = UsuarioDia::where('usuario_id', $usuario->id)->orderByDesc('dia_id')
             ->get()->first();
-        if ($usuarioDias==null){
-            $usuarioDias=1;
-        }else{
+        if ($usuarioDias == null) {
+            $usuarioDias = 1;
+        } else {
             $usuarioDias = $usuarioDias->dia_id;
         }
-        if ($usuarioDias < $diasReto){
+        if ($usuarioDias < $diasReto) {
             $usuarioDias = $diasReto;
         }
         if ($usuarioDias == 0) {
@@ -124,7 +124,7 @@ class RetoController extends Controller
             $usuarioDia = new UsuarioDia();
             $usuarioDia->dia_id = $request->dia;
             $usuarioDia->usuario_id = $usuario_id;
-            if ($request->user()->rol==RolUsuario::ADMIN){
+            if ($request->user()->rol == RolUsuario::ADMIN) {
                 $diaDB = Dia::find($request->dia);
                 if ($diaDB === null) {
                     $diaDB = new Dia();
@@ -177,7 +177,7 @@ class RetoController extends Controller
             $dia->id = $request->dia;
             $dia->dia = $request->dia;
         }
-        $usuarioDia = UsuarioDia::where('usuario_id',$request->user()->id)->where('dia_id',$request->dia)->first();
+        $usuarioDia = UsuarioDia::where('usuario_id', $request->user()->id)->where('dia_id', $request->dia)->first();
         if ($usuarioDia === null) {
             $usuarioDia = new UsuarioDia();
             $usuarioDia->dia_id = $request->dia;

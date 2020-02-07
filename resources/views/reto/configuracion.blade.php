@@ -125,13 +125,10 @@
                                 </audio>
                             </div>
                         </div>
-                        <div v-if="dia.comentario" class="card-footer text-muted">
-                            <span>Comentario: @{{ dia.comentario }}</span>
-                        </div>
                     </div>
                 </div>
             </div>
-            <div id="panel" v-if="maximo>=teorico">
+            <div id="panel" v-if="maximo >= teorico && semana==p_semana">
                 <button class="btn btn-sm btn-success" @click="agregarDia">
                     <i class="fa fa-plus"></i>
                 </button>
