@@ -23,8 +23,18 @@ class RetoController extends Controller
 
     public function index(Request $request)
     {
+        $diasReto = intval(env('DIAS'));
         $usuario = $request->user();
-        $usuarioDias = UsuarioDia::where('usuario_id', $usuario->id)->count();
+        $usuarioDias = UsuarioDia::where('usuario_id', $usuario->id)->orderByDesc('dia_id')
+            ->get()->first();
+        if ($usuarioDias==null){
+            $usuarioDias=1;
+        }else{
+            $usuarioDias = $usuarioDias->dia_id;
+        }
+        if ($usuarioDias < $diasReto){
+            $usuarioDias = $diasReto;
+        }
         if ($usuarioDias == 0) {
             $semana = 1;
         } else {
@@ -48,7 +58,7 @@ class RetoController extends Controller
         }
         $usuarioDias = UsuarioDia::where('usuario_id', $usuario->id)->get()->keyBy('dia_id');
 
-        for ($i = 1; $i <= 56; $i++) {//construir arreglo y ruta de las imagenes para la vista
+        for ($i = 1; $i <= 7; $i++) {//construir arreglo y ruta de las imagenes para la vista
             $dia = (7 * ($semana - 1)) + $i;
             $imagenDia = $usuarioDias->get($dia);
             if ($imagenDia === null) {
@@ -116,6 +126,16 @@ class RetoController extends Controller
             $usuarioDia = new UsuarioDia();
             $usuarioDia->dia_id = $request->dia;
             $usuarioDia->usuario_id = $usuario_id;
+            if ($request->user()->rol==RolUsuario::ADMIN){
+                $diaDB = Dia::find($request->dia);
+                if ($diaDB === null) {
+                    $diaDB = new Dia();
+                    $diaDB->id = $request->dia;
+                    $diaDB->dia = $request->dia;
+                    $diaDB->comentarios = '';
+                    $diaDB->save();
+                }
+            }
         }
         $usuarioDia->comentario = null;
         $usuarioDia->save();
@@ -154,6 +174,18 @@ class RetoController extends Controller
     public function anotar(Request $request)
     {
         $dia = Dia::find($request->dia);
+        if ($dia === null) {
+            $dia = new Dia();
+            $dia->id = $request->dia;
+            $dia->dia = $request->dia;
+        }
+        $usuarioDia = UsuarioDia::where('usuario_id',$request->user()->id)->where('dia_id',$request->dia)->first();
+        if ($usuarioDia === null) {
+            $usuarioDia = new UsuarioDia();
+            $usuarioDia->dia_id = $request->dia;
+            $usuarioDia->usuario_id = $request->user()->id;
+            $usuarioDia->save();
+        }
         $dia->comentarios = $request->comentarios;
         $dia->save();
         return "ok";

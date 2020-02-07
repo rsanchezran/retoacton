@@ -241,8 +241,9 @@
                     }
                 },
                 agregarDia: function () {
+                    let ultimoDia=(this.semana-1)*7+this.dias.length+1;
                     this.dias.push({
-                        dia: this.dias.length + 1,
+                        dia:ultimoDia,
                         mostrar: true,
                         subir: true,
                         loading: false,
