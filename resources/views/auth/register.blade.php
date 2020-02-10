@@ -73,7 +73,7 @@
                     <h6 class="text-uppercase biggerText font-weight-bold acton">Reto Acton</h6>
                 </div>
                 <h5 class="text-left" style="color:#0080DD">Antes de comenzar nos gustaría saber un poco más sobre
-                    ti @{{sent}}</h5>
+                    ti </h5>
                 <select class="form-control" v-model="informacion.medio" @change="seleccionarMedio">
                     <option value="" disabled>¿Cómo te enteraste del reto acton?</option>
                     <option v-for="medio in medios" :value="medio">@{{medio}}</option>
