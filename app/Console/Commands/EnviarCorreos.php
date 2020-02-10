@@ -2,10 +2,12 @@
 
 namespace App\Console\Commands;
 
+use App\Code\Utils;
 use App\Contacto;
 use App\Events\EnviarCorreosEvent;
 use App\User;
 use Carbon\Carbon;
+use Conekta\Log;
 use Illuminate\Console\Command;
 
 class EnviarCorreos extends Command
@@ -41,9 +43,16 @@ class EnviarCorreos extends Command
                 $q->orWhereNull('users.id');
             })->where('contactos.etapa', 3)->where('contactos.created_at', '<', $fecha)
             ->get(['contactos.id', 'contactos.email', 'contactos.etapa']);
+        $contactos4 = Contacto::leftjoin('users', 'contactos.email', 'users.email')
+            ->where(function ($q) {
+                $q->whereNotNull('users.deleted_at');
+                $q->orWhereNull('users.id');
+            })->where('contactos.etapa', 4)->where('contactos.created_at', '<', $fecha)
+            ->get(['contactos.id', 'contactos.email', 'contactos.etapa']);
         $this->etapa(1, $contactos1);
         $this->etapa(2, $contactos2);
         $this->etapa(3, $contactos3);
+        $this->etapa(4, $contactos4);
         $usuarios = User::where('correo_enviado', false)->get();
         foreach ($usuarios as $usuario) {
             $pass = Utils::generarRandomString();
@@ -65,9 +74,12 @@ class EnviarCorreos extends Command
     {
 
         if ($contactos->count() > 0) {
-            try {
-                event(new EnviarCorreosEvent($contactos));
-            } catch (\Exception $e) {
+            if ($etapa<4){
+                try {
+                    event(new EnviarCorreosEvent($contactos));
+                } catch (\Exception $e) {
+                    \Illuminate\Support\Facades\Log::error($e->getMessage());
+                }
             }
             foreach ($contactos as $contacto) {
                 $contacto->etapa = $etapa + 1;

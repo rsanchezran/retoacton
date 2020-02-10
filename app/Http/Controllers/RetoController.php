@@ -234,17 +234,9 @@ class RetoController extends Controller
             return view('reto.dia', ['dia' => $dia, 'genero' => $genero, 'objetivo' => $objetivo, 'lugar' => $user->modo,
                 'dias' => env('DIAS')]);
         } else {
-            if ($user->num_inscripcion == 1) {
-                if ($dia < env("DIASDIETA")) {
-                    $diaDB = Dia::buildDia($dia, $genero, $objetivo, $request->user(), 1);
-                    $diaDB->dieta = 1;
-                } else {
-                    $diaDB = Dia::buildDia($dia, $genero, $objetivo, $request->user(), 2);
-                    $diaDB->dieta = 2;
-                }
-            } else {
-                $diaDB = Dia::buildDia($dia, $genero, $objetivo, $request->user(), $user->num_inscripcion+1);
-            }
+            $sem = $dia%7==0?intval($dia/7):intval($dia/7)+1;
+            $numDieta = $sem%4==0?intval($sem/4):intval($sem/4)+1;
+            $diaDB = Dia::buildDia($dia, $genero, $objetivo, $request->user(), $numDieta);
             return view('reto.dia', ['dia' => $diaDB, 'genero' => $genero, 'objetivo' => $objetivo,
                 'dias' => $dias, 'lugar' => $user->modo,'semana' => $semana, 'maximo' => $diasTranscurridos,
                 'teorico' => $teorico]);

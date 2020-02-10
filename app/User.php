@@ -157,7 +157,7 @@ class User extends Authenticatable
         }
         $compra->original = $monto;
         $compra->descuento = $descuento;
-        $compra->monto = $monto - ($monto * ($descuento / 100));
+        $compra->monto = round( $monto - ($monto * ($descuento / 100)),2);
         return $compra;
     }
 
@@ -203,6 +203,7 @@ class User extends Authenticatable
                 $usuario->ingresados_reto += 1;
                 $usuario->ingresados += 1;
                 $usuario->saldo += intval(env('COMISION'));
+                unset($usuario->vencido);
                 $usuario->save();
             }
         }

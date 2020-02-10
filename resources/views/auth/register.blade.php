@@ -132,7 +132,7 @@
                             <label style="font-size: 1rem; color: #000; font-family: unitext_bold_cursive">aprovecha
                                 el </label>
                             <label style="font-size: 1.4rem; margin-top: -5px; font-family: unitext_bold_cursive">@{{descuento }}% de descuento </label>
-                            <label style="color: #000; font-weight: bold; font-family: unitext_bold_cursive">ÚLTIMO DIA</label>
+                            <label style="color: #000; font-weight: bold; font-family: unitext_bold_cursive" v-if="descuento=='{{env('DESCUENTO')}}'">ÚLTIMO DIA</label>
                         </div>
                         <div id="pagar">
                             <div>a solo</div>
