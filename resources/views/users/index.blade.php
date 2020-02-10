@@ -103,7 +103,7 @@
                                 <i class="fa fa-user-check"></i>
                                 <fecha :fecha="usuario.fecha_inscripcion" formato="dd/mm/yyyy hh:ii"></fecha>
                             </div>
-                            @if(env('SANDBOX'))
+                            @if(env('MODIFICAR_DIAS'))
                                 <button class="btn btn-sm btn-light" @click="confirmarDias(usuario)">
                                     Dias activo : @{{ usuario.dias_reto }}
                                 </button>
