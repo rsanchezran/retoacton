@@ -20,8 +20,8 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('rol',20);
-            $table->string('referencia', 5)->nullable();
-            $table->string('codigo', 5)->nullable();
+            $table->string('referencia', 7)->nullable();
+            $table->string('codigo', 7)->nullable();
             $table->date('inicio_reto')->nullable();
             $table->boolean('pagado')->default(0);
             $table->integer('ingresados')->default(0);

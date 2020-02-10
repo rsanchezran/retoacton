@@ -18,7 +18,7 @@ class CreateContactos extends Migration
             $table->string('nombre');
             $table->string('email');
             $table->string('telefono', 20)->nullable();
-            $table->string('codigo', 5)->nullable();
+            $table->string('codigo', 7)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
