@@ -187,6 +187,7 @@
             background-size: 100% 100%;
             padding-bottom: 120px;
             padding-top: 60px;
+            border-bottom: 1px solid #003450;
         }
 
         #infoAudios{
