@@ -134,6 +134,7 @@
                     axios.get('{{url('/configuracion/programa/getSemanaEjercicios/')}}/' + semana).then(function (response) {
                         vm.dias = response.data;
                         vm.semana = semana;
+                        localStorage.setItem('semana', vm.semana);
                         Vue.nextTick(function () {
                             $('.selectpicker').selectpicker('refresh');
                             let modo = vm.modo.split('-')
@@ -171,7 +172,11 @@
             },
             created: function () {
                 this.dias = this.p_dias;
-                this.semana = this.p_semana;
+                if (localStorage.getItem('semana') != null) {
+                    this.semana = localStorage.getItem('semana');
+                }else{
+                    this.semana = this.p_semana;
+                }
             },
             mounted: function () {
                 if (localStorage.getItem('genero') != null) {
