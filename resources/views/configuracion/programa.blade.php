@@ -92,7 +92,7 @@
                         </div>
                     </div>
                     <div id="dias">
-                        <div v-for="dia in dias" class="card" @click="configurar(dia.dia, 1,1)" style="width: 13rem;">
+                        <div v-for="dia in dias" class="card" @click="configurar(dia.dia, genero,objetivo)" style="width: 13rem;">
                             <div class="card-header">Día @{{ dia.dia }}</div>
                             <div class="card-body">
                                 @{{ dia.ejercicios }}
@@ -122,6 +122,8 @@
                     errors: [],
                     lugar: false,
                     disableModal: true,
+                    genero:0,
+                    objetivo:0,
                     modo: '0-0'
                 }
             },
@@ -145,6 +147,8 @@
                 mostrarModo: function (genero, objetivo) {
                     localStorage.setItem('genero', genero);
                     localStorage.setItem('objetivo', objetivo);
+                    this.genero = genero;
+                    this.objetivo = objetivo;
                     let modo = genero + '-' + objetivo;
                     this.modo = modo;
                     _.each(this.dias, function (dia) {
@@ -174,6 +178,7 @@
                 this.dias = this.p_dias;
                 if (localStorage.getItem('semana') != null) {
                     this.semana = localStorage.getItem('semana');
+                    this.mostrarSemana(this.semana);
                 }else{
                     this.semana = this.p_semana;
                 }

@@ -294,6 +294,7 @@ class RetoController extends Controller
         $user = $request->user();
         if ($user->inicio_reto === null) {
             $user->inicio_reto = Carbon::now();
+            unset($user->vencido);
             $user->save();
         }
         $diasRetoOriginal = intval(env('DIAS'));
