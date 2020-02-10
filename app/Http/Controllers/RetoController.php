@@ -401,6 +401,9 @@ class RetoController extends Controller
             }
         } else {
             $teoricos = Carbon::now()->startOfDay()->diffInDays(Carbon::parse($user->inicio_reto));
+            if ($teoricos==0){
+                $teoricos++;
+            }
             if ($teoricos > $diasRetoOriginal) {
                 $teoricos = $diasRetoOriginal;
             }

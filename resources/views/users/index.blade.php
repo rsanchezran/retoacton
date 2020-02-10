@@ -273,7 +273,7 @@
                 pagar: function () {
                     let vm = this;
                     axios.post('{{url('/usuarios/pagar')}}', this.usuario).then(function (respuesta) {
-                        vm.$refs.modal.closeModal();
+                        vm.$refs.comisionModal.closeModal();
                         vm.buscar();
                     }).catch(function (error) {
                         console.error('Error generado en la consulta' + error.response.data);
@@ -347,9 +347,9 @@
                     let now = new Date().toISOString().substring(0,10);
                     this.referencias = referencias;
                     this.usuario.pagar = _.sumBy(referencias.data,function (compra) {
-                        if(compra.created_at.substring(0,10) == now){
+                        if(compra.created_at.substring(0,10) != now){
                             compra.activo = false;
-                            return compra.monto;
+                            return parseInt('{{env('COMISION')}}');
                         }else{
                             compra.activo = true;
                             return 0;
