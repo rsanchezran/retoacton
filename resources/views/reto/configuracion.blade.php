@@ -58,11 +58,8 @@
 
     <template id="dias-template">
         <div class="card">
-            <div class="card-header d-flex justify-content-between">
+            <div class="card-header">
                 <span><i class="far fa-running"></i> Actividades del Reto Acton</span>
-                <a class="btn btn-sm btn-light" href="{{url('reto/ejemplo')}}" target="_blank">
-                    <i class="fa fa-camera"></i> Ver ejemplo del reto
-                </a>
             </div>
             <div class="card-body">
                 <div class="d-flex justify-content-between col-10 col-sm-6 m-auto">
