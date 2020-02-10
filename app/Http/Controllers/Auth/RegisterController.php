@@ -109,6 +109,10 @@ class RegisterController extends Controller
         $validator->validate();
         $usuario = User::orderBy('created_at')->where('email', $request->email)->get()->last();
         if ($usuario!=null&&$usuario->id==1){
+            $cobro = new \stdClass();
+            $cobro->original = 0;
+            $cobro->descuento = 0;
+            $cobro->monto = 0;
             $status = 'error';
             $mensaje = 'Este usuario ya pertenece al RETO ACTON.';
         }else{
