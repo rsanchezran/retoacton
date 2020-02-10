@@ -213,9 +213,12 @@ class RegisterController extends Controller
     public function buscarReferencia($referencia)
     {
         $user = User::select('name', 'last_name')->where('referencia', $referencia)
-            ->where('id','!=',1)->where('pagado', TipoPago::PAGADO)->get()->first();
+            ->where('id','!=',1)->get()->first();
         if ($user == null) {
-            abort(403, 'Unauthorized action.');
+            $user->isVencido();
+            if ($user->vencido){
+                abort(403, 'Unauthorized action.');
+            }
         }
         return response()->json(['usuario' => $user->name . ' ' . $user->last_name]);
     }

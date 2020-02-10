@@ -203,6 +203,7 @@ class UserController extends Controller
     {
         $usuario = User::find($request->id);
         if ($usuario !== null) {
+            $compras = Compra::where('usuario_id', $usuario->id)->get()->count();
             $dia = $request->dias_reto;
             $semana = $dia%7==0?intval($dia/7):intval($dia/7)+1;
             $numInscrpcion = $semana%4==0?intval($semana/4):intval($semana/4)+1;
@@ -210,7 +211,7 @@ class UserController extends Controller
             $nuevaFecha->subDays($request->dias_reto);
             $usuario->inicio_reto = $nuevaFecha;
             $usuario->fecha_inscripcion = $nuevaFecha;
-            $usuario->num_inscripciones = $numInscrpcion<3?$numInscrpcion: $numInscrpcion-1;
+            $usuario->num_inscripciones = $numInscrpcion<3?$numInscrpcion: ( $numInscrpcion-1<=$compras? $numInscrpcion-1:$compras);
             unset($usuario->vencido);
             $usuario->save();
         }
