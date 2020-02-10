@@ -147,7 +147,7 @@
                     </div>
                 </div>
             </div>
-            <modal ref="modal" :title="'Pago de comisión a usuario'" @ok="pagar()" height="300" :oktext="'Pagar'">
+            <modal ref="comisionModal" :title="'Pago de comisión a usuario'" @ok="pagar()" height="300" :oktext="'Pagar'">
                 <div class="d-flex flex-column">
                     <span><b>Email : </b>@{{ usuario.email }}</span>
                     <span><b>Nombre : </b>@{{ usuario.name }}</span>
@@ -155,17 +155,20 @@
                     <span><b>Cantidad a pagar : </b> $<money :cantidad="''+usuario.pagar"></money></span>
                 </div>
                 <table class="table">
-                    <tr v-for="compra in compras">
+                    <tr v-for="compra in referencias.data">
                         <td :class="'badge badge-'+(compra.activo?'default':'info')">@{{compra.name+' '+compra.last_name}}</td>
                         <td><fecha :fecha="compra.created_at"></fecha></td>
                         <td><money :cantidad="compra.monto"></money></td>
                     </tr>
-                <table></table>
+                </table>
+                <div class="float-right">
+                    <paginador ref="paginadorComision" :url="'{{url('/usuarios/verComprasByReferencia')}}'" @loaded="loadedComision"></paginador>
+                </div>
             </modal>
             <modal ref="baja" title="Baja de usuario" @ok="bajar">
                 <h5>¿Quiere desactivar dar de baja a @{{ usuario.name +' '+usuario.last_name }}?</h5>
             </modal>
-            <modal ref="referencias" :title="'Personas que han usado el código : '+usuario.referencia" :showok="false" :showcancel="false">
+            <modal ref="referenciasModal" :title="'Personas que han usado el código : '+usuario.referencia" :showok="false" :showcancel="false">
                 <table class="table">
                     <tr>
                         <th>Cliente</th>
@@ -173,13 +176,16 @@
                         <th>Fecha de inscripción</th>
                         <th>Inicio del reto</th>
                     </tr>
-                    <tr v-for="referencia in referencias">
+                    <tr v-for="referencia in referencias.data">
                         <td>@{{ referencia.name+' '+referencia.last_name }}</td>
                         <td>@{{ referencia.email}}</td>
                         <td><fecha :fecha="referencia.fecha_inscripcion"></fecha></td>
                         <td><fecha :fecha="referencia.inicio_reto"></fecha></td>
                     </tr>
                 </table>
+                <div class="float-right">
+                    <paginador ref="paginadorReferencias" :url="'{{url('/usuarios/verReferencias')}}'" @loaded="loadedReferencias"></paginador>
+                </div>
             </modal>
             <modal ref="pagosModal" :title="'Pagos efectuados al usuario : '+usuario.name" :showok="false" :showcancel="false">
                 <table class="table">
@@ -187,11 +193,14 @@
                         <th>Fecha</th>
                         <th>Monto</th>
                     </tr>
-                    <tr v-for="pago in pagos">
+                    <tr v-for="pago in pagos.data">
                         <td><fecha :fecha="pago.created_at"></fecha></td>
                         <td><money :cantidad="pago.monto"></money></td>
                     </tr>
                 </table>
+                <div class="float-right">
+                    <paginador ref="paginadorPagos" :url="'{{url('/usuarios/verPagos')}}'" @loaded="loadedPagos"></paginador>
+                </div>
             </modal>
             <modal ref="comprasModal" :title="'Compras realizadas por el usuario : '+usuario.name" :showok="false" :showcancel="false">
                 <table class="table">
@@ -199,11 +208,14 @@
                         <th>Fecha</th>
                         <th>Monto</th>
                     </tr>
-                    <tr v-for="compra in compras">
+                    <tr v-for="compra in compras.data">
                         <td><fecha :fecha="compra.created_at"></fecha></td>
                         <td><money :cantidad="compra.monto"></money></td>
                     </tr>
                 </table>
+                <div class="float-right">
+                    <paginador ref="paginadorCompras" :url="'{{url('/usuarios/verCompras')}}'" @loaded="loadedCompras"></paginador>
+                </div>
             </modal>
             <modal ref="cambiarDiasModal" title="Cambiar inicio de reto del usuario" @ok="cambiarDias">
                 <span>Especifica cuantos días lleva el usuario en el reto : </span>
@@ -268,23 +280,11 @@
                     });
                 },
                 mostrarTarjeta: function (usuario) {
-                    let vm = this;
-                    vm.usuario = usuario;
-                    axios.post('/usuarios/verComprasByReferencia', this.usuario).then(function (response) {
-                        let now = new Date().toISOString().substring(0,10);
-                        vm.compras = response.data;
-                        vm.$refs.modal.showModal();
-                        vm.usuario.pagar = _.sumBy(vm.compras,function (compra) {
-                            if(compra.created_at.substring(0,10) == now){
-                                compra.activo = false;
-                                return compra.monto;
-                            }else{
-                                compra.activo = true;
-                                return 0;
-                            }
-                        })
+                    this.usuario = usuario;
+                    this.$refs.comisionModal.showModal();
+                    Vue.nextTick(()=> {
+                        this.$refs.paginadorComision.consultar(this.usuario);
                     });
-                    this.$refs.modal.showModal();
                 },
                 confirmar: function (usuario) {
                     this.usuario = usuario;
@@ -297,14 +297,6 @@
                         }
                     }).catch(function () {
 
-                    });
-                },
-                verReferencias: function (usuario) {
-                    let vm = this;
-                    this.usuario = usuario;
-                    axios.post('/usuarios/verReferencias', this.usuario).then(function (response) {
-                        vm.referencias = response.data;
-                        vm.$refs.referencias.showModal();
                     });
                 },
                 confirmarDias: function (usuario) {
@@ -322,21 +314,49 @@
                     window.open('{{url('/usuarios/exportar')}}/'+JSON.stringify(this.filtros),'_blank');
                 },
                 verPagos: function (usuario) {
-                    let vm = this;
                     this.usuario = usuario;
-                    axios.post('/usuarios/verPagos', this.usuario).then(function (response) {
-                        vm.pagos = response.data;
-                        vm.$refs.pagosModal.showModal();
+                    this.$refs.pagosModal.showModal();
+                    Vue.nextTick(()=> {
+                        this.$refs.paginadorPagos.consultar(this.usuario);
                     });
                 },
                 verCompras: function (usuario) {
-                    let vm = this;
                     this.usuario = usuario;
-                    axios.post('/usuarios/verCompras', this.usuario).then(function (response) {
-                        vm.compras = response.data;
-                        vm.$refs.comprasModal.showModal();
+                    this.$refs.comprasModal.showModal();
+                    Vue.nextTick(()=> {
+                        this.$refs.paginadorCompras.consultar(this.usuario);
                     });
                 },
+                verReferencias: function (usuario) {
+                    this.usuario = usuario;
+                    this.$refs.referenciasModal.showModal();
+                    Vue.nextTick(()=> {
+                        this.$refs.paginadorReferencias.consultar(this.usuario);
+                    });
+                },
+                loadedCompras: function (compras) {
+                    this.compras = compras;
+                },
+                loadedPagos: function (pagos) {
+                    this.pagos = pagos;
+                },
+                loadedReferencias: function (referencias) {
+                    this.referencias = referencias;
+                },
+                loadedComision: function (referencias) {
+                    let now = new Date().toISOString().substring(0,10);
+                    this.referencias = referencias;
+                    this.usuario.pagar = _.sumBy(referencias.data,function (compra) {
+                        if(compra.created_at.substring(0,10) == now){
+                            compra.activo = false;
+                            return compra.monto;
+                        }else{
+                            compra.activo = true;
+                            return 0;
+                        }
+                    })
+                },
+
             },
             mounted: function () {
                 this.buscar();
