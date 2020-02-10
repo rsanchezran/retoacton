@@ -81,7 +81,7 @@ class RegisterController extends Controller
             'apellidos' => 'required|max:100|min:2|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ\s]( )?)+$/',
             'email' => 'required|max:100|min:3|email',
             'telefono' => 'nullable|numeric|max:9999999999|integer',
-            'referencia' => 'max:5',
+            'referencia' => 'max:7',
         ], [
             'nombres.required' => 'El nombre es obligatorio',
             'nombres.min' => 'Debe capturar mínimo 2 caracteres en el nombre',
@@ -212,9 +212,11 @@ class RegisterController extends Controller
 
     public function buscarReferencia($referencia)
     {
-        $user = User::select('name', 'last_name')->where('referencia', $referencia)
+        $user = User::select('name', 'last_name','id','num_inscripciones','inicio_reto')->where('referencia', $referencia)
             ->where('id','!=',1)->get()->first();
         if ($user == null) {
+            abort(403, 'Unauthorized action.');
+        }else{
             $user->isVencido();
             if ($user->vencido){
                 abort(403, 'Unauthorized action.');
