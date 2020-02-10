@@ -64,6 +64,7 @@
                 </div>
             </div>
             <modal ref="modalImagen" title="Imagen" :showok="false" :showcancel="false">
+
                 <img :src="dia.imagen" width="100%">
             </modal>
         </div>
@@ -88,21 +89,21 @@
                 }
             },
             methods: {
-                comentar: function (link, index) {
-                    link.comentar = 1;
+                comentar: function (dia, index) {
+                    dia.comentar = 1;
                     this.errors = [];
                 },
-                mostrar: function (link) {
-                  this.link = link;
+                mostrar: function (dia) {
+                  this.dia = dia;
                   this.$refs.modalImagen.showModal();
                 },
-                agregarComentario: function (link) {
+                agregarComentario: function (dia) {
                     let vm = this;
                     vm.errors = [];
 
-                    axios.post('{{url('/reto/comentar')}}', link).then(function (response) {
+                    axios.post('{{url('/reto/comentar')}}', dia).then(function (response) {
                         if (response.data.status == 'ok') {
-                            link.comentar = 0;
+                            dia.comentar = 0;
                         }
                     }).catch(function (error) {
                         vm.errors = error.response.data.errors;
