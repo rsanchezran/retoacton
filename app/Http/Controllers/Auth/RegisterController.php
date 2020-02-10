@@ -107,34 +107,39 @@ class RegisterController extends Controller
             }
         });
         $validator->validate();
-        $contacto = Contacto::where("email", $request->email)->first();
-        if ($contacto == null) {
-            $contacto = new Contacto();
-            $contacto->email = $request->email;
-            $contacto->etapa = 1;
-        }
-        $contacto->nombres = $result = preg_replace('/\d/', '', $request->nombres);
-        $contacto->apellidos = $request->apellidos;
-        $contacto->telefono = $request->telefono;
-        $contacto->medio = $request->medio;
-        $contacto->codigo = $request->codigo;
-        $contacto->save();
         $usuario = User::orderBy('created_at')->where('email', $request->email)->get()->last();
-        $cobro = User::calcularMontoCompra($request->codigo, $request->email,
-            $usuario == null ? null : $usuario->created_at,
-            $usuario == null ? null : $usuario->fecha_inscripcion,
-            $usuario == null ? null : $usuario->inicio_reto);
-        $mensaje = '';
-        $status = 'ok';
-        if ($usuario !== null) {
-            if ($usuario->deleted_at == null) {
-                if ($usuario->inicio_reto == null) {
-                    $status = 'error';
-                    $mensaje = 'Este usuario ya pertenece al RETO ACTON.';
-                } else {
-                    if (Carbon::parse($usuario->inicio_reto)->diffInDays(Carbon::now()) < intval(env('DIAS'))) {
+        if ($usuario!=null&&$usuario->id==1){
+            $status = 'error';
+            $mensaje = 'Este usuario ya pertenece al RETO ACTON.';
+        }else{
+            $contacto = Contacto::where("email", $request->email)->first();
+            if ($contacto == null) {
+                $contacto = new Contacto();
+                $contacto->email = $request->email;
+                $contacto->etapa = 1;
+            }
+            $contacto->nombres = $result = preg_replace('/\d/', '', $request->nombres);
+            $contacto->apellidos = $request->apellidos;
+            $contacto->telefono = $request->telefono;
+            $contacto->medio = $request->medio;
+            $contacto->codigo = $request->codigo;
+            $contacto->save();
+            $cobro = User::calcularMontoCompra($request->codigo, $request->email,
+                $usuario == null ? null : $usuario->created_at,
+                $usuario == null ? null : $usuario->fecha_inscripcion,
+                $usuario == null ? null : $usuario->inicio_reto);
+            $mensaje = '';
+            $status = 'ok';
+            if ($usuario !== null) {
+                if ($usuario->deleted_at == null) {
+                    if ($usuario->inicio_reto == null) {
                         $status = 'error';
                         $mensaje = 'Este usuario ya pertenece al RETO ACTON.';
+                    } else {
+                        if (Carbon::parse($usuario->inicio_reto)->diffInDays(Carbon::now()) < intval(env('DIAS'))) {
+                            $status = 'error';
+                            $mensaje = 'Este usuario ya pertenece al RETO ACTON.';
+                        }
                     }
                 }
             }

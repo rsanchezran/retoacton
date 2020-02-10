@@ -570,7 +570,7 @@
                 padding: 0;
             }
 
-            .container{
+            #titulo{
                 padding-left: 5px;
                 padding-right: 5px;
             }
@@ -753,7 +753,7 @@
                     </div>
                 </div>
             </div>
-            <div class="section container text-center">
+            <div id="titulo" class="section container text-center">
                 <div class="col-12 col-sm-9 mr-auto ml-auto" id="verdadero">
                     <h6 class="text-uppercase bigger thin" style="color:#929494">El verdadero cambio </h6>
                     <h6 class="text-uppercase font-weight-bold biggest">Comienza</h6>
