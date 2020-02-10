@@ -258,7 +258,7 @@
                             <br>
                             <div v-if="continuar">
                                 @if(\Illuminate\Support\Facades\Auth::user()->rol==\App\Code\RolUsuario::CLIENTE)
-                                    <a class="btn btn-primary btn-md" href="{{url('/reto/diario')}}">
+                                    <a class="btn btn-primary btn-md" href="{{url('/reto/programa')}}">
                                         <span>Ver plan</span>
                                     </a>
                                 @else
