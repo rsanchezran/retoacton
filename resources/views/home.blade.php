@@ -77,7 +77,7 @@
                                 <a v-if="usuario.inicio_reto==null" class="btn btn-lg btn-primary" href="{{url('/reto/cliente/')}}">
                                     <span>EMPEZAR RETO</span>
                                 </a>
-                                <a v-else class="btn btn-lg btn-primary" href="{{url('/reto/diario')}}">
+                                <a v-else class="btn btn-lg btn-primary" href="{{url('/reto/programa')}}">
                                     <span>Mi programa</span>
                                 </a>
                                 <br>

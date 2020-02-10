@@ -234,21 +234,52 @@ class RetoController extends Controller
             return view('reto.dia', ['dia' => $dia, 'genero' => $genero, 'objetivo' => $objetivo, 'lugar' => $user->modo,
                 'dias' => env('DIAS')]);
         } else {
-            if ($usuarioDieta->dieta == 2) {
+            if ($user->num_inscripcion == 1) {
                 if ($dia < env("DIASDIETA")) {
                     $diaDB = Dia::buildDia($dia, $genero, $objetivo, $request->user(), 1);
                     $diaDB->dieta = 1;
                 } else {
-                    $diaDB = Dia::buildDia($dia, $genero, $objetivo, $request->user(), $usuarioDieta->dieta);
+                    $diaDB = Dia::buildDia($dia, $genero, $objetivo, $request->user(), 2);
                     $diaDB->dieta = 2;
                 }
             } else {
-                $diaDB = Dia::buildDia($dia, $genero, $objetivo, $request->user(), $usuarioDieta->dieta);
+                $diaDB = Dia::buildDia($dia, $genero, $objetivo, $request->user(), $user->num_inscripcion+1);
             }
             return view('reto.dia', ['dia' => $diaDB, 'genero' => $genero, 'objetivo' => $objetivo,
                 'dias' => $dias, 'lugar' => $user->modo,'semana' => $semana, 'maximo' => $diasTranscurridos,
                 'teorico' => $teorico]);
         }
+    }
+
+    public function getSemanaPrograma(Request $request, $semana){
+        $user = $request->user();
+        $user->modo = $user->modo == true;
+
+        $diasRetoOriginal = intval(env('DIAS'));
+        $diasReto = intval(env('DIAS2'));
+
+        $inicioReto = Carbon::parse($user->inicio_reto);
+        if ($user->num_inscripciones > 1) {
+            $teorico = $diasRetoOriginal + (($user->num_inscripciones - 2) * $diasReto) + Carbon::now()->startOfDay()->diffInDays($inicioReto);
+            if (Carbon::parse($user->fecha_inscripcion)->startOfDay() == $inicioReto->startOfDay()) {
+                $teorico++;
+            }
+            if ($teorico > $diasRetoOriginal + (($user->num_inscripciones - 1) * $diasReto)) {
+                $teorico = $diasRetoOriginal + ($user->num_inscripciones - 1) * $diasReto;
+            }
+        } else {
+            $teorico = Carbon::now()->startOfDay()->diffInDays(Carbon::parse($user->inicio_reto));
+            if ($teorico > $diasRetoOriginal) {
+                $teorico = $diasRetoOriginal;
+            }
+        }
+        if ($semana * 7 < $teorico) {
+            $dias = 7;
+        } else {
+            $diaInicial = ($semana * 7) - 6;
+            $dias = $teorico - ($diaInicial - 1);
+        }
+        return $dias;
     }
 
     public function pdf(Request $request, $dia, $genero, $objetivo, $dieta, $lugar)

@@ -239,6 +239,16 @@
                         axios.post('{{url('/cuenta/cambiarModo')}}',{lugar: this.lugar}).then(function (response) {});
                     }
                 },
+                mostrarSemana: function (semana) {
+                    let vm = this;
+                    axios.get('{{url('/reto/getSemanaPrograma/')}}/' + semana).then(function (response) {
+                        vm.dias = response.data;
+                        vm.semana = semana;
+                        Vue.nextTick(function () {
+                            $('.selectpicker').selectpicker('refresh');
+                        });
+                    });
+                },
                 cerrarModal: function(){
                     this.$refs.modal.closeModal();
                 },
