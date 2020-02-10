@@ -191,9 +191,10 @@ class UserController extends Controller
 
     public function verReferencias(Request $request)
     {
-        $usuario = User::find($request->id);
+        $campos = json_decode($request->campos);
+        $usuario = User::find($campos->id);
         if ($usuario !== null) {
-            $referencias = User::where('codigo', $usuario->referencia)->whereNull('deleted_at')->get();
+            $referencias = User::where('codigo', $usuario->referencia)->whereNull('deleted_at')->paginate(10);
             return $referencias;
         }
     }
@@ -293,30 +294,33 @@ class UserController extends Controller
 
     public function verPagos(Request $request)
     {
-        $usuario = User::find($request->id);
+        $campos = json_decode($request->campos);
+        $usuario = User::find($campos->id);
         if ($usuario !== null) {
-            $pagos = Pago::where('usuario_id', $usuario->id)->get();
+            $pagos = Pago::where('usuario_id', $usuario->id)->orderByDesc('created_at')->paginate(10);
             return $pagos;
         }
     }
 
     public function verCompras(Request $request)
     {
-        $usuario = User::find($request->id);
+        $campos = json_decode($request->campos);
+        $usuario = User::find($campos->id);
         if ($usuario !== null) {
-            $compras = Compra::where('usuario_id', $usuario->id)->get();
+            $compras = Compra::where('usuario_id', $usuario->id)->orderByDesc('created_at')->paginate(10);
             return $compras;
         }
     }
 
     public function verComprasByReferencia(Request $request)
     {
-        $usuario = User::find($request->id);
+        $campos = json_decode($request->campos);
+        $usuario = User::find($campos->id);
         if ($usuario !== null) {
             $compras = Compra::join('users','users.id','compras.usuario_id')
                 ->whereNull('compras.deleted_at')->where('users.codigo',$usuario->referencia)
                 ->orderBy('created_at')
-                ->get(['users.name','users.last_name','compras.monto','compras.created_at']);
+                ->select(['users.name','users.last_name','compras.monto','compras.created_at'])->paginate(10);
             return $compras;
         }
     }

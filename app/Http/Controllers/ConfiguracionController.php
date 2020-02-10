@@ -75,7 +75,7 @@ class ConfiguracionController extends Controller
         $categoria = Categoria::find($request->categoria);
         if ($categoria == null) {
             $categoria = new Categoria();
-            $categoria->nombre = str_replace(' ','_',substr(strtolower($request->nombre),0,20));
+            $categoria->nombre = str_replace(' ', '_', substr(strtolower($request->nombre), 0, 20));
             $categoria->save();
         }
         $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [], []);
@@ -104,7 +104,7 @@ class ConfiguracionController extends Controller
             $nombreVideo = $archivo->getClientOriginalName();
             $elementos = collect(explode('.', $nombreVideo));
             $elementos->pop();
-            $nombreVideo = Utils::clearString($elementos->implode(''), true).".".$extension;
+            $nombreVideo = Utils::clearString($elementos->implode(''), true) . "." . $extension;
             $nombreReplace = str_replace('.mp4', '', $nombreVideo);
             if ($extension == 'zip') {
                 $archivo->storeAs('ejercicios', $nombreVideo);
@@ -119,10 +119,15 @@ class ConfiguracionController extends Controller
         return response()->json(['status' => 'ok', 'videoNuevo' => $nombreReplace]);
     }
 
-    public function programa(Request $request)
+    public function programa()
     {
         $diasReto = intval(env('DIAS'));
-        $diasDB = Dia::count();
+        $diasDB = Dia::orderByDesc('dia')->first();
+        if ($diasDB == null) {
+            $diasDB = 1;
+        } else {
+            $diasDB = $diasDB->dia;
+        }
         $diasTranscurridos = $diasDB < $diasReto ? $diasReto : $diasDB;
         if ($diasTranscurridos == 0) {
             $semana = 1;
@@ -137,12 +142,12 @@ class ConfiguracionController extends Controller
     public function getSemanaEjercicios($semana)
     {
         $dias = collect();
-        $primerDia = (($semana-1)*7)+1;
-        $ultimoDia = $semana*7;
-        $diasDB = Dia::whereBetween('dia',[$primerDia,$ultimoDia])->with(['ejercicios'])->get()->keyBy('dia');
+        $primerDia = (($semana - 1) * 7) + 1;
+        $ultimoDia = $semana * 7;
+        $diasDB = Dia::whereBetween('dia', [$primerDia, $ultimoDia])->with(['ejercicios'])->get()->keyBy('dia');
 
         for ($i = 1; $i <= 7; $i++) {
-            $dia = (($semana - 1)*7) + $i;
+            $dia = (($semana - 1) * 7) + $i;
             $diaDB = $diasDB->get($dia);
             if ($diaDB == null) {
                 $diaDB = new \stdClass();
@@ -158,7 +163,7 @@ class ConfiguracionController extends Controller
             $diaDB->ejerciciosG = $diaDB->ejerciciosG->map(function ($item) {
                 return $item->groupBy('lugar');
             });
-            $diaDB->ejercicios="Sin ejercicios";
+            $diaDB->ejercicios = "Sin ejercicios";
             $dias->push($diaDB);
         }
         return $dias;
@@ -197,10 +202,15 @@ class ConfiguracionController extends Controller
         \DB::beginTransaction();
         $now = Carbon::now();
         $filtro = function ($datos) use ($request) { //funcion para cada with con campos similares
-            $datos->where('dia_id', $request->id)->where('genero', $request->genero)->where('objetivo', $request->objetivo);
+            $datos->where('dia_id', $request->dia)->where('genero', $request->genero)->where('objetivo', $request->objetivo);
         };
-        $dia = Dia::where('id', $request->id)->with(['ejercicios' => $filtro, 'cardio' => $filtro, 'notas' => $filtro])->first();
-
+        $dia = Dia::where('dia', $request->dia)->with(['ejercicios' => $filtro, 'cardio' => $filtro, 'notas' => $filtro])->first();
+        if ($dia==null){
+            $dia = new Dia();
+            $dia->id = $request->dia;
+            $dia->dia = $request->dia;
+            $dia->save();
+        }
         if ($dia->notas->first() != null)
             $notas = Notas::find($dia->notas->first()->id);
         else {
@@ -226,8 +236,8 @@ class ConfiguracionController extends Controller
             $ejercicio->deleted_at = $now;
             $ejercicio->save();
         }
-        $this->procesarSerie($request->gym, $series, $request->id, $ejercicios, $request->genero, $request->objetivo);
-        $this->procesarSerie($request->casa, $series, $request->id, $ejercicios, $request->genero, $request->objetivo);
+        $this->procesarSerie($request->gym, $series, $request->dia, $ejercicios, $request->genero, $request->objetivo);
+        $this->procesarSerie($request->casa, $series, $request->dia, $ejercicios, $request->genero, $request->objetivo);
 
         foreach ($request->cardio as $cardio) {
             $cardioDb = $cardios->get($cardio['id']);
@@ -355,7 +365,7 @@ class ConfiguracionController extends Controller
         $contactos = Contacto::leftjoin('users', 'contactos.email', 'users.email')
             ->select(['contactos.id', 'contactos.nombres', 'contactos.apellidos', 'contactos.email',
                 'contactos.telefono', 'contactos.medio', 'contactos.created_at', 'contactos.etapa', 'users.deleted_at'])
-        ->whereNull('contactos.deleted_at');
+            ->whereNull('contactos.deleted_at');
         if ($campos->email != '') {
             $contactos = $contactos->where('contactos.email', 'like', "%$campos->email%");
         }

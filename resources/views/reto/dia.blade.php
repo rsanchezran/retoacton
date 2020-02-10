@@ -81,7 +81,8 @@
 
     <div id="vue">
         <div class="container">
-            <dia :p_dia="{{$dia}}" :genero="'{{$genero}}'" :objetivo="'{{$objetivo}}'" :dias="{{$dias}}" p_lugar="{{$lugar}}"></dia>
+            <dia :p_dia="{{$dia}}" :genero="'{{$genero}}'" :objetivo="'{{$objetivo}}'" :dias="{{$dias}}"
+                 p_lugar="{{$lugar}}" :p_semana="{{$semana}}" :maximo="{{$maximo}}" :teorico="{{$teorico}}" ></dia>
         </div>
     </div>
 
@@ -169,14 +170,26 @@
                     @endif
                     <div>
                         <h4 class="comida">Calendario</h4>
-                        <div class="col-12" v-for="(sem, index) in semanas">
-                            <h6 v-if="(index)<semana" class="font-weight-bold">Semana @{{ index+1  }}</h6>
-                            <div v-if="(index)<=semana" class="d-flex flex-wrap ">
-                                <div v-for="d in sem" :class="d>dias?'nodia':'dia'" @click="getDia(d)">
-                                    <a v-if="d<=dias">
-                                        @{{ d }}
-                                    </a>
-                                </div>
+                        <div class="d-flex m-auto col-12 col-sm-6">
+                            <button v-if="semana>1" class="btn btn-sm btn-light" @click="mostrarSemana(semana-1)">
+                                <i v-if="semana>1" class="fa fa-arrow-left"></i>
+                                <i v-else></i>
+                            </button>
+                            <i v-else></i>
+                            <select class="selectpicker" v-model="semana" @change="mostrarSemana(semana)">
+                                <option v-for="s in p_semana" :value="s">Semana @{{ s }}</option>
+                            </select>
+                            <button v-if="maximo>=semana * dias.length" class="btn btn-sm btn-light"
+                                    @click="mostrarSemana(semana+1)">
+                                <i class="fa fa-arrow-right"></i>
+                            </button>
+                            <i v-else></i>
+                        </div>
+                        <div class="d-flex flex-wrap ">
+                            <div v-for="d in dias" class="dia" @click="getDia(((semana-1)*7)+d)">
+                                <a @click="getDia(((semana-1)*7)+d )">@{{ ((semana-1)*7)+d }}</a>
+                            </div>
+                            <div v-for="d in 7-dias" class="nodia">
                             </div>
                         </div>
                     </div>
@@ -197,7 +210,7 @@
 
         Vue.component('dia', {
             template: '#dia-template',
-            props: ['p_dia', 'genero', 'objetivo','dias', 'p_lugar'],
+            props: ['p_dia', 'genero', 'objetivo','dias', 'p_lugar','p_semana', 'maximo', 'teorico'],
             data: function () {
                 return {
                     dia: {},
@@ -207,7 +220,6 @@
                     correoEnv: false,
                     load: false,
                     tituloModal: '',
-                    semanas:[],
                     semana:1
                 }
             },
@@ -249,23 +261,13 @@
                     });
                 },
                 getDia: function (dia) {
-                    if (dia<=this.dias){
-                        window.location.href = '{{url('/reto/dia/')}}/'+dia+'/'+this.genero+'/'+this.objetivo;
-                    }
+                    window.location.href = '{{url('/reto/dia/')}}/'+dia+'/'+this.genero+'/'+this.objetivo;
                 }
             },
             created: function () {
                 this.dia = this.p_dia;
                 this.dia.nota = this.p_dia.nota.descripcion;
-                for(let i = 0; i < 56; i++){
-                    if(i+1==this.dias){
-                        this.semana = parseInt((i/7)+1);
-                    }
-                    if(i % 7 == 0){
-                        this.semanas.push([]);
-                    }
-                    this.semanas[parseInt(i/7)].push(i+1);
-                }
+                this.semana = this.p_semana;
             },
             mounted: function () {
                 this.lugar = this.p_lugar == 1;
