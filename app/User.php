@@ -67,7 +67,7 @@ class User extends Authenticatable
     public static function crear($nombre, $apellidos = '', $email, $tipo, $objetivo, $codigo = '', $monto)
     {
         $pass = Utils::generarRandomString();
-        $usuario = User::where('email',$email)->first();
+        $usuario = User::withTrashed()->where('email',$email)->first();
         if ($usuario == null) {
             $usuario = User::create([
                 'name' => $nombre,
