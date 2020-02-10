@@ -21,11 +21,13 @@ class ApiController extends Controller
     public function login(Request $request)
     {
         try{
-            $usuario = User::where('email', $request->username)->get(['name','last_name','password','email'])->first();
+            $usuario = User::where('email', $request->username)->get(['name','last_name','password','email','inicio_reto',
+                'num_inscripciones'])->first();
 
             if ($usuario != null && password_verify($request->password, $usuario->password)) {
                 $contacto = Contacto::withTrashed()->where('email',$usuario->email)->first();
                 $usuario->telefono = $contacto->telefono;
+                $usuario->isVencido();
                 return response()->json(['result' => 'ok', 'user' => $usuario]);
             }
             return response()->json(['result' => 'error', 'error' => 'El usuario y/o la contraseña son incorrectos.']);
