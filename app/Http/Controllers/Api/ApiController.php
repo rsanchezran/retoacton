@@ -57,6 +57,6 @@ class ApiController extends Controller
                 }
             }
         }
-        return "ok";
+        return response()->json(['status'=>'ok']);
     }
 }
