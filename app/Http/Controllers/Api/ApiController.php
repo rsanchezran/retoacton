@@ -14,6 +14,7 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class ApiController extends Controller
 {
@@ -38,6 +39,7 @@ class ApiController extends Controller
 
     public function webhook(Request $request)
     {
+        Log::info($request->request);
         if ($request->data["object"] != null) {
             if (array_key_exists('order_id', $request->data["object"])) {
                 $order_id = $request->data["object"]["order_id"];
