@@ -39,7 +39,7 @@ class ApiController extends Controller
 
     public function webhook(Request $request)
     {
-        Log::info($request->request);
+        Log::info($request->all());
         if ($request->data["object"] != null) {
             if (array_key_exists('order_id', $request->data["object"])) {
                 $order_id = $request->data["object"]["order_id"];
