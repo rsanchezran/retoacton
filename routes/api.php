@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 */
 Route::post('login', 'Api\ApiController@login');
 Route::post('webhook', 'Api\ApiController@webhook');
+Route::get('webhook', 'Api\ApiController@getWebhook');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

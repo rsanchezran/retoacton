@@ -59,4 +59,9 @@ class ApiController extends Controller
         }
         return response()->json(['status'=>'ok']);
     }
+    
+    public function getWebhook()
+    {
+        return response()->json(['status'=>'ok']);
+    }
 }
