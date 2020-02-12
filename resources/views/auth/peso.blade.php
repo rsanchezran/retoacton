@@ -54,7 +54,7 @@
                         </div>
                         <br>
                         <h6 style="color: #000;">Estas son las formas de realizar tu pago de manera segura</h6>
-                        <cobro ref="cobro" :cobro="descuento" :url="'{{url('/')}}'" :id="'{{env('OPENPAY_ID')}}'"
+                        <cobro ref="cobro" :cobro="''+monto" :url="'{{url('/')}}'" :id="'{{env('OPENPAY_ID')}}'"
                                :llave="'{{env('OPENPAY_PUBLIC')}}'" :sandbox="'{{env('SANDBOX')}}'==true" :meses="true"
                                @terminado="terminado"></cobro>
                     </div>
