@@ -296,9 +296,7 @@
                     <form-error name="email_confirmation" :errors="errors"></form-error>
                     <input class="form-control" v-model="informacion.telefono" placeholder="Teléfono"/>
                     <form-error name="telefono" :errors="errors"></form-error>
-                    <form-error name="telefono" :errors="errors"></form-error>
-                    <form-error name="nombres" :errors="errors"></form-error>
-                    <form-error name="email" :errors="errors"></form-error>
+                    <form-error name="referencia" :errors="errors"></form-error>
                 </div>
                 <div class="payment" align="left">
                     <input type="checkbox" id="acuerdoOxxo" v-model="acuerdo">
@@ -323,9 +321,7 @@
                     <form-error name="email_confirmation" :errors="errors"></form-error>
                     <input class="form-control" v-model="informacion.telefono" placeholder="Teléfono"/>
                     <form-error name="telefono" :errors="errors"></form-error>
-                    <form-error name="nombres" :errors="errors"></form-error>
-                    <form-error name="email" :errors="errors"></form-error>
-                    <form-error name="telefono" :errors="errors"></form-error>
+                    <form-error name="referencia" :errors="errors"></form-error>
                 </div>
                 <div class="payment" align="left">
                     <input type="checkbox" id="acuerdoSpei" v-model="acuerdo">
