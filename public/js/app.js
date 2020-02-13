@@ -49639,15 +49639,7 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c("form-error", {
-                    attrs: { name: "telefono", errors: _vm.errors }
-                  }),
-                  _vm._v(" "),
-                  _c("form-error", {
-                    attrs: { name: "nombres", errors: _vm.errors }
-                  }),
-                  _vm._v(" "),
-                  _c("form-error", {
-                    attrs: { name: "email", errors: _vm.errors }
+                    attrs: { name: "referencia", errors: _vm.errors }
                   })
                 ],
                 1
@@ -49894,15 +49886,7 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c("form-error", {
-                    attrs: { name: "nombres", errors: _vm.errors }
-                  }),
-                  _vm._v(" "),
-                  _c("form-error", {
-                    attrs: { name: "email", errors: _vm.errors }
-                  }),
-                  _vm._v(" "),
-                  _c("form-error", {
-                    attrs: { name: "telefono", errors: _vm.errors }
+                    attrs: { name: "referencia", errors: _vm.errors }
                   })
                 ],
                 1
