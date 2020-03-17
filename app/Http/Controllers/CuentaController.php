@@ -14,6 +14,7 @@ class CuentaController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
+        $user->tarjeta = $user->tarjeta ?? '';
         $user->pass = substr($user->password, 0, 6);
         return view('cuenta.index', ['user' => $user]);
     }
@@ -24,7 +25,7 @@ class CuentaController extends Controller
             [
                 'pass' => 'confirmed|max:20|min:4',
                 'pass_confirmation' => 'required|max:20|min:4',
-                'tarjeta' => 'nullable|numeric|min:0|digits:16'
+                'tarjeta' => 'nullable|min:0|max:16'
             ],
             [
                 'pass.required' => 'Este campo es obligatorio',
@@ -34,8 +35,7 @@ class CuentaController extends Controller
                 'pass_confirmation.required' => 'Este campo es obligatorio',
                 'pass_confirmation.max' => 'Debe tener máximo 20 caracteres',
                 'pass_confirmation.min' => 'Debe tener mínimo 4 caracteres',
-                'tarjeta.numeric' => 'Debe capturar únicamente números',
-                'tarjeta.digits' => 'Debe tener exactamente 16 caracteres',
+                'tarjeta.max' => 'Debe tener exactamente 16 numeros',
                 'tarjeta.min' => 'No debe ser negativo'
             ]
         );
@@ -44,7 +44,7 @@ class CuentaController extends Controller
         \DB::beginTransaction();
         $user = User::find($request->id);
         if ($user !== null) {
-            if ($request->pass != substr($user->password, 0, 6)){
+            if ($request->pass != substr($user->password, 0, 6)) {
                 $user->password = bcrypt($request->pass);
             }
             $user->tarjeta = $request->tarjeta;
