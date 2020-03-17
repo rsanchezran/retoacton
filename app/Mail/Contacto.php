@@ -21,11 +21,21 @@ class Contacto extends Mailable
 
     public function build()
     {
+        if ($this->contacto->etapa == 1) {
+            $subject = "Hoy es el momento";
+            $boton = "MAS INFORMACIÓN";
+        } elseif ($this->contacto->etapa == 2) {
+            $subject = "Resultado comprobable";
+            $boton = "VER SIMULADOR";
+        } else {
+            $subject = "Testimonios reales";
+            $boton = "VER TESTIMONIOS";
+        }
         $send = $this->from(env('MAIL_ADDRESS'), 'Acton')
-            ->subject("Reto Acton")
+            ->subject($subject)
             ->to($this->contacto->email);
-        $send->view('correo.contacto', ['contacto' => $this->contacto, 'email'=>$this->contacto->email])
-            ->text('correo.contacto_plano', ['contacto' => $this->contacto]);
+        $send->view('correo.contacto', ['contacto' => $this->contacto, 'email' => $this->contacto->email, 'boton'=>$boton])
+            ->text('correo.contacto_plano', ['contacto' => $this->contacto, 'boton'=>$boton]);
         return $send;
     }
 }
