@@ -5,10 +5,11 @@ namespace App\Console\Commands;
 use App\Code\Utils;
 use App\Contacto;
 use App\Events\EnviarCorreosEvent;
+use App\Mail\Registro;
 use App\User;
 use Carbon\Carbon;
-use Conekta\Log;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Mail;
 
 class EnviarCorreos extends Command
 {
@@ -74,7 +75,7 @@ class EnviarCorreos extends Command
     {
 
         if ($contactos->count() > 0) {
-            if ($etapa<4){
+            if ($etapa < 4) {
                 try {
                     event(new EnviarCorreosEvent($contactos));
                 } catch (\Exception $e) {
