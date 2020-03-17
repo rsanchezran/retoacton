@@ -10,7 +10,7 @@
                 margin: 0 auto;
                 border-collapse: collapse;
                 border: 1.5px solid #7FA0C1;
-                width: 40%;
+                width: 80%;
             }
 
             text-center {
