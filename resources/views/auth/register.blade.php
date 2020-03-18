@@ -57,6 +57,14 @@
             }
         }
 
+        .detalle{
+            font-size: 1rem;
+        }
+
+        #pago{
+            display: block;
+            margin: auto
+        }
 
     </style>
 @endsection
@@ -112,41 +120,39 @@
                 </div>
             </div>
             <br>
-            <div class="d-flex" style="display: block; margin: auto">
-                <div v-show="sent" id="pago" class="text-center" style="display: block; margin: auto">
-                    <div v-show="mensaje!=''">
-                        <h6 style="font-size: 1.7em">@{{ mensaje }}</h6>
+            <div v-show="sent" id="pago" class="text-center col-12">
+                <div v-show="mensaje!=''">
+                    <h6 class="detalle">@{{ mensaje }}</h6>
+                </div>
+                <div v-show="mensaje==''">
+                    <h6 class="detalle">¡Gracias por compartirnos tus datos,</h6>
+                    <h6 class="detalle"> nos encantará ayudarte!</h6>
+                    <h6 class="detalle"> El costo para unirte y tener los </h6>
+                    <h6 class="detalle"> beneficios del <b class="text-uppercase">Reto Acton</b> es de:
+                    </h6>
+                    <label style="font-size: 1.4rem; font-family: unitext_bold_cursive">
+                        <money v-if="descuento>0" id="cobro_anterior" :cantidad="''+original" :decimales="0"
+                               estilo="font-size:1.2em; color:#000000" adicional=" MXN"
+                               :caracter="true"></money>
+                    </label>
+                    <div id="infoPago" v-if="descuento>0">
+                        <label style="font-size: 1rem; color: #000; font-family: unitext_bold_cursive">aprovecha
+                            el </label>
+                        <label style="font-size: 1.4rem; margin-top: -5px; font-family: unitext_bold_cursive">@{{descuento }}% de descuento </label>
+                        <label style="color: #000; font-weight: bold; font-family: unitext_bold_cursive" v-if="descuento=='{{env('DESCUENTO')}}'">ÚLTIMO DIA</label>
                     </div>
-                    <div v-show="mensaje==''">
-                        <h6 style="font-size: 1.7em">¡Gracias por compartirnos tus datos,</h6>
-                        <h6 style="font-size: 1.7em"> nos encantará ayudarte!</h6>
-                        <h6 style="font-size: 1.7em"> El costo para unirte y tener los </h6>
-                        <h6 style="font-size: 1.7em"> beneficios del <b class="text-uppercase">Reto Acton</b> es de:
-                        </h6>
-                        <label style="font-size: 1.4rem; font-family: unitext_bold_cursive">
-                            <money v-if="descuento>0" id="cobro_anterior" :cantidad="''+original" :decimales="0"
-                                   estilo="font-size:1.2em; color:#000000" adicional=" MXN"
-                                   :caracter="true"></money>
-                        </label>
-                        <div id="infoPago" v-if="descuento>0">
-                            <label style="font-size: 1rem; color: #000; font-family: unitext_bold_cursive">aprovecha
-                                el </label>
-                            <label style="font-size: 1.4rem; margin-top: -5px; font-family: unitext_bold_cursive">@{{descuento }}% de descuento </label>
-                            <label style="color: #000; font-weight: bold; font-family: unitext_bold_cursive" v-if="descuento=='{{env('DESCUENTO')}}'">ÚLTIMO DIA</label>
+                    <div id="pagar">
+                        <div>a solo</div>
+                        <div style="font-size: 1.5rem; margin-left: 5px">
+                            <money :cantidad="''+monto" :caracter="true" :decimales="0"
+                                   estilo="font-size:1.5em; font-weight: bold"></money>
                         </div>
-                        <div id="pagar">
-                            <div>a solo</div>
-                            <div style="font-size: 1.5rem; margin-left: 5px">
-                                <money :cantidad="''+monto" :caracter="true" :decimales="0"
-                                       estilo="font-size:1.5em; font-weight: bold"></money>
-                            </div>
-                        </div>
-                        <br>
-                        <h6 style="color: #000;">Estas son las formas de realizar tu pago de manera segura</h6>
-                        <cobro ref="cobro" :cobro="''+monto" :url="'{{url('/')}}'" :id="'{{env('OPENPAY_ID')}}'"
-                               :llave="'{{env('OPENPAY_PUBLIC')}}'" :sandbox="'{{env('SANDBOX')}}'==true" :meses="true"
-                               @terminado="terminado"></cobro>
                     </div>
+                    <br>
+                    <h6 style="color: #000;">Estas son las formas de realizar tu pago de manera segura</h6>
+                    <cobro ref="cobro" :cobro="''+monto" :url="'{{url('/')}}'" :id="'{{env('OPENPAY_ID')}}'"
+                           :llave="'{{env('OPENPAY_PUBLIC')}}'" :sandbox="'{{env('SANDBOX')}}'==true" :meses="true"
+                           @terminado="terminado"></cobro>
                 </div>
             </div>
         </div>

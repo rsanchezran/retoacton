@@ -79,8 +79,8 @@ class RegisterController extends Controller
         $validator = Validator::make($request->all(), [
             'nombres' => ['required', 'max:100', 'min:2', 'regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ\s]( )?)+$/'],
             'apellidos' => 'required|max:100|min:2|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ\s]( )?)+$/',
-            'email' => 'required|max:100|min:3|email',
-            'telefono' => 'nullable|numeric|max:9999999999|integer',
+            'email' => 'required|max:100|min:3',
+            'telefono' => 'nullable|max:10',
             'referencia' => 'max:7',
         ], [
             'nombres.required' => 'El nombre es obligatorio',

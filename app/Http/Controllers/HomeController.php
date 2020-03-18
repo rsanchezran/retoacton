@@ -410,8 +410,6 @@ class HomeController extends Controller
     public function etapa2($id)
     {
         $contacto = Contacto::find($id);
-        unset($contacto->peso);
-        unset($contacto->ideal);
         $usuario = User::withTrashed()->orderBy('created_at')->where('email', $contacto->email)->get()->last();
         $cobro = User::calcularMontoCompra($contacto->codigo, $contacto->email,
             $usuario == null ? null : $usuario->created_at,
@@ -425,6 +423,8 @@ class HomeController extends Controller
             $nombre = $nombre[count($nombre) - 1];
             $urls->push(url("getCombo/" . $nombre));
         }
+        $contacto->peso="";
+        $contacto->ideal="";
         return view("auth.peso", ['urls' => $urls, 'contacto' => $contacto,
             'original' => $cobro->original, 'descuento' => $cobro->descuento, 'monto' => $cobro->monto, 'mensaje' => $mensaje]);
     }

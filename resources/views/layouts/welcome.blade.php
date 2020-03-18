@@ -184,7 +184,7 @@
             <div class="col-sm-3">
                 <h5>ATENCIÓN A CLIENTES</h5>
                 <ul class="list-unstyled">
-                    <li><a href="{{url('contacto')}}"><i class="fa fa-pencil"></i> Contacto</a></li>
+                    <li><a href="{{url('contacto')}}"><i class="fa fa-pencil"></i> Dudas</a></li>
                 </ul>
             </div>
             <div class="col-sm-3">

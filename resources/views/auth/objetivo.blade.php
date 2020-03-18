@@ -35,8 +35,7 @@
         }
 
         .respuesta {
-            margin: 5px;
-            width: 48%;
+            padding: 0;
         }
 
         .card-b {
@@ -46,10 +45,21 @@
         h6 {
             color: #929292;
         }
+
+        #pago{
+            display: block; margin: auto;
+        }
+
+        #vue{
+            background-color: #f2f2f2;
+            background-image: url("{{asset('img/rayogris.png')}}");
+            background-repeat: no-repeat;
+            background-position: center;
+        }
     </style>
 @endsection
 @section('content')
-    <div id="pago" class="container flex-center">
+    <div id="vue" class="container flex-center">
         <registro class="pt-5" :urls="{{$urls}}" :p_pregunta="{{$pregunta}}" :p_contacto="{{$contacto}}" :monto="'{{$monto}}'"
                   :descuento="'{{$descuento}}'" :original="'{{$original}}'" :mensaje="'{{$mensaje}}'"></registro>
     </div>
@@ -62,7 +72,7 @@
             <div v-show="mostrarObjetivos" v-animate="'scrolldown'">
                 <h4 class="text-uppercase">Elige tu @{{ pregunta.pregunta}}</h4>
                 <div class="pregunta card-b">
-                    <div class="respuesta" v-for="(respuesta, index) in pregunta.opciones">
+                    <div class="col-12 col-sm-12 col-md-6 respuesta" v-for="(respuesta, index) in pregunta.opciones">
                         <input :id="'respuesta'+index" type="checkbox" v-show="false" @change="selecRespuesta(index)"/>
                         <svg class="spiral" viewBox="0 0 100 100" @click="selecRespuesta(index)">
                             <circle v-if="respuesta.selected"  cx="50" cy="50" r="40" stroke="#0089d1" fill="#0089d1" />
@@ -78,36 +88,35 @@
                         <source :src="'{{url('/getVideo')}}/'+srcVideo">
                     </video>
                 </div>
-                <div class="d-flex col-12" style="display: block; margin: auto">
-                    <div id="pago" class="col-12 text-center" style="display: block; margin: auto">
-                        <div v-show="mensaje!=''">
-                            <h6 style="font-size: 1.7em">@{{ mensaje }}</h6>
+                <div id="pago" class="col-12 text-center">
+                    <div v-show="mensaje!=''">
+                        <h6 style="font-size: 1.7em">@{{ mensaje }}</h6>
+                    </div>
+                    <div v-show="mensaje==''">
+                        <h6 class="bigText">Para unirte y tener los beneficios del <b class="acton">Reto Acton</b> el costo es de</h6>
+                        <label style="font-size: 1.4rem; font-family: unitext_bold_cursive">
+                            <money v-if="descuento>0" id="cobro_anterior" :cantidad="''+original" :decimales="0"
+                                   estilo="font-size:1.2em; color:#000000" adicional=" MXN"
+                                   :caracter="true"></money>
+                        </label>
+                        <div id="infoPago" v-if="descuento>0">
+                            <label style="font-size: 1rem; color: #000; font-family: unitext_bold_cursive">aprovecha
+                                el </label>
+                            <label style="font-size: 1.4rem; margin-top: -5px; font-family: unitext_bold_cursive">@{{descuento }}% de descuento </label>
+                            <label style="color: #000; font-weight: bold; font-family: unitext_bold_cursive" v-if="descuento=='{{env('DESCUENTO')}}'">ÚLTIMO DIA</label>
                         </div>
-                        <div v-show="mensaje==''">
-                            <h6 class="bigText">Para unirte y tener los beneficios del <b class="acton">Reto Acton</b> el costo es de</h6>
-                            <label style="font-size: 1.4rem; font-family: unitext_bold_cursive">
-                                <money id="cobro_anterior" :cantidad="''+original" :decimales="0"
-                                       estilo="font-size:1.2em; color:#000000" adicional=" MXN"
-                                       :caracter="true"></money>
-                            </label>
-                            <div id="infoPago" v-if="descuento>0">
-                                <label style="font-size: 1rem; color: #000; font-family: unitext_bold_cursive">aprovecha el </label>
-                                <label style="font-size: 1.4rem; margin-top: -5px; font-family: unitext_bold_cursive">@{{ descuento }}% de descuento </label>
-                                <label style="color: #000; font-weight: bold; font-family: unitext_bold_cursive">ÚLTIMO DIA</label>
+                        <div id="pagar">
+                            <div>a solo</div>
+                            <div style="font-size: 1.5rem; margin-left: 5px">
+                                <money :cantidad="''+monto" :caracter="true" :decimales="0"
+                                       estilo="font-size:1.5em; font-weight: bold"></money>
                             </div>
-                            <div id="pagar">
-                                <div>a solo</div>
-                                <div style="font-size: 1.5rem; margin-left: 5px">
-                                    <money :cantidad="''+monto" :caracter="true" :decimales="0"
-                                           estilo="font-size:1.5em; font-weight: bold"></money>
-                                </div>
-                            </div>
-                            <br>
-                            <h6 style="color: #000;">Estas son las formas de realizar tu pago de manera segura</h6>
-                            <cobro ref="cobro" :cobro="''+monto" :url="'{{url('/')}}'" :id="'{{env('OPENPAY_ID')}}'"
-                                   :llave="'{{env('OPENPAY_PUBLIC')}}'" :sandbox="'{{env('SANDBOX')}}'==true" :meses="true"
-                                   @terminado="terminado"></cobro>
                         </div>
+                        <br>
+                        <h6 style="color: #000;">Estas son las formas de realizar tu pago de manera segura</h6>
+                        <cobro ref="cobro" :cobro="''+monto" :url="'{{url('/')}}'" :id="'{{env('OPENPAY_ID')}}'"
+                               :llave="'{{env('OPENPAY_PUBLIC')}}'" :sandbox="'{{env('SANDBOX')}}'==true" :meses="true"
+                               @terminado="terminado"></cobro>
                     </div>
                 </div>
             </div>
@@ -177,7 +186,7 @@
     });
 
     var vue = new Vue({
-        el: '#pago'
+        el: '#vue'
     });
 </script>
 @endsection
