@@ -1,10 +1,6 @@
 @extends('layouts.app')
 @section('header')
     <style>
-        .dash {
-            margin: 10px;
-            padding: 10px;
-        }
         hr{
             margin-top: 5px;
             margin-bottom: 5px;
@@ -91,11 +87,11 @@
                     <hr>
                     <div class="dash">
                         <div class="table-responsive">
-                            <div class="d-flex">
-                                <div class="col-12 col-sm-6">
+                            <div class="d-flex flex-wrap">
+                                <div class="col-12 col-sm-12 col-md-6">
                                     <h6>Estas son las personas que han usado tu código de referencia: </h6>
                                 </div>
-                                <div class="col-12 col-sm-6 d-flex" style="justify-content:flex-end">
+                                <div class="col-12 col-sm-12 col-md-6" style="justify-content:flex-end">
                                     <span class="badge badge-light money"><money :caracter="true" :cantidad="''+usuario.total"></money></span>
                                     <span class="badge badge-light money"><money :caracter="true" :cantidad="''+usuario.depositado"></money></span>
                                     <span class="badge badge-light money"><money :caracter="true" :cantidad="''+usuario.saldo"></money></span>
@@ -103,8 +99,10 @@
                             </div>
                             <table class="table" style="margin: 0px;">
                                 <tr v-for="referencia in referenciados.data">
-                                    <td>@{{ referencia.name }}</td>
-                                    <td>@{{ referencia.email }}</td>
+                                    <td>
+                                        <span>@{{ referencia.name }}</span>
+                                        <span>@{{ referencia.email }}</span>
+                                    </td>
                                     <td><fecha :fecha="referencia.created_at"></fecha></td>
                                 </tr>
                                 <tr v-if="referencias.length==0">

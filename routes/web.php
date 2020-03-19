@@ -28,9 +28,9 @@ Route::post('webhook', 'Auth\RegisterController@webhook');
 Route::get('buscarReferencia/{referencia}', 'Auth\RegisterController@buscarReferencia');
 
 Route::post('/nuevopago', 'PagoController@nuevoPago');
-Route::get('/etapa1/{id}', 'HomeController@etapa1');
-Route::get('/etapa2/{id}', 'HomeController@etapa2');
-Route::get('/etapa3/{id}', 'HomeController@etapa3');
+Route::get('/etapa1/{contacto}', 'HomeController@etapa1');
+Route::get('/etapa2/{contacto}', 'HomeController@etapa2');
+Route::get('/etapa3/{contacto}', 'HomeController@etapa3');
 Route::get('/terminos', 'HomeController@terminos');
 Route::get('/contacto', 'HomeController@contacto');
 Route::post('/contacto', 'HomeController@contactoSave');

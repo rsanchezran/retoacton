@@ -122,7 +122,7 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/david/code/acton/node_modules/bootstrap-datepicker/js/locales/bootstrap-datepicker.es.js */"./node_modules/bootstrap-datepicker/js/locales/bootstrap-datepicker.es.js");
+module.exports = __webpack_require__(/*! /home/pruebas/Documentos/code/acton/node_modules/bootstrap-datepicker/js/locales/bootstrap-datepicker.es.js */"./node_modules/bootstrap-datepicker/js/locales/bootstrap-datepicker.es.js");
 
 
 /***/ })

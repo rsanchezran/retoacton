@@ -377,12 +377,11 @@ class HomeController extends Controller
         }
     }
 
-    public function etapa1($id)
+    public function etapa1(Contacto $contacto)
     {
-        $contacto = Contacto::find($id);
         $urls = collect();
         $photos = Storage::disk('local')->files('public/combos');
-        $usuario = User::withTrashed()->orderBy('created_at')->where('email', $contacto->email)->get()->last();
+        $usuario = User::orderBy('created_at')->where('email', $contacto->email)->get()->last();
         $cobro = User::calcularMontoCompra($contacto->codigo, $contacto->email,
             $usuario == null ? null : $usuario->created_at,
             $usuario == null ? null : $usuario->fecha_inscripcion,
@@ -407,10 +406,9 @@ class HomeController extends Controller
             'original' => $cobro->original, 'descuento' => $cobro->descuento, 'monto' => $cobro->monto, 'mensaje' => $mensaje]);
     }
 
-    public function etapa2($id)
+    public function etapa2(Contacto $contacto)
     {
-        $contacto = Contacto::find($id);
-        $usuario = User::withTrashed()->orderBy('created_at')->where('email', $contacto->email)->get()->last();
+        $usuario = User::orderBy('created_at')->where('email', $contacto->email)->get()->last();
         $cobro = User::calcularMontoCompra($contacto->codigo, $contacto->email,
             $usuario == null ? null : $usuario->created_at,
             $usuario == null ? null : $usuario->fecha_inscripcion,
@@ -429,10 +427,9 @@ class HomeController extends Controller
             'original' => $cobro->original, 'descuento' => $cobro->descuento, 'monto' => $cobro->monto, 'mensaje' => $mensaje]);
     }
 
-    public function etapa3($id)
+    public function etapa3(Contacto $contacto)
     {
-        $contacto = Contacto::find($id);
-        $usuario = User::withTrashed()->orderBy('created_at')->where('email', $contacto->email)->get()->last();
+        $usuario = User::orderBy('created_at')->where('email', $contacto->email)->get()->last();
         $cobro = User::calcularMontoCompra($contacto->codigo, $contacto->email,
             $usuario == null ? null : $usuario->created_at,
             $usuario == null ? null : $usuario->fecha_inscripcion,
