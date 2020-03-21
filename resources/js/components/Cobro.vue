@@ -161,8 +161,9 @@
                     style: {
                         color: "silver",
                         layout: 'horizontal',
-                        fundingicons: 'false',
-                        tagline:'false'
+                        tagline:'false',
+                        shape:'rect',
+                        size:'responsive'
                     },
                     funding: {
                         disallowed: [paypal.FUNDING.CREDIT, paypal.FUNDING.CARD]
@@ -189,6 +190,7 @@
                         });
                     }
                 }).render('#paypalDiv');
+                $("#buttons-container").addClass(".buttons-container");
             });
         }
     };
@@ -210,7 +212,7 @@
             <div class="formaPago">
                 <h6>La forma rápida de pagar</h6>
                 <br>
-                <div id="paypalDiv"></div>
+                <div id="paypalDiv" class="d-block ml-auto mr-auto" style="width:80%"></div>
             </div>
         </div>
         <div class="d-flex d-block mr-auto ml-auto">
@@ -481,5 +483,6 @@
         .formaPago img{
             width: 50px;
         }
+
     }
 </style>

@@ -63,6 +63,11 @@
             padding: 15px;
         }
 
+        .repeticion{
+            width: 120px;
+            margin: 2px;
+        }
+
     </style>
 @endsection
 @section('content')
@@ -270,8 +275,12 @@
                                    v-model="ejercicio.ejercicio"/>
                             <hr>
                             <div class="d-flex flex-wrap">
-                                <input class="form-control col-sm-6" v-for="subserie in ejercicio.subseries"
-                                       v-model="subserie.repeticiones"/>
+                                <div v-for="(subserie, isubserie) in ejercicio.subseries" class="repeticion">
+                                    <input type="number" min="1" max="99" class="form-control"
+                                           v-model="subserie.repeticiones"/>
+                                    <form-error :name="modo+'.'+iserie+'.ejercicios.'+iejercicio+'.subseries.'+isubserie+'.repeticiones'"
+                                                :errors="errors"></form-error>
+                                </div>
                             </div>
                             <form-error :name="modo+'.'+iserie+'.ejercicios.'+iejercicio+'.video'"
                                         :errors="errors"></form-error>

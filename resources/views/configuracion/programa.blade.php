@@ -155,7 +155,7 @@
                         if (dia.ejerciciosG[modo] == null) {
                             dia.ejercicios = "Sin ejercicios";
                         } else {
-                            dia.ejercicios = _.head(dia.ejerciciosG[modo]).map(function (ejercicio) {
+                            dia.ejercicios = Object.values(dia.ejerciciosG[modo])[0].map(function (ejercicio) {
                                 return ejercicio.ejercicio;
                             }).join(' , ');
                         }

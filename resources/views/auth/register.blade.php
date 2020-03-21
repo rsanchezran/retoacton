@@ -65,6 +65,9 @@
             display: block;
             margin: auto
         }
+        .paypal-buttons-context-iframe{
+            min-width: 100% !important;
+        }
 
     </style>
 @endsection

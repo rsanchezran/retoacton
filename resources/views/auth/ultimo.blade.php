@@ -15,6 +15,9 @@
             background-repeat: no-repeat;
             background-position: center;
         }
+        .paypal-buttons-context-iframe{
+            min-width: 100% !important;
+        }
     </style>
 @endsection
 @section('content')

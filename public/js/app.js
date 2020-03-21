@@ -1927,8 +1927,9 @@ __webpack_require__.r(__webpack_exports__);
         style: {
           color: "silver",
           layout: 'horizontal',
-          fundingicons: 'false',
-          tagline: 'false'
+          tagline: 'false',
+          shape: 'rect',
+          size: 'responsive'
         },
         funding: {
           disallowed: [paypal.FUNDING.CREDIT, paypal.FUNDING.CARD]
@@ -1956,6 +1957,7 @@ __webpack_require__.r(__webpack_exports__);
           });
         }
       }).render('#paypalDiv');
+      $("#buttons-container").addClass(".buttons-container");
     });
   }
 });
@@ -50170,7 +50172,11 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("br"),
       _vm._v(" "),
-      _c("div", { attrs: { id: "paypalDiv" } })
+      _c("div", {
+        staticClass: "d-block ml-auto mr-auto",
+        staticStyle: { width: "80%" },
+        attrs: { id: "paypalDiv" }
+      })
     ])
   }
 ]
@@ -63762,8 +63768,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/pruebas/Documentos/code/acton/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/pruebas/Documentos/code/acton/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/lapzarin/Documents/code/acton/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/lapzarin/Documents/code/acton/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

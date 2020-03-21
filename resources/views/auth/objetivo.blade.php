@@ -1,6 +1,11 @@
 @extends('layouts.welcome')
 @section('header')
     <style>
+
+        .paypal-buttons-context-iframe{
+            min-width: 100% !important;
+        }
+
         .scrolldown.animate-active{
             position: absolute;
             -webkit-animation: fadeIn 1s;

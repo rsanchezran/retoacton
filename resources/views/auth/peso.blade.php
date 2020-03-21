@@ -25,6 +25,9 @@
         h6 {
             color: #929292;
         }
+        .paypal-buttons-context-iframe{
+            min-width: 100% !important;
+        }
     </style>
 @endsection
 @section('content')
