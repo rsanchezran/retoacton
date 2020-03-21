@@ -451,14 +451,22 @@ class HomeController extends Controller
         return view('auth.terminos');
     }
 
-    public function contacto()
+    public function contacto($id=null)
     {
-        $contacto = new Contacto();
-        $contacto->nombres = "";
-        $contacto->apellidos = "";
-        $contacto->email = "";
-        $contacto->telefono = "";
-        $contacto->objetivo = "";
+        if ($id === null) {
+            $contacto = new Contacto();
+            $contacto->nombres = "";
+            $contacto->apellidos = "";
+            $contacto->email = "";
+            $contacto->telefono = "";
+            $contacto->objetivo = "";
+        }else{
+            $contacto = User::find($id);
+            $contactoDB = Contacto::where('email', $contacto->email)->first();
+            $contacto->nombres = $contacto->name;
+            $contacto->apellidos = $contacto->last_name??'';
+            $contacto->telefono = $contactoDB==null?'':$contactoDB->telefono;
+        }
         $contacto->mensaje = "";
         return view('auth.contacto', ["contacto" => $contacto, 'objetivos' => Objetivo::all()]);
     }

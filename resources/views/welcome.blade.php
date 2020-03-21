@@ -238,6 +238,11 @@
             margin: 1px;
         }
 
+        #desicion{
+            margin-top: 180px;
+            margin-bottom: 180px;
+        }
+
         #finanzas {
             padding: 20px 0px 80px 40px;
             background-image: url("{{asset('img/rayoback.png')}}");
@@ -799,71 +804,7 @@
                 </div>
             </div>
             <div class="section">
-{{--                <div id="audios" class="d-flex flex-wrap">--}}
-{{--                    <div class="col-sm-6 col-md-5 col-lg-4 col-12 d-flex align-items-center"--}}
-{{--                         style="padding-bottom: 0; padding-left: 0">--}}
-{{--                        <div>--}}
-{{--                            <div class="d-block ml-auto mr-auto" style="width: max-content;">--}}
-{{--                                <div class="d-flex">--}}
-{{--                                    <img src="{{asset('img/trofeoazul.png')}}" alt="trofeo" height="60">--}}
-{{--                                    <div>--}}
-{{--                                        <h4 class="text-uppercase font-weight-bold acton text-center">Hemos--}}
-{{--                                            incluido</h4>--}}
-{{--                                        <h4 class="text-uppercase font-weight-bold acton text-center">un bonus para--}}
-{{--                                            ti</h4>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                            <div id="infoAudios" class="d-block ml-auto mr-auto">--}}
-{{--                                <p>Cada día recibirás un audio de contenido interesante sobre motivación y desarrollo--}}
-{{--                                    personal, a lo largo de las 8 semanas</p>--}}
-{{--                                <p>El objetivo de estos audios es que te des cuenta que tu vida es el resultado de tus--}}
-{{--                                    creencias</p>--}}
-{{--                                <p>Si modificas tus creencias; transformas tu realidad.</p>--}}
-{{--                                <p class="font-weight-bold" style="color:#005d9c">¿Qué descubrirás en estos audios?</p>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                    <div class="col-sm-5 col-md-5 col-lg-4 col-12">--}}
-{{--                        <div class="d-flex flex-column">--}}
-{{--                            <div class="semana">--}}
-{{--                                <h6 class="font-weight-bold">SEMANA 1</h6>--}}
-{{--                                <p>Convéncete ya: Creer es crear</p>--}}
-{{--                            </div>--}}
-{{--                            <div class="semana">--}}
-{{--                                <h6 class="font-weight-bold">SEMANA 2</h6>--}}
-{{--                                <p>Desarrolla una mentalidad inquebrantable</p>--}}
-{{--                            </div>--}}
-{{--                            <div class="semana">--}}
-{{--                                <h6 class="font-weight-bold">SEMANA 3</h6>--}}
-{{--                                <p>Cultiva la consciencia de tu existencia</p>--}}
-{{--                            </div>--}}
-{{--                            <div class="semana">--}}
-{{--                                <h6 class="font-weight-bold">SEMANA 4</h6>--}}
-{{--                                <p>Descubre la conexión con tu mundo interno y externo</p>--}}
-{{--                            </div>--}}
-{{--                            <div class="semana">--}}
-{{--                                <h6 class="font-weight-bold">SEMANA 5</h6>--}}
-{{--                                <p>Mentalidad de abundancia: Dinero, Amor, Salud</p>--}}
-{{--                            </div>--}}
-{{--                            <div class="semana">--}}
-{{--                                <h6 class="font-weight-bold">SEMANA 6</h6>--}}
-{{--                                <p>Construye una vida extraordinaria</p>--}}
-{{--                            </div>--}}
-{{--                            <div class="semana">--}}
-{{--                                <h6 class="font-weight-bold">SEMANA 7</h6>--}}
-{{--                                <p>El impacto de las emociones</p>--}}
-{{--                            </div>--}}
-{{--                            <div class="semana">--}}
-{{--                                <h6 class="font-weight-bold">SEMANA 8</h6>--}}
-{{--                                <p>Aprende una forma diferente de vivir</p>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-                <div id="curva">
-
-                </div>
+                <div id="curva"></div>
                 <div id="pipo" class="d-flex flex-wrap">
                     <div class="col-sm-5 col-5" id="pipoDiv">
                         <img id="pipoImg" src="{{asset('img/pipo.png')}}">
@@ -888,6 +829,12 @@
                                 style="font-style: oblique"><span
                                     class="turquesa">Tu momento </span> es hoy</h6>
                         </div>
+                    </div>
+                </div>
+                <div id="desicion" class="section container text-center">
+                    <div class="col-12 col-sm-9 mr-auto ml-auto">
+                        <h6 class="text-uppercase bigger thin" style="color:#929494">Estas a una decisión</h6>
+                        <h6 class="text-uppercase font-weight-bold biggest">De cambiarlo todo</h6>
                     </div>
                 </div>
                 <div id="finanzas" class="d-flex flex-wrap">
@@ -973,7 +920,7 @@
                                 <br>
                                 <div class="d-flex" style="align-items: center">
                                     <div id="trofeobonus">
-                                        <span id="otrobonus" class="text-uppercase">OTRO BONUS</span>
+                                        <span id="otrobonus" class="text-uppercase">BONUS</span>
                                         <br>
                                     </div>
                                     <div>
@@ -1169,8 +1116,9 @@
                         <i :class="'fas fa-sort-'+(!faqs.reto?'down':'up')+' float-right'"></i>
                     </div>
                     <p class="subinfo" v-show="faqs.reto">
-                        Es un programa de transformación personal de 8 semanas en el cual se te dan las
-                        herramientas necesarias para lograr la mejor version de ti en 56 días.
+                        Es un programa de transformación personal de 8 semanas en el cual
+                        se te dan las herramientas necesarias para lograr la mejor version de
+                        ti en 56 días.
                     </p>
                 </div>
                 <hr>
@@ -1180,14 +1128,15 @@
                         <i :class="'fas fa-sort-'+(!faqs.diferente?'down':'up')+' float-right'"></i>
                     </div>
                     <p class="subinfo" v-show="faqs.diferente">
-                        A diferencia de la mayoría de los programas similares que existen, donde se les da una
-                        misma dieta a todos los participantes, en el RETO ACTON tus dietas son
-                        específicamente planeadas para ti, es decir, nunca serán igual a la de algún otro
-                        participante, ya que son 100% personalizadas.
-                        Otra gran diferencia es que no nos enfocamos únicamente en el físico sino también en la salud
-                        mental.
-                        Además el reto acton te da la oportunidad de generar ingresos, por lo tanto todos
-                        pueden ganar premios en efectivo y no solo unas cuantas personas.
+                        A diferencia de otros programas donde se les da una misma dieta a
+                        todos los participantes, en el RETO ACTON el plan de alimentación es
+                        específicamente planeado para ti, es decir, nunca será igual al de al-
+                        gún otro participante. Además este reto te da la oportunidad de ganar
+                        dinero diariamente, es decir, todos pueden obtener premios en efecti-
+                        vo. ¡Aquí todos ganan!
+                        También habrá un grupo privado de Facebook donde podrás interac-
+                        tuar con otros participantes y ayudarse unos con otros para mantener
+                        la motivación.
                     </p>
                 </div>
                 <hr>
@@ -1210,9 +1159,9 @@
                         <i :class="'fas fa-sort-'+(!faqs.finalizar?'down':'up')+' float-right'"></i>
                     </div>
                     <p class="subinfo" v-show="faqs.finalizar">
-                        Otra de las ventajas que tienes al inscribirte al RETO ACTON es que, una vez que lo
-                        finalizas tienes la oportunidad de obtener un seguimiento mensual para mantener la
-                        motivación y este estilo de vida
+                        Otra de las ventajas que tienes en el RETO ACTON es que, una vez
+                        que lo finalizas tienes la oportunidad de obtener un seguimiento
+                        mensual y así mantener los avances y seguir mejorando
                     </p>
                 </div>
                 <hr>
@@ -1222,9 +1171,9 @@
                         <i :class="'fas fa-sort-'+(!faqs.dudas?'down':'up')+' float-right'"></i>
                     </div>
                     <p class="subinfo" v-show="faqs.dudas">
-                        Sí, contamos con soporte para las dudas que pudieran surgir del programa, el cual estará
-                        disponible
-                        en horarios de lunes a viernes de 9:00 am a 6:00 pm y sábados de 10:00 am a 2:00 pm
+                        Sí, contamos con soporte para aclarar tus dudas, el cual estará dis-
+                        ponible de lunes a viernes de 9:00 am a 6:00 pm y sábados de 10:00
+                        am a 2:00 pm
                     </p>
                 </div>
                 <hr>
@@ -1236,7 +1185,8 @@
                         <i :class="'fas fa-sort-'+(!faqs.mundo?'down':'up')+' float-right'"></i>
                     </div>
                     <p class="subinfo" v-show="faqs.mundo">
-                        Sí, como el programa es 100% en línea puedes empezarlo desde cualquier parte
+                        Sí, como el programa es 100% en línea puedes empezarlo desde
+                        cualquier lugar.
                     </p>
                 </div>
             </div>

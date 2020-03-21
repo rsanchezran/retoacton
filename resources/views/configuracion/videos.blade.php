@@ -54,7 +54,7 @@
         </div>
     </div>
 
-    <template id="temp-videos">
+    <template id="videos-template">
         <div>
             <div v-if="loading">
                 <span>Procesando información</span>
@@ -101,9 +101,17 @@
                         <div v-for="(categoria, index) in categorias">
                             <div class="d-flex">
                                 <div class="col-6">
-                                    <span v-if="categoria.nueva" class="small float-right">Categoria(@{{ categoria.nombre.length }}/20)</span>
-                                    <input maxlength="20" v-if="categoria.nueva" class="form-control" v-model="categoria.nombre"/>
-                                    <h6 v-else class="col-4">@{{ categoria.nombre }}</h6>
+                                    <div v-if="categoria.nueva">
+                                        <span class="small float-right">Categoria(@{{ categoria.nombre.length }}/20)</span>
+                                        <input maxlength="20" class="form-control" v-model="categoria.nombre" @blur="subirCategoria(categoria)"/>
+                                        <form-error name="nombre" :errors="errors"></form-error>
+                                    </div>
+                                    <div v-else class="d-flex justify-content-between">
+                                        <h6 class="col-4">@{{ categoria.nombre }}</h6>
+                                        <button class="btn btn-sm" @click="categoria.nueva=true">
+                                            <i class="fa fa-edit"></i>
+                                        </button>
+                                    </div>
                                 </div>
                                 <div class="col-4">
                                     <label :for="'file'+index" :class="loading?'disabled':''"
@@ -192,14 +200,14 @@
 @section('scripts')
     <script>
         Vue.component('inicio', {
-            template: '#temp-videos',
+            template: '#videos-template',
             props: ['p_videos', 'p_categorias', 'p_pendientes'],
             data: function () {
                 return {
                     categorias: [],
                     pendientes: [],
                     prueba: '',
-                    errors: [],
+                    errors: {},
                     loading: false,
                     buscando: false,
                     mostrarPendientes: true,
@@ -222,9 +230,19 @@
                 cambiarVisualizacion: function (categoria) {
                     categoria.mostrar = !categoria.mostrar;
                 },
-                subirEjercicios: function (event, categoria) {
-                    this.categoria = categoria;
+                subirCategoria: function(categoria){
                     let vm = this;
+                    axios.post("{{url('/configuracion/categoria')}}", categoria).then(function (respuesta) {
+                        vm.loading = false;
+                        categoria.nueva = false;
+                    }).catch(function (error) {
+                        vm.loading = false;
+                        vm.errors = error.response.data.errors;
+                    });
+                },
+                subirEjercicios: function (event, categoria) {
+                    let vm = this;
+                    this.categoria = categoria;
                     vm.errors = {};
                     vm.loading = true;
                     let files = event.target.files;

@@ -23,6 +23,7 @@ use App\User;
 use App\UsuarioDieta;
 use Carbon\Carbon;
 use Conekta\Util;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -69,27 +70,37 @@ class ConfiguracionController extends Controller
         return "ok";
     }
 
+    public function saveCategoria(Request $request){
+        $this->validate($request, [
+            'nombre'=>'min:2|max:20|unique:categorias,nombre'
+        ],[
+            'nombre.min'=>'El nombre debe tener minimo 5 caracteres',
+            'nombre.max'=>'El nombre debe tener maximo 20 caracteres',
+            'nombre.unique'=>'Este nombre ya se encuentra en uso',
+        ]);
+        $categoria = Categoria::find($request->id);
+        if ($categoria == null) {
+            $categoria = new Categoria();
+        }
+        $categoria->nombre = str_replace(' ', '_', substr(strtolower($request->nombre), 0, 20));
+        $categoria->save();
+    }
+
     public function saveEjercicio(Request $request)
     {
         $this->authorize('configurar.videos');
-        $categoria = Categoria::find($request->categoria);
-        if ($categoria == null) {
-            $categoria = new Categoria();
-            $categoria->nombre = str_replace(' ', '_', substr(strtolower($request->nombre), 0, 20));
-            $categoria->save();
-        }
-        $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [], []);
-        $validator->after(function ($validator) use ($request, $categoria) {
+        $validator = Validator::make($request->all(), [], []);
+        $validator->after(function ($validator) use ($request) {
             $size = 0;
             foreach ($request->archivos as $archivo) {
                 $extension = $archivo->getClientOriginalExtension();
                 if ($extension != 'mp4' && $extension != 'zip') {
-                    $validator->errors()->add($categoria->nombre, 'El archivo no tiene el formato mp4 o zip');
+                    $validator->errors()->add($request->categoria, 'El archivo no tiene el formato mp4 o zip');
                 }
                 $size += ((($archivo->getSize() / 1024) / 1024) * 100) / 100;
             }
             if ($size > 320) {
-                $validator->errors()->add($categoria->nombre, 'El tamaño de los videos subidos excede los 320MB');
+                $validator->errors()->add($request->categoria, 'El tamaño de los videos subidos excede los 320MB');
             }
         });
         $validator->validate();

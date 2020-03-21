@@ -175,13 +175,17 @@
                 <div class="col-sm-3">
                     <h5 class="font-weight-bold">ATENCIÓN A CLIENTES</h5>
                     <ul class="list-unstyled">
-                        <li><a href="{{url('contacto')}}"><i class="fa fa-pencil"></i> Dudas</a></li>
+                        @if(\Illuminate\Support\Facades\Auth::guest())
+                            <li><a href="{{url('contacto')}}"><i class="fa fa-pencil"></i> Dudas</a></li>
+                        @else
+                            <li><a href="{{url('contacto/'.\Illuminate\Support\Facades\Auth::user()->id)}}"><i class="fa fa-pencil"></i> Dudas</a></li>
+                        @endif
                     </ul>
                 </div>
                 <div class="col-sm-3">
                     <h5 class="font-weight-bold">SÍGUENOS EN</h5>
                     <ul class="list-unstyled">
-                        <li><a href="https://www.facebook.com/pipolandin/"><i class="fab fa-facebook-square"></i>
+                        <li><a href="https://www.facebook.com/FitnessPipoLandin"><i class="fab fa-facebook-square"></i>
                                 Facebook</a></li>
                         <li><a href="https://www.instagram.com/pipolandin/"><i class="fab fa-instagram"></i> Instagram</a>
                         </li>

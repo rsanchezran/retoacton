@@ -32,7 +32,7 @@ Route::get('/etapa1/{contacto}', 'HomeController@etapa1');
 Route::get('/etapa2/{contacto}', 'HomeController@etapa2');
 Route::get('/etapa3/{contacto}', 'HomeController@etapa3');
 Route::get('/terminos', 'HomeController@terminos');
-Route::get('/contacto', 'HomeController@contacto');
+Route::get('/contacto/{id?}', 'HomeController@contacto');
 Route::post('/contacto', 'HomeController@contactoSave');
 Route::get('/home', 'HomeController@home')->middleware('pago');
 
@@ -65,6 +65,7 @@ Route::group(['prefix' => 'configuracion', 'middleware' => ['auth', 'pago']], fu
     Route::post('quitarEjercicio', 'ConfiguracionController@quitarEjercicio');
     Route::get('getEjerciciosCategoria/{categoria}', 'ConfiguracionController@getEjerciciosCategoria');
     Route::get('getVideosPendientes', 'ConfiguracionController@getVideosPendientes');
+    Route::post('categoria', 'ConfiguracionController@saveCategoria');
 });
 
 Route::group(['prefix' => 'suplementos', 'middleware' => ['auth', 'pago']], function (){
