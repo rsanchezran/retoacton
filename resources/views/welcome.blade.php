@@ -77,10 +77,8 @@
 
         #features .subinfo {
             display: none;
-            /*position: absolute;*/
-            /*height: 200px;*/
             background-color: #F0F0F0;
-            padding: 10px;
+            padding: 4px 10px;
             font-size: .7rem;
             font-family: unitext_light;
             flex-grow: 1;
