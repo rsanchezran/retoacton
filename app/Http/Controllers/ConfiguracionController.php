@@ -381,7 +381,7 @@ class ConfiguracionController extends Controller
             $contactos = $contactos->where('contactos.email', 'like', "%$campos->email%");
         }
         if ($campos->nombres != '') {
-            $contactos = $contactos->where('contactos.nombres', 'like', "%$campos->nombres%");
+            $contactos = $contactos->where('contactos.nombres', 'like', "%$campos->nombres%")->orWhere('contactos.apellidos','like',"%$campos->nombres%");
         }
         if ($campos->medio != '') {
             $contactos = $contactos->where('contactos.medio', $campos->medio);

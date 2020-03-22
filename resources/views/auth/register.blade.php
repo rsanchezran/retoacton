@@ -91,7 +91,7 @@
                 </select>
                 <div v-if="informacion.medio=='Por medio de un amigo'" class="text-left">
                     <span style="color: #929292">
-                        Si conoces el código de referencia de tu amigo, por favor ingresalo aquí
+                        Si conoces el código de referencia de tu amigo, por favor ingrésalo aquí
                         <i v-if="loading" class="far fa-spinner fa-spin"></i>
                     </span>
                     <input class="form-control col-6 text-center" v-model="informacion.codigo" placeholder="REFERENCIA"

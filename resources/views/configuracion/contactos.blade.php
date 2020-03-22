@@ -26,7 +26,7 @@
                         <div class="col-sm-3">
                             <label>Medio</label>
                             <select class="selectpicker form-control" v-model="filtros.medio" @change="buscar">
-                                <option value="">[Medio]</option>
+                                <option value="">[Todos]</option>
                                 <option v-for="medio in medios" :value="medio">@{{medio}}</option>
                             </select>
                         </div>
@@ -47,7 +47,6 @@
             </div>
             <div class="card">
                 <div class="card-body">
-                    <p>Estas son las personas que registraron sus datos pero no se han inscrito al reto</p>
                     <table class="table">
                         <tr class="table-header">
                             <th></th>
@@ -78,7 +77,7 @@
                                 </button>
                             </td>
                             <td>
-                                <button class="btn btn-sm btn-danger" @click="confirmarContacto(contacto)">
+                                <button v-tooltip="{content:'Eliminar contacto'}" class="btn btn-sm btn-danger" @click="confirmarContacto(contacto)">
                                     <i class="fa fa-trash"></i>
                                 </button>
                             </td>

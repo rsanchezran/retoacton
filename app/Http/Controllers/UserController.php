@@ -157,11 +157,11 @@ class UserController extends Controller
         \DB::beginTransaction();
         $user = User::find($request->id);
         if ($user != null && $user->saldo > 0) {
-            $monto = Compra::join('users','users.id','compras.usuario_id')
-                ->whereNull('compras.deleted_at')->where('users.codigo',$user->referencia)
-                ->where('compras.created_at','<', Carbon::now()->startOfDay())->get('monto')->sum('monto');
+            $monto = Compra::join('users', 'users.id', 'compras.usuario_id')
+                ->whereNull('compras.deleted_at')->where('users.codigo', $user->referencia)
+                ->where('compras.created_at', '<', Carbon::now()->startOfDay())->get('monto')->sum('monto');
             $user->cobrado = 1;
-            $user->saldo = $user->saldo-$monto;
+            $user->saldo = $user->saldo - $monto;
             $user->save();
             $pago = new Pago();
             $pago->monto = $monto;
@@ -180,9 +180,9 @@ class UserController extends Controller
     public function bajar(Request $request)
     {
         $usuario = User::find($request->id);
-        $usuario->pass = '';
         $usuario->num_inscripciones = 0;
-        $usuario->delete();
+        $usuario->deleted_at = Carbon::now();
+        $usuario->save();
         $contacto = Contacto::where('email', $usuario->email)->first();
         if ($contacto !== null) {
             $contacto->delete();
@@ -206,13 +206,13 @@ class UserController extends Controller
         if ($usuario !== null) {
             $compras = Compra::where('usuario_id', $usuario->id)->get()->count();
             $dia = $request->dias_reto;
-            $semana = $dia%7==0?intval($dia/7):intval($dia/7)+1;
-            $numInscrpcion = $semana%4==0?intval($semana/4):intval($semana/4)+1;
-            $nuevaFecha =Carbon::now()->startOfDay();
+            $semana = $dia % 7 == 0 ? intval($dia / 7) : intval($dia / 7) + 1;
+            $numInscrpcion = $semana % 4 == 0 ? intval($semana / 4) : intval($semana / 4) + 1;
+            $nuevaFecha = Carbon::now()->startOfDay();
             $nuevaFecha->subDays($request->dias_reto);
             $usuario->inicio_reto = $nuevaFecha;
             $usuario->fecha_inscripcion = $nuevaFecha;
-            $usuario->num_inscripciones = $numInscrpcion<3?$numInscrpcion: ( $numInscrpcion-1<=$compras? $numInscrpcion-1:$compras);
+            $usuario->num_inscripciones = $numInscrpcion < 3 ? $numInscrpcion : ($numInscrpcion - 1 <= $compras ? $numInscrpcion - 1 : $compras);
             unset($usuario->vencido);
             $usuario->save();
         }
@@ -326,10 +326,10 @@ class UserController extends Controller
         $campos = json_decode($request->campos);
         $usuario = User::find($campos->id);
         if ($usuario !== null) {
-            $compras = Compra::join('users','users.id','compras.usuario_id')
-                ->whereNull('compras.deleted_at')->where('users.codigo',$usuario->referencia)
+            $compras = Compra::join('users', 'users.id', 'compras.usuario_id')
+                ->whereNull('compras.deleted_at')->where('users.codigo', $usuario->referencia)
                 ->orderBy('created_at')
-                ->select(['users.name','users.last_name','compras.monto','compras.created_at'])->paginate(10);
+                ->select(['users.name', 'users.last_name', 'compras.monto', 'compras.created_at'])->paginate(10);
             return $compras;
         }
     }

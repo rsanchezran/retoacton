@@ -116,7 +116,7 @@ class RegisterController extends Controller
             $status = 'error';
             $mensaje = 'Este usuario ya pertenece al RETO ACTON.';
         }else{
-            $contacto = Contacto::where("email", $request->email)->first();
+            $contacto = Contacto::withTrashed()->where("email", $request->email)->first();
             if ($contacto == null) {
                 $contacto = new Contacto();
                 $contacto->email = $request->email;
@@ -127,6 +127,7 @@ class RegisterController extends Controller
             $contacto->telefono = $request->telefono;
             $contacto->medio = $request->medio;
             $contacto->codigo = $request->codigo;
+            $contacto->deleted_at = null;
             $contacto->save();
             $cobro = User::calcularMontoCompra($request->codigo, $request->email,
                 $usuario == null ?? $usuario->created_at,

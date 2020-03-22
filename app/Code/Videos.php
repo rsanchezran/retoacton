@@ -14,6 +14,6 @@ class Videos{
     }
 
     public static function allString(){
-        return collect(['inicio', 'registro', 'objetivo subir', 'objetivo bajar','peso ideal','ultimo','termino']);
+        return collect(['inicio', 'registro', 'objetivo subir', 'objetivo bajar','peso ideal','último','termino']);
     }
 }
