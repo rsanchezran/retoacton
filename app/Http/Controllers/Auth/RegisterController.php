@@ -107,7 +107,7 @@ class RegisterController extends Controller
             }
         });
         $validator->validate();
-        $usuario = User::orderBy('created_at')->where('email', $request->email)->get()->last();
+        $usuario = User::withTrashed()->orderBy('created_at')->where('email', $request->email)->get()->last();
         if ($usuario!=null&&$usuario->id==1){
             $cobro = new \stdClass();
             $cobro->original = 0;
@@ -129,9 +129,9 @@ class RegisterController extends Controller
             $contacto->codigo = $request->codigo;
             $contacto->save();
             $cobro = User::calcularMontoCompra($request->codigo, $request->email,
-                $usuario == null ? null : $usuario->created_at,
-                $usuario == null ? null : $usuario->fecha_inscripcion,
-                $usuario == null ? null : $usuario->inicio_reto);
+                $usuario == null ?? $usuario->created_at,
+                $usuario == null?? $usuario->fecha_inscripcion,
+                $usuario == null ?? $usuario->inicio_reto, $usuario==null??$usuario->deleted_at);
             $mensaje = '';
             $status = 'ok';
             if ($usuario !== null) {

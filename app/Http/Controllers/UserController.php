@@ -181,6 +181,7 @@ class UserController extends Controller
     {
         $usuario = User::find($request->id);
         $usuario->pass = '';
+        $usuario->num_inscripciones = 0;
         $usuario->delete();
         $contacto = Contacto::where('email', $usuario->email)->first();
         if ($contacto !== null) {

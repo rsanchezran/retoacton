@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Administrador',
             'email' => 'contacto@tresfactorial.com',
             'password' => bcrypt('secret'),
-            'referencia' => '00000',
+            'referencia' => '0000000',
             'pagado' => true,
             'rol' => \App\Code\RolUsuario::ADMIN,
             'created_at'=>$now

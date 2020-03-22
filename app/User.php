@@ -20,7 +20,7 @@ class User extends Authenticatable
 {
     use Notifiable;
     use SoftDeletes;
-
+    public $vencido;
     /**
      * The attributes that are mass assignable.
      *
@@ -67,7 +67,7 @@ class User extends Authenticatable
     public static function crear($nombre, $apellidos = '', $email, $tipo, $objetivo, $codigo = '', $monto)
     {
         $pass = Utils::generarRandomString();
-        $usuario = User::withTrashed()->where('email',$email)->first();
+        $usuario = User::withTrashed()->where('email', $email)->first();
         if ($usuario == null) {
             $usuario = User::create([
                 'name' => $nombre,
@@ -87,7 +87,7 @@ class User extends Authenticatable
                 'num_inscripciones' => 1,
 
             ]);
-        }else{
+        } else {
             $usuario->password = Hash::make($pass);
             $usuario->pagado = true;
             $usuario->encuestado = false;
@@ -125,12 +125,12 @@ class User extends Authenticatable
         }
     }
 
-    public static function calcularMontoCompra($codigo, $email, $created_at, $fecha_inscripcion, $inicio_reto)
+    public static function calcularMontoCompra($codigo, $email, $created_at, $fecha_inscripcion, $inicio_reto, $deleted_at)
     {
         $compra = new \stdClass();
         $referenciado = User::where('referencia', $codigo)->where('id', '!=', 1)->first();
         $monto = intval(env('COBRO_ORIGINAL'));
-        if ($created_at == null) {
+        if ($created_at == null || $deleted_at != null) {
             if ($referenciado == null) {
                 $contacto = Contacto::where('email', $email)->first();
                 if ($contacto->etapa == 1) {
@@ -157,7 +157,7 @@ class User extends Authenticatable
         }
         $compra->original = $monto;
         $compra->descuento = $descuento;
-        $compra->monto = round( $monto - ($monto * ($descuento / 100)),2);
+        $compra->monto = round($monto - ($monto * ($descuento / 100)), 2);
         return $compra;
     }
 

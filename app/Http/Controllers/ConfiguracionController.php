@@ -2,31 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Alimento;
 use App\Categoria;
-use App\Code\LugarEjercicio;
 use App\Code\MedioContacto;
-use App\Code\RolUsuario;
 use App\Code\TipoEjercicio;
-use App\Code\TipoFitness;
 use App\Code\Utils;
 use App\Code\Videos;
 use App\Contacto;
 use App\Dia;
 use App\Ejercicio;
-use App\Events\MailEvent;
 use App\Events\ProcesarVideoEvent;
 use App\Notas;
 use App\Serie;
-use App\Suplemento;
 use App\User;
-use App\UsuarioDieta;
 use Carbon\Carbon;
-use Conekta\Util;
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
@@ -95,20 +87,20 @@ class ConfiguracionController extends Controller
             foreach ($request->archivos as $archivo) {
                 $extension = $archivo->getClientOriginalExtension();
                 if ($extension != 'mp4' && $extension != 'zip') {
-                    $validator->errors()->add($request->categoria, 'El archivo no tiene el formato mp4 o zip');
+                    $validator->errors()->add($request->nombre, 'El archivo no tiene el formato mp4 o zip');
                 }
                 $size += ((($archivo->getSize() / 1024) / 1024) * 100) / 100;
             }
             if ($size > 320) {
-                $validator->errors()->add($request->categoria, 'El tamaño de los videos subidos excede los 320MB');
+                $validator->errors()->add($request->nombre, 'El tamaño de los videos subidos excede los 320MB');
             }
         });
         $validator->validate();
-        if (!Storage::disk('local')->exists("/ejercicios/$categoria->nombre")) {
-            Storage::disk('local')->makeDirectory("/ejercicios/$categoria->nombre");
+        if (!Storage::disk('local')->exists("/ejercicios/$request->nombre")) {
+            Storage::disk('local')->makeDirectory("/ejercicios/$request->nombre");
         }
-        if (!Storage::disk('local')->exists("/optimized/$categoria->nombre")) {
-            Storage::disk('local')->makeDirectory("/optimized/$categoria->nombre");
+        if (!Storage::disk('local')->exists("/optimized/$request->nombre")) {
+            Storage::disk('local')->makeDirectory("/optimized/$request->nombre");
         }
         foreach ($request->archivos as $archivo) {
             $extension = $archivo->getClientOriginalExtension();
@@ -121,10 +113,10 @@ class ConfiguracionController extends Controller
                 $archivo->storeAs('ejercicios', $nombreVideo);
                 $zip = new \ZipArchive();
                 $zip->open(storage_path("app/ejercicios/") . $nombreVideo);
-                $zip->extractTo(storage_path("app") . "/ejercicios/$categoria->nombre/");
+                $zip->extractTo(storage_path("app") . "/ejercicios/$request->nombre/");
                 Storage::disk('local')->delete("/ejercicios/$nombreVideo");
             } else {
-                $archivo->storeAs("ejercicios/$categoria->nombre/", "$nombreVideo");
+                $archivo->storeAs("ejercicios/$request->nombre/", "$nombreVideo");
             }
         }
         return response()->json(['status' => 'ok', 'videoNuevo' => $nombreReplace]);

@@ -39,7 +39,6 @@ class ApiController extends Controller
 
     public function webhook(Request $request)
     {
-        Log::info($request->all());
         if (isset($request->data['object'])){
             $object = $request->data['object'];
             if ($object != null) {
@@ -50,7 +49,7 @@ class ApiController extends Controller
                         $cobro = $object["amount"];
                         $contacto = Contacto::where("order_id", $order_id)->first();
                         if ($contacto !== null) {
-                            $usuario = User::where('email', $contacto->email)->first();
+                            $usuario = User::withTrashed()->where('email', $contacto->email)->first();
                             if ($usuario == null) {
                                 User::crear($contacto->nombres, $contacto->apellidos, $contacto->email,
                                     $object["payment_method"]["type"], 0, $contacto->codigo, $cobro);

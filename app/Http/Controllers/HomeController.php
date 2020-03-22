@@ -381,11 +381,11 @@ class HomeController extends Controller
     {
         $urls = collect();
         $photos = Storage::disk('local')->files('public/combos');
-        $usuario = User::orderBy('created_at')->where('email', $contacto->email)->get()->last();
+        $usuario = User::withTrashed()->orderBy('created_at')->where('email', $contacto->email)->get()->last();
         $cobro = User::calcularMontoCompra($contacto->codigo, $contacto->email,
-            $usuario == null ? null : $usuario->created_at,
-            $usuario == null ? null : $usuario->fecha_inscripcion,
-            $usuario == null ? null : $usuario->inicio_reto);
+            $usuario == null ?? $usuario->created_at,
+            $usuario == null ?? $usuario->fecha_inscripcion,
+            $usuario == null ?? $usuario->inicio_reto, $usuario==null??$usuario->deleted_at);
         $mensaje = $usuario == null ? '' : 'Este usuario ya pertenece al RETO ACTON.';
         $pregunta = Pregunta::select('id', 'pregunta', 'opciones')->where('id', TipoRespuesta::PREGUNTAS_REGISTRO[0])->get()->first();
         $pregunta->pregunta = strtolower($pregunta->pregunta);
@@ -408,11 +408,11 @@ class HomeController extends Controller
 
     public function etapa2(Contacto $contacto)
     {
-        $usuario = User::orderBy('created_at')->where('email', $contacto->email)->get()->last();
+        $usuario = User::withTrashed()->orderBy('created_at')->where('email', $contacto->email)->get()->last();
         $cobro = User::calcularMontoCompra($contacto->codigo, $contacto->email,
-            $usuario == null ? null : $usuario->created_at,
-            $usuario == null ? null : $usuario->fecha_inscripcion,
-            $usuario == null ? null : $usuario->inicio_reto);
+            $usuario == null ?? $usuario->created_at,
+            $usuario == null ?? $usuario->fecha_inscripcion,
+            $usuario == null ?? $usuario->inicio_reto, $usuario==null??$usuario->deleted_at);
         $mensaje = $usuario == null ? '' : 'Este usuario ya pertenece al RETO ACTON.';
         $urls = collect();
         $photos = Storage::disk('local')->files('public/combos');
@@ -429,11 +429,11 @@ class HomeController extends Controller
 
     public function etapa3(Contacto $contacto)
     {
-        $usuario = User::orderBy('created_at')->where('email', $contacto->email)->get()->last();
+        $usuario = User::withTrashed()->orderBy('created_at')->where('email', $contacto->email)->get()->last();
         $cobro = User::calcularMontoCompra($contacto->codigo, $contacto->email,
-            $usuario == null ? null : $usuario->created_at,
-            $usuario == null ? null : $usuario->fecha_inscripcion,
-            $usuario == null ? null : $usuario->inicio_reto);
+            $usuario == null ?? $usuario->created_at,
+            $usuario == null?? $usuario->fecha_inscripcion,
+            $usuario == null ?? $usuario->inicio_reto, $usuario==null??$usuario->deleted_at);
         $mensaje = $usuario == null ? '' : 'Este usuario ya pertenece al RETO ACTON.';
         $urls = collect();
         $photos = Storage::disk('local')->files('public/combos');
