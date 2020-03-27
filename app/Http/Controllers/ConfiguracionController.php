@@ -372,7 +372,7 @@ class ConfiguracionController extends Controller
         $contactos = Contacto::leftjoin('users', 'contactos.email', 'users.email')
             ->select(['contactos.id', 'contactos.nombres', 'contactos.apellidos', 'contactos.email',
                 'contactos.telefono', 'contactos.medio', 'contactos.created_at', 'contactos.etapa', 'users.deleted_at'])
-            ->whereNull('contactos.deleted_at');
+            ->whereNull('contactos.deleted_at')->whereNull('users.id');
         if ($campos->email != '') {
             $contactos = $contactos->where('contactos.email', 'like', "%$campos->email%");
         }
