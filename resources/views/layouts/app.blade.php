@@ -178,7 +178,7 @@
                         @if(\Illuminate\Support\Facades\Auth::guest())
                             <li><a href="{{url('contacto')}}"><i class="fa fa-pencil"></i> Dudas</a></li>
                         @else
-                            <li><a href="{{url('contacto/'.\Illuminate\Support\Facades\Auth::user()->id)}}"><i class="fa fa-pencil"></i> Dudas</a></li>
+                            <li><a href="{{url('dudas')}}"><i class="fa fa-pencil"></i> Dudas</a></li>
                         @endif
                     </ul>
                 </div>

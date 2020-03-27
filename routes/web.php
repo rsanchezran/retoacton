@@ -32,10 +32,14 @@ Route::get('/etapa1/{contacto}', 'HomeController@etapa1');
 Route::get('/etapa2/{contacto}', 'HomeController@etapa2');
 Route::get('/etapa3/{contacto}', 'HomeController@etapa3');
 Route::get('/terminos', 'HomeController@terminos');
-Route::get('/contacto/{id?}', 'HomeController@contacto');
+Route::get('/contacto/', 'HomeController@contacto');
 Route::post('/contacto', 'HomeController@contactoSave');
 Route::get('/home', 'HomeController@home')->middleware('pago');
 
+Route::group(['prefix' => 'cuenta', 'middleware' => ['auth', 'pago']], function () {
+    Route::get('dudas', 'HomeController@dudas');
+    Route::post('dudas', 'HomeController@saveDudas');
+});
 Route::group(['prefix' => 'cuenta', 'middleware' => ['auth', 'pago']], function () {
     Route::get('/', 'CuentaController@index');
     Route::post('/', 'CuentaController@save');

@@ -10,6 +10,8 @@ use App\Code\TipoRespuesta;
 use App\Code\ValidarCorreo;
 use App\Contacto;
 use App\Dieta;
+use App\Events\EnviarCorreosEvent;
+use App\Events\EnviarDudasEvent;
 use App\Kits;
 use App\Pregunta;
 use App\Rango;
@@ -451,22 +453,14 @@ class HomeController extends Controller
         return view('auth.terminos');
     }
 
-    public function contacto($id=null)
+    public function contacto()
     {
-        if ($id === null) {
-            $contacto = new Contacto();
-            $contacto->nombres = "";
-            $contacto->apellidos = "";
-            $contacto->email = "";
-            $contacto->telefono = "";
-            $contacto->objetivo = "";
-        }else{
-            $contacto = User::find($id);
-            $contactoDB = Contacto::where('email', $contacto->email)->first();
-            $contacto->nombres = $contacto->name;
-            $contacto->apellidos = $contacto->last_name??'';
-            $contacto->telefono = $contactoDB==null?'':$contactoDB->telefono;
-        }
+        $contacto = new Contacto();
+        $contacto->nombres = "";
+        $contacto->apellidos = "";
+        $contacto->email = "";
+        $contacto->telefono = "";
+        $contacto->objetivo = "";
         $contacto->mensaje = "";
         return view('auth.contacto', ["contacto" => $contacto, 'objetivos' => Objetivo::all()]);
     }
@@ -533,6 +527,46 @@ class HomeController extends Controller
         $contacto->etapa = 1;
         $contacto->medio = "Contacto";
         $contacto->save();
+        event(new EnviarDudasEvent($contacto, 'contacto'));
+        return response()->json(['status' => 'ok', 'redirect' => url('/')]);
+    }
+
+    public function dudas(Request $request){
+        $user = $request->user();
+        $user->mensaje = "";
+        return view('auth.dudas', ["contacto" => $user]);
+    }
+
+    public function saveDudas(Request $request){
+        $validator = Validator::make($request->all(),
+            [
+                'mensaje' => 'required|max:500',
+            ], [
+                'mensaje.required' => 'Es necesario que captures el mensaje que nos quieres dar',
+                'mensaje.max' => 'El mensaje debe ser menor a 500 caracteres',
+            ]);
+        $validator->after(function ($validator) use ($request) {
+            curl_setopt_array($ch = curl_init(), array(
+                    CURLOPT_URL => 'https://www.google.com/recaptcha/api/siteverify',
+                    CURLOPT_POST => TRUE,
+                    CURLOPT_RETURNTRANSFER => TRUE,
+                    CURLOPT_POSTFIELDS => array(
+                        'secret' => env('CAPTCHA_PRIVATE'),
+                        'response' => $request->response,
+                    )
+                )
+            );
+            $response = json_decode(curl_exec($ch));
+            curl_close($ch);
+            if ($response->success != 'true') {
+                $validator->errors()->add('captcha', 'Debes seleccionar el captcha');
+            }
+        });
+        $validator->validate();
+        $contacto = Contacto::where('email', $request->email)->first();
+        $contacto->mensaje = $request->mensaje;
+        $contacto->save();
+        event(new EnviarDudasEvent($contacto, 'cliente'));
         return response()->json(['status' => 'ok', 'redirect' => url('/')]);
     }
 }

@@ -24,6 +24,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\EnviarCorreosEvent' => [
             'App\Listeners\EnviarCorreosEventListener',
         ],
+        'App\Events\EnviarDudasEvent' => [
+            'App\Listeners\EnviarDudasEventListener',
+        ],
     ];
 
     /**

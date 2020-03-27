@@ -1,0 +1,37 @@
+<?php
+
+namespace App\Mail;
+
+use App\Dia;
+use Illuminate\Bus\Queueable;
+use Illuminate\Mail\Mailable;
+use Illuminate\Queue\SerializesModels;
+
+class Duda extends Mailable
+{
+
+    use Queueable, SerializesModels;
+
+    public $contacto;
+    public $tipo;
+
+    public function __construct($contacto, $tipo)
+    {
+        $this->contacto = $contacto;
+        $this->tipo = $tipo;
+    }
+
+    public function build()
+    {
+        $correo = env("EMAIL_DUDAS");
+        if ($this->tipo=='contacto'){
+            $correo = env("EMAIL_PROSPECTO");
+        }
+        $send = $this->from(env('MAIL_ADDRESS'), 'Acton')
+            ->subject("Duda de cliente")
+            ->to(env("EMAIL_DUDAS"));
+        $send->view('correo.duda', ['contacto' => $this->contacto])
+            ->text('correo.duda_plano', ['contacto' => $this->contacto]);
+        return $send;
+    }
+}
