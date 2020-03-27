@@ -34,8 +34,7 @@ class UserController extends Controller
     {
         $this->authorize('usuarios');
         $campos = json_decode($request->campos);
-        $usuarios = User::join('contactos', 'contactos.email', 'users.email')
-            ->where('rol', '!=', RolUsuario::ADMIN)->whereNull('contactos.deleted_at');
+        $usuarios = User::where('rol', '!=', RolUsuario::ADMIN);
 
         if ($campos->nombre != null) {
             $usuarios = $usuarios->where('name', 'like', '%' . $campos->nombre . '%');
@@ -78,7 +77,7 @@ class UserController extends Controller
             $usuarios = $usuarios->whereRaw($consulta);
         }
         $usuarios = $usuarios->orderByDesc('created_at');
-        $usuarios = $usuarios->select(['users.*', 'contactos.medio'])->paginate(20);
+        $usuarios = $usuarios->select(['users.*'])->paginate(20);
         $comision = intval(env('COMISION'));
 
         foreach ($usuarios as $usuario) {

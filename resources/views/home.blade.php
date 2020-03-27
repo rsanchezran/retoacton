@@ -92,9 +92,9 @@
                                     <h6>Estas son las personas que han usado tu código de referencia: </h6>
                                 </div>
                                 <div class="col-12 col-sm-12 col-md-6 d-flex justify-content-end">
-                                    <span class="badge badge-light money" v-tooltip="{content:'Total de amigos ingresados'}">TI <money :caracter="true" :cantidad="''+usuario.total"></money></span>
-                                    <span class="badge badge-light money" v-tooltip="{content:'Total de pagos realizados'}">TR <money :caracter="true" :cantidad="''+usuario.depositado"></money></span>
-                                    <span class="badge badge-light money" v-tooltip="{content:'Total de pagos pendientes'}">TP <money :caracter="true" :cantidad="''+usuario.saldo"></money></span>
+                                    <span class="badge badge-light money" v-tooltip="{content:'Total generado'}">TG <money :caracter="true" :cantidad="''+usuario.total"></money></span>
+                                    <span class="badge badge-light money" v-tooltip="{content:'Total transferido'}">TT <money :caracter="true" :cantidad="''+usuario.depositado"></money></span>
+                                    <span class="badge badge-light money" v-tooltip="{content:'Pendiete por pagar'}">PP <money :caracter="true" :cantidad="''+usuario.saldo"></money></span>
                                 </div>
                             </div>
                             <table class="table" style="margin: 0px;">
