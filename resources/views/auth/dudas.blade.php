@@ -80,7 +80,7 @@
                 enviar: function () {
                     let vm = this;
                     vm.loading = true;
-                    axios.post('{{url('contacto')}}', this.contacto).then(function () {
+                    axios.post('{{url('dudas')}}', this.contacto).then(function () {
                         vm.$refs.modal.showModal();
                         vm.loading = false;
                     }).catch(function (error) {

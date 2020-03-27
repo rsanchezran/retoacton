@@ -17,10 +17,10 @@
                 </div>
                 <hr>
                 <div>
-                    <h5 class="text-center">El costo de Reto Acton en modo reinscripción es de $<money :cantidad="'{{env("COBRO2")}}'"></money>
+                    <h5 class="text-center">El costo de Reto Acton en modo reinscripción es de $<money :cantidad="'{{env("COBRO_REFRENDO")}}'"></money>
                     y estas son las formas de pago:</h5>
                     <br>
-                    <cobro ref="cobro" :cobro="'{{env('COBRO2')}}'" :url="'{{url('/')}}'" :id="'{{env('OPENPAY_ID')}}'"
+                    <cobro ref="cobro" :cobro="'{{env('COBRO_REFRENDO')}}'" :url="'{{url('/')}}'" :id="'{{env('OPENPAY_ID')}}'"
                            :sandbox="'{{env('SANDBOX')}}'==true" :llave="'{{env('OPENPAY_PUBLIC')}}'" :meses="false"
                            @terminado="terminado"></cobro>
                 </div>

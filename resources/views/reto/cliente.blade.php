@@ -138,7 +138,7 @@
                 </div>
             </div>
             <modal ref="imagenModal" :showok="false" :showcancel="false">
-                <img :src="imagen" style="width: 700px">
+                <img :src="imagen" style="width: 700px" width="400">
             </modal>
         </div>
     </template>

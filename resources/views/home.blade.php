@@ -63,13 +63,13 @@
                         <div class="col-12 col-sm-6" align="center" style="border:padding: 5px">
                             <img :src="'{{url('cuenta/getFotografia/'.\Illuminate\Support\Facades\Auth::user()->id.'/'.rand(0,10))}}'"
                                  width="100">
-                            <h4>Código de referencia</h4>
+                            <h4>Código personal</h4>
                             <h4 class="acton">{{\Illuminate\Support\Facades\Auth::user()->referencia}}</h4>
                         </div>
                         <div class="col-12 col-sm-6 d-flex" style="align-items: flex-end;">
                             <div class="d-block ml-auto mr-auto text-center">
-                                <h4>Saldo a favor</h4>
-                                <h4 class="acton">$<money :cantidad="usuario.saldo"></money></h4>
+                                <h4>Mis ganancias</h4>
+                                <h4 class="acton">$<money :cantidad="usuario.total"></money></h4>
                                 <a v-if="usuario.inicio_reto==null" class="btn btn-lg btn-primary" href="{{url('/reto/cliente/')}}">
                                     <span>EMPEZAR RETO</span>
                                 </a>
@@ -79,7 +79,7 @@
                                 <br>
                                 <br>
                                 <a href="{{asset('/assets/cuaderno.pdf')}}" target="_blank">
-                                    <i class="fa fa-file-pdf"></i> Descarga aquí tu cuaderno de trabajo
+                                    <i class="fa fa-file-pdf"></i> Descarga aquí tu manual de apoyo
                                 </a>
                             </div>
                         </div>

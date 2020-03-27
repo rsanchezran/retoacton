@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\EnviarCorreosEvent;
+use App\Events\EnviarDudasEvent;
 use App\Events\MailEvent;
 use App\Mail\Contacto;
 use App\Mail\Contactos;
@@ -29,7 +30,7 @@ class EnviarDudasEventListener implements ShouldQueue
      * @param  MailEvent $event
      * @return void
      */
-    public function handle(EnviarCorreosEvent $event)
+    public function handle(EnviarDudasEvent $event)
     {
         try{
         Mail::queue(new Duda($event->contacto, $event->tipo));

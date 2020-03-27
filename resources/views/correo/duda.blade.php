@@ -18,8 +18,8 @@
 
     <div style="display: inline;  "  >
         <div style="background-color: #edebec; padding: 60px 20px 20px 20px; font-size: 1.4em">
-            <label>{{$usuario->name." ".$usuario->last_name}} tiene la siguiente duda</label>
-            <p>{{$mensaje}}</p>
+            <label>{{$contacto->nombres." ".$contacto->apellidos}} tiene la siguiente duda</label>
+            <p>{{$contacto->mensaje}}</p>
         </div>
     </div>
 @endsection

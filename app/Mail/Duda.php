@@ -29,9 +29,9 @@ class Duda extends Mailable
         }
         $send = $this->from(env('MAIL_ADDRESS'), 'Acton')
             ->subject("Duda de cliente")
-            ->to(env("EMAIL_DUDAS"));
-        $send->view('correo.duda', ['contacto' => $this->contacto])
-            ->text('correo.duda_plano', ['contacto' => $this->contacto]);
+            ->to($correo);
+        $send->view('correo.duda', ['contacto' => $this->contacto, 'email'=>$this->contacto->email])
+            ->text('correo.duda_plano', ['contacto' => $this->contacto,'email'=>$this->contacto->email]);
         return $send;
     }
 }

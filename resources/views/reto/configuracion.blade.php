@@ -137,7 +137,7 @@
             </modal>
             <modal id="fotoModal" ref="fotoModal" :showfooter="false" :btncerrar="true" title="Foto">
                 <div style="padding-top: 15px;">
-                    <img :src="imagen" style="margin: auto; display: block">
+                    <img :src="imagen" style="margin: auto; display: block" width="400">
                 </div>
             </modal>
         </div>
