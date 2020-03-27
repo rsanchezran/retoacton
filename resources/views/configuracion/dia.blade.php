@@ -276,7 +276,7 @@
                             <hr>
                             <div class="d-flex flex-wrap">
                                 <div v-for="(subserie, isubserie) in ejercicio.subseries" class="repeticion">
-                                    <input type="number" min="1" max="99" class="form-control"
+                                    <input class="form-control"
                                            v-model="subserie.repeticiones"/>
                                     <form-error :name="modo+'.'+iserie+'.ejercicios.'+iejercicio+'.subseries.'+isubserie+'.repeticiones'"
                                                 :errors="errors"></form-error>
