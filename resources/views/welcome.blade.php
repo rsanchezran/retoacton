@@ -138,12 +138,9 @@
         }
 
         .testimonio {
-            background-color: #fff;
-            text-align: left;
-            color: #000;
+            text-align: center;
+            color: #fff;
             padding: 10px;
-            height: 180px;
-            margin-bottom: 10px;
         }
 
         #test {
@@ -236,7 +233,7 @@
             margin: 1px;
         }
 
-        #desicion{
+        #desicion {
             margin-top: 180px;
             margin-bottom: 180px;
         }
@@ -957,117 +954,150 @@
                             Historias
                             reales</h6>
                     </div>
-                    <br>
-                    <div v-show="screen<801" id="videosCarousel" class="carousel col-sm-8 mr-auto ml-auto"
-                         data-ride="carousel" style="margin-top:60px;">
+                    <div v-show="screen<801" class="mr-auto ml-auto mt-8">
+                        <div class="d-flex flex-wrap">
+                            <div class="col-12 col-sm-4 testimonio">
+                                <img src="{{asset('images/viviana.png')}}" width="100">
+                                <h6>Maya Walters</h6>
+                                <h5>Culiacán, Sinaloa</h5>
+                                <p>
+                                    Excelentes resultados!,
+                                    Super padre todo el reto. Conoce muchísima gente
+                                    Y mi motivación se elevó al máximo.
+                                    El mejor programa que he hecho!
+                                </p>
+                            </div>
+                            <div class="col-12 col-sm-4 testimonio">
+                                <img src="{{asset('images/fabricio.png')}}" width="100">
+                                <h6>Fabricio Salerno</h6>
+                                <h5>Fortaleza, Brasil</h5>
+                                <p>
+                                    El programa me pareció excelente con
+                                    dietas muy practicas y accesibles, rutinas muy bien
+                                    explicadas y muy buenos resultados.
+                                    Gané dinero desde el primer día.
+                                </p>
+                            </div>
+                            <div class="col-12 col-sm-4 testimonio">
+                                <img src="{{asset('images/vicenteruelas.png')}}" width="100">
+                                <h6>Vicente Ruelas</h6>
+                                <h5>Cocula, Jalisco</h5>
+                                <p>
+                                    “El reto me pareció bastante bueno, muy motivador,
+                                    no me quedaba con hambre, rutinas muy buenas,
+                                    videos muy bien explicados.
+                                    Las atenciones al pie de la letra.
+                                    Muy contento con los resultados!”
+                                </p>
+                            </div>
+                            <div class="col-12 col-sm-4 testimonio">
+                                <img src="{{asset('images/pauline.png')}}" width="100">
+                                <h6>Mariel Casas</h6>
+                                <h5>Barcelona, España</h5>
+                                <p>
+                                    “El plan de compensación es increíble,
+                                    nunca pensé que ganar dinero fuera tan fácil.
+                                    La dieta y rutina estuvieron excelentes y siempre
+                                    resolvieron mis dudas.
+                                    Lo recomiendo mucho!”
+                                </p>
+                            </div>
+                            <div class="col-12 col-sm-4 testimonio">
+                                <img src="{{asset('images/luislazo.png')}}" width="100">
+                                <h6>Luis Lazo</h6>
+                                <h5>Cancun, Quintana Roo</h5>
+                                <p>
+                                    La dieta esta muy rica ya que nunca te ponen
+                                    alimentos que no te gustan, ademas
+                                    la rutina es muy flexible, yo decido qué días quiero
+                                    entrenar en casa y que días entrenar en gym.
+                                    El mejor reto!”
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-show="screen>801" id="carouselVideos" class="col-sm-10" style="margin:60px auto"
+                         class="carousel slide" data-ride="carousel" data-pause="false">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
-                                <video playsinline id="video1" @ended="terminar(1)" controls
-                                       poster="{{asset('/img/luis.png')}}" width="100%">
-                                    <source src="{{asset('/assets/test2.mp4')}}" type="video/mp4"/>
-                                </video>
-                                <div class="testimonio">
-                                    <h5>Luis Lazo</h5>
-                                    <h6>Cancún, Quintana Roo</h6>
-                                    <h6 style="font-size: .8em;font-family: unitext_light; font-weight: bold;">Super
-                                        excelente!,</h6>
-                                    <h6 style="font-size: .8em;font-family: unitext_light; font-weight: bold;">Super
-                                        padre!</h6>
-                                    <h6 style="font-size: .8em;font-family: unitext_light; font-weight: bold;">Vi
-                                        resultados
-                                        super contundentes</h6>
+                                <div class="d-flex flex-wrap">
+                                    <div class="col-12 col-sm-4 testimonio">
+                                        <img src="{{asset('images/viviana.png')}}" width="100">
+                                        <h6>Maya Walters</h6>
+                                        <h5>Culiacán, Sinaloa</h5>
+                                        <p class="text-left">
+                                            Excelentes resultados!,
+                                            Super padre todo el reto. Conoce muchísima gente
+                                            Y mi motivación se elevó al máximo.
+                                            El mejor programa que he hecho!
+                                        </p>
+                                    </div>
+                                    <div class="col-12 col-sm-4 testimonio">
+                                        <img src="{{asset('images/fabricio.png')}}" width="100">
+                                        <h6>Fabricio Salerno</h6>
+                                        <h5>Fortaleza, Brasil</h5>
+                                        <p class="text-left">
+                                            El programa me pareció excelente con
+                                            dietas muy practicas y accesibles, rutinas muy bien
+                                            explicadas y muy buenos resultados.
+                                            Gané dinero desde el primer día.
+                                        </p>
+                                    </div>
+                                    <div class="col-12 col-sm-4 testimonio">
+                                        <img src="{{asset('images/vicenteruelas.png')}}" width="100">
+                                        <h6>Vicente Ruelas</h6>
+                                        <h5>Cocula, Jalisco</h5>
+                                        <p class="text-left">
+                                            “El reto me pareció bastante bueno, muy motivador,
+                                            no me quedaba con hambre, rutinas muy buenas,
+                                            videos muy bien explicados.
+                                            Las atenciones al pie de la letra.
+                                            Muy contento con los resultados!”
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                             <div class="carousel-item">
-                                <video playsinline id="video2" @ended="terminar(2)" controls
-                                       poster="{{asset('/img/miguel.png')}}" width="100%">
-                                    <source src="{{asset('/assets/test3.mp4')}}" type="video/mp4"/>
-                                </video>
-                                <div class="testimonio">
-                                    <h5>Miguel Martínez</h5>
-                                    <h6>Ensenada, Baja California</h6>
-                                    <h6 style="font-size: .8em;font-family: unitext_light; font-weight: bold;">El
-                                        programa
-                                        me pareció muy motivador con dietas muy practicas y accesibles, rutinas muy bien
-                                        explicadas y muy buenos resultados.</h6>
+                                <div class="d-flex flex-wrap">
+                                    <div class="col-12 col-sm-4 testimonio">
+                                        <img src="{{asset('images/pauline.png')}}" width="100">
+                                        <h6>Mariel Casas</h6>
+                                        <h5>Barcelona, España</h5>
+                                        <p class="text-left">
+                                            “El plan de compensación es increíble,
+                                            nunca pensé que ganar dinero fuera tan fácil.
+                                            La dieta y rutina estuvieron excelentes y siempre
+                                            resolvieron mis dudas.
+                                            Lo recomiendo mucho!”
+                                        </p>
+                                    </div>
+                                    <div class="col-12 col-sm-4 testimonio">
+                                        <img src="{{asset('images/luislazo.png')}}" width="100">
+                                        <h6>Luis Lazo</h6>
+                                        <h5>Cancun, Quintana Roo</h5>
+                                        <p class="text-left">
+                                            La dieta esta muy rica ya que nunca te ponen
+                                            alimentos que no te gustan, ademas
+                                            la rutina es muy flexible, yo decido qué días quiero
+                                            entrenar en casa y que días entrenar en gym.
+                                            El mejor reto!”
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="carousel-item">
-                                <video playsinline id="video3" controls poster="{{asset('/img/vicente.png')}}"
-                                       width="100%">
-                                    <source src="{{asset('/assets/test1.mp4')}}" type="video/mp4"/>
-                                </video>
-                                <div class="testimonio">
-                                    <h5>Vicente Ruelas</h5>
-                                    <h6>Cocula, Jalisco</h6>
-                                    <h6 style="font-size: .8em;font-family: unitext_light; font-weight: bold;">"El
-                                        programa
-                                        me pareció bastante bueno, no me quedaba con hambre,
-                                        rutinas muy buenas, videos muy bien explicados. Todo al pie de la
-                                        letra, las atenciones. Muy contento con los resultados"</h6>
-                                </div>
-                            </div>
-                        </div>
-                        <a class="carousel-control-prev" href="#videosCarousel" role="button" data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#videosCarousel" role="button" data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </div>
-                    <div v-show="screen>801" class="col-sm-8 mr-auto ml-auto" style="margin-top:60px;">
-                        <div class="d-flex flex-wrap">
-                            <div class="col-sm-4 col-12 video">
-                                <video playsinline controls poster="{{asset('/img/luis.png')}}" width="100%">
-                                    <source src="{{asset('/assets/test2.mp4')}}" type="video/mp4"/>
-                                </video>
-                                <div class="testimonio">
-                                    <h5>Luis Lazo</h5>
-                                    <h6>Cancún, Quintana Roo</h6>
-                                    <h6 style="font-size: .8em;font-family: unitext_light; font-weight: bold;">Super
-                                        excelente!,</h6>
-                                    <h6 style="font-size: .8em;font-family: unitext_light; font-weight: bold;">Super
-                                        padre!</h6>
-                                    <h6 style="font-size: .8em;font-family: unitext_light; font-weight: bold;">Vi
-                                        resultados
-                                        super contundentes</h6>
-                                </div>
-                            </div>
-                            <div class="col-sm-4 col-12 video">
-                                <video playsinline controls poster="{{asset('/img/miguel.png')}}" width="100%">
-                                    <source src="{{asset('/assets/test3.mp4')}}" type="video/mp4"/>
-                                </video>
-                                <div class="testimonio">
-                                    <h5>Miguel Martínez</h5>
-                                    <h6>Ensenada, Baja California</h6>
-                                    <h6 style="font-size: .8em;font-family: unitext_light; font-weight: bold;">El
-                                        programa
-                                        me pareció muy motivador con dietas muy practicas y accesibles, rutinas muy bien
-                                        explicadas y muy buenos resultados.</h6>
-                                </div>
-                            </div>
-                            <div class="col-sm-4 col-12 video">
-                                <video playsinline controls poster="{{asset('/img/vicente.png')}}" width="100%">
-                                    <source src="{{asset('/assets/test1.mp4')}}" type="video/mp4"/>
-                                </video>
-                                <div class="testimonio">
-                                    <h5>Vicente Ruelas</h5>
-                                    <h6>Cocula, Jalisco</h6>
-                                    <h6 style="font-size: .8em;font-family: unitext_light; font-weight: bold;">"El
-                                        programa
-                                        me pareció bastante bueno, no me quedaba con hambre,
-                                        rutinas muy buenas, videos muy bien explicados. Todo al pie de la
-                                        letra, las atenciones. Muy contento con los resultados"</h6>
-                                </div>
-                            </div>
+                            <a class="carousel-control-prev" href="#carouselVideos" role="button"
+                               data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselVideos" role="button"
+                               data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
                         </div>
                     </div>
-                    <br>
-                    <br>
-                    <br>
-                    <div class="col-10 col-sm-4 col-md-4 text-center d-block mr-auto ml-auto"
+                    <div class="col-10 col-sm-4 col-md-4 text-center d-block mr-auto ml-auto mt-8"
                          style="margin-bottom:40px">
                         <a class="btn btn-primary" href="{{url('register')}}"
                            style="font-family: unitext_bold_cursive; width:100%; padding: 15px">Acepto el reto</a>
