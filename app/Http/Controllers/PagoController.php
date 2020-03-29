@@ -16,6 +16,7 @@ use App\UsuarioKit;
 use Carbon\Carbon;
 use Conekta\Conekta;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class PagoController extends Controller
@@ -180,6 +181,7 @@ class PagoController extends Controller
             try {
                 Mail::queue(new EnviarFicha($contacto, $orden));
             } catch (\Exception $e) {
+                Log::error($e->getMessage());
             }
             return response()->json(['status' => 'ok', 'referencia' => $orden->referencia, 'monto' => $orden->monto,
                 'origen' => $orden->origen]);
