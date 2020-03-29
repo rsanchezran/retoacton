@@ -29,11 +29,8 @@
         }
 
         video {
-            /*object-fit: fill;*/
-            width: 80%;
-            display: flex;
-            flex-direction: column;
-            margin: 0 5px;
+            width: 400px;
+            height: 200px;
         }
 
         textarea {

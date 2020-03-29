@@ -1,10 +1,6 @@
 @extends('layouts.app')
 @section('header')
     <style>
-        video {
-            object-fit: fill;
-        }
-
         .suplemento {
             border-bottom: 1px solid rgba(0, 0, 0, 0.125);
             border-radius: 5px;
@@ -201,7 +197,7 @@
             <modal ref="modal" :showfooter="false" :btncerrar="true" :title="tituloModal">
                 <div style="padding-top: 15px;">
                     <video poster="{{asset('/img/poster.png')}}" preload="none" controls="auto" :src="url"
-                           style="max-width: 20vmax; min-width: 40vmin; display: block; margin: auto"width="400" height="200" >
+                           width="400" height="200" >
                         <source :src="url" type="video/mp4">
                     </video>
                 </div>
