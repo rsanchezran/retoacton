@@ -69,8 +69,8 @@
                         <div class="col-12 col-sm-6 d-flex" style="align-items: flex-end;">
                             <div class="d-block ml-auto mr-auto text-center">
                                 <h4>Mis ganancias</h4>
-                                <h4 class="acton">$<money :cantidad="usuario.total"></money></h4>
-                                <a v-if="usuario.inicio_reto==null" class="btn btn-lg btn-primary" href="{{url('/reto/cliente/')}}">
+                                <h4 class="acton">$<money :cantidad="''+usuario.total"></money></h4>
+                                <a v-if="usuario.ntainicio_reto==null" class="btn btn-lg btn-primary" href="{{url('/reto/cliente/')}}">
                                     <span>EMPEZAR RETO</span>
                                 </a>
                                 <a v-else class="btn btn-lg btn-primary" href="{{url('/reto/programa')}}">
@@ -100,10 +100,21 @@
                             <table class="table" style="margin: 0px;">
                                 <tr v-for="referencia in referenciados.data">
                                     <td>
-                                        <span>@{{ referencia.name }}</span>
-                                        <span>@{{ referencia.email }}</span>
+                                        <div>
+                                            <span>@{{ referencia.name }}</span>
+                                        </div>
+                                        <div>
+                                            <span>@{{ referencia.email }}</span>
+                                        </div>
                                     </td>
-                                    <td><fecha :fecha="referencia.created_at"></fecha></td>
+                                    <td class="text-right">
+                                        <div>
+                                            <fecha :fecha="referencia.created_at"></fecha>
+                                        </div>
+                                        <button v-if="(referencia.num_inscripciones-1) > 0" class="btn btn-sm btn-light" @click="verPagos(referencia)">
+                                            <i class="far fa-calendar-edit"></i> Reinscripciones
+                                        </button>
+                                    </td>
                                 </tr>
                                 <tr v-if="referencias.length==0">
                                     <td>[Todavía no se ha utilizado tu referencia]</td>
@@ -117,6 +128,19 @@
                     </div>
                 </div>
             </div>
+            <modal ref="pagosModal" :title="'Reinscripciones de '+nombre" @ok="refs.pagosModal.closeModal()">
+                <table class="table table-sm">
+                    <tr v-for="pago in pagos">
+                        <td><fecha :fecha="pago.created_at"></fecha></td>
+                        <td v-if="pago.pagado==1">
+                            Pagado <i class="fa fa-check"></i>
+                        </td>
+                        <td v-else>
+                            Pendiente <i class="fa fa-minus"></i>
+                        </td>
+                    </tr>
+                </table>
+            </modal>
         </div>
     </template>
 @endsection
@@ -133,11 +157,13 @@
             props: ['usuario', 'referencias','monto','original','descuento'],
             data: function(){
                 return{
-                referenciados: [],
-                filtros:{
-                    referencia: ''
-                },
-                buscando: false
+                    nombre:'',
+                    referenciados: [],
+                    pagos: [],
+                    filtros:{
+                        referencia: ''
+                    },
+                    buscando: false
             }},
             methods: {
                 loaded: function (referencias) {
@@ -150,6 +176,14 @@
                 },
                 terminado: function () {
                     window.location.href = "{{url('/home')}}";
+                },
+                verPagos: function (referencia) {
+                    let vm = this;
+                    this.nombre = referencia.name;
+                    axios.get('{{url('/verPagos/')}}/'+referencia.id).then(function (response) {
+                        vm.pagos = response.data;
+                        vm.$refs.pagosModal.showModal();
+                    });
                 }
             },
             mounted: function () {

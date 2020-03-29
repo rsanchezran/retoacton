@@ -8,11 +8,13 @@ use App\Code\RolUsuario;
 use App\Code\TipoPago;
 use App\Code\TipoRespuesta;
 use App\Code\ValidarCorreo;
+use App\Compra;
 use App\Contacto;
 use App\Dieta;
 use App\Events\EnviarCorreosEvent;
 use App\Events\EnviarDudasEvent;
 use App\Kits;
+use App\Pago;
 use App\Pregunta;
 use App\Rango;
 use App\User;
@@ -34,12 +36,12 @@ class HomeController extends Controller
         $usuario = User::where('id', $request->user()->id)->get()->first();
         $usuario->total = $usuario->ingresados * $comision;
         $usuario->depositado = $usuario->total - $usuario->saldo;
-        $referencias = User::select(['id', 'name', 'email', 'created_at'])
+        $referencias = User::select(['id', 'name', 'email', 'created_at','num_inscripciones'])
             ->where('codigo', $request->user()->referencia)->whereNotNull('codigo')->get();
         $monto = env('COBRO_REFRENDO');
         $descuento = 0;
         $original = env('COBRO_REFRENDO');
-        return view('home', ['usuario' => ($usuario), 'referencias' => $referencias,
+        return view('home', ['usuario' => $usuario, 'referencias' => $referencias,
             'monto'=>$monto,'descuento'=>$descuento,'original'=>$original]);
     }
 
@@ -569,4 +571,10 @@ class HomeController extends Controller
         event(new EnviarDudasEvent($contacto, 'cliente'));
         return response()->json(['status' => 'ok', 'redirect' => url('/')]);
     }
+
+    public function verPagos(User $user){
+        $pagos = Compra::where('usuario_id',$user->id)->get();
+        return $pagos;
+    }
 }
+

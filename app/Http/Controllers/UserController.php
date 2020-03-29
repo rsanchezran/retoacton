@@ -177,7 +177,7 @@ class UserController extends Controller
 
     public function getReferencias(Request $request)
     {
-        $referencias = User::select(["id", "name", "email", "created_at"])->where('codigo', $request->user()->referencia);
+        $referencias = User::select(["id", "name", "email", "created_at","num_inscripciones"])->where('codigo', $request->user()->referencia);
         return $referencias->paginate(5);
     }
 
@@ -330,7 +330,7 @@ class UserController extends Controller
         $campos = json_decode($request->campos);
         $usuario = User::find($campos->id);
         if ($usuario !== null) {
-            $compras = Compra::join('users', 'users.id', 'compras.usuario_id')->where('pagado',false)
+            $compras = Compra::join('users', 'users.id', 'compras.usuario_id')->where('compras.pagado',false)
                 ->whereNull('compras.deleted_at')->where('users.codigo', $usuario->referencia)
                 ->orderBy('created_at')
                 ->select(['users.name', 'users.last_name', 'compras.monto', 'compras.created_at'])->paginate(10);

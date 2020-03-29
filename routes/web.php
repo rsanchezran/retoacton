@@ -39,6 +39,7 @@ Route::get('/home', 'HomeController@home')->middleware('pago');
 Route::group(['prefix' => '/', 'middleware' => ['auth', 'pago']], function () {
     Route::get('dudas', 'HomeController@dudas');
     Route::post('dudas', 'HomeController@saveDudas');
+    Route::get('verPagos/{user}', 'HomeController@verPagos');
 });
 Route::group(['prefix' => 'cuenta', 'middleware' => ['auth', 'pago']], function () {
     Route::get('/', 'CuentaController@index');
