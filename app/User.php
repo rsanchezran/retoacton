@@ -168,6 +168,9 @@ class User extends Authenticatable
 
     public function refrendarPago($monto, $telefono = null)
     {
+        $mensaje = new \stdClass();
+        $mensaje->subject = "Bienvenido de nuevo al Reto Acton";
+        $mensaje->pass = "";
         $this->objetivo = 0;
         $this->encuestado = false;
         $this->correo_enviado = 0;
@@ -175,6 +178,11 @@ class User extends Authenticatable
         $this->num_inscripciones = $this->num_inscripciones + 1;
         $this->fecha_inscripcion = Carbon::now();
         $this->inicio_reto = Carbon::now();
+        if($this->deleted_at!=null){
+            $pass = Utils::generarRandomString();
+            $this->password = Hash::make($pass);
+            $mensaje->pass = $pass;
+        }
         $this->deleted_at = null;
         $this->save();
         if ($this->codigo != '') {
@@ -184,9 +192,6 @@ class User extends Authenticatable
         $compra->monto = $monto;
         $compra->usuario_id = $this->id;
         $compra->save();
-        $mensaje = new \stdClass();
-        $mensaje->subject = "Bienvenido de nuevo al Reto Acton";
-        $mensaje->pass = "";
         try {
             Mail::queue(new Registro($this, $mensaje));
             $this->correo_enviado = 1;
