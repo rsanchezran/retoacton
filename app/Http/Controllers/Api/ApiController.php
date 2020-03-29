@@ -35,7 +35,6 @@ class ApiController extends Controller
                 $user->email = $usuario->email;
                 $user->inicio_reto = $usuario->inicio_reto;
                 $user->num_inscripciones = $usuario->num_inscripciones;
-                $user->telefono = $usuario->telefono;
                 $user->vencido = $usuario->vencido;
                 return response()->json(['result' => 'ok', 'user' => $user]);
             }
