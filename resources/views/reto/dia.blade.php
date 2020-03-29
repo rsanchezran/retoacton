@@ -160,7 +160,8 @@
                     <h4 class="comida">Cardio</h4>
                     <div style="display: flex; flex-wrap:wrap;" v-if="dia.cardio!=null">
                         <div v-for="ejercicio in dia.cardio" class="ejercicio">
-                            <a @click="mostrarVideo(ejercicio)">@{{ ejercicio.ejercicio }}</a>
+                            <a v-if="ejercicio.video!=''" @click="mostrarVideo(ejercicio)">@{{ ejercicio.ejercicio }}</a>
+                            <span v-else>@{{ ejercicio.ejercicio }}</span>
                         </div>
                     </div>
                     <div v-else>
@@ -197,7 +198,7 @@
             <modal ref="modal" :showfooter="false" :btncerrar="true" :title="tituloModal">
                 <div style="padding-top: 15px;">
                     <video poster="{{asset('/img/poster.png')}}" preload="none" controls="auto" :src="url"
-                           style="max-width: 20vmax; min-width: 40vmin; display: block; margin: auto" height="200" >
+                           style="max-width: 20vmax; min-width: 40vmin; display: block; margin: auto"width="240" height="120" >
                         <source :src="url" type="video/mp4">
                     </video>
                 </div>
