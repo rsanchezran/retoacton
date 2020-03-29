@@ -1,10 +1,8 @@
 @extends('layouts.app')
 @section('header')
     <style>
-        video:-webkit-full-screen {
-            width: 100%;
-            height: 100%;
-            max-height: 100%;
+        video {
+            object-fit: fill;
         }
 
         .suplemento {
