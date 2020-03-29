@@ -156,9 +156,14 @@ class UserController extends Controller
         \DB::beginTransaction();
         $user = User::find($request->id);
         if ($user != null && $user->saldo > 0) {
-            $monto = Compra::join('users', 'users.id', 'compras.usuario_id')
+            $compras = Compra::join('users', 'users.id', 'compras.usuario_id')
                 ->whereNull('compras.deleted_at')->where('users.codigo', $user->referencia)
-                ->where('compras.created_at', '<', Carbon::now()->startOfDay())->get('monto')->sum('monto');
+                ->where('compras.created_at', '<', Carbon::now()->startOfDay())->get();
+            foreach ($compras as $compra) {
+                $compra->pagado = true;
+                $compra->save();
+            }
+            $monto = $compras->count()*intval(env('COMISION'));
             $user->cobrado = 1;
             $user->saldo = $user->saldo - $monto;
             $user->save();
@@ -325,7 +330,7 @@ class UserController extends Controller
         $campos = json_decode($request->campos);
         $usuario = User::find($campos->id);
         if ($usuario !== null) {
-            $compras = Compra::join('users', 'users.id', 'compras.usuario_id')
+            $compras = Compra::join('users', 'users.id', 'compras.usuario_id')->where('pagado',false)
                 ->whereNull('compras.deleted_at')->where('users.codigo', $usuario->referencia)
                 ->orderBy('created_at')
                 ->select(['users.name', 'users.last_name', 'compras.monto', 'compras.created_at'])->paginate(10);

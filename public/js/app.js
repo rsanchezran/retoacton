@@ -2343,7 +2343,7 @@ __webpack_require__.r(__webpack_exports__);
       if (this.cantidad == null) {
         return '';
       } else {
-        if (this.cantidad == '') {
+        if (this.cantidad === '') {
           return '';
         } else {
           return parseFloat(this.cantidad).toFixed(this.decimales).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + this.adicional;

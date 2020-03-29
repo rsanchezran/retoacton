@@ -957,7 +957,7 @@
                     <div v-show="screen<801" class="mr-auto ml-auto mt-8">
                         <div class="d-flex flex-wrap">
                             <div class="col-12 col-sm-4 testimonio">
-                                <img src="{{asset('images/viviana.png')}}" width="100">
+                                <img src="{{asset('images/viviana.png')}}" width="120">
                                 <h6>Maya Walters</h6>
                                 <h5>Culiacán, Sinaloa</h5>
                                 <p>
@@ -968,7 +968,7 @@
                                 </p>
                             </div>
                             <div class="col-12 col-sm-4 testimonio">
-                                <img src="{{asset('images/fabricio.png')}}" width="100">
+                                <img src="{{asset('images/fabricio.png')}}" width="120">
                                 <h6>Fabricio Salerno</h6>
                                 <h5>Fortaleza, Brasil</h5>
                                 <p>
@@ -979,7 +979,7 @@
                                 </p>
                             </div>
                             <div class="col-12 col-sm-4 testimonio">
-                                <img src="{{asset('images/vicenteruelas.png')}}" width="100">
+                                <img src="{{asset('images/vicenteruelas.png')}}" width="120">
                                 <h6>Vicente Ruelas</h6>
                                 <h5>Cocula, Jalisco</h5>
                                 <p>
@@ -991,7 +991,7 @@
                                 </p>
                             </div>
                             <div class="col-12 col-sm-4 testimonio">
-                                <img src="{{asset('images/pauline.png')}}" width="100">
+                                <img src="{{asset('images/pauline.png')}}" width="120">
                                 <h6>Mariel Casas</h6>
                                 <h5>Barcelona, España</h5>
                                 <p>
@@ -1003,7 +1003,7 @@
                                 </p>
                             </div>
                             <div class="col-12 col-sm-4 testimonio">
-                                <img src="{{asset('images/luislazo.png')}}" width="100">
+                                <img src="{{asset('images/luislazo.png')}}" width="120">
                                 <h6>Luis Lazo</h6>
                                 <h5>Cancun, Quintana Roo</h5>
                                 <p>
@@ -1022,7 +1022,7 @@
                             <div class="carousel-item active">
                                 <div class="d-flex flex-wrap">
                                     <div class="col-12 col-sm-4 testimonio">
-                                        <img src="{{asset('images/viviana.png')}}" width="100">
+                                        <img src="{{asset('images/viviana.png')}}" width="120">
                                         <h6>Maya Walters</h6>
                                         <h5>Culiacán, Sinaloa</h5>
                                         <p class="text-left">
@@ -1033,7 +1033,7 @@
                                         </p>
                                     </div>
                                     <div class="col-12 col-sm-4 testimonio">
-                                        <img src="{{asset('images/fabricio.png')}}" width="100">
+                                        <img src="{{asset('images/fabricio.png')}}" width="120">
                                         <h6>Fabricio Salerno</h6>
                                         <h5>Fortaleza, Brasil</h5>
                                         <p class="text-left">
@@ -1044,7 +1044,7 @@
                                         </p>
                                     </div>
                                     <div class="col-12 col-sm-4 testimonio">
-                                        <img src="{{asset('images/vicenteruelas.png')}}" width="100">
+                                        <img src="{{asset('images/vicenteruelas.png')}}" width="120">
                                         <h6>Vicente Ruelas</h6>
                                         <h5>Cocula, Jalisco</h5>
                                         <p class="text-left">
@@ -1060,7 +1060,7 @@
                             <div class="carousel-item">
                                 <div class="d-flex flex-wrap">
                                     <div class="col-12 col-sm-4 testimonio">
-                                        <img src="{{asset('images/pauline.png')}}" width="100">
+                                        <img src="{{asset('images/pauline.png')}}" width="120">
                                         <h6>Mariel Casas</h6>
                                         <h5>Barcelona, España</h5>
                                         <p class="text-left">
@@ -1072,7 +1072,7 @@
                                         </p>
                                     </div>
                                     <div class="col-12 col-sm-4 testimonio">
-                                        <img src="{{asset('images/luislazo.png')}}" width="100">
+                                        <img src="{{asset('images/luislazo.png')}}" width="120mai">
                                         <h6>Luis Lazo</h6>
                                         <h5>Cancun, Quintana Roo</h5>
                                         <p class="text-left">

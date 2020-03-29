@@ -514,7 +514,7 @@ class HomeController extends Controller
             }
         });
         $validator->validate();
-        $contacto = Contacto::where('email', $request->email)->first();
+        $contacto = Contacto::withTrashed()->where("email", $request->email)->first();
         if ($contacto === null) {
             $contacto = new Contacto();
             $contacto->email = $request->email;

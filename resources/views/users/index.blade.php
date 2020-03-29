@@ -154,9 +154,11 @@
                     <span><b>No. Tarjeta : </b>@{{ usuario.tarjeta==null?'[Este cliente no ha registrado su tarjeta]':usuario.tarjeta }}</span>
                     <span><b>Cantidad a pagar : </b> $<money :cantidad="''+usuario.pagar"></money></span>
                 </div>
-                <table class="table">
+                <table class="table mt-2">
                     <tr v-for="compra in referencias.data">
-                        <td :class="'badge badge-'+(compra.activo?'default':'info')">@{{compra.name+' '+compra.last_name}}</td>
+                        <td>
+                            <span :class="'label label-'+(compra.activo?'default':'info')">@{{compra.name+' '+compra.last_name}}</span>
+                        </td>
                         <td><fecha :fecha="compra.created_at"></fecha></td>
                         <td><money :cantidad="compra.monto"></money></td>
                     </tr>
