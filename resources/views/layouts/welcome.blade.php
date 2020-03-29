@@ -180,7 +180,7 @@
 </div>
 <footer>
     <div class="container">
-        <div class="row">
+        <div class="d-flex flex-wrap">
             <div class="col-sm-3">
                 <h5>ATENCIÓN A CLIENTES</h5>
                 <ul class="list-unstyled">
