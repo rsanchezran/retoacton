@@ -15,7 +15,7 @@
     <div style="display: inline;">
         <div class="opps" v-if="pago=='oxxo'&&response.referencia!=''">
             <div class="opps-header">
-                <div class="opps-reminder">Ficha digital. No es necesario imprimir.</div>
+                <div class="opps-reminder">Ficha digital. No es necesario imprimir. id:2020-03-29-18:05:29:732t</div>
                 <div class="opps-info">
                     <div class="opps-brand">
                         <img src="{{asset("img/$orden->origen.png")}}" alt="{{$orden->origen}}" width="100">
