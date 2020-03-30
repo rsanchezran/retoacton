@@ -1,5 +1,5 @@
 Ficha digital. No es necesario imprimir.
-Monto a pagar : $ {{$orden->monto}} MXN
+{{--Monto a pagar : $ {{$orden->monto}} MXN--}}
 Referencia : {{ $orden->referencia }}
 Este código es válido las siguientes 24 horas.
 Instrucciones

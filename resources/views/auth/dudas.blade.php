@@ -20,11 +20,15 @@
         }
 
         .btn-info {
-            background-color: #0084cc;
+            background-color: #2C4574;
             border: 0;
             color: #FFF;
             text-transform: uppercase;
             font-weight: bold;
+        }
+
+        .btn-info:disabled {
+            background-color: #437393;
         }
     </style>
 @endsection
@@ -48,7 +52,7 @@
                     </captcha>
                     <form-error name="captcha" :errors="errors"></form-error>
                 </div>
-                <div>
+                <div class="mt-2 mb-2">
                     <button class="btn btn-info" @click="enviar" :disabled="!ready">
                         <i class="fa fa-paper-plane"></i> Enviar
                     </button>

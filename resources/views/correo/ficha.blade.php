@@ -15,15 +15,15 @@
     <div style="display: inline;">
         <div class="opps" v-if="pago=='oxxo'&&response.referencia!=''">
             <div class="opps-header">
-                <div class="opps-reminder">Ficha digital. No es necesario imprimir. id:2020-03-29-18:05:29:732t</div>
+                <div class="opps-reminder">Ficha digital. No es necesario imprimir.</div>
                 <div class="opps-info">
                     <div class="opps-brand">
                         <img src="{{asset("img/$orden->origen.png")}}" alt="{{$orden->origen}}" width="100">
                     </div>
-                    <div class="opps-ammount">
-                        <h3>Monto a pagar</h3>
-                        <h2>$ {{$orden->monto}} <sup>MXN</sup></h2>
-                    </div>
+{{--                    <div class="opps-ammount">--}}
+{{--                        <h3>Monto a pagar</h3>--}}
+{{--                        <h2>$ {{$orden->monto}} <sup>MXN</sup></h2>--}}
+{{--                    </div>--}}
                 </div>
                 <div class="opps-reference">
                     <h3>Referencia</h3>
