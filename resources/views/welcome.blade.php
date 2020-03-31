@@ -234,8 +234,8 @@
         }
 
         #desicion {
-            margin-top: 180px;
-            margin-bottom: 180px;
+            margin-top: 100px;
+            margin-bottom: 100px;
         }
 
         #finanzas {
@@ -830,6 +830,8 @@
                     <div class="col-12 col-sm-9 mr-auto ml-auto">
                         <h6 class="text-uppercase bigger thin" style="color:#929494">Estas a una decisión</h6>
                         <h6 class="text-uppercase font-weight-bold biggest">De cambiarlo todo</h6>
+                        <a class="btn btn-primary text-uppercase mt-4" href="{{url('register')}}"
+                           style="width: 80%; font-family: unitext_bold_cursive; padding: 10px">Quiero entrar al reto</a>
                     </div>
                 </div>
                 <div id="finanzas" class="d-flex flex-wrap">

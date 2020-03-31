@@ -14,7 +14,7 @@
         .ejercicio {
             border-bottom: 1px solid rgba(0, 0, 0, 0.125);
             border-radius: 5px;
-            padding: 10px;
+            padding: 5px;
             box-shadow: 0px -1px 11px -9px black;
             margin: 5px;
         }
@@ -43,8 +43,8 @@
             padding: 10px;
         }
 
-        .col-sm-4{
-            padding-left: 2px;
+        .col-4, .col-2{
+            padding: 2px;
         }
 
         .dia{
@@ -145,8 +145,8 @@
                             </div>
                             <div v-for="ejercicio in serie.ejercicios" class="ejercicio">
                                 <div class="d-flex flex-wrap">
-                                    <a class="col-sm-4" @click="mostrarVideo(ejercicio)">@{{ ejercicio.ejercicio }}</a>
-                                    <div class="col-sm-2" v-for="subserie in ejercicio.subseries">@{{ subserie.repeticiones }}</div>
+                                    <a class="col-4" @click="mostrarVideo(ejercicio)">@{{ ejercicio.ejercicio }}</a>
+                                    <div class="col-2" v-for="subserie in ejercicio.subseries">@{{ subserie.repeticiones }}</div>
                                 </div>
                             </div>
                         </div>
@@ -179,7 +179,7 @@
                             <select class="selectpicker" v-model="semana" @change="mostrarSemana(semana)">
                                 <option v-for="s in p_semana" :value="s">Semana @{{ s }}</option>
                             </select>
-                            <button v-if="maximo>=semana * dias.length" class="btn btn-sm btn-light"
+                            <button v-if="maximo>=semana * dias.length" class="btn btn-sm btn-light mt-2"
                                     @click="mostrarSemana(semana+1)">
                                 <i class="fa fa-arrow-right"></i>
                             </button>

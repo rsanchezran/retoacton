@@ -90,9 +90,9 @@ class PagoController extends Controller
             \DB::beginTransaction();
             $usuario = User::withTrashed()->orderBy('created_at')->where('email', $request->email)->get()->last();
             $cobro = User::calcularMontoCompra($request->pregunta, $request->email,
-                $usuario == null ?? $usuario->created_at,
-                $usuario == null ?? $usuario->fecha_inscripcion,
-                $usuario == null ?? $usuario->inicio_reto, $usuario==null??$usuario->deleted_at)->monto;
+                $usuario == null ? null : $usuario->created_at,
+                $usuario  == null ? null : $usuario->fecha_inscripcion,
+                $usuario == null ? null : $usuario->inicio_reto, $usuario == null ? null : $usuario->deleted_at)->monto;
             $openpay = \Openpay::getInstance(
                 env('OPENPAY_ID'),
                 env('OPENPAY_PRIVATE')
@@ -134,10 +134,10 @@ class PagoController extends Controller
         $this->validarTelefono($request);
         $usuario = User::withTrashed()->orderBy('created_at')->where('email', $request->email)->get()->last();
         $cobro = User::calcularMontoCompra($request->pregunta, $request->email,
-            $usuario == null ?? $usuario->created_at,
-            $usuario == null ?? $usuario->fecha_inscripcion,
-            $usuario == null ??$usuario->inicio_reto,
-            $usuario == null ?? $usuario->deleted_at)->monto;
+            $usuario == null ? null : $usuario->created_at,
+            $usuario == null ? null : $usuario->fecha_inscripcion,
+            $usuario  == null ? null : $usuario->inicio_reto,
+            $usuario == null ? null : $usuario->deleted_at)->monto;
         Conekta::setApiKey(env("CONEKTA_PRIVATE"));
         Conekta::setApiVersion("2.0.0");
         $valid_order =
@@ -198,9 +198,9 @@ class PagoController extends Controller
         $this->validarTelefono($request);
         $usuario = User::withTrashed()->orderBy('created_at')->where('email', $request->email)->get()->last();
         $cobro = User::calcularMontoCompra($request->pregunta, $request->email,
-            $usuario == null ?? $usuario->created_at,
-            $usuario == null ??$usuario->fecha_inscripcion,
-            $usuario == null ??$usuario->inicio_reto, $usuario==null??$usuario->deleted_at)->monto;
+            $usuario == null ? null : $usuario->created_at,
+            $usuario == null ? null : $usuario->fecha_inscripcion,
+            $usuario == null ? null : $usuario->inicio_reto, $usuario == null ? null : $usuario->deleted_at)->monto;
         Conekta::setApiKey(env("CONEKTA_PRIVATE"));
         Conekta::setApiVersion("2.0.0");
         $valid_order =
@@ -259,9 +259,9 @@ class PagoController extends Controller
     {
         $usuario = User::withTrashed()->orderBy('created_at')->where('email', $request->email)->get()->last();
         $cobro = User::calcularMontoCompra($request->pregunta, $request->email,
-            $usuario == null ?? $usuario->created_at,
-            $usuario == null ?? $usuario->fecha_inscripcion,
-            $usuario == null ?? $usuario->inicio_reto, $usuario==null??$usuario->deleted_at)->monto;
+            $usuario == null ? null : $usuario->created_at,
+            $usuario == null ? null : $usuario->fecha_inscripcion,
+            $usuario == null ? null : $usuario->inicio_reto, $usuario == null ? null : $usuario->deleted_at)->monto;
         if ($usuario == null) {
             User::crear($request->nombres, $request->apellidos, $request->email,
                 'paypal', 0, $request->pregunta, $cobro);

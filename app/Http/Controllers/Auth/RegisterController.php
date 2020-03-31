@@ -59,18 +59,8 @@ class RegisterController extends Controller
             $nombre = $nombre[count($nombre) - 1];
             $urls->push(url("getCombo/" . $nombre));
         }
-        $preguntas = Pregunta::select('id', 'pregunta', 'opciones')->where('id', TipoRespuesta::PREGUNTAS_REGISTRO[0])->get()->first();
-        $preguntas->pregunta = strtolower($preguntas->pregunta);
-        $opciones = collect();
-        for ($i = 0, $respuesta = json_decode($preguntas->opciones); $i < count($respuesta); $i++) {
-            $opciones->push([
-                'nombre' => $respuesta[$i],
-                'selected' => false
-            ]);
-        }
-        $preguntas->opciones = $opciones->toArray();
         $medios = MedioContacto::all();
-        return view('auth.register', ['urls' => $urls, 'preguntas' => $preguntas, 'medios' => $medios]);
+        return view('auth.register', ['urls' => $urls, 'medios' => $medios]);
     }
 
     public function saveContacto(Request $request)
@@ -130,9 +120,9 @@ class RegisterController extends Controller
             $contacto->deleted_at = null;
             $contacto->save();
             $cobro = User::calcularMontoCompra($request->codigo, $request->email,
-                $usuario == null ?? $usuario->created_at,
-                $usuario == null?? $usuario->fecha_inscripcion,
-                $usuario == null ?? $usuario->inicio_reto, $usuario==null??$usuario->deleted_at);
+                $usuario == null ? null : $usuario->created_at,
+                $usuario == null ? null : $usuario->fecha_inscripcion,
+                $usuario == null ? null : $usuario->inicio_reto, $usuario== null ? null : $usuario->deleted_at);
             $mensaje = '';
             $status = 'ok';
             if ($usuario !== null) {

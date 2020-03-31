@@ -21,10 +21,10 @@ class Contacto extends Mailable
 
     public function build()
     {
-        if ($this->contacto->etapa == 2) {
+        if ($this->contacto->etapa == 1) {
             $subject = "Hoy es el momento";
             $boton = "MAS INFORMACIÓN";
-        } elseif ($this->contacto->etapa == 3) {
+        } elseif ($this->contacto->etapa == 2) {
             $subject = "Resultado comprobable";
             $boton = "VER SIMULADOR";
         } else {

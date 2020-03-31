@@ -9,6 +9,7 @@ use App\Code\TipoPago;
 use App\Code\TipoRespuesta;
 use App\Code\ValidarCorreo;
 use App\Compra;
+use App\Console\Commands\EnviarCorreos;
 use App\Contacto;
 use App\Dieta;
 use App\Events\EnviarCorreosEvent;
@@ -32,6 +33,7 @@ class HomeController extends Controller
 
     public function home(Request $request)
     {
+        $descuento = 0;
         $comision = intval(env('COMISION'));
         $usuario = User::where('id', $request->user()->id)->get()->first();
         $usuario->total = $usuario->ingresados * $comision;
@@ -39,7 +41,6 @@ class HomeController extends Controller
         $referencias = User::select(['id', 'name', 'email', 'created_at','num_inscripciones'])
             ->where('codigo', $request->user()->referencia)->whereNotNull('codigo')->get();
         $monto = env('COBRO_REFRENDO');
-        $descuento = 0;
         $original = env('COBRO_REFRENDO');
         return view('home', ['usuario' => $usuario, 'referencias' => $referencias,
             'monto'=>$monto,'descuento'=>$descuento,'original'=>$original]);
@@ -370,7 +371,7 @@ class HomeController extends Controller
                 $usuario_kit->save();
             }
         } else { //escoger un solo kit descpues de la reinscripcion
-            $usuario_kit = UsuarioKit::where('user_id', $usuario->id)->get();
+            $usuario_kit = UsuarioKit::withTrawhere('user_id', $usuario->id)->get();
             $kit_1 = $usuario_kit[0];
             $kit_2 = $usuario_kit[1];
             $kit_delete = rand(0, 1);
@@ -387,10 +388,10 @@ class HomeController extends Controller
         $photos = Storage::disk('local')->files('public/combos');
         $usuario = User::withTrashed()->orderBy('created_at')->where('email', $contacto->email)->get()->last();
         $cobro = User::calcularMontoCompra($contacto->codigo, $contacto->email,
-            $usuario == null ?? $usuario->created_at,
-            $usuario == null ?? $usuario->fecha_inscripcion,
-            $usuario == null ?? $usuario->inicio_reto, $usuario==null??$usuario->deleted_at);
-        $mensaje = $usuario == null ? '' : 'Este usuario ya pertenece al RETO ACTON.';
+            $usuario == null ? null : $usuario->created_at,
+            $usuario  == null ? null : $usuario->fecha_inscripcion,
+            $usuario  == null ? null : $usuario->inicio_reto, $usuario == null ? null : $usuario->deleted_at);
+        $mensaje = $usuario  ? '' : 'Este usuario ya pertenece al RETO ACTON.';
         $pregunta = Pregunta::select('id', 'pregunta', 'opciones')->where('id', TipoRespuesta::PREGUNTAS_REGISTRO[0])->get()->first();
         $pregunta->pregunta = strtolower($pregunta->pregunta);
         $opciones = collect();
@@ -414,9 +415,9 @@ class HomeController extends Controller
     {
         $usuario = User::withTrashed()->orderBy('created_at')->where('email', $contacto->email)->get()->last();
         $cobro = User::calcularMontoCompra($contacto->codigo, $contacto->email,
-            $usuario == null ?? $usuario->created_at,
-            $usuario == null ?? $usuario->fecha_inscripcion,
-            $usuario == null ?? $usuario->inicio_reto, $usuario==null??$usuario->deleted_at);
+            $usuario == null ? null : $usuario->created_at,
+            $usuario  == null ? null : $usuario->fecha_inscripcion,
+            $usuario == null ? null : $usuario->inicio_reto, $usuario == null ? null : $usuario->deleted_at);
         $mensaje = $usuario == null ? '' : 'Este usuario ya pertenece al RETO ACTON.';
         $urls = collect();
         $photos = Storage::disk('local')->files('public/combos');
@@ -435,9 +436,9 @@ class HomeController extends Controller
     {
         $usuario = User::withTrashed()->orderBy('created_at')->where('email', $contacto->email)->get()->last();
         $cobro = User::calcularMontoCompra($contacto->codigo, $contacto->email,
-            $usuario == null ?? $usuario->created_at,
-            $usuario == null?? $usuario->fecha_inscripcion,
-            $usuario == null ?? $usuario->inicio_reto, $usuario==null??$usuario->deleted_at);
+            $usuario == null ? null : $usuario->created_at,
+            $usuario == null ? null : $usuario->fecha_inscripcion,
+            $usuario  == null ? null : $usuario->inicio_reto, $usuario == null ? null : $usuario->deleted_at);
         $mensaje = $usuario == null ? '' : 'Este usuario ya pertenece al RETO ACTON.';
         $urls = collect();
         $photos = Storage::disk('local')->files('public/combos');

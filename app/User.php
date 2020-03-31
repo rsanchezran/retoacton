@@ -132,14 +132,24 @@ class User extends Authenticatable
         $monto = intval(env('COBRO_ORIGINAL'));
         if ($created_at == null || $deleted_at != null) {
             if ($referenciado == null) {
-                $contacto = Contacto::where('email', $email)->first();
-                if ($contacto->etapa == 1) {
-                    $descuento = intval(env('DESCUENTO'));
-                } else {
-                    $descuento = intval(env("DESCUENTO" . ($contacto->etapa - 1)));
+                if($created_at==null){
+                    $contacto = Contacto::where('email', $email)->first();
+                    if ($contacto->etapa == 1) {
+                        $descuento = intval(env('DESCUENTO'));
+                    } else {
+                        $descuento = intval(env("DESCUENTO" . ($contacto->etapa - 1)));
+                    }
+                }else{
+                    $monto = intval(env('COBRO_REFRENDO'));
+                    $descuento = 0;
                 }
             } else {
-                $descuento = intval(env('DESCUENTO_REFERENCIA'));
+                if ($deleted_at==null){
+                    $descuento = intval(env('DESCUENTO_REFERENCIA'));
+                }else{
+                    $monto = intval(env('COBRO_REFRENDO'));
+                    $descuento = 0;
+                }
             }
         } else {
             if (self::isNuevo($created_at, $fecha_inscripcion)) {
