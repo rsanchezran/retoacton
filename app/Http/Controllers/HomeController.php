@@ -193,8 +193,9 @@ class HomeController extends Controller
         } else {
             $dietaAnterior = UsuarioDieta::where('usuario_id', $user->id)->where('dieta', '>', 1)->get()->last();
             if ($user->rol == RolUsuario::CLIENTE) {
-                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $dietaAnterior->dieta + 1);
-                $this->agregarKit($user);
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $dietaAnterior == null ? 1 : $dietaAnterior->dieta + 1);
+                $kits = UsuarioKit::where('user_id', $user->id)->get();
+                $this->agregarKit($user, $kits->count() == 0 ? 2 : 1);
             } else {
                 $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 1);
                 $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 2);
@@ -354,30 +355,27 @@ class HomeController extends Controller
     {
         if ($No_kits == 2) {
             $kit_id = Kits::select('id')->where('objetivo', $usuario->objetivo)->where('genero', $usuario->genero)->get();
-            $dias = (int)env('DIAS') / 2;
-            foreach ($kit_id as $index => $kit) { //agregar kits
+            $dias = intval(env('DIAS2') - 1);
+            $dia = -1;
+            foreach ($kit_id as $kit) { //agregar kits
+                $d = $dia + 1;
                 $usuario_kit = new UsuarioKit();
                 $usuario_kit->user_id = $usuario->id;
                 $usuario_kit->kit_id = $kit->id;
-                if ($index == 0) { //fecha para el primer kit
-                    $usuario_kit->fecha_inicio = Carbon::now();
-                    $usuario_kit->fecha_fin = Carbon::now()->addDays($dias);
-                } else { //fecha para los kits siguientes
-                    $usuario_kit->fecha_inicio = Carbon::now()->addDays($dias + 1);
-                    $dias += $dias;
-                    $usuario_kit->fecha_fin = Carbon::now()->addDays($dias);
-                }
+                $usuario_kit->fecha_inicio = Carbon::now()->startOfDay()->addDays($d);
+                $usuario_kit->fecha_fin = Carbon::now()->startOfDay()->addDays($d + $dias);
                 $usuario_kit->save();
+                $dia += $dias;
             }
         } else { //escoger un solo kit descpues de la reinscripcion
-            $usuario_kit = UsuarioKit::where('user_id', $usuario->id)->get();
-            $kit_1 = $usuario_kit[0];
-            $kit_2 = $usuario_kit[1];
-            $kit_delete = rand(0, 1);
-            UsuarioKit::where('id', ($kit_delete == 0 ? $kit_1['id'] : $kit_2['id']))->delete();
-            $kit_elegido = UsuarioKit::where('user_id', $usuario->id);
-            $kit_elegido->fecha_inicio = Carbon::now();
-            $kit_elegido->fecha_inicio = Carbon::now()->addDays((int)env('DIAS') / 2);
+            $kits = UsuarioKit::withTrashed()->where('user_id', $usuario->id)->get();
+            $eliminado = rand(0, 1);
+            $restaurado = $eliminado == 0 ? 1 : 0;
+            $kits->get($eliminado)->delete();
+            $kits->get($restaurado)->deleted_at = null;
+            $kits->get($restaurado)->fecha_inicio = Carbon::now();
+            $kits->get($restaurado)->fecha_fin = Carbon::now()->addDays((int)env('DIAS') / 2);
+            $kits->get($restaurado)->save();
         }
     }
 
