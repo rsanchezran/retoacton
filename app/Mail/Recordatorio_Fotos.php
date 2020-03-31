@@ -19,7 +19,7 @@ class Recordatorio_Fotos extends Mailable{
     }
 
     public function build(){
-        $send = $this->from(env('MAIL_ADDRESS'), 'Acton')
+        $send = $this->from(env('MAIL_ADDRESS'), 'Reto Acton')
             ->subject($this->subject)
             ->to($this->datos->email);
         $send->view('correo.recordatorio_fotos', ['email'=>$this->datos->email])
