@@ -69,7 +69,7 @@ class RegisterController extends Controller
         $validator = Validator::make($request->all(), [
             'nombres' => ['required', 'max:100', 'min:2', 'regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ\s]( )?)+$/'],
             'apellidos' => 'required|max:100|min:2|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ\s]( )?)+$/',
-            'email' => 'required|max:100|min:3',
+            'email' => 'required|max:100|min:3|email',
             'telefono' => 'nullable|max:10',
             'referencia' => 'max:7',
         ], [
@@ -87,7 +87,7 @@ class RegisterController extends Controller
             'email.unique' => 'El correo ya ha sido registrado',
             'email.email' => 'El formato no es válido en el correo electrónico',
             'referencia.max' => 'Debe ser menor a 6 caracteres la referencia',
-            'telefono.max' => 'Debe ser menor a 12 caracteres la referencia',
+            'telefono.max' => 'Debe ser menor a 10 caracteres la referencia',
             'telefono.numeric' => 'El campo teléfono debe ser numérico',
             'telefono.integer' => 'No puede ingresar números negativos en el campo teléfono'
         ]);

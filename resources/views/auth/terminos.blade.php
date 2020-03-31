@@ -7,7 +7,7 @@
                 proporcionadas por el Reto Acton</li>
             <li>2. Estos Términos y Condiciones constituyen un contrato que rige la relación entre Reto Acton y los usuarios de los servicios que ingresan en el sitio.
                 Estos Términos y Condiciones se aplican a todo el contenido de este Sitio.</li>
-            <li>3. Un sitio web, a losefectos de estos Términos y condiciones, es un lugar especial en la red mundial de Internet,
+            <li>3. Un sitio web, a los efectos de estos Términos y condiciones, es un lugar especial en la red mundial de Internet,
                 accesible a través de su dirección única donde un conjunto de páginas web se cargan a través del navegador del usuario en la entrada
                 de la dirección web.</li>
             <li>4. Al visitar este sitio web, usted otorga debidamente su total consentimiento para estar sujeto a los Términos y
@@ -21,16 +21,16 @@
                 Siempre que no esté de acuerdo con lo anterior o no quiera estar sujeto a los Términos y Condiciones de este Sitio,
                 no tiene permitido utilizar, visitar ni entablar ninguna relación legal con el sitio.</li>
             <li>6. El sitio es proporcionado por Reto Acton</li>
-            <li>7. Un Cliente, a los fines de estos Términos y Condiciones, puede ser cualquier individuo, sui juris, que esté dispuestoa usar o beneficiarse de los servicios prestados por el Reto Acton</li>
+            <li>7. Un Cliente, a los fines de estos Términos y Condiciones, puede ser cualquier individuo, sui juris, que esté dispuesto a usar o beneficiarse de los servicios prestados por el Reto Acton</li>
             <li>8. Las palabras "usted" y "usuario" se refieren a todas las personas que usan el Sitio.</li>
             <li>10. Una dirección IP es un identificador único,asociado con una computadora, sitio web orecurso de un visitante
                 en particular de una manera que permite la localización en la red global de Internet</li>
         </ul>
         <h3>Cambios en “términos y condiciones”</h3>
         <ul>
-            <li>11. La administración del Sitio se reserva el derecho de cambiar los Términos y Condiciones en cualquier momento
+            <li>11. La administración del Sitio se reserva el derecho de cambiar los "Términos y Condiciones" en cualquier momento
                 sin previo aviso de ninguna manera a sus usuarios y clientes, comprometiéndose a que la parte inferior de la página principal
-                del Reto Acton siempre tenga una conexión con los Términos actuales. Y condiciones".</li>
+                del Reto Acton siempre tenga una conexión con los "Términos actuales y condiciones".</li>
             <li>12. Si continúa utilizando el Sitio después de los cambios, certifica que está de acuerdo con los cambios.</li>
             <li>13. Si no está de acuerdo con los "Términos y condiciones" actuales o cualquier versión posterior, no debe usar el sitio.</li>
         </ul>
@@ -46,16 +46,16 @@
         <ul>
             <li>16. A menos que se establezca lo contrario en estos Términos y condiciones o en línea, cualquier distribución con fines
                 comerciales y / o publicitarios, publicación o uso de este sitio o cualquier información, datos o materiales está estrictamente prohibida.</li>
-            <li>17. El Cliente garantiza y acepta que, al utilizar el Sitioy / o los servicios prestados a través de él, no debería:</li>
+            <li>17. El Cliente garantiza y acepta que, al utilizar el Sitio y / o los servicios prestados a través de él, no debería:</li>
             <li>17.1. Hacerse pasar por otra persona, proporcionando otros datos personales como propios</li>
             <li>17.2. Intentar obtener acceso no autorizado a otros sistemas informáticos a través del Sitio</li>
             <li>17.3. Recopilar direcciones de correo electrónico y / u otros contactos y cualquier información personal o utilizar cualquier otro medio para obtener listas de usuarios u otra información desde o a través del Sitio</li>
-            <li>17.4. Recopilar información en un servidor o base dedatos conectada al Sitio para proporcionar servicios</li>
+            <li>17.4. Recopilar información en un servidor o base de datos conectada al Sitio para proporcionar servicios</li>
             <li>17.5. Usar el Sitio o los servicios proporcionados de una manera que pueda generar sobrecarga, interrupción o daños en el sitio web</li>
             <li>17.6. Utilizar el sitio de una manera que viole los derechos al respecto</li>
             <li>17.7. Utilizar el sitio de una manera que viole la ley aplicable</li>
             <li>18. El cliente acepta que no utilizará el sitio web de una manera que impida que otras partes utilicen el sitio.</li>
-            <li>19.El cliente acepta que los pagos se realizaran a través de la plataforma de pagos OpenPay utilizando una encriptación de 256 bits, para proteger su información.</li>
+            <li>19. El cliente acepta que los pagos se realizaran a través de la plataforma de pagos OpenPay utilizando una encriptación de 256 bits, para proteger su información.</li>
         </ul>
         <h3>Marca</h3>
         <ul>

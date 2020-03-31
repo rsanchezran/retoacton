@@ -1798,6 +1798,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       errors: {},
       acuerdo: false,
+      loading: false,
       response: {
         referencia: '',
         monto: '',
@@ -1944,9 +1945,13 @@ __webpack_require__.r(__webpack_exports__);
           });
         },
         onApprove: function onApprove(data, actions) {
+          vm.loading = true;
+          vm.$refs.pagando.showModal();
           return actions.order.capture().then(function (details) {
             axios.post(vm.url + '/pago/paypal', vm.informacion).then(function (response) {
               if (response.data.status == 'ok') {
+                vm.loading = false;
+                vm.$refs.pagando.closeModal();
                 vm.$refs.pago_confirmado.showModal();
               }
             })["catch"](function (errors) {
@@ -49018,7 +49023,9 @@ var render = function() {
                 { staticClass: "text-center" },
                 [
                   _vm._v("La cantidad a cobrar será de "),
-                  _c("money", { attrs: { cantidad: _vm.cobro, decimales: 0 } })
+                  _c("money", {
+                    attrs: { caracter: true, cantidad: _vm.cobro, decimales: 0 }
+                  })
                 ],
                 1
               ),
@@ -49476,7 +49483,9 @@ var render = function() {
                 { staticClass: "text-center" },
                 [
                   _vm._v("La cantidad a cobrar será de "),
-                  _c("money", { attrs: { cantidad: _vm.cobro, decimales: 0 } })
+                  _c("money", {
+                    attrs: { caracter: true, cantidad: _vm.cobro, decimales: 0 }
+                  })
                 ],
                 1
               ),
@@ -49723,7 +49732,9 @@ var render = function() {
                 { staticClass: "text-center" },
                 [
                   _vm._v("La cantidad a cobrar será de "),
-                  _c("money", { attrs: { cantidad: _vm.cobro, decimales: 0 } })
+                  _c("money", {
+                    attrs: { caracter: true, cantidad: _vm.cobro, decimales: 0 }
+                  })
                 ],
                 1
               ),
@@ -50152,10 +50163,29 @@ var render = function() {
             _vm._v(" "),
             _c("p", [
               _vm._v(
-                "Te hemos enviado un correo con tu usuario y contraseña para que puedas ingresar a tu sesión.\n                Recuerda que al ingresar por primera vez llenarás un cuestionario que te llevarà aproximadamente 5 minutos."
+                "Te hemos enviado un correo con tu usuario y contraseña para que puedas ingresar a tu sesión.\n                Recuerda que al ingresar por primera vez llenarás un cuestionario que te llevará aproximadamente 5 minutos."
               )
             ])
           ])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "modal",
+        {
+          ref: "pagando",
+          attrs: {
+            title: "Aplicando pago con paypal",
+            showok: false,
+            showcancel: false
+          }
+        },
+        [
+          _c("p", [_vm._v("Estamos procesando tu pago con Paypal")]),
+          _vm._v(" "),
+          _vm.loading
+            ? _c("i", { staticClass: "fa fa-spinner fa-spin" })
+            : _vm._e()
         ]
       )
     ],
@@ -63768,8 +63798,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/david/Documentos/code/acton/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/david/Documentos/code/acton/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/lapzarin/Documents/code/acton/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/lapzarin/Documents/code/acton/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

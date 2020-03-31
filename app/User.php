@@ -132,21 +132,21 @@ class User extends Authenticatable
         $monto = intval(env('COBRO_ORIGINAL'));
         if ($created_at == null || $deleted_at != null) {
             if ($referenciado == null) {
-                if($created_at==null){
+                if ($created_at == null) {
                     $contacto = Contacto::where('email', $email)->first();
                     if ($contacto->etapa == 1) {
                         $descuento = intval(env('DESCUENTO'));
                     } else {
                         $descuento = intval(env("DESCUENTO" . ($contacto->etapa - 1)));
                     }
-                }else{
+                } else {
                     $monto = intval(env('COBRO_REFRENDO'));
                     $descuento = 0;
                 }
             } else {
-                if ($deleted_at==null){
+                if ($deleted_at == null) {
                     $descuento = intval(env('DESCUENTO_REFERENCIA'));
-                }else{
+                } else {
                     $monto = intval(env('COBRO_REFRENDO'));
                     $descuento = 0;
                 }
@@ -188,7 +188,7 @@ class User extends Authenticatable
         $this->num_inscripciones = $this->num_inscripciones + 1;
         $this->fecha_inscripcion = Carbon::now();
         $this->inicio_reto = Carbon::now();
-        if($this->deleted_at!=null){
+        if ($this->deleted_at != null) {
             $pass = Utils::generarRandomString();
             $this->password = Hash::make($pass);
             $mensaje->pass = $pass;
@@ -212,7 +212,7 @@ class User extends Authenticatable
 
     public function aumentarSaldo()
     {
-        $usuario = User::where('referencia', $this->codigo)->get()->first();
+        $usuario = User::where('referencia', $this->codigo)->where('id', '!=', 1)->get()->first();
         if ($usuario != null) {
             $usuario->isVencido();
             if (!$usuario->vencido) {

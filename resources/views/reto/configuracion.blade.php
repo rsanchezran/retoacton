@@ -3,6 +3,9 @@
     <style>
         #imagenes img {
             cursor: pointer;
+            width:  180px;
+            height: 180px;
+            object-fit:scale-down;
         }
 
         #informacionModal .modal-content {
