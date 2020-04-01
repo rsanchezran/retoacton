@@ -96,7 +96,7 @@
             display: flex;
             flex-direction: column;
             z-index: 2;
-            color: #0059dd;
+            color: #454545;
             text-justify: distribute;
             text-align: center;
             font-weight: bold;
