@@ -27,7 +27,7 @@ class Duda extends Mailable
         if ($this->tipo=='contacto'){
             $correo = env("EMAIL_PROSPECTO");
         }
-        $send = $this->from(env('MAIL_ADDRESS'), 'Acton')
+        $send = $this->from(env('MAIL_ADDRESS'), 'Reto Acton')
             ->subject("Duda de cliente")
             ->to($correo);
         $send->view('correo.duda', ['contacto' => $this->contacto, 'email'=>$this->contacto->email])

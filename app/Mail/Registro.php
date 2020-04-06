@@ -22,7 +22,7 @@ class Registro extends Mailable
 
     public function build()
     {
-        $send = $this->from(env('MAIL_ADDRESS'), 'Acton')
+        $send = $this->from(env('MAIL_ADDRESS'), 'Reto Acton')
             ->subject($this->mensaje->subject)
             ->to($this->usuario->email);
         $this->usuario->pass = $this->mensaje->pass;

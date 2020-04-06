@@ -31,7 +31,7 @@ class Contacto extends Mailable
             $subject = "Testimonios reales";
             $boton = "VER TESTIMONIOS";
         }
-        $send = $this->from(env('MAIL_ADDRESS'), 'Acton')
+        $send = $this->from(env('MAIL_ADDRESS'), 'Reto Acton')
             ->subject($subject)
             ->to($this->contacto->email);
         $send->view('correo.contacto', ['contacto' => $this->contacto, 'email' => $this->contacto->email, 'boton' => $boton])

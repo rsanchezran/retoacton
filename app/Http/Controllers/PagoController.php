@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Code\Objetivo;
 use App\Code\TipoRespuesta;
+use App\Code\ValidarCorreo;
 use App\Contacto;
 use App\Mail\EnviarFicha;
 use App\Mail\Registro;
@@ -18,6 +19,7 @@ use Conekta\Conekta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 
 class PagoController extends Controller
 {
@@ -37,7 +39,7 @@ class PagoController extends Controller
 
     public function validarOpenpay(Request $request)
     {
-        $this->validate($request, [
+        $validator = Validator::make($request->all(), [
             'nombres' => ['required', 'max:100', 'min:2', 'regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ\s]( )?)+$/'],
             'apellidos' => 'required|max:100|min:2|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ\s]( )?)+$/',
             'email' => 'required|max:100|min:3|email',
@@ -81,6 +83,12 @@ class PagoController extends Controller
             'ano.required' => 'El año es requerido',
             'ano.digits' => 'El año debe tener 2 dígitos',
         ]);
+        $validator->after(function ($validator) use ($request) {
+            if (ValidarCorreo::validarCorreo($request->email)) {
+                $validator->errors()->add("email", "El email debe tener formato correcto");
+            }
+        });
+        $validator->validate();
     }
 
     public function openpay(Request $request)
@@ -273,7 +281,7 @@ class PagoController extends Controller
 
     public function validarTelefono($request)
     {
-        $this->validate($request, [
+        $validator = Validator::make($request->all(), [
             'nombres' => ['required', 'max:100', 'min:2', 'regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ\s]( )?)+$/'],
             'apellidos' => 'required|max:100|min:2|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ\s]( )?)+$/',
             'email' => 'required|max:100|min:3|email',
@@ -305,5 +313,11 @@ class PagoController extends Controller
             'telefono.integer' => 'No puede ingresar números negativos en el teléfono',
             'referencia.min' => 'La referencia debe tener 7 caracteres',
         ]);
+        $validator->after(function ($validator) use ($request) {
+            if (ValidarCorreo::validarCorreo($request->email)) {
+                $validator->errors()->add("email", "El email debe tener formato correcto");
+            }
+        });
+        $validator->validate();
     }
 }

@@ -21,7 +21,7 @@ class Contactos extends Mailable
 
     public function build()
     {
-        $send = $this->from(env('MAIL_ADDRESS'), 'Acton')
+        $send = $this->from(env('MAIL_ADDRESS'), 'Reto Acton')
             ->subject("Reto Acton")
             ->to($this->contactos->pluck('email'));
         $send->view('correo.contacto', ['etapa' => $this->contactos->first()->etapa, 'email'=>''])

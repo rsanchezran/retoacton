@@ -36,7 +36,7 @@ class Dieta extends Mailable
         $diaDB->ejercicios = $this->lugar == LugarEjercicio::GYM ? $diaDB->gym : $diaDB->casa;
         $pdf = \Barryvdh\DomPDF\Facade::loadView('reto.pdf', ['dia' => $diaDB, 'genero' => $this->genero,
             'objetivo' => $this->objetivo, 'lugar' => $this->lugar]);
-        $send = $this->from(env('MAIL_ADDRESS'), 'Acton')
+        $send = $this->from(env('MAIL_ADDRESS'), 'Reto Acton')
             ->subject("Dieta")
             ->to($this->usuario->email);
         $send->view('correo.dieta', ['dia' => $diaDB->dia, 'comidas' => $diaDB->comidas, 'suplementos' => $diaDB->suplementos,
