@@ -9,6 +9,7 @@ use App\Code\TipoPago;
 use App\Code\TipoRespuesta;
 use App\Code\ValidarCorreo;
 use App\Compra;
+use App\Console\Commands\Mailchimp;
 use App\Contacto;
 use App\Dieta;
 use App\Events\EnviarCorreosEvent;
@@ -32,7 +33,6 @@ class HomeController extends Controller
 
     public function home(Request $request)
     {
-        $descuento = 0;
         $comision = intval(env('COMISION'));
         $usuario = User::where('id', $request->user()->id)->get()->first();
         $usuario->total = $usuario->ingresados * $comision;
