@@ -4,11 +4,11 @@ namespace App\Console\Commands;
 
 use App\Code\Utils;
 use App\Contacto;
-use App\Events\EnviarCorreosEvent;
 use App\Mail\Registro;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
@@ -26,13 +26,18 @@ class EnviarCorreos extends Command
     {
         $fecha = Carbon::now();
         $fecha->subDay(1);
+        $mailchimp = new Mailchimp();
+        if (!Cache::has('etapa1.workflow')) {
+            $expiresAt = Carbon::now()->addHours(8);
+            $mailchimp->getAutomations($expiresAt);
+        }
         \DB::beginTransaction();
         $contactos1 = Contacto::leftjoin('users', 'contactos.email', 'users.email')
             ->where(function ($q) {
                 $q->whereNotNull('users.deleted_at');
                 $q->orWhereNull('users.id');
             })->where('contactos.etapa', 1)->where('contactos.created_at', '<', $fecha)
-            ->get(['contactos.id', 'contactos.email', 'contactos.etapa','contactos.nombres','contactos.apellidos'])->keyBy('email');
+            ->get(['contactos.id', 'contactos.email', 'contactos.etapa', 'contactos.nombres', 'contactos.apellidos'])->keyBy('email');
         $contactos2 = Contacto::leftjoin('users', 'contactos.email', 'users.email')
             ->where(function ($q) {
                 $q->whereNotNull('users.deleted_at');
@@ -77,15 +82,22 @@ class EnviarCorreos extends Command
     {
         $mailchimp = new Mailchimp();
         if ($contactos->count() > 0) {
-            if ($etapa==1){ //sucribirlos a mailchimp
-                $lista = $mailchimp->getLista("etapa$etapa");
+            if ($etapa == 1) { //sucribirlos a mailchimp
+                $lista = $mailchimp->getLista("Reto Acton");
                 $mailchimp->enviarMiembros($lista, $contactos);
-                $mailchimp->enviarCorreo($contactos,"d96d201052","485eadb1ae");
-            }else{
-                if ($etapa==2){
-                    $mailchimp->enviarCorreo($contactos,'4b9860bc0f','afc4f1b2a8');
-                }else{
-                    $mailchimp->enviarCorreo($contactos);
+                $mailchimp->enviarCorreo($contactos, Cache::get('etapa1.workflow'), Cache::get('etapa1.queue'));
+            } else {
+                if ($etapa == 2) {
+                    $mailchimp->enviarCorreo($contactos, Cache::get('etapa2.workflow'), Cache::get('etapa2.queue'));
+                } else {
+                    if ($etapa == 3) {
+                        $mailchimp->enviarCorreo($contactos, Cache::get('etapa3.workflow'), Cache::get('etapa3.queue'));
+                    } else {
+                        $lista = $mailchimp->getLista("Reto Acton");
+                        foreach ($contactos as $contacto) {
+                            $mailchimp->quitarMiembro($lista, $contacto->email);
+                        }
+                    }
                 }
             }
             foreach ($contactos as $contacto) {
