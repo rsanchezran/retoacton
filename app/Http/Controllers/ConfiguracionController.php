@@ -7,6 +7,7 @@ use App\Code\MedioContacto;
 use App\Code\TipoEjercicio;
 use App\Code\Utils;
 use App\Code\Videos;
+use App\Console\Commands\EnviarCorreos;
 use App\Contacto;
 use App\Dia;
 use App\Ejercicio;
@@ -490,5 +491,10 @@ class ConfiguracionController extends Controller
         }
         $writer = new Xlsx($spreadsheet);
         $writer->save('php://output');
+    }
+
+    public function enviarCorreos(){
+        $enviarCorreos = new EnviarCorreos();
+        $enviarCorreos->handle();
     }
 }

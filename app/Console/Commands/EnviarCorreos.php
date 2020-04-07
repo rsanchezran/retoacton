@@ -32,7 +32,7 @@ class EnviarCorreos extends Command
                 $q->whereNotNull('users.deleted_at');
                 $q->orWhereNull('users.id');
             })->where('contactos.etapa', 1)->where('contactos.created_at', '<', $fecha)
-            ->get(['contactos.id', 'contactos.email', 'contactos.etapa']);
+            ->get(['contactos.id', 'contactos.email', 'contactos.etapa','contactos.nombres','contactos.apellidos'])->keyBy('email');
         $contactos2 = Contacto::leftjoin('users', 'contactos.email', 'users.email')
             ->where(function ($q) {
                 $q->whereNotNull('users.deleted_at');
@@ -75,13 +75,17 @@ class EnviarCorreos extends Command
 
     public function etapa($etapa, $contactos)
     {
-
+        $mailchimp = new Mailchimp();
         if ($contactos->count() > 0) {
-            if ($etapa < 4) {
-                try {
-                    event(new EnviarCorreosEvent($contactos));
-                } catch (\Exception $e) {
-                    Log::error($e->getMessage());
+            if ($etapa==1){ //sucribirlos a mailchimp
+                $lista = $mailchimp->getLista("etapa$etapa");
+                $mailchimp->enviarMiembros($lista, $contactos);
+                $mailchimp->enviarCorreo($contactos,"d96d201052","485eadb1ae");
+            }else{
+                if ($etapa==2){
+                    $mailchimp->enviarCorreo($contactos,'4b9860bc0f','afc4f1b2a8');
+                }else{
+                    $mailchimp->enviarCorreo($contactos);
                 }
             }
             foreach ($contactos as $contacto) {

@@ -28,9 +28,9 @@ Route::post('webhook', 'Auth\RegisterController@webhook');
 Route::get('buscarReferencia/{referencia}', 'Auth\RegisterController@buscarReferencia');
 
 Route::post('/nuevopago', 'PagoController@nuevoPago');
-Route::get('/etapa1/{contacto}', 'HomeController@etapa1');
-Route::get('/etapa2/{contacto}', 'HomeController@etapa2');
-Route::get('/etapa3/{contacto}', 'HomeController@etapa3');
+Route::get('/etapa1/{email}', 'HomeController@etapa1');
+Route::get('/etapa2/{email}', 'HomeController@etapa2');
+Route::get('/etapa3/{email}', 'HomeController@etapa3');
 Route::get('/terminos', 'HomeController@terminos');
 Route::get('/contacto/', 'HomeController@contacto');
 Route::post('/contacto', 'HomeController@contactoSave');
@@ -56,6 +56,7 @@ Route::group(['prefix' => 'configuracion', 'middleware' => ['auth', 'pago']], fu
     Route::get('contactos/getMensaje/{contacto}', 'ConfiguracionController@getMensaje');
     Route::post('contactos/quitar', 'ConfiguracionController@quitarContacto');
     Route::get('contactos/exportar/{filtros}', 'ConfiguracionController@exportarContactos');
+    Route::post('contactos/enviarCorreos', 'ConfiguracionController@enviarCorreos');
     Route::get('videos', 'ConfiguracionController@videos');
     Route::get('programa', 'ConfiguracionController@programa');
     Route::get('programa/getSemanaEjercicios/{semana}', 'ConfiguracionController@getSemanaEjercicios');

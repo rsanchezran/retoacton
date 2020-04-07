@@ -12,7 +12,10 @@
     <template id="contactos-template">
         <div>
             <div class="card">
-                <div class="card-header"><i class="far fa-users"></i> Listado de contactos</div>
+                <div class="card-header d-flex justify-content-between">
+                    <span><i class="far fa-users"></i> Listado de contactos</span>
+                    <button class="btn btn-sm btn-default" @click="enviarCorreos">Enviar correos</button>
+                </div>
                 <div class="card-body">
                     <div class="d-flex flex-wrap">
                         <div class="col-sm-3">
@@ -157,6 +160,11 @@
                 },
                 exportar: function () {
                     window.open('{{url('/configuracion/contactos/exportar')}}/'+JSON.stringify(this.filtros),'_blank');
+                },
+                enviarCorreos: function () {
+                    let vm = this;
+                    axios.post('{{url('configuracion/contactos/enviarCorreos')}}').then(function (response) {
+                    });
                 }
             },
             mounted:function () {

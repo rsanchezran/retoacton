@@ -26,7 +26,7 @@ class Mailchimp extends Command
 //        $this->sendCampana($id);
     }
 
-    public function getListas($etapa){
+    public function getLista($etapa){
         $auth = base64_encode( 'user:'.env('MAILCHIMP_KEY',''));
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, env('MAILCHIMP_URL','').'/lists/');
@@ -42,6 +42,34 @@ class Mailchimp extends Command
                 return $lista->id;
             }
         }
+    }
+
+    public function enviarMiembros($lista, $miembros){
+        $apikey = env('MAILCHIMP_KEY','');
+        $auth = base64_encode( 'user:'.$apikey );
+        $data = new \stdClass();
+        $data->members = collect();
+        foreach ($miembros as $miembro){
+            $member = new \stdClass();
+            $member->email_address = $miembro->email;
+            $member->status = 'subscribed';
+            $member->merge_fields = ['FNAME' => $miembro->nombres,
+                'LNAME' => $miembro->apellidos];
+            $data->members->push($member);
+        }
+        $json_data = json_encode($data);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL,env('MAILCHIMP_URL','')."/lists/$lista");
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json',
+            'Authorization: Basic '.$auth));
+        curl_setopt($ch, CURLOPT_USERAGENT, 'PHP-MCAPI/2.0');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
+
+        $result = json_decode(curl_exec($ch));
     }
 
     public function enviarMiembro($lista, $email, $nombres, $apellidos){
@@ -72,7 +100,6 @@ class Mailchimp extends Command
         $contacto = Contacto::where('email',$email)->first();
         $contacto->unique_id = $result->unique_email_id;
         $contacto->save();
-        dd($result);
     }
 
     public function quitarMiembro($lista, $id){
@@ -89,7 +116,6 @@ class Mailchimp extends Command
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         $result = curl_exec($ch);
-        dd($result);
     }
 
     public function getCampanas() {
@@ -145,5 +171,27 @@ class Mailchimp extends Command
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         $result = json_decode(curl_exec($ch));
+    }
+
+    public function enviarCorreo($miembros, $workflow, $queue){
+        $apikey = env('MAILCHIMP_KEY','');
+        $auth = base64_encode( 'user:'.$apikey );
+        foreach ($miembros as $miembro){
+            $data = array(
+                'email_address' => $miembro->email,
+            );
+            $json_data = json_encode($data);
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, env('MAILCHIMP_URL','')."/automations/$workflow/emails/$queue/queue");
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json',
+                'Authorization: Basic '.$auth));
+            curl_setopt($ch, CURLOPT_USERAGENT, 'PHP-MCAPI/2.0');
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
+            $result = json_decode(curl_exec($ch));
+        }
     }
 }

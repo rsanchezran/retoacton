@@ -37,13 +37,13 @@ class HomeController extends Controller
         $usuario = User::where('id', $request->user()->id)->get()->first();
         $usuario->total = $usuario->ingresados * $comision;
         $usuario->depositado = $usuario->total - $usuario->saldo;
-        $referencias = User::select(['id', 'name', 'email', 'created_at','num_inscripciones'])
+        $referencias = User::select(['id', 'name', 'email', 'created_at', 'num_inscripciones'])
             ->where('codigo', $request->user()->referencia)->whereNotNull('codigo')->get();
         $monto = env('COBRO_REFRENDO');
         $descuento = 0;
         $original = env('COBRO_REFRENDO');
         return view('home', ['usuario' => $usuario, 'referencias' => $referencias,
-            'monto'=>$monto,'descuento'=>$descuento,'original'=>$original]);
+            'monto' => $monto, 'descuento' => $descuento, 'original' => $original]);
     }
 
     public function index()
@@ -198,7 +198,7 @@ class HomeController extends Controller
             if ($user->rol == RolUsuario::CLIENTE) {
                 $numDieta = $dietaAnterior == null ? 1 : $dietaAnterior->dieta + 1;
                 $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta);
-                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta+1);
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta + 1);
                 $kits = UsuarioKit::where('user_id', $user->id)->get();
                 $this->agregarKit($user, $kits->count() == 0 ? 2 : 1);
             } else {
@@ -386,16 +386,20 @@ class HomeController extends Controller
         }
     }
 
-    public function etapa1(Contacto $contacto)
+    public function etapa1($email)
     {
+        $contacto = Contacto::where('email', $email)->first();
+        if ($contacto === null) {
+            abort(404);
+        }
         $urls = collect();
         $photos = Storage::disk('local')->files('public/combos');
         $usuario = User::withTrashed()->orderBy('created_at')->where('email', $contacto->email)->get()->last();
         $cobro = User::calcularMontoCompra($contacto->codigo, $contacto->email,
             $usuario == null ? null : $usuario->created_at,
-            $usuario  == null ? null : $usuario->fecha_inscripcion,
-            $usuario  == null ? null : $usuario->inicio_reto, $usuario == null ? null : $usuario->deleted_at);
-        $mensaje = $usuario  ? '' : 'Este usuario ya pertenece al RETO ACTON.';
+            $usuario == null ? null : $usuario->fecha_inscripcion,
+            $usuario == null ? null : $usuario->inicio_reto, $usuario == null ? null : $usuario->deleted_at);
+        $mensaje = $usuario ? '' : 'Este usuario ya pertenece al RETO ACTON.';
         $pregunta = Pregunta::select('id', 'pregunta', 'opciones')->where('id', TipoRespuesta::PREGUNTAS_REGISTRO[0])->get()->first();
         $pregunta->pregunta = strtolower($pregunta->pregunta);
         $opciones = collect();
@@ -415,12 +419,16 @@ class HomeController extends Controller
             'original' => $cobro->original, 'descuento' => $cobro->descuento, 'monto' => $cobro->monto, 'mensaje' => $mensaje]);
     }
 
-    public function etapa2(Contacto $contacto)
+    public function etapa2($email)
     {
+        $contacto = Contacto::where('email', $email)->first();
+        if ($contacto === null) {
+            abort(404);
+        }
         $usuario = User::withTrashed()->orderBy('created_at')->where('email', $contacto->email)->get()->last();
         $cobro = User::calcularMontoCompra($contacto->codigo, $contacto->email,
             $usuario == null ? null : $usuario->created_at,
-            $usuario  == null ? null : $usuario->fecha_inscripcion,
+            $usuario == null ? null : $usuario->fecha_inscripcion,
             $usuario == null ? null : $usuario->inicio_reto, $usuario == null ? null : $usuario->deleted_at);
         $mensaje = $usuario == null ? '' : 'Este usuario ya pertenece al RETO ACTON.';
         $urls = collect();
@@ -430,19 +438,23 @@ class HomeController extends Controller
             $nombre = $nombre[count($nombre) - 1];
             $urls->push(url("getCombo/" . $nombre));
         }
-        $contacto->peso="";
-        $contacto->ideal="";
+        $contacto->peso = "";
+        $contacto->ideal = "";
         return view("auth.peso", ['urls' => $urls, 'contacto' => $contacto,
             'original' => $cobro->original, 'descuento' => $cobro->descuento, 'monto' => $cobro->monto, 'mensaje' => $mensaje]);
     }
 
-    public function etapa3(Contacto $contacto)
+    public function etapa3($email)
     {
+        $contacto = Contacto::where('email', $email)->first();
+        if ($contacto === null) {
+            abort(404);
+        }
         $usuario = User::withTrashed()->orderBy('created_at')->where('email', $contacto->email)->get()->last();
         $cobro = User::calcularMontoCompra($contacto->codigo, $contacto->email,
             $usuario == null ? null : $usuario->created_at,
             $usuario == null ? null : $usuario->fecha_inscripcion,
-            $usuario  == null ? null : $usuario->inicio_reto, $usuario == null ? null : $usuario->deleted_at);
+            $usuario == null ? null : $usuario->inicio_reto, $usuario == null ? null : $usuario->deleted_at);
         $mensaje = $usuario == null ? '' : 'Este usuario ya pertenece al RETO ACTON.';
         $urls = collect();
         $photos = Storage::disk('local')->files('public/combos');
@@ -538,13 +550,15 @@ class HomeController extends Controller
         return response()->json(['status' => 'ok', 'redirect' => url('/')]);
     }
 
-    public function dudas(Request $request){
+    public function dudas(Request $request)
+    {
         $user = $request->user();
         $user->mensaje = "";
         return view('auth.dudas', ["contacto" => $user]);
     }
 
-    public function saveDudas(Request $request){
+    public function saveDudas(Request $request)
+    {
         $validator = Validator::make($request->all(),
             [
                 'mensaje' => 'required|max:500',
@@ -577,8 +591,9 @@ class HomeController extends Controller
         return response()->json(['status' => 'ok', 'redirect' => url('/')]);
     }
 
-    public function verPagos(User $user){
-        $pagos = Compra::where('usuario_id',$user->id)->get();
+    public function verPagos(User $user)
+    {
+        $pagos = Compra::where('usuario_id', $user->id)->get();
         return $pagos;
     }
 }
