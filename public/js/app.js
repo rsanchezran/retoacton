@@ -50165,6 +50165,12 @@ var render = function() {
               _vm._v(
                 "Te hemos enviado un correo con tu usuario y contraseña para que puedas ingresar a tu sesión.\n                Recuerda que al ingresar por primera vez llenarás un cuestionario que te llevará aproximadamente 5 minutos."
               )
+            ]),
+            _vm._v(" "),
+            _c("p", { staticClass: "small" }, [
+              _vm._v(
+                "Si no ves el correo dentro de tu bandeja, por favor revisa tu carpeta SPAM y agreganos como un sitio de confianza"
+              )
             ])
           ])
         ]
@@ -63798,8 +63804,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/lapzarin/Documents/code/acton/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/lapzarin/Documents/code/acton/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/david/Documentos/code/acton/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/david/Documentos/code/acton/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

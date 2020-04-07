@@ -400,6 +400,7 @@
                 </p>
                 <p>Te hemos enviado un correo con tu usuario y contraseña para que puedas ingresar a tu sesión.
                     Recuerda que al ingresar por primera vez llenarás un cuestionario que te llevará aproximadamente 5 minutos.</p>
+                <p class="small">Si no ves el correo dentro de tu bandeja, por favor revisa tu carpeta SPAM y agreganos como un sitio de confianza</p>
             </div>
         </modal>
         <modal ref="pagando" :title="'Aplicando pago con paypal'" :showok="false" :showcancel="false">

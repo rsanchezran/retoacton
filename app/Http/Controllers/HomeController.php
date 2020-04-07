@@ -185,21 +185,27 @@ class HomeController extends Controller
         $user->objetivo = $objetivo == 'bajar' ? 0 : 1;
         $user->save();
 
-        if ($user->inicio_reto == null) {
+        if ($user->inicio_reto == null) { //Se generan 4 dietas a lo largo del reto
             $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 1);
             $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 2);
+            $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 3);
+            $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 4);
             if ($user->rol == RolUsuario::CLIENTE) {
                 $this->agregarKit($user, 2);
             }
         } else {
             $dietaAnterior = UsuarioDieta::where('usuario_id', $user->id)->where('dieta', '>', 1)->get()->last();
             if ($user->rol == RolUsuario::CLIENTE) {
-                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $dietaAnterior == null ? 1 : $dietaAnterior->dieta + 1);
+                $numDieta = $dietaAnterior == null ? 1 : $dietaAnterior->dieta + 1;
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta);
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta+1);
                 $kits = UsuarioKit::where('user_id', $user->id)->get();
                 $this->agregarKit($user, $kits->count() == 0 ? 2 : 1);
             } else {
                 $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 1);
                 $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 2);
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 3);
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 4);
             }
         }
         $user->save();

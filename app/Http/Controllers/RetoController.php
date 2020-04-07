@@ -234,16 +234,17 @@ class RetoController extends Controller
             return view('reto.dia', ['dia' => $dia, 'genero' => $genero, 'objetivo' => $objetivo, 'lugar' => $user->modo,
                 'dias' => env('DIAS')]);
         } else {
-            $sem = $dia%7==0?intval($dia/7):intval($dia/7)+1;
-            $numDieta = $sem%4==0?intval($sem/4):intval($sem/4)+1;
+            $sem = $dia % 7 == 0 ? intval($dia / 7) : intval($dia / 7) + 1;
+            $numDieta = $sem % 2 == 0 ? intval($sem / 2) : intval($sem / 2) + 1; //Se obtiene el numero de dieta con base en la cantidad de dias del reto
             $diaDB = Dia::buildDia($dia, $genero, $objetivo, $request->user(), $numDieta);
             return view('reto.dia', ['dia' => $diaDB, 'genero' => $genero, 'objetivo' => $objetivo,
-                'dias' => $dias, 'lugar' => $user->modo,'semana' => $semana, 'maximo' => $diasTranscurridos,
+                'dias' => $dias, 'lugar' => $user->modo, 'semana' => $semana, 'maximo' => $diasTranscurridos,
                 'teorico' => $teorico]);
         }
     }
 
-    public function getSemanaPrograma(Request $request, $semana){
+    public function getSemanaPrograma(Request $request, $semana)
+    {
         $user = $request->user();
         $user->modo = $user->modo == true;
 
@@ -401,7 +402,7 @@ class RetoController extends Controller
             }
         } else {
             $teoricos = Carbon::now()->startOfDay()->diffInDays(Carbon::parse($user->inicio_reto));
-            if ($teoricos==0){
+            if ($teoricos == 0) {
                 $teoricos++;
             }
             if ($teoricos > $diasRetoOriginal) {

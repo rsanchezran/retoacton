@@ -77,7 +77,7 @@ class UserController extends Controller
             $usuarios = $usuarios->whereRaw($consulta);
         }
         $usuarios = $usuarios->orderByDesc('created_at');
-        $usuarios = $usuarios->select(['users.*'])->paginate(20);
+        $usuarios = $usuarios->select(['users.*'])->paginate(15);
         $comision = intval(env('COMISION'));
 
         foreach ($usuarios as $usuario) {

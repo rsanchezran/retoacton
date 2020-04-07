@@ -53,6 +53,15 @@
         .modal-content {
             width: max-content !important;
         }
+
+        #imagenModal .modal-content {
+            background: none;
+            text-align: center;
+        }
+
+        #imagenModal .modal-header {
+            border-bottom: 0;
+        }
     </style>
 @endsection
 @section('content')
@@ -137,8 +146,8 @@
                     </div>
                 </div>
             </div>
-            <modal ref="imagenModal" :showok="false">
-                <img :src="imagen" style="width: 400px">
+            <modal id="imagenModal" ref="imagenModal" :showfooter="false" :btncerrar="true" title="Foto">
+                <img :src="imagen" style="margin: auto; display: block" width="400">
             </modal>
         </div>
     </template>
