@@ -7,6 +7,7 @@ namespace App\Console\Commands;
 use App\Contacto;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class Mailchimp extends Command
 {
@@ -200,6 +201,7 @@ class Mailchimp extends Command
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
             $result = json_decode(curl_exec($ch));
+            Log::info($result);
         }
     }
 

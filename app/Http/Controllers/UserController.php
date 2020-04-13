@@ -163,7 +163,7 @@ class UserController extends Controller
                 $compra->pagado = true;
                 $compra->save();
             }
-            $monto = $compras->count()*intval(env('COMISION'));
+            $monto = $compras->count() * intval(env('COMISION'));
             $user->cobrado = 1;
             $user->saldo = $user->saldo - $monto;
             $user->save();
@@ -177,7 +177,7 @@ class UserController extends Controller
 
     public function getReferencias(Request $request)
     {
-        $referencias = User::select(["id", "name", "email", "created_at","num_inscripciones"])->where('codigo', $request->user()->referencia);
+        $referencias = User::select(["id", "name", "email", "created_at", "num_inscripciones"])->where('codigo', $request->user()->referencia);
         return $referencias->paginate(5);
     }
 
@@ -208,16 +208,11 @@ class UserController extends Controller
     {
         $usuario = User::find($request->id);
         if ($usuario !== null) {
-            $compras = Compra::where('usuario_id', $usuario->id)->get()->count();
             $dia = $request->dias_reto;
-            $semana = $dia % 7 == 0 ? intval($dia / 7) : intval($dia / 7) + 1;
-            $numInscrpcion = $semana % 4 == 0 ? intval($semana / 4) : intval($semana / 4) + 1;
             $nuevaFecha = Carbon::now()->startOfDay();
             $nuevaFecha->subDays($request->dias_reto);
             $usuario->inicio_reto = $nuevaFecha;
             $usuario->fecha_inscripcion = $nuevaFecha;
-            $usuario->num_inscripciones = $numInscrpcion < 3 ? $numInscrpcion : ($numInscrpcion - 1 <= $compras ? $numInscrpcion - 1 : $compras);
-            unset($usuario->vencido);
             $usuario->save();
         }
     }
@@ -330,7 +325,7 @@ class UserController extends Controller
         $campos = json_decode($request->campos);
         $usuario = User::find($campos->id);
         if ($usuario !== null) {
-            $compras = Compra::join('users', 'users.id', 'compras.usuario_id')->where('compras.pagado',false)
+            $compras = Compra::join('users', 'users.id', 'compras.usuario_id')->where('compras.pagado', false)
                 ->whereNull('compras.deleted_at')->where('users.codigo', $usuario->referencia)
                 ->orderBy('created_at')
                 ->select(['users.name', 'users.last_name', 'compras.monto', 'compras.created_at'])->paginate(10);
