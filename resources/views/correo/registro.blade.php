@@ -17,7 +17,8 @@
             Ya puedes iniciar sesión en Acton:<br>
             correo: {{$usuario->email}} <br> <br>
             @if($usuario->pass!='')
-                contraseña: {{$usuario->pass}} <br>
+                contraseña: {{$usuario->pass}}
+                <br>
                 <br>
                 <span style="color: red;" >NOTA:</span>Recuerda que tu contraseña se escribe con mayusculas, si deseas asignar una nueva contraseña, lo podrás hacer en la seccion "Mi cuenta"
             @endif
