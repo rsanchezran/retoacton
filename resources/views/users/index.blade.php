@@ -10,6 +10,10 @@
         .settings a, .settings button{
             margin-left: 5px;
         }
+
+        .inactivo{
+            background-color: lightgray;
+        }
     </style>
 @endsection
 @section('content')
@@ -147,7 +151,7 @@
                     </div>
                 </div>
             </div>
-            <modal ref="comisionModal" :title="'Pago de comisión a usuario'" @ok="pagar()" height="300" :oktext="'Pagar'">
+            <modal ref="comisionModal" :title="'Pago de comisión a usuario'" @ok="pagar()" height="400" :oktext="'Pagar'">
                 <div class="d-flex flex-column">
                     <span><b>Email : </b>@{{ usuario.email }}</span>
                     <span><b>Nombre : </b>@{{ usuario.name }}</span>
@@ -155,9 +159,11 @@
                     <span><b>Cantidad a pagar : </b> $<money :cantidad="''+usuario.pagar"></money></span>
                 </div>
                 <table class="table mt-2">
-                    <tr v-for="compra in referencias.data">
+                    <tr v-for="compra in referencias.data" :class="(compra.activo?'inactivo':'')">
                         <td>
-                            <span :class="'label label-'+(compra.activo?'default':'info')">@{{compra.name+' '+compra.last_name}}</span>
+                            <i v-if="compra.activo" class="fa fa-minus"></i>
+                            <i v-else class="fa fa-check"></i>
+                            <span> @{{  compra.name+' '+compra.last_name }}</span>
                         </td>
                         <td><fecha :fecha="compra.created_at"></fecha></td>
                         <td><money :cantidad="compra.monto"></money></td>

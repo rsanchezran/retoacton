@@ -593,7 +593,7 @@ class HomeController extends Controller
 
     public function verPagos(User $user)
     {
-        $pagos = Compra::where('usuario_id', $user->id)->get();
+        $pagos = Compra::where('usuario_id', $user->id)->orderBy('created_at')->get(['created_at','pagado']);
         return $pagos;
     }
 }

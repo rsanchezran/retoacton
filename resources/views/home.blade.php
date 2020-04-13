@@ -130,7 +130,8 @@
             </div>
             <modal ref="pagosModal" :title="'Reinscripciones de '+nombre" @ok="refs.pagosModal.closeModal()">
                 <table class="table table-sm">
-                    <tr v-for="pago in pagos">
+                    <tr v-for="(pago, ipago) in pagos" v-if="ipago > 0">
+                        <td>@{{ ipago }}</td>
                         <td><fecha :fecha="pago.created_at"></fecha></td>
                         <td v-if="pago.pagado==1">
                             Pagado <i class="fa fa-check"></i>

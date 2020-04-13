@@ -117,7 +117,7 @@
                         <form-error name="imagen" :errors="errors"></form-error>
                     </div>
                 </div>
-                <div class="comida d-flex justify-content-between">
+                <div class="comida d-flex justify-content-between mt-4">
                     <h4>Calendario</h4>
                     <span>@{{ maximo }} / @{{ teoricos }}</span>
                 </div>
