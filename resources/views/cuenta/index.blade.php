@@ -66,7 +66,7 @@
                         </div>
                         <div>
                             <label>Tarjeta para depositar comisiones <span class="small">(por favor verifica que sea correcta)</span></label>
-                            <input :class="'form-control '+(user.tarjeta==null?'required':'not')" v-model="user.tarjeta">
+                            <input :class="'form-control '+(user.tarjeta==null?'required':'not')" v-model="user.tarjeta" max="16">
                             <span class="float-right small">@{{ user.tarjeta.length }}/16</span>
                             <form-error name="tarjeta" :errors="errors"></form-error>
                         </div>
