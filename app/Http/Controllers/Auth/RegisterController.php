@@ -87,7 +87,7 @@ class RegisterController extends Controller
             'email.unique' => 'El correo ya ha sido registrado',
             'email.email' => 'El formato no es válido en el correo electrónico',
             'referencia.max' => 'Debe ser menor a 6 caracteres la referencia',
-            'telefono.max' => 'Debe ser menor a 10 caracteres la referencia',
+            'telefono.max' => 'Debe ser menor a 10 caracteres el teléfono',
             'telefono.numeric' => 'El campo teléfono debe ser numérico',
             'telefono.integer' => 'No puede ingresar números negativos en el campo teléfono'
         ]);
