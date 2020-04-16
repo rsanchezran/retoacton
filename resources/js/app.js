@@ -26,7 +26,7 @@ import Vue from 'vue'
 import VTooltip from 'v-tooltip'
 
 Vue.component('ToggleButton', ToggleButton);
-Vue.component('captcha', captcha);
+Vue.component('captcha', captcha.default);
 Vue.use(VueAnimate);
 Vue.use(wysiwyg,{hideModules: { "image": true }});
 Vue.use(VTooltip)
