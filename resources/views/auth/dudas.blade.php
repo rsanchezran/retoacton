@@ -48,7 +48,7 @@
             <br>
             <div class="d-flex flex-column">
                 <div>
-                    <captcha ref="captcha" sitekey="{{env('CAPTCHA_PUBLIC')}}" @verify="onVerify">
+                    <captcha ref="captcha" sitekey="{{env('CAPTCHA_PUBLIC')}}" @verify="onVerify" :loadRecaptchaScript="true">
                     </captcha>
                     <form-error name="captcha" :errors="errors"></form-error>
                 </div>

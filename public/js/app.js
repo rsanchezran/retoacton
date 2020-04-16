@@ -63191,7 +63191,7 @@ vue__WEBPACK_IMPORTED_MODULE_4___default.a.component('fecha', __webpack_require_
 
 
 vue__WEBPACK_IMPORTED_MODULE_4___default.a.component('ToggleButton', vue_js_toggle_button__WEBPACK_IMPORTED_MODULE_0__["ToggleButton"]);
-vue__WEBPACK_IMPORTED_MODULE_4___default.a.component('captcha', vue_recaptcha__WEBPACK_IMPORTED_MODULE_3__["default"]["default"]);
+vue__WEBPACK_IMPORTED_MODULE_4___default.a.component('captcha', vue_recaptcha__WEBPACK_IMPORTED_MODULE_3__["default"]);
 vue__WEBPACK_IMPORTED_MODULE_4___default.a.use(vue_animate_scroll__WEBPACK_IMPORTED_MODULE_1__["default"]);
 vue__WEBPACK_IMPORTED_MODULE_4___default.a.use(vue_wysiwyg__WEBPACK_IMPORTED_MODULE_2___default.a, {
   hideModules: {

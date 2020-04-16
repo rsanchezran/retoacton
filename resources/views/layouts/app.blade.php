@@ -13,6 +13,17 @@
     <link rel="shortcut icon" href="{{asset('img/favicon.png')}}"/>
     <link href="{{asset('css/breathing.css')}}" rel="stylesheet" type="text/css" />
     <style>
+        @font-face {
+            font-family: unitext;
+            src: url("{{asset('fonts/unitext thin.ttf')}}");
+
+        }
+        #app {
+            font-family: unitext;
+            font-weight: bold;
+            color: black;
+        }
+
         footer{
             background-color: #007fdc;
         }

@@ -99,12 +99,12 @@
                     <div id="modo">
                         <table>
                             <tr>
-                                <td style="padding-bottom: 8px;">Entrenar desde GYM</td>
+                                <td style="padding-bottom: 8px;">Entrenar desde <b style="font-family: unitext">GYM</b></td>
                                 <td><label class="switch">
                                         <input type="checkbox" v-model="lugar" @change="cambiarLugar(true)">
                                         <span class="slider round"></span>
                                     </label></td>
-                                <td class="font-weight-bold" style="padding-bottom: 8px;">Casa</td>
+                                <td style="padding-bottom: 8px;"><b style="font-family: unitext">CASA</b></td>
                             </tr>
                         </table>
                     </div>

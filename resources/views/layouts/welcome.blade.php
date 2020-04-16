@@ -118,7 +118,7 @@
         @media only screen and (max-width: 420px) {
             .navbar {
                 padding: 0;
-                height: 80px;
+                height: 110px;
             }
 
             .navbar-brand {
@@ -132,7 +132,7 @@
 
             .navbar-toggler {
                 position: absolute;
-                top: 30px;
+                top: 50px;
                 right: 2px;
             }
 
@@ -148,7 +148,7 @@
     {{--<img id="onda" src="{{asset('img/ondas.png')}}" alt="acton">--}}
     <nav class="navbar navbar-expand-md navbar-light navbar-laravel d-flex justify-content-between">
         <a class="navbar-brand" href="{{ url('/') }}">
-            <img src="{{asset('img/header.png')}}" width="250" id="log<o">
+            <img src="{{asset('img/header.png')}}" width="250" id="logo">
         </a>
         <div class="navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent">
             <ul class="navbar-nav ml-auto">

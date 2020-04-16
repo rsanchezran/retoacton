@@ -578,7 +578,7 @@
                     padding: 0;
                 }
 
-                #titulo {
+                #tituloFeature {
                     padding-left: 5px;
                     padding-right: 5px;
                 }
@@ -645,8 +645,6 @@
             }
 
         }
-
-
     </style>
 @endsection
 @section('content')
@@ -656,7 +654,7 @@
     <template id="inicio-template">
         <div>
             <div v-animate="'slide-up'" align="center">
-                <div>
+                <div id="inicioFeature">
                     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-pause="false">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
@@ -712,13 +710,11 @@
                             <div id="comidas" class="subinfo">
                                 <div class="d-flex">
                                     <h6 style="font-family: unitext_bold_cursive;">Los planes de alimentación que
-                                        recibes en este programa de 8 semanas son totalmente personalizados a tus
-                                        características y objetivos, ya sea que, quieras eliminar grasa o aumentar
-                                        músculo</h6>
+                                        recibes en este programa de 8 semanas son totalmente personalizados.</h6>
                                 </div>
                                 <h6>En <b style="font-family: unitext_bold_cursive">ACTON</b> estamos seguros de que,
                                     para tener más posibilidades de cambio, tu plan de alimentación te debe agradar, por
-                                    lo que tú puedes elegir cuales alimentos NO quieres que aparezcan en tu programa
+                                    lo que tú puedes elegir cuáles alimentos NO quieres que aparezcan en tu programa
                                     para que sea más fácil llevarlo</h6>
                             </div>
                         </div>
@@ -737,8 +733,7 @@
                                 <h6 class="text-justify">Puedes elegir si deseas entrenar en el gym, desde la comodidad
                                     de tu hogar o en el lugar donde te encuentres, ya que dentro de tu sesión tienes un
                                     botón en el cual puedes cambiar tu rutina a </h6>
-                                <h6 class="font-weight-bold text-center" style="font-family: unitext;">Modo: GYM o Modo:
-                                    CASA</h6>
+                                <h6 class="font-weight-bold text-center" style="font-family: unitext;">Modo: GYM o CASA</h6>
                                 <div class="col-sm-10 col-md-10 col-lg-10 col-xl-10 d-flex justify-content-between"
                                      style="margin: auto; padding: 0;">
                                     <img src="{{asset('img/Boton01.png')}}"/>
@@ -758,7 +753,7 @@
                                 <span class="small text-lowercase">ver más</span>
                             </h3>
                             <div id="suplementos" class="subinfo">
-                                <h6>Te diremos cuales son los suplementos adecuados con las dosis óptimas para alcanzar
+                                <h6>Te diremos cuáles son los suplementos adecuados con las dosis óptimas para alcanzar
                                     de una manera más efectiva y rápida el objetivo de que deseas <span
                                         class="font-weight-bold"
                                         style="font-family:unitext;">siempre cuidando tu salud.</span></h6>
@@ -784,7 +779,7 @@
                     </div>
                 </div>
             </div>
-            <div id="titulo" class="section container text-center">
+            <div id="tituloFeature" class="section container text-center">
                 <div class="col-12 col-sm-9 mr-auto ml-auto" id="verdadero">
                     <h6 class="text-uppercase bigger thin" style="color:#929494">El verdadero cambio </h6>
                     <h6 class="text-uppercase font-weight-bold biggest">Comienza</h6>
@@ -828,7 +823,7 @@
                 </div>
                 <div id="desicion" class="section container text-center">
                     <div class="col-12 col-sm-9 mr-auto ml-auto">
-                        <h6 class="text-uppercase bigger thin" style="color:#929494">Estas a una decisión</h6>
+                        <h6 class="text-uppercase bigger thin" style="color:#929494">Estás a una decisión</h6>
                         <h6 class="text-uppercase font-weight-bold biggest">De cambiarlo todo</h6>
                         <a class="btn btn-primary text-uppercase mt-4" href="{{url('register')}}"
                            style="width: 80%; font-family: unitext_bold_cursive; padding: 10px">Quiero entrar al reto</a>
@@ -843,7 +838,7 @@
                                 tus</h3>
                             <h3 class="turquesa text-uppercase bigger font-weight-bold" style="font-size: 3em">
                                 Finanzas</h3>
-                            <h6 id="ganadores" class="thin">Aquí no hay solo 1, 2 o 3 ganadores</h6>
+                            <h6 id="ganadores" class="thin">Aquí no hay sólo 1, 2 o 3 ganadores</h6>
                             <h6 id="todospueden" class="big">¡Todos pueden ganar dinero!</h6>
                             <div id="compensacion">
                                 <p>
@@ -889,17 +884,17 @@
                             <h4 id="ganar" class="text-uppercase bigger font-weight-bold">¡Aquí todo es ganar!</h4>
                             <div id="garantiaDes" class="col-sm-12 col-md-12 col-lg-9">
                                 <h6 class="font-weight-bold">Estamos seguros que al finalizar el reto serás una persona
-                                    totalmente diferente, también sabemos que estas 8 semanas será una experiencia que
+                                    totalmente diferente, también sabemos que estas 8 semanas serán una experiencia que
                                     disfrutarás al máximo.</h6>
                                 <h6 style="margin: 10px 0;" class="font-weight-bold">Sin embargo, para hacerte saber que
                                     no
                                     tienes nada que perder, decidimos ofrecerte las primeras 24 horas para poder pedir
-                                    un <b
-                                        style="font-family: unitext_bold_cursive">REEMBOLSO TOTAL</b> si el reto no
+                                    un <b style="font-family: unitext_bold_cursive">REEMBOLSO TOTAL</b> si el reto no
                                     superó
                                     tus expectativas.</h6>
-                                <h6 class="font-weight-bold">Solo, nos enviarías un correo y sin hacer preguntas se te
-                                    devuelve <span id="inscripcion">el total de tu inscripción.</span></h6>
+                                <h6 class="font-weight-bold">Solo, nos enviarías un correo a
+                                    <b style="font-family: unitext_bold_cursive">reembolsos@retoacton.com</b>
+                                    y sin hacer preguntas se te devuelve <span id="inscripcion">el total de tu inscripción.</span></h6>
                             </div>
                         </div>
                     </div>
@@ -911,7 +906,7 @@
                             <h6 id="soñarlo" class="text-uppercase bigger thin">Si puedes soñarlo,</h6>
                             <h6 id="hacerlo" class="text-uppercase bigger font-weight-bold">Puedes hacerlo</h6>
                             <div id="transformar">
-                                <h6>Este reto esta diseñado para transformar tu físico</h6>
+                                <h6>Este reto está diseñado para transformar tu físico</h6>
                                 <h6>rápidamente, aumentar tu motivación y al mismo </h6>
                                 <h6>tiempo ganar dinero.</h6>
                                 <br>
@@ -930,14 +925,13 @@
                                     </div>
                                 </div>
                                 <h6>Cada día se te presentará una actividad a </h6>
-                                <h6>realizar, tu decides si quieres hacerla, nuestra </h6>
+                                <h6>realizar, tú decides si quieres hacerla, nuestra </h6>
                                 <h6>recomendación es realizar todas para obtener una</h6>
                                 <h6>recompensa sorpresa al finalizar el reto.</h6>
                                 <br>
                                 <br>
                                 <a class="btn btn-primary" href="{{url('register')}}"
-                                   style="width: 90%; font-family: unitext_bold_cursive; padding: 10px">Unirme al reto
-                                    acton</a>
+                                   style="width: 90%; font-family: unitext_bold_cursive; padding: 10px">Unirme al reto acton</a>
                             </div>
                         </div>
                     </div>
@@ -959,61 +953,62 @@
                     <div v-show="screen<801" class="mr-auto ml-auto mt-8">
                         <div class="d-flex flex-wrap">
                             <div class="col-12 col-sm-4 testimonio">
-                                <img src="{{asset('images/viviana.png')}}" width="120">
-                                <h6>Maya Walters</h6>
-                                <h5>Culiacán, Sinaloa</h5>
+                                <img src="{{asset('images/angelica.png')}}" width="120">
+                                <h6>Angelica</h6>
+                                <h5>Londres, UK</h5>
                                 <p>
-                                    Excelentes resultados!,
-                                    Super padre todo el reto. Conoce muchísima gente
-                                    Y mi motivación se elevó al máximo.
-                                    El mejor programa que he hecho!
-                                </p>
-                            </div>
-                            <div class="col-12 col-sm-4 testimonio">
-                                <img src="{{asset('images/fabricio.png')}}" width="120">
-                                <h6>Fabricio Salerno</h6>
-                                <h5>Fortaleza, Brasil</h5>
-                                <p>
-                                    El programa me pareció excelente con
-                                    dietas muy practicas y accesibles, rutinas muy bien
-                                    explicadas y muy buenos resultados.
-                                    Gané dinero desde el primer día.
+                                    "Obtener ganancias fue mas fácil de lo que pensé.
+                                    Excelente experiencia, mucha motivación, fácil de seguir y todo el equipo siempre estuvo para resolver mis dudas.
+                                    Me quedo dentro del reto sin duda."
                                 </p>
                             </div>
                             <div class="col-12 col-sm-4 testimonio">
                                 <img src="{{asset('images/vicenteruelas.png')}}" width="120">
-                                <h6>Vicente Ruelas</h6>
-                                <h5>Cocula, Jalisco</h5>
+                                <h6>Vicente</h6>
+                                <h5>Jalisco, México</h5>
                                 <p>
-                                    “El reto me pareció bastante bueno, muy motivador,
-                                    no me quedaba con hambre, rutinas muy buenas,
-                                    videos muy bien explicados.
-                                    Las atenciones al pie de la letra.
-                                    Muy contento con los resultados!”
+                                    “El reto me pareció bastante bueno, no me quedaba con hambre, rutinas muy buenas, videos muy bien explicados. Las atenciones siempre de lo mejor.
+                                    Muy contento con los resultados”
                                 </p>
                             </div>
                             <div class="col-12 col-sm-4 testimonio">
-                                <img src="{{asset('images/pauline.png')}}" width="120">
-                                <h6>Mariel Casas</h6>
-                                <h5>Barcelona, España</h5>
+                                <img src="{{asset('images/diana.png')}}" width="120">
+                                <h6>Diana</h6>
+                                <h5>Guanajuato, México </h5>
                                 <p>
-                                    “El plan de compensación es increíble,
-                                    nunca pensé que ganar dinero fuera tan fácil.
-                                    La dieta y rutina estuvieron excelentes y siempre
-                                    resolvieron mis dudas.
-                                    Lo recomiendo mucho!”
+                                    “El plan de compensación para mi fue lo mejor, gané mas en 8 semanas que lo que gano en mi trabajo en el mismo periodo de tiempo.
+                                    Todas las dietas me encantaron, las rutinas son muy buenas, muy bien explicadas y mis dudas siempre fueron aclaradas en menos de 24 horas.”
                                 </p>
                             </div>
                             <div class="col-12 col-sm-4 testimonio">
                                 <img src="{{asset('images/luislazo.png')}}" width="120">
-                                <h6>Luis Lazo</h6>
-                                <h5>Cancun, Quintana Roo</h5>
+                                <h6>Luis</h6>
+                                <h5>Quintana Roo, México</h5>
                                 <p>
-                                    La dieta esta muy rica ya que nunca te ponen
+                                    "La dieta esta muy rica ya que nunca te ponen
                                     alimentos que no te gustan, ademas
                                     la rutina es muy flexible, yo decido qué días quiero
                                     entrenar en casa y que días entrenar en gym.
                                     El mejor reto!”
+                                </p>
+                            </div>
+                            <div class="col-12 col-sm-4 testimonio">
+                                <img src="{{asset('images/fabricio.png')}}" width="120">
+                                <h6>Fabricio</h6>
+                                <h5>Goiana, Brasil</h5>
+                                <p>
+                                    "El programa me pareció excelente con
+                                    dietas muy practicas y accesibles, rutinas muy bien
+                                    explicadas y muy buenos resultados.
+                                    Gané dinero desde el primer día."
+                                </p>
+                            </div>
+                            <div class="col-12 col-sm-4 testimonio">
+                                <img src="{{asset('images/daniel.png')}}" width="120">
+                                <h6>Daniel</h6>
+                                <h5>Baja California, México </h5>
+                                <p>
+                                    "El programa me pareció excelente, vi cambios desde la semana 2, superó por mucho mis expectativas, todo el equipo Acton siempre fue amable y todo el reto fue muy motivador."
                                 </p>
                             </div>
                         </div>
@@ -1024,37 +1019,31 @@
                             <div class="carousel-item active">
                                 <div class="d-flex flex-wrap">
                                     <div class="col-12 col-sm-4 testimonio">
-                                        <img src="{{asset('images/viviana.png')}}" width="120">
-                                        <h6>Maya Walters</h6>
-                                        <h5>Culiacán, Sinaloa</h5>
-                                        <p class="text-left">
-                                            Excelentes resultados!,
-                                            Super padre todo el reto. Conoce muchísima gente
-                                            Y mi motivación se elevó al máximo.
-                                            El mejor programa que he hecho!
-                                        </p>
-                                    </div>
-                                    <div class="col-12 col-sm-4 testimonio">
-                                        <img src="{{asset('images/fabricio.png')}}" width="120">
-                                        <h6>Fabricio Salerno</h6>
-                                        <h5>Fortaleza, Brasil</h5>
-                                        <p class="text-left">
-                                            El programa me pareció excelente con
-                                            dietas muy practicas y accesibles, rutinas muy bien
-                                            explicadas y muy buenos resultados.
-                                            Gané dinero desde el primer día.
+                                        <img src="{{asset('images/angelica.png')}}" width="120">
+                                        <h6>Angelica</h6>
+                                        <h5>Londres, UK</h5>
+                                        <p>
+                                            "Obtener ganancias fue mas fácil de lo que pensé.
+                                            Excelente experiencia, mucha motivación, fácil de seguir y todo el equipo siempre estuvo para resolver mis dudas.
+                                            Me quedo dentro del reto sin duda."
                                         </p>
                                     </div>
                                     <div class="col-12 col-sm-4 testimonio">
                                         <img src="{{asset('images/vicenteruelas.png')}}" width="120">
-                                        <h6>Vicente Ruelas</h6>
-                                        <h5>Cocula, Jalisco</h5>
-                                        <p class="text-left">
-                                            “El reto me pareció bastante bueno, muy motivador,
-                                            no me quedaba con hambre, rutinas muy buenas,
-                                            videos muy bien explicados.
-                                            Las atenciones al pie de la letra.
-                                            Muy contento con los resultados!”
+                                        <h6>Vicente</h6>
+                                        <h5>Jalisco, México</h5>
+                                        <p>
+                                            “El reto me pareció bastante bueno, no me quedaba con hambre, rutinas muy buenas, videos muy bien explicados. Las atenciones siempre de lo mejor.
+                                            Muy contento con los resultados”
+                                        </p>
+                                    </div>
+                                    <div class="col-12 col-sm-4 testimonio">
+                                        <img src="{{asset('images/diana.png')}}" width="120">
+                                        <h6>Diana</h6>
+                                        <h5>Guanajuato, México </h5>
+                                        <p>
+                                            “El plan de compensación para mi fue lo mejor, gané mas en 8 semanas que lo que gano en mi trabajo en el mismo periodo de tiempo.
+                                            Todas las dietas me encantaron, las rutinas son muy buenas, muy bien explicadas y mis dudas siempre fueron aclaradas en menos de 24 horas.”
                                         </p>
                                     </div>
                                 </div>
@@ -1062,27 +1051,34 @@
                             <div class="carousel-item">
                                 <div class="d-flex flex-wrap">
                                     <div class="col-12 col-sm-4 testimonio">
-                                        <img src="{{asset('images/pauline.png')}}" width="120">
-                                        <h6>Mariel Casas</h6>
-                                        <h5>Barcelona, España</h5>
-                                        <p class="text-left">
-                                            “El plan de compensación es increíble,
-                                            nunca pensé que ganar dinero fuera tan fácil.
-                                            La dieta y rutina estuvieron excelentes y siempre
-                                            resolvieron mis dudas.
-                                            Lo recomiendo mucho!”
-                                        </p>
-                                    </div>
-                                    <div class="col-12 col-sm-4 testimonio">
-                                        <img src="{{asset('images/luislazo.png')}}" width="120mai">
-                                        <h6>Luis Lazo</h6>
-                                        <h5>Cancun, Quintana Roo</h5>
-                                        <p class="text-left">
-                                            La dieta esta muy rica ya que nunca te ponen
+                                        <img src="{{asset('images/luislazo.png')}}" width="120">
+                                        <h6>Luis</h6>
+                                        <h5>Quintana Roo, México</h5>
+                                        <p>
+                                            "La dieta esta muy rica ya que nunca te ponen
                                             alimentos que no te gustan, ademas
                                             la rutina es muy flexible, yo decido qué días quiero
                                             entrenar en casa y que días entrenar en gym.
                                             El mejor reto!”
+                                        </p>
+                                    </div>
+                                    <div class="col-12 col-sm-4 testimonio">
+                                        <img src="{{asset('images/fabricio.png')}}" width="120">
+                                        <h6>Fabricio</h6>
+                                        <h5>Goiana, Brasil</h5>
+                                        <p>
+                                            "El programa me pareció excelente con
+                                            dietas muy practicas y accesibles, rutinas muy bien
+                                            explicadas y muy buenos resultados.
+                                            Gané dinero desde el primer día."
+                                        </p>
+                                    </div>
+                                    <div class="col-12 col-sm-4 testimonio">
+                                        <img src="{{asset('images/daniel.png')}}" width="120">
+                                        <h6>Daniel</h6>
+                                        <h5>Baja California, México </h5>
+                                        <p>
+                                            "El programa me pareció excelente, vi cambios desde la semana 2, superó por mucho mis expectativas, todo el equipo Acton siempre fue amable y todo el reto fue muy motivador."
                                         </p>
                                     </div>
                                 </div>
@@ -1121,8 +1117,7 @@
                         <h6 class="text-center font-weight-bold text-uppercase">Paso 2</h6>
                         <img src="{{asset('img/monitor2.png')}}" width="90%">
                         <h6>En seguida empezarás un cuestionario en el que nos pasarás tus datos necesarios para hacer
-                            tu
-                            programa personalizado</h6>
+                            tu programa personalizado</h6>
                         <br>
                     </div>
                     <div class="col-sm-4 col-12 monitor">
@@ -1146,8 +1141,8 @@
                         <i :class="'fas fa-sort-'+(!faqs.reto?'down':'up')+' float-right'"></i>
                     </div>
                     <p class="subinfo" v-show="faqs.reto">
-                        Es un programa de transformación personal de 8 semanas en el cual
-                        se te dan las herramientas necesarias para lograr la mejor version de
+                        Es un programa de transformación de 8 semanas en el cual
+                        se te dan las herramientas necesarias para lograr la mejor versión de
                         ti en 56 días.
                     </p>
                 </div>
@@ -1160,12 +1155,9 @@
                     <p class="subinfo" v-show="faqs.diferente">
                         A diferencia de otros programas donde se les da una misma dieta a
                         todos los participantes, en el RETO ACTON el plan de alimentación es
-                        específicamente planeado para ti, es decir, nunca será igual al de al-
-                        gún otro participante. Además este reto te da la oportunidad de ganar
-                        dinero diariamente, es decir, todos pueden obtener premios en efecti-
-                        vo. ¡Aquí todos ganan!
-                        También habrá un grupo privado de Facebook donde podrás interac-
-                        tuar con otros participantes y ayudarse unos con otros para mantener
+                        específicamente planeado para ti, es decir, nunca será igual al de algún otro participante. Además este reto te da la oportunidad de ganar
+                        dinero diariamente, es decir, todos pueden obtener premios en efectivo. ¡Aquí todos ganan!
+                        También habrá un grupo privado de Facebook donde podrás interactuar con otros participantes y ayudarse unos con otros para mantener
                         la motivación.
                     </p>
                 </div>
@@ -1178,7 +1170,7 @@
                         <i :class="'fas fa-sort-'+(!faqs.dinero?'down':'up')+' float-right'"></i>
                     </div>
                     <p class="subinfo" v-show="faqs.dinero">
-                        Lo que tu te propongas, no hay límite.
+                        Lo que tú te propongas, no hay límite.
                         Recuerda que con cada inscrito que viene de tu parte se te premia con $500 MXN
                     </p>
                 </div>
@@ -1197,12 +1189,11 @@
                 <hr>
                 <div>
                     <div @click="cambiarFaqs('dudas')" class="in-cursor">
-                        <h3 class="subtitle">¿HABRÁ QUIEN ME RESUELVA DUDAS?</h3>
+                        <h3 class="subtitle">¿HABRÁ QUIÉN ME RESUELVA DUDAS?</h3>
                         <i :class="'fas fa-sort-'+(!faqs.dudas?'down':'up')+' float-right'"></i>
                     </div>
                     <p class="subinfo" v-show="faqs.dudas">
-                        Sí, contamos con soporte para aclarar tus dudas, el cual estará dis-
-                        ponible de lunes a viernes de 9:00 am a 6:00 pm y sábados de 10:00
+                        Sí, contamos con soporte para aclarar tus dudas, el cual estará disponible de lunes a viernes de 9:00 am a 6:00 pm y sábados de 10:00
                         am a 2:00 pm
                     </p>
                 </div>
@@ -1289,13 +1280,20 @@
                         }
                     });
                 },
-                checarFeature: function (feature) {
-                    let top_of_element = $("#" + feature + "Feature").offset().top + 400;
-                    let bottom_of_element = top_of_element + $("#" + feature + "Feature").outerHeight() + 400;
+                checarFeature: function (feature, first, second, third) {
+                    let top_of_element = $("#" + feature + "Feature").offset().top + 200;
+                    let bottom_of_element = top_of_element + $("#" + feature + "Feature").outerHeight() + 200;
                     let bottom_of_screen = $(window).scrollTop() + $(window).innerHeight();
                     let top_of_screen = $(window).scrollTop();
                     if ((bottom_of_screen > top_of_element) && (top_of_screen < bottom_of_element)) {
-                        this.mostrar(feature)
+                        if(feature=='titulo'){
+                            this.ocultar('videos');
+                        }else{
+                            this.mostrar(feature);
+                            this.ocultar(first);
+                            this.ocultar(second);
+                            this.ocultar(third);
+                        }
                     }
                 },
                 terminar: function (video) {
@@ -1318,10 +1316,11 @@
                 let vm = this;
                 if (this.screen < 801) {
                     $(window).scroll(function () {
-                        vm.checarFeature('comidas');
-                        vm.checarFeature('entrenamiento');
-                        vm.checarFeature('suplementos');
-                        vm.checarFeature('videos');
+                        vm.checarFeature('comidas','entrenamiento','suplementos','videos');
+                        vm.checarFeature('entrenamiento','comidas','suplementos','videos');
+                        vm.checarFeature('suplementos','comidas','entrenamiento','videos');
+                        vm.checarFeature('videos','suplementos','comidas','entrenamiento');
+                        vm.checarFeature('titulo','videos','','');
                     });
                 }
 
@@ -1331,8 +1330,8 @@
                         wrap: false
                     });
 
-                    $('#videosCarousel').carousel({
-                        interval: 0,
+                    $('#carouselVideos').carousel({
+                        interval: 20000,
                         wrap: false
                     });
                 });

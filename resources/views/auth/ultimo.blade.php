@@ -29,8 +29,9 @@
         <div>
             <div align="center">
                 <div id="header" align="center">
-                    <h6 class="text-uppercase bigText" >Bienvenido al</h6>
-                    <h6 class="text-uppercase biggerText font-weight-bold acton">Reto Acton</h6>
+                    <h6 class="text-uppercase bigText" >Bienvenido</h6>
+                    <br>
+                    <br>
                 </div>
                 <video autoplay src="{{url('/getVideo/ultimo')}}/1" style="min-width: 95vmin; max-height: 20vmax;">
                     <source src="{{url('/getVideo/ultimo')}}/1">
@@ -53,7 +54,7 @@
                             <label style="color: #000; font-weight: bold; font-family: unitext_bold_cursive" v-if="descuento=='{{env('DESCUENTO')}}'">ÚLTIMO DIA</label>
                         </div>
                         <div id="pagar">
-                            <div>a solo</div>
+                            <div>a sólo</div>
                             <div style="font-size: 1.5rem; margin-left: 5px">
                                 <money :cantidad="''+monto" :caracter="true" :decimales="0"
                                        estilo="font-size:1.5em; font-weight: bold"></money>
