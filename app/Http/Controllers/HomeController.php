@@ -48,21 +48,7 @@ class HomeController extends Controller
 
     public function index()
     {
-        $photos = Storage::disk('local')->files('public/img');
-        $testimonios = Storage::disk('local')->files('public/testimonios');
-        $urls = collect();
-        $personas = collect();
-        foreach ($photos as $photo) {
-            $nombre = explode('/', $photo);
-            $nombre = $nombre[count($nombre) - 1];
-            $urls->push(url("getImagen/" . $nombre));
-        }
-        foreach ($testimonios as $testimonio) {
-            $nombre = explode('/', $testimonio);
-            $nombre = $nombre[count($nombre) - 1];
-            $personas->push(url("getTestimonio/" . $nombre));
-        }
-        return view('welcome', ['urls' => $urls, 'testimonios' => $personas]);
+        return view('welcome');
     }
 
     public function getImage($imagen)

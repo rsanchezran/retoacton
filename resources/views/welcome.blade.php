@@ -649,7 +649,7 @@
 @endsection
 @section('content')
     <div id="vue">
-        <inicio :urls="{{$urls}}" :testimonios="{{$testimonios}}"></inicio>
+        <inicio></inicio>
     </div>
     <template id="inicio-template">
         <div>
@@ -1220,7 +1220,6 @@
     <script>
         Vue.component('inicio', {
             template: '#inicio-template',
-            props: ['urls', 'testimonios'],
             data: function () {
                 return {
                     screen: 0,
@@ -1280,20 +1279,13 @@
                         }
                     });
                 },
-                checarFeature: function (feature, first, second, third) {
-                    let top_of_element = $("#" + feature + "Feature").offset().top + 200;
-                    let bottom_of_element = top_of_element + $("#" + feature + "Feature").outerHeight() + 200;
+                checarFeature: function (feature) {
+                    let top_of_element = $("#" + feature + "Feature").offset().top + 400;
+                    let bottom_of_element = top_of_element + $("#" + feature + "Feature").outerHeight() + 400;
                     let bottom_of_screen = $(window).scrollTop() + $(window).innerHeight();
                     let top_of_screen = $(window).scrollTop();
                     if ((bottom_of_screen > top_of_element) && (top_of_screen < bottom_of_element)) {
-                        if(feature=='titulo'){
-                            this.ocultar('videos');
-                        }else{
-                            this.mostrar(feature);
-                            this.ocultar(first);
-                            this.ocultar(second);
-                            this.ocultar(third);
-                        }
+                        this.mostrar(feature)
                     }
                 },
                 terminar: function (video) {
@@ -1316,11 +1308,10 @@
                 let vm = this;
                 if (this.screen < 801) {
                     $(window).scroll(function () {
-                        vm.checarFeature('comidas','entrenamiento','suplementos','videos');
-                        vm.checarFeature('entrenamiento','comidas','suplementos','videos');
-                        vm.checarFeature('suplementos','comidas','entrenamiento','videos');
-                        vm.checarFeature('videos','suplementos','comidas','entrenamiento');
-                        vm.checarFeature('titulo','videos','','');
+                        vm.checarFeature('comidas');
+                        vm.checarFeature('entrenamiento');
+                        vm.checarFeature('suplementos');
+                        vm.checarFeature('videos');
                     });
                 }
 

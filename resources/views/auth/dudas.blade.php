@@ -1,6 +1,5 @@
-@extends('layouts.welcome')
+@extends('layouts.app')
 @section('header')
-
     <style>
         .form-control {
             border: 0;

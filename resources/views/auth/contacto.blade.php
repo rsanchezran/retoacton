@@ -1,6 +1,5 @@
 @extends('layouts.welcome')
 @section('header')
-
     <style>
         .form-control {
             border: 0;
@@ -26,6 +25,7 @@
             text-transform: uppercase;
             font-weight: bold;
         }
+
         .btn-info:disabled {
             background-color: #437393;
         }
