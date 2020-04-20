@@ -20,6 +20,7 @@
         <div style="background-color: #edebec; padding: 60px 20px 20px 20px; font-size: 1.4em">
             <label>{{$contacto->nombres." ".$contacto->apellidos}} tiene la siguiente duda</label>
             <p>{{$contacto->mensaje}}</p>
+            <p>{{$contacto->email." ".$contacto->telefono}}</p>
         </div>
     </div>
 @endsection

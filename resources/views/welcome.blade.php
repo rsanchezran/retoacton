@@ -822,6 +822,33 @@
                     </div>
                 </div>
                 <div id="desicion" class="section container text-center">
+                    <h6 class="text-uppercase bigger thin" style="color:#929494">Ranking de participantes actualizado</h6>
+                    <table class="table text-left mt-4">
+                        <tr>
+                            <td>Nombre</td>
+                            <td>Puntos</td>
+                        </tr>
+                        <tr>
+                            <td>1. Alejandro Castellanos</td>
+                            <td>2400</td>
+                        </tr>
+                        <tr>
+                            <td>2. Eréndira González</td>
+                            <td>2100</td>
+                        </tr>
+                        <tr>
+                            <td>3. Arturo Cortez</td>
+                            <td>1850</td>
+                        </tr>
+                        <tr>
+                            <td>4. Diana Alvarado</td>
+                            <td>1275</td>
+                        </tr>
+                        <tr>
+                            <td>5. Daniel Rojas</td>
+                            <td>1050</td>
+                        </tr>
+                    </table>
                     <div class="col-12 col-sm-9 mr-auto ml-auto">
                         <h6 class="text-uppercase bigger thin" style="color:#929494">Estás a una decisión</h6>
                         <h6 class="text-uppercase font-weight-bold biggest">De cambiarlo todo</h6>
