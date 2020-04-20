@@ -985,22 +985,15 @@
                                 <h6>Luis</h6>
                                 <h5>Quintana Roo, México</h5>
                                 <p>
-                                    "La dieta esta muy rica ya que nunca te ponen
-                                    alimentos que no te gustan, ademas
-                                    la rutina es muy flexible, yo decido qué días quiero
-                                    entrenar en casa y que días entrenar en gym.
-                                    El mejor reto!”
+                                    "Hacer el reto con Pipo fue super motivante, vi resultados desde los primeros 15 días, siempre esta al pendiente de todos por medio del grupo privado y todo el equipo Acton siempre esta al pendiente para resolver las dudas”
                                 </p>
                             </div>
                             <div class="col-12 col-sm-4 testimonio">
                                 <img src="{{asset('images/fabricio.png')}}" width="120">
                                 <h6>Fabricio</h6>
-                                <h5>Goiana, Brasil</h5>
+                                <h5>Goiania, Brasil</h5>
                                 <p>
-                                    "El programa me pareció excelente con
-                                    dietas muy practicas y accesibles, rutinas muy bien
-                                    explicadas y muy buenos resultados.
-                                    Gané dinero desde el primer día."
+                                    "Soy profesor de Capoeria y siempre tengo que mantenerme en forma, en las 8 semanas del reto vi mas resultados en mi cuerpo que el ultimo año que estuve entrenando en el gym."
                                 </p>
                             </div>
                             <div class="col-12 col-sm-4 testimonio">
@@ -1013,8 +1006,7 @@
                             </div>
                         </div>
                     </div>
-                    <div v-show="screen>801" id="carouselVideos" class="col-sm-10" style="margin:60px auto"
-                         class="carousel slide" data-ride="carousel" data-pause="false">
+                    <div id="carouselVideos" class="carousel slide" data-ride="carousel">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
                                 <div class="d-flex flex-wrap">
@@ -1055,22 +1047,15 @@
                                         <h6>Luis</h6>
                                         <h5>Quintana Roo, México</h5>
                                         <p>
-                                            "La dieta esta muy rica ya que nunca te ponen
-                                            alimentos que no te gustan, ademas
-                                            la rutina es muy flexible, yo decido qué días quiero
-                                            entrenar en casa y que días entrenar en gym.
-                                            El mejor reto!”
+                                            "Hacer el reto con Pipo fue super motivante, vi resultados desde los primeros 15 días, siempre esta al pendiente de todos por medio del grupo privado y todo el equipo Acton siempre esta al pendiente para resolver las dudas”
                                         </p>
                                     </div>
                                     <div class="col-12 col-sm-4 testimonio">
                                         <img src="{{asset('images/fabricio.png')}}" width="120">
                                         <h6>Fabricio</h6>
-                                        <h5>Goiana, Brasil</h5>
+                                        <h5>Goiania, Brasil</h5>
                                         <p>
-                                            "El programa me pareció excelente con
-                                            dietas muy practicas y accesibles, rutinas muy bien
-                                            explicadas y muy buenos resultados.
-                                            Gané dinero desde el primer día."
+                                            "Soy profesor de Capoeria y siempre tengo que mantenerme en forma, en las 8 semanas del reto vi mas resultados en mi cuerpo que el ultimo año que estuve entrenando en el gym."
                                         </p>
                                     </div>
                                     <div class="col-12 col-sm-4 testimonio">
@@ -1083,17 +1068,15 @@
                                     </div>
                                 </div>
                             </div>
-                            <a class="carousel-control-prev" href="#carouselVideos" role="button"
-                               data-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="sr-only">Previous</span>
-                            </a>
-                            <a class="carousel-control-next" href="#carouselVideos" role="button"
-                               data-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="sr-only">Next</span>
-                            </a>
                         </div>
+                        <a class="carousel-control-prev" href="#carouselVideos" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselVideos" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
                     </div>
                     <div class="col-10 col-sm-4 col-md-4 text-center d-block mr-auto ml-auto mt-8"
                          style="margin-bottom:40px">
@@ -1322,8 +1305,7 @@
                     });
 
                     $('#carouselVideos').carousel({
-                        interval: 20000,
-                        wrap: false
+                        interval: 10000,
                     });
                 });
 
