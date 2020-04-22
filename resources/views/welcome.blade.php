@@ -856,9 +856,9 @@
                         </tr>
                     </table>
                     <div>
-                        <p>Esta table puede estar cambiando de posiciones hasta el 31 de Diciembre del presente año.</p>
+                        <p>Esta tabla puede estar cambiando de posiciones hasta el 31 de Diciembre del presente año.</p>
                     </div>
-                    <div class="col-12 col-sm-9 mr-auto ml-auto">
+                    <div class="col-12 col-sm-9 mr-auto ml-auto mt-4">
                         <h6 class="text-uppercase bigger thin" style="color:#929494">Estás a una decisión</h6>
                         <h6 class="text-uppercase font-weight-bold biggest">De cambiarlo todo</h6>
                         <a class="btn btn-primary text-uppercase mt-4" href="{{url('register')}}"
@@ -1042,7 +1042,7 @@
                             </div>
                         </div>
                     </div>
-                    <div v-else id="carouselVideos" class="carousel slide" data-ride="carousel">
+                    <div v-show="screen>801" id="carouselVideos" class="carousel slide" data-ride="carousel">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
                                 <div class="d-flex flex-wrap">
@@ -1299,8 +1299,8 @@
                     });
                 },
                 checarFeature: function (feature, primero, segundo) {
-                    let top_of_element = $("#" + feature + "Feature").offset().top + 80;
-                    let bottom_of_element = top_of_element + $("#" + feature + "Feature").outerHeight() + 80;
+                    let top_of_element = $("#" + feature + "Feature").offset().top + 120;
+                    let bottom_of_element = top_of_element + $("#" + feature + "Feature").outerHeight() + 120;
                     let bottom_of_screen = $(window).scrollTop() + $(window).innerHeight();
                     let top_of_screen = $(window).scrollTop();
                     if ((bottom_of_screen > top_of_element) && (top_of_screen < bottom_of_element)) {
