@@ -140,9 +140,9 @@
                                 <a class="dropdown-item" href="{{ url('/reto/dia/15/0/0') }}">
                                     <i class="far fa-clipboard-list"></i> Dieta 2</a>
                                 <a class="dropdown-item" href="{{ url('/reto/dia/29/0/0') }}">
-                                    <i class="far fa-clipboard-list"></i> Dieta 1</a>
+                                    <i class="far fa-clipboard-list"></i> Dieta 3</a>
                                 <a class="dropdown-item" href="{{ url('/reto/dia/43/0/0') }}">
-                                    <i class="far fa-clipboard-list"></i> Dieta 2</a>
+                                    <i class="far fa-clipboard-list"></i> Dieta 4</a>
                             </div>
                         </li>
                         @endif
