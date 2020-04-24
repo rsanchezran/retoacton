@@ -137,7 +137,11 @@
                                     <i class="far fa-poll-h"></i> Encuesta</a>
                                 <a class="dropdown-item" href="{{ url('/reto/dia/1/0/0') }}">
                                     <i class="far fa-clipboard-list"></i> Dieta 1</a>
-                                <a class="dropdown-item" href="{{ url('/reto/dia/32/0/0') }}">
+                                <a class="dropdown-item" href="{{ url('/reto/dia/15/0/0') }}">
+                                    <i class="far fa-clipboard-list"></i> Dieta 2</a>
+                                <a class="dropdown-item" href="{{ url('/reto/dia/29/0/0') }}">
+                                    <i class="far fa-clipboard-list"></i> Dieta 1</a>
+                                <a class="dropdown-item" href="{{ url('/reto/dia/43/0/0') }}">
                                     <i class="far fa-clipboard-list"></i> Dieta 2</a>
                             </div>
                         </li>
