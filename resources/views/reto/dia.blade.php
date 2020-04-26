@@ -144,9 +144,11 @@
                                 <h5>@{{ serie.nombre }}</h5>
                             </div>
                             <div v-for="ejercicio in serie.ejercicios" class="ejercicio">
-                                <div class="d-flex flex-wrap">
-                                    <a class="col-4" @click="mostrarVideo(ejercicio)">@{{ ejercicio.ejercicio }}</a>
-                                    <div class="col-2" v-for="subserie in ejercicio.subseries">@{{ subserie.repeticiones }}</div>
+                                <div>
+                                    <div>
+                                        <a @click="mostrarVideo(ejercicio)">@{{ ejercicio.ejercicio }}</a>
+                                    </div>
+                                    <div v-for="subserie in ejercicio.subseries">@{{ subserie.repeticiones }}</div>
                                 </div>
                             </div>
                         </div>
