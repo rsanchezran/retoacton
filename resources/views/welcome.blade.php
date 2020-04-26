@@ -1305,8 +1305,6 @@
                     let top_of_screen = $(window).scrollTop();
                     if ((bottom_of_screen > top_of_element) && (top_of_screen < bottom_of_element)) {
                         this.mostrar(feature)
-                        this.ocultar(primero);
-                        this.ocultar(segundo);
                     }
                 },
                 terminar: function (video) {
@@ -1329,12 +1327,10 @@
                 let vm = this;
                 if (this.screen < 600) {
                     $(window).scroll(function () {
-                        vm.checarFeature('inicio','comidas','entrenamiento');
-                        vm.checarFeature('comidas','entrenamiento','suplementos');
-                        vm.checarFeature('entrenamiento','comidas','suplementos');
-                        vm.checarFeature('suplementos','entrenamiento','videos');
-                        vm.checarFeature('videos','suplementos','entrenamiento');
-                        vm.checarFeature('titulo','videos','suplementos');
+                        vm.checarFeature('comidas');
+                        vm.checarFeature('entrenamiento');
+                        vm.checarFeature('suplementos');
+                        vm.checarFeature('videos');
                     });
                 }
 

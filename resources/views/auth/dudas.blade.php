@@ -57,8 +57,8 @@
                     </button>
                 </div>
             </div>
-            <modal ref="modal" title="Gracias por tu interés" @ok="salir" @cancel="salir" :showcancel="false">
-                <h6>Gracias por mostrar tu interés en el <b>RETO ACTON</b> de 8 semanas</h6>
+            <modal ref="modal" title="Gracias por contactarnos" @ok="salir" @cancel="salir" :showcancel="false">
+                <p>Daremos respuesta a tu solicitud en las próximas 24 horas.</p>
             </modal>
         </div>
     </template>

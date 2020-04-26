@@ -160,7 +160,7 @@
                     <h4 class="comida">Cardio</h4>
                     <div style="display: flex; flex-wrap:wrap;" v-if="dia.cardio!=null">
                         <div v-for="ejercicio in dia.cardio" class="ejercicio">
-                            <a @click="mostrarVideo(ejercicio)">@{{ ejercicio.ejercicio }}</a>
+                            <span>@{{ ejercicio.ejercicio }}</span>
                         </div>
                     </div>
                     <div v-else>

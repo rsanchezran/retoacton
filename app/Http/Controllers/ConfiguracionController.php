@@ -188,7 +188,7 @@ class ConfiguracionController extends Controller
                 'casa.*.ejercicios.*.ejercicio' => 'required|max:50',
                 'casa.*.ejercicios.*.video' => 'required',
                 'cardio.*.ejercicio' => 'required|max:50',
-                'cardio.*.video' => 'required',
+//                'cardio.*.video' => 'required',
             ],
             [
                 'nota.max' => 'Debe capturar máximo 250 caracteres',
@@ -254,7 +254,7 @@ class ConfiguracionController extends Controller
             }
             $cardioDb->dia_id = $dia->id;
             $cardioDb->ejercicio = $cardio['ejercicio'];
-            $cardioDb->video = $cardio['video'];
+            $cardioDb->video = $cardio['video']==null?'':$cardio['video'];
             $cardioDb->tipo = TipoEjercicio::AEROBICO;
             $cardioDb->genero = $request->genero;
             $cardioDb->objetivo = $request->objetivo;

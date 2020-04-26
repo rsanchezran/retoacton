@@ -7,6 +7,7 @@ use App\Code\Objetivo;
 use App\Code\RolUsuario;
 use App\Code\TipoPago;
 use App\Code\TipoRespuesta;
+use App\Code\Utils;
 use App\Code\ValidarCorreo;
 use App\Compra;
 use App\Console\Commands\Mailchimp;
@@ -81,6 +82,7 @@ class HomeController extends Controller
     public function getVideo($video, $random)
     {
         $nombre = str_replace(" ", "_", $video);
+        $nombre = Utils::quitarTildes($nombre);
         return response()->file(storage_path("app/public/optimized/$nombre.mp4"));
     }
 
