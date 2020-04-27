@@ -97,7 +97,8 @@ class RegisterController extends Controller
             }
         });
         $validator->validate();
-        $usuario = User::withTrashed()->orderBy('created_at')->where('email', $request->email)->get()->last();
+        $email = trim($request->email);
+        $usuario = User::withTrashed()->orderBy('created_at')->where('email', $email)->get()->last();
         if ($usuario!=null&&$usuario->id==1){
             $cobro = new \stdClass();
             $cobro->original = 0;
@@ -106,10 +107,10 @@ class RegisterController extends Controller
             $status = 'error';
             $mensaje = 'Este usuario ya pertenece al RETO ACTON.';
         }else{
-            $contacto = Contacto::withTrashed()->where("email", $request->email)->first();
+            $contacto = Contacto::withTrashed()->where("email", $email)->first();
             if ($contacto == null) {
                 $contacto = new Contacto();
-                $contacto->email = $request->email;
+                $contacto->email = $email;
                 $contacto->etapa = 1;
             }
             $contacto->nombres = $result = preg_replace('/\d/', '', $request->nombres);
@@ -119,7 +120,7 @@ class RegisterController extends Controller
             $contacto->codigo = $request->codigo;
             $contacto->deleted_at = null;
             $contacto->save();
-            $cobro = User::calcularMontoCompra($request->codigo, $request->email,
+            $cobro = User::calcularMontoCompra($request->codigo, $email,
                 $usuario == null ? null : $usuario->created_at,
                 $usuario == null ? null : $usuario->fecha_inscripcion,
                 $usuario == null ? null : $usuario->inicio_reto, $usuario== null ? null : $usuario->deleted_at);

@@ -91,6 +91,71 @@ class PagoController extends Controller
         $validator->validate();
     }
 
+    public function tarjeta(Request $request)
+    {
+        $this->validarOpenpay($request);
+        try {
+            \DB::beginTransaction();
+            $usuario = User::withTrashed()->orderBy('created_at')->where('email', $request->email)->get()->last();
+            $cobro = User::calcularMontoCompra($request->pregunta, $request->email,
+                $usuario == null ? null : $usuario->created_at,
+                $usuario == null ? null : $usuario->fecha_inscripcion,
+                $usuario == null ? null : $usuario->inicio_reto, $usuario == null ? null : $usuario->deleted_at)->monto;
+            $order = \Conekta\Order::create(
+                [
+                    "line_items" => [
+                        [
+                            "name" => "Tacos",
+                            "unit_price" => 1000,
+                            "quantity" => 120
+                        ]
+                    ],
+                    "shipping_lines" => [
+                        [
+                            "amount" => 1500,
+                            "carrier" => "FEDEX"
+                        ]
+                    ], //optional - shipping_lines are only required for physical goods
+                    "currency" => "MXN",
+                    "customer_info" => [
+                        "name" => "nombre",
+                        "email" => "fulanito@conekta.com",
+                        "phone" => "5512345678"
+                    ],
+                    "shipping_contact" => [
+                        "address" => [
+                            "street1" => "Calle 123, int 2",
+                            "postal_code" => "06100",
+                            "country" => "MX"
+                        ]
+                    ], //optional - shipping_contact is only required for physical goods
+                    "metadata" => ["reference" => "12987324097", "more_info" => "lalalalala"],
+                    "charges" => [
+                        [
+                            "payment_method" => [
+                                "monthly_installments" => 3, //optional
+                                "type" => "card",
+                                "token_id" => "tok_test_visa_4242"
+                            ] //payment_method - use customer's default - a card
+                            //to charge a card, different from the default,
+                            //you can indicate the card's source_id as shown in the Retry Card Section
+                        ]
+                    ]
+                ]
+            );
+            if ($usuario == null) {
+                User::crear($request->nombres, $request->apellidos, $request->email, 'tarjeta', 0,
+                    $request->pregunta, $cobro);
+            } else {
+                $usuario->refrendarPago($cobro);
+            }
+            \DB::commit();
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'redirect' => url('login'), 'codigo' => $e->getCode(), 'error' => $e->getMessage()]);
+        }
+        return response()->json(['status' => 'ok', 'redirect' => url('login')]);
+    }
+
     public function openpay(Request $request)
     {
         $this->validarOpenpay($request);
@@ -99,7 +164,7 @@ class PagoController extends Controller
             $usuario = User::withTrashed()->orderBy('created_at')->where('email', $request->email)->get()->last();
             $cobro = User::calcularMontoCompra($request->pregunta, $request->email,
                 $usuario == null ? null : $usuario->created_at,
-                $usuario  == null ? null : $usuario->fecha_inscripcion,
+                $usuario == null ? null : $usuario->fecha_inscripcion,
                 $usuario == null ? null : $usuario->inicio_reto, $usuario == null ? null : $usuario->deleted_at)->monto;
             $openpay = \Openpay::getInstance(
                 env('OPENPAY_ID'),
@@ -144,7 +209,7 @@ class PagoController extends Controller
         $cobro = User::calcularMontoCompra($request->pregunta, $request->email,
             $usuario == null ? null : $usuario->created_at,
             $usuario == null ? null : $usuario->fecha_inscripcion,
-            $usuario  == null ? null : $usuario->inicio_reto,
+            $usuario == null ? null : $usuario->inicio_reto,
             $usuario == null ? null : $usuario->deleted_at)->monto;
         Conekta::setApiKey(env("CONEKTA_PRIVATE"));
         Conekta::setApiVersion("2.0.0");
@@ -154,7 +219,7 @@ class PagoController extends Controller
                     array(
                         'name' => 'Acton',
                         'description' => 'Acton reto',
-                        'unit_price' => $cobro*100,
+                        'unit_price' => $cobro * 100,
                         'quantity' => 1,
                     )
                 ),
@@ -217,7 +282,7 @@ class PagoController extends Controller
                     array(
                         "name" => "Acton",
                         "description" => "Acton reto",
-                        'unit_price' => $cobro*100,
+                        'unit_price' => $cobro * 100,
                         "quantity" => 1
                     )//first line_item
                 ), //line_items
