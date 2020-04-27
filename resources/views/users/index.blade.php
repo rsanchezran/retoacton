@@ -95,6 +95,7 @@
                                 @{{ usuario.name+' '+usuario.last_name }}
                             </span>
                             <span>@{{ usuario.email }}</span>
+                            <span>@{{ usuario.telefono }}</span>
                             <span>@{{ usuario.medio }}</span>
                             <button class="btn btn-sm btn-default text-capitalize" @click="verCompras(usuario)">@{{ usuario.tipo_pago }}</button>
                         </div>

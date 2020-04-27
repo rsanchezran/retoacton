@@ -1,6 +1,12 @@
 @extends('layouts.welcome')
 @section('header')
     <style>
+        .fade-enter-active, .fade-leave-active {
+            transition: opacity .1s;
+        }
+        .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+            opacity: 0;
+        }
 
         video {
             height: 200px;
@@ -70,18 +76,26 @@
             height: 100%;
         }
 
+        .subinfo img {
+            width: 100%;
+            height: 50%;
+        }
+
+        .subinfo div{
+            padding: 4px 10px;
+        }
+
         #features {
             background-color: #005D9C;
             padding: 20px;
         }
 
         #features .subinfo {
-            display: none;
             background-color: #F0F0F0;
-            padding: 4px 10px;
             font-size: .7rem;
             font-family: unitext_light;
             flex-grow: 1;
+            height: 100%;
         }
 
         #features .subtitle {
@@ -158,40 +172,9 @@
             background-position: top right
         }
 
-        .semana {
-            align-self: center;
-            width: 300px;
-            border: none;
-            border-radius: 0px 0px 30px 0px;
-            background-color: #fff;
-            margin-top: 20px;
-            padding: 5px 10px;
-            text-align: center;
-            color: #0d65a0;
-            background-image: url("{{asset('img/boton.png')}}");
-            background-position: left center;
-            background-repeat: no-repeat;
-            font-size: .8rem;
-            box-shadow: 6px 4px 4px #B9BABA;
-            height: 55px;
-        }
-
-        #audios {
-            background-image: url("{{asset('img/meditacion.png')}}");
-            background-repeat: no-repeat;
-            background-size: 100% 100%;
-            padding-bottom: 120px;
-            padding-top: 60px;
-            border-bottom: 1px solid #003450;
-        }
-
-        #infoAudios {
-            background-color: #00ace3;
-            color: #FFF;
-            padding: 40px 60px;
-            text-align: center;
-            border-radius: 0px 5px 5px 0px;
-            opacity: .8;
+        .modo{
+            height: 2rem !important;
+            width: auto !important;
         }
 
         #pipo {
@@ -363,10 +346,6 @@
             margin-right: 10px;
         }
 
-        #entrenamiento img {
-            height: 2rem;
-        }
-
         #frase {
             margin: 40px auto;
         }
@@ -380,10 +359,6 @@
                 font-size: 2.5vw;
             }
 
-            #features .subinfo {
-                padding: 20px !important;
-            }
-
             #features .subinfo h6 {
                 font-size: .7rem !important;
                 line-height: 1.2 !important;
@@ -395,7 +370,7 @@
 
             @media only screen and (max-width: 800px) {
                 .feature .subinfo {
-                    height: 200px;
+                    height: 380px !important;
                 }
 
                 #testtitulo {
@@ -427,13 +402,6 @@
 
                 #finanzas {
                     background-image: url("{{asset('img/rayobackmovil.png')}}");
-                }
-
-                #infoAudios {
-                    width: 80%;
-                    padding: 10px 20px !important;
-                    border-radius: 5px;
-                    font-size: .8rem;
                 }
 
                 #cree {
@@ -563,12 +531,6 @@
                     margin-left: 40px;
                     margin-top: 100px;
                 }
-
-                #audios {
-                    background-size: 100% 100%;
-                    padding-bottom: 50px;
-                    padding-top: 20px;
-                }
             }
 
             @media only screen and (max-width: 420px) {
@@ -609,15 +571,6 @@
                     margin: 0px auto;
                 }
 
-                #audios {
-                    background-image: url("{{asset('img/meditacionmovil.png')}}");
-                    background-repeat: no-repeat;
-                    background-position: center;
-                    padding-bottom: 120px;
-                    padding-top: 80px;
-                    background-size: cover;
-                }
-
                 #garantia {
                     font-size: 2.5rem;
                 }
@@ -629,11 +582,8 @@
         }
 
         @media only screen and (min-width: 1920px) {
-            #audios {
-                padding-bottom: 320px;
-            }
 
-            #features .subinfo {
+            .subinfo div {
                 padding: 20px !important;
             }
         }
@@ -643,11 +593,6 @@
                 font-size: .62rem;
                 line-height: 1;
             }
-
-            #features .subinfo {
-                padding: 2px 5px;
-            }
-
         }
     </style>
 @endsection
@@ -703,82 +648,103 @@
             <div class="">
                 <div id="features" class="d-flex flex-wrap mr-auto ml-auto">
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
-                        <div id="comidasFeature" class="feature" @mouseleave="ocultar('comidas')"
-                             @mouseover="mostrar('comidas', false)" @click="mostrar('comidas', false)">
-                            <img id="comidasImg" class="img" src="{{asset('/img/comidasblanco.jpg')}}" width="100%">
-                            <img src="{{asset('img/comidas.jpg')}}" style="display: none">
-                            <h3 id="comidasSub" class="subtitle">
-                                <span>Plan de alimentación</span>
-                                <span class="small text-lowercase">ver más</span>
-                            </h3>
-                            <div id="comidas" class="subinfo">
-                                <div class="d-flex">
-                                    <h6 style="font-family: unitext_bold_cursive;">Los planes de alimentación que
-                                        recibes en este programa de 8 semanas son totalmente personalizados.</h6>
+                        <div id="comidasFeature" class="feature" @click="features.comidas=false" @mouseover="features.comidas=false"
+                             @mouseleave="features.comidas=true">
+                            <transition name="fade" mode="out-in">
+                                <div v-if="features.comidas" key="primero">
+                                    <img id="comidasImg" class="img" src="{{asset('/img/comidasblanco.jpg')}}" width="100%">
+                                    <h3 id="comidasSub" class="subtitle">
+                                        <span>Plan de alimentación </span>
+                                        <span class="small text-lowercase">ver más</span>
+                                    </h3>
                                 </div>
-                                <h6>En <b style="font-family: unitext_bold_cursive">ACTON</b> estamos seguros de que,
-                                    para tener más posibilidades de cambio, tu plan de alimentación te debe agradar, por
-                                    lo que tú puedes elegir cuáles alimentos NO quieres que aparezcan en tu programa
-                                    para que sea más fácil llevarlo</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-6 col-lg-3 col-12">
-                        <div id="entrenamientoFeature" class="feature" @mouseleave="ocultar('entrenamiento')"
-                             @mouseover="mostrar('entrenamiento', false)" @click="mostrar('entrenamiento', false)">
-                            <img id="entrenamientoImg" class="img" src="{{asset('/img/entrenamientoblanco.jpg')}}"
-                                 width="100%">
-                            <img src="{{asset('img/entrenamiento.jpg')}}" style="display: none">
-                            <h3 id="entrenamientoSub" class="subtitle">
-                                <span>Plan flexible de entrenamiento</span>
-                                <span class="small text-lowercase">ver más</span>
-                            </h3>
-                            <div id="entrenamiento" class="subinfo">
-                                <h6 class="text-justify">Puedes elegir si deseas entrenar en el gym, desde la comodidad
-                                    de tu hogar o en el lugar donde te encuentres, ya que dentro de tu sesión tienes un
-                                    botón en el cual puedes cambiar tu rutina a </h6>
-                                <h6 class="font-weight-bold text-center" style="font-family: unitext;">Modo: GYM o CASA</h6>
-                                <div class="col-sm-10 col-md-10 col-lg-10 col-xl-10 d-flex justify-content-between"
-                                     style="margin: auto; padding: 0;">
-                                    <img src="{{asset('img/Boton01.png')}}"/>
-                                    <img src="{{asset('img/Boton02.png')}}"/>
+                                <div v-else class="subinfo" key="segundo">
+                                    <img src="{{asset('img/comidas.jpg')}}">
+                                    <div>
+                                        <h6 style="font-family: unitext_bold_cursive;">Los planes de alimentación que
+                                            recibes en este programa de 8 semanas son totalmente personalizados.</h6>
+                                        <h6>En <b style="font-family: unitext_bold_cursive">ACTON</b> estamos seguros de que,
+                                            para tener más posibilidades de cambio, tu plan de alimentación te debe agradar, por
+                                            lo que tú puedes elegir cuáles alimentos NO quieres que aparezcan en tu programa
+                                            para que sea más fácil llevarlo</h6>
+                                    </div>
                                 </div>
-                            </div>
+                            </transition>
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
-                        <div id="suplementosFeature" class="feature" @mouseleave="ocultar('suplementos')"
-                             @mouseover="mostrar('suplementos', false)" @click="mostrar('suplementos', false)">
-                            <img id="suplementosImg" class="img" src="{{asset('/img/suplementosblanco.jpg')}}"
-                                 width="100%">
-                            <img src="{{asset('img/suplementos.jpg')}}" style="display: none">
-                            <h3 id="suplementosSub" class="subtitle">
-                                <span>Guía de suplementación</span>
-                                <span class="small text-lowercase">ver más</span>
-                            </h3>
-                            <div id="suplementos" class="subinfo">
-                                <h6>Te diremos cuáles son los suplementos adecuados con las dosis óptimas para alcanzar
-                                    de una manera más efectiva y rápida el objetivo de que deseas <span
-                                        class="font-weight-bold"
-                                        style="font-family:unitext;">siempre cuidando tu salud.</span></h6>
-                            </div>
+                        <div id="entrenamientoFeature" class="feature" @click="features.entrenamiento=false" @mouseover="features.entrenamiento=false"
+                            @mouseleave="features.entrenamiento=true">
+                            <transition name="fade" mode="out-in">
+                                <div v-if="features.entrenamiento" key="first">
+                                    <img id="entrenamientoImg" class="img" src="{{asset('/img/entrenamientoblanco.jpg')}}"
+                                         width="100%">
+                                    <h3 id="entrenamientoSub" class="subtitle">
+                                        <span>Plan flexible de entrenamiento</span>
+                                        <span class="small text-lowercase">ver más</span>
+                                    </h3>
+                                </div>
+                                <div v-else class="subinfo" key="second">
+                                    <img src="{{asset('img/entrenamiento.jpg')}}">
+                                    <div>
+                                        <h6 class="text-justify">Puedes elegir si deseas entrenar en el gym, desde la comodidad
+                                            de tu hogar o en el lugar donde te encuentres, ya que dentro de tu sesión tienes un
+                                            botón en el cual puedes cambiar tu rutina a </h6>
+                                        <h6 class="font-weight-bold text-center" style="font-family: unitext;">Modo: GYM o CASA</h6>
+                                        <div class="col-sm-10 col-md-10 col-lg-10 col-xl-10 d-flex justify-content-between p-0 ml-auto mr-auto">
+                                            <img class="modo" src="{{asset('img/Boton01.png')}}"/>
+                                            <img class="modo" src="{{asset('img/Boton02.png')}}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </transition>
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
-                        <div id="videosFeature" class="feature" @mouseleave="ocultar('videos')"
-                             @mouseover="mostrar('videos', false)" @click="mostrar('videos', false)">
-                            <img id="videosImg" class="img" src="{{asset('/img/videosblanco.jpg')}}" width="100%">
-                            <img src="{{asset('img/videos.jpg')}}" style="display: none">
-                            <h3 id="videosSub" class="subtitle">
-                                <span>Videos personalizados</span>
-                                <span class="small text-lowercase">ver más</span>
-                            </h3>
-                            <div id="videos" class="subinfo">
-                                <h6><span class="font-weight-bold text-center" style="font-family: unitext">Más de 500 videos de alta resolución </span>
-                                    en tu sesión con explicación de cada ejercicio para que puedas ver la técnica
-                                    correcta de cada movimiento. Cada uno de los ejercicios trae video, ya sea de casa o
-                                    gym.</h6>
-                            </div>
+                        <div id="suplementosFeature" class="feature" @click="features.suplementos=false" @mouseover="features.suplementos=false"
+                             @mouseleave="features.suplementos=true">
+                            <transition name="fade" mode="out-in">
+                                <div v-if="features.suplementos" key="first">
+                                    <img id="suplementosImg" class="img" src="{{asset('/img/suplementosblanco.jpg')}}"
+                                     width="100%">
+                                    <h3 id="suplementosSub" class="subtitle">
+                                        <span>Guía de suplementación</span>
+                                        <span class="small text-lowercase">ver más</span>
+                                    </h3>
+                                </div>
+                                <div v-else class="subinfo" key="second">
+                                    <img src="{{asset('img/suplementos.jpg')}}">
+                                    <div>
+                                        <h6>Te diremos cuáles son los suplementos adecuados con las dosis óptimas para alcanzar
+                                            de una manera más efectiva y rápida el objetivo de que deseas <span
+                                                class="font-weight-bold"
+                                                style="font-family:unitext;">siempre cuidando tu salud.</span></h6>
+                                    </div>
+                                </div>
+                            </transition>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-lg-3 col-12">
+                        <div id="videosFeature" class="feature" @click="features.videos=false" @mouseover="features.videos=false"
+                             @mouseleave="features.videos=true">
+                            <transition name="fade" mode="out-in">
+                                <div v-if="features.videos" key="first">
+                                    <img id="videosImg" class="img" src="{{asset('/img/videosblanco.jpg')}}" width="100%">
+                                    <h3 id="videosSub" class="subtitle">
+                                        <span>Videos personalizados</span>
+                                        <span class="small text-lowercase">ver más</span>
+                                    </h3>
+                                </div>
+                                <div v-else class="subinfo" key="second">
+                                    <img src="{{asset('img/videos.jpg')}}">
+                                    <div>
+                                        <h6><span class="font-weight-bold text-center" style="font-family: unitext">Más de 500 videos de alta resolución </span>
+                                            en tu sesión con explicación de cada ejercicio para que puedas ver la técnica
+                                            correcta de cada movimiento. Cada uno de los ejercicios trae video, ya sea de casa o
+                                            gym.</h6>
+                                    </div>
+                                </div>
+                            </transition>
                         </div>
                     </div>
                 </div>
@@ -1241,10 +1207,10 @@
                 return {
                     screen: 0,
                     features: {
-                        comidas: false,
-                        entrenamiento: false,
-                        suplementos: false,
-                        videos: false
+                        comidas: true,
+                        entrenamiento: true,
+                        suplementos: true,
+                        videos: true
                     },
                     faqs: {
                         diferente: false,
@@ -1256,7 +1222,7 @@
                         mundo: false,
                         reto: false,
                         sesion: false,
-                    }
+                    },
                 }
             },
             methods: {
@@ -1264,28 +1230,6 @@
                     let cadena = url.split("/");
                     let producto = cadena[cadena.length - 1].split(".");
                     return producto[0];
-                },
-                mostrar: function (object, mostrar) {
-                    if (this.features[object] == false) {
-                        this.features[object] = true;
-                        Vue.nextTick(function () {
-                            $('#' + object + "Sub").hide();
-                            $('#' + object + "Img").prop('src', '{{asset('img')}}' + '/' + object + '.jpg');
-                            $('#' + object + "Img").removeClass('img');
-                            $('#' + object).show().css({'opacity': 0}).animate({'opacity': '1'}, 1000);
-                        });
-                    }
-                },
-                ocultar: function (object) {
-                    if (this.features[object] == true) {
-                        this.features[object] = false;
-                        Vue.nextTick(function () {
-                            $('#' + object + "Sub").show();
-                            $('#' + object + "Img").prop('src', '{{asset('img')}}' + '/' + object + 'blanco.jpg');
-                            $('#' + object + "Img").addClass('img');
-                            $('#' + object).hide();
-                        });
-                    }
                 },
                 cambiarFaqs(nombre) {
                     _.each(this.faqs, function (value, key, obj) {
@@ -1297,12 +1241,14 @@
                     });
                 },
                 checarFeature: function (feature, primero, segundo) {
-                    let top_of_element = $("#" + feature + "Feature").offset().top + 120;
-                    let bottom_of_element = top_of_element + $("#" + feature + "Feature").outerHeight() + 120;
+                    let top_of_element = $("#" + feature + "Feature").offset().top + 300;
+                    let bottom_of_element = top_of_element + $("#" + feature + "Feature").outerHeight() + 300;
                     let bottom_of_screen = $(window).scrollTop() + $(window).innerHeight();
                     let top_of_screen = $(window).scrollTop();
                     if ((bottom_of_screen > top_of_element) && (top_of_screen < bottom_of_element)) {
-                        this.mostrar(feature, true);
+                        this.features[feature]=false;
+                        this.features[primero]=true;
+                        this.features[segundo]=true;
                     }
                 },
                 terminar: function (video) {
@@ -1327,7 +1273,7 @@
                     $(window).scroll(function () {
                         vm.checarFeature('comidas', 'entrenamiento', 'suplementos');
                         vm.checarFeature('entrenamiento','comidas','suplementos');
-                        vm.checarFeature('suplementos','entrenamiento','videos');
+                        vm.checarFeature('suplementos', 'entrenamiento','videos');
                         vm.checarFeature('videos','suplementos','entrenamiento');
                     });
                 }
