@@ -234,8 +234,12 @@
         }
 
         #desicion {
-            margin-top: 100px;
+            margin-top: 80px;
             margin-bottom: 100px;
+        }
+
+        #ranking{
+            margin-top: 80px;
         }
 
         #finanzas {
@@ -700,7 +704,7 @@
                 <div id="features" class="d-flex flex-wrap mr-auto ml-auto">
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
                         <div id="comidasFeature" class="feature" @mouseleave="ocultar('comidas')"
-                             @mouseover="mostrar('comidas')" @click="mostrar('comidas')">
+                             @mouseover="mostrar('comidas', false)" @click="mostrar('comidas', false)">
                             <img id="comidasImg" class="img" src="{{asset('/img/comidasblanco.jpg')}}" width="100%">
                             <img src="{{asset('img/comidas.jpg')}}" style="display: none">
                             <h3 id="comidasSub" class="subtitle">
@@ -721,7 +725,7 @@
                     </div>
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
                         <div id="entrenamientoFeature" class="feature" @mouseleave="ocultar('entrenamiento')"
-                             @mouseover="mostrar('entrenamiento')" @click="mostrar('entrenamiento')">
+                             @mouseover="mostrar('entrenamiento', false)" @click="mostrar('entrenamiento', false)">
                             <img id="entrenamientoImg" class="img" src="{{asset('/img/entrenamientoblanco.jpg')}}"
                                  width="100%">
                             <img src="{{asset('img/entrenamiento.jpg')}}" style="display: none">
@@ -744,7 +748,7 @@
                     </div>
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
                         <div id="suplementosFeature" class="feature" @mouseleave="ocultar('suplementos')"
-                             @mouseover="mostrar('suplementos')" @click="mostrar('suplementos')">
+                             @mouseover="mostrar('suplementos', false)" @click="mostrar('suplementos', false)">
                             <img id="suplementosImg" class="img" src="{{asset('/img/suplementosblanco.jpg')}}"
                                  width="100%">
                             <img src="{{asset('img/suplementos.jpg')}}" style="display: none">
@@ -762,7 +766,7 @@
                     </div>
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
                         <div id="videosFeature" class="feature" @mouseleave="ocultar('videos')"
-                             @mouseover="mostrar('videos')" @click="mostrar('videos')">
+                             @mouseover="mostrar('videos', false)" @click="mostrar('videos', false)">
                             <img id="videosImg" class="img" src="{{asset('/img/videosblanco.jpg')}}" width="100%">
                             <img src="{{asset('img/videos.jpg')}}" style="display: none">
                             <h3 id="videosSub" class="subtitle">
@@ -823,42 +827,36 @@
                 </div>
                 <div id="desicion" class="section container text-center">
                     <h6 class="text-uppercase bigger thin" style="color:#929494">Ranking de participantes actualizado</h6>
-                    <div class="d-flex justify-content-between">
-                        <span>Nombre</span>
-                        <span>Top 5</span>
-                        <span>Puntos</span>
-                    </div>
-                    <table class="table text-left mt-4">
+                    <table id="ranking" class="table text-left">
+                        <tr>
+                            <td style="border:0;">Top 5</td>
+                            <td style="border:0;" class="text-right">Puntos</td>
+                        </tr>
                         <tr>
                             <td>1. Alejandro Castellanos</td>
-                            <td></td>
                             <td class="text-right">2400</td>
                         </tr>
                         <tr>
-                            <td>2. Eréndira González</td>
-                            <td></td>
+                            <td>2. Carolina Torres</td>
                             <td class="text-right">2100</td>
                         </tr>
                         <tr>
                             <td>3. Arturo Cortez</td>
-                            <td></td>
                             <td class="text-right">1850</td>
                         </tr>
                         <tr>
                             <td>4. Diana Alvarado</td>
-                            <td></td>
                             <td class="text-right">1275</td>
                         </tr>
                         <tr>
                             <td>5. Daniel Rojas</td>
-                            <td></td>
                             <td class="text-right">1050</td>
                         </tr>
                     </table>
-                    <div>
-                        <p>Esta tabla puede estar cambiando de posiciones hasta el 31 de Diciembre del presente año.</p>
+                    <div class="mt-4 mb-4">
+                        <p style="font-family: unitext_light">Tienes hasta el 31 de diciembre del presente año para meterte en este top 5</p>
                     </div>
-                    <div class="col-12 col-sm-9 mr-auto ml-auto mt-4">
+                    <div class="col-12 col-sm-9 mr-auto ml-auto" style="margin-top: 60px;">
                         <h6 class="text-uppercase bigger thin" style="color:#929494">Estás a una decisión</h6>
                         <h6 class="text-uppercase font-weight-bold biggest">De cambiarlo todo</h6>
                         <a class="btn btn-primary text-uppercase mt-4" href="{{url('register')}}"
@@ -1267,14 +1265,18 @@
                     let producto = cadena[cadena.length - 1].split(".");
                     return producto[0];
                 },
-                mostrar: function (object) {
+                mostrar: function (object, mostrar) {
                     if (this.features[object] == false) {
                         this.features[object] = true;
                         Vue.nextTick(function () {
                             $('#' + object + "Sub").hide();
                             $('#' + object + "Img").prop('src', '{{asset('img')}}' + '/' + object + '.jpg');
                             $('#' + object + "Img").removeClass('img');
-                            $('#' + object).show().css({'opacity': 0}).animate({'opacity': '1'}, 1000);
+                            if(mostrar){
+                                $('#' + object).show(1000);
+                            }else{
+                                $('#' + object).show().css({'opacity': 0}).animate({'opacity': '1'}, 1000);
+                            }
                         });
                     }
                 },
@@ -1304,7 +1306,9 @@
                     let bottom_of_screen = $(window).scrollTop() + $(window).innerHeight();
                     let top_of_screen = $(window).scrollTop();
                     if ((bottom_of_screen > top_of_element) && (top_of_screen < bottom_of_element)) {
-                        this.mostrar(feature)
+                        this.mostrar(feature, true);
+                        this.ocultar(primero);
+                        this.ocultar(segundo);
                     }
                 },
                 terminar: function (video) {
@@ -1327,10 +1331,10 @@
                 let vm = this;
                 if (this.screen < 600) {
                     $(window).scroll(function () {
-                        vm.checarFeature('comidas');
-                        vm.checarFeature('entrenamiento');
-                        vm.checarFeature('suplementos');
-                        vm.checarFeature('videos');
+                        vm.checarFeature('comidas', 'entrenamiento', 'suplementos');
+                        vm.checarFeature('entrenamiento','comidas','suplementos');
+                        vm.checarFeature('suplementos','entrenamiento','videos');
+                        vm.checarFeature('videos','suplementos','entrenamiento');
                     });
                 }
 

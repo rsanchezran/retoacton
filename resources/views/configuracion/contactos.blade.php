@@ -14,7 +14,7 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
                     <span><i class="far fa-users"></i> Listado de contactos</span>
-                    <button class="btn btn-sm btn-default" @click="enviarCorreos">Enviar correos</button>
+                    <button class="btn btn-sm btn-light" style="color: black" @click="enviarCorreos">Enviar correos</button>
                 </div>
                 <div class="card-body">
                     <div class="d-flex flex-wrap">
