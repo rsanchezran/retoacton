@@ -1272,11 +1272,7 @@
                             $('#' + object + "Sub").hide();
                             $('#' + object + "Img").prop('src', '{{asset('img')}}' + '/' + object + '.jpg');
                             $('#' + object + "Img").removeClass('img');
-                            if(mostrar){
-                                $('#' + object).show(1000);
-                            }else{
-                                $('#' + object).show().css({'opacity': 0}).animate({'opacity': '1'}, 1000);
-                            }
+                            $('#' + object).show().css({'opacity': 0}).animate({'opacity': '1'}, 1000);
                         });
                     }
                 },
@@ -1307,8 +1303,6 @@
                     let top_of_screen = $(window).scrollTop();
                     if ((bottom_of_screen > top_of_element) && (top_of_screen < bottom_of_element)) {
                         this.mostrar(feature, true);
-                        this.ocultar(primero);
-                        this.ocultar(segundo);
                     }
                 },
                 terminar: function (video) {
