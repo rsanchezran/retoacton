@@ -79,7 +79,7 @@ class UserController extends Controller
         $usuarios = $usuarios->orderByDesc('created_at');
         $usuarios = $usuarios->select(['users.*'])->paginate(15);
         $comision = intval(env('COMISION'));
-
+        $contactos = Contacto::whereIn('email', $usuarios->pluck('email'))->get()->keyBy('email');
         foreach ($usuarios as $usuario) {
             $usuario->dias_reto = 0;
             $usuario->isVencido();
@@ -91,6 +91,9 @@ class UserController extends Controller
             $usuario->depositado = $usuario->total - $usuario->saldo;
             $usuario->pendientes = $usuario->saldo / $comision;
             $usuario->pagados = $usuario->depositado / $comision;
+            $contacto = $contactos->get($usuario->email);
+            $usuario->medio = $contacto==null?'': $contacto->medio;
+            $usuario->telefono = $contacto==null?'': $contacto->telefono;
         }
 
         return $usuarios;
