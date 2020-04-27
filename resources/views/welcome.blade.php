@@ -2,7 +2,7 @@
 @section('header')
     <style>
         .fade-enter-active, .fade-leave-active {
-            transition: opacity .5s;
+            transition: opacity .1s;
         }
         .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
             opacity: 0;
@@ -370,7 +370,7 @@
 
             @media only screen and (max-width: 800px) {
                 .feature .subinfo {
-                    height: 200px;
+                    height: 380px !important;
                 }
 
                 #testtitulo {
@@ -1241,8 +1241,8 @@
                     });
                 },
                 checarFeature: function (feature, primero, segundo) {
-                    let top_of_element = $("#" + feature + "Feature").offset().top + 200;
-                    let bottom_of_element = top_of_element + $("#" + feature + "Feature").outerHeight() + 200;
+                    let top_of_element = $("#" + feature + "Feature").offset().top + 300;
+                    let bottom_of_element = top_of_element + $("#" + feature + "Feature").outerHeight() + 300;
                     let bottom_of_screen = $(window).scrollTop() + $(window).innerHeight();
                     let top_of_screen = $(window).scrollTop();
                     if ((bottom_of_screen > top_of_element) && (top_of_screen < bottom_of_element)) {
