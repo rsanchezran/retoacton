@@ -89,11 +89,11 @@
                         Si conoces el código de referencia de tu amigo, por favor ingrésalo aquí
                         <i v-if="loading" class="far fa-spinner fa-spin"></i>
                     </span>
-                    <input class="form-control col-6 text-center" v-model="informacion.codigo" placeholder="REFERENCIA"
+                    <input class="form-control col-6" v-model="informacion.codigo" placeholder="REFERENCIA"
                            @blur="buscarReferencia()" maxlength="7">
                     <div v-if="encontrado!==null">
-                        <span v-if="encontrado" class="font-weight-bold">El código que ingresaste corresponde al usuario :
-                            <i style="font-size:1.1rem">@{{ referencia }}</i>
+                        <span v-if="encontrado">El código que ingresaste corresponde al usuario :
+                            <i style="font-size:1.1rem" class="font-weight-bold">@{{ referencia }}</i>
                         </span>
                         <span v-else
                               class="font-weight-bold">[No se encontró al alguien con ese código de referencia]</span>
@@ -200,7 +200,13 @@
                         vm.referencia = response.data.usuario;
                         vm.loading = false;
                         vm.encontrado = true;
+                        if(vm.sent){
+                            vm.saveContacto();
+                        }
                     }).catch(function () {
+                        if(vm.sent){
+                            vm.saveContacto();
+                        }
                         vm.loading = false;
                         vm.encontrado = false;
                     });
@@ -256,6 +262,9 @@
                 },
                 seleccionarMedio: function () {
                     this.informacion.codigo = '';
+                    if(this.sent){
+                        this.saveContacto();
+                    }
                 }
             }
         });
