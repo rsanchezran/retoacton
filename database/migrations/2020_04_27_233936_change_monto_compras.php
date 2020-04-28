@@ -14,10 +14,10 @@ class ChangeMontoCompras extends Migration
     public function up()
     {
         Schema::table('compras', function (Blueprint $table) {
-            $table->decimal('monto',8,2);
+            $table->decimal('monto',8,2)->change();
         });
         Schema::table('pagos', function (Blueprint $table) {
-            $table->decimal('monto',10,2);
+            $table->decimal('monto',10,2)->change();
         });
     }
 
@@ -30,10 +30,10 @@ class ChangeMontoCompras extends Migration
     {
         Schema::table('compras', function (Blueprint $table) {
             Schema::table('compras', function (Blueprint $table) {
-                $table->decimal('monto',6,2);
+                $table->decimal('monto',6,2)->change();
             });
             Schema::table('pagos', function (Blueprint $table) {
-                $table->decimal('monto',6,2);
+                $table->decimal('monto',6,2)->change();
             });
         });
     }
