@@ -202,24 +202,6 @@
 <template>
     <div>
         <div class="d-flex d-block mr-auto ml-auto">
-            <div class="formaPago" @click="metodoPago('openpay')">
-                <h6>Pago con tarjeta de débito o crédito</h6>
-                <div class="d-flex flex-wrap">
-                    <div class="col-12 col-sm-6">
-                        <img :src="url+'/img/visa.png'" width="60">
-                    </div>
-                    <div class="col-12 col-sm-6">
-                        <img :src="url+'/img/mastercard.png'" width="60">
-                    </div>
-                </div>
-            </div>
-            <div class="formaPago">
-                <h6>La forma rápida de pagar</h6>
-                <br>
-                <div id="paypalDiv" class="d-block ml-auto mr-auto" style="width:80%"></div>
-            </div>
-        </div>
-        <div class="d-flex d-block mr-auto ml-auto">
             <div class="formaPago" @click="metodoPago('spei')">
                 <h6>Pago con SPEI</h6>
                 <br>
@@ -229,6 +211,24 @@
                 <h6>Pago en Oxxo</h6>
                 <br>
                 <img :src="url+'/img/oxxo.png'" width="80">
+            </div>
+        </div>
+        <div class="d-flex d-block mr-auto ml-auto">
+<!--            <div class="formaPago" @click="metodoPago('openpay')">-->
+<!--                <h6>Pago con tarjeta de débito o crédito</h6>-->
+<!--                <div class="d-flex flex-wrap">-->
+<!--                    <div class="col-12 col-sm-6">-->
+<!--                        <img :src="url+'/img/visa.png'" width="60">-->
+<!--                    </div>-->
+<!--                    <div class="col-12 col-sm-6">-->
+<!--                        <img :src="url+'/img/mastercard.png'" width="60">-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+            <div class="formaPago">
+                <h6>La forma rápida de pagar</h6>
+                <br>
+                <div id="paypalDiv" class="d-block ml-auto mr-auto" style="width:80%"></div>
             </div>
         </div>
         <div v-if="response.referencia!=''">

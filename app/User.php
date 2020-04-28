@@ -69,7 +69,6 @@ class User extends Authenticatable
     {
         $pass = Utils::generarRandomString();
         $usuario = User::withTrashed()->where('email', $email)->first();
-        Log::info($pass);
         if ($usuario == null) {
             $usuario = User::create([
                 'name' => $nombre,

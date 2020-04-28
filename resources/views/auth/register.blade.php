@@ -36,18 +36,6 @@
             color: #929292;
         }
 
-        #bienvenida {
-            background-repeat: no-repeat;
-            background-image: url('{{asset('/img/postergris.png')}}');
-            background-position: top right;
-            background-size: 150px;
-            height: 100px;
-        }
-
-        .form-error {
-            margin-left: 10px;
-        }
-
         @media only screen and (max-width: 420px) {
             .container {
                 margin-left: 0;
@@ -65,10 +53,16 @@
             display: block;
             margin: auto
         }
+
         .paypal-buttons-context-iframe{
             min-width: 100% !important;
         }
-
+        .acton{
+            width: 200px;
+            font-family: unitext_bold_cursive;
+            padding: 10px;
+            color:#FFF;
+        }
     </style>
 @endsection
 @section('content')
@@ -105,22 +99,23 @@
                               class="font-weight-bold">[No se encontró al alguien con ese código de referencia]</span>
                     </div>
                 </div>
-                <div v-if="informacion.medio!=''">
-                    <input class="form-control" placeholder="Nombres" :class="informacion.nombres.length>2?'success':''"
-                           v-model="informacion.nombres" @blur="saveContacto" @keyup.enter="saveContacto">
-                    <input class="form-control" placeholder="Apellidos"
-                           :class="informacion.apellidos.length>2?'success':''"
-                           v-model="informacion.apellidos" @blur="saveContacto" @keyup.enter="saveContacto">
-                    <input type="email" class="form-control" placeholder="Correo electrónico"
-                           :class="informacion.email.includes('@') && informacion.email.length>4?'success':''"
-                           v-model="informacion.email" @blur="saveContacto" @keyup.enter="saveContacto">
-                    <input class="form-control" placeholder="Teléfono"
-                           :class="informacion.email.length==10 ?'success':''"
-                           v-model="informacion.telefono" @blur="saveContacto" @keyup.enter="saveContacto">
+                <div v-if="informacion.medio != ''" class="text-left">
+                    <input class="form-control" placeholder="Nombres" v-model="informacion.nombres">
                     <form-error name="nombres" :errors="errors"></form-error>
+                    <input class="form-control" placeholder="Apellidos" v-model="informacion.apellidos">
                     <form-error name="apellidos" :errors="errors"></form-error>
-                    <form-error name="email" :errors="errors"></form-error>
+                    <input class="form-control" placeholder="Teléfono" v-model="informacion.telefono">
                     <form-error name="telefono" :errors="errors"></form-error>
+                    <input type="email" class="form-control" placeholder="Correo electrónico" v-model="informacion.email"
+                    @blur="saveContacto" @keypress.enter="saveContacto">
+                    <form-error name="email" :errors="errors"></form-error>
+                    <div class="mt-4 text-left">
+                        <button class="btn btn-primary acton" @click="saveContacto" :disabled="loading">
+                            Continuar
+                            <i v-if="loading" class="fa fa-spinner fa-spin"></i>
+                            <i v-else class="fa fa-shopping-cart"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
             <br>
@@ -212,15 +207,29 @@
                 },
                 saveContacto: function () {
                     let vm = this;
-                    vm.errors = [];
-                    if (vm.informacion.nombres != '' && vm.informacion.apellidos != '' && vm.informacion.email != '') {
-                        this.informacion.nombres = this.informacion.nombres.trim();
-                        this.informacion.apellidos = this.informacion.apellidos.trim();
-                        this.informacion.email = this.informacion.email.trim();
-                        this.informacion.telefono = this.informacion.telefono.trim();
-                        this.informacion.codigo = this.informacion.codigo.trim();
+                    this.loading = true;
+                    this.errors = {};
+                    this.informacion.nombres = this.informacion.nombres.trim();
+                    this.informacion.apellidos = this.informacion.apellidos.trim();
+                    this.informacion.email = this.informacion.email.trim();
+                    this.informacion.telefono = this.informacion.telefono.trim();
+                    this.informacion.codigo = this.informacion.codigo.trim();
+                    if(this.informacion.nombres==''){
+                        this.errors.nombres = ['El nombre es obligatorio'];
+                    }
+                    if(this.informacion.apellidos==''){
+                        this.errors.apellidos = ['Los apellidos son obligatorios'];
+                    }
+                    if (this.informacion.telefono==''){
+                        this.errors.telefono = ['El teléfono es obligatorio'];
+                    }
+                    if (this.informacion.email==''){
+                        this.errors.email = ['El correo electrónico es obligatorio'];
+                    }
+                    if (Object.keys(this.errors).length == 0) {
                         axios.post("{{url("saveContacto")}}", this.informacion).then(function (response) {
                             vm.sent = true;
+                            vm.loading = false;
                             if (response.data.status == 'ok') {
                                 vm.original = response.data.original;
                                 vm.monto = response.data.monto;
@@ -237,8 +246,12 @@
                             vm.mensaje = response.data.mensaje;
                         }).catch(function (error) {
                             vm.sent = false;
+                            vm.loading = false;
                             vm.errors = error.response.data.errors;
                         });
+                    }else{
+                        this.sent = false;
+                        this.loading = false;
                     }
                 },
                 seleccionarMedio: function () {
