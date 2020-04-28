@@ -81,7 +81,7 @@
 
     <div id="vue">
         <div class="container">
-            <dia :p_dia="{{$dia}}" :genero="'{{$genero}}'" :objetivo="'{{$objetivo}}'" :dias="{{$dias}}"
+            <dia :p_dia="{{$dia}}" :genero="'{{$genero}}'" :objetivo="'{{$objetivo}}'" :p_dias="{{$dias}}"
                  p_lugar="{{$lugar}}" :p_semana="{{$semana}}" :maximo="{{$maximo}}" :teorico="{{$teorico}}" ></dia>
         </div>
     </div>
@@ -212,10 +212,11 @@
 
         Vue.component('dia', {
             template: '#dia-template',
-            props: ['p_dia', 'genero', 'objetivo','dias', 'p_lugar','p_semana', 'maximo', 'teorico'],
+            props: ['p_dia', 'genero', 'objetivo','p_dias', 'p_lugar','p_semana', 'maximo', 'teorico'],
             data: function () {
                 return {
                     dia: {},
+                    dias: {},
                     url: '',
                     lugar: false,
                     ejercicios: [],
@@ -278,6 +279,7 @@
             },
             created: function () {
                 this.dia = this.p_dia;
+                this.dias = this.p_dias;
                 this.dia.nota = this.p_dia.nota.descripcion;
                 this.semana = this.p_semana;
             },
