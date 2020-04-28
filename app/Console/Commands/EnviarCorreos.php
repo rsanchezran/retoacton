@@ -81,17 +81,18 @@ class EnviarCorreos extends Command
     public function etapa($etapa, $contactos)
     {
         $mailchimp = new Mailchimp();
+        $enviados = true;
         if ($contactos->count() > 0) {
             if ($etapa == 1) { //sucribirlos a mailchimp
                 $lista = $mailchimp->getLista("Reto Acton");
                 $mailchimp->enviarMiembros($lista, $contactos);
-                $mailchimp->enviarCorreo($contactos, Cache::get('etapa1.workflow'), Cache::get('etapa1.queue'));
+                $enviados = $mailchimp->enviarCorreo($contactos, Cache::get('etapa1.workflow'), Cache::get('etapa1.queue'));
             } else {
                 if ($etapa == 2) {
-                    $mailchimp->enviarCorreo($contactos, Cache::get('etapa2.workflow'), Cache::get('etapa2.queue'));
+                    $enviados = $mailchimp->enviarCorreo($contactos, Cache::get('etapa2.workflow'), Cache::get('etapa2.queue'));
                 } else {
                     if ($etapa == 3) {
-                        $mailchimp->enviarCorreo($contactos, Cache::get('etapa3.workflow'), Cache::get('etapa3.queue'));
+                        $enviados = $mailchimp->enviarCorreo($contactos, Cache::get('etapa3.workflow'), Cache::get('etapa3.queue'));
                     } else {
                         $lista = $mailchimp->getLista("Reto Acton");
                         foreach ($contactos as $contacto) {
@@ -100,9 +101,11 @@ class EnviarCorreos extends Command
                     }
                 }
             }
-            foreach ($contactos as $contacto) {
-                $contacto->etapa = $etapa + 1;
-                $contacto->save();
+            if($enviados){
+                foreach ($contactos as $contacto) {
+                    $contacto->etapa = $etapa + 1;
+                    $contacto->save();
+                }
             }
         }
     }

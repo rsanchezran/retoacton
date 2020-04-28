@@ -200,8 +200,10 @@ class Mailchimp extends Command
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
-            $result = json_decode(curl_exec($ch));
-            Log::info($result);
+            json_decode(curl_exec($ch));
+            $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            Log::info($status);
+            return $status == 200;
         }
     }
 
