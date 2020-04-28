@@ -82,7 +82,7 @@
         }
 
         .subinfo div{
-            padding: 4px 10px;
+            padding: 20px;
         }
 
         #features {
@@ -370,7 +370,7 @@
 
             @media only screen and (max-width: 800px) {
                 .feature .subinfo {
-                    height: 380px !important;
+                    height: 450px !important;
                 }
 
                 #testtitulo {

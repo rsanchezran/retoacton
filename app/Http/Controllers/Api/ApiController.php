@@ -21,13 +21,13 @@ class ApiController extends Controller
 
     public function login(Request $request)
     {
-        try{
-            $usuario = User::where('email', $request->username)->get(['name','last_name','password','email','inicio_reto',
+        try {
+            $usuario = User::where('email', $request->username)->get(['name', 'last_name', 'password', 'email', 'inicio_reto',
                 'num_inscripciones'])->first();
 
             if ($usuario != null && password_verify($request->password, $usuario->password)) {
                 $usuario->isVencido();
-                $contacto = Contacto::withTrashed()->where('email',$usuario->email)->first();
+                $contacto = Contacto::withTrashed()->where('email', $usuario->email)->first();
                 $user = new \stdClass();
                 $user->telefono = $contacto->telefono;
                 $user->name = $usuario->name;
@@ -39,21 +39,21 @@ class ApiController extends Controller
                 return response()->json(['result' => 'ok', 'user' => $user]);
             }
             return response()->json(['result' => 'error', 'error' => 'El usuario y/o la contraseña son incorrectos.']);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return response()->json(['result' => 'error', 'error' => $e->getMessage()]);
         }
     }
 
     public function webhook(Request $request)
     {
-        if (isset($request->data['object'])){
+        if (isset($request->data['object'])) {
             $object = $request->data['object'];
             if ($object != null) {
 
                 if (array_key_exists('order_id', $object)) {
-                    if ($object['status']=='paid'){
+                    if ($object['status'] == 'paid') {
                         $order_id = $object["order_id"];
-                        $cobro = $object["amount"];
+                        $cobro = $object["amount"] / 100;
                         $contacto = Contacto::where("order_id", $order_id)->first();
                         if ($contacto !== null) {
                             $usuario = User::withTrashed()->where('email', $contacto->email)->first();
@@ -68,13 +68,13 @@ class ApiController extends Controller
                 }
             }
         }
-        return response()->json(['status'=>'ok']);
+        return response()->json(['status' => 'ok']);
     }
 
     public function getWebhook()
     {
         http_response_code(200); // Return 200 OK
 
-        return response()->json(['status'=>'ok']);
+        return response()->json(['status' => 'ok']);
     }
 }

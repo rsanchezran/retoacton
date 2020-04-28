@@ -14,6 +14,7 @@ use App\Notifications\MyResetPassword;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class User extends Authenticatable
@@ -68,6 +69,7 @@ class User extends Authenticatable
     {
         $pass = Utils::generarRandomString();
         $usuario = User::withTrashed()->where('email', $email)->first();
+        Log::info($pass);
         if ($usuario == null) {
             $usuario = User::create([
                 'name' => $nombre,
@@ -85,7 +87,6 @@ class User extends Authenticatable
                 'fecha_inscripcion' => Carbon::now(),
                 'correo_enviado' => 0,
                 'num_inscripciones' => 1,
-
             ]);
         } else {
             $usuario->password = Hash::make($pass);
@@ -105,11 +106,6 @@ class User extends Authenticatable
         if ($usuario->codigo != '') {
             $usuario->aumentarSaldo();
         }
-//        $respuesta = new Respuesta();
-//        $respuesta->pregunta_id = 9;
-//        $respuesta->usuario_id = $usuario->id;
-//        $respuesta->respuesta = "Bajar de peso";
-//        $respuesta->save();
         $compra = new Compra();
         $compra->monto = $monto;
         $compra->usuario_id = $usuario->id;

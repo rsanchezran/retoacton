@@ -233,9 +233,9 @@
             <div v-for="(serie, iserie) in lugar">
                 <div class="d-flex justify-content-between serie">
                     <div>
+                        <span class="small float-right">@{{ serie.nombre.length }}/50</span>
                         <input class="form-control" v-model="serie.nombre">
                         <form-error :name="modo+'.'+iserie+'.nombre'" :errors="errors"></form-error>
-                        <span class="small float-right">@{{ serie.nombre.length }}/50</span>
                     </div>
                     <div>
                         <button class="btn btn-sm btn-default" @click="agregarEjercicio(serie)">
@@ -273,6 +273,7 @@
                             <hr>
                             <div class="d-flex flex-wrap">
                                 <div v-for="(subserie, isubserie) in ejercicio.subseries" class="repeticion">
+                                    <span class="small float-right">( @{{ subserie.repeticiones.length }} /40 )</span>
                                     <input class="form-control"
                                            v-model="subserie.repeticiones"/>
                                     <form-error :name="modo+'.'+iserie+'.ejercicios.'+iejercicio+'.subseries.'+isubserie+'.repeticiones'"
