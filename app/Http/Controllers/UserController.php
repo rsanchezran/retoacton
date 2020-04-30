@@ -94,6 +94,7 @@ class UserController extends Controller
             $contacto = $contactos->get($usuario->email);
             $usuario->medio = $contacto==null?'': $contacto->medio;
             $usuario->telefono = $contacto==null?'': $contacto->telefono;
+            $usuario->vigente = !$usuario->vencido;
         }
 
         return $usuarios;

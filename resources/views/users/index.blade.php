@@ -90,8 +90,8 @@
                     <div v-for="usuario in usuarios.data" class="d-flex usuario">
                         <div class="col-4 d-flex flex-column align-items-start">
                             <span>
-                                <i v-if="usuario.vencido" class="fa fa-user text-default"></i>
-                                <i v-else class="fa fa-user text-info"></i>
+                                <i v-if="usuario.vigente" class="fa fa-user text-info"></i>
+                                <i v-else class="fa fa-user text-default"></i>
                                 @{{ usuario.name+' '+usuario.last_name }}
                             </span>
                             <span>@{{ usuario.email }}</span>

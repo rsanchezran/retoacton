@@ -12109,7 +12109,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.formaPago[data-v-3c5f3158] {\n    border: 2px solid #e6e6e6;\n    border-radius: 20px;\n    padding: 10px;\n    margin: 10px;\n    align-content: center;\n    text-align: center;\n    width: 45%;\n}\n.payment[data-v-3c5f3158] {\n    margin-right: 15px;\n}\n.payment input[data-v-3c5f3158] {\n    margin: 10px;\n}\n.left[data-v-3c5f3158] {\n    text-align: justify;\n}\n.imagen[data-v-3c5f3158] {\n    border: 1px solid #6c757d;\n    padding: 5px;\n    margin: 5px;\n}\n.opps[data-v-3c5f3158] {\n    border: 1px solid grey;\n    width: 450px;\n    margin: 10px auto;\n    padding: 20px;\n    text-align: left;\n    font-size: 12px;\n}\n.opps-reminder[data-v-3c5f3158] {\n    padding: 9px 0 10px;\n    font-size: 11px;\n    text-transform: uppercase;\n    text-align: center;\n    color: #ffffff;\n    background: #000000;\n}\n.opps-info[data-v-3c5f3158] {\n    display: flex;\n    align-content: center;\n    text-align: center;\n    padding: 20px;\n}\n.reference[data-v-3c5f3158] {\n    text-align: center;\n    padding: 6px 0 7px;\n    border: 1px solid #b0afb5;\n    border-radius: 4px;\n    background: #f8f9fa;\n}\n@media only screen and (max-width: 420px) {\n.opps[data-v-3c5f3158] {\n        width: 95%;\n}\n.reference[data-v-3c5f3158]{\n        font-size:1.5rem;\n}\n#monto[data-v-3c5f3158]{\n        font-size:1.2rem;\n}\n.formaPago h6[data-v-3c5f3158]{\n        font-size: .8rem;\n}\n.formaPago img[data-v-3c5f3158]{\n        width: 50px;\n}\n}\n", ""]);
+exports.push([module.i, "\n.formaPago[data-v-3c5f3158] {\n    border: 2px solid #e6e6e6;\n    border-radius: 20px;\n    padding: 10px;\n    margin: 10px;\n    align-content: center;\n    text-align: center;\n}\n.payment[data-v-3c5f3158] {\n    margin-right: 15px;\n}\n.payment input[data-v-3c5f3158] {\n    margin: 10px;\n}\n.left[data-v-3c5f3158] {\n    text-align: justify;\n}\n.imagen[data-v-3c5f3158] {\n    border: 1px solid #6c757d;\n    padding: 5px;\n    margin: 5px;\n}\n.opps[data-v-3c5f3158] {\n    border: 1px solid grey;\n    width: 450px;\n    margin: 10px auto;\n    padding: 20px;\n    text-align: left;\n    font-size: 12px;\n}\n.opps-reminder[data-v-3c5f3158] {\n    padding: 9px 0 10px;\n    font-size: 11px;\n    text-transform: uppercase;\n    text-align: center;\n    color: #ffffff;\n    background: #000000;\n}\n.opps-info[data-v-3c5f3158] {\n    display: flex;\n    align-content: center;\n    text-align: center;\n    padding: 20px;\n}\n.reference[data-v-3c5f3158] {\n    text-align: center;\n    padding: 6px 0 7px;\n    border: 1px solid #b0afb5;\n    border-radius: 4px;\n    background: #f8f9fa;\n}\n@media only screen and (max-width: 420px) {\n.opps[data-v-3c5f3158] {\n        width: 95%;\n}\n.reference[data-v-3c5f3158]{\n        font-size:1.5rem;\n}\n#monto[data-v-3c5f3158]{\n        font-size:1.2rem;\n}\n.formaPago h6[data-v-3c5f3158]{\n        font-size: .8rem;\n}\n.formaPago img[data-v-3c5f3158]{\n        width: 50px;\n}\n}\n", ""]);
 
 // exports
 
@@ -48887,12 +48887,13 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
+    { staticClass: "col-12 col-sm-6 d-block mr-auto ml-auto" },
     [
-      _c("div", { staticClass: "d-flex d-block mr-auto ml-auto" }, [
+      _c("div", { staticClass: "d-flex flex-wrap" }, [
         _c(
           "div",
           {
-            staticClass: "formaPago",
+            staticClass: "formaPago col-12",
             on: {
               click: function($event) {
                 return _vm.metodoPago("spei")
@@ -48913,7 +48914,7 @@ var render = function() {
         _c(
           "div",
           {
-            staticClass: "formaPago",
+            staticClass: "formaPago col-12",
             on: {
               click: function($event) {
                 return _vm.metodoPago("oxxo")
@@ -48929,10 +48930,10 @@ var render = function() {
               attrs: { src: _vm.url + "/img/oxxo.png", width: "80" }
             })
           ]
-        )
+        ),
+        _vm._v(" "),
+        _vm._m(0)
       ]),
-      _vm._v(" "),
-      _vm._m(0),
       _vm._v(" "),
       _vm.response.referencia != ""
         ? _c("div", [
@@ -50188,18 +50189,16 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "d-flex d-block mr-auto ml-auto" }, [
-      _c("div", { staticClass: "formaPago" }, [
-        _c("h6", [_vm._v("La forma rápida de pagar")]),
-        _vm._v(" "),
-        _c("br"),
-        _vm._v(" "),
-        _c("div", {
-          staticClass: "d-block ml-auto mr-auto",
-          staticStyle: { width: "80%" },
-          attrs: { id: "paypalDiv" }
-        })
-      ])
+    return _c("div", { staticClass: "formaPago col-12" }, [
+      _c("h6", [_vm._v("La forma rápida de pagar")]),
+      _vm._v(" "),
+      _c("br"),
+      _vm._v(" "),
+      _c("div", {
+        staticClass: "d-block ml-auto mr-auto",
+        staticStyle: { width: "80%" },
+        attrs: { id: "paypalDiv" }
+      })
     ])
   }
 ]

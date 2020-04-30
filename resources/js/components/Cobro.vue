@@ -200,21 +200,19 @@
     };
 </script>
 <template>
-    <div>
-        <div class="d-flex d-block mr-auto ml-auto">
-            <div class="formaPago" @click="metodoPago('spei')">
+    <div class="col-12 col-sm-6 d-block mr-auto ml-auto">
+        <div class="d-flex flex-wrap">
+            <div class="formaPago col-12" @click="metodoPago('spei')">
                 <h6>Pago con SPEI</h6>
                 <br>
                 <img :src="url+'/img/spei.png'" width="80">
             </div>
-            <div class="formaPago" @click="metodoPago('oxxo')">
+            <div class="formaPago col-12" @click="metodoPago('oxxo')">
                 <h6>Pago en Oxxo</h6>
                 <br>
                 <img :src="url+'/img/oxxo.png'" width="80">
             </div>
-        </div>
-        <div class="d-flex d-block mr-auto ml-auto">
-<!--            <div class="formaPago" @click="metodoPago('openpay')">-->
+<!--            <div class="formaPago col-12" @click="metodoPago('openpay')">-->
 <!--                <h6>Pago con tarjeta de débito o crédito</h6>-->
 <!--                <div class="d-flex flex-wrap">-->
 <!--                    <div class="col-12 col-sm-6">-->
@@ -225,7 +223,7 @@
 <!--                    </div>-->
 <!--                </div>-->
 <!--            </div>-->
-            <div class="formaPago">
+            <div class="formaPago col-12">
                 <h6>La forma rápida de pagar</h6>
                 <br>
                 <div id="paypalDiv" class="d-block ml-auto mr-auto" style="width:80%"></div>
@@ -420,7 +418,6 @@
         margin: 10px;
         align-content: center;
         text-align: center;
-        width: 45%;
     }
 
     .payment {
