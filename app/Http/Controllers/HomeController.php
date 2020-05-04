@@ -387,7 +387,7 @@ class HomeController extends Controller
             $usuario == null ? null : $usuario->created_at,
             $usuario == null ? null : $usuario->fecha_inscripcion,
             $usuario == null ? null : $usuario->inicio_reto, $usuario == null ? null : $usuario->deleted_at);
-        $mensaje = $usuario ? '' : 'Este usuario ya pertenece al RETO ACTON.';
+        $mensaje = $usuario == null ? '' : 'Este usuario ya pertenece al RETO ACTON.';
         $pregunta = Pregunta::select('id', 'pregunta', 'opciones')->where('id', TipoRespuesta::PREGUNTAS_REGISTRO[0])->get()->first();
         $pregunta->pregunta = strtolower($pregunta->pregunta);
         $opciones = collect();

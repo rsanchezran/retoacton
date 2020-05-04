@@ -29,7 +29,7 @@
         <div>
             <div align="center">
                 <div id="header" align="center">
-                    <h6 class="text-uppercase bigText" >Bienvenido</h6>
+                    <h6 class="text-uppercase bigText">Bienvenido</h6>
                     <br>
                     <br>
                 </div>
@@ -63,7 +63,7 @@
                         <br>
                         <h6 style="color: #000;">Estas son las formas de realizar tu pago de manera segura</h6>
                         <cobro ref="cobro" :cobro="''+monto" :url="'{{url('/')}}'" :id="'{{env('OPENPAY_ID')}}'"
-                               :llave="'{{env('OPENPAY_PUBLIC')}}'" :sandbox="'{{env('SANDBOX')}}'==true" :meses="true"
+                               :llave="'{{env('CONEKTA_PUBLIC')}}'" :sandbox="'{{env('SANDBOX')}}'==true" :meses="true"
                                @terminado="terminado"></cobro>
                     </div>
                 </div>
@@ -73,8 +73,7 @@
 @endsection
 @section('scripts')
     <script src="https://www.paypal.com/sdk/js?client-id={{env('PAYPAL_SANDBOX_API_PASSWORD')}}&currency=MXN"></script>
-    <script src="https://openpay.s3.amazonaws.com/openpay.v1.min.js"></script>
-    <script src="https://openpay.s3.amazonaws.com/openpay-data.v1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.conekta.io/js/latest/conekta.js"></script>
 
     <script>
         Vue.component('registro', {
@@ -102,17 +101,17 @@
             },
             mounted: function () {
                 this.contacto = this.p_contacto;
-                this.informacion.nombres = this.contacto.nombres;
-                this.informacion.apellidos = this.contacto.apellidos;
-                this.informacion.email = this.contacto.email;
+                this.informacion.nombres = this.contacto.nombres.trim();
+                this.informacion.apellidos = this.contacto.apellidos.trim();
+                this.informacion.email = this.contacto.email.trim();
+                this.informacion.telefono = this.contacto.telefono.trim();
+                this.informacion.codigo = this.contacto.codigo.trim();
                 this.$refs.cobro.configurar(
-                    this.informacion.nombres,
-                    this.informacion.apellidos,
-                    this.informacion.email,
-                    this.informacion.telefono,
-                    this.informacion.pregunta,
-                    this.informacion.codigo,
-                    this.informacion.referenciado
+                    vm.informacion.nombres,
+                    vm.informacion.apellidos,
+                    vm.informacion.email,
+                    vm.informacion.telefono,
+                    vm.informacion.codigo,
                 );
             }
         });
