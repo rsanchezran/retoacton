@@ -45,10 +45,10 @@ class PagoController extends Controller
             'email' => 'required|max:100|min:3|email',
             'email_confirmation' => 'required|max:100|min:3|email|same:email',
             'telefono' => 'nullable|numeric|max:9999999999|integer',
-            'numero' => 'required|max:16|min:16', //numero tarjeta
-            'codigo' => 'required|digits:3', //cvv
-            'mes' => ['required', 'digits:2', 'regex:/((0[1-9])|(1[0-2])){1}/'],
-            'ano' => ['required', 'digits:2'],
+            'number' => 'required|max:16|min:16', //numero tarjeta
+            'exp_month' => ['required', 'digits:2', 'regex:/((0[1-9])|(1[0-2])){1}/'],
+            'exp_year' => ['required', 'digits:2'],
+            'cvc' => 'required|digits:3', //cvv
         ], [
             'nombres.required' => 'Este campo es obligatorio',
             'nombres.min' => 'Debe capturar mínimo 2 caracteres',
@@ -72,16 +72,16 @@ class PagoController extends Controller
             'telefono.max' => 'Debe ser menor a 12 caracteres',
             'telefono.numeric' => 'Debe ser numérico',
             'telefono.integer' => 'No puede ingresar números negativos',
-            'numero.required' => 'El número de tarjeta es requerido',
-            'numero.max' => 'El número de tarjeta debe tener máximo 16 caracteres',
-            'numero.min' => 'El número de tarjeta debe tener mínimo 16 caracteres',
-            'codigo.required' => 'El cvv es requerido',
-            'codigo.digits' => 'El cvv debe tener 3 dígitos',
-            'mes.required' => 'El mes es requerido',
-            'mes.digits' => 'El mes debe tener 2 dígitos',
-            'mes.regex' => 'El mes debe estar entre 01 y 12',
-            'ano.required' => 'El año es requerido',
-            'ano.digits' => 'El año debe tener 2 dígitos',
+            'number.required' => 'El número de tarjeta es requerido',
+            'number.max' => 'El número de tarjeta debe tener máximo 16 caracteres',
+            'number.min' => 'El número de tarjeta debe tener mínimo 16 caracteres',
+            'exp_month.required' => 'El mes es requerido',
+            'exp_month.digits' => 'El mes debe tener 2 dígitos',
+            'exp_month.regex' => 'El mes debe estar entre 01 y 12',
+            'exp_year.required' => 'El año es requerido',
+            'exp_year.digits' => 'El año debe tener 2 dígitos',
+            'cvc.required' => 'El cvv es requerido',
+            'cvc.digits' => 'El cvv debe tener 3 dígitos',
         ]);
         $validator->after(function ($validator) use ($request) {
             if (ValidarCorreo::validarCorreo($request->email)) {
@@ -101,48 +101,40 @@ class PagoController extends Controller
                 $usuario == null ? null : $usuario->created_at,
                 $usuario == null ? null : $usuario->fecha_inscripcion,
                 $usuario == null ? null : $usuario->inicio_reto, $usuario == null ? null : $usuario->deleted_at)->monto;
-            $order = \Conekta\Order::create(
-                [
-                    "line_items" => [
-                        [
-                            "name" => "Tacos",
-                            "unit_price" => 1000,
-                            "quantity" => 120
-                        ]
-                    ],
-                    "shipping_lines" => [
-                        [
-                            "amount" => 1500,
-                            "carrier" => "FEDEX"
-                        ]
-                    ], //optional - shipping_lines are only required for physical goods
-                    "currency" => "MXN",
-                    "customer_info" => [
-                        "name" => "nombre",
-                        "email" => "fulanito@conekta.com",
-                        "phone" => "5512345678"
-                    ],
-                    "shipping_contact" => [
-                        "address" => [
-                            "street1" => "Calle 123, int 2",
-                            "postal_code" => "06100",
-                            "country" => "MX"
-                        ]
-                    ], //optional - shipping_contact is only required for physical goods
-                    "metadata" => ["reference" => "12987324097", "more_info" => "lalalalala"],
-                    "charges" => [
-                        [
-                            "payment_method" => [
-                                "monthly_installments" => 3, //optional
+            Conekta::setApiKey(env("CONEKTA_PRIVATE"));
+            Conekta::setApiVersion("2.0.0");
+            $valid_order =
+                array(
+                    'line_items' => array(
+                        array(
+                            'name' => 'Acton',
+                            'description' => 'Acton reto',
+                            'unit_price' => $cobro * 100,
+                            'quantity' => 1,
+                        )
+                    ),
+                    'currency' => 'mxn',
+                    'customer_info' => array(
+                        'name' => $request->nombres,
+                        'phone' => '52' . $request->telefono,
+                        'email' => $request->email
+                    ),
+                    'charges' => array(
+                        array(
+                            'payment_method' => array(
                                 "type" => "card",
-                                "token_id" => "tok_test_visa_4242"
-                            ] //payment_method - use customer's default - a card
-                            //to charge a card, different from the default,
-                            //you can indicate the card's source_id as shown in the Retry Card Section
-                        ]
-                    ]
-                ]
-            );
+                                "token_id" => $request->conektaTokenId,
+                            ),
+                        )
+                    ),
+                );
+            if ($request->meses) {
+                $valid_order['charges'][0]['payment_method']['monthly_installments'] = '3';
+            }
+            $order = \Conekta\Order::create($valid_order);
+            $contacto = Contacto::where('email', $request->email)->first();
+            $contacto->order_id = $order->id;
+            $contacto->save();
             if ($usuario == null) {
                 User::crear($request->nombres, $request->apellidos, $request->email, 'tarjeta', 0,
                     $request->pregunta, $cobro);

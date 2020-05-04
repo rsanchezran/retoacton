@@ -1805,19 +1805,19 @@ __webpack_require__.r(__webpack_exports__);
         origen: 'oxxo'
       },
       informacion: {
+        name: '',
         nombres: '',
         apellidos: '',
         email: '',
         email_confirmation: '',
-        numero: '',
-        pregunta: {},
-        mes: '',
-        ano: '',
-        codigo: '',
-        meses: false,
-        deviceSessionId: '',
-        token: '',
         telefono: '',
+        referencia: '',
+        number: '',
+        exp_year: '',
+        exp_month: '',
+        cvc: '',
+        meses: false,
+        conektaTokenId: '',
         deposito: false
       }
     };
@@ -1834,53 +1834,16 @@ __webpack_require__.r(__webpack_exports__);
       this.informacion.apellidos = this.informacion.apellidos.trim();
       this.informacion.email = this.informacion.email.trim();
       this.informacion.telefono = this.informacion.telefono.trim();
-      this.informacion.pregunta = this.informacion.pregunta.trim();
-      this.informacion.numero = this.informacion.numero.trim();
-      this.informacion.codigo = this.informacion.codigo.trim();
-      this.informacion.mes = this.informacion.mes.trim();
-      this.informacion.ano = this.informacion.ano.trim();
+      this.informacion.number = this.informacion.number.trim();
+      this.informacion.exp_year = this.informacion.exp_year.trim();
+      this.informacion.exp_month = this.informacion.exp_month.trim();
+      this.informacion.cvc = this.informacion.cvc.trim();
+      this.informacion.name = '';
     },
     openpay: function openpay() {
       var vm = this;
       vm.errors = {};
       vm.terminar = false;
-      OpenPay.token.create({
-        "holder_name": vm.informacion.nombres.trim(),
-        "card_number": vm.informacion.numero.trim(),
-        "cvv2": vm.informacion.codigo.trim(),
-        "expiration_month": vm.informacion.mes.trim(),
-        "expiration_year": vm.informacion.ano.trim()
-      }, function (response) {
-        vm.informacion.token = response.data.id;
-        axios.post(vm.url + '/pago/openpay', vm.informacion).then(function (respuesta) {
-          if (respuesta.data.status == 'ok') {
-            vm.$refs.openpay.closeModal();
-            vm.$refs.pago_confirmado.showModal();
-          } else if (respuesta.data.status == 'error') {
-            if (respuesta.data.codigo == 3203) {
-              vm.errors = {
-                tarjeta: ['Esta tarjeta no se puede utilizar a meses sin intereses']
-              };
-            } else {
-              vm.errors = {
-                tarjeta: ['Problema en el servidor, verifique sus datos e intente nuevamente']
-              };
-            }
-          }
-
-          vm.$refs.openpay.working = false;
-        })["catch"](function (errors) {
-          vm.errors = errors.response.data.errors;
-          vm.$refs.openpay.working = false;
-        });
-      }, function (error) {
-        vm.errors = {};
-        if (error.data.description.includes('date') && error.data.description.includes('expiration')) vm.errors.tarjeta = ['Los datos de su tarjeta no son válidos'];else vm.errors.tarjeta = ['Su tarjeta no es válida'];
-        axios.post(vm.url + '/pago/validarOpenpay', vm.informacion).then()["catch"](function (errors) {
-          vm.errors = errors.response.data.errors;
-        });
-        vm.$refs.openpay.working = false;
-      });
     },
     OxxoSpei: function OxxoSpei() {
       var vm = this;
@@ -1902,26 +1865,77 @@ __webpack_require__.r(__webpack_exports__);
     redirect: function redirect() {
       window.location.href = '/login';
     },
-    configurar: function configurar(nombres, apellidos, email, telefono, pregunta, referenciado) {
+    configurar: function configurar(nombres, apellidos, email, telefono, referencia) {
       this.informacion.nombres = nombres;
       this.informacion.apellidos = apellidos;
       this.informacion.email = email;
       this.informacion.telefono = telefono;
-      this.informacion.pregunta = pregunta;
-      this.informacion.referenciado = referenciado;
+      this.informacion.referencia = referencia;
     },
     terminado: function terminado() {
       this.$emit('terminado');
+    },
+    tarjeta: function tarjeta() {
+      var _this = this;
+
+      var vm = this;
+      vm.errors = {};
+      vm.terminar = false;
+      vm.informacion.name = vm.informacion.nombres + ' ' + vm.informacion.apellidos;
+      Conekta.Token.create({
+        card: this.informacion
+      }, function (token) {
+        return _this.successConekta(token);
+      }, function (error) {
+        return _this.errorConecta(error);
+      });
+    },
+    successConekta: function successConekta(token) {
+      var vm = this;
+      vm.informacion.conektaTokenId = token.id;
+      axios.post(vm.url + '/pago/tarjeta', vm.informacion).then(function (respuesta) {
+        if (respuesta.data.status == 'ok') {
+          vm.$refs.tarjeta.closeModal();
+          vm.$refs.pago_confirmado.showModal();
+        } else if (respuesta.data.status == 'error') {
+          if (respuesta.data.codigo == 3203) {
+            vm.errors = {
+              tarjeta: ['Esta tarjeta no se puede utilizar a meses sin intereses']
+            };
+          } else {
+            vm.errors = {
+              tarjeta: ['Problema en el servidor, verifique sus datos e intente nuevamente']
+            };
+          }
+        }
+
+        vm.$refs.tarjeta.working = false;
+      })["catch"](function (errors) {
+        vm.errors = errors.response.data.errors;
+        vm.$refs.tarjeta.working = false;
+      });
+    },
+    errorConecta: function errorConecta(error) {
+      var vm = this;
+      vm.errors = {};
+
+      if (error.data.description.includes('date') && error.data.description.includes('expiration')) {
+        vm.errors.tarjeta = ['Los datos de su tarjeta no son válidos'];
+      } else {
+        vm.errors.tarjeta = ['Error al procesar su pago'];
+      }
+
+      axios.post(vm.url + '/pago/validarOpenpay', vm.informacion).then()["catch"](function (errors) {
+        vm.errors = errors.response.data.errors;
+      });
+      vm.$refs.tarjeta.working = false;
     }
   },
   mounted: function mounted() {
     var vm = this;
     this.informacion.nombres = this.nombres;
     this.informacion.email = this.email;
-    OpenPay.setId(vm.id);
-    OpenPay.setApiKey(vm.llave);
-    OpenPay.setSandboxMode(vm.sandbox);
-    this.informacion.deviceSessionId = OpenPay.deviceData.setup();
+    Conekta.setPublicKey(vm.llave);
     Vue.nextTick(function () {
       document.getElementById('paypalDiv').innerHTML = "";
       paypal.Buttons({
@@ -48932,6 +48946,35 @@ var render = function() {
           ]
         ),
         _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "formaPago col-12",
+            on: {
+              click: function($event) {
+                return _vm.metodoPago("tarjeta")
+              }
+            }
+          },
+          [
+            _c("h6", [_vm._v("Pago con tarjeta de débito o crédito")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "d-flex flex-wrap" }, [
+              _c("div", { staticClass: "col-12 col-sm-6" }, [
+                _c("img", {
+                  attrs: { src: _vm.url + "/img/visa.png", width: "60" }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-12 col-sm-6" }, [
+                _c("img", {
+                  attrs: { src: _vm.url + "/img/mastercard.png", width: "60" }
+                })
+              ])
+            ])
+          ]
+        ),
+        _vm._v(" "),
         _vm._m(0)
       ]),
       _vm._v(" "),
@@ -48955,7 +48998,7 @@ var render = function() {
       _c(
         "modal",
         {
-          ref: "openpay",
+          ref: "tarjeta",
           attrs: {
             title: "Pago con tarjeta",
             high: "500",
@@ -48963,7 +49006,7 @@ var render = function() {
           },
           on: {
             ok: function($event) {
-              return _vm.openpay()
+              return _vm.tarjeta()
             }
           }
         },
@@ -48992,7 +49035,7 @@ var render = function() {
                 "p",
                 { staticClass: "text-center" },
                 [
-                  _vm._v("La cantidad a cobrar será de "),
+                  _vm._v("La cantidad a cobrar será de\n                "),
                   _c("money", {
                     attrs: { caracter: true, cantidad: _vm.cobro, decimales: 0 }
                   })
@@ -49002,7 +49045,7 @@ var render = function() {
               _vm._v(" "),
               _c("p", [
                 _vm._v(
-                  "Al concluir tu pago se enviará tu usuario y contraseña al correo que proporcionaste en tus datos de contacto"
+                  "Al concluir tu pago se enviará tu usuario y contraseña al correo que proporcionaste en tus datos de\n                contacto"
                 )
               ]),
               _vm._v(" "),
@@ -49134,19 +49177,19 @@ var render = function() {
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.informacion.numero,
-                        expression: "informacion.numero"
+                        value: _vm.informacion.number,
+                        expression: "informacion.number"
                       }
                     ],
                     staticClass: "form-control",
                     attrs: { placeholder: "Número de tarjeta" },
-                    domProps: { value: _vm.informacion.numero },
+                    domProps: { value: _vm.informacion.number },
                     on: {
                       input: function($event) {
                         if ($event.target.composing) {
                           return
                         }
-                        _vm.$set(_vm.informacion, "numero", $event.target.value)
+                        _vm.$set(_vm.informacion, "number", $event.target.value)
                       }
                     }
                   }),
@@ -49165,13 +49208,13 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.informacion.mes,
-                              expression: "informacion.mes"
+                              value: _vm.informacion.exp_month,
+                              expression: "informacion.exp_month"
                             }
                           ],
                           staticClass: "form-control",
                           attrs: { placeholder: "Mes" },
-                          domProps: { value: _vm.informacion.mes },
+                          domProps: { value: _vm.informacion.exp_month },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
@@ -49179,7 +49222,7 @@ var render = function() {
                               }
                               _vm.$set(
                                 _vm.informacion,
-                                "mes",
+                                "exp_month",
                                 $event.target.value
                               )
                             }
@@ -49202,13 +49245,13 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.informacion.ano,
-                              expression: "informacion.ano"
+                              value: _vm.informacion.exp_year,
+                              expression: "informacion.exp_year"
                             }
                           ],
                           staticClass: "form-control",
                           attrs: { placeholder: "Año" },
-                          domProps: { value: _vm.informacion.ano },
+                          domProps: { value: _vm.informacion.exp_year },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
@@ -49216,7 +49259,7 @@ var render = function() {
                               }
                               _vm.$set(
                                 _vm.informacion,
-                                "ano",
+                                "exp_year",
                                 $event.target.value
                               )
                             }
@@ -49239,13 +49282,13 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.informacion.codigo,
-                              expression: "informacion.codigo"
+                              value: _vm.informacion.cvc,
+                              expression: "informacion.cvc"
                             }
                           ],
                           staticClass: "form-control",
                           attrs: { placeholder: "CVV" },
-                          domProps: { value: _vm.informacion.codigo },
+                          domProps: { value: _vm.informacion.cvc },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
@@ -49253,7 +49296,7 @@ var render = function() {
                               }
                               _vm.$set(
                                 _vm.informacion,
-                                "codigo",
+                                "cvc",
                                 $event.target.value
                               )
                             }
@@ -49328,33 +49371,12 @@ var render = function() {
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.informacion.token,
-                        expression: "informacion.token"
+                        value: _vm.informacion.conektaTokenId,
+                        expression: "informacion.conektaTokenId"
                       }
                     ],
                     attrs: { type: "hidden" },
-                    domProps: { value: _vm.informacion.token },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(_vm.informacion, "token", $event.target.value)
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.informacion.deviceSessionId,
-                        expression: "informacion.deviceSessionId"
-                      }
-                    ],
-                    attrs: { type: "hidden" },
-                    domProps: { value: _vm.informacion.deviceSessionId },
+                    domProps: { value: _vm.informacion.conektaTokenId },
                     on: {
                       input: function($event) {
                         if ($event.target.composing) {
@@ -49362,7 +49384,7 @@ var render = function() {
                         }
                         _vm.$set(
                           _vm.informacion,
-                          "deviceSessionId",
+                          "conektaTokenId",
                           $event.target.value
                         )
                       }
@@ -49418,7 +49440,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("label", { attrs: { for: "acuerdoTarjeta" } }, [
                   _vm._v(
-                    "He leído y estoy de acuerdo con los\n                        "
+                    "He leído y estoy de acuerdo con los\n                    "
                   ),
                   _c(
                     "a",
@@ -49673,7 +49695,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("label", { attrs: { for: "acuerdoOxxo" } }, [
                   _vm._v(
-                    "He leído y estoy de acuerdo con los\n                        "
+                    "He leído y estoy de acuerdo con los\n                    "
                   ),
                   _c(
                     "a",
@@ -49928,7 +49950,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("label", { attrs: { for: "acuerdoSpei" } }, [
                   _vm._v(
-                    "He leído y estoy de acuerdo con los\n                        "
+                    "He leído y estoy de acuerdo con los\n                    "
                   ),
                   _c(
                     "a",
@@ -50039,30 +50061,26 @@ var render = function() {
                             target: "_blank"
                           }
                         },
-                        [
-                          _vm._v(
-                            "Encuéntrala\n                            aquí"
-                          )
-                        ]
+                        [_vm._v("Encuéntrala\n                        aquí")]
                       ),
-                      _vm._v(".\n                        ")
+                      _vm._v(".\n                    ")
                     ])
                   : _vm._e(),
                 _vm._v(" "),
                 _vm.response.origen == "oxxo"
                   ? _c("li", [
                       _vm._v(
-                        "\n                            Indica en caja que quieres ralizar un pago de "
+                        "\n                        Indica en caja que quieres ralizar un pago de "
                       ),
                       _c("strong", [_vm._v("OXXOPay")]),
-                      _vm._v(".\n                        ")
+                      _vm._v(".\n                    ")
                     ])
                   : _vm._e(),
                 _vm._v(" "),
                 _vm.response.origen == "oxxo"
                   ? _c("li", [
                       _vm._v(
-                        "\n                            Dicta al cajero el número de referencia en esta ficha para que tecleé directamete en la\n                            pantalla de venta.\n                        "
+                        "\n                        Dicta al cajero el número de referencia en esta ficha para que tecleé directamete en la\n                        pantalla de venta.\n                    "
                       )
                     ])
                   : _vm._e(),
@@ -50082,7 +50100,7 @@ var render = function() {
                 _vm.response.origen == "spei"
                   ? _c("li", [
                       _vm._v(
-                        "\n                            Da de alta la CLABE en esta ficha. El banco deberá de ser STP.\n                        "
+                        "\n                        Da de alta la CLABE en esta ficha. El banco deberá de ser STP.\n                    "
                       )
                     ])
                   : _vm._e(),
@@ -50090,7 +50108,7 @@ var render = function() {
                 _vm.response.origen == "spei"
                   ? _c("li", [
                       _vm._v(
-                        "\n                            Realiza la transferencia correspondiente por la cantidad exacta en esta ficha, de lo\n                            contrario se rechazará el cargo.\n                        "
+                        "\n                        Realiza la transferencia correspondiente por la cantidad exacta en esta ficha, de lo\n                        contrario se rechazará el cargo.\n                    "
                       )
                     ])
                   : _vm._e(),
@@ -50101,11 +50119,11 @@ var render = function() {
                   ),
                   _c("strong", [
                     _vm._v(
-                      "En él podrás\n                            verificar que se haya realizado correctamente."
+                      "En él podrás\n                        verificar que se haya realizado correctamente."
                     )
                   ]),
                   _vm._v(
-                    " Conserva este comprobante de\n                            pago para cualquier aclaración.\n                        "
+                    " Conserva este comprobante de\n                        pago para cualquier aclaración.\n                    "
                   )
                 ])
               ]),
@@ -50113,11 +50131,11 @@ var render = function() {
               _c("div", { staticClass: "opps-footnote" }, [
                 _vm._v("Al completar estos pasos recibirás un correo de "),
                 _c("strong", [_vm._v("soporte@retoacton.com")]),
-                _vm._v("\n                        confirmando tu pago."),
+                _vm._v("\n                    confirmando tu pago."),
                 _c("br"),
                 _c("br"),
                 _vm._v(
-                  "Una vez efectuado el pago, inmediatamente recibirás un correo con tu\n                        usuario y contraseña para que puedas acceder a tu cuenta, no es necesario enviar el comprobante de pago a ningún lado.\n                    "
+                  "Una vez efectuado el pago, inmediatamente recibirás un correo con tu\n                    usuario y contraseña para que puedas acceder a tu cuenta, no es necesario enviar el comprobante de pago a ningún lado.\n                "
                 )
               ])
             ])
@@ -50144,12 +50162,12 @@ var render = function() {
               _c("span", { staticClass: "font-weight-bold" }, [
                 _vm._v("Felicidades! ")
               ]),
-              _vm._v(" Tu programa esta casi listo.\n                ")
+              _vm._v(" Tu programa esta casi listo.\n            ")
             ]),
             _vm._v(" "),
             _c("p", [
               _vm._v(
-                "Te hemos enviado un correo con tu usuario y contraseña para que puedas ingresar a tu sesión.\n                    Recuerda que al ingresar por primera vez llenarás un cuestionario que te llevará aproximadamente 5 minutos."
+                "Te hemos enviado un correo con tu usuario y contraseña para que puedas ingresar a tu sesión.\n                Recuerda que al ingresar por primera vez llenarás un cuestionario que te llevará aproximadamente 5 minutos."
               )
             ]),
             _vm._v(" "),

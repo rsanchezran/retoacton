@@ -37,19 +37,19 @@
                 loading:false,
                 response: {referencia: '', monto: '', origen: 'oxxo'},
                 informacion: {
+                    name: '',
                     nombres: '',
                     apellidos: '',
                     email: '',
                     email_confirmation: '',
-                    numero: '',
-                    pregunta:{},
-                    mes: '',
-                    ano: '',
-                    codigo: '',
-                    meses:false,
-                    deviceSessionId: '',
-                    token: '',
                     telefono: '',
+                    referencia: '',
+                    number: '',
+                    exp_year: '',
+                    exp_month: '',
+                    cvc: '',
+                    meses: false,
+                    conektaTokenId: '',
                     deposito: false
                 },
             }
@@ -66,56 +66,16 @@
                 this.informacion.apellidos = this.informacion.apellidos.trim();
                 this.informacion.email = this.informacion.email.trim();
                 this.informacion.telefono = this.informacion.telefono.trim();
-                this.informacion.pregunta = this.informacion.pregunta.trim();
-                this.informacion.numero = this.informacion.numero.trim();
-                this.informacion.codigo = this.informacion.codigo.trim();
-                this.informacion.mes = this.informacion.mes.trim();
-                this.informacion.ano = this.informacion.ano.trim();
+                this.informacion.number = this.informacion.number.trim();
+                this.informacion.exp_year = this.informacion.exp_year.trim();
+                this.informacion.exp_month = this.informacion.exp_month.trim();
+                this.informacion.cvc = this.informacion.cvc.trim();
+                this.informacion.name = '';
             },
             openpay: function () {
                 let vm = this;
-
                 vm.errors = {};
                 vm.terminar = false;
-                OpenPay.token.create({
-                        "holder_name": vm.informacion.nombres.trim(),
-                        "card_number": vm.informacion.numero.trim(),
-                        "cvv2": vm.informacion.codigo.trim(),
-                        "expiration_month": vm.informacion.mes.trim(),
-                        "expiration_year": vm.informacion.ano.trim()
-                    },
-                    function (response) {
-                        vm.informacion.token = response.data.id;
-                        axios.post(vm.url + '/pago/openpay', vm.informacion).then(function (respuesta) {
-                            if (respuesta.data.status == 'ok') {
-                                vm.$refs.openpay.closeModal();
-                                vm.$refs.pago_confirmado.showModal();
-                            }else if(respuesta.data.status == 'error'){
-                                if (respuesta.data.codigo == 3203){
-                                    vm.errors = {tarjeta: ['Esta tarjeta no se puede utilizar a meses sin intereses']};
-                                }else{
-                                    vm.errors = {tarjeta: ['Problema en el servidor, verifique sus datos e intente nuevamente']};
-                                }
-                            }
-                            vm.$refs.openpay.working = false;
-                        }).catch(function (errors) {
-                            vm.errors = errors.response.data.errors;
-                            vm.$refs.openpay.working = false;
-                        });
-                    },
-                    function (error) {
-                        vm.errors = {};
-                        if(error.data.description.includes('date') && error.data.description.includes('expiration'))
-                            vm.errors.tarjeta = ['Los datos de su tarjeta no son válidos'];
-                        else
-                            vm.errors.tarjeta = ['Su tarjeta no es válida'];
-                        axios.post(vm.url + '/pago/validarOpenpay', vm.informacion).then()
-                            .catch(function (errors) {
-                                vm.errors = errors.response.data.errors;
-                            });
-                        vm.$refs.openpay.working = false;
-                    }
-                );
             },
             OxxoSpei: function () {
                 let vm = this;
@@ -136,26 +96,62 @@
             redirect: function () {
                 window.location.href = '/login';
             },
-            configurar: function (nombres, apellidos, email, telefono, pregunta, referenciado) {
+            configurar: function (nombres, apellidos, email, telefono, referencia) {
                 this.informacion.nombres = nombres;
                 this.informacion.apellidos = apellidos;
                 this.informacion.email = email;
                 this.informacion.telefono = telefono;
-                this.informacion.pregunta = pregunta;
-                this.informacion.referenciado=referenciado;
+                this.informacion.referencia = referencia;
             },
             terminado: function () {
                 this.$emit('terminado');
+            },
+            tarjeta: function () {
+                let vm = this;
+                vm.errors = {};
+                vm.terminar = false;
+                vm.informacion.name = vm.informacion.nombres+' '+vm.informacion.apellidos;
+                Conekta.Token.create({card: this.informacion}, token => this.successConekta(token), error => this.errorConecta(error));
+            },
+            successConekta: function (token) {
+                let vm = this;
+                vm.informacion.conektaTokenId = token.id;
+                axios.post(vm.url + '/pago/tarjeta', vm.informacion).then(function (respuesta) {
+                    if (respuesta.data.status == 'ok') {
+                        vm.$refs.tarjeta.closeModal();
+                        vm.$refs.pago_confirmado.showModal();
+                    } else if (respuesta.data.status == 'error') {
+                        if (respuesta.data.codigo == 3203) {
+                            vm.errors = {tarjeta: ['Esta tarjeta no se puede utilizar a meses sin intereses']};
+                        } else {
+                            vm.errors = {tarjeta: ['Problema en el servidor, verifique sus datos e intente nuevamente']};
+                        }
+                    }
+                    vm.$refs.tarjeta.working = false;
+                }).catch(function (errors) {
+                    vm.errors = errors.response.data.errors;
+                    vm.$refs.tarjeta.working = false;
+                });
+            },
+            errorConecta: function (error) {
+                let vm = this;
+                vm.errors = {};
+                if (error.data.description.includes('date') && error.data.description.includes('expiration')){
+                    vm.errors.tarjeta = ['Los datos de su tarjeta no son válidos'];
+                } else{
+                    vm.errors.tarjeta = ['Error al procesar su pago'];
+                }
+                axios.post(vm.url + '/pago/validarOpenpay', vm.informacion).then().catch(function (errors) {
+                    vm.errors = errors.response.data.errors;
+                });
+                vm.$refs.tarjeta.working = false;
             }
         },
         mounted() {
             let vm = this;
             this.informacion.nombres = this.nombres;
             this.informacion.email = this.email;
-            OpenPay.setId(vm.id);
-            OpenPay.setApiKey(vm.llave);
-            OpenPay.setSandboxMode(vm.sandbox);
-            this.informacion.deviceSessionId = OpenPay.deviceData.setup();
+            Conekta.setPublicKey(vm.llave);
             Vue.nextTick(function () {
                 document.getElementById('paypalDiv').innerHTML = "";
                 paypal.Buttons({
@@ -212,17 +208,17 @@
                 <br>
                 <img :src="url+'/img/oxxo.png'" width="80">
             </div>
-<!--            <div class="formaPago col-12" @click="metodoPago('openpay')">-->
-<!--                <h6>Pago con tarjeta de débito o crédito</h6>-->
-<!--                <div class="d-flex flex-wrap">-->
-<!--                    <div class="col-12 col-sm-6">-->
-<!--                        <img :src="url+'/img/visa.png'" width="60">-->
-<!--                    </div>-->
-<!--                    <div class="col-12 col-sm-6">-->
-<!--                        <img :src="url+'/img/mastercard.png'" width="60">-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
+            <div class="formaPago col-12" @click="metodoPago('tarjeta')">
+                <h6>Pago con tarjeta de débito o crédito</h6>
+                <div class="d-flex flex-wrap">
+                    <div class="col-12 col-sm-6">
+                        <img :src="url+'/img/visa.png'" width="60">
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <img :src="url+'/img/mastercard.png'" width="60">
+                    </div>
+                </div>
+            </div>
             <div class="formaPago col-12">
                 <h6>La forma rápida de pagar</h6>
                 <br>
@@ -232,7 +228,7 @@
         <div v-if="response.referencia!=''">
             <button class="bigbutton" @click="$refs.referencia.showModal()">Ver ficha</button>
         </div>
-        <modal ref="openpay" title="Pago con tarjeta" @ok="openpay()" :high="'500'" :okdisabled="!acuerdo">
+        <modal ref="tarjeta" title="Pago con tarjeta" @ok="tarjeta()" :high="'500'" :okdisabled="!acuerdo">
             <div style="background-color: #f6f6f6; color: #0b2e13">
                 <div class="d-flex">
                     <div class="col-12 col-sm-6">
@@ -242,30 +238,34 @@
                         <img :src="url+'/img/mastercard.png'" width="60">
                     </div>
                 </div>
-                <p class="text-center">La cantidad a cobrar será de <money :caracter="true" :cantidad="cobro" :decimales="0"></money></p>
-                <p>Al concluir tu pago se enviará tu usuario y contraseña al correo que proporcionaste en tus datos de contacto</p>
+                <p class="text-center">La cantidad a cobrar será de
+                    <money :caracter="true" :cantidad="cobro" :decimales="0"></money>
+                </p>
+                <p>Al concluir tu pago se enviará tu usuario y contraseña al correo que proporcionaste en tus datos de
+                    contacto</p>
                 <div class="payment" align="left">
-                    <input class="form-control" v-model="informacion.nombres" placeholder="Nombres" disabled />
+                    <input class="form-control" v-model="informacion.nombres" placeholder="Nombres" disabled/>
                     <form-error name="nombres" :errors="errors"></form-error>
-                    <input class="form-control" v-model="informacion.apellidos" placeholder="Apellidos" disabled />
+                    <input class="form-control" v-model="informacion.apellidos" placeholder="Apellidos" disabled/>
                     <form-error name="apellidos" :errors="errors"></form-error>
-                    <input class="form-control" v-model="informacion.email" placeholder="Correo electrónico" disabled />
+                    <input class="form-control" v-model="informacion.email" placeholder="Correo electrónico" disabled/>
                     <form-error name="email" :errors="errors"></form-error>
-                    <input class="form-control" v-model="informacion.email_confirmation" placeholder="Por favor ingresa de nuevo tu correo electrónico"/>
+                    <input class="form-control" v-model="informacion.email_confirmation"
+                           placeholder="Por favor ingresa de nuevo tu correo electrónico"/>
                     <form-error name="email_confirmation" :errors="errors"></form-error>
-                    <input class="form-control" v-model="informacion.numero" placeholder="Número de tarjeta">
+                    <input class="form-control" v-model="informacion.number" placeholder="Número de tarjeta">
                     <form-error name="numero" :errors="errors"></form-error>
                     <div class="d-flex">
                         <div class="col-sm-4">
-                            <input class="form-control" placeholder="Mes" v-model="informacion.mes">
+                            <input class="form-control" placeholder="Mes" v-model="informacion.exp_month">
                             <form-error name="mes" :errors="errors"></form-error>
                         </div>
                         <div class="col-sm-4">
-                            <input class="form-control" placeholder="Año" v-model="informacion.ano">
+                            <input class="form-control" placeholder="Año" v-model="informacion.exp_year">
                             <form-error name="ano" :errors="errors"></form-error>
                         </div>
                         <div class="col-sm-4">
-                            <input class="form-control" placeholder="CVV" v-model="informacion.codigo">
+                            <input class="form-control" placeholder="CVV" v-model="informacion.cvc">
                             <form-error name="codigo" :errors="errors"></form-error>
                         </div>
                     </div>
@@ -273,8 +273,7 @@
                         <input type="checkbox" id="meses" v-model="informacion.meses">
                         <label for="meses">3 meses sin intereses con tarjeta de crédito</label>
                     </div>
-                    <input type="hidden" v-model="informacion.token">
-                    <input type="hidden" v-model="informacion.deviceSessionId">
+                    <input type="hidden" v-model="informacion.conektaTokenId">
                     <form-error name="tarjeta" :errors="errors" style="text-align: center"></form-error>
                 </div>
                 <div class="payment" align="left">

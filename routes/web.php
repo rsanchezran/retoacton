@@ -122,6 +122,7 @@ Route::group(['prefix'=>'pago'], function (){
     Route::post('spei', 'PagoController@spei');
     Route::post('paypal', 'PagoController@paypal');
     Route::post('validarOpenpay', 'PagoController@validarOpenpay');
+    Route::post('tarjeta', 'PagoController@tarjeta');
 });
 
 Route::group(['prefix'=>'encuesta', 'middleware'=>['auth']], function (){
