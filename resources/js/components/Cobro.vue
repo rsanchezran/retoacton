@@ -189,33 +189,41 @@
     };
 </script>
 <template>
-    <div class="col-12 col-sm-6 d-block mr-auto ml-auto">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 d-block mr-auto ml-auto">
         <div class="d-flex flex-wrap">
-            <div class="formaPago col-12" @click="metodoPago('spei')">
-                <h6>Pago con SPEI</h6>
-                <br>
-                <img :src="url+'/img/spei.png'" width="80">
+            <div class="col-12 col-sm-6" @click="metodoPago('spei')">
+                <div class="formaPago">
+                    <h6>Pago con SPEI</h6>
+                    <br>
+                    <img :src="url+'/img/spei.png'" width="80">
+                </div>
             </div>
-            <div class="formaPago col-12" @click="metodoPago('oxxo')">
-                <h6>Pago en Oxxo</h6>
-                <br>
-                <img :src="url+'/img/oxxo.png'" width="80">
+            <div class="col-12 col-sm-6" @click="metodoPago('oxxo')">
+                <div class="formaPago">
+                    <h6>Pago en Oxxo</h6>
+                    <br>
+                    <img :src="url+'/img/oxxo.png'" width="80">
+                </div>
             </div>
-            <div class="formaPago col-12" @click="metodoPago('tarjeta')">
-                <h6>Pago con tarjeta de débito o crédito</h6>
-                <div class="d-flex flex-wrap">
-                    <div class="col-12 col-sm-6">
-                        <img :src="url+'/img/visa.png'" width="60">
-                    </div>
-                    <div class="col-12 col-sm-6">
-                        <img :src="url+'/img/mastercard.png'" width="60">
+            <div class="col-12 col-sm-6" @click="metodoPago('tarjeta')">
+                <div class="formaPago">
+                    <h6>Pago con tarjeta de débito o crédito</h6>
+                    <div class="d-flex flex-wrap">
+                        <div class="col-12 col-sm-6">
+                            <img :src="url+'/img/visa.png'" width="60">
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <img :src="url+'/img/mastercard.png'" width="60">
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="formaPago col-12">
-                <h6>La forma rápida de pagar</h6>
-                <br>
-                <div id="paypalDiv" class="d-block ml-auto mr-auto" style="width:80%"></div>
+            <div class="col-12 col-sm-6">
+                <div class="formaPago">
+                    <h6>La forma rápida de pagar</h6>
+                    <br>
+                    <div id="paypalDiv" class="d-block ml-auto mr-auto" style="width:80%"></div>
+                </div>
             </div>
         </div>
         <div v-if="response.referencia!=''">

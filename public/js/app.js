@@ -48892,13 +48892,16 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "col-12 col-sm-6 d-block mr-auto ml-auto" },
+    {
+      staticClass:
+        "col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 d-block mr-auto ml-auto"
+    },
     [
       _c("div", { staticClass: "d-flex flex-wrap" }, [
         _c(
           "div",
           {
-            staticClass: "formaPago col-12",
+            staticClass: "col-12 col-sm-6",
             on: {
               click: function($event) {
                 return _vm.metodoPago("spei")
@@ -48906,20 +48909,22 @@ var render = function() {
             }
           },
           [
-            _c("h6", [_vm._v("Pago con SPEI")]),
-            _vm._v(" "),
-            _c("br"),
-            _vm._v(" "),
-            _c("img", {
-              attrs: { src: _vm.url + "/img/spei.png", width: "80" }
-            })
+            _c("div", { staticClass: "formaPago" }, [
+              _c("h6", [_vm._v("Pago con SPEI")]),
+              _vm._v(" "),
+              _c("br"),
+              _vm._v(" "),
+              _c("img", {
+                attrs: { src: _vm.url + "/img/spei.png", width: "80" }
+              })
+            ])
           ]
         ),
         _vm._v(" "),
         _c(
           "div",
           {
-            staticClass: "formaPago col-12",
+            staticClass: "col-12 col-sm-6",
             on: {
               click: function($event) {
                 return _vm.metodoPago("oxxo")
@@ -48927,20 +48932,22 @@ var render = function() {
             }
           },
           [
-            _c("h6", [_vm._v("Pago en Oxxo")]),
-            _vm._v(" "),
-            _c("br"),
-            _vm._v(" "),
-            _c("img", {
-              attrs: { src: _vm.url + "/img/oxxo.png", width: "80" }
-            })
+            _c("div", { staticClass: "formaPago" }, [
+              _c("h6", [_vm._v("Pago en Oxxo")]),
+              _vm._v(" "),
+              _c("br"),
+              _vm._v(" "),
+              _c("img", {
+                attrs: { src: _vm.url + "/img/oxxo.png", width: "80" }
+              })
+            ])
           ]
         ),
         _vm._v(" "),
         _c(
           "div",
           {
-            staticClass: "formaPago col-12",
+            staticClass: "col-12 col-sm-6",
             on: {
               click: function($event) {
                 return _vm.metodoPago("tarjeta")
@@ -48948,19 +48955,21 @@ var render = function() {
             }
           },
           [
-            _c("h6", [_vm._v("Pago con tarjeta de débito o crédito")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "d-flex flex-wrap" }, [
-              _c("div", { staticClass: "col-12 col-sm-6" }, [
-                _c("img", {
-                  attrs: { src: _vm.url + "/img/visa.png", width: "60" }
-                })
-              ]),
+            _c("div", { staticClass: "formaPago" }, [
+              _c("h6", [_vm._v("Pago con tarjeta de débito o crédito")]),
               _vm._v(" "),
-              _c("div", { staticClass: "col-12 col-sm-6" }, [
-                _c("img", {
-                  attrs: { src: _vm.url + "/img/mastercard.png", width: "60" }
-                })
+              _c("div", { staticClass: "d-flex flex-wrap" }, [
+                _c("div", { staticClass: "col-12 col-sm-6" }, [
+                  _c("img", {
+                    attrs: { src: _vm.url + "/img/visa.png", width: "60" }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-12 col-sm-6" }, [
+                  _c("img", {
+                    attrs: { src: _vm.url + "/img/mastercard.png", width: "60" }
+                  })
+                ])
               ])
             ])
           ]
@@ -50198,16 +50207,18 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "formaPago col-12" }, [
-      _c("h6", [_vm._v("La forma rápida de pagar")]),
-      _vm._v(" "),
-      _c("br"),
-      _vm._v(" "),
-      _c("div", {
-        staticClass: "d-block ml-auto mr-auto",
-        staticStyle: { width: "80%" },
-        attrs: { id: "paypalDiv" }
-      })
+    return _c("div", { staticClass: "col-12 col-sm-6" }, [
+      _c("div", { staticClass: "formaPago" }, [
+        _c("h6", [_vm._v("La forma rápida de pagar")]),
+        _vm._v(" "),
+        _c("br"),
+        _vm._v(" "),
+        _c("div", {
+          staticClass: "d-block ml-auto mr-auto",
+          staticStyle: { width: "80%" },
+          attrs: { id: "paypalDiv" }
+        })
+      ])
     ])
   }
 ]
