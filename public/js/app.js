@@ -1904,7 +1904,7 @@ __webpack_require__.r(__webpack_exports__);
             };
           } else {
             vm.errors = {
-              tarjeta: ['Problema en el servidor, verifique sus datos e intente nuevamente']
+              tarjeta: [respuesta.data.error]
             };
           }
         }

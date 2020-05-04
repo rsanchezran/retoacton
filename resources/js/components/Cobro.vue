@@ -124,7 +124,7 @@
                         if (respuesta.data.codigo == 3203) {
                             vm.errors = {tarjeta: ['Esta tarjeta no se puede utilizar a meses sin intereses']};
                         } else {
-                            vm.errors = {tarjeta: ['Problema en el servidor, verifique sus datos e intente nuevamente']};
+                            vm.errors = {tarjeta: [respuesta.data.error]};
                         }
                     }
                     vm.$refs.tarjeta.working = false;
