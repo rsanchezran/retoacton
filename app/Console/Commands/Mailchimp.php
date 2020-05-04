@@ -72,8 +72,7 @@ class Mailchimp extends Command
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
-
-        $result = json_decode(curl_exec($ch));
+        curl_exec($ch);
     }
 
     public function enviarMiembro($lista, $email, $nombres, $apellidos)
@@ -121,7 +120,7 @@ class Mailchimp extends Command
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        $result = curl_exec($ch);
+        curl_exec($ch);
     }
 
     public function getCampanas()
@@ -178,7 +177,7 @@ class Mailchimp extends Command
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        $result = json_decode(curl_exec($ch));
+        curl_exec($ch);
     }
 
     public function enviarCorreo($miembros, $workflow, $queue)
@@ -200,12 +199,7 @@ class Mailchimp extends Command
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
-            json_decode(curl_exec($ch));
-            $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            Log::info($status);
-            Log::info($workflow);
-            Log::info($queue);
-            return $status == 200;
+            curl_exec($ch);
         }
     }
 
