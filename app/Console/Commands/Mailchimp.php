@@ -203,6 +203,8 @@ class Mailchimp extends Command
             json_decode(curl_exec($ch));
             $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             Log::info($status);
+            Log::info($workflow);
+            Log::info($queue);
             return $status == 200;
         }
     }

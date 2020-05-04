@@ -157,18 +157,11 @@
                             <br>
                             <div class="d-flex flex-wrap">
                                 <div v-for="(cardio, index) in dia.cardio" class="ejercicio col-sm-5">
-{{--                                    <div class="video d-flex">--}}
-{{--                                        <div v-if="cardio.video==''" class="vid">[Selecciona un video]</div>--}}
-{{--                                        <video v-else class="embed-responsive-item" preload="none" controls="auto"--}}
-{{--                                               :src="'{{url('configuracion/ejercicio/')}}/'+cardio.video">--}}
-{{--                                            <source :src="'{{url('configuracion/ejercicio/')}}/'+cardio.video"--}}
-{{--                                                    type="video/mp4">--}}
-{{--                                        </video>--}}
-{{--                                        <div class="d-flex flex-column float-right">--}}
-{{--                                            <i class="far fa-times" @click="quitarCardio(cardio)"></i>--}}
-{{--                                            <i class="far fa-database" @click="openRepoExplorer(cardio)"></i>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
+                                    <div class="d-flex flex-column float-right">
+                                        <i class="far fa-times" @click="quitarCardio(cardio)"></i>
+                                        <i class="far fa-database" @click="openRepoExplorer(cardio)"></i>
+                                    </div>
+                                    <br>
                                     <div class="video">
                                         <span class="small float-right">@{{ cardio.ejercicio.length }}/50</span>
                                         <input placeholder="Ejercicio" class="form-control"
