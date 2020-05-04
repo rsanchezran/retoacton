@@ -25,7 +25,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
 //         $schedule->command('notificar')->weekly(7,'14:30');
-//         $schedule->command('enviar_correos')->dailyAt('14:30');
+         $schedule->command('enviar_correos')->dailyAt('14:30');
          $schedule->command('procesar_video')->everyMinute();
     }
 
