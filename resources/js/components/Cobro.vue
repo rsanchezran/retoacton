@@ -136,14 +136,7 @@
             errorConecta: function (error) {
                 let vm = this;
                 vm.errors = {};
-                if (error.data.description.includes('date') && error.data.description.includes('expiration')){
-                    vm.errors.tarjeta = ['Los datos de su tarjeta no son válidos'];
-                } else{
-                    vm.errors.tarjeta = ['Error al procesar su pago'];
-                }
-                axios.post(vm.url + '/pago/validarOpenpay', vm.informacion).then().catch(function (errors) {
-                    vm.errors = errors.response.data.errors;
-                });
+                vm.errors.tarjeta = [error.message_to_purchaser];
                 vm.$refs.tarjeta.working = false;
             }
         },

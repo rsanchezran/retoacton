@@ -38,8 +38,8 @@ class PagoController extends Controller
             'telefono' => 'required|numeric|max:9999999999|integer',
             'codigo' => 'max:7',
             'number' => 'required|max:16|min:16', //numero tarjeta
-            'exp_month' => ['required', 'digits:2', 'regex:/((0[1-9])|(1[0-2])){1}/'],
-            'exp_year' => ['required', 'digits:2'],
+            'exp_month' => 'required|digits:2|regex:/((0[1-9])|(1[0-2])){1}/',
+            'exp_year' => 'required|digits:2',
             'cvc' => 'required|digits:3', //cvv
         ], [
             'nombres.required' => 'Este campo es obligatorio',
