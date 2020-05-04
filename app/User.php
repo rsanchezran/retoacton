@@ -123,7 +123,7 @@ class User extends Authenticatable
     public static function calcularMontoCompra($codigo, $email, $created_at, $fecha_inscripcion, $inicio_reto, $deleted_at)
     {
         $compra = new \stdClass();
-        $referenciado = User::where('referencia', $codigo)->where('id', '!=', 1)->first();
+        $referenciado = $codigo == '' ? null : User::where('referencia', $codigo)->where('id', '!=', 1)->first();
         $monto = intval(env('COBRO_ORIGINAL'));
         if ($created_at == null || $deleted_at != null) {
             if ($referenciado == null) {

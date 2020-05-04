@@ -1811,7 +1811,7 @@ __webpack_require__.r(__webpack_exports__);
         email: '',
         email_confirmation: '',
         telefono: '',
-        referencia: '',
+        codigo: '',
         number: '',
         exp_year: '',
         exp_month: '',
@@ -1865,12 +1865,12 @@ __webpack_require__.r(__webpack_exports__);
     redirect: function redirect() {
       window.location.href = '/login';
     },
-    configurar: function configurar(nombres, apellidos, email, telefono, referencia) {
+    configurar: function configurar(nombres, apellidos, email, telefono, codigo) {
       this.informacion.nombres = nombres;
       this.informacion.apellidos = apellidos;
       this.informacion.email = email;
       this.informacion.telefono = telefono;
-      this.informacion.referencia = referencia;
+      this.informacion.codigo = codigo;
     },
     terminado: function terminado() {
       this.$emit('terminado');
@@ -49648,7 +49648,7 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c("form-error", {
-                    attrs: { name: "referencia", errors: _vm.errors }
+                    attrs: { name: "codigo", errors: _vm.errors }
                   })
                 ],
                 1
@@ -49903,7 +49903,7 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c("form-error", {
-                    attrs: { name: "referencia", errors: _vm.errors }
+                    attrs: { name: "codigo", errors: _vm.errors }
                   })
                 ],
                 1

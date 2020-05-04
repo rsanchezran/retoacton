@@ -70,8 +70,8 @@ class RegisterController extends Controller
             'nombres' => ['required', 'max:100', 'min:2', 'regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ\s]( )?)+$/'],
             'apellidos' => 'required|max:100|min:2|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ\s]( )?)+$/',
             'email' => 'required|max:100|min:3|email',
-            'telefono' => 'required|max:10',
-            'referencia' => 'max:7',
+            'telefono' => 'required|numeric|max:9999999999|integer',
+            'codigo' => 'max:7',
         ], [
             'nombres.required' => 'El nombre es obligatorio',
             'nombres.min' => 'Debe capturar mínimo 2 caracteres en el nombre',
@@ -86,11 +86,11 @@ class RegisterController extends Controller
             'email.max' => 'Debe capturar máximo 100 caracteres en el correo electrónico',
             'email.unique' => 'El correo ya ha sido registrado',
             'email.email' => 'El formato no es válido en el correo electrónico',
-            'telefono.required' => 'El teléfono es obligatorio',
-            'telefono.max' => 'Debe ser menor a 10 caracteres el teléfono',
-            'telefono.numeric' => 'El campo teléfono debe ser numérico',
-            'telefono.integer' => 'No puede ingresar números negativos en el campo teléfono',
-            'referencia.max' => 'Debe ser menor a 6 caracteres la referencia'
+            'telefono.required' => 'El teléfono es requerido',
+            'telefono.numeric' => 'El teléfono debe ser numérico',
+            'telefono.max' => 'El teléfono debe tener 10 caracteres',
+            'telefono.integer' => 'No puede ingresar números negativos',
+            'codigo.max' => 'La referencia debe tener 7 caracteres',
         ]);
         $validator->after(function ($validator) use ($request) {
             if (ValidarCorreo::validarCorreo($request->email)) {

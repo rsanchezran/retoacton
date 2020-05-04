@@ -91,6 +91,7 @@
                     </span>
                     <input class="form-control col-6" v-model="informacion.codigo" placeholder="REFERENCIA"
                            @blur="buscarReferencia()" maxlength="7">
+                    <form-error name="codigo" :errors="errors"></form-error>
                     <div v-if="encontrado!==null">
                         <span v-if="encontrado">El código que ingresaste corresponde al usuario :
                             <i style="font-size:1.1rem" class="font-weight-bold">@{{ referencia }}</i>

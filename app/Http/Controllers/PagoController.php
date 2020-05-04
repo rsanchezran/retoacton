@@ -2,19 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Code\Objetivo;
-use App\Code\TipoRespuesta;
 use App\Code\ValidarCorreo;
 use App\Contacto;
 use App\Mail\EnviarFicha;
-use App\Mail\Registro;
-use App\Pregunta;
-use App\Respuesta;
-use App\Rules\validarAnio;
-use App\Rules\validarMes;
 use App\User;
-use App\UsuarioKit;
-use Carbon\Carbon;
 use Conekta\Conekta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -44,7 +35,8 @@ class PagoController extends Controller
             'apellidos' => 'required|max:100|min:2|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ\s]( )?)+$/',
             'email' => 'required|max:100|min:3|email',
             'email_confirmation' => 'required|max:100|min:3|email|same:email',
-            'telefono' => 'nullable|numeric|max:9999999999|integer',
+            'telefono' => 'required|numeric|max:9999999999|integer',
+            'codigo' => 'max:7',
             'number' => 'required|max:16|min:16', //numero tarjeta
             'exp_month' => ['required', 'digits:2', 'regex:/((0[1-9])|(1[0-2])){1}/'],
             'exp_year' => ['required', 'digits:2'],
@@ -69,8 +61,9 @@ class PagoController extends Controller
             'email_confirmation.unique' => 'El correo ya ha sido registrado',
             'email_confirmation.email' => 'El formato no es válido',
             'email_confirmation.same' => 'El correo electrónico de confirmación no es igual al primer correo que ingresaste',
-            'telefono.max' => 'Debe ser menor a 12 caracteres',
-            'telefono.numeric' => 'Debe ser numérico',
+            'telefono.required' => 'El teléfono es requerido',
+            'telefono.numeric' => 'El teléfono debe ser numérico',
+            'telefono.max' => 'El teléfono debe tener 10 caracteres',
             'telefono.integer' => 'No puede ingresar números negativos',
             'number.required' => 'El número de tarjeta es requerido',
             'number.max' => 'El número de tarjeta debe tener máximo 16 caracteres',
@@ -97,7 +90,7 @@ class PagoController extends Controller
         try {
             \DB::beginTransaction();
             $usuario = User::withTrashed()->orderBy('created_at')->where('email', $request->email)->get()->last();
-            $cobro = User::calcularMontoCompra($request->pregunta, $request->email,
+            $cobro = User::calcularMontoCompra($request->codigo, $request->email,
                 $usuario == null ? null : $usuario->created_at,
                 $usuario == null ? null : $usuario->fecha_inscripcion,
                 $usuario == null ? null : $usuario->inicio_reto, $usuario == null ? null : $usuario->deleted_at)->monto;
@@ -137,7 +130,7 @@ class PagoController extends Controller
             $contacto->save();
             if ($usuario == null) {
                 User::crear($request->nombres, $request->apellidos, $request->email, 'tarjeta', 0,
-                    $request->pregunta, $cobro);
+                    $request->codigo, $cobro);
             } else {
                 $usuario->refrendarPago($cobro);
             }
@@ -154,7 +147,7 @@ class PagoController extends Controller
         try {
             \DB::beginTransaction();
             $usuario = User::withTrashed()->orderBy('created_at')->where('email', $request->email)->get()->last();
-            $cobro = User::calcularMontoCompra($request->pregunta, $request->email,
+            $cobro = User::calcularMontoCompra($request->codigo, $request->email,
                 $usuario == null ? null : $usuario->created_at,
                 $usuario == null ? null : $usuario->fecha_inscripcion,
                 $usuario == null ? null : $usuario->inicio_reto, $usuario == null ? null : $usuario->deleted_at)->monto;
@@ -183,7 +176,7 @@ class PagoController extends Controller
             $openpay->charges->create($chargeRequest);
             if ($usuario == null) {
                 User::crear($request->nombres, $request->apellidos, $request->email, 'tarjeta', 0,
-                    $request->pregunta, $cobro);
+                    $request->codigo, $cobro);
             } else {
                 $usuario->refrendarPago($cobro);
             }
@@ -198,7 +191,7 @@ class PagoController extends Controller
     {
         $this->validarTelefono($request);
         $usuario = User::withTrashed()->orderBy('created_at')->where('email', $request->email)->get()->last();
-        $cobro = User::calcularMontoCompra($request->pregunta, $request->email,
+        $cobro = User::calcularMontoCompra($request->codigo, $request->email,
             $usuario == null ? null : $usuario->created_at,
             $usuario == null ? null : $usuario->fecha_inscripcion,
             $usuario == null ? null : $usuario->inicio_reto,
@@ -241,7 +234,7 @@ class PagoController extends Controller
             $orden->origen = "oxxo";
             $contacto->telefono = $request->telefono;
             $contacto->objetivo = 0;
-            $contacto->codigo = $request->pregunta;
+            $contacto->codigo = $request->codigo;
             $contacto->save();
             try {
                 Mail::queue(new EnviarFicha($contacto, $orden));
@@ -262,7 +255,7 @@ class PagoController extends Controller
     {
         $this->validarTelefono($request);
         $usuario = User::withTrashed()->orderBy('created_at')->where('email', $request->email)->get()->last();
-        $cobro = User::calcularMontoCompra($request->pregunta, $request->email,
+        $cobro = User::calcularMontoCompra($request->codigo, $request->email,
             $usuario == null ? null : $usuario->created_at,
             $usuario == null ? null : $usuario->fecha_inscripcion,
             $usuario == null ? null : $usuario->inicio_reto, $usuario == null ? null : $usuario->deleted_at)->monto;
@@ -303,8 +296,8 @@ class PagoController extends Controller
             $orden->monto = ($order->amount / 100);
             $orden->origen = "spei";
             $contacto->telefono = $request->telefono;
+            $contacto->codigo = $request->codigo;
             $contacto->objetivo = 0;
-            $contacto->codigo = $request->pregunta;
             $contacto->save();
             try {
                 Mail::queue(new EnviarFicha($contacto, $orden));
@@ -323,13 +316,13 @@ class PagoController extends Controller
     public function paypal(Request $request)
     {
         $usuario = User::withTrashed()->orderBy('created_at')->where('email', $request->email)->get()->last();
-        $cobro = User::calcularMontoCompra($request->pregunta, $request->email,
+        $cobro = User::calcularMontoCompra($request->codigo, $request->email,
             $usuario == null ? null : $usuario->created_at,
             $usuario == null ? null : $usuario->fecha_inscripcion,
             $usuario == null ? null : $usuario->inicio_reto, $usuario == null ? null : $usuario->deleted_at)->monto;
         if ($usuario == null) {
             User::crear($request->nombres, $request->apellidos, $request->email,
-                'paypal', 0, $request->pregunta, $cobro);
+                'paypal', 0, $request->codigo, $cobro);
         } else {
             $usuario->refrendarPago($cobro);
         }
@@ -343,8 +336,8 @@ class PagoController extends Controller
             'apellidos' => 'required|max:100|min:2|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ\s]( )?)+$/',
             'email' => 'required|max:100|min:3|email',
             'email_confirmation' => 'required|max:100|min:3|email|same:email',
-            'telefono' => 'numeric|max:9999999999|integer',
-            'referencia' => 'min:7',
+            'telefono' => 'required|numeric|max:9999999999|integer',
+            'codigo' => 'max:7',
         ], [
             'nombres.required' => 'El nombre es obligatorio',
             'nombres.min' => 'El nombre debe tener mínimo 2 caracteres',
@@ -364,11 +357,11 @@ class PagoController extends Controller
             'email_confirmationmail.max' => 'La confirmación de correo electrónico debe tener máximo 100 caracteres',
             'email_confirmation.email' => 'El formato de la confirmación del correo electrónico no es válido',
             'email_confirmation.same' => 'El correo electrónico de confirmación no es igual al primer correo que ingresaste',
-            'referencia.max' => 'El código de referencia debe tener minimo 6 caracteres',
-            'telefono.max' => 'El teléfono debe tener máximo 12 caracteres',
+            'telefono.required' => 'El teléfono es requerido',
             'telefono.numeric' => 'El teléfono debe ser numérico',
-            'telefono.integer' => 'No puede ingresar números negativos en el teléfono',
-            'referencia.min' => 'La referencia debe tener 7 caracteres',
+            'telefono.max' => 'El teléfono debe tener 10 caracteres',
+            'telefono.integer' => 'No puede ingresar números negativos',
+            'codigo.max' => 'La referencia debe tener 7 caracteres',
         ]);
         $validator->after(function ($validator) use ($request) {
             if (ValidarCorreo::validarCorreo($request->email)) {

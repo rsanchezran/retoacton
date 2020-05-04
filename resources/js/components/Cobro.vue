@@ -43,7 +43,7 @@
                     email: '',
                     email_confirmation: '',
                     telefono: '',
-                    referencia: '',
+                    codigo: '',
                     number: '',
                     exp_year: '',
                     exp_month: '',
@@ -96,12 +96,12 @@
             redirect: function () {
                 window.location.href = '/login';
             },
-            configurar: function (nombres, apellidos, email, telefono, referencia) {
+            configurar: function (nombres, apellidos, email, telefono, codigo) {
                 this.informacion.nombres = nombres;
                 this.informacion.apellidos = apellidos;
                 this.informacion.email = email;
                 this.informacion.telefono = telefono;
-                this.informacion.referencia = referencia;
+                this.informacion.codigo = codigo;
             },
             terminado: function () {
                 this.$emit('terminado');
@@ -300,7 +300,7 @@
                     <form-error name="email_confirmation" :errors="errors"></form-error>
                     <input class="form-control" v-model="informacion.telefono" placeholder="Teléfono"/>
                     <form-error name="telefono" :errors="errors"></form-error>
-                    <form-error name="referencia" :errors="errors"></form-error>
+                    <form-error name="codigo" :errors="errors"></form-error>
                 </div>
                 <div class="payment" align="left">
                     <input type="checkbox" id="acuerdoOxxo" v-model="acuerdo">
@@ -326,7 +326,7 @@
                     <form-error name="email_confirmation" :errors="errors"></form-error>
                     <input class="form-control" v-model="informacion.telefono" placeholder="Teléfono"/>
                     <form-error name="telefono" :errors="errors"></form-error>
-                    <form-error name="referencia" :errors="errors"></form-error>
+                    <form-error name="codigo" :errors="errors"></form-error>
                 </div>
                 <div class="payment" align="left">
                     <input type="checkbox" id="acuerdoSpei" v-model="acuerdo">
