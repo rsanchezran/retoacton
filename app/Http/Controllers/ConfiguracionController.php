@@ -63,13 +63,14 @@ class ConfiguracionController extends Controller
         return "ok";
     }
 
-    public function saveCategoria(Request $request){
+    public function saveCategoria(Request $request)
+    {
         $this->validate($request, [
-            'nombre'=>'min:2|max:20|unique:categorias,nombre'
-        ],[
-            'nombre.min'=>'El nombre debe tener minimo 5 caracteres',
-            'nombre.max'=>'El nombre debe tener maximo 20 caracteres',
-            'nombre.unique'=>'Este nombre ya se encuentra en uso',
+            'nombre' => 'min:2|max:20|unique:categorias,nombre'
+        ], [
+            'nombre.min' => 'El nombre debe tener minimo 5 caracteres',
+            'nombre.max' => 'El nombre debe tener maximo 20 caracteres',
+            'nombre.unique' => 'Este nombre ya se encuentra en uso',
         ]);
         $categoria = Categoria::find($request->id);
         if ($categoria == null) {
@@ -176,44 +177,61 @@ class ConfiguracionController extends Controller
     public function saveDia(Request $request)
     {
         $this->authorize('configurar.dia');
+        $messages = [
+            'nota.max' => 'Debe capturar máximo 250 caracteres',
+            'gym.*.ejercicios.*.ejercicio.required' => 'El nombre del ejercicio en GYM es obligatorio',
+            'gym.*.ejercicios.*.ejercicio.max' => 'El ejercicio en GYM debe ser máximo de 50 caracteres',
+            'gym.*.ejercicios.*.video.required' => 'El video del ejercicio en GYM es obligatorio',
+            'casa.*.ejercicios.*.ejercicio.required' => 'El nombre del ejercicio en casa es obligatorio',
+            'casa.*.ejercicios.*.video.required' => 'El video del ejercicio en casa es obligatorio',
+            'cardio.*.ejercicio.required' => 'El ejercicio de cardio es obligatorio',
+            'cardio.*.ejercicio.max' => 'El ejercicio de cardio debe ser máximo de 50 caracteres',
+            'cardio.*.video.required' => 'El video del cardio es obligatorio',
+        ];
+        foreach ($request->get('gym') as $igym => $gym) {
+            $messages["gym.$igym.nombre.required"] = "El nombre de la serie ".($igym+1)." en GYM es obligatorio";
+            $messages["gym.$igym.nombre.max"] = "El nombre de la serie ".($igym+1)." en GYM debe ser máximo de 50 caracteres";
+            foreach ($gym['ejercicios'] as $iejercicio => $ejercicio) {
+                foreach ($ejercicio['subseries'] as $isubserie => $subserie) {
+                    $messages["gym.$igym.ejercicios.$iejercicio.subseries.$isubserie.repeticiones.required"] =
+                        "La repeticion ".($isubserie+1)." de GYM en la serie ".($igym+1).". dentro del ejercicio .".($iejercicio+1)." es obligatorio";
+                    $messages["gym.$igym.ejercicios.$iejercicio.subseries.$isubserie.repeticiones.max"] =
+                        "La repeticion ".($isubserie+1)." de GYM en la serie ".($igym+1).". dentro del ejercicio .".($iejercicio+1)." debe ser máximo 50 caracteres";
+                }
+            }
+        }
+        foreach ($request->get('casa') as $igym => $gym) {
+            $messages["casa.$igym.nombre.required"] = "El nombre de la serie ".($igym+1)." en casa es obligatorio";
+            $messages["casa.$igym.nombre.max"] = "El nombre de la serie ".($igym+1)." en casa debe ser máximo de 50 caracteres";
+            foreach ($gym['ejercicios'] as $iejercicio => $ejercicio) {
+                foreach ($ejercicio['subseries'] as $isubserie => $subserie) {
+                    $messages["casa.$igym.ejercicios.$iejercicio.subseries.$isubserie.repeticiones.required"] =
+                        "La repeticion ".($isubserie+1)." de casa en la serie ".($igym+1).". dentro del ejercicio .".($iejercicio+1)." es obligatorio";
+                    $messages["casa.$igym.ejercicios.$iejercicio.subseries.$isubserie.repeticiones.max"] =
+                        "La repeticion ".($isubserie+1)." de casa en la serie ".($igym+1).". dentro del ejercicio .".($iejercicio+1)." debe ser máximo 50 caracteres";
+                }
+            }
+        }
         $this->validate($request,
             [
                 'nota' => 'max:250',
                 'gym.*.nombre' => 'required|max:50',
                 'gym.*.ejercicios.*.ejercicio' => 'required|max:50',
-                'gym.*.ejercicios.*.subseries.*.repeticiones' => 'max:40',
-                'casa.*.ejercicios.*.subseries.*.repeticiones' => 'max:40',
+                'gym.*.ejercicios.*.subseries.*.repeticiones' => 'required|max:50',
                 'gym.*.ejercicios.*.video' => 'required',
+                'casa.*.ejercicios.*.subseries.*.repeticiones' => 'required|max:50',
                 'casa.*.nombre' => 'required|max:50',
                 'casa.*.ejercicios.*.ejercicio' => 'required|max:50',
                 'casa.*.ejercicios.*.video' => 'required',
                 'cardio.*.ejercicio' => 'required|max:50',
-//                'cardio.*.video' => 'required',
-            ],
-            [
-                'nota.max' => 'Debe capturar máximo 250 caracteres',
-                'gym.*.nombre.required' => 'El nombre de la serie en GYM es obligatorio',
-                'gym.*.nombre.max' => 'El nombre de la serie en GYM debe ser máximo de 50 caracteres',
-                'gym.*.ejercicios.*.ejercicio.required' => 'El nombre del ejercicio en GYM es obligatorio',
-                'gym.*.ejercicios.*.subseries.*.repeticiones.max' => 'La repeticion en GYM debe ser máximo 40 caracteres',
-                'gym.*.ejercicios.*.ejercicio.max' => 'El ejercicio en GYM debe ser máximo de 50 caracteres',
-                'gym.*.ejercicios.*.video.required' => 'El video del ejercicio en GYM es obligatorio',
-                'casa.*.nombre.required' => 'El nombre de la serie en casa es obligatorio',
-                'casa.*.nombre.max' => 'El nombre de la serie en casa debe ser máximo de 50 caracteres',
-                'casa.*.ejercicios.*.ejercicio.required' => 'El nombre del ejercicio en casa es obligatorio',
-                'casa.*.ejercicios.*.subseries.*.repeticiones.max' => 'La repeticion en casa debe ser máximo 40 caracteres',
-                'casa.*.ejercicios.*.video.required' => 'El video del ejercicio en casa es obligatorio',
-                'cardio.*.ejercicio.required' => 'El ejercicio de cardio es obligatorio',
-                'cardio.*.ejercicio.max' => 'El ejercicio de cardio debe ser máximo de 50 caracteres',
-                'cardio.*.video.required' => 'El video del cardio es obligatorio',
-            ]);
+            ], $messages);
         \DB::beginTransaction();
         $now = Carbon::now();
         $filtro = function ($datos) use ($request) { //funcion para cada with con campos similares
             $datos->where('dia_id', $request->dia)->where('genero', $request->genero)->where('objetivo', $request->objetivo);
         };
         $dia = Dia::where('dia', $request->dia)->with(['ejercicios' => $filtro, 'cardio' => $filtro, 'notas' => $filtro])->first();
-        if ($dia==null){
+        if ($dia == null) {
             $dia = new Dia();
             $dia->id = $request->dia;
             $dia->dia = $request->dia;
@@ -254,7 +272,7 @@ class ConfiguracionController extends Controller
             }
             $cardioDb->dia_id = $dia->id;
             $cardioDb->ejercicio = $cardio['ejercicio'];
-            $cardioDb->video = $cardio['video']==null?'':$cardio['video'];
+            $cardioDb->video = $cardio['video'] == null ? '' : $cardio['video'];
             $cardioDb->tipo = TipoEjercicio::AEROBICO;
             $cardioDb->genero = $request->genero;
             $cardioDb->objetivo = $request->objetivo;
@@ -378,7 +396,7 @@ class ConfiguracionController extends Controller
             $contactos = $contactos->where('contactos.email', 'like', "%$campos->email%");
         }
         if ($campos->nombres != '') {
-            $contactos = $contactos->where('contactos.nombres', 'like', "%$campos->nombres%")->orWhere('contactos.apellidos','like',"%$campos->nombres%");
+            $contactos = $contactos->where('contactos.nombres', 'like', "%$campos->nombres%")->orWhere('contactos.apellidos', 'like', "%$campos->nombres%");
         }
         if ($campos->medio != '') {
             $contactos = $contactos->where('contactos.medio', $campos->medio);
@@ -493,7 +511,8 @@ class ConfiguracionController extends Controller
         $writer->save('php://output');
     }
 
-    public function enviarCorreos(){
+    public function enviarCorreos()
+    {
         $enviarCorreos = new EnviarCorreos();
         $enviarCorreos->handle();
     }
