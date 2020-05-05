@@ -48901,7 +48901,7 @@ var render = function() {
         _c(
           "div",
           {
-            staticClass: "col-12 col-sm-6",
+            staticClass: "col-12 col-sm-12",
             on: {
               click: function($event) {
                 return _vm.metodoPago("spei")
@@ -48924,7 +48924,7 @@ var render = function() {
         _c(
           "div",
           {
-            staticClass: "col-12 col-sm-6",
+            staticClass: "col-12 col-sm-12",
             on: {
               click: function($event) {
                 return _vm.metodoPago("oxxo")
@@ -48940,37 +48940,6 @@ var render = function() {
               _c("img", {
                 attrs: { src: _vm.url + "/img/oxxo.png", width: "80" }
               })
-            ])
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          {
-            staticClass: "col-12 col-sm-6",
-            on: {
-              click: function($event) {
-                return _vm.metodoPago("tarjeta")
-              }
-            }
-          },
-          [
-            _c("div", { staticClass: "formaPago" }, [
-              _c("h6", [_vm._v("Pago con tarjeta de débito o crédito")]),
-              _vm._v(" "),
-              _c("div", { staticClass: "d-flex flex-wrap" }, [
-                _c("div", { staticClass: "col-12 col-sm-6" }, [
-                  _c("img", {
-                    attrs: { src: _vm.url + "/img/visa.png", width: "60" }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-12 col-sm-6" }, [
-                  _c("img", {
-                    attrs: { src: _vm.url + "/img/mastercard.png", width: "60" }
-                  })
-                ])
-              ])
             ])
           ]
         ),
@@ -49035,7 +49004,7 @@ var render = function() {
                 "p",
                 { staticClass: "text-center" },
                 [
-                  _vm._v("La cantidad a cobrar será de\n                "),
+                  _vm._v("La cantidad a cobrar será de\n                    "),
                   _c("money", {
                     attrs: { caracter: true, cantidad: _vm.cobro, decimales: 0 }
                   })
@@ -49045,7 +49014,7 @@ var render = function() {
               _vm._v(" "),
               _c("p", [
                 _vm._v(
-                  "Al concluir tu pago se enviará tu usuario y contraseña al correo que proporcionaste en tus datos de\n                contacto"
+                  "Al concluir tu pago se enviará tu usuario y contraseña al correo que proporcionaste en tus datos de\n                    contacto"
                 )
               ]),
               _vm._v(" "),
@@ -49440,7 +49409,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("label", { attrs: { for: "acuerdoTarjeta" } }, [
                   _vm._v(
-                    "He leído y estoy de acuerdo con los\n                    "
+                    "He leído y estoy de acuerdo con los\n                        "
                   ),
                   _c(
                     "a",
@@ -49695,7 +49664,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("label", { attrs: { for: "acuerdoOxxo" } }, [
                   _vm._v(
-                    "He leído y estoy de acuerdo con los\n                    "
+                    "He leído y estoy de acuerdo con los\n                        "
                   ),
                   _c(
                     "a",
@@ -49950,7 +49919,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("label", { attrs: { for: "acuerdoSpei" } }, [
                   _vm._v(
-                    "He leído y estoy de acuerdo con los\n                    "
+                    "He leído y estoy de acuerdo con los\n                        "
                   ),
                   _c(
                     "a",
@@ -50061,26 +50030,30 @@ var render = function() {
                             target: "_blank"
                           }
                         },
-                        [_vm._v("Encuéntrala\n                        aquí")]
+                        [
+                          _vm._v(
+                            "Encuéntrala\n                            aquí"
+                          )
+                        ]
                       ),
-                      _vm._v(".\n                    ")
+                      _vm._v(".\n                        ")
                     ])
                   : _vm._e(),
                 _vm._v(" "),
                 _vm.response.origen == "oxxo"
                   ? _c("li", [
                       _vm._v(
-                        "\n                        Indica en caja que quieres ralizar un pago de "
+                        "\n                            Indica en caja que quieres ralizar un pago de "
                       ),
                       _c("strong", [_vm._v("OXXOPay")]),
-                      _vm._v(".\n                    ")
+                      _vm._v(".\n                        ")
                     ])
                   : _vm._e(),
                 _vm._v(" "),
                 _vm.response.origen == "oxxo"
                   ? _c("li", [
                       _vm._v(
-                        "\n                        Dicta al cajero el número de referencia en esta ficha para que tecleé directamete en la\n                        pantalla de venta.\n                    "
+                        "\n                            Dicta al cajero el número de referencia en esta ficha para que tecleé directamete en la\n                            pantalla de venta.\n                        "
                       )
                     ])
                   : _vm._e(),
@@ -50100,7 +50073,7 @@ var render = function() {
                 _vm.response.origen == "spei"
                   ? _c("li", [
                       _vm._v(
-                        "\n                        Da de alta la CLABE en esta ficha. El banco deberá de ser STP.\n                    "
+                        "\n                            Da de alta la CLABE en esta ficha. El banco deberá de ser STP.\n                        "
                       )
                     ])
                   : _vm._e(),
@@ -50108,7 +50081,7 @@ var render = function() {
                 _vm.response.origen == "spei"
                   ? _c("li", [
                       _vm._v(
-                        "\n                        Realiza la transferencia correspondiente por la cantidad exacta en esta ficha, de lo\n                        contrario se rechazará el cargo.\n                    "
+                        "\n                            Realiza la transferencia correspondiente por la cantidad exacta en esta ficha, de lo\n                            contrario se rechazará el cargo.\n                        "
                       )
                     ])
                   : _vm._e(),
@@ -50119,11 +50092,11 @@ var render = function() {
                   ),
                   _c("strong", [
                     _vm._v(
-                      "En él podrás\n                        verificar que se haya realizado correctamente."
+                      "En él podrás\n                            verificar que se haya realizado correctamente."
                     )
                   ]),
                   _vm._v(
-                    " Conserva este comprobante de\n                        pago para cualquier aclaración.\n                    "
+                    " Conserva este comprobante de\n                            pago para cualquier aclaración.\n                        "
                   )
                 ])
               ]),
@@ -50131,11 +50104,11 @@ var render = function() {
               _c("div", { staticClass: "opps-footnote" }, [
                 _vm._v("Al completar estos pasos recibirás un correo de "),
                 _c("strong", [_vm._v("soporte@retoacton.com")]),
-                _vm._v("\n                    confirmando tu pago."),
+                _vm._v("\n                        confirmando tu pago."),
                 _c("br"),
                 _c("br"),
                 _vm._v(
-                  "Una vez efectuado el pago, inmediatamente recibirás un correo con tu\n                    usuario y contraseña para que puedas acceder a tu cuenta, no es necesario enviar el comprobante de pago a ningún lado.\n                "
+                  "Una vez efectuado el pago, inmediatamente recibirás un correo con tu\n                        usuario y contraseña para que puedas acceder a tu cuenta, no es necesario enviar el comprobante de pago a ningún lado.\n                    "
                 )
               ])
             ])
@@ -50162,12 +50135,12 @@ var render = function() {
               _c("span", { staticClass: "font-weight-bold" }, [
                 _vm._v("Felicidades! ")
               ]),
-              _vm._v(" Tu programa esta casi listo.\n            ")
+              _vm._v(" Tu programa esta casi listo.\n                ")
             ]),
             _vm._v(" "),
             _c("p", [
               _vm._v(
-                "Te hemos enviado un correo con tu usuario y contraseña para que puedas ingresar a tu sesión.\n                Recuerda que al ingresar por primera vez llenarás un cuestionario que te llevará aproximadamente 5 minutos."
+                "Te hemos enviado un correo con tu usuario y contraseña para que puedas ingresar a tu sesión.\n                    Recuerda que al ingresar por primera vez llenarás un cuestionario que te llevará aproximadamente 5 minutos."
               )
             ]),
             _vm._v(" "),
@@ -50207,7 +50180,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-12 col-sm-6" }, [
+    return _c("div", { staticClass: "col-12 col-sm-12" }, [
       _c("div", { staticClass: "formaPago" }, [
         _c("h6", [_vm._v("La forma rápida de pagar")]),
         _vm._v(" "),
