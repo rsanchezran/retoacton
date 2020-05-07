@@ -259,6 +259,7 @@
                                 <i class="far fa-database" @click="openRepoExplorer(ejercicio)"></i>
                             </div>
                         </div>
+                        <label class="small">@{{ ejercicio.video }}</label>
                         <div class="video">
                             <span class="small float-right">@{{ ejercicio.ejercicio.length }} / 50</span>
                             <input placeholder="Ejercicio" class="form-control"
