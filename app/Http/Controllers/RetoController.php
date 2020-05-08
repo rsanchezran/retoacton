@@ -97,7 +97,12 @@ class RetoController extends Controller
     public function getAudio($carpeta, $user_id, $dia)
     {
         if (Storage::disk('local')->exists("public//$carpeta/$user_id/$dia.mp3")) {
-            return response()->file(storage_path('app/public/' . $carpeta . '/' . $user_id . '/' . $dia . '.mp3'));
+            $headers = array(
+                'Content-Type: audio/mpeg',
+                 'Content-disposition','attachment; filename="'.$dia.'.mp3"'
+            );
+            return response()->file(storage_path('app/public/' . $carpeta . '/' . $user_id . '/' . $dia . '.mp3'),
+                $headers);
         }
     }
 
