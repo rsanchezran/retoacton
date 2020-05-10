@@ -12,6 +12,7 @@
 */
 Auth::routes();
 Route::get('/', 'HomeController@index')->name('index');
+Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 
 Route::get('/getImagen/{image}', 'HomeController@getImage');
 Route::get('/getTestimonio/{image}', 'HomeController@getTestimonio');

@@ -259,14 +259,15 @@
                                 <i class="far fa-database" @click="openRepoExplorer(ejercicio)"></i>
                             </div>
                         </div>
+                        <label class="small">@{{ ejercicio.video }}</label>
                         <div class="video">
-                            <span class="small float-right">@{{ ejercicio.ejercicio.length }}/50</span>
+                            <span class="small float-right">@{{ ejercicio.ejercicio.length }} / 50</span>
                             <input placeholder="Ejercicio" class="form-control"
                                    v-model="ejercicio.ejercicio"/>
                             <hr>
                             <div class="d-flex flex-wrap">
                                 <div v-for="(subserie, isubserie) in ejercicio.subseries" class="repeticion">
-                                    <span class="small float-right">( @{{ subserie.repeticiones.length }} /40 )</span>
+                                    <span class="small float-right">( @{{ subserie.repeticiones.length }} / 50 )</span>
                                     <input class="form-control"
                                            v-model="subserie.repeticiones"/>
                                     <form-error :name="modo+'.'+iserie+'.ejercicios.'+iejercicio+'.subseries.'+isubserie+'.repeticiones'"
