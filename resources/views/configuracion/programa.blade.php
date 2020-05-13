@@ -185,7 +185,9 @@
             },
             mounted: function () {
                 if (localStorage.getItem('genero') != null) {
-                    this.mostrarModo(localStorage.getItem('genero'),localStorage.getItem('objetivo'))
+                    this.mostrarModo(localStorage.getItem('genero'),localStorage.getItem('objetivo'));
+                }else{
+                    this.mostrarModo(0, 0);
                 }
             }
         });
