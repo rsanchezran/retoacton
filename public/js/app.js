@@ -49018,15 +49018,15 @@ var render = function() {
             },
             [
               _c("div", { staticClass: "d-flex" }, [
-                _c("div", { staticClass: "col-12 col-sm-6" }, [
+                _c("div", { staticClass: "col-6" }, [
                   _c("img", {
-                    attrs: { src: _vm.url + "/img/visa.png", width: "60" }
+                    attrs: { src: _vm.url + "/img/visa.png", width: "40" }
                   })
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "col-12 col-sm-6" }, [
+                _c("div", { staticClass: "col-6" }, [
                   _c("img", {
-                    attrs: { src: _vm.url + "/img/mastercard.png", width: "60" }
+                    attrs: { src: _vm.url + "/img/mastercard.png", width: "40" }
                   })
                 ])
               ]),
