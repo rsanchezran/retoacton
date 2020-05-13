@@ -48901,7 +48901,7 @@ var render = function() {
         _c(
           "div",
           {
-            staticClass: "col-12 col-sm-12",
+            staticClass: "col-12 col-sm-6",
             on: {
               click: function($event) {
                 return _vm.metodoPago("spei")
@@ -48924,7 +48924,7 @@ var render = function() {
         _c(
           "div",
           {
-            staticClass: "col-12 col-sm-12",
+            staticClass: "col-12 col-sm-6",
             on: {
               click: function($event) {
                 return _vm.metodoPago("oxxo")
@@ -48947,7 +48947,7 @@ var render = function() {
         _c(
           "div",
           {
-            staticClass: "col-12 col-sm-12",
+            staticClass: "col-12 col-sm-6",
             on: {
               click: function($event) {
                 return _vm.metodoPago("tarjeta")
@@ -50207,7 +50207,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-12 col-sm-12" }, [
+    return _c("div", { staticClass: "col-12 col-sm-6" }, [
       _c("div", { staticClass: "formaPago" }, [
         _c("h6", [_vm._v("La forma rápida de pagar")]),
         _vm._v(" "),
