@@ -232,11 +232,11 @@
         <modal ref="tarjeta" title="Pago con tarjeta" @ok="tarjeta()" :high="'500'" :okdisabled="!acuerdo">
             <div style="background-color: #f6f6f6; color: #0b2e13">
                 <div class="d-flex">
-                    <div class="col-12 col-sm-6">
-                        <img :src="url+'/img/visa.png'" width="60">
+                    <div class="col-6">
+                        <img :src="url+'/img/visa.png'" width="40">
                     </div>
-                    <div class="col-12 col-sm-6">
-                        <img :src="url+'/img/mastercard.png'" width="60">
+                    <div class="col-6">
+                        <img :src="url+'/img/mastercard.png'" width="40">
                     </div>
                 </div>
                 <p class="text-center">La cantidad a cobrar será de
