@@ -197,7 +197,7 @@
                     vm.loading = true;
                     dia.loading = true;
                     fm.append("audio", file);
-                    fm.append("dia", index + 1);
+                    fm.append("dia", (7*(this.semana-1))+(index+1));
                     vm.errors = [];
                     vm.dias[index].error = false;
                     axios.post("{{url('/reto/saveAudio')}}", fm).then(function (response) {
