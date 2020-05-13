@@ -205,19 +205,19 @@
                     <img :src="url+'/img/oxxo.png'" width="80">
                 </div>
             </div>
-<!--            <div class="col-12 col-sm-12" @click="metodoPago('tarjeta')">-->
-<!--                <div class="formaPago">-->
-<!--                    <h6>Pago con tarjeta de débito o crédito</h6>-->
-<!--                    <div class="d-flex flex-wrap">-->
-<!--                        <div class="col-12 col-sm-6">-->
-<!--                            <img :src="url+'/img/visa.png'" width="60">-->
-<!--                        </div>-->
-<!--                        <div class="col-12 col-sm-6">-->
-<!--                            <img :src="url+'/img/mastercard.png'" width="60">-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
+            <div class="col-12 col-sm-12" @click="metodoPago('tarjeta')">
+                <div class="formaPago">
+                    <h6>Pago con tarjeta de débito o crédito</h6>
+                    <div class="d-flex flex-wrap">
+                        <div class="col-12 col-sm-6">
+                            <img :src="url+'/img/visa.png'" width="60">
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <img :src="url+'/img/mastercard.png'" width="60">
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="col-12 col-sm-12">
                 <div class="formaPago">
                     <h6>La forma rápida de pagar</h6>
