@@ -209,11 +209,11 @@
                 <div class="formaPago">
                     <h6>Pago con tarjeta de débito o crédito</h6>
                     <div class="d-flex flex-wrap">
-                        <div class="col-12 col-sm-6">
-                            <img :src="url+'/img/visa.png'" width="60">
+                        <div class="col-6">
+                            <img :src="url+'/img/visa.png'" width="40">
                         </div>
-                        <div class="col-12 col-sm-6">
-                            <img :src="url+'/img/mastercard.png'" width="60">
+                        <div class="col-6">
+                            <img :src="url+'/img/mastercard.png'" width="40">
                         </div>
                     </div>
                 </div>
