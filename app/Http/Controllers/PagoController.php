@@ -128,12 +128,6 @@ class PagoController extends Controller
             $contacto = Contacto::where('email', $request->email)->first();
             $contacto->order_id = $order->id;
             $contacto->save();
-            if ($usuario == null) {
-                User::crear($request->nombres, $request->apellidos, $request->email, 'tarjeta', 0,
-                    $request->codigo, $cobro);
-            } else {
-                $usuario->refrendarPago($cobro);
-            }
             \DB::commit();
         } catch (\Exception $e) {
             return response()->json(['status' => 'error', 'redirect' => url('login'), 'codigo' => $e->getCode(), 'error' => $e->getMessage()]);

@@ -119,7 +119,7 @@
                 axios.post(vm.url + '/pago/tarjeta', vm.informacion).then(function (respuesta) {
                     if (respuesta.data.status == 'ok') {
                         vm.$refs.tarjeta.closeModal();
-                        vm.$refs.pago_confirmado.showModal();
+                        vm.$refs.pago_tarjeta.showModal();
                     } else if (respuesta.data.status == 'error') {
                         if (respuesta.data.codigo == 3203) {
                             vm.errors = {tarjeta: ['Esta tarjeta no se puede utilizar a meses sin intereses']};
@@ -399,6 +399,17 @@
                     <span class="font-weight-bold">Felicidades! </span> Tu programa esta casi listo.
                 </p>
                 <p>Te hemos enviado un correo con tu usuario y contraseña para que puedas ingresar a tu sesión.
+                    Recuerda que al ingresar por primera vez llenarás un cuestionario que te llevará aproximadamente 5 minutos.</p>
+                <p class="small">Si no ves el correo dentro de tu bandeja, por favor revisa tu carpeta SPAM y agreganos como un sitio de confianza</p>
+            </div>
+        </modal>
+        <modal ref="pago_tarjeta" :title="'Pago con tarjeta'" @ok="terminado" :showcancel="false" :btncerrar="false">
+            <div>
+                <h3>Gracias por tu compra.</h3>
+                <p>
+                    <span class="font-weight-bold">Felicidades! </span> Tu programa esta casi listo.
+                </p>
+                <p>Estamos procesando tu pago, al terminar te enviaremos un correo con tu usuario y contraseña para que puedas ingresar a tu sesión.
                     Recuerda que al ingresar por primera vez llenarás un cuestionario que te llevará aproximadamente 5 minutos.</p>
                 <p class="small">Si no ves el correo dentro de tu bandeja, por favor revisa tu carpeta SPAM y agreganos como un sitio de confianza</p>
             </div>

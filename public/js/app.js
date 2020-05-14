@@ -1896,7 +1896,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.post(vm.url + '/pago/tarjeta', vm.informacion).then(function (respuesta) {
         if (respuesta.data.status == 'ok') {
           vm.$refs.tarjeta.closeModal();
-          vm.$refs.pago_confirmado.showModal();
+          vm.$refs.pago_tarjeta.showModal();
         } else if (respuesta.data.status == 'error') {
           if (respuesta.data.codigo == 3203) {
             vm.errors = {
@@ -50168,6 +50168,43 @@ var render = function() {
             _c("p", [
               _vm._v(
                 "Te hemos enviado un correo con tu usuario y contraseña para que puedas ingresar a tu sesión.\n                Recuerda que al ingresar por primera vez llenarás un cuestionario que te llevará aproximadamente 5 minutos."
+              )
+            ]),
+            _vm._v(" "),
+            _c("p", { staticClass: "small" }, [
+              _vm._v(
+                "Si no ves el correo dentro de tu bandeja, por favor revisa tu carpeta SPAM y agreganos como un sitio de confianza"
+              )
+            ])
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "modal",
+        {
+          ref: "pago_tarjeta",
+          attrs: {
+            title: "Pago con tarjeta",
+            showcancel: false,
+            btncerrar: false
+          },
+          on: { ok: _vm.terminado }
+        },
+        [
+          _c("div", [
+            _c("h3", [_vm._v("Gracias por tu compra.")]),
+            _vm._v(" "),
+            _c("p", [
+              _c("span", { staticClass: "font-weight-bold" }, [
+                _vm._v("Felicidades! ")
+              ]),
+              _vm._v(" Tu programa esta casi listo.\n            ")
+            ]),
+            _vm._v(" "),
+            _c("p", [
+              _vm._v(
+                "Estamos procesando tu pago, al terminar te enviaremos un correo con tu usuario y contraseña para que puedas ingresar a tu sesión.\n                Recuerda que al ingresar por primera vez llenarás un cuestionario que te llevará aproximadamente 5 minutos."
               )
             ]),
             _vm._v(" "),
