@@ -212,7 +212,7 @@ class PagoController extends Controller
                     array(
                         'payment_method' => array(
                             'type' => 'oxxo_cash',
-                            'expires_at' => strtotime(date("Y-m-d H:i:s")) + "24000"
+                            'expires_at' => strtotime(date("Y-m-d H:i:s")) + "72000"
                         ),
                     )
                 ),
@@ -275,7 +275,7 @@ class PagoController extends Controller
                     array(
                         "payment_method" => array(
                             "type" => "spei",
-                            'expires_at' => strtotime(date("Y-m-d H:i:s")) + "24000"
+                            'expires_at' => strtotime(date("Y-m-d H:i:s")) + "72000"
                         ),//payment_method
                     ) //first charge
                 ) //charges
