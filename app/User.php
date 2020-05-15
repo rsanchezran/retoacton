@@ -117,6 +117,7 @@ class User extends Authenticatable
             $usuario->correo_enviado = 1;
             $usuario->save();
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
         }
     }
 
@@ -202,6 +203,7 @@ class User extends Authenticatable
             $this->correo_enviado = 1;
             $this->save();
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
         }
     }
 
@@ -226,6 +228,21 @@ class User extends Authenticatable
             $this->vencido = Carbon::now()->startOfDay()->diffInDays(Carbon::parse($this->inicio_reto)->startOfDay()) > intval(env('DIAS'));
         } else {
             $this->vencido = Carbon::now()->startOfDay()->diffInDays(Carbon::parse($this->inicio_reto)->startOfDay()) > intval(env('DIAS2'));
+        }
+    }
+
+    public function enviarContrasena(){
+        $pass = Utils::generarRandomString();
+        $mensaje = new \stdClass();
+        $mensaje->subject = "Bienvenido de nuevo al Reto Acton";
+        $mensaje->pass = $pass;
+        $this->password = Hash::make($pass);
+        try {
+            Mail::queue(new Registro($this, $mensaje));
+            $this->correo_enviado = 1;
+            $this->save();
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
         }
     }
 }
