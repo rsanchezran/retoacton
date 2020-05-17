@@ -99,7 +99,7 @@ class RetoController extends Controller
         if (Storage::disk('local')->exists("public//$carpeta/$user_id/$dia.mp3")) {
             $headers = array(
                 'Content-Type: audio/mpeg',
-                 'Content-disposition','attachment; filename="'.$dia.'.mp3"'
+                'Content-disposition', 'attachment; filename="' . $dia . '.mp3"'
             );
             return response()->file(storage_path('app/public/' . $carpeta . '/' . $user_id . '/' . $dia . '.mp3'),
                 $headers);
@@ -213,7 +213,7 @@ class RetoController extends Controller
                 $teorico = $diasRetoOriginal + ($user->num_inscripciones - 1) * $diasReto;
             }
         } else {
-            $teorico = Carbon::now()->startOfDay()->diffInDays(Carbon::parse($user->inicio_reto));
+            $teorico = Carbon::now()->startOfDay()->diffInDays($inicioReto) + 1;
             if ($teorico > $diasRetoOriginal) {
                 $teorico = $diasRetoOriginal;
             }
@@ -266,7 +266,7 @@ class RetoController extends Controller
                 $teorico = $diasRetoOriginal + ($user->num_inscripciones - 1) * $diasReto;
             }
         } else {
-            $teorico = Carbon::now()->startOfDay()->diffInDays(Carbon::parse($user->inicio_reto))+1;
+            $teorico = Carbon::now()->startOfDay()->diffInDays($inicioReto) + 1;
             if ($teorico > $diasRetoOriginal) {
                 $teorico = $diasRetoOriginal;
             }
@@ -316,7 +316,7 @@ class RetoController extends Controller
                 $teoricos = $diasRetoOriginal + ($user->num_inscripciones - 1) * $diasReto;
             }
         } else {
-            $teoricos = Carbon::now()->startOfDay()->diffInDays(Carbon::parse($user->inicio_reto)->startOfDay())+1;
+            $teoricos = Carbon::now()->startOfDay()->diffInDays(Carbon::parse($user->inicio_reto)->startOfDay()) + 1;
             if ($teoricos > $diasRetoOriginal) {
                 $teoricos = $diasRetoOriginal;
             }
@@ -347,7 +347,7 @@ class RetoController extends Controller
                 $teoricos = $diasRetoOriginal + ($user->num_inscripciones - 1) * $diasReto;
             }
         } else {
-            $teoricos = Carbon::now()->startOfDay()->diffInDays(Carbon::parse($user->inicio_reto)->startOfDay())+1;
+            $teoricos = Carbon::now()->startOfDay()->diffInDays(Carbon::parse($user->inicio_reto)->startOfDay()) + 1;
             if ($teoricos > $diasRetoOriginal) {
                 $teoricos = $diasRetoOriginal;
             }
@@ -401,7 +401,7 @@ class RetoController extends Controller
                 $teoricos = $diasRetoOriginal + ($user->num_inscripciones - 1) * $diasReto;
             }
         } else {
-            $teoricos = Carbon::now()->startOfDay()->diffInDays(Carbon::parse($user->inicio_reto))+1;
+            $teoricos = Carbon::now()->startOfDay()->diffInDays(Carbon::parse($user->inicio_reto)) + 1;
             if ($teoricos == 0) {
                 $teoricos++;
             }
