@@ -52,8 +52,6 @@ class RetoController extends Controller
 
         if ($usuario->inicio_reto == '') {//crear inicio del reto
             Storage::makeDirectory('public/reto/' . $usuario->id);
-            $usuario->inicio_reto = Carbon::now();
-            $usuario->save();
         }
         $usuarioDias = UsuarioDia::where('usuario_id', $usuario->id)->get()->keyBy('dia_id');
 
@@ -295,14 +293,18 @@ class RetoController extends Controller
 
     }
 
-    public function cliente(Request $request)
-    {
+    public function comenzar(Request $request){
         $user = $request->user();
         if ($user->inicio_reto === null) {
             $user->inicio_reto = Carbon::now();
-            unset($user->vencido);
             $user->save();
         }
+        return redirect('/reto/cliente');
+    }
+
+    public function cliente(Request $request)
+    {
+        $user = $request->user();
         $diasRetoOriginal = intval(env('DIAS'));
         $diasReto = intval(env('DIAS2'));
         $diasTranscurridos = UsuarioDia::where('usuario_id', $user->id)->count();

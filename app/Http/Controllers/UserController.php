@@ -121,8 +121,6 @@ class UserController extends Controller
 
         if ($usuario->inicio_reto == '') {//crear inicio del reto
             Storage::makeDirectory('public/reto/' . $usuario->id);
-            $usuario->inicio_reto = Carbon::now();
-            $usuario->save();
         }
         $usuarioDias = UsuarioDia::where('usuario_id', $usuario->id)->get()->keyBy('dia_id');
 
@@ -212,7 +210,6 @@ class UserController extends Controller
     {
         $usuario = User::find($request->id);
         if ($usuario !== null) {
-            $dia = $request->dias_reto;
             $nuevaFecha = Carbon::now()->startOfDay();
             $nuevaFecha->subDays($request->dias_reto);
             $usuario->inicio_reto = $nuevaFecha;

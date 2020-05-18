@@ -114,7 +114,7 @@
                                 </button>
                             @else
                                 <i v-if="usuario.dias_reto<{{env('DIASREEMBOLSO')}}" class="fa fa-undo-alt"></i>
-                                @{{ usuario.dias_reto }}
+                                Dias activo : @{{ usuario.dias_reto }}
                             @endif
                             <button class="btn btn-sm btn-light" @click="verPagos(usuario)">
                                 Pagos efectuados

@@ -98,6 +98,7 @@ Route::group(['prefix' => 'usuarios', 'middleware'=>['auth', 'pago']], function 
 });
 
 Route::group(['prefix'=>'reto', 'middleware'=>['auth', 'pago'] ],function (){
+    Route::get('comenzar', 'RetoController@comenzar');
     Route::get('cliente', 'RetoController@cliente');
     Route::get('programa', 'RetoController@programa');
     Route::get('getSemanaPrograma/{semana}', 'RetoController@getSemanaPrograma');
