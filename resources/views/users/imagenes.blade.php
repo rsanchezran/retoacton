@@ -4,13 +4,21 @@
         .link{
             height: 200px;
         }
+
+        .activo{
+            border:2px solid #0b2e13;
+        }
+
+        .activo .card-header{
+            background-color: #0b2e13;
+        }
     </style>
 @endsection
 @section('content')
 
     <div id="vue">
         <div class="container">
-            <dias :usuario="{{$usuario}}" :p_dias="{{$dias}}" :p_semana="{{$semana}}" :maximo="{{$maximo}}"
+            <dias :usuario="{{$usuario}}" :p_dias="{{$dias}}" :p_semana="{{$semana}}" :maximo="{{$maximo}}" :p_dia="{{$dia}}"
                        :teorico="{{$teorico}}"></dias>
         </div>
     </div>
@@ -35,7 +43,7 @@
                 </div>
                 <hr>
                 <div class="row justify-content-start">
-                    <div v-for="dia in dias" class="card m-1" style="width: 15rem;">
+                    <div v-for="dia in dias" :class="'card m-1 '+(dia.dia==p_dia?'activo':'')" style="width: 15rem;">
                         <div class="card-header">
                             Dia: @{{ dia.dia }}
                         </div>
@@ -75,7 +83,7 @@
     <script>
         Vue.component('dias', {
             template: '#dias-template',
-            props: ['usuario','p_dias','p_semana','maximo','teorico'],
+            props: ['usuario','p_dias','p_semana','maximo','teorico','p_dia'],
             data: function () {
                 return {
                     semana: 1,

@@ -84,16 +84,15 @@ class UserController extends Controller
             $usuario->dias_reto = 0;
             $usuario->isVencido();
             if ($usuario->inicio_reto != null) {
-                $dias = Carbon::now()->startOfDay()->diffInDays(Carbon::parse($usuario->inicio_reto)->startOfDay());
-                $usuario->dias_reto = $dias;
+                $usuario->dias_reto = Carbon::now()->startOfDay()->diffInDays(Carbon::parse($usuario->inicio_reto)->startOfDay()) + 1;
             }
             $usuario->total = $usuario->ingresados * $comision;
             $usuario->depositado = $usuario->total - $usuario->saldo;
             $usuario->pendientes = $usuario->saldo / $comision;
             $usuario->pagados = $usuario->depositado / $comision;
             $contacto = $contactos->get($usuario->email);
-            $usuario->medio = $contacto==null?'': $contacto->medio;
-            $usuario->telefono = $contacto==null?'': $contacto->telefono;
+            $usuario->medio = $contacto == null ? '' : $contacto->medio;
+            $usuario->telefono = $contacto == null ? '' : $contacto->telefono;
             $usuario->vigente = !$usuario->vencido;
         }
 
@@ -103,16 +102,35 @@ class UserController extends Controller
     public function imagenes($usuario_id)
     {
         $usuario = User::select('id', 'name', 'inicio_reto', 'created_at')->where('id', $usuario_id)->get()->first();
-        $usuarioDias = UsuarioDia::where('usuario_id', $usuario->id)->count();
-        if ($usuarioDias == 0) {
-            $semana = 1;
+        $diasRetoOriginal = intval(env('DIAS'));
+        $diasReto = intval(env('DIAS2'));
+        $diasTranscurridos = UsuarioDia::where('usuario_id', $usuario->id)->count();
+        $inicioReto = \Carbon\Carbon::parse($usuario->inicio_reto);
+        if ($usuario->num_inscripciones > 1) {
+            $teoricos = $diasRetoOriginal + (($usuario->num_inscripciones - 2) * $diasReto) + Carbon::now()->startOfDay()->diffInDays($inicioReto);
+            if (Carbon::parse($usuario->fecha_inscripcion)->startOfDay() == $inicioReto) {
+                $teoricos++;
+            }
+            if ($teoricos > $diasRetoOriginal + (($usuario->num_inscripciones - 1) * $diasReto)) {
+                $teoricos = $diasRetoOriginal + ($usuario->num_inscripciones - 1) * $diasReto;
+            }
         } else {
-            $semana = $usuarioDias % 7 == 0 ? intval($usuarioDias / 7) : intval($usuarioDias / 7) + 1;
+            $teoricos = Carbon::now()->startOfDay()->diffInDays($inicioReto) + 1;
+            if ($teoricos > $diasRetoOriginal) {
+                $teoricos = $diasRetoOriginal;
+            }
+        }
+        $semana = $teoricos % 7 == 0 ? intval($teoricos / 7) : intval($teoricos / 7) + 1;
+        if ($semana * 7 < $teoricos) {
+            $dias = 7;
+        } else {
+            $diaInicial = ($semana * 7) - 6;
+            $dias = $teoricos - ($diaInicial - 1);
         }
         $dias = $this->getSemana($usuario, $semana);
-
+        $dia = Carbon::now()->diffInDays(Carbon::parse($usuario->inicio_reto)) + 1;
         return view('users.imagenes', ['usuario' => $usuario, 'dias' => $dias, 'semana' => $semana,
-            'maximo' => $usuarioDias, 'teorico' => intval(env('DIAS'))]);
+            'maximo' => $diasTranscurridos, 'teorico' => intval(env('DIAS')), 'dia' => $dia]);
     }
 
     public function getSemana(User $usuario, $semana)

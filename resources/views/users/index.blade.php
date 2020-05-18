@@ -113,8 +113,9 @@
                                     Dias activo : @{{ usuario.dias_reto }}
                                 </button>
                             @else
+                                <span>Dias activo : @{{ usuario.dias_reto }}
                                 <i v-if="usuario.dias_reto<{{env('DIASREEMBOLSO')}}" class="fa fa-undo-alt"></i>
-                                Dias activo : @{{ usuario.dias_reto }}
+                                </span>
                             @endif
                             <button class="btn btn-sm btn-light" @click="verPagos(usuario)">
                                 Pagos efectuados
