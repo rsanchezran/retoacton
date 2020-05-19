@@ -61,8 +61,9 @@
 
     <template id="dias-template">
         <div class="card">
-            <div class="card-header">
+            <div class="card-header d-flex justify-content-between">
                 <span><i class="far fa-running"></i> Actividades del Reto Acton</span>
+                <i v-if="loading" class="fa fa-cog fa-spin fa-2x text-center"></i>
             </div>
             <div class="card-body">
                 <div class="d-flex justify-content-between col-10 col-sm-6 m-auto">
@@ -247,12 +248,15 @@
                 },
                 mostrarSemana: function (semana) {
                     let vm = this;
+                    vm.loading = true;
+                    vm.dias = [];
                     axios.get('{{url('/reto/getSemana/')}}/{{\Illuminate\Support\Facades\Auth::user()->id}}/' + semana).then(function (response) {
                         vm.dias = response.data;
                         vm.semana = semana;
                         Vue.nextTick(function () {
                             $('.selectpicker').selectpicker('refresh');
                         });
+                        vm.loading = false;
                     });
                 }
             },
