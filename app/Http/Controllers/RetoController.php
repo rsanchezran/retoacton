@@ -66,7 +66,7 @@ class RetoController extends Controller
             } else {
                 $diaEjemplo = Dia::find($imagenDia->dia_id) ?? new Dia();
                 if (Storage::disk('local')->exists("public/reto/$usuario->id/" . $dia . '.mp3')) {
-                    $imagenDia->audio = url("/reto/getAudio/reto/$usuario->id/" . $dia);
+                    $imagenDia->audio = url("/reto/getAudio/reto/$usuario->id/" . $dia . "/" . Utils::generarRandomString(10));
                 } else {
                     $imagenDia->audio = '';
                 }
@@ -293,7 +293,8 @@ class RetoController extends Controller
 
     }
 
-    public function comenzar(Request $request){
+    public function comenzar(Request $request)
+    {
         $user = $request->user();
         if ($user->inicio_reto === null) {
             $user->inicio_reto = Carbon::now();
