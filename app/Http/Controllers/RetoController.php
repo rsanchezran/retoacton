@@ -441,7 +441,7 @@ class RetoController extends Controller
         $usuarioDia->comentario = null;
         $usuarioDia->save();
         $request->file('audio')->storeAs("public/reto/$usuario_id/", $request->dia . '.mp3');
-        exec("avconv -i ".storage_path("app/public/reto/$usuario_id/$request->dia.mp3"). " -vn ".storage_path("app/public/reto/$usuario_id/$request->dia.ogg"));
+        exec("avconv -iy ".storage_path("app/public/reto/$usuario_id/$request->dia.mp3"). " -vn ".storage_path("app/public/reto/$usuario_id/$request->dia.ogg"));
         return response()->json(['respuesta' => 'ok', 'audio' => url("/reto/getAudio/reto/$usuario_id/$request->dia/" . Utils::generarRandomString(10))]);
     }
 }

@@ -117,8 +117,7 @@
                                     <i class="fa fa-spinner fa-spin fa-2x"></i>
                                 </div>
                                 <img v-if="dia.imagen!='' && !dia.loading" :id="'img'+index" :src="dia.imagen"
-                                     width="160"
-                                     @click="mostrarImagen(dia.imagen)"/>
+                                     width="160" @click="mostrarImagen(dia.imagen)"/>
                                 <br>
                                 <br>
                                 <audio controls v-if="dia.audio!=''">
