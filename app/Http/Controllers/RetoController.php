@@ -376,7 +376,7 @@ class RetoController extends Controller
         $ejemplo->comentario = $diaEjemplo->comentarios;
         $ejemplo->imagen = url("/reto/getImagen/reto/1/$dia/" . Utils::generarRandomString(10));
         if (Storage::disk('local')->exists("public/reto/1/" . ($dia) . '.mp3')) {
-            $ejemplo->audio = url("/reto/getAudio/reto/1/$dia");
+            $ejemplo->audio = url("/reto/getAudio/reto/1/$dia/". Utils::generarRandomString(10));
         } else {
             $ejemplo->audio = "";
         }
