@@ -65,7 +65,7 @@ class RetoController extends Controller
                 $imagenDia->audio = '';
             } else {
                 $diaEjemplo = Dia::find($imagenDia->dia_id) ?? new Dia();
-                if (Storage::disk('local')->exists("public/reto/$usuario->id/" . $dia . '.mp3')) {
+                if (Storage::disk('local')->exists("public/reto/$usuario->id/" . $dia . '.ogg')) {
                     $imagenDia->audio = url("/reto/getAudio/reto/$usuario->id/" . $dia . "/" . Utils::generarRandomString(10));
                 } else {
                     $imagenDia->audio = '';
@@ -94,12 +94,12 @@ class RetoController extends Controller
 
     public function getAudio($carpeta, $user_id, $dia)
     {
-        if (Storage::disk('local')->exists("public//$carpeta/$user_id/$dia.mp3")) {
+        if (Storage::disk('local')->exists("public//$carpeta/$user_id/$dia.ogg")) {
             $headers = array(
-                'Content-Type: audio/mpeg',
-                'Content-disposition', 'attachment; filename="' . $dia . '.mp3"'
+                'Content-Type: audio/ogg',
+                'Content-disposition', 'attachment; filename="' . $dia . '.ogg"'
             );
-            return response()->file(storage_path('app/public/' . $carpeta . '/' . $user_id . '/' . $dia . '.mp3'),
+            return response()->file(storage_path('app/public/' . $carpeta . '/' . $user_id . '/' . $dia . '.ogg'),
                 $headers);
         }
     }
@@ -375,7 +375,7 @@ class RetoController extends Controller
         }
         $ejemplo->comentario = $diaEjemplo->comentarios;
         $ejemplo->imagen = url("/reto/getImagen/reto/1/$dia/" . Utils::generarRandomString(10));
-        if (Storage::disk('local')->exists("public/reto/1/" . ($dia) . '.mp3')) {
+        if (Storage::disk('local')->exists("public/reto/1/" . ($dia) . '.ogg')) {
             $ejemplo->audio = url("/reto/getAudio/reto/1/$dia/". Utils::generarRandomString(10));
         } else {
             $ejemplo->audio = "";
@@ -441,6 +441,7 @@ class RetoController extends Controller
         $usuarioDia->comentario = null;
         $usuarioDia->save();
         $request->file('audio')->storeAs("public/reto/$usuario_id/", $request->dia . '.mp3');
+        exec("avconv -i ".storage_path("app/public/reto/$usuario_id/$request->dia.mp3"). " -vn ".storage_path("app/public/reto/$usuario_id/$request->dia.ogg"));
         return response()->json(['respuesta' => 'ok', 'audio' => url("/reto/getAudio/reto/$usuario_id/$request->dia/" . Utils::generarRandomString(10))]);
     }
 }
