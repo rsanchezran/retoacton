@@ -87,7 +87,8 @@
                         <div style="border:1px dashed grey; padding: 10px;" class="col-12 col-sm-6">
                             <h1>Día @{{ dia.dia }}</h1>
                             <audio v-if="ejemplo.audio!=''" :src="ejemplo.audio" controls>
-                                <source :src="ejemplo.audio" type="audio/ogg"/>
+                                <source :src="ejemplo.audio" type="audio/mpeg"/>
+                                <source :src="ejemplo.audioOgg" type="audio/ogg"/>
                             </audio>
                             <p id="comentarios"></p>
                             <img :src="ejemplo.imagen" height="200" @click="mostrarImagen(ejemplo.imagen)">

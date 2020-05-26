@@ -65,10 +65,12 @@ class RetoController extends Controller
                 $imagenDia->audio = '';
             } else {
                 $diaEjemplo = Dia::find($imagenDia->dia_id) ?? new Dia();
-                if (Storage::disk('local')->exists("public/reto/$usuario->id/" . $dia . '.ogg')) {
-                    $imagenDia->audio = url("/reto/getAudio/reto/$usuario->id/" . $dia . "/" . Utils::generarRandomString(10));
+                if (Storage::disk('local')->exists("public/reto/$usuario->id/" . $dia . '.mp3')) {
+                    $imagenDia->audio = url("/reto/getAudio/reto/$usuario->id/" . $dia . "/" . Utils::generarRandomString(10).".mp3");
+                    $imagenDia->audioOgg = url("/reto/getAudio/reto/$usuario->id/" . $dia . "/" . Utils::generarRandomString(10)."ogg");
                 } else {
                     $imagenDia->audio = '';
+                    $imagenDia->audioOgg = '';
                 }
                 $imagenDia->comentarios = $diaEjemplo->comentarios;
                 $imagenDia->comentario = $diaEjemplo->comentarios;
@@ -92,15 +94,16 @@ class RetoController extends Controller
         }
     }
 
-    public function getAudio($carpeta, $user_id, $dia)
+    public function getAudio($carpeta, $user_id, $dia, $random)
     {
-        if (Storage::disk('local')->exists("public//$carpeta/$user_id/$dia.ogg")) {
+        $items = explode('.', $random);
+        $extension = $items[1];
+        if (Storage::disk('local')->exists("public//$carpeta/$user_id/$dia.").$extension) {
             $headers = array(
-                'Content-Type: audio/ogg',
-                'Content-disposition', 'attachment; filename="' . $dia . '.ogg"'
+                "Content-Type: audio/$extension",
+                "Content-disposition", "attachment; filename='$dia.$extension'"
             );
-            return response()->file(storage_path('app/public/' . $carpeta . '/' . $user_id . '/' . $dia . '.ogg'),
-                $headers);
+            return response()->file(storage_path("app/public/$carpeta/$user_id/$dia.$extension"), $headers);
         }
     }
 
@@ -375,10 +378,12 @@ class RetoController extends Controller
         }
         $ejemplo->comentario = $diaEjemplo->comentarios;
         $ejemplo->imagen = url("/reto/getImagen/reto/1/$dia/" . Utils::generarRandomString(10));
-        if (Storage::disk('local')->exists("public/reto/1/" . ($dia) . '.ogg')) {
-            $ejemplo->audio = url("/reto/getAudio/reto/1/$dia/". Utils::generarRandomString(10));
+        if (Storage::disk('local')->exists("public/reto/1/" . ($dia) . '.mp3')) {
+            $ejemplo->audio = url("/reto/getAudio/reto/1/$dia/" . Utils::generarRandomString(10).".mp3");
+            $ejemplo->audioOgg = url("/reto/getAudio/reto/1/$dia/" . Utils::generarRandomString(10).".ogg");
         } else {
             $ejemplo->audio = "";
+            $ejemplo->audioOgg = "";
         }
         $usuarioDia = UsuarioDia::where('usuario_id', $user->id)->where('dia_id', $dia)->first();
         if ($usuarioDia == null) {
@@ -441,7 +446,7 @@ class RetoController extends Controller
         $usuarioDia->comentario = null;
         $usuarioDia->save();
         $request->file('audio')->storeAs("public/reto/$usuario_id/", $request->dia . '.mp3');
-        exec("avconv -i ".storage_path("app/public/reto/$usuario_id/$request->dia.mp3"). " -vn ".storage_path("app/public/reto/$usuario_id/$request->dia.ogg -y"));
+        exec("avconv -i " . storage_path("app/public/reto/$usuario_id/$request->dia.mp3") . " -vn " . storage_path("app/public/reto/$usuario_id/$request->dia.ogg -y"));
         return response()->json(['respuesta' => 'ok', 'audio' => url("/reto/getAudio/reto/$usuario_id/$request->dia/" . Utils::generarRandomString(10))]);
     }
 }

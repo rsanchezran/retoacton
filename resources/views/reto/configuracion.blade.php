@@ -121,7 +121,8 @@
                                 <br>
                                 <br>
                                 <audio controls v-if="dia.audio!=''">
-                                    <source :src="dia.audio" type="audio/ogg"/>
+                                    <source :src="dia.audio" type="audio/mpeg"/>
+                                    <source :src="dia.audioOgg" type="audio/ogg"/>
                                 </audio>
                             </div>
                         </div>
