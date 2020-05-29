@@ -67,7 +67,7 @@ class RetoController extends Controller
                 $diaEjemplo = Dia::find($imagenDia->dia_id) ?? new Dia();
                 if (Storage::disk('local')->exists("public/reto/$usuario->id/" . $dia . '.mp3')) {
                     $imagenDia->audio = url("/reto/getAudio/reto/$usuario->id/" . $dia . "/" . Utils::generarRandomString(10).".mp3");
-                    $imagenDia->audioOgg = url("/reto/getAudio/reto/$usuario->id/" . $dia . "/" . Utils::generarRandomString(10)."ogg");
+                    $imagenDia->audioOgg = url("/reto/getAudio/reto/$usuario->id/" . $dia . "/" . Utils::generarRandomString(10).".ogg");
                 } else {
                     $imagenDia->audio = '';
                     $imagenDia->audioOgg = '';
