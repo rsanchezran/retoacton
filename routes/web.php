@@ -108,6 +108,7 @@ Route::group(['prefix'=>'reto', 'middleware'=>['auth', 'pago'] ],function (){
     Route::get('getAudio/{carpeta}/{id}/{imagen}/{otro?}', 'RetoController@getAudio');
     Route::post('saveImagen', 'RetoController@saveImagen');
     Route::post('saveAudio', 'RetoController@saveAudio');
+    Route::post('quitarAudio', 'RetoController@quitarAudio');
     Route::post('comentar', 'RetoController@comentar');
     Route::post('anotar', 'RetoController@anotar');
     Route::post('correo', 'RetoController@correo');

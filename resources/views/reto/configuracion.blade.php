@@ -48,6 +48,11 @@
             display: flex;
             flex-direction: column;
         }
+
+        .dia{
+            padding: 5px 2px;
+            border: 1px solid lightgray;
+        }
     </style>
 @endsection
 @section('content')
@@ -82,7 +87,7 @@
                 </div>
                 <hr>
                 <div class="d-flex flex-wrap" id="imagenes">
-                    <div v-for="(dia, index) in dias" class="col-3">
+                    <div v-for="(dia, index) in dias" class="col-3 mb-2">
                         <div class="card-header d-flex justify-content-between" style="padding: 5px 10px;">
                             <span>Día @{{ dia.dia }}</span>
                             <div class="d-flex">
@@ -91,21 +96,21 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body dia">
                             <div v-if="dia.subir" align="center">
                                 <div>
                                     <label :for="'file'+index" class="custom-file-upload">
                                         <i class="fa fa-image"></i> Subir foto
                                     </label>
                                     <input :id="'file'+index" type="file" accept="image/png,image/jpg,image/jpeg"
-                                           @change="agregarImagen(index, $event)" :disabled="loading">
+                                           @change="agregarImagen(dia, $event)" :disabled="loading">
                                 </div>
                                 <div>
                                     <label :for="'audio'+index" class="custom-file-upload">
                                         <i class="fa fa-microphone"></i> Subir audio
                                     </label>
                                     <input :id="'audio'+index" type="file" accept="audio/mp3"
-                                           @change="agregarAudio(index, $event)" :disabled="loading">
+                                           @change="agregarAudio(dia, $event)" :disabled="loading">
                                 </div>
                                 <form-error :name="'imagen'+index" :errors="errors"></form-error>
                                 <form-error :name="'audio'+index" :errors="errors"></form-error>
@@ -118,12 +123,15 @@
                                 </div>
                                 <img v-if="dia.imagen!='' && !dia.loading" :id="'img'+index" :src="dia.imagen"
                                      width="160" @click="mostrarImagen(dia.imagen)"/>
-                                <br>
-                                <br>
-                                <audio controls v-if="dia.audio!=''">
-                                    <source :src="dia.audio" type="audio/mpeg"/>
-                                    <source :src="dia.audioOgg" type="audio/ogg"/>
-                                </audio>
+                                <div class="d-flex mt-4" v-if="dia.audio!=''">
+                                    <button class="btn btn-sm btn-light text-danger" @click="quitarAudio(dia)" :disabled="dia.loading">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                    <audio controls style="width: 85%">
+                                        <source :src="dia.audio" type="audio/mpeg"/>
+                                        <source :src="dia.audioOgg" type="audio/ogg"/>
+                                    </audio>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -167,17 +175,16 @@
                 }
             },
             methods: {
-                agregarImagen: function (index, event) {
+                agregarImagen: function (dia, event) {
                     let vm = this;
                     let fm = new FormData();
                     let file = event.target.files[0];
-                    let dia = this.dias[index];
-                    vm.loading = true;
                     dia.loading = true;
-                    fm.append("imagen", file);
-                    fm.append("dia", (7*(this.semana-1))+(index+1));
+                    dia.error = false;
                     vm.errors = [];
-                    vm.dias[index].error = false;
+                    vm.loading = true;
+                    fm.append("imagen", file);
+                    fm.append("dia", dia.dia);
                     axios.post("{{url('/reto/saveImagen')}}", fm).then(function (response) {
                         vm.loading = false;
                         dia.loading = false;
@@ -190,22 +197,41 @@
                         dia.loading = false;
                     });
                 },
-                agregarAudio: function (index, event) {
+                agregarAudio: function (dia, event) {
                     let vm = this;
                     let fm = new FormData();
                     let file = event.target.files[0];
-                    let dia = this.dias[index];
+                    vm.errors = [];
                     vm.loading = true;
                     dia.loading = true;
+                    dia.error = false;
                     fm.append("audio", file);
-                    fm.append("dia", (7*(this.semana-1))+(index+1));
-                    vm.errors = [];
-                    vm.dias[index].error = false;
+                    fm.append("dia", dia.dia);
                     axios.post("{{url('/reto/saveAudio')}}", fm).then(function (response) {
                         dia.loading = false;
                         vm.loading = false;
                         Vue.nextTick(function () {
                             dia.audio = response.data.audio;
+                            dia.audioOgg = response.data.audioOgg;
+                        });
+                    }).catch(function (error) {
+                        vm.errors = error.response.data.errors;
+                        vm.loading = false;
+                        dia.loading = false;
+                    });
+                },
+                quitarAudio: function(dia){
+                    let vm = this;
+                    vm.errors = [];
+                    vm.loading = true;
+                    dia.loading = true;
+                    dia.error = false;
+                    axios.post("{{url('/reto/quitarAudio')}}", dia).then(function (response) {
+                        dia.loading = false;
+                        vm.loading = false;
+                        Vue.nextTick(function () {
+                            dia.audio = "";
+                            dia.audioOgg = "";
                         });
                     }).catch(function (error) {
                         vm.errors = error.response.data.errors;
