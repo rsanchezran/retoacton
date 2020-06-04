@@ -64,7 +64,7 @@
                             </button>
                             <i v-else></i>
                             <select class="selectpicker" v-model="semana" @change="mostrarSemana(semana)">
-                                <option v-for="s in p_semana" :value="s">Semana @{{ s }}</option>
+                                <option v-for="s in semanas" :value="s">Semana @{{ s }}</option>
                             </select>
                             <button v-if="maximo>=semana * dias.length" class="btn btn-sm btn-light"
                                     @click="mostrarSemana(semana+1)">
@@ -119,6 +119,7 @@
                 return {
                     dias: [],
                     semana: 1,
+                    semanas: this.p_semana,
                     errors: [],
                     lugar: false,
                     disableModal: true,
@@ -136,7 +137,10 @@
                     axios.get('{{url('/configuracion/programa/getSemanaEjercicios/')}}/' + semana).then(function (response) {
                         vm.dias = response.data;
                         vm.semana = semana;
-                        localStorage.setItem('semana', vm.semana);
+                        if (vm.semanas < parseInt(semana)){
+                            vm.semanas++;
+                        }
+                        localStorage.setItem('semana', semana);
                         Vue.nextTick(function () {
                             $('.selectpicker').selectpicker('refresh');
                             let modo = vm.modo.split('-')
@@ -176,14 +180,21 @@
             },
             created: function () {
                 this.dias = this.p_dias;
-                if (localStorage.getItem('semana') != null) {
-                    this.semana = localStorage.getItem('semana');
-                    this.mostrarSemana(this.semana);
+                if (localStorage.getItem('semana') == null) {
+                    localStorage.setItem('semana', this.semanas);
+                }
+                if(isNaN(parseInt(localStorage.getItem('semana')))){
+                    this.semana = this.semanas;
                 }else{
-                    this.semana = this.p_semana;
+                    if (this.semanas < parseInt(localStorage.getItem('semana'))){
+                        this.semana = this.semanas;
+                    }else{
+                        this.semana = parseInt(localStorage.getItem('semana'));
+                    }
                 }
             },
             mounted: function () {
+                this.mostrarSemana(this.semana);
                 if (localStorage.getItem('genero') != null) {
                     this.mostrarModo(localStorage.getItem('genero'),localStorage.getItem('objetivo'));
                 }else{
