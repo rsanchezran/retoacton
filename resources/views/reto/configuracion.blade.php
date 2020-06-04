@@ -152,6 +152,11 @@
                     <img :src="imagen" style="margin: auto; display: block" width="400">
                 </div>
             </modal>
+            <modal ref="quitarModal" :btncerrar="true" title="Quitar audio" @ok="confirmarQuitarAudio">
+                <div style="padding-top: 15px;">
+                    <label>¿Estás seguro de querer quitar el audio para este dia?</label>
+                </div>
+            </modal>
         </div>
     </template>
 
@@ -221,22 +226,28 @@
                     });
                 },
                 quitarAudio: function(dia){
+                    this.dia = dia;
+                    this.$refs.quitarModal.showModal();
+                },
+                confirmarQuitarAudio: function(){
                     let vm = this;
                     vm.errors = [];
                     vm.loading = true;
-                    dia.loading = true;
-                    dia.error = false;
-                    axios.post("{{url('/reto/quitarAudio')}}", dia).then(function (response) {
-                        dia.loading = false;
+                    vm.dia.loading = true;
+                    vm.dia.error = false;
+                    axios.post("{{url('/reto/quitarAudio')}}", vm.dia).then(function (response) {
+                        vm.dia.loading = false;
                         vm.loading = false;
                         Vue.nextTick(function () {
-                            dia.audio = "";
-                            dia.audioOgg = "";
+                            vm.dia.audio = "";
+                            vm.dia.audioOgg = "";
+                            vm.$refs.quitarModal.closeModal();
                         });
                     }).catch(function (error) {
                         vm.errors = error.response.data.errors;
                         vm.loading = false;
-                        dia.loading = false;
+                        vm.dia.loading = false;
+                        vm.$refs.quitarModal.closeModal();
                     });
                 },
                 mostrarModal: function (dia) {
