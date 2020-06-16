@@ -41,7 +41,7 @@ class Dia extends Model
         return $this->hasOne('App\Notas', 'dia_id', 'id');
     }
 
-    public static function buildDia($dia, $genero, $objetivo, $user, $dieta = 1)
+    public static function buildDia($dia, $genero, $objetivo, $user, $dieta = 1, $semanaSuplementacion = 1)
     {
         $filtro = function ($datos) use ($genero, $objetivo) { //funcion para cad with
             $datos->where('genero', $genero)->where('objetivo', $objetivo);
@@ -60,7 +60,7 @@ class Dia extends Model
         }
         $diaDB->suplementos = Kits::select('s.id', 's.suplemento', 's.porcion')
             ->join('suplementos as s', 'kit_id', 'kits.id')->where('kits.objetivo', $objetivo)
-            ->where('genero', $genero)->where('descripcion', 'like', '%'.($dieta-1).'%')->get();
+            ->where('genero', $genero)->where('descripcion', 'like', '%'.($semanaSuplementacion-1).'%')->get();
         $diaDB->comidas = UsuarioDieta::where('usuario_id', $user->id)->where('dieta', $dieta)->get()->groupBy('comida')->values();
         $diaDB->gym = Serie::with(['ejercicios'=>function($q){
             $q->orderBy('orden');
