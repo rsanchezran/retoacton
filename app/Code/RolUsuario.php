@@ -13,8 +13,9 @@ class RolUsuario
 {
     const ADMIN = 'admin';
     const CLIENTE = 'cliente';
+    const TIENDA = 'tienda';
 
     public static function all(){
-        return collect(['admin'=>self::ADMIN,'cliente'=>self::CLIENTE]);
+        return collect(['admin'=>self::ADMIN,'cliente'=>self::CLIENTE,'tienda'=>self::TIENDA]);
     }
 }

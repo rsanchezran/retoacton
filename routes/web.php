@@ -27,6 +27,7 @@ Route::post('saveObjetivo', 'Auth\RegisterController@saveObjetivo');
 Route::post('savePeso', 'Auth\RegisterController@savePeso');
 Route::post('webhook', 'Auth\RegisterController@webhook');
 Route::get('buscarReferencia/{referencia}', 'Auth\RegisterController@buscarReferencia');
+Route::get('buscarReferenciaTienda/{referencia}/{email}', 'Auth\RegisterController@buscarReferenciaTienda');//AQUI
 
 Route::post('/nuevopago', 'PagoController@nuevoPago');
 Route::get('/etapa1/{email}', 'HomeController@etapa1');
@@ -73,6 +74,10 @@ Route::group(['prefix' => 'configuracion', 'middleware' => ['auth', 'pago']], fu
     Route::get('getEjerciciosCategoria/{categoria}', 'ConfiguracionController@getEjerciciosCategoria');
     Route::get('getVideosPendientes', 'ConfiguracionController@getVideosPendientes');
     Route::post('categoria', 'ConfiguracionController@saveCategoria');
+    Route::get('registro-tiendas', 'ConfiguracionController@agregarTienda');//AQUI
+    Route::post('saveContactoTienda', 'ConfiguracionController@saveContactoTienda');//AQUI
+    Route::get('generar-codigo', 'ConfiguracionController@generarCodigo');//AQUI
+    Route::get('pagar-tienda/{usuario}', 'ConfiguracionController@pagarTienda');//AQUI
 });
 
 Route::group(['prefix' => 'suplementos', 'middleware' => ['auth', 'pago']], function (){
@@ -105,6 +110,7 @@ Route::group(['prefix'=>'reto', 'middleware'=>['auth', 'pago'] ],function (){
     Route::get('dia/{dia}/{genero}/{objetivo}', 'RetoController@dia');
     Route::get('pdf/{dia}/{genero}/{objetivo}/{dieta}/{lugar}', 'RetoController@pdf');
     Route::get('getImagen/{carpeta}/{id}/{imagen}/{otro?}', 'RetoController@getImagen');
+    Route::get('getImagen4/{carpeta}/4/{id}/{imagen}/{otro?}', 'RetoController4@getImagen');//AQUI
     Route::get('getAudio/{carpeta}/{id}/{imagen}/{otro?}', 'RetoController@getAudio');
     Route::post('saveImagen', 'RetoController@saveImagen');
     Route::post('saveAudio', 'RetoController@saveAudio');
@@ -114,6 +120,7 @@ Route::group(['prefix'=>'reto', 'middleware'=>['auth', 'pago'] ],function (){
     Route::post('correo', 'RetoController@correo');
     Route::get('getDia/{dia}', 'RetoController@getDia');
     Route::get('configuracion', 'RetoController@index');
+    Route::get('configuracion_4', 'RetoController4@index');//AQUI
     Route::get('getSemana/{usuario}/{semana}', 'RetoController@getSemana');
     Route::get('getSemanaCliente/{semana}', 'RetoController@getSemanaCliente');
 });

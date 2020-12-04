@@ -102,8 +102,10 @@ class UserController extends Controller
     public function imagenes($usuario_id)
     {
         $usuario = User::select('id', 'name', 'inicio_reto', 'created_at')->where('id', $usuario_id)->get()->first();
-        $diasRetoOriginal = intval(env('DIAS'));
-        $diasReto = intval(env('DIAS2'));
+        //$diasRetoOriginal = intval(env('DIAS'));
+        //$diasReto = intval(env('DIAS2'));
+        $diasRetoOriginal = intval($usuario->dias);
+        $diasReto = intval($usuario->dias);
         $diasTranscurridos = UsuarioDia::where('usuario_id', $usuario->id)->count();
         $inicioReto = \Carbon\Carbon::parse($usuario->inicio_reto);
         if ($usuario->num_inscripciones > 1) {
@@ -129,8 +131,10 @@ class UserController extends Controller
         }
         $dias = $this->getSemana($usuario, $semana);
         $dia = Carbon::now()->diffInDays(Carbon::parse($usuario->inicio_reto)) + 1;
+        //return view('users.imagenes', ['usuario' => $usuario, 'dias' => $dias, 'semana' => $semana,
+        //    'maximo' => $diasTranscurridos, 'teorico' => intval(env('DIAS')), 'dia' => $dia]);
         return view('users.imagenes', ['usuario' => $usuario, 'dias' => $dias, 'semana' => $semana,
-            'maximo' => $diasTranscurridos, 'teorico' => intval(env('DIAS')), 'dia' => $dia]);
+            'maximo' => $diasTranscurridos, 'teorico' => intval($usuario->dias), 'dia' => $dia]);
     }
 
     public function getSemana(User $usuario, $semana)

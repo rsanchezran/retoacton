@@ -23,10 +23,11 @@ class RetoController extends Controller
 
     public function index(Request $request)
     {
-        $diasReto = intval(env('DIAS'));
         $usuario = $request->user();
         $usuarioDias = UsuarioDia::where('usuario_id', $usuario->id)->orderByDesc('dia_id')
             ->get()->first();
+        //$diasReto = intval(env('DIAS'));
+        $diasReto = intval($usuario->dias);
         if ($usuarioDias == null) {
             $usuarioDias = 1;
         } else {
@@ -200,8 +201,10 @@ class RetoController extends Controller
         $user = $request->user();
         $user->modo = $user->modo == true;
 
-        $diasRetoOriginal = intval(env('DIAS'));
-        $diasReto = intval(env('DIAS2'));
+        //$diasRetoOriginal = intval(env('DIAS'));
+        //$diasReto = intval(env('DIAS2'));
+        $diasRetoOriginal = intval($user->dias);
+        $diasReto = intval($user->dias);
         $diasTranscurridos = UsuarioDia::where('usuario_id', $user->id)->count();
 
         $inicioReto = Carbon::parse($user->inicio_reto);
@@ -237,8 +240,10 @@ class RetoController extends Controller
             $dia = new Dia();
             $dia->nota = "";
             $dia->ejercicioss = collect();
+            //return view('reto.dia', ['dia' => $dia, 'genero' => $genero, 'objetivo' => $objetivo, 'lugar' => $user->modo,
+            //'dias' => env('DIAS')]);
             return view('reto.dia', ['dia' => $dia, 'genero' => $genero, 'objetivo' => $objetivo, 'lugar' => $user->modo,
-                'dias' => env('DIAS')]);
+                'dias' => $user->dias]);
         } else {
             $sem = $dia % 7 == 0 ? intval($dia / 7) : intval($dia / 7) + 1;
             $numDieta = $sem % 2 == 0 ? intval($sem / 2) : intval($sem / 2) + 1; //Se obtiene el numero de dieta con base en la cantidad de dias del reto
@@ -255,8 +260,10 @@ class RetoController extends Controller
         $user = $request->user();
         $user->modo = $user->modo == true;
 
-        $diasRetoOriginal = intval(env('DIAS'));
-        $diasReto = intval(env('DIAS2'));
+        //$diasRetoOriginal = intval(env('DIAS'));
+        //$diasReto = intval(env('DIAS2'));
+        $diasRetoOriginal = intval($user->dias);
+        $diasReto = intval($user->dias);
 
         $inicioReto = Carbon::parse($user->inicio_reto)->startOfDay();
         if ($user->num_inscripciones > 1) {
@@ -310,8 +317,10 @@ class RetoController extends Controller
     public function cliente(Request $request)
     {
         $user = $request->user();
-        $diasRetoOriginal = intval(env('DIAS'));
-        $diasReto = intval(env('DIAS2'));
+        //$diasRetoOriginal = intval(env('DIAS'));
+        //$diasReto = intval(env('DIAS2'));
+        $diasRetoOriginal = intval($user->dias);
+        $diasReto = intval($user->dias);
         $diasTranscurridos = UsuarioDia::where('usuario_id', $user->id)->count();
         $inicioReto = Carbon::parse($user->inicio_reto);
         if ($user->num_inscripciones > 1) {
@@ -342,8 +351,10 @@ class RetoController extends Controller
     public function getSemanaCliente(Request $request, $semana)
     {
         $user = $request->user();
-        $diasRetoOriginal = intval(env('DIAS'));
-        $diasReto = intval(env('DIAS2'));
+        //$diasRetoOriginal = intval(env('DIAS'));
+        //$diasReto = intval(env('DIAS2'));
+        $diasRetoOriginal = intval($user->dias);
+        $diasReto = intval($user->dias);
         $inicioReto = Carbon::parse($user->inicio_reto)->startOfDay();
         if ($user->num_inscripciones > 1) {
             $teoricos = $diasRetoOriginal + (($user->num_inscripciones - 2) * $diasReto) + Carbon::now()->startOfDay()->diffInDays($inicioReto);
@@ -398,8 +409,10 @@ class RetoController extends Controller
     public function programa(Request $request)
     {
         $user = $request->user();
-        $diasRetoOriginal = intval(env('DIAS'));
-        $diasReto = intval(env('DIAS2'));
+        //$diasRetoOriginal = intval(env('DIAS'));
+        //$diasReto = intval(env('DIAS2'));
+        $diasRetoOriginal = intval($user->dias);
+        $diasReto = intval($user->dias);
         $inicioReto = Carbon::parse($user->inicio_reto)->startOfDay();
         if ($user->num_inscripciones > 1) {
             $teoricos = $diasRetoOriginal + (($user->num_inscripciones - 2) * $diasReto) + Carbon::now()->startOfDay()->diffInDays($inicioReto);

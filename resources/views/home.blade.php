@@ -13,7 +13,7 @@
 @section('content')
     <div id="vue" class="container flex-center">
         <inicio :usuario="{{ $usuario}}" :referencias="{{$referencias}}" :monto="{{$monto}}" :descuento="{{$descuento}}"
-        :original="{{$original}}"></inicio>
+                :original="{{$original}}"></inicio>
     </div>
 
     <template id="inicio-template">
@@ -164,7 +164,7 @@
                         referencia: ''
                     },
                     buscando: false
-            }},
+                }},
             methods: {
                 loaded: function (referencias) {
                     this.referenciados = referencias;
@@ -191,13 +191,13 @@
                 this.buscar();
                 @if(\Illuminate\Support\Facades\Auth::user()->vencido)
                     this.$refs.cobro.configurar(
-                        this.usuario.name,
-                        this.usuario.last_name,
-                        this.usuario.email,
-                        this.usuario.telefono,
-                        this.usuario.codigo,
-                        this.usuario.referenciado
-                    );
+                    this.usuario.name,
+                    this.usuario.last_name,
+                    this.usuario.email,
+                    this.usuario.telefono,
+                    this.usuario.codigo,
+                    this.usuario.referenciado
+                );
                 @endif
             }
         });

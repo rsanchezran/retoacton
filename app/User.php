@@ -7,6 +7,7 @@ use App\Code\LugarEjercicio;
 use App\Code\Objetivo;
 use App\Code\RolUsuario;
 use App\Code\Utils;
+use App\CodigosTienda;
 use App\Mail\Registro;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -29,7 +30,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name', 'last_name', 'email', 'password', 'rol', 'inicio_reto', 'referencia', 'saldo', 'pagado', 'tarjeta', 'tipo_pago',
-        'encuestado', 'objetivo', 'codigo', 'fecha_inscripcion', 'correo_enviado', 'modo', 'num_inscripciones'
+        'encuestado', 'objetivo', 'codigo', 'fecha_inscripcion', 'correo_enviado', 'modo', 'num_inscripciones', 'tipo_dia', 'costo'
     ];
 
     /**
@@ -69,6 +70,7 @@ class User extends Authenticatable
     {
         $pass = Utils::generarRandomString();
         $usuario = User::withTrashed()->where('email', $email)->first();
+        $contacto = Contacto::where('usuariemailo_id', $request->email)->get()->last();
         if ($usuario == null) {
             $usuario = User::create([
                 'name' => $nombre,
@@ -86,6 +88,7 @@ class User extends Authenticatable
                 'fecha_inscripcion' => Carbon::now(),
                 'correo_enviado' => 0,
                 'num_inscripciones' => 1,
+                'dias' => $contacto->dias
             ]);
         } else {
             $usuario->password = Hash::make($pass);
@@ -110,7 +113,7 @@ class User extends Authenticatable
         $compra->usuario_id = $usuario->id;
         $compra->save();
         $mensaje = new \stdClass();
-        $mensaje->subject = "Bienvenido al Reto Acton de 8 semanas";
+        $mensaje->subject = "Bienvenido al Reto Acton";
         $mensaje->pass = $pass;
         try {
             Mail::queue(new Registro($usuario, $mensaje));
@@ -124,24 +127,49 @@ class User extends Authenticatable
     public static function calcularMontoCompra($codigo, $email, $created_at, $fecha_inscripcion, $inicio_reto, $deleted_at)
     {
         $compra = new \stdClass();
+        $dias = Contacto::where('email', $email)->first();
         $referenciado = $codigo == '' ? null : User::where('referencia', $codigo)->where('id', '!=', 1)->first();
-        $monto = intval(env('COBRO_ORIGINAL'));
+        if(intval($dias->dias) == 14){
+            $monto = 600;
+            $descuento = 25;
+        }elseif (intval($dias->dias) == 28) {
+            $monto = 1000;
+            $descuento = 35;
+        }elseif (intval($dias->dias) == 56) {
+            $monto = 2000;
+            $descuento = 40;
+        }elseif (intval($dias->dias) == 84) {
+            $monto = 3000;
+            $descuento = 50;
+        }
+        //$monto = intval(env('COBRO_ORIGINAL'));
         if ($created_at == null || $deleted_at != null) {
             if ($referenciado == null) {
                 if ($created_at == null) {
                     $contacto = Contacto::where('email', $email)->first();
-                    if ($contacto->etapa == 1) {
+                    /*if ($contacto->etapa == 1) {
                         $descuento = intval(env('DESCUENTO'));
                     } else {
                         $descuento = intval(env("DESCUENTO" . ($contacto->etapa - 1)));
-                    }
+                    }*/
                 } else {
                     $monto = intval(env('COBRO_REFRENDO'));
                     $descuento = 0;
                 }
             } else {
                 if ($deleted_at == null) {
-                    $descuento = intval(env('DESCUENTO_REFERENCIA'));
+                    $userref = User::where('referencia', $codigo)->where('id', '!=', 1)->first();
+                    if(intval($dias->dias) == 14 && $userref->tipo_referencia !== 1){
+                        $descuento = 40;
+                    }elseif (intval($dias->dias) == 28 && $userref->tipo_referencia !== 1) {
+                        $descuento = 55;
+                    }elseif (intval($dias->dias) == 56 && $userref->tipo_referencia !== 1) {
+                        $descuento = 55;
+                    }elseif (intval($dias->dias) == 84 && $userref->tipo_referencia !== 1) {
+                        $descuento = 63;
+                    }else{
+                        $descuento = intval(env('DESCUENTO_REFERENCIA'));
+                    }
                 } else {
                     $monto = intval(env('COBRO_REFRENDO'));
                     $descuento = 0;
@@ -164,6 +192,14 @@ class User extends Authenticatable
         $compra->original = $monto;
         $compra->descuento = $descuento;
         $compra->monto = round($monto - ($monto * ($descuento / 100)), 2);
+        $now = \Carbon\Carbon::now();
+        $horas = $now->diffInHours($dias->created_at);
+        if($horas>20){
+            $compra->monto = $monto;
+            $compra->descuento = 0;
+        }
+        $compra->horas = 20-$horas;
+
         return $compra;
     }
 
@@ -210,14 +246,66 @@ class User extends Authenticatable
     public function aumentarSaldo()
     {
         $usuario = User::where('referencia', $this->codigo)->where('id', '!=', 1)->get()->first();
+        error_log('aumenta saldo');
+        error_log($usuario);
         if ($usuario != null) {
             $usuario->isVencido();
             if (!$usuario->vencido) {
                 $usuario->ingresados_reto += 1;
                 $usuario->ingresados += 1;
-                $usuario->saldo += intval(env('COMISION'));
+                if($usuario->tipo_referencia == 1){
+                    $usuario->saldo += intval(env('COMISION'));
+                }elseif ($usuario->tipo_referencia == 2) {
+                    $semanas = intval($usuario->dias)/7;
+                    switch ($semanas) {
+                        case 2:
+                            $comision = env('COMISION1');
+                            break;
+                        case 2:
+                            $comision = env('COMISION2');
+                            break;
+                        case 3:
+                            $comision = env('COMISION3');
+                            break;
+                        case 4:
+                            $comision = env('COMISION4');
+                            break;
+                    }
+                    $usuario->saldo += intval($comision);
+                }
                 unset($usuario->vencido);
                 $usuario->save();
+            }
+        }else{
+            $usuario = CodigosTienda::where('codigo', $this->codigo)->where('email', $this->email)->get()->first();
+            if ($usuario != null) {
+                $usuario->isVencido();
+                if (!$usuario->vencido) {
+                    $usuario->ingresados_reto += 1;
+                    $usuario->ingresados += 1;
+                    if($usuario->tipo_referencia == 1){
+                        $usuario->saldo += intval(env('COMISION'));
+                    }elseif ($usuario->tipo_referencia == 2) {
+                        $semanas = intval($usuario->dias)/7;
+                        switch ($semanas) {
+                            case 2:
+                                $comision = env('COMISION1');
+                                break;
+                            case 2:
+                                $comision = env('COMISION2');
+                                break;
+                            case 3:
+                                $comision = env('COMISION3');
+                                break;
+                            case 4:
+                                $comision = env('COMISION4');
+                                break;
+                        }
+                        $usuario->saldo += intval($comision);
+                    }
+                    unset($usuario->vencido);
+                    $usuario->save();
+                }
             }
         }
     }

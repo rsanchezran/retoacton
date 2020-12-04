@@ -7,6 +7,9 @@
         .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
             opacity: 0;
         }
+        .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+            opacity: 0;
+        }
 
         video {
             height: 200px;
@@ -78,12 +81,13 @@
 
         .subinfo img {
             width: 100%;
-            height: 50%;
+            height: 100%;
         }
 
         .subinfo div{
             padding: 20px;
         }
+
 
         #features {
             background-color: #005D9C;
@@ -95,7 +99,7 @@
             font-size: .7rem;
             font-family: unitext_light;
             flex-grow: 1;
-            height: 100%;
+            height: 350px;
         }
 
         #features .subtitle {
@@ -116,7 +120,6 @@
             font-weight: bold;
             font-size: 1.5vw;
         }
-
         #features .subinfo h6 {
             font-size: 0.7rem;
             color: #1b1e21;
@@ -367,10 +370,11 @@
             .comienza {
                 font-size: .62rem;
             }
+        }
 
             @media only screen and (max-width: 800px) {
                 .feature .subinfo {
-                    height: 450px !important;
+                    height: 350px !important;
                 }
 
                 #testtitulo {
@@ -579,7 +583,7 @@
                     font-size: 2.8rem;
                 }
             }
-        }
+
 
         @media only screen and (min-width: 1920px) {
 
@@ -595,6 +599,7 @@
             }
         }
     </style>
+
 @endsection
 @section('content')
     <div id="vue">
@@ -649,24 +654,24 @@
                 <div id="features" class="d-flex flex-wrap mr-auto ml-auto">
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
                         <div id="comidasFeature" class="feature" @click="features.comidas=false" @mouseover="features.comidas=false"
-                             @mouseleave="features.comidas=true">
+                             @mouseleave="features.comidas=true" onclick="location.href = '/register?q=14';">
                             <transition name="fade" mode="out-in">
                                 <div v-if="features.comidas" key="primero">
-                                    <img id="comidasImg" class="img" src="{{asset('/img/comidasblanco.jpg')}}" width="100%">
+                                    <img id="comidasImg" class="img" src="{{asset('/img/2semanasblanco.png')}}" width="100%">
                                     <h3 id="comidasSub" class="subtitle">
-                                        <span>Plan de alimentación </span>
+                                        <span>Plan de 2 semanas </span>
                                         <span class="small text-lowercase">ver más</span>
                                     </h3>
                                 </div>
                                 <div v-else class="subinfo" key="segundo">
-                                    <img src="{{asset('img/comidas.jpg')}}">
+                                    <img src="{{asset('img/2semanas.png')}}">
                                     <div>
-                                        <h6 style="font-family: unitext_bold_cursive;">Los planes de alimentación que
+                                        <!--h6 style="font-family: unitext_bold_cursive;">Los planes de alimentación que
                                             recibes en este programa de 8 semanas son totalmente personalizados.</h6>
                                         <h6>En <b style="font-family: unitext_bold_cursive">ACTON</b> estamos seguros de que,
                                             para tener más posibilidades de cambio, tu plan de alimentación te debe agradar, por
                                             lo que tú puedes elegir cuáles alimentos NO quieres que aparezcan en tu programa
-                                            para que sea más fácil llevarlo</h6>
+                                            para que sea más fácil llevarlo</h6-->
                                     </div>
                                 </div>
                             </transition>
@@ -674,27 +679,27 @@
                     </div>
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
                         <div id="entrenamientoFeature" class="feature" @click="features.entrenamiento=false" @mouseover="features.entrenamiento=false"
-                            @mouseleave="features.entrenamiento=true">
+                             @mouseleave="features.entrenamiento=true" onclick="location.href = '/register?q=28';">
                             <transition name="fade" mode="out-in">
                                 <div v-if="features.entrenamiento" key="first">
-                                    <img id="entrenamientoImg" class="img" src="{{asset('/img/entrenamientoblanco.jpg')}}"
+                                    <img id="entrenamientoImg" class="img" src="{{asset('/img/4semanasblanco.png')}}"
                                          width="100%">
                                     <h3 id="entrenamientoSub" class="subtitle">
-                                        <span>Plan flexible de entrenamiento</span>
+                                        <span>Plan 4 semanas</span>
                                         <span class="small text-lowercase">ver más</span>
                                     </h3>
                                 </div>
                                 <div v-else class="subinfo" key="second">
-                                    <img src="{{asset('img/entrenamiento.jpg')}}">
+                                    <img src="{{asset('img/4semanas.png')}}">
                                     <div>
-                                        <h6 class="text-justify">Puedes elegir si deseas entrenar en el gym, desde la comodidad
+                                    <!--h6 class="text-justify">Puedes elegir si deseas entrenar en el gym, desde la comodidad
                                             de tu hogar o en el lugar donde te encuentres, ya que dentro de tu sesión tienes un
                                             botón en el cual puedes cambiar tu rutina a </h6>
                                         <h6 class="font-weight-bold text-center" style="font-family: unitext;">Modo: GYM o CASA</h6>
                                         <div class="col-sm-10 col-md-10 col-lg-10 col-xl-10 d-flex justify-content-between p-0 ml-auto mr-auto">
                                             <img class="modo" src="{{asset('img/Boton01.png')}}"/>
                                             <img class="modo" src="{{asset('img/Boton02.png')}}"/>
-                                        </div>
+                                        </div-->
                                     </div>
                                 </div>
                             </transition>
@@ -702,23 +707,23 @@
                     </div>
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
                         <div id="suplementosFeature" class="feature" @click="features.suplementos=false" @mouseover="features.suplementos=false"
-                             @mouseleave="features.suplementos=true">
+                             @mouseleave="features.suplementos=true" onclick="location.href = '/register?q=56';">
                             <transition name="fade" mode="out-in">
                                 <div v-if="features.suplementos" key="first">
-                                    <img id="suplementosImg" class="img" src="{{asset('/img/suplementosblanco.jpg')}}"
-                                     width="100%">
+                                    <img id="suplementosImg" class="img" src="{{asset('/img/8semanasblanco.png')}}"
+                                         width="100%">
                                     <h3 id="suplementosSub" class="subtitle">
-                                        <span>Guía de suplementación</span>
+                                        <span>Plan de 8 semanas</span>
                                         <span class="small text-lowercase">ver más</span>
                                     </h3>
                                 </div>
                                 <div v-else class="subinfo" key="second">
-                                    <img src="{{asset('img/suplementos.jpg')}}">
+                                    <img src="{{asset('img/8semanas.png')}}">
                                     <div>
-                                        <h6>Te diremos cuáles son los suplementos adecuados con las dosis óptimas para alcanzar
+                                        <!--h6>Te diremos cuáles son los suplementos adecuados con las dosis óptimas para alcanzar
                                             de una manera más efectiva y rápida el objetivo de que deseas <span
                                                 class="font-weight-bold"
-                                                style="font-family:unitext;">siempre cuidando tu salud.</span></h6>
+                                                style="font-family:unitext;">siempre cuidando tu salud.</span></h6-->
                                     </div>
                                 </div>
                             </transition>
@@ -726,22 +731,22 @@
                     </div>
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
                         <div id="videosFeature" class="feature" @click="features.videos=false" @mouseover="features.videos=false"
-                             @mouseleave="features.videos=true">
+                             @mouseleave="features.videos=true" onclick="location.href = '/register?q=84';">
                             <transition name="fade" mode="out-in">
                                 <div v-if="features.videos" key="first">
-                                    <img id="videosImg" class="img" src="{{asset('/img/videosblanco.jpg')}}" width="100%">
+                                    <img id="videosImg" class="img" src="{{asset('/img/12semanasblanco.png')}}" width="100%">
                                     <h3 id="videosSub" class="subtitle">
-                                        <span>Videos personalizados</span>
+                                        <span>Plan de 12 semanas</span>
                                         <span class="small text-lowercase">ver más</span>
                                     </h3>
                                 </div>
                                 <div v-else class="subinfo" key="second">
-                                    <img src="{{asset('img/videos.jpg')}}">
+                                    <img src="{{asset('img/12semanas.png')}}">
                                     <div>
-                                        <h6><span class="font-weight-bold text-center" style="font-family: unitext">Más de 500 videos de alta resolución </span>
+                                        <!--h6><span class="font-weight-bold text-center" style="font-family: unitext">Más de 500 videos de alta resolución </span>
                                             en tu sesión con explicación de cada ejercicio para que puedas ver la técnica
                                             correcta de cada movimiento. Cada uno de los ejercicios trae video, ya sea de casa o
-                                            gym.</h6>
+                                            gym.</h6-->
                                     </div>
                                 </div>
                             </transition>
@@ -787,11 +792,11 @@
                             <br>
                             <h6 class="momento biggest text-uppercase font-weight-bold"
                                 style="font-style: oblique"><span
-                                    class="turquesa">Tu momento </span> es hoy</h6>
+                                        class="turquesa">Tu momento </span> es hoy</h6>
                         </div>
                     </div>
                 </div>
-                <div id="desicion" class="section container text-center">
+            <!--div id="desicion" class="section container text-center">
                     <h6 class="text-uppercase bigger thin" style="color:#929494">Ranking de participantes actualizado</h6>
                     <table id="ranking" class="table text-left">
                         <tr>
@@ -872,8 +877,8 @@
                            style="width: 80%; font-family: unitext_bold_cursive; padding: 10px">Quiero ganar</a>
                     </div>
                 </div>
-            </div>
-            <div style="margin-top: 40px;">
+            </div-->
+            <!--div style="margin-top: 40px;">
                 <div style="margin-top:60px; margin-bottom: 70px">
                     <div class="d-flex flex-wrap">
                         <div class="col-sm-12 col-md-12 col-lg-5 col-12 text-center">
@@ -940,8 +945,8 @@
                         <img v-else id="chica" src="{{asset('img/chicamovil.png')}}">
                     </div>
                 </div>
-            </div>
-            <div>
+            </div-->
+            <!--div>
                 <div id="test" class="marino" style="padding-top:100px; padding-bottom:10px;">
                     <div id="testtitulo" class="text-center col-12 col-sm-8 col-8 d-block mr-auto ml-auto">
                         <h6 class="text-uppercase bigger thin font-weight-bold" style="color: #00abe5">Gente real,
@@ -1084,117 +1089,117 @@
                            style="font-family: unitext_bold_cursive; width:100%; padding: 15px">Acepto el reto</a>
                     </div>
                 </div>
-            </div>
-            <div class="container section">
-                <h4 class="text-uppercase font-weight-bold text-center">¿Qué pasa después </h4>
-                <h4 class="text-uppercase font-weight-bold text-center">de registrarme al reto?</h4>
-                <br>
-                <br>
-                <div id="monitores" class="d-flex flex-wrap">
-                    <div class="col-sm-4 col-12 monitor">
-                        <h6 class="text-center font-weight-bold text-uppercase">Paso 1</h6>
-                        <img src="{{asset('img/monitor1.png')}}" width="90%">
-                        <h6>Recibirás un correo con tu usuario y contraseña para poder ingresar a tu sesión</h6>
-                    </div>
-                    <div class="col-sm-4 col-12 monitor">
-                        <h6 class="text-center font-weight-bold text-uppercase">Paso 2</h6>
-                        <img src="{{asset('img/monitor2.png')}}" width="90%">
-                        <h6>En seguida empezarás un cuestionario en el que nos pasarás tus datos necesarios para hacer
-                            tu programa personalizado</h6>
-                        <br>
-                    </div>
-                    <div class="col-sm-4 col-12 monitor">
-                        <h6 class="text-center font-weight-bold text-uppercase">Paso 3</h6>
-                        <img src="{{asset('img/monitor3.png')}}" width="90%">
-                        <h6>Al finalizar este cuestionario entrarás automáticamente a tu programa y estarás listo para
-                            empezar</h6>
-                    </div>
-                    <div class="col-12 col-sm-4 d-block ml-auto mr-auto">
-                        <a class="btn btn-primary" href="{{url('register')}}"
-                           style="width: 100%; font-family: unitext_bold_cursive">Registrarme</a>
-                    </div>
-                </div>
-            </div>
-            <div class="section info">
-                <div>
-                    <h4 class="text-uppercase font-weight-bold">Preguntas frecuentes</h4>
+            </div-->
+                <div class="container section">
+                    <h4 class="text-uppercase font-weight-bold text-center">¿Qué pasa después </h4>
+                    <h4 class="text-uppercase font-weight-bold text-center">de registrarme al reto?</h4>
                     <br>
-                    <div @click="cambiarFaqs('reto')" class="in-cursor">
-                        <h3 class="subtitle">¿QUÉ ES EL RETO ACTON?</h3>
-                        <i :class="'fas fa-sort-'+(!faqs.reto?'down':'up')+' float-right'"></i>
+                    <br>
+                    <div id="monitores" class="d-flex flex-wrap">
+                        <div class="col-sm-4 col-12 monitor">
+                            <h6 class="text-center font-weight-bold text-uppercase">Paso 1</h6>
+                            <img src="{{asset('img/monitor1.png')}}" width="90%">
+                            <h6>Recibirás un correo con tu usuario y contraseña para poder ingresar a tu sesión</h6>
+                        </div>
+                        <div class="col-sm-4 col-12 monitor">
+                            <h6 class="text-center font-weight-bold text-uppercase">Paso 2</h6>
+                            <img src="{{asset('img/monitor2.png')}}" width="90%">
+                            <h6>En seguida empezarás un cuestionario en el que nos pasarás tus datos necesarios para hacer
+                                tu programa personalizado</h6>
+                            <br>
+                        </div>
+                        <div class="col-sm-4 col-12 monitor">
+                            <h6 class="text-center font-weight-bold text-uppercase">Paso 3</h6>
+                            <img src="{{asset('img/monitor3.png')}}" width="90%">
+                            <h6>Al finalizar este cuestionario entrarás automáticamente a tu programa y estarás listo para
+                                empezar</h6>
+                        </div>
+                        <div class="col-12 col-sm-4 d-block ml-auto mr-auto">
+                            <a class="btn btn-primary" href="{{url('register')}}"
+                               style="width: 100%; font-family: unitext_bold_cursive">Registrarme</a>
+                        </div>
                     </div>
-                    <p class="subinfo" v-show="faqs.reto">
-                        Es un programa de transformación de 8 semanas en el cual
-                        se te dan las herramientas necesarias para lograr la mejor versión de
-                        ti en 56 días.
-                    </p>
                 </div>
-                <hr>
-                <div>
-                    <div @click="cambiarFaqs('diferente')" class="in-cursor">
-                        <h3 class="subtitle">¿QUÉ HACE DIFERENTE AL RETO ACTON DE LOS DEMÁS?</h3>
-                        <i :class="'fas fa-sort-'+(!faqs.diferente?'down':'up')+' float-right'"></i>
+                <div class="section info">
+                    <div>
+                        <h4 class="text-uppercase font-weight-bold">Preguntas frecuentes</h4>
+                        <br>
+                        <div @click="cambiarFaqs('reto')" class="in-cursor">
+                            <h3 class="subtitle">¿QUÉ ES EL RETO ACTON?</h3>
+                            <i :class="'fas fa-sort-'+(!faqs.reto?'down':'up')+' float-right'"></i>
+                        </div>
+                        <p class="subinfo" v-show="faqs.reto">
+                            Es un programa de transformación de 8 semanas en el cual
+                            se te dan las herramientas necesarias para lograr la mejor versión de
+                            ti en 56 días.
+                        </p>
                     </div>
-                    <p class="subinfo" v-show="faqs.diferente">
-                        A diferencia de otros programas donde se les da una misma dieta a
-                        todos los participantes, en el RETO ACTON el plan de alimentación es
-                        específicamente planeado para ti, es decir, nunca será igual al de algún otro participante. Además este reto te da la oportunidad de ganar
-                        dinero diariamente, es decir, todos pueden obtener premios en efectivo. ¡Aquí todos ganan!
-                        También habrá un grupo privado de Facebook donde podrás interactuar con otros participantes y ayudarse unos con otros para mantener
-                        la motivación.
-                    </p>
-                </div>
-                <hr>
-                <div>
-                    <div @click="cambiarFaqs('dinero')" class="in-cursor">
-                        <h3 class="subtitle">
-                            ¿CUÁNTO DINERO PUEDO GENERAR EN EL RETO ACTON?
-                        </h3>
-                        <i :class="'fas fa-sort-'+(!faqs.dinero?'down':'up')+' float-right'"></i>
+                    <hr>
+                    <div>
+                        <div @click="cambiarFaqs('diferente')" class="in-cursor">
+                            <h3 class="subtitle">¿QUÉ HACE DIFERENTE AL RETO ACTON DE LOS DEMÁS?</h3>
+                            <i :class="'fas fa-sort-'+(!faqs.diferente?'down':'up')+' float-right'"></i>
+                        </div>
+                        <p class="subinfo" v-show="faqs.diferente">
+                            A diferencia de otros programas donde se les da una misma dieta a
+                            todos los participantes, en el RETO ACTON el plan de alimentación es
+                            específicamente planeado para ti, es decir, nunca será igual al de algún otro participante. Además este reto te da la oportunidad de ganar
+                            dinero diariamente, es decir, todos pueden obtener premios en efectivo. ¡Aquí todos ganan!
+                            También habrá un grupo privado de Facebook donde podrás interactuar con otros participantes y ayudarse unos con otros para mantener
+                            la motivación.
+                        </p>
                     </div>
-                    <p class="subinfo" v-show="faqs.dinero">
-                        Lo que tú te propongas, no hay límite.
-                        Recuerda que con cada inscrito que viene de tu parte se te premia con $500 MXN
-                    </p>
-                </div>
-                <hr>
-                <div>
-                    <div @click="cambiarFaqs('finalizar')" class="in-cursor">
-                        <h3 class="subtitle">¿QUÉ PASA AL FINALIZAR EL RETO ACTON?</h3>
-                        <i :class="'fas fa-sort-'+(!faqs.finalizar?'down':'up')+' float-right'"></i>
+                    <hr>
+                    <div>
+                        <div @click="cambiarFaqs('dinero')" class="in-cursor">
+                            <h3 class="subtitle">
+                                ¿CUÁNTO DINERO PUEDO GENERAR EN EL RETO ACTON?
+                            </h3>
+                            <i :class="'fas fa-sort-'+(!faqs.dinero?'down':'up')+' float-right'"></i>
+                        </div>
+                        <p class="subinfo" v-show="faqs.dinero">
+                            Lo que tú te propongas, no hay límite.
+                            Recuerda que con cada inscrito que viene de tu parte se te premia con $500 MXN
+                        </p>
                     </div>
-                    <p class="subinfo" v-show="faqs.finalizar">
-                        Otra de las ventajas que tienes en el RETO ACTON es que, una vez
-                        que lo finalizas tienes la oportunidad de obtener un seguimiento
-                        mensual y así mantener los avances y seguir mejorando
-                    </p>
-                </div>
-                <hr>
-                <div>
-                    <div @click="cambiarFaqs('dudas')" class="in-cursor">
-                        <h3 class="subtitle">¿HABRÁ QUIÉN ME RESUELVA DUDAS?</h3>
-                        <i :class="'fas fa-sort-'+(!faqs.dudas?'down':'up')+' float-right'"></i>
+                    <hr>
+                    <div>
+                        <div @click="cambiarFaqs('finalizar')" class="in-cursor">
+                            <h3 class="subtitle">¿QUÉ PASA AL FINALIZAR EL RETO ACTON?</h3>
+                            <i :class="'fas fa-sort-'+(!faqs.finalizar?'down':'up')+' float-right'"></i>
+                        </div>
+                        <p class="subinfo" v-show="faqs.finalizar">
+                            Otra de las ventajas que tienes en el RETO ACTON es que, una vez
+                            que lo finalizas tienes la oportunidad de obtener un seguimiento
+                            mensual y así mantener los avances y seguir mejorando
+                        </p>
                     </div>
-                    <p class="subinfo" v-show="faqs.dudas">
-                        Sí, contamos con soporte para aclarar tus dudas, el cual estará disponible de lunes a viernes de 9:00 am a 6:00 pm y sábados de 10:00
-                        am a 2:00 pm
-                    </p>
-                </div>
-                <hr>
-                <div>
-                    <div @click="cambiarFaqs('mundo')" class="in-cursor">
-                        <h3 class="subtitle">
-                            ¿PUEDO INSCRIBIRME DESDE CUALQUIER PARTE DEL MUNDO?
-                        </h3>
-                        <i :class="'fas fa-sort-'+(!faqs.mundo?'down':'up')+' float-right'"></i>
+                    <hr>
+                    <div>
+                        <div @click="cambiarFaqs('dudas')" class="in-cursor">
+                            <h3 class="subtitle">¿HABRÁ QUIÉN ME RESUELVA DUDAS?</h3>
+                            <i :class="'fas fa-sort-'+(!faqs.dudas?'down':'up')+' float-right'"></i>
+                        </div>
+                        <p class="subinfo" v-show="faqs.dudas">
+                            Sí, contamos con soporte para aclarar tus dudas, el cual estará disponible de lunes a viernes de 9:00 am a 6:00 pm y sábados de 10:00
+                            am a 2:00 pm
+                        </p>
                     </div>
-                    <p class="subinfo" v-show="faqs.mundo">
-                        Sí, como el programa es 100% en línea puedes empezarlo desde
-                        cualquier lugar.
-                    </p>
+                    <hr>
+                    <div>
+                        <div @click="cambiarFaqs('mundo')" class="in-cursor">
+                            <h3 class="subtitle">
+                                ¿PUEDO INSCRIBIRME DESDE CUALQUIER PARTE DEL MUNDO?
+                            </h3>
+                            <i :class="'fas fa-sort-'+(!faqs.mundo?'down':'up')+' float-right'"></i>
+                        </div>
+                        <p class="subinfo" v-show="faqs.mundo">
+                            Sí, como el programa es 100% en línea puedes empezarlo desde
+                            cualquier lugar.
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
     </template>
 @endsection
 

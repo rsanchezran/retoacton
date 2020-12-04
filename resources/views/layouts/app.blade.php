@@ -99,12 +99,12 @@
                                 <i class="far fa-running"></i> Actividades</a>
                         @endif
                         @if(\Illuminate\Support\Facades\Auth::user()!=null && \Illuminate\Support\Facades\Auth::user()->vencido)
-                                <button id="breathPC" class="nav-link btn btn-sm btn-warning ld x2 ld-breath" data-toggle="modal" data-target="#terminoModal">
-                                    <i class="far fa-exclamation-triangle"></i>
-                                    <span>Reto concluído</span>
-                                    <br>
-                                    <span class="small">(Ver video)</span>
-                                </button>
+                            <button id="breathPC" class="nav-link btn btn-sm btn-warning ld x2 ld-breath" data-toggle="modal" data-target="#terminoModal">
+                                <i class="far fa-exclamation-triangle"></i>
+                                <span>Reto concluído</span>
+                                <br>
+                                <span class="small">(Ver video)</span>
+                            </button>
                         @endif
                         @if(\Illuminate\Support\Facades\Auth::user()->rol==\App\Code\RolUsuario::ADMIN)
                             <li class="nav-item dropdown">
@@ -123,30 +123,46 @@
                                         <i class="far fa-users"></i> Contactos</a>
                                     <a class="dropdown-item" href="{{ url('/usuarios/') }}">
                                         <i class="far fa-clipboard-list"></i> Usuarios</a>
+                                    <a class="dropdown-item" href="{{ url('/configuracion/registro-tiendas') }}">
+                                        <i class="fas fa-dumbbell"></i> Tiendas/GYM</a>
+                                    <a class="dropdown-item" href="{{ url('/configuracion/generar-codigo') }}">
+                                        <i class="fas fa-hashtag"></i> Generar codigo</a>
+                                </div>
+                            </li>
+                        @endif
+                        @if(\Illuminate\Support\Facades\Auth::user()->rol==\App\Code\RolUsuario::TIENDA)
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="far fa-cogs"></i> Configuración
+                                </a>
+                                <div class="dropdown-menu" aria-lab elledby="administracion">
+                                    <a class="dropdown-item" href="{{ url('/configuracion/generar-codigo') }}">
+                                        <i class="fas fa-hashtag"></i> Generar codigo</a>
                                 </div>
                             </li>
                         @endif
                         @if(\Illuminate\Support\Facades\Auth::user()->rol==\App\Code\RolUsuario::ADMIN)
                             <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-poll-h"></i> Encuesta
-                            </a>
-                            <div class="dropdown-menu" aria-lab elledby="administracion">
-                                <a class="dropdown-item" href="{{ url('/encuesta') }}">
-                                    <i class="far fa-poll-h"></i> Encuesta</a>
-                                <a class="dropdown-item" href="{{ url('/reto/dia/1/0/0') }}">
-                                    <i class="far fa-clipboard-list"></i> Dieta 1</a>
-                                <a class="dropdown-item" href="{{ url('/reto/dia/15/0/0') }}">
-                                    <i class="far fa-clipboard-list"></i> Dieta 2</a>
-                                <a class="dropdown-item" href="{{ url('/reto/dia/29/0/0') }}">
-                                    <i class="far fa-clipboard-list"></i> Dieta 3</a>
-                                <a class="dropdown-item" href="{{ url('/reto/dia/43/0/0') }}">
-                                    <i class="far fa-clipboard-list"></i> Dieta 4</a>
-                            </div>
-                        </li>
+                                <a class="nav-link dropdown-toggle" href="#" role="button"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-poll-h"></i> Encuesta
+                                </a>
+                                <div class="dropdown-menu" aria-lab elledby="administracion">
+                                    <a class="dropdown-item" href="{{ url('/encuesta') }}">
+                                        <i class="far fa-poll-h"></i> Encuesta</a>
+                                    <a class="dropdown-item" href="{{ url('/reto/dia/1/0/0') }}">
+                                        <i class="far fa-clipboard-list"></i> Dieta 1</a>
+                                    <a class="dropdown-item" href="{{ url('/reto/dia/15/0/0') }}">
+                                        <i class="far fa-clipboard-list"></i> Dieta 2</a>
+                                    <a class="dropdown-item" href="{{ url('/reto/dia/29/0/0') }}">
+                                        <i class="far fa-clipboard-list"></i> Dieta 3</a>
+                                    <a class="dropdown-item" href="{{ url('/reto/dia/43/0/0') }}">
+                                        <i class="far fa-clipboard-list"></i> Dieta 4</a>
+                                </div>
+                            </li>
                         @endif
-                        @endguest
+                    @endguest
                 </ul>
 
                 <!-- Right Side Of Navbar -->

@@ -113,19 +113,19 @@
             template: '#contactos-template',
             props:['medios'],
             data:function () {
-              return {
-                  buscando:false,
-                  filtros:{
-                      email:'',
-                      nombres:'',
-                      medio:''
-                  },
-                  contactos:{
-                      data:[]
-                  },
-                  mensaje:'',
-                  contacto:{}
-              }
+                return {
+                    buscando:false,
+                    filtros:{
+                        email:'',
+                        nombres:'',
+                        medio:''
+                    },
+                    contactos:{
+                        data:[]
+                    },
+                    mensaje:'',
+                    contacto:{}
+                }
             },
             methods: {
                 loaded: function (contactos) {

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Categoria;
+use App\CodigosTienda;
 use App\Code\MedioContacto;
 use App\Code\TipoEjercicio;
 use App\Code\Utils;
@@ -12,6 +14,7 @@ use App\Contacto;
 use App\Dia;
 use App\Ejercicio;
 use App\Events\ProcesarVideoEvent;
+use App\Code\ValidarCorreo;
 use App\Notas;
 use App\Serie;
 use App\User;
@@ -22,6 +25,12 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Hash;
+
+use App\Code\TipoRespuesta;
+use App\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
 class ConfiguracionController extends Controller
 {
@@ -515,5 +524,187 @@ class ConfiguracionController extends Controller
     {
         $enviarCorreos = new EnviarCorreos();
         $enviarCorreos->handle();
+    }
+
+
+    public function agregarTienda(Request $request)
+    {
+        $medios = MedioContacto::all();
+        $usr = User::where('tipo_referencia', 2)->get();
+        return view('configuracion.tienda', ['medios' => $medios,'users' => $usr]);
+    }
+
+    public function saveContactoTienda(Request $request)
+    {
+        $id = null;
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|max:100|min:3|email',
+            'codigo' => 'max:7',
+        ], [
+            'email.required' => 'El correo electrónico es obligatorio',
+            'email.min' => 'Debe capturar minimo 3 caracteres en el correo electrónico',
+            'email.max' => 'Debe capturar máximo 100 caracteres en el correo electrónico',
+            'email.unique' => 'El correo ya ha sido registrado',
+            'email.email' => 'El formato no es válido en el correo electrónico',
+            'codigo.max' => 'La referencia debe tener 7 caracteres',
+        ]);
+        $validator->after(function ($validator) use ($request) {
+            if (ValidarCorreo::validarCorreo($request->email)) {
+                $validator->errors()->add("email", "El email debe tener formato correcto");
+            }
+        });
+        $validator->validate();
+        $email = trim($request->email);
+        $codigo = trim($request->codigo);
+        $usuario = User::withTrashed()->orderBy('created_at')->where('email', $email)->get()->last();
+        $cod = CodigosTienda::where('email', $email)->get()->last();
+        if ($usuario!=null&&$usuario->id==1&&$cod!=null){
+            $status = 'error';
+            $mensaje = 'Este usuario ya pertenece al RETO ACTON.';
+        }else{
+            $contacto = CodigosTienda::where("email", $email)->first();
+            if ($contacto == null) {
+                $contacto = new CodigosTienda();
+                $contacto->email = $email;
+                $contacto->codigo = $codigo;
+            }
+            $contacto->email = $email;
+            $contacto->codigo = $codigo;
+            $contacto->usuario_id_creador = Auth::id();
+            $contacto->save();
+            $mensaje = '';
+            $status = 'ok';
+            if ($usuario !== null) {
+                if ($usuario->deleted_at == null) {
+                    if ($usuario->inicio_reto == null) {
+                        $status = 'error';
+                        $mensaje = 'Este usuario ya pertenece al RETO ACTON.';
+                    } else {
+                        if (Carbon::parse($usuario->inicio_reto)->diffInDays(Carbon::now()) < intval($usuario->dias)) {
+                            $status = 'error';
+                            $mensaje = 'Este usuario ya pertenece al RETO ACTON.';
+                        }
+                    }
+                }
+            }else{
+                $contacto = User::withTrashed()->where("email", $email)->first();
+                if ($contacto == null) {
+                    $contacto = new User();
+                    $contacto->email = $email;
+                }
+                $contacto->name = $result = preg_replace('/\d/', '', $request->nombres);
+                $contacto->last_name = $request->apellidos;
+                $contacto->tipo_referencia = 2;
+                $contacto->deleted_at = null;
+                $contacto->password = Hash::make('acton'.$contacto->name);
+                $contacto->rol = 'tienda';
+                $contacto->encuestado = 1;
+                $contacto->pagado = 1;
+                $contacto->modo = 1;
+                $contacto->save();
+                $mensaje = '';
+                $status = 'ok';
+                if ($usuario !== null) {
+                    if ($usuario->deleted_at == null) {
+                        if ($usuario->inicio_reto == null) {
+                            $status = 'error';
+                            $mensaje = 'Este usuario ya pertenece al RETO ACTON.';
+                        } else {
+                            if (Carbon::parse($usuario->inicio_reto)->diffInDays(Carbon::now()) < intval($usuario->dias)) {
+                                $status = 'error';
+                                $mensaje = 'Este usuario ya pertenece al RETO ACTON.';
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return response()->json(['status' => $status, 'mensaje' => $mensaje]);
+    }
+
+    /*
+        public function saveContactoTienda(Request $request)
+        {
+            $id = null;
+            $validator = Validator::make($request->all(), [
+                'email' => 'required|max:100|min:3|email',
+            ], [
+                'nombres.required' => 'El nombre es obligatorio',
+                'nombres.min' => 'Debe capturar mínimo 2 caracteres en el nombre',
+                'nombres.max' => 'Debe capturar máximo 100 caracteres en el nombre',
+                'nombres.regex' => 'Debe capturar únicamente letras en el nombre',
+                'apellidos.required' => 'Los apellidos son obligatorios',
+                'apellidos.min' => 'Debe capturar mínimo 2 caracteres en los apellidos',
+                'apellidos.max' => 'Debe capturar máximo 100 caracteres en los apellidos',
+                'apellidos.regex' => 'Debe capturar únicamente letras en los apellidos',
+                'email.required' => 'El correo electrónico es obligatorio',
+                'email.min' => 'Debe capturar minimo 3 caracteres en el correo electrónico',
+                'email.max' => 'Debe capturar máximo 100 caracteres en el correo electrónico',
+                'email.unique' => 'El correo ya ha sido registrado',
+                'email.email' => 'El formato no es válido en el correo electrónico',
+            ]);
+            $validator->after(function ($validator) use ($request) {
+                if (ValidarCorreo::validarCorreo($request->email)) {
+                    $validator->errors()->add("email", "El email debe tener formato correcto");
+                }
+            });
+            $validator->validate();
+            $email = trim($request->email);
+            $usuario = User::withTrashed()->orderBy('created_at')->where('email', $email)->get()->last();
+            if ($usuario!=null&&$usuario->id==1){
+                $cobro = new \stdClass();
+                $cobro->original = 0;
+                $cobro->descuento = 0;
+                $cobro->monto = 0;
+                $status = 'error';
+                $mensaje = 'Este usuario ya pertenece al RETO ACTON.';
+            }else{
+                $contacto = User::withTrashed()->where("email", $email)->first();
+                if ($contacto == null) {
+                    $contacto = new User();
+                    $contacto->email = $email;
+                }
+                $contacto->name = $result = preg_replace('/\d/', '', $request->nombres);
+                $contacto->last_name = $request->apellidos;
+                $contacto->tipo_referencia = 2;
+                $contacto->deleted_at = null;
+                $contacto->password = Hash::make('acton'.$contacto->name);
+                $contacto->rol = 'tienda';
+                $contacto->save();
+                $mensaje = '';
+                $status = 'ok';
+                if ($usuario !== null) {
+                    if ($usuario->deleted_at == null) {
+                        if ($usuario->inicio_reto == null) {
+                            $status = 'error';
+                            $mensaje = 'Este usuario ya pertenece al RETO ACTON.';
+                        } else {
+                            if (Carbon::parse($usuario->inicio_reto)->diffInDays(Carbon::now()) < intval($usuario->dias)) {
+                                $status = 'error';
+                                $mensaje = 'Este usuario ya pertenece al RETO ACTON.';
+                            }
+                        }
+                    }
+                }
+            }
+            return response()->json(['status' => $status, 'mensaje' => $mensaje]);
+        }*/
+
+    public function generarCodigo(Request $request)
+    {
+        $medios = MedioContacto::all();
+        $usr = CodigosTienda::where('usuario_id_creador', Auth::id())->get();
+        return view('configuracion.codigos', ['medios' => $medios,'codigos' => $usr]);
+    }
+
+    public function pagarTienda(Request $request)
+    {
+        $usr = User::where('id', $request->usuario)->get()->first();
+        error_log('USER');
+        error_log($usr);
+        $usr->ref_tienda_pagado += $usr->saldo;
+        $usr->saldo = 0;
+        $usr->save();
+        return response()->json(['status' => 'OK', 'mensaje' => '']);
     }
 }

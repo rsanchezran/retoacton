@@ -6,6 +6,7 @@ use App\Code\MedioContacto;
 use App\Code\TipoPago;
 use App\Code\TipoRespuesta;
 use App\Code\ValidarCorreo;
+use App\CodigosTienda;
 use App\Contacto;
 use App\Http\Controllers\Controller;
 use App\Pregunta;
@@ -92,12 +93,12 @@ class RegisterController extends Controller
             'telefono.integer' => 'No puede ingresar números negativos',
             'codigo.max' => 'La referencia debe tener 7 caracteres',
         ]);
-        $validator->after(function ($validator) use ($request) {
+        /*$validator->after(function ($validator) use ($request) {
             if (ValidarCorreo::validarCorreo($request->email)) {
                 $validator->errors()->add("email", "El email debe tener formato correcto");
             }
         });
-        $validator->validate();
+        $validator->validate();*/
         $email = trim($request->email);
         $usuario = User::withTrashed()->orderBy('created_at')->where('email', $email)->get()->last();
         if ($usuario!=null&&$usuario->id==1){
@@ -108,6 +109,8 @@ class RegisterController extends Controller
             $status = 'error';
             $mensaje = 'Este usuario ya pertenece al RETO ACTON.';
         }else{
+            error_log('AQUIIIIIIIIIIIIIII');
+            error_log($request->tipo);
             $contacto = Contacto::withTrashed()->where("email", $email)->first();
             if ($contacto == null) {
                 $contacto = new Contacto();
@@ -116,6 +119,7 @@ class RegisterController extends Controller
             }
             $contacto->nombres = $result = preg_replace('/\d/', '', $request->nombres);
             $contacto->apellidos = $request->apellidos;
+            $contacto->fill(['dias' => $request->tipo]);
             $contacto->telefono = $request->telefono;
             $contacto->medio = $request->medio;
             $contacto->codigo = $request->codigo;
@@ -133,7 +137,7 @@ class RegisterController extends Controller
                         $status = 'error';
                         $mensaje = 'Este usuario ya pertenece al RETO ACTON.';
                     } else {
-                        if (Carbon::parse($usuario->inicio_reto)->diffInDays(Carbon::now()) < intval(env('DIAS'))) {
+                        if (Carbon::parse($usuario->inicio_reto)->diffInDays(Carbon::now()) < intval($usuario->dias)) {
                             $status = 'error';
                             $mensaje = 'Este usuario ya pertenece al RETO ACTON.';
                         }
@@ -142,7 +146,7 @@ class RegisterController extends Controller
             }
         }
         return response()->json(['status' => $status, 'original' => $cobro->original, 'descuento' => $cobro->descuento,
-            'monto' => $cobro->monto, 'mensaje' => $mensaje]);
+            'monto' => $cobro->monto, 'mensaje' => $mensaje, 'fecha' => $contacto->created_at, 'horas' => $cobro->horas]);
     }
 
     public function saveObjetivo(Request $request)
@@ -214,17 +218,35 @@ class RegisterController extends Controller
 
     public function buscarReferencia($referencia)
     {
-        $user = User::select('name', 'last_name','id','num_inscripciones','inicio_reto')->where('referencia', $referencia)
+        $user = User::where('referencia', $referencia)
             ->where('id','!=',1)->get()->first();
-        if ($user == null) {
+        if (!$user) {
+            error_log('BBBB');
             abort(403, 'Unauthorized action.');
         }else{
             $user->isVencido();
             if ($user->vencido){
+                error_log('AAAA');
                 abort(403, 'Unauthorized action.');
             }
         }
         return response()->json(['usuario' => $user->name . ' ' . $user->last_name]);
+    }
+
+    public function buscarReferenciaTienda($referencia, $email)
+    {
+        $user = CodigosTienda::where('codigo', $referencia)->where('email', $email)
+            ->where('id','!=',1)->get()->first();
+
+        if (!$user) {
+            error_log('BBBB');
+            abort(403, 'Unauthorized action.');
+        }
+
+        $user = User::where('id', $user->usuario_id_creador)->first();
+
+        return response()->json(['usuario' => $user->name . ' ' .
+            $user->last_name]);
     }
 
     public function unsuscribe($email)
