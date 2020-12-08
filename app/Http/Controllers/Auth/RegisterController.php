@@ -231,6 +231,22 @@ class RegisterController extends Controller
         return response()->json(['usuario' => $user->name . ' ' . $user->last_name]);
     }
 
+    public function buscarReferenciaTienda($referencia, $email)
+    {
+        $user = CodigosTienda::where('codigo', $referencia)->where('email', $email)
+            ->where('id','!=',1)->get()->first();
+
+        if (!$user) {
+            error_log('BBBB');
+            abort(403, 'Unauthorized action.');
+        }
+
+        $user = User::where('id', $user->usuario_id_creador)->first();
+
+        return response()->json(['usuario' => $user->name . ' ' .
+            $user->last_name]);
+    }
+
     public function unsuscribe($email)
     {
         $contacto = Contacto::where('email', $email)->first();
