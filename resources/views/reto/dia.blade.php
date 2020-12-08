@@ -181,7 +181,7 @@
                             <select class="selectpicker" v-model="semana" @change="mostrarSemana(semana)">
                                 <option v-for="s in p_semana" :value="s">Semana @{{ s }}</option>
                             </select>
-                            <button v-if="maximo>=semana * dias.length" class="btn btn-sm btn-light mt-2"
+                            <button class="btn btn-sm btn-light mt-2"
                                     @click="mostrarSemana(semana+1)">
                                 <i class="fa fa-arrow-right"></i>
                             </button>
