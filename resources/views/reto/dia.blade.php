@@ -173,19 +173,9 @@
                     <div>
                         <h4 class="comida">Calendario</h4>
                         <div class="d-flex m-auto col-12 col-sm-6">
-                            <button v-if="semana>1" class="btn btn-sm btn-light" @click="mostrarSemana(semana-1)">
-                                <i v-if="semana>1" class="fa fa-arrow-left"></i>
-                                <i v-else></i>
-                            </button>
-                            <i v-else></i>
                             <select class="selectpicker" v-model="semana" @change="mostrarSemana(semana)">
                                 <option v-for="s in p_semana" :value="s">Semana @{{ s }}</option>
                             </select>
-                            <button class="btn btn-sm btn-light mt-2"
-                                    @click="mostrarSemana(semana+1)">
-                                <i class="fa fa-arrow-right"></i>
-                            </button>
-                            <i v-else></i>
                         </div>
                         <div class="d-flex flex-wrap ">
                             <div v-for="d in dias" class="dia" @click="getDia(((semana-1)*7)+d)">
