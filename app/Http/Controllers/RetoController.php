@@ -264,6 +264,7 @@ class RetoController extends Controller
         //$diasReto = intval(env('DIAS2'));
         $diasRetoOriginal = intval($user->dias);
         $diasReto = intval($user->dias);
+        error_log('ERRRRRRRRROOOOOOOORRRRR', $diasReto);
 
         $inicioReto = Carbon::parse($user->inicio_reto)->startOfDay();
         if ($user->num_inscripciones > 1) {
