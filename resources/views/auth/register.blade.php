@@ -968,6 +968,16 @@
                     </div>
                 </div>
 
+
+                <img src="{{asset('images/imagesremodela/metodos.png')}}" id="metodos" style="width: 26%;margin-top: 50px;margin-bottom: 50px;margin-left:0%;">
+
+                <div class="pasarelas">
+                    <h6 style="color: #000;">Estas son las formas de realizar tu pago de manera segura</h6>
+                    <cobro ref="cobro" :cobro="''+monto" :url="'{{url('/')}}'" :id="'{{env('OPENPAY_ID')}}'"
+                           :llave="'{{env('CONEKTA_PUBLIC')}}'" :sandbox="'{{env('SANDBOX')}}'==true" :meses="true"
+                           @terminado="terminado"></cobro>
+                </div>
+
                 <div>
                     <div id="" class="" style="padding-top:100px; padding-bottom:10px;">
                         <div id="testtitulo" class="">
@@ -977,16 +987,6 @@
                              style="margin-bottom:40px">
                         </div>
                     </div>
-                </div>
-
-
-                <img src="{{asset('images/imagesremodela/metodos.png')}}" id="metodos" style="width: 26%;margin-top: 50px;margin-bottom: 50px;margin-left:0%;">
-
-                <div class="pasarelas">
-                    <h6 style="color: #000;">Estas son las formas de realizar tu pago de manera segura</h6>
-                    <cobro ref="cobro" :cobro="''+monto" :url="'{{url('/')}}'" :id="'{{env('OPENPAY_ID')}}'"
-                           :llave="'{{env('CONEKTA_PUBLIC')}}'" :sandbox="'{{env('SANDBOX')}}'==true" :meses="true"
-                           @terminado="terminado"></cobro>
                 </div>
             </div>
 
