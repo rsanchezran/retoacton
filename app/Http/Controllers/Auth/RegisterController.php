@@ -6,6 +6,7 @@ use App\Code\MedioContacto;
 use App\Code\TipoPago;
 use App\Code\TipoRespuesta;
 use App\Code\ValidarCorreo;
+use App\CodigosTienda;
 use App\Contacto;
 use App\Http\Controllers\Controller;
 use App\Pregunta;
@@ -92,12 +93,12 @@ class RegisterController extends Controller
             'telefono.integer' => 'No puede ingresar números negativos',
             'codigo.max' => 'La referencia debe tener 7 caracteres',
         ]);
-        $validator->after(function ($validator) use ($request) {
+        /*$validator->after(function ($validator) use ($request) {
             if (ValidarCorreo::validarCorreo($request->email)) {
                 $validator->errors()->add("email", "El email debe tener formato correcto");
             }
         });
-        $validator->validate();
+        $validator->validate();*/
         $email = trim($request->email);
         $usuario = User::withTrashed()->orderBy('created_at')->where('email', $email)->get()->last();
         if ($usuario!=null&&$usuario->id==1){
@@ -108,6 +109,8 @@ class RegisterController extends Controller
             $status = 'error';
             $mensaje = 'Este usuario ya pertenece al RETO ACTON.';
         }else{
+            error_log('AQUIIIIIIIIIIIIIII');
+            error_log($request->tipo);
             $contacto = Contacto::withTrashed()->where("email", $email)->first();
             if ($contacto == null) {
                 $contacto = new Contacto();
@@ -116,6 +119,7 @@ class RegisterController extends Controller
             }
             $contacto->nombres = $result = preg_replace('/\d/', '', $request->nombres);
             $contacto->apellidos = $request->apellidos;
+            $contacto->fill(['dias' => $request->tipo]);
             $contacto->telefono = $request->telefono;
             $contacto->medio = $request->medio;
             $contacto->codigo = $request->codigo;

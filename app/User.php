@@ -113,7 +113,7 @@ class User extends Authenticatable
         $compra->usuario_id = $usuario->id;
         $compra->save();
         $mensaje = new \stdClass();
-        $mensaje->subject = "Bienvenido al Reto Acton de 8 semanas";
+        $mensaje->subject = "Bienvenido al Reto Acton";
         $mensaje->pass = $pass;
         try {
             Mail::queue(new Registro($usuario, $mensaje));
