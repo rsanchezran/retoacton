@@ -177,6 +177,11 @@
                                 <option v-for="s in p_semana" :value="s">Semana @{{ s }}</option>
                             </select>
                         </div>
+                        <div class="d-flex flex-wrap ">
+                            <div v-for="d in 7" class="dia" @click="getDia(((semana-1)*7)+d)">
+                                <a @click="getDia(((semana-1)*7)+d )">@{{ ((semana-1)*7)+d }}</a>
+                            </div>
+                        </div>
                     </div>
             </div>
             <modal ref="modal" :showfooter="false" :btncerrar="true" :title="tituloModal">
@@ -199,7 +204,7 @@
             data: function () {
                 return {
                     dia: {},
-                    dias: {},
+                    dias: 0,
                     url: '',
                     lugar: false,
                     ejercicios: [],
