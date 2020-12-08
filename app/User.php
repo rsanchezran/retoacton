@@ -113,7 +113,7 @@ class User extends Authenticatable
         $compra->usuario_id = $usuario->id;
         $compra->save();
         $mensaje = new \stdClass();
-        $mensaje->subject = "Bienvenido al Reto Acton";
+        $mensaje->subject = "Bienvenido al Reto Acton de 8 semanas";
         $mensaje->pass = $pass;
         try {
             Mail::queue(new Registro($usuario, $mensaje));
@@ -130,19 +130,27 @@ class User extends Authenticatable
         $dias = Contacto::where('email', $email)->first();
         $referenciado = $codigo == '' ? null : User::where('referencia', $codigo)->where('id', '!=', 1)->first();
         if(intval($dias->dias) == 14){
-            $monto = 600;
-            $descuento = 25;
+            //$monto = 600;
+            //$descuento = 25;
+            $monto = 15;
+            $descuento = 0;
         }elseif (intval($dias->dias) == 28) {
-            $monto = 1000;
-            $descuento = 35;
+            //$monto = 1000;
+            //$descuento = 35;
+            $monto = 15;
+            $descuento = 0;
         }elseif (intval($dias->dias) == 56) {
-            $monto = 2000;
-            $descuento = 40;
+            //$monto = 2000;
+            //$descuento = 40;
+            $monto = 15;
+            $descuento = 0;
         }elseif (intval($dias->dias) == 84) {
-            $monto = 3000;
-            $descuento = 50;
+            //$monto = 3000;
+            //$descuento = 50;
+            $monto = 15;
+            $descuento = 0;
         }
-        $monto = intval(env('COBRO_ORIGINAL'));
+        //$monto = intval(env('COBRO_ORIGINAL'));
         if ($created_at == null || $deleted_at != null) {
             if ($referenciado == null) {
                 if ($created_at == null) {
@@ -198,6 +206,7 @@ class User extends Authenticatable
             $compra->monto = $monto;
             $compra->descuento = 0;
         }
+
         if ((20-$horas) > 0) {
             $compra->horas = 20 - $horas;
         }else{
