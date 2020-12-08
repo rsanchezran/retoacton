@@ -64,7 +64,7 @@ class EnviarCorreos extends Command
         foreach ($usuarios as $usuario) {
             $pass = Utils::generarRandomString();
             $mensaje = new \stdClass();
-            $mensaje->subject = "Bienvenido al Reto Acton de 8 semanas";
+            $mensaje->subject = "Bienvenido al Reto Acton";
             $mensaje->pass = $pass;
             try {
                 $usuario->password = $pass;

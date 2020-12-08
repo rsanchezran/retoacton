@@ -35,7 +35,7 @@
             <tbody>
             <tr class="header" >
                 <td>
-                    <img alt="poster" width="250" src="{{env('APP_URL')}}/images/postergris.png" />
+                    <img alt="poster" width="250" src="{{env('APP_URL')}}/img/header.png" />
                 </td>
             </tr>
             <tr>
