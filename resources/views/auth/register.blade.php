@@ -1,6 +1,10 @@
 @extends('layouts.welcome')
 @section('header')
     <style>
+        #infoPago label {
+            margin-bottom: 0;
+            font-size: 35px !important;
+        }
         .form-control {
             border: 0;
             border-radius: 0;
@@ -230,7 +234,9 @@
             background-image: url('{{asset('img/logo reto.png')}}');
             background-repeat: no-repeat;
             background-size: 150px;
-            background-position: top right
+            background-position: top right;
+            width: 108.4%;
+            margin-left: -4.3%;
         }
 
         .modo{
@@ -659,25 +665,28 @@
             font-size: 94px;
             color: white;
             position: absolute;
-            letter-spacing: 26px;
-            margin-left: 18px;
+            letter-spacing: 25px;
+            margin-left: 8px;
             margin-top: -19px;
+            font-variant-numeric: tabular-nums;
         }
         .minreloj{
             font-size: 94px;
             color: white;
             position: absolute;
-            letter-spacing: 29px;
-            margin-left: 12px;
+            letter-spacing: 25px;
+            margin-left: 8px;
             margin-top: -19px;
+            font-variant-numeric: tabular-nums;
         }
         .segundoreloj{
             font-size: 94px;
             color: white;
             position: absolute;
             letter-spacing: 25px;
-            margin-left: 13px;
+            margin-left: 8px;
             margin-top: -19px;
+            font-variant-numeric: tabular-nums;
         }
 
         @media only screen and (max-width: 1000px) {
@@ -897,9 +906,8 @@
                 </div>
                 <div style="margin-top: 40px;">
                     <div style="margin-top:60px; margin-bottom: 70px">
-                        <img src="{{asset("images/imagesremodela/ultimodia.png")}}" width="100%" id="ultimodia" style="width: 50%;">
                         <img src="{{asset("images/imagesremodela/50personas.png")}}" width="100%" id="50personas" style="width: 50%;">
-                        <img src="{{asset("images/imagesremodela/ultimashoras.png")}}" width="100%" id="ultimashoras" style="width: 50%;">
+                        <img src="{{asset("images/imagesremodela/ultimosdias.png")}}" width="100%" id="ultimosdias" style="width: 50%;">
                     </div>
                 </div>
                 <div v-show="mensaje!=''">
@@ -930,18 +938,10 @@
                         </div>
                     </div>
                     <br>
-
-                    <img src="{{asset('images/imagesremodela/metodos.png')}}" id="metodos" style="width: 26%;margin-top: 50px;margin-bottom: 50px;margin-left:0%;">
-                    <div class="pasarelas">
-                        <h6 style="color: #000;">Estas son las formas de realizar tu pago de manera segura</h6>
-                        <cobro ref="cobro" :cobro="''+monto" :url="'{{url('/')}}'" :id="'{{env('OPENPAY_ID')}}'"
-                               :llave="'{{env('CONEKTA_PUBLIC')}}'" :sandbox="'{{env('SANDBOX')}}'==true" :meses="true"
-                               @terminado="terminado"></cobro>
-                    </div>
                 </div>
                 <br>
-                <div id="apps">
-                    <div class="horasrestantes" style="display: inline;">
+                <div id="apps" v-if="this.informacion.tipo == 14 || this.informacion.tipo == 84">
+                    <div  v-if="hr" class="horasrestantes" style="display: inline;">
                         <div class="horas" style="display: inline;">
                             <span class="horareloj" style="">@{{hr}}</span>
                             <img src="images/imagesremodela/nhoras.png" style="width:15%;">
@@ -962,12 +962,14 @@
                     <div style="margin-top:60px; margin-bottom: 70px">
                         <img src="{{asset("images/imagesremodela/ultimashoras1.png")}}" width="100%" id="ultimashoras1" style="width: 100%;margin-left: -2.7%;">
                         <img src="{{asset("images/imagesremodela/ultimodia1.png")}}" width="100%" id="ultimodia1" style="width: 50%;">
-                        <img src="{{asset("images/imagesremodela/ultimosdias.png")}}" width="100%" id="ultimosdias" style="width: 50%;">
+                        <img src="{{asset("images/imagesremodela/ultimodia.png")}}" width="100%" id="ultimodia" style="width: 100%;margin-left: -2.7%;">
+                        <img src="{{asset("images/imagesremodela/ultimashoras.png")}}" width="100%" id="ultimashoras" style="width: 50%;">
+                        <div v-if="this.informacion.tipo == 14" class="text-center text-danger" id="soloquedan"><h2>Quedan sólo 3 lugares</h2></div>
                     </div>
                 </div>
 
                 <div>
-                    <div id="test" class="marino" style="padding-top:100px; padding-bottom:10px;">
+                    <div id="" class="" style="padding-top:100px; padding-bottom:10px;">
                         <div id="testtitulo" class="">
                             <img src="{{asset('img/historias_exito.jpg')}}" width="100%">
                         </div>
@@ -975,6 +977,16 @@
                              style="margin-bottom:40px">
                         </div>
                     </div>
+                </div>
+
+
+                <img src="{{asset('images/imagesremodela/metodos.png')}}" id="metodos" style="width: 26%;margin-top: 50px;margin-bottom: 50px;margin-left:0%;">
+
+                <div class="pasarelas">
+                    <h6 style="color: #000;">Estas son las formas de realizar tu pago de manera segura</h6>
+                    <cobro ref="cobro" :cobro="''+monto" :url="'{{url('/')}}'" :id="'{{env('OPENPAY_ID')}}'"
+                           :llave="'{{env('CONEKTA_PUBLIC')}}'" :sandbox="'{{env('SANDBOX')}}'==true" :meses="true"
+                           @terminado="terminado"></cobro>
                 </div>
             </div>
 
@@ -1122,6 +1134,7 @@
                     hr: '',
                     min: '',
                     seg: '',
+                    mostrarReloj: true,
                 }
             },
             computed: {
@@ -1155,6 +1168,7 @@
                     $("#ultimosdias").hide();
                     $("#ultimodia1").hide();
                     $("#ultimodia").hide();
+                    $(".soloquedan").hide();
                     if(d == 2){
                         $("#imgreto").attr('src', 'images/imagesremodela/reto2.png');
                         $("#descripcionsemanas").attr('src', 'images/imagesremodela/2semanas.png');
@@ -1162,12 +1176,14 @@
                     if(d == 4){
                         $("#imgreto").attr('src', 'images/imagesremodela/reto4.png');
                         $("#descripcionsemanas").attr('src', 'images/imagesremodela/4semans.png');
+                        $(".soloquedan").show();
                     }
                     if(d == 8){
                         $("#imgreto").attr('src', 'images/imagesremodela/reto8.png');
                         $("#descripcionsemanas").attr('src', 'images/imagesremodela/8semanas.png');
                     }
                     if(d == 12){
+                        $("#ultimashoras").show();
                         $("#imgreto").attr('src', 'images/imagesremodela/reto12.png');
                         $("#descripcionsemanas").attr('src', 'images/imagesremodela/12semanas.png');
                     }
@@ -1226,10 +1242,7 @@
                     }
                     if(this.informacion.tipo == 56){
                         $("#ultimosdias").show();
-                    }
-                    if(this.informacion.tipo == 84){
                         $("#ultimodia").show();
-                        $("#ultimodia1").show();
                     }
                     let vm = this;
                     this.loading = true;
@@ -1260,8 +1273,25 @@
                                 vm.monto = response.data.monto;
                                 vm.descuento = response.data.descuento;
                                 vm.horas = response.data.horas;
-                                vm.horasdos = moment("2017-03-13 "+response.data.horas+':30');
-                                vm.date = moment("2017-03-13 "+response.data.horas+':30').format('HH:mm:ss')
+                                if(response.data.horas > 0) {
+                                    vm.horasdos = moment("2017-03-13 " + response.data.horas + ':30');
+                                    vm.date = moment("2017-03-13 " + response.data.horas + ':30').format('HH:mm:ss')
+
+
+                                    setInterval(() => {
+                                        vm.horasdos = moment(vm.horasdos.subtract(1, 'seconds'));
+                                        vm.date = moment(vm.horasdos).format('HH:mm:ss');
+                                        vm.hr = moment(vm.horasdos).format('HH');
+                                        vm.min = moment(vm.horasdos).format('mm');
+                                        vm.seg = moment(vm.horasdos).format('ss');
+                                        if (vm.seg == 1){
+                                            var myBurger = document.querySelector('.segundos');
+                                            myBurger.classList.toggle('is-active');
+                                        }
+                                    }, 1500);
+
+                                }
+
                                 vm.$refs.cobro.configurar(
                                     vm.informacion.nombres,
                                     vm.informacion.apellidos,
@@ -1271,14 +1301,6 @@
                                 );
 
 
-
-                                setInterval(() => {
-                                    vm.horasdos = moment(vm.horasdos.subtract(1, 'seconds'));
-                                    vm.date = moment(vm.horasdos).format('HH:mm:ss');
-                                    vm.hr = moment(vm.horasdos).format('HH');
-                                    vm.min = moment(vm.horasdos).format('mm');
-                                    vm.seg = moment(vm.horasdos).format('ss');
-                                }, 1000);
 
 
                             }

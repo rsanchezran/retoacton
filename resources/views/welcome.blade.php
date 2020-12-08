@@ -72,16 +72,16 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            height: 350px;
+            height: 376px;
         }
 
         .feature .img {
-            height: 100%;
+            height: 376px;
         }
 
         .subinfo img {
             width: 100%;
-            height: 350px;
+            height: 376px;
         }
 
         .subinfo div{
@@ -99,7 +99,7 @@
             font-size: .7rem;
             font-family: unitext_light;
             flex-grow: 1;
-            height: 350px;
+            height: 376px;
         }
 
         #features .subtitle {
@@ -374,7 +374,7 @@
 
             @media only screen and (max-width: 800px) {
                 .feature .subinfo {
-                    height: 350px !important;
+                    height: 376px !important;
                 }
 
                 #testtitulo {

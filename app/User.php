@@ -70,7 +70,7 @@ class User extends Authenticatable
     {
         $pass = Utils::generarRandomString();
         $usuario = User::withTrashed()->where('email', $email)->first();
-        $contacto = Contacto::where('usuariemailo_id', $request->email)->get()->last();
+        $contacto = Contacto::where('email', $email)->get()->last();
         if ($usuario == null) {
             $usuario = User::create([
                 'name' => $nombre,
@@ -142,7 +142,7 @@ class User extends Authenticatable
             $monto = 3000;
             $descuento = 50;
         }
-        //$monto = intval(env('COBRO_ORIGINAL'));
+        $monto = intval(env('COBRO_ORIGINAL'));
         if ($created_at == null || $deleted_at != null) {
             if ($referenciado == null) {
                 if ($created_at == null) {
@@ -198,7 +198,11 @@ class User extends Authenticatable
             $compra->monto = $monto;
             $compra->descuento = 0;
         }
-        $compra->horas = 20-$horas;
+        if ((20-$horas) > 0) {
+            $compra->horas = 20 - $horas;
+        }else{
+            $compra->horas = 0;
+        }
 
         return $compra;
     }
