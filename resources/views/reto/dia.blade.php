@@ -173,9 +173,9 @@
                     <div>
                         <h4 class="comida">Calendario</h4>
                         <div class="d-flex m-auto col-12 col-sm-6">
-                            AQUI @{{this.diasReto}}
-                            <select class="selectpicker" v-model="semana" v-if="this.diasReto===14" @change="mostrarSemana(semana)">
-                                <option  v-for="s in 2" :value="s">Semana @{{ s }}</option>
+                            AQUI @{{semana}}
+                            <select class="selectpicker" v-model="semana" @change="mostrarSemana(semana)">
+                                <option  v-for="s in semana" :value="s">Semana @{{ s }}</option>
                             </select>
                         </div>
                         <div class="d-flex flex-wrap ">
