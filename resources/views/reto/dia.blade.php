@@ -173,7 +173,6 @@
                     <div>
                         <h4 class="comida">Calendario</h4>
                         <div class="d-flex m-auto col-12 col-sm-6">
-                            AQUI {{diasReto}}
                             <select class="selectpicker" v-model="semana" @change="mostrarSemana(semana)">
                                 <option  v-for="s in semana" :value="s">Semana @{{ s }}</option>
                             </select>
