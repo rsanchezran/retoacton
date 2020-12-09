@@ -347,7 +347,7 @@ class RetoController extends Controller
             $dias = $teoricos - ($diaInicial - 1);
         }
         return view('reto.cliente', ['dias' => $dias, 'semana' => $semana, 'maximo' => $diasTranscurridos,
-            'teoricos' => $teoricos]);
+            'teoricos' => $teoricos, 'diasReto' => $diasReto]);
     }
 
     public function getSemanaCliente(Request $request, $semana)
