@@ -251,7 +251,7 @@ class RetoController extends Controller
             $diaDB = Dia::buildDia($dia, $genero, $objetivo, $request->user(), $numDieta, $numSemanaSuplementacion);
             return view('reto.dia', ['dia' => $diaDB, 'genero' => $genero, 'objetivo' => $objetivo,
                 'dias' => $dias, 'lugar' => $user->modo, 'semana' => $semana, 'maximo' => $diasTranscurridos,
-                'teorico' => $teorico]);
+                'teorico' => $teorico, 'diasReto' => $diasReto]);
         }
     }
 

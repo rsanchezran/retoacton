@@ -82,7 +82,7 @@
     <div id="vue">
         <div class="container">
             <dia :p_dia="{{$dia}}" :genero="'{{$genero}}'" :objetivo="'{{$objetivo}}'" :p_dias="{{$dias}}"
-                 p_lugar="{{$lugar}}" :p_semana="{{$semana}}" :maximo="{{$maximo}}" :teorico="{{$teorico}}" ></dia>
+                 p_lugar="{{$lugar}}" :p_semana="{{$semana}}" :maximo="{{$maximo}}" :teorico="{{$teorico}}" :diasReto="{{$diasReto}}" ></dia>
         </div>
     </div>
 
@@ -174,7 +174,10 @@
                         <h4 class="comida">Calendario</h4>
                         <div class="d-flex m-auto col-12 col-sm-6">
                             <select class="selectpicker" v-model="semana" @change="mostrarSemana(semana)">
-                                <option v-for="s in p_semana+1" :value="s">Semana @{{ s }}</option>
+                                <option v-if="diasReto==14" v-for="s in 2" :value="s">Semana @{{ s }}</option>
+                                <option v-if="diasReto==28" v-for="s in 4" :value="s">Semana @{{ s }}</option>
+                                <option v-if="diasReto==56" v-for="s in 8" :value="s">Semana @{{ s }}</option>
+                                <option v-if="diasReto==84" v-for="s in 12" :value="s">Semana @{{ s }}</option>
                             </select>
                         </div>
                         <div class="d-flex flex-wrap ">
@@ -200,7 +203,7 @@
 
         Vue.component('dia', {
             template: '#dia-template',
-            props: ['p_dia', 'genero', 'objetivo','p_dias', 'p_lugar','p_semana', 'maximo', 'teorico'],
+            props: ['p_dia', 'genero', 'objetivo','p_dias', 'p_lugar','p_semana', 'maximo', 'teorico', 'diasReto'],
             data: function () {
                 return {
                     dia: {},
