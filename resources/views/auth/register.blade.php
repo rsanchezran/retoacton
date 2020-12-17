@@ -1057,58 +1057,37 @@
             .segundos img {
                 width: 40% !important;
             }
-            .horareloj{
-                font-size: 90px;
+            .horareloj {
+                font-size: 78px;
                 color: white;
                 position: absolute;
-                letter-spacing: 15px;
-                margin-left: 0px;
-                margin-top: -28px;
+                letter-spacing: 20px;
+                margin-left: 5px;
+                margin-top: -15px;
             }
             .minreloj {
-                font-size: 70px;
+                font-size: 78px;
                 color: white;
                 position: absolute;
-                letter-spacing: 26px;
+                letter-spacing: 20px;
                 margin-left: 29%;
                 margin-top: -15px;
             }
             .segundoreloj{
-                font-size: 70px;
+                font-size: 78px;
                 color: white;
                 position: absolute;
-                letter-spacing: 26px;
+                letter-spacing: 20px;
                 margin-left: 29%;
                 margin-top: -15px;
             }
-        }
-
-        @media only screen and (max-width: 360px) {
             #descripcionsemanas {
+                margin-left: -5.5%;
+                width: 117.5%;
             }
-            .horareloj{
-                font-size: 70px;
-                color: white;
-                position: absolute;
-                letter-spacing: 40px;
-                margin-left: 7px;
-                margin-top: -15px;
-            }
-            .minreloj{
-                font-size: 70px;
-                color: white;
-                position: absolute;
-                letter-spacing: 31px;
-                margin-left: 6px;
-                margin-top: -15px;
-            }
-            .segundoreloj{
-                font-size: 70px;
-                color: white;
-                position: absolute;
-                letter-spacing: 25px;
-                margin-left: 8px;
-                margin-top: -15px;
+            #testtitulo {
+                width: 117.2%;
+                margin-left: -6%;
             }
         }
 
