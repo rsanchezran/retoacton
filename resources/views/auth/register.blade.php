@@ -2,6 +2,9 @@
 @section('header')
     <style>
 
+        #pago {
+            background: #f6f6f6 !important;
+        }
 
         #pagar{
             width: 250px;
@@ -477,6 +480,10 @@
                     height: 300px !important;
                 }
 
+                .container {
+                    max-width: 100% !important;
+                }
+
                 #testtitulo {
                     background: none;
                 }
@@ -778,31 +785,43 @@
         @media only screen and (max-width: 768px) {
             #descripcionsemanas{
             }
+            .minutos img {
+                width: 60% !important;
+            }
+            .horas img {
+                width: 60% !important;
+            }
+            .segundos img {
+                width: 60% !important;
+            }
             .horareloj{
-                font-size: 40px;
-                letter-spacing: 20px;
-                margin-left: 7px;
-                margin-top: -10px;
+                font-size: 160px;
+                color: white;
+                position: absolute;
+                letter-spacing: 52px;
+                margin-left: 9px;
+                margin-top: -40px;
             }
             .minreloj{
-                font-size: 40px;
-                letter-spacing: 12px;
-                margin-left: 4px;
-                margin-top: -10px;
+                font-size: 160px;
+                color: white;
+                position: absolute;
+                letter-spacing: 52px;
+                margin-left: 105px;
+                margin-top: -40px;
+                display: block;
             }
             .segundoreloj{
-                font-size: 40px;
-                letter-spacing: 10px;
-                margin-left: 6px;
-                margin-top: -10px;
+                font-size: 160px;
+                color: white;
+                position: absolute;
+                letter-spacing: 52px;
+                margin-left: 105px;
+                margin-top: -40px;
+                display: block;
             }
-            #testtitulo{
-                width: 113.2%;
-                margin-left: -3.4%;
-            }
-            #descripcionsemanas{
-                margin-left: -3.5%;
-                width: 113.5%;
+            #ultimashoras{
+                width: 100% !important;
             }
         }
 
@@ -814,12 +833,12 @@
         @media only screen and (max-width: 550px) {
 
             #testtitulo{
-                width: 118.2%;
+                width: 113.2%;
                 margin-left: -5.4%;
             }
             #descripcionsemanas{
                 margin-left: -5.5%;
-                width: 118.5%;
+                width: 113.5%;
             }
 
         }
@@ -843,8 +862,8 @@
                 font-size: 90px;
                 color: white;
                 position: absolute;
-                letter-spacing: 40px;
-                margin-left: 17px;
+                letter-spacing: 30px;
+                margin-left: 9px;
                 margin-top: -19px;
             }
             .minreloj{
@@ -860,7 +879,7 @@
                 color: white;
                 position: absolute;
                 letter-spacing: 30px;
-                margin-left: 11px;
+                margin-left: 9px;
                 margin-top: -19px;
             }
         }
@@ -876,6 +895,42 @@
                 margin-left: -6.5%;
                 width: 120.5%;
             }
+            .minutos{
+                display: block !important;
+            }
+            .minutos img {
+                width: 40% !important;
+            }
+            .horas img {
+                width: 40% !important;
+            }
+            .segundos img {
+                width: 40% !important;
+            }
+            .horareloj{
+                font-size: 90px;
+                color: white;
+                position: absolute;
+                letter-spacing: 30px;
+                margin-left: 9px;
+                margin-top: -19px;
+            }
+            .minreloj{
+                font-size: 90px;
+                color: white;
+                position: absolute;
+                letter-spacing: 25px;
+                margin-left: 118px;
+                margin-top: -19px;
+            }
+            .segundoreloj{
+                font-size: 90px;
+                color: white;
+                position: absolute;
+                letter-spacing: 25px;
+                margin-left: 118px;
+                margin-top: -19px;
+            }
         }
 
         @media only screen and (max-width: 430px) {
@@ -886,6 +941,82 @@
             #descripcionsemanas{
                 margin-left: -6.5%;
                 width: 117.5%;
+            }
+        }
+
+        @media only screen and (max-width: 400px) {
+
+            .minutos{
+                display: block !important;
+            }
+            .minutos img {
+                width: 40% !important;
+            }
+            .horas img {
+                width: 40% !important;
+            }
+            .segundos img {
+                width: 40% !important;
+            }
+            .horareloj{
+                font-size: 90px;
+                color: white;
+                position: absolute;
+                letter-spacing: 30px;
+                margin-left: 4px;
+                margin-top: -19px;
+            }
+            .minreloj{
+                font-size: 90px;
+                color: white;
+                position: absolute;
+                letter-spacing: 25px;
+                margin-left: 109px;
+                margin-top: -19px;
+            }
+            .segundoreloj{
+                font-size: 90px;
+                color: white;
+                position: absolute;
+                letter-spacing: 25px;
+                margin-left: 109px;
+                margin-top: -19px;
+            }
+        }
+
+        @media only screen and (max-width: 360px) {
+            .minutos img {
+                width: 40% !important;
+            }
+            .horas img {
+                width: 40% !important;
+            }
+            .segundos img {
+                width: 40% !important;
+            }
+            .horareloj{
+                font-size: 90px;
+                color: white;
+                position: absolute;
+                letter-spacing: 15px;
+                margin-left: 0px;
+                margin-top: -28px;
+            }
+            .minreloj{
+                font-size: 90px;
+                color: white;
+                position: absolute;
+                letter-spacing: 15px;
+                margin-left: 99px;
+                margin-top: -28px;
+            }
+            .segundoreloj{
+                font-size: 90px;
+                color: white;
+                position: absolute;
+                letter-spacing: 15px;
+                margin-left: 99px;
+                margin-top: -28px;
             }
         }
 
@@ -1007,7 +1138,8 @@
                 </div>
                 <div style="margin-top: 40px;">
                     <div style="margin-top:0px; margin-bottom: 70px">
-                        <img src="{{asset("img/satisfaccion_total.png")}}" width="120%" style="margin-left: -10%;">
+                        <img src="{{asset("img/satisfaccion_total.png")}}" width="120%" style="margin-left: -10%;" id="satisfaccion_total_completo">
+                        <img src="{{asset("images/imagesremodela/satisfaccionmovil.png")}}" width="100%" style="margin-left: 0%;" id="satisfaccion_total_movil">
                     </div>
                 </div>
                 <div v-if="informacion.medio=='Por medio de un gimnasio o tienda de suplementos'">
@@ -1098,7 +1230,8 @@
                 <div>
                     <div id="" class="" style="padding-top:100px; padding-bottom:10px;">
                         <div id="testtitulo" class="">
-                            <img src="{{asset('img/historias_exito.jpg')}}" width="100%">
+                            <img src="{{asset('img/historias_exito.jpg')}}" width="100%" id="historiasexito">
+                            <img src="{{asset('images/imagesremodela/historiasmovil.png')}}" width="100%" id="historiasexitomovil">
                         </div>
                         <div class="col-10 col-sm-4 col-md-4 text-center d-block mr-auto ml-auto mt-8"
                              style="margin-bottom:40px">
@@ -1288,6 +1421,10 @@
                     $(".soloquedan").hide();
                     var width = $(window).width();
                     if (width > 800) {
+                        $("#satisfaccion_total_movil").hide();
+                        $("#satisfaccion_total_completo").show();
+                        $("#historiasexito").show();
+                        $("#historiasexitomovil").hide();
                         if (d == 2) {
                             $("#imgreto").attr('src', 'images/imagesremodela/reto2.png');
                             $("#descripcionsemanas").attr('src', 'images/imagesremodela/2semanas.png');
@@ -1307,7 +1444,10 @@
                             $("#descripcionsemanas").attr('src', 'images/imagesremodela/12semanas.png');
                         }
                     }else{
-                        alert(d);
+                        $("#satisfaccion_total_movil").show();
+                        $("#satisfaccion_total_completo").hide();
+                        $("#historiasexito").hide();
+                        $("#historiasexitomovil").show();
                         if (d == 2) {
                             $("#imgreto").attr('src', 'images/imagesremodela/reto2.png');
                             $("#descripcionsemanas").attr('src', 'images/imagesremodela/2movil.png');
