@@ -237,6 +237,7 @@
                             this.montopago = 4000
                         }
                     }
+                    this.montopago = 15;
                     this.saveDiasNuevo();
                 },
                 diasChange: function () {
@@ -271,6 +272,7 @@
                             this.montopago = 4000
                         }
                     }
+                    this.montopago = 15;
                     this.saveDiasNuevo();
                 },
                 saveDiasNuevo: function(){
