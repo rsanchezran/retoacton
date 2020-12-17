@@ -18,6 +18,9 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Validator;
 
+use App\Pregunta;
+use App\Respuesta;
+
 class RetoController extends Controller
 {
 
@@ -196,6 +199,13 @@ class RetoController extends Controller
         return "ok";
     }
 
+    /**
+     * @param Request $request
+     * @param $dia
+     * @param $genero
+     * @param $objetivo
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function dia(Request $request, $dia, $genero, $objetivo)
     {
         $user = $request->user();
@@ -248,6 +258,29 @@ class RetoController extends Controller
             $sem = $dia % 7 == 0 ? intval($dia / 7) : intval($dia / 7) + 1;
             $numDieta = $sem % 2 == 0 ? intval($sem / 2) : intval($sem / 2) + 1; //Se obtiene el numero de dieta con base en la cantidad de dias del reto
             $numSemanaSuplementacion = $sem % 4 == 0 ? intval($sem / 4) : intval($sem / 4) + 1;
+            $dietaCreada = UsuarioDieta::where('usuario_id', $user->id)->where('dieta', $numDieta)->count();
+            if ($dietaCreada==0){
+                $ignorar = collect();//Generar dieta
+                $preguntaAlimentos = Pregunta::where('pregunta', 'like', '%no quiero%')->get();
+                $respuestas = Respuesta::where('usuario_id', $user->id)->get()->keyBy('pregunta_id');
+                foreach ($preguntaAlimentos as $preguntaAlimento) {
+                    foreach (json_decode($respuestas->get($preguntaAlimento->id)->respuesta) as $item) {
+                        if ($item == 'Pollo' || $item == 'Pavo')
+                            $ignorar->push("Pechuga de $item");
+                        else if ($item == 'Huevo')
+                            $ignorar->push("Claras de $item");
+                        $ignorar->push($item);
+                    }
+                }
+                $alimentosIgnorados = Dieta::whereIn('comida', $ignorar)->get()->pluck('id');
+                $objetivo = Pregunta::where('pregunta', 'like', '%Objetivo fitness%')->first();
+                $preguntaPeso = Pregunta::where('pregunta', 'like', '%peso%')->first();
+                $objetivo = strpos($respuestas->get($objetivo->id)->respuesta, "Bajar") ? 'bajar' : 'subir';
+                $peso = json_decode($respuestas->get($preguntaPeso->id)->respuesta);
+
+                app('App\Http\Controllers\HomeController')->generarDieta($request->user(), $objetivo, $peso, $alimentosIgnorados, $numDieta);
+            }
+
             $diaDB = Dia::buildDia($dia, $genero, $objetivo, $request->user(), $numDieta, $numSemanaSuplementacion);
             return view('reto.dia', ['dia' => $diaDB, 'genero' => $genero, 'objetivo' => $objetivo,
                 'dias' => $dias, 'lugar' => $user->modo, 'semana' => $semana, 'maximo' => $diasTranscurridos,

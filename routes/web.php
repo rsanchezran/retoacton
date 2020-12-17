@@ -76,6 +76,8 @@ Route::group(['prefix' => 'configuracion', 'middleware' => ['auth', 'pago']], fu
     Route::post('categoria', 'ConfiguracionController@saveCategoria');
     Route::get('registro-tiendas', 'ConfiguracionController@agregarTienda');//AQUI
     Route::post('saveContactoTienda', 'ConfiguracionController@saveContactoTienda');//AQUI
+    Route::get('registro-usuario', 'ConfiguracionController@agregarUsuarioNuevo');//AQUI
+    Route::post('saveContactoUsuarioNuevo', 'ConfiguracionController@saveContactoUsuarioNuevo');//AQUI
     Route::get('generar-codigo', 'ConfiguracionController@generarCodigo');//AQUI
     Route::get('pagar-tienda/{usuario}', 'ConfiguracionController@pagarTienda');//AQUI
 });
@@ -100,6 +102,7 @@ Route::group(['prefix' => 'usuarios', 'middleware'=>['auth', 'pago']], function 
     Route::post('cambiarDias', 'UserController@cambiarDias');
     Route::get('exportar/{filtros}', 'UserController@exportar');
     Route::get('getSemana/{usuario}/{semana}', 'UserController@getSemana');
+    Route::get('actualizar_dias/{dias}', 'UserController@actualizarDias');
 });
 
 Route::group(['prefix'=>'reto', 'middleware'=>['auth', 'pago'] ],function (){

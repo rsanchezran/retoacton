@@ -622,6 +622,90 @@ class ConfiguracionController extends Controller
         return response()->json(['status' => $status, 'mensaje' => $mensaje]);
     }
 
+
+    public function agregarUsuarioNuevo(Request $request)
+    {
+        $medios = MedioContacto::all();
+        $usr = User::where('tipo_referencia', 3)->get();
+        return view('configuracion.usuario_nuevo', ['medios' => $medios,'users' => $usr]);
+    }
+
+    public function saveContactoUsuarioNuevo(Request $request)
+    {
+        $id = null;
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|max:100|min:3|email',
+            'codigo' => 'max:7',
+        ], [
+            'email.required' => 'El correo electrónico es obligatorio',
+            'email.min' => 'Debe capturar minimo 3 caracteres en el correo electrónico',
+            'email.max' => 'Debe capturar máximo 100 caracteres en el correo electrónico',
+            'email.unique' => 'El correo ya ha sido registrado',
+            'email.email' => 'El formato no es válido en el correo electrónico',
+            'codigo.max' => 'La referencia debe tener 7 caracteres',
+        ]);
+        $validator->after(function ($validator) use ($request) {
+            if (ValidarCorreo::validarCorreo($request->email)) {
+                $validator->errors()->add("email", "El email debe tener formato correcto");
+            }
+        });
+        $validator->validate();
+        $email = trim($request->email);
+        $codigo = trim($request->codigo);
+        $usuario = User::withTrashed()->orderBy('created_at')->where('email', $email)->get()->last();
+        if ($usuario!=null&&$usuario->id==1&&$cod!=null){
+            $status = 'error';
+            $mensaje = 'Este usuario ya pertenece al RETO ACTON.';
+        }else{
+            if ($usuario !== null) {
+                if ($usuario->deleted_at == null) {
+                    if ($usuario->inicio_reto == null) {
+                        $status = 'error';
+                        $mensaje = 'Este usuario ya pertenece al RETO ACTON.';
+                    } else {
+                        if (Carbon::parse($usuario->inicio_reto)->diffInDays(Carbon::now()) < intval($usuario->dias)) {
+                            $status = 'error';
+                            $mensaje = 'Este usuario ya pertenece al RETO ACTON.';
+                        }
+                    }
+                }
+            }else{
+                $contacto = User::withTrashed()->where("email", $email)->first();
+                if ($contacto == null) {
+                    $contacto = new User();
+                    $contacto->email = $email;
+                }
+                $contacto->name = $result = preg_replace('/\d/', '', $request->nombres);
+                $contacto->last_name = $request->apellidos;
+                $contacto->tipo_referencia = 3;
+                $contacto->deleted_at = null;
+                $contacto->password = Hash::make('acton'.$contacto->name);
+                $contacto->rol = 'cliente';
+                $contacto->encuestado = 0;
+                $contacto->pagado = 1;
+                $contacto->modo = 1;
+                $contacto->dias = $request->dias;
+                $contacto->save();
+                $mensaje = '';
+                $status = 'ok';
+                if ($usuario !== null) {
+                    if ($usuario->deleted_at == null) {
+                        if ($usuario->inicio_reto == null) {
+                            $status = 'error';
+                            $mensaje = 'Este usuario ya pertenece al RETO ACTON.';
+                        } else {
+                            if (Carbon::parse($usuario->inicio_reto)->diffInDays(Carbon::now()) < intval($usuario->dias)) {
+                                $status = 'error';
+                                $mensaje = 'Este usuario ya pertenece al RETO ACTON.';
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return response()->json(['status' => $status, 'mensaje' => $mensaje]);
+    }
+
     /*
         public function saveContactoTienda(Request $request)
         {

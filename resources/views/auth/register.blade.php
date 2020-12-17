@@ -1,6 +1,16 @@
 @extends('layouts.welcome')
 @section('header')
     <style>
+        #pagar{
+            width: 250px;
+            font-size: 50px !important;
+        }
+        #pagar span{
+            font-size: 50px !important;
+        }
+        .container {
+            max-width: 96% !important;
+        }
         #infoPago label {
             margin-bottom: 0;
             font-size: 35px !important;
@@ -842,7 +852,7 @@
                            @blur="buscarReferencia()" maxlength="7">
                     <form-error name="codigo" :errors="errors"></form-error>
                     <div v-if="encontrado!==null">
-                        <span v-if="encontrado">El código que ingresaste corresponde al usuario :
+                        <span v-if="encontrado">El código que ingresaste corresponde a:
                             <i style="font-size:1.1rem" class="font-weight-bold">@{{ referencia }}</i>
                         </span>
                         <span v-else
@@ -874,7 +884,7 @@
                                @blur="buscarReferenciaTienda()" maxlength="7">
                         <form-error name="codigo" :errors="errors"></form-error>
                         <div v-if="encontrado!==null">
-                            <span v-if="encontrado">El código que ingresaste corresponde al usuario :
+                            <span v-if="encontrado">El código que ingresaste corresponde a:
                                 <i style="font-size:1.1rem" class="font-weight-bold">@{{ referencia }}</i>
                             </span>
                             <span v-else
@@ -896,7 +906,7 @@
             <div v-show="sent" id="pago" class="text-center col-12">
                 <div style="margin-top: 40px;">
                     <div style="margin-top:60px; margin-bottom: 70px">
-                        <img src="{{asset("images/imagesremodela/malla.png")}}" width="100%" id="descripcionsemanas" style="margin-left: -45px;width: 108.6%;">
+                        <img src="{{asset("images/imagesremodela/malla.png")}}" width="100%" id="descripcionsemanas" style="margin-left: -68px;width: 112.6%;">
                     </div>
                 </div>
                 <div style="margin-top: 40px;">
@@ -904,10 +914,15 @@
                         <img src="{{asset("img/satisfaccion_total.png")}}" width="120%" style="margin-left: -10%;">
                     </div>
                 </div>
+                <div v-if="informacion.medio=='Por medio de un gimnasio o tienda de suplementos'">
+                    <img src="{{asset("images/imagesremodela/preciogym.png")}}" width="112%" id="preciogym" style="margin-left: -6%">
+                </div>
                 <div style="margin-top: 40px;">
                     <div style="margin-top:60px; margin-bottom: 70px">
-                        <img src="{{asset("images/imagesremodela/50personas.png")}}" width="100%" id="50personas" style="width: 50%;">
-                        <img src="{{asset("images/imagesremodela/ultimosdias.png")}}" width="100%" id="ultimosdias" style="width: 50%;">
+                        <div v-if="informacion.medio!=='Por medio de un gimnasio o tienda de suplementos'">
+                            <img src="{{asset("images/imagesremodela/50personas.png")}}" width="100%" id="50personas" style="width: 50%;">
+                            <img src="{{asset("images/imagesremodela/ultimosdias.png")}}" width="100%" id="ultimosdias" style="width: 50%;">
+                        </div>
                     </div>
                 </div>
                 <div v-show="mensaje!=''">
@@ -940,36 +955,42 @@
                     <br>
                 </div>
                 <br>
-                <div id="apps" v-if="this.informacion.tipo == 14 || this.informacion.tipo == 84">
-                    <div  v-if="hr" class="horasrestantes" style="display: inline;">
-                        <div class="horas" style="display: inline;">
-                            <span class="horareloj" style="">@{{hr}}</span>
-                            <img src="images/imagesremodela/nhoras.png" style="width:15%;">
-                        </div>
-                        <div class="minutos" class="minutos" style="display: inline;">
-                            <span class="minreloj" style="">@{{min}}</span>
-                            <img src="images/imagesremodela/nminutos.png" style="width:15%;">
-                        </div>
-                        <div class="segundos" class="segundos" style="display: inline;">
-                            <span class="segundoreloj" style="">@{{seg}}</span>
-                            <img src="images/imagesremodela/nsegundos.png" style="width:15%;">
+
+                <div v-if="informacion.medio!=='Por medio de un gimnasio o tienda de suplementos'">
+                    <div id="apps" v-if="this.informacion.tipo == 14 || this.informacion.tipo == 84">
+                        <div  v-if="hr" class="horasrestantes" style="display: inline;">
+                            <div class="horas" style="display: inline;">
+                                <span class="horareloj" style="">@{{hr}}</span>
+                                <img src="images/imagesremodela/nhoras.png" style="width:15%;">
+                            </div>
+                            <div class="minutos" class="minutos" style="display: inline;">
+                                <span class="minreloj" style="">@{{min}}</span>
+                                <img src="images/imagesremodela/nminutos.png" style="width:15%;">
+                            </div>
+                            <div class="segundos" class="segundos" style="display: inline;">
+                                <span class="segundoreloj" style="">@{{seg}}</span>
+                                <img src="images/imagesremodela/nsegundos.png" style="width:15%;">
+                            </div>
                         </div>
                     </div>
                 </div>
 
 
-                <div style="margin-top: 40px;">
-                    <div style="margin-top:60px; margin-bottom: 70px">
-                        <img src="{{asset("images/imagesremodela/ultimashoras1.png")}}" width="100%" id="ultimashoras1" style="width: 100%;margin-left: -2.7%;">
-                        <img src="{{asset("images/imagesremodela/ultimodia1.png")}}" width="100%" id="ultimodia1" style="width: 50%;">
-                        <img src="{{asset("images/imagesremodela/ultimodia.png")}}" width="100%" id="ultimodia" style="width: 100%;margin-left: -2.7%;">
-                        <img src="{{asset("images/imagesremodela/ultimashoras.png")}}" width="100%" id="ultimashoras" style="width: 50%;">
-                        <div v-if="this.informacion.tipo == 14" class="text-center text-danger" id="soloquedan"><h2>Quedan sólo 3 lugares</h2></div>
+
+                <div v-if="informacion.medio!=='Por medio de un gimnasio o tienda de suplementos'">
+                    <div style="margin-top: 40px;">
+                        <div style="margin-top:60px; margin-bottom: 70px">
+                            <img src="{{asset("images/imagesremodela/ultimashoras1.png")}}" width="100%" id="ultimashoras1" style="width: 100%;margin-left: -2.7%;">
+                            <img src="{{asset("images/imagesremodela/ultimodia1.png")}}" width="100%" id="ultimodia1" style="width: 50%;">
+                            <img src="{{asset("images/imagesremodela/ultimodia.png")}}" width="100%" id="ultimodia" style="width: 100%;margin-left: -2.7%;">
+                            <img src="{{asset("images/imagesremodela/ultimashoras.png")}}" width="100%" id="ultimashoras" style="width: 50%;">
+                            <div v-if="this.informacion.tipo == 14" class="text-center text-danger" id="soloquedan"><h2>Quedan sólo 3 lugares</h2></div>
+                        </div>
                     </div>
                 </div>
 
 
-                <img src="{{asset('images/imagesremodela/metodos.png')}}" id="metodos" style="width: 26%;margin-top: 50px;margin-bottom: 50px;margin-left:0%;">
+                <img src="{{asset('images/imagesremodela/metodos.png')}}" id="metodos" style="width: 35%;margin-top: 50px;margin-bottom: 50px;margin-left:0%;">
 
                 <div class="pasarelas">
                     <h6 style="color: #000;">Estas son las formas de realizar tu pago de manera segura</h6>
@@ -1305,6 +1326,11 @@
 
                             }
                             vm.mensaje = response.data.mensaje;
+                            if (vm.mensaje == 'Este usuario ya pertenece al RETO ACTON.'){
+                                $("#metodos").hide();
+                            }else{
+                                $("#metodos").show();
+                            }
                         }).catch(function (error) {
                             vm.sent = false;
                             vm.loading = false;
@@ -1314,6 +1340,9 @@
                         this.sent = false;
                         this.loading = false;
                     }
+
+
+
                 },
                 seleccionarMedio: function () {
                     this.informacion.codigo = '';

@@ -145,6 +145,15 @@ class PagoController extends Controller
                 $usuario == null ? null : $usuario->created_at,
                 $usuario == null ? null : $usuario->fecha_inscripcion,
                 $usuario == null ? null : $usuario->inicio_reto, $usuario == null ? null : $usuario->deleted_at)->monto;
+
+            if ($usuario->dias_paso !== 0 && !$usuario->pago_refrendo){
+                $usuario->dias = $usuario->dias_paso;
+                $usuario->dias_paso = 0;
+                $usuario->pago_refrendo = true;
+            }
+
+            error_log('AQUI ESTA EL COBRO');
+            error_log($cobro);
             $openpay = \Openpay::getInstance(
                 env('OPENPAY_ID'),
                 env('OPENPAY_PRIVATE')
@@ -175,6 +184,7 @@ class PagoController extends Controller
                 $usuario->refrendarPago($cobro);
             }
             \DB::commit();
+            $usuario->save();
         } catch (\Exception $e) {
             return response()->json(['status' => 'error', 'redirect' => url('login'), 'codigo' => $e->getCode(), 'error' => $e->getMessage()]);
         }
@@ -190,6 +200,13 @@ class PagoController extends Controller
             $usuario == null ? null : $usuario->fecha_inscripcion,
             $usuario == null ? null : $usuario->inicio_reto,
             $usuario == null ? null : $usuario->deleted_at)->monto;
+
+        if ($usuario->dias_paso !== 0 && !$usuario->pago_refrendo){
+            $usuario->dias = $usuario->dias_paso;
+            $usuario->dias_paso = 0;
+            $usuario->pago_refrendo = true;
+        }
+
         Conekta::setApiKey(env("CONEKTA_PRIVATE"));
         Conekta::setApiVersion("2.0.0");
         $valid_order =
@@ -253,6 +270,13 @@ class PagoController extends Controller
             $usuario == null ? null : $usuario->created_at,
             $usuario == null ? null : $usuario->fecha_inscripcion,
             $usuario == null ? null : $usuario->inicio_reto, $usuario == null ? null : $usuario->deleted_at)->monto;
+
+        if ($usuario->dias_paso !== 0 && !$usuario->pago_refrendo){
+            $usuario->dias = $usuario->dias_paso;
+            $usuario->dias_paso = 0;
+            $usuario->pago_refrendo = true;
+        }
+
         Conekta::setApiKey(env("CONEKTA_PRIVATE"));
         Conekta::setApiVersion("2.0.0");
         $valid_order =

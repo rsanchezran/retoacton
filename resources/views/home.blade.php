@@ -13,7 +13,7 @@
 @section('content')
     <div id="vue" class="container flex-center">
         <inicio :usuario="{{ $usuario}}" :referencias="{{$referencias}}" :monto="{{$monto}}" :descuento="{{$descuento}}"
-                :original="{{$original}}"></inicio>
+                :original="{{$original}}" :saldo="{{$saldo}}"></inicio>
     </div>
 
     <template id="inicio-template">
@@ -29,6 +29,16 @@
                                    estilo="font-size:1.2em; color:#000000" adicional=" MXN"
                                    :caracter="true"></money>
                         </label>
+
+                        Semanas: <select class="form-control" v-model="dias"
+                                         @change="diasChange()">
+                            <option value="14" :selected="dias === 24">2 Semanas</option>
+                            <option value="28">4 semanas</option>
+                            <option value="56">8 semanas</option>
+                            <option value="84">12 semanas</option>
+                        </select>
+                        <br>
+
                         <div id="infoPago" v-if="descuento>0">
                             <label style="font-size: 1rem; color: #000; font-family: unitext_bold_cursive">aprovecha
                                 el </label>
@@ -38,13 +48,22 @@
                         <div id="pagar">
                             <div>a solo</div>
                             <div style="font-size: 1.5rem; margin-left: 5px">
-                                <money :cantidad="''+monto" :caracter="true" :decimales="0"
+                                <div>
+                                    <input
+                                            type="checkbox"
+                                            :value="saldochk"
+                                            id="saldochk"
+                                            v-model="saldochk"
+                                            @change="check($event)">
+                                    Usar saldo<br>
+                                </div>
+                                <money :cantidad="''+montopago" :caracter="true" :decimales="0"
                                        estilo="font-size:1.5em; font-weight: bold"></money>
                             </div>
                         </div>
                         <br>
                         <h6 style="color: #000;">Estas son las formas de realizar tu pago de manera segura</h6>
-                        <cobro ref="cobro" :cobro="''+monto" :url="'{{url('/')}}'" :id="'{{env('OPENPAY_ID')}}'"
+                        <cobro ref="cobro" :cobro="''+montopago" :url="'{{url('/')}}'" :id="'{{env('OPENPAY_ID')}}'"
                                :llave="'{{env('CONEKTA_PUBLIC')}}'" :sandbox="'{{env('SANDBOX')}}'==true" :meses="true"
                                @terminado="terminado"></cobro>
                     </div>
@@ -68,14 +87,14 @@
                         </div>
                         <div class="col-12 col-sm-6 d-flex" style="align-items: flex-end;">
                             <div class="d-block ml-auto mr-auto text-center">
-                                <h4>Mis ganancias</h4>
+                                <h4>Saldo a favor</h4>
                                 <h4 class="acton">$<money :cantidad="''+usuario.total"></money></h4>
                                 <a v-if="usuario.inicio_reto==null" class="btn btn-lg btn-primary" href="{{url('/reto/comenzar/')}}">
                                     <span>EMPEZAR RETO</span>
                                 </a>
-                                <a v-else class="btn btn-lg btn-primary" href="{{url('/reto/programa')}}">
+                                <!--a v-else class="btn btn-lg btn-primary" href="{{url('/reto/programa')}}">
                                     <span>Mi programa</span>
-                                </a>
+                                </a-->
                                 <br>
                                 <br>
                                 <a href="{{asset('/assets/cuaderno.pdf')}}" target="_blank">
@@ -154,7 +173,7 @@
     <script>
         Vue.component('inicio', {
             template: '#inicio-template',
-            props: ['usuario', 'referencias','monto','original','descuento'],
+            props: ['usuario', 'referencias','monto','original','descuento','saldo'],
             data: function(){
                 return{
                     nombre:'',
@@ -163,7 +182,10 @@
                     filtros:{
                         referencia: ''
                     },
-                    buscando: false
+                    buscando: false,
+                    montopago: this.monto,
+                    saldochk: false,
+                    dias: 24
                 }},
             methods: {
                 loaded: function (referencias) {
@@ -183,6 +205,77 @@
                     axios.get('{{url('/verPagos/')}}/'+referencia.id).then(function (response) {
                         vm.pagos = response.data;
                         vm.$refs.pagosModal.showModal();
+                    });
+                },
+                check: function(e) {
+                    console.log(this.saldochk)
+                    if (this.dias == 14){
+                        if (this.saldochk){
+                            this.montopago = 1000-this.saldo
+                        }else{
+                            this.montopago = 1000
+                        }
+                    }
+                    if (this.dias == 28){
+                        if (this.saldochk){
+                            this.montopago = 2000-this.saldo
+                        }else{
+                            this.montopago = 2000
+                        }
+                    }
+                    if (this.dias == 56){
+                        if (this.saldochk){
+                            this.montopago = 3000-this.saldo
+                        }else{
+                            this.montopago = 3000
+                        }
+                    }
+                    if (this.dias == 84){
+                        if (this.saldochk){
+                            this.montopago = 4000-this.saldo
+                        }else{
+                            this.montopago = 4000
+                        }
+                    }
+                    this.saveDiasNuevo();
+                },
+                diasChange: function () {
+                    console.log(this.dias);
+                    console.log('SALDO');
+                    console.log(this.saldo);
+                    if (this.dias == 14){
+                        if (this.saldochk){
+                            this.montopago = 1000-this.saldo
+                        }else{
+                            this.montopago = 1000
+                        }
+                    }
+                    if (this.dias == 28){
+                        if (this.saldochk){
+                            this.montopago = 2000-this.saldo
+                        }else{
+                            this.montopago = 2000
+                        }
+                    }
+                    if (this.dias == 56){
+                        if (this.saldochk){
+                            this.montopago = 3000-this.saldo
+                        }else{
+                            this.montopago = 3000
+                        }
+                    }
+                    if (this.dias == 84){
+                        if (this.saldochk){
+                            this.montopago = 4000-this.saldo
+                        }else{
+                            this.montopago = 4000
+                        }
+                    }
+                    this.saveDiasNuevo();
+                },
+                saveDiasNuevo: function(){
+                    axios.get('{{url('/usuarios/actualizar_dias/')}}/'+this.dias).then(function (response) {
+
                     });
                 }
             },

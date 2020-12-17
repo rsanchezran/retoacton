@@ -30,7 +30,8 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name', 'last_name', 'email', 'password', 'rol', 'inicio_reto', 'referencia', 'saldo', 'pagado', 'tarjeta', 'tipo_pago',
-        'encuestado', 'objetivo', 'codigo', 'fecha_inscripcion', 'correo_enviado', 'modo', 'num_inscripciones', 'tipo_dia', 'costo'
+        'encuestado', 'objetivo', 'codigo', 'fecha_inscripcion', 'correo_enviado', 'modo', 'num_inscripciones', 'tipo_dia', 'costo',
+        'dias_paso', 'pago_refrendo'
     ];
 
     /**
@@ -129,6 +130,10 @@ class User extends Authenticatable
         $compra = new \stdClass();
         $dias = Contacto::where('email', $email)->first();
         $referenciado = $codigo == '' ? null : User::where('referencia', $codigo)->where('id', '!=', 1)->first();
+        if (!$dias) {
+            error_log('AQUI ENTRO');
+            $dias = User::where('id', auth()->user())->first();
+        }
         if(intval($dias->dias) == 14){
             //$monto = 600;
             //$descuento = 25;
@@ -161,12 +166,12 @@ class User extends Authenticatable
                         $descuento = intval(env("DESCUENTO" . ($contacto->etapa - 1)));
                     }*/
                 } else {
-                    $monto = intval(env('COBRO_REFRENDO'));
-                    $descuento = 0;
+                    //$monto = intval(env('COBRO_REFRENDO'));
+                    //$descuento = 0;
                 }
             } else {
                 if ($deleted_at == null) {
-                    $userref = User::where('referencia', $codigo)->where('id', '!=', 1)->first();
+                    /*$userref = User::where('referencia', $codigo)->where('id', '!=', 1)->first();
                     if(intval($dias->dias) == 14 && $userref->tipo_referencia !== 1){
                         $descuento = 40;
                     }elseif (intval($dias->dias) == 28 && $userref->tipo_referencia !== 1) {
@@ -177,26 +182,22 @@ class User extends Authenticatable
                         $descuento = 63;
                     }else{
                         $descuento = intval(env('DESCUENTO_REFERENCIA'));
-                    }
+                    }*/
                 } else {
-                    $monto = intval(env('COBRO_REFRENDO'));
-                    $descuento = 0;
+                    //$monto = intval(env('COBRO_REFRENDO'));
+                    //$descuento = 0;
                 }
             }
         } else {
             if (self::isNuevo($created_at, $fecha_inscripcion)) {
-                if (intval(env('DIAS') > Carbon::now()->diffInDays(Carbon::parse($inicio_reto)))) {
+                if (intval(intval($dias->dias) > Carbon::now()->diffInDays(Carbon::parse($inicio_reto)))) {
                     $monto = 0;
                     $descuento = 0;
-                } else {
-                    $monto = intval(env('COBRO_REFRENDO'));
-                    $descuento = 0;
                 }
-            } else {
-                $monto = intval(env('COBRO_REFRENDO'));
-                $descuento = 0;
             }
         }
+        error_log('AQUI ENTRO');
+        error_log($monto);
         $compra->original = $monto;
         $compra->descuento = $descuento;
         $compra->monto = round($monto - ($monto * ($descuento / 100)), 2);
@@ -233,6 +234,18 @@ class User extends Authenticatable
         $this->num_inscripciones = $this->num_inscripciones + 1;
         $this->fecha_inscripcion = Carbon::now();
         $this->inicio_reto = Carbon::now();
+        if ($monto <= env(COBRO_REFRENDO1)){
+            $this->dias = $this->dias+24;
+        }
+        if ($monto <= env(COBRO_REFRENDO2) && $monto > env(COBRO_REFRENDO1)){
+            $this->dias = $this->dias+48;
+        }
+        if ($monto <= env(COBRO_REFRENDO3) && $monto > env(COBRO_REFRENDO2)){
+            $this->dias = $this->dias+56;
+        }
+        if ($monto <= env(COBRO_REFRENDO4) && $monto > env(COBRO_REFRENDO3)){
+            $this->dias = $this->dias+84;
+        }
         if ($this->deleted_at != null) {
             $pass = Utils::generarRandomString();
             $this->password = Hash::make($pass);

@@ -123,6 +123,8 @@
                                         <i class="far fa-users"></i> Contactos</a>
                                     <a class="dropdown-item" href="{{ url('/usuarios/') }}">
                                         <i class="far fa-clipboard-list"></i> Usuarios</a>
+                                    <a class="dropdown-item" href="{{ url('/configuracion/registro-usuario') }}">
+                                        <i class="fas fa-clipboard-list"></i> Alta de Usuarios</a>
                                     <a class="dropdown-item" href="{{ url('/configuracion/registro-tiendas') }}">
                                         <i class="fas fa-dumbbell"></i> Tiendas/GYM</a>
                                     <a class="dropdown-item" href="{{ url('/configuracion/generar-codigo') }}">

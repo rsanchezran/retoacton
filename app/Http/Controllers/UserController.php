@@ -355,4 +355,20 @@ class UserController extends Controller
             return $compras;
         }
     }
+
+
+
+    public function actualizarDias(Request $request, $dias)
+    {
+        $usuario = User::where('id', auth()->user()->id)->first();
+
+        error_log(auth()->user());
+
+        $usuario->dias_paso = $dias;
+        $usuario->save();
+
+        return $dias;
+
+    }
+
 }

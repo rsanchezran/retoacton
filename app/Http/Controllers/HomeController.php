@@ -40,11 +40,25 @@ class HomeController extends Controller
         $usuario->depositado = $usuario->total - $usuario->saldo;
         $referencias = User::select(['id', 'name', 'email', 'created_at', 'num_inscripciones'])
             ->where('codigo', $request->user()->referencia)->whereNotNull('codigo')->get();
-        $monto = env('COBRO_REFRENDO');
+        if ($usuario->dias == 14){
+            $monto = env('COBRO_REFRENDO1');
+            $original = env('COBRO_REFRENDO1');
+        }
+        if ($usuario->dias == 28){
+            $monto = env('COBRO_REFRENDO2');
+            $original = env('COBRO_REFRENDO2');
+        }
+        if ($usuario->dias == 56){
+            $monto = env('COBRO_REFRENDO3');
+            $original = env('COBRO_REFRENDO3');
+        }
+        if ($usuario->dias == 84){
+            $monto = env('COBRO_REFRENDO4');
+            $original = env('COBRO_REFRENDO4');
+        }
         $descuento = 0;
-        $original = env('COBRO_REFRENDO');
         return view('home', ['usuario' => $usuario, 'referencias' => $referencias,
-            'monto' => $monto, 'descuento' => $descuento, 'original' => $original]);
+            'monto' => $monto, 'descuento' => $descuento, 'original' => $original, 'saldo' => $usuario->saldo]);
     }
 
     public function index()
@@ -178,6 +192,8 @@ class HomeController extends Controller
             $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 2);
             $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 3);
             $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 4);
+            $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 5);
+            $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 6);
             if ($user->rol == RolUsuario::CLIENTE) {
                 $this->agregarKit($user, 2);
             }
@@ -194,6 +210,8 @@ class HomeController extends Controller
                 $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 2);
                 $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 3);
                 $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 4);
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 5);
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 6);
             }
         }
         $user->save();
