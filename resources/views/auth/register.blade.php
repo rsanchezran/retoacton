@@ -269,12 +269,12 @@
             background-repeat: no-repeat;
             background-size: 150px;
             background-position: top right;
-            width: 109.2%;
+            width: 106.3%;
             margin-left: -1.4%;
         }
         #descripcionsemanas{
             margin-left: -1.5%;
-            width: 109.5%;
+            width: 1010%;
         }
 
         .modo{
@@ -780,6 +780,8 @@
 
         @media only screen and (max-width: 950px) {
             #descripcionsemanas {
+                margin-left: -4.5%;
+                width: 110%;
             }
         }
         @media only screen and (max-width: 768px) {
@@ -795,38 +797,112 @@
                 width: 60% !important;
             }
             .horareloj{
-                font-size: 160px;
+                font-size: 251px;
                 color: white;
                 position: absolute;
-                letter-spacing: 52px;
-                margin-left: 9px;
-                margin-top: -40px;
+                letter-spacing: 63px;
+                margin-left: 21px;
+                margin-top: -66px;
             }
             .minreloj{
-                font-size: 160px;
+                font-size: 250px;
                 color: white;
                 position: absolute;
                 letter-spacing: 52px;
-                margin-left: 105px;
+                margin-left: 160px;
                 margin-top: -40px;
                 display: block;
+                letter-spacing: 63px;
+                /* margin-left: 21px; */
+                margin-top: -66px;
             }
             .segundoreloj{
-                font-size: 160px;
+                font-size: 250px;
                 color: white;
                 position: absolute;
                 letter-spacing: 52px;
-                margin-left: 105px;
+                margin-left: 160px;
                 margin-top: -40px;
                 display: block;
+                letter-spacing: 63px;
+                /* margin-left: 21px; */
+                margin-top: -66px;
             }
             #ultimashoras{
                 width: 100% !important;
             }
         }
 
+        @media only screen and (max-width: 730px) {
+            .horareloj{
+                font-size: 230px;
+                margin-top: -50px;
+            }
+            .minreloj{
+                font-size: 230px;
+                margin-top: -50px;
+            }
+            .segundoreloj{
+                font-size: 230px;
+                margin-top: -50px;
+            }
+        }
+
+        @media only screen and (max-width: 700px) {
+            .horareloj{
+                font-size: 210px;
+                letter-spacing: 40px;
+                margin-top: -55px;
+            }
+            .minreloj{
+                font-size: 210px;
+                letter-spacing: 40px;
+                margin-top: -55px;
+            }
+            .segundoreloj{
+                font-size: 210px;
+                letter-spacing: 40px;
+                margin-top: -55px;
+            }
+        }
+
         @media only screen and (max-width: 650px) {
-            #descripcionsemanas {
+            .horareloj{
+                font-size: 180px;
+                margin-top: -20px;
+                letter-spacing: 70px;
+            }
+            .minreloj{
+                font-size: 180px;
+                margin-top: -20px;
+                letter-spacing: 70px;
+                margin-left: 23%;
+            }
+            .segundoreloj{
+                font-size: 180px;
+                margin-top: -20px;
+                letter-spacing: 70px;
+                margin-left: 23%;
+            }
+        }
+
+        @media only screen and (max-width: 650px) {
+            .horareloj{
+                font-size: 180px;
+                margin-top: -45px;
+                letter-spacing: 40px;
+            }
+            .minreloj{
+                font-size: 180px;
+                margin-top: -45px;
+                letter-spacing: 40px;
+                margin-left: 21%;
+            }
+            .segundoreloj{
+                font-size: 180px;
+                margin-top: -45px;
+                letter-spacing: 40px;
+                margin-left: 21%;
             }
         }
 
@@ -859,28 +935,22 @@
                 width: 40% !important;
             }
             .horareloj{
-                font-size: 90px;
-                color: white;
-                position: absolute;
-                letter-spacing: 30px;
+                font-size: 100px;
+                letter-spacing: 25px;
                 margin-left: 9px;
-                margin-top: -19px;
+                margin-top: -25px;
             }
             .minreloj{
-                font-size: 90px;
-                color: white;
-                position: absolute;
-                letter-spacing: 30px;
-                margin-left: 9px;
-                margin-top: -19px;
+                font-size: 100px;
+                letter-spacing: 25px;
+                margin-left: 30%;
+                margin-top: -25px;
             }
             .segundoreloj{
-                font-size: 90px;
-                color: white;
-                position: absolute;
-                letter-spacing: 30px;
-                margin-left: 9px;
-                margin-top: -19px;
+                font-size: 100px;
+                letter-spacing: 25px;
+                margin-left: 30%;
+                margin-top: -25px;
             }
         }
 
@@ -959,20 +1029,16 @@
                 width: 40% !important;
             }
             .horareloj{
-                font-size: 90px;
-                color: white;
-                position: absolute;
-                letter-spacing: 30px;
-                margin-left: 4px;
-                margin-top: -19px;
+                font-size: 75px;
+                letter-spacing: 25px;
+                margin-left: 9px;
+                margin-top: -15px;
             }
             .minreloj{
-                font-size: 90px;
-                color: white;
-                position: absolute;
+                font-size: 75px;
                 letter-spacing: 25px;
                 margin-left: 109px;
-                margin-top: -19px;
+                margin-top: -15px;
             }
             .segundoreloj{
                 font-size: 90px;
@@ -980,7 +1046,7 @@
                 position: absolute;
                 letter-spacing: 25px;
                 margin-left: 109px;
-                margin-top: -19px;
+                margin-top: -15px;
             }
         }
 
@@ -1002,21 +1068,21 @@
                 margin-left: 0px;
                 margin-top: -28px;
             }
-            .minreloj{
-                font-size: 90px;
+            .minreloj {
+                font-size: 70px;
                 color: white;
                 position: absolute;
-                letter-spacing: 15px;
-                margin-left: 99px;
-                margin-top: -28px;
+                letter-spacing: 26px;
+                margin-left: 29%;
+                margin-top: -15px;
             }
             .segundoreloj{
-                font-size: 90px;
+                font-size: 70px;
                 color: white;
                 position: absolute;
-                letter-spacing: 15px;
-                margin-left: 99px;
-                margin-top: -28px;
+                letter-spacing: 26px;
+                margin-left: 29%;
+                margin-top: -15px;
             }
         }
 
@@ -1138,7 +1204,7 @@
                 </div>
                 <div style="margin-top: 40px;">
                     <div style="margin-top:0px; margin-bottom: 70px">
-                        <img src="{{asset("img/satisfaccion_total.png")}}" width="120%" style="margin-left: -10%;" id="satisfaccion_total_completo">
+                        <img src="{{asset("img/satisfaccion_total.png")}}" width="100%" style="margin-left: 0%;" id="satisfaccion_total_completo">
                         <img src="{{asset("images/imagesremodela/satisfaccionmovil.png")}}" width="100%" style="margin-left: 0%;" id="satisfaccion_total_movil">
                     </div>
                 </div>
@@ -1420,7 +1486,7 @@
                     $("#ultimodia").hide();
                     $(".soloquedan").hide();
                     var width = $(window).width();
-                    if (width > 800) {
+                    if (width > 900) {
                         $("#satisfaccion_total_movil").hide();
                         $("#satisfaccion_total_completo").show();
                         $("#historiasexito").show();
