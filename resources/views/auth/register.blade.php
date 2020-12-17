@@ -1,6 +1,8 @@
 @extends('layouts.welcome')
 @section('header')
     <style>
+
+
         #pagar{
             width: 250px;
             font-size: 50px !important;
@@ -10,6 +12,16 @@
         }
         .container {
             max-width: 96% !important;
+        }
+        #vue{
+            width: 100% !important;
+        }
+
+        .container .pt-5 {
+            /* width: 133% !important; */
+            padding-right: 0px !important;
+            padding-left: 0 !important;
+            margin-left: -1%;
         }
         #infoPago label {
             margin-bottom: 0;
@@ -240,13 +252,25 @@
             /*padding-bottom: 20px;*/
         }
 
-        #testtitulo {
+        /*#testtitulo {
             background-image: url('{{asset('img/logo reto.png')}}');
             background-repeat: no-repeat;
             background-size: 150px;
             background-position: top right;
             width: 108.4%;
             margin-left: -4.3%;
+        }*/
+        #testtitulo{
+            background-image: url('{{asset('img/logo reto.png')}}');
+            background-repeat: no-repeat;
+            background-size: 150px;
+            background-position: top right;
+            width: 109.2%;
+            margin-left: -1.4%;
+        }
+        #descripcionsemanas{
+            margin-left: -1.5%;
+            width: 109.5%;
         }
 
         .modo{
@@ -657,6 +681,9 @@
                 #ganar {
                     font-size: 2.8rem;
                 }
+                footer {
+                    width: 96%;
+                }
             }
         }
 
@@ -699,7 +726,13 @@
             font-variant-numeric: tabular-nums;
         }
 
+        @media only screen and (max-width: 1100px) {
+            #descripcionsemanas {
+            }
+        }
         @media only screen and (max-width: 1000px) {
+            #descripcionsemanas {
+            }
             .horareloj{
                 font-size: 64px;
                 letter-spacing: 27px;
@@ -732,9 +765,17 @@
             }
         }
 
+        @media only screen and (max-width: 900px) {
+            #descripcionsemanas {
+            }
+        }
+
+        @media only screen and (max-width: 950px) {
+            #descripcionsemanas {
+            }
+        }
         @media only screen and (max-width: 768px) {
             #descripcionsemanas{
-                width: 119.6% !important;
             }
             .horareloj{
                 font-size: 40px;
@@ -754,9 +795,37 @@
                 margin-left: 6px;
                 margin-top: -10px;
             }
+            #testtitulo{
+                width: 113.2%;
+                margin-left: -3.4%;
+            }
+            #descripcionsemanas{
+                margin-left: -3.5%;
+                width: 113.5%;
+            }
+        }
+
+        @media only screen and (max-width: 650px) {
+            #descripcionsemanas {
+            }
+        }
+
+        @media only screen and (max-width: 550px) {
+
+            #testtitulo{
+                width: 118.2%;
+                margin-left: -5.4%;
+            }
+            #descripcionsemanas{
+                margin-left: -5.5%;
+                width: 118.5%;
+            }
+
         }
 
         @media only screen and (max-width: 480px) {
+            #descripcionsemanas {
+            }
             .minutos{
                 display: block !important;
             }
@@ -795,7 +864,33 @@
             }
         }
 
+        @media only screen and (max-width: 450px) {
+            #descripcionsemanas {
+            }
+            #testtitulo{
+                width: 120.2%;
+                margin-left: -6.4%;
+            }
+            #descripcionsemanas{
+                margin-left: -6.5%;
+                width: 120.5%;
+            }
+        }
+
+        @media only screen and (max-width: 430px) {
+            #testtitulo{
+                width: 117.2%;
+                margin-left: -6.4%;
+            }
+            #descripcionsemanas{
+                margin-left: -6.5%;
+                width: 117.5%;
+            }
+        }
+
         @media only screen and (max-width: 360px) {
+            #descripcionsemanas {
+            }
             .horareloj{
                 font-size: 70px;
                 color: white;
@@ -831,7 +926,7 @@
 
     <template id="registro-template">
         <div class="container">
-            <div align="center">
+            <div align="center" style="width: 95%; margin-left: 2%;">
                 <div id="header" align="center">
                     <!--img src="images/imagesremodela/rayo.png" id="imgreto"-->
                     <br>
@@ -906,7 +1001,7 @@
             <div v-show="sent" id="pago" class="text-center col-12">
                 <div style="margin-top: 40px;">
                     <div style="margin-top:60px; margin-bottom: 70px">
-                        <img src="{{asset("images/imagesremodela/malla.png")}}" width="100%" id="descripcionsemanas" style="margin-left: -68px;width: 112.6%;">
+                        <img src="{{asset("images/imagesremodela/malla.png")}}" width="100%" id="descripcionsemanas" style="">
                     </div>
                 </div>
                 <div style="margin-top: 40px;">
@@ -1190,23 +1285,45 @@
                     $("#ultimodia1").hide();
                     $("#ultimodia").hide();
                     $(".soloquedan").hide();
-                    if(d == 2){
-                        $("#imgreto").attr('src', 'images/imagesremodela/reto2.png');
-                        $("#descripcionsemanas").attr('src', 'images/imagesremodela/2semanas.png');
-                    }
-                    if(d == 4){
-                        $("#imgreto").attr('src', 'images/imagesremodela/reto4.png');
-                        $("#descripcionsemanas").attr('src', 'images/imagesremodela/4semans.png');
-                        $(".soloquedan").show();
-                    }
-                    if(d == 8){
-                        $("#imgreto").attr('src', 'images/imagesremodela/reto8.png');
-                        $("#descripcionsemanas").attr('src', 'images/imagesremodela/8semanas.png');
-                    }
-                    if(d == 12){
-                        $("#ultimashoras").show();
-                        $("#imgreto").attr('src', 'images/imagesremodela/reto12.png');
-                        $("#descripcionsemanas").attr('src', 'images/imagesremodela/12semanas.png');
+                    var width = $(window).width();
+                    if (width > 800) {
+                        if (d == 2) {
+                            $("#imgreto").attr('src', 'images/imagesremodela/reto2.png');
+                            $("#descripcionsemanas").attr('src', 'images/imagesremodela/2semanas.png');
+                        }
+                        if (d == 4) {
+                            $("#imgreto").attr('src', 'images/imagesremodela/reto4.png');
+                            $("#descripcionsemanas").attr('src', 'images/imagesremodela/4semans.png');
+                            $(".soloquedan").show();
+                        }
+                        if (d == 8) {
+                            $("#imgreto").attr('src', 'images/imagesremodela/reto8.png');
+                            $("#descripcionsemanas").attr('src', 'images/imagesremodela/8semanas.png');
+                        }
+                        if (d == 12) {
+                            $("#ultimashoras").show();
+                            $("#imgreto").attr('src', 'images/imagesremodela/reto12.png');
+                            $("#descripcionsemanas").attr('src', 'images/imagesremodela/12semanas.png');
+                        }
+                    }else{
+                        if (d == 2) {
+                            $("#imgreto").attr('src', 'images/imagesremodela/reto2.png');
+                            $("#descripcionsemanas").attr('src', 'images/imagesremodela/2movil.png');
+                        }
+                        if (d == 4) {
+                            $("#imgreto").attr('src', 'images/imagesremodela/reto4.png');
+                            $("#descripcionsemanas").attr('src', 'images/imagesremodela/4movil.png');
+                            $(".soloquedan").show();
+                        }
+                        if (d == 8) {
+                            $("#imgreto").attr('src', 'images/imagesremodela/reto8.png');
+                            $("#descripcionsemanas").attr('src', 'images/imagesremodela/8movil.png');
+                        }
+                        if (d == 12) {
+                            $("#ultimashoras").show();
+                            $("#imgreto").attr('src', 'images/imagesremodela/reto12.png');
+                            $("#descripcionsemanas").attr('src', 'images/imagesremodela/12movil.png');
+                        }
                     }
                 })
             },
