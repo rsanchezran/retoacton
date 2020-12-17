@@ -1307,6 +1307,7 @@
                             $("#descripcionsemanas").attr('src', 'images/imagesremodela/12semanas.png');
                         }
                     }else{
+                        alert(d);
                         if (d == 2) {
                             $("#imgreto").attr('src', 'images/imagesremodela/reto2.png');
                             $("#descripcionsemanas").attr('src', 'images/imagesremodela/2movil.png');
