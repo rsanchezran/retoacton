@@ -689,9 +689,6 @@
                 #ganar {
                     font-size: 2.8rem;
                 }
-                footer {
-                    width: 96%;
-                }
             }
         }
 
@@ -1005,12 +1002,12 @@
 
         @media only screen and (max-width: 430px) {
             #testtitulo{
-                width: 117.2%;
+                width: 111.2%;
                 margin-left: -6.4%;
             }
             #descripcionsemanas{
                 margin-left: -6.5%;
-                width: 117.5%;
+                width: 111.5%;
             }
         }
 
@@ -1486,6 +1483,7 @@
                     $("#ultimodia").hide();
                     $(".soloquedan").hide();
                     var width = $(window).width();
+                    alert(width);
                     if (width > 900) {
                         $("#satisfaccion_total_movil").hide();
                         $("#satisfaccion_total_completo").show();
