@@ -998,6 +998,12 @@
                 margin-left: 118px;
                 margin-top: -19px;
             }
+            #features {
+                background-color: #005D9C;
+                padding: 20px;
+                width: 104%;
+                margin-left: -1% !important;
+            }
         }
 
         @media only screen and (max-width: 430px) {
@@ -1083,10 +1089,10 @@
             }
             #descripcionsemanas {
                 margin-left: -5.5%;
-                width: 117.5%;
+                width: 113.5%;
             }
             #testtitulo {
-                width: 117.2%;
+                width: 113.2%;
                 margin-left: -6%;
             }
         }
@@ -1462,7 +1468,7 @@
                     $("#ultimodia").hide();
                     $(".soloquedan").hide();
                     var width = $(window).width();
-                    alert(width);
+                    //alert(width);
                     if (width > 900) {
                         $("#satisfaccion_total_movil").hide();
                         $("#satisfaccion_total_completo").show();
