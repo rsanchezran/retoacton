@@ -176,6 +176,7 @@
         #features {
             background-color: #005D9C;
             padding: 20px;
+            width: 106%;
         }
 
         #features .subinfo {
