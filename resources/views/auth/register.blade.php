@@ -274,7 +274,7 @@
         }
         #descripcionsemanas{
             margin-left: -1.5%;
-            width: 1010%;
+            width: 110%;
         }
 
         .modo{
@@ -864,42 +864,54 @@
         }
 
         @media only screen and (max-width: 650px) {
-            .horareloj{
+            /*.horareloj{
                 font-size: 180px;
-                margin-top: -20px;
-                letter-spacing: 70px;
+                margin-top: -45px;
+                letter-spacing: 40px;
             }
             .minreloj{
                 font-size: 180px;
-                margin-top: -20px;
-                letter-spacing: 70px;
-                margin-left: 23%;
+                margin-top: -45px;
+                letter-spacing: 40px;
+                margin-left: 21%;
             }
             .segundoreloj{
                 font-size: 180px;
-                margin-top: -20px;
-                letter-spacing: 70px;
-                margin-left: 23%;
-            }
-        }
+                margin-top: -45px;
+                letter-spacing: 40px;
+                margin-left: 21%;
+            }*/
 
-        @media only screen and (max-width: 650px) {
-            .horareloj{
-                font-size: 180px;
-                margin-top: -45px;
-                letter-spacing: 40px;
+            .minutos img {
+                width: 30% !important;
+                margin-right: 2%;
             }
-            .minreloj{
-                font-size: 180px;
-                margin-top: -45px;
-                letter-spacing: 40px;
-                margin-left: 21%;
+            .horas img {
+                width: 30% !important;
+                margin-right: 2%;
             }
-            .segundoreloj{
-                font-size: 180px;
-                margin-top: -45px;
-                letter-spacing: 40px;
-                margin-left: 21%;
+            .segundos img {
+                width: 30% !important;
+                margin-right: 2%;
+            }
+            .segundoreloj {
+                font-size: 60px;
+                margin-top: -135px;
+                letter-spacing: 29px;
+                margin-left: 65%;
+            }
+            .minreloj {
+                font-size: 60px;
+                margin-top: -136px;
+                letter-spacing: 35px;
+                margin-left: 35%;
+            }
+
+            .horareloj {
+                font-size: 60px;
+                margin-top: 0px;
+                letter-spacing: 32px;
+                margin-left: 3%;
             }
         }
 
@@ -920,9 +932,9 @@
             #descripcionsemanas {
             }
             .minutos{
-                display: block !important;
+                /*display: block !important;*/
             }
-            .minutos img {
+            /*.minutos img {
                 width: 40% !important;
             }
             .horas img {
@@ -948,6 +960,42 @@
                 letter-spacing: 25px;
                 margin-left: 30%;
                 margin-top: -25px;
+            }*/
+
+
+            .minutos img {
+                width: 30% !important;
+                margin-right: 2%;
+            }
+            .horas img {
+                width: 30% !important;
+                margin-right: 2%;
+            }
+            .segundos img {
+                width: 30% !important;
+                margin-right: 2%;
+            }
+            .horareloj {
+                font-size: 60px;
+                color: white;
+                position: absolute;
+                letter-spacing: 29px;
+                margin-left: 8px;
+                margin-top: -4px;
+            }
+            .minreloj {
+                font-size: 60px;
+                color: white;
+                letter-spacing: 27px;
+                margin-left: 34%;
+                margin-top: -132px;
+            }
+            .segundoreloj{
+                font-size: 60px;
+                color: white;
+                letter-spacing: 31px;
+                margin-left: 64%;
+                margin-top: -131px;
             }
         }
 
@@ -962,8 +1010,7 @@
                 margin-left: -6.5%;
                 width: 120.5%;
             }
-            .minutos{
-                display: block !important;
+            /*.minutos{
             }
             .minutos img {
                 width: 40% !important;
@@ -997,6 +1044,41 @@
                 letter-spacing: 25px;
                 margin-left: 118px;
                 margin-top: -19px;
+            }*/
+
+            .minutos img {
+                width: 30% !important;
+                margin-right: 2%;
+            }
+            .horas img {
+                width: 30% !important;
+                margin-right: 2%;
+            }
+            .segundos img {
+                width: 30% !important;
+                margin-right: 2%;
+            }
+            .horareloj {
+                font-size: 60px;
+                color: white;
+                position: absolute;
+                letter-spacing: 25px;
+                margin-left: 5px;
+                margin-top: -8px;
+            }
+            .minreloj {
+                font-size: 60px;
+                color: white;
+                letter-spacing: 22px;
+                margin-left: 34%;
+                margin-top: -123px;
+            }
+            .segundoreloj{
+                font-size: 60px;
+                color: white;
+                letter-spacing: 22px;
+                margin-left: 64%;
+                margin-top: -123px;
             }
             #features {
                 background-color: #005D9C;
@@ -1008,18 +1090,18 @@
 
         @media only screen and (max-width: 430px) {
             #testtitulo{
-                width: 111.2%;
+                width: 113.2%;
                 margin-left: -6.4%;
             }
             #descripcionsemanas{
                 margin-left: -6.5%;
-                width: 111.5%;
+                width: 113.5%;
             }
         }
 
         @media only screen and (max-width: 400px) {
 
-            .minutos{
+            /*.minutos{
                 display: block !important;
             }
             .minutos img {
@@ -1050,11 +1132,45 @@
                 letter-spacing: 25px;
                 margin-left: 109px;
                 margin-top: -15px;
+            }*/
+            .minutos img {
+                width: 30% !important;
+                margin-right: 2%;
+            }
+            .horas img {
+                width: 30% !important;
+                margin-right: 2%;
+            }
+            .segundos img {
+                width: 30% !important;
+                margin-right: 2%;
+            }
+            .horareloj {
+                font-size: 60px;
+                color: white;
+                position: absolute;
+                letter-spacing: 19px;
+                margin-left: 5px;
+                margin-top: -11px;
+            }
+            .minreloj {
+                font-size: 55px;
+                color: white;
+                letter-spacing: 22px;
+                margin-left: 33%;
+                margin-top: -117px;
+            }
+            .segundoreloj{
+                font-size: 55px;
+                color: white;
+                letter-spacing: 22px;
+                margin-left: 64%;
+                margin-top: -117px;
             }
         }
 
         @media only screen and (max-width: 360px) {
-            .minutos img {
+            /*.minutos img {
                 width: 40% !important;
             }
             .horas img {
@@ -1086,6 +1202,40 @@
                 letter-spacing: 20px;
                 margin-left: 29%;
                 margin-top: -15px;
+            }*/
+            .minutos img {
+                width: 30% !important;
+                margin-right: 2%;
+            }
+            .horas img {
+                width: 30% !important;
+                margin-right: 2%;
+            }
+            .segundos img {
+                width: 30% !important;
+                margin-right: 2%;
+            }
+            .horareloj {
+                font-size: 60px;
+                color: white;
+                position: absolute;
+                letter-spacing: 12px;
+                margin-left: 5px;
+                margin-top: -15px;
+            }
+            .minreloj {
+                font-size: 55px;
+                color: white;
+                letter-spacing: 16px;
+                margin-left: 33%;
+                margin-top: -110px;
+            }
+            .segundoreloj{
+                font-size: 55px;
+                color: white;
+                letter-spacing: 16px;
+                margin-left: 63%;
+                margin-top: -110px;
             }
             #descripcionsemanas {
                 margin-left: -5.5%;
