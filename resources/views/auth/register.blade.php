@@ -1258,12 +1258,12 @@
         <div class="container">
             <div align="center" style="width: 95%; margin-left: 2%;">
                 <div id="header" align="center">
-                    <!--img src="images/imagesremodela/rayo.png" id="imgreto"-->
+                    <img src="images/imagesremodela/12top.png" id="imagentop" width="100%">
                     <br>
                     <br>
                 </div>
-                <h5 class="text-left" style="color:#0080DD">Antes de comenzar nos gustaría saber un poco más sobre
-                    ti </h5>
+                <h5 class="text-center" style="color:#0080DD">Antes de comenzar nos gustaría saber un poco más sobre
+                    ti </h5><br>
                 <select class="form-control" v-model="informacion.medio" @change="seleccionarMedio">
                     <option value="" disabled>¿Cómo te enteraste del reto acton?</option>
                     <option v-for="medio in medios" :value="medio">@{{medio}}</option>
@@ -1627,20 +1627,24 @@
                         if (d == 2) {
                             $("#imgreto").attr('src', 'images/imagesremodela/reto2.png');
                             $("#descripcionsemanas").attr('src', 'images/imagesremodela/2semanas.png');
+                            $("#imagentop").attr('src', 'images/imagesremodela/2top.png');
                         }
                         if (d == 4) {
                             $("#imgreto").attr('src', 'images/imagesremodela/reto4.png');
                             $("#descripcionsemanas").attr('src', 'images/imagesremodela/4semans.png');
                             $(".soloquedan").show();
+                            $("#imagentop").attr('src', 'images/imagesremodela/4top.png');
                         }
                         if (d == 8) {
                             $("#imgreto").attr('src', 'images/imagesremodela/reto8.png');
                             $("#descripcionsemanas").attr('src', 'images/imagesremodela/8semanas.png');
+                            $("#imagentop").attr('src', 'images/imagesremodela/8top.png');
                         }
                         if (d == 12) {
                             $("#ultimashoras").show();
                             $("#imgreto").attr('src', 'images/imagesremodela/reto12.png');
                             $("#descripcionsemanas").attr('src', 'images/imagesremodela/12semanas.png');
+                            $("#imagentop").attr('src', 'images/imagesremodela/12top.png');
                         }
                     }else{
                         $("#satisfaccion_total_movil").show();
@@ -1650,20 +1654,24 @@
                         if (d == 2) {
                             $("#imgreto").attr('src', 'images/imagesremodela/reto2.png');
                             $("#descripcionsemanas").attr('src', 'images/imagesremodela/2movil.png');
+                            $("#imagentop").attr('src', 'images/imagesremodela/2top.png');
                         }
                         if (d == 4) {
                             $("#imgreto").attr('src', 'images/imagesremodela/reto4.png');
                             $("#descripcionsemanas").attr('src', 'images/imagesremodela/4movil.png');
+                            $("#imagentop").attr('src', 'images/imagesremodela/4top.png');
                             $(".soloquedan").show();
                         }
                         if (d == 8) {
                             $("#imgreto").attr('src', 'images/imagesremodela/reto8.png');
                             $("#descripcionsemanas").attr('src', 'images/imagesremodela/8movil.png');
+                            $("#imagentop").attr('src', 'images/imagesremodela/8top.png');
                         }
                         if (d == 12) {
                             $("#ultimashoras").show();
                             $("#imgreto").attr('src', 'images/imagesremodela/reto12.png');
                             $("#descripcionsemanas").attr('src', 'images/imagesremodela/12movil.png');
+                            $("#imagentop").attr('src', 'images/imagesremodela/12top.png');
                         }
                     }
                 })
