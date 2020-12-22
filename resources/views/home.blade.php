@@ -109,7 +109,7 @@
                         <div class="card mb-3">
                             <div class="card-header"><i class="far fa-clipboard"></i> Personas en ACTON</div>
                             <div class="card-body">
-                                <form  action="/usuarios/seguir/" method="POST">
+                                <form  action="/usuarios/seguir/" method="GET">
                                     @csrf
                                     <div style="display: flex; flex-wrap: wrap">
                                         <div class="col-sm-3">
