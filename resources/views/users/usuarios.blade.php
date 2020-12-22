@@ -26,6 +26,7 @@
     <template id="temp">
         <div>
             <div class="card mb-3">
+                {{$nombre_prop}}
                 <div class="card-header"><i class="far fa-clipboard"></i> Personas en ACTON</div>
                 <div class="card-body">
                     <div style="display: flex; flex-wrap: wrap">
