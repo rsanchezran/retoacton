@@ -46,6 +46,7 @@ class UserController extends Controller
         $tienda_prop=$request->tienda;
         error_log('REQUEST:::::::'.$request->estado);
         error_log('REQUEST:::::::'.$request->nombre);
+        var_dump($request);
         return view('users.usuarios')
             ->with([
                 'nombre_prop'=>$nombre_prop,
