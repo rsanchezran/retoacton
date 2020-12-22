@@ -91,7 +91,6 @@ Route::group(['prefix' => 'usuarios', 'middleware'=>['auth', 'pago']], function 
     Route::get('/','UserController@index');
     Route::get('buscar','UserController@buscar');
     Route::post('seguir/','UserController@listado');
-    Route::get('seguir/','UserController@listado');
     Route::post('seguir/{id}','UserController@seguir');
     Route::post('dejar_seguir/{id}','UserController@dejar_seguir');
     Route::post('comentarios/{dia}/{id}','UserController@comenatarios');
