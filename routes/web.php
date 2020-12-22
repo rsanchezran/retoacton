@@ -90,6 +90,21 @@ Route::group(['prefix' => 'suplementos', 'middleware' => ['auth', 'pago']], func
 Route::group(['prefix' => 'usuarios', 'middleware'=>['auth', 'pago']], function (){
     Route::get('/','UserController@index');
     Route::get('buscar','UserController@buscar');
+    Route::post('seguir/','UserController@listado');
+    Route::get('seguir/','UserController@listado');
+    Route::post('seguir/{id}','UserController@seguir');
+    Route::post('dejar_seguir/{id}','UserController@dejar_seguir');
+    Route::post('comentarios/{dia}/{id}','UserController@comenatarios');
+    Route::post('likes/{dia}/{id}','UserController@likes');
+    Route::post('setlikes/{dia}/{id}','UserController@setlikes');
+    Route::post('comentario_nuevo/{dia}/{id}','UserController@comentarioNuevo');
+    Route::post('getEstados/','UserController@getEstados');
+    Route::post('getCiudades/','UserController@getCiudades');
+    Route::post('getCP/','UserController@getCPs');
+    Route::post('getColonias/','UserController@getColonias');
+    Route::post('getTiendas/','UserController@getTiendas');
+    Route::post('guardaUbicacion/','UserController@guardaUbicacion');
+    Route::get('buscarSeguir','UserController@buscarSeguir');
     Route::get('imagenes/{id}', 'UserController@imagenes');
     Route::get('encuesta/{id}', 'UserController@showEncuesta');
     Route::post('pagar', 'UserController@pagar');

@@ -65,10 +65,10 @@
                             <form-error name="pass" :errors="errors"></form-error>
                         </div>
                         <div>
-                            <label>Tarjeta para depositar comisiones <span class="small">(por favor verifica que sea correcta)</span></label>
+                            <!--label>Tarjeta para depositar comisiones <span class="small">(por favor verifica que sea correcta)</span></label>
                             <input :class="'form-control '+(user.tarjeta==null?'required':'not')" v-model="user.tarjeta" maxlength="16">
                             <span class="float-right small">@{{ user.tarjeta.length }}/16</span>
-                            <form-error name="tarjeta" :errors="errors"></form-error>
+                            <form-error name="tarjeta" :errors="errors"></form-error-->
                         </div>
                         <div>
                             <br>
@@ -80,6 +80,47 @@
                         </div>
                     </div>
                 </div>
+<br>
+
+                <div class="row col-md-12">
+
+                    <div class="col-sm-3">
+                        <label>Estado</label>
+                        <select class="form-control" v-model="filtros.estado" @keyup.enter="buscar" @change="getCiudades()">
+                            <option></option>
+                            <option v-for="p in this.estados[0]">@{{ p.estado }}</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-3">
+                        <label>Ciudad</label>
+                        <select class="form-control" v-model="filtros.ciudad" @keyup.enter="buscar" @change="getCPs()">
+                            <option></option>
+                            <option v-for="p in this.ciudades[0]">@{{ p.ciudad }}</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-3">
+                        <label>Codigo Postal</label>
+                        <select class="form-control" v-model="filtros.cp" @keyup.enter="buscar" @change="getColonias()">
+                            <option></option>
+                            <option v-for="p in this.cps[0]">@{{ p.cp }}</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-3">
+                        <label>Colonias</label>
+                        <select class="form-control" v-model="filtros.colonia" @keyup.enter="buscar">
+                            <option></option>
+                            <option  v-for="p in this.colonias[0]">@{{ p.colonia }}</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-3">
+                        <label v-if="guardado">Ubicacion actualizada</label>
+                        <br>
+                        <button class="btn btn-light" @click="guardarLugar">
+                            <i class="fas fa-search"></i>&nbsp;Guardar
+                        </button>
+                    </div>
+                </div>
+
             </div>
     </template>
 @endsection
@@ -94,7 +135,26 @@
                     errors: [],
                     loading: false,
                     loadingFoto: false,
-                    fotografia: '{{url('cuenta/getFotografia/'.\Illuminate\Support\Facades\Auth::user()->id).'/'.rand(0,10)}}'
+                    estados:[],
+                    ciudades:[],
+                    cps:[],
+                    colonias:[],
+                    guardado: false,
+                    fotografia: '{{url('cuenta/getFotografia/'.\Illuminate\Support\Facades\Auth::user()->id).'/'.rand(0,10)}}',
+                    filtros: {
+                        nombre: '',
+                        email: '',
+                        fecha_inicio: '',
+                        fecha_final: '',
+                        saldo: '',
+                        ingresados: '',
+                        estado: '0',
+                        ciudad: '0',
+                        cp: '0',
+                        estado: '0',
+                        colonia: '0',
+                        ingresadosReto: ''
+                    }
                 }
             },
             methods: {
@@ -124,6 +184,71 @@
                         vm.errors = error.response.data.errors;
                     });
                 },
+                guardarLugar: function(){
+                    axios.post('{{url('/usuarios/guardaUbicacion')}}',
+                        {
+                            estado: this.filtros.estado,
+                            ciudad: this.filtros.ciudad,
+                            cp: this.filtros.cp,
+                            colonia: this.filtros.colonia,
+                        }
+                        ).then((response) => {
+                        this.ciudades=[];
+                        this.cps=[];
+                        this.colonias=[];
+                        this.ciudades.push(response.data);
+                        this.guardado = true;
+                    }).catch(function (error) {
+                        console.log(error);
+                        vm.errors = error.response;
+                    });
+                },
+                getEstados: function () {
+                    let vm = this;
+                    axios.post('{{url('/usuarios/getEstados')}}').then((response) => {
+                        this.estados=[];
+                        this.ciudades=[];
+                        this.cps=[];
+                        this.colonias=[];
+                        this.estados.push(response.data);
+                    }).catch(function (error) {
+                        console.log(error);
+                        vm.errors = error.response;
+                    });
+                },
+                getCiudades: function () {
+                    let vm = this;
+                    axios.post('{{url('/usuarios/getCiudades')}}', {estado:this.filtros.estado}).then((response) => {
+                        this.ciudades=[];
+                        this.cps=[];
+                        this.colonias=[];
+                        this.ciudades.push(response.data);
+                    }).catch(function (error) {
+                        console.log(error);
+                        vm.errors = error.response;
+                    });
+                },
+                getCPs: function () {
+                    let vm = this;
+                    axios.post('{{url('/usuarios/getCP')}}', {ciudad:this.filtros.ciudad}).then((response) => {
+                        this.cps=[];
+                        this.colonias=[];
+                        this.cps.push(response.data);
+                    }).catch(function (error) {
+                        console.log(error);
+                        vm.errors = error.response;
+                    });
+                },
+                getColonias: function () {
+                    let vm = this;
+                    axios.post('{{url('/usuarios/getColonias')}}', {cp:this.filtros.cp}).then((response) => {
+                        this.colonias=[];
+                        this.colonias.push(response.data);
+                    }).catch(function (error) {
+                        console.log(error);
+                        vm.errors = error.response;
+                    });
+                },
                 save: function () {
                     let vm = this;
                     vm.loading = true;
@@ -138,6 +263,9 @@
                         vm.loading = false;
                     });
                 }
+            },
+            mounted: function () {
+                this.getEstados();
             },
             created: function () {
                 this.user = this.p_user;

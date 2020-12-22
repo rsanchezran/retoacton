@@ -12,6 +12,26 @@
         .activo .card-header{
             background-color: #0b2e13;
         }
+        .comentariousuario {
+            border: 1px solid white;
+            padding: 10px 10px 10px 30px;
+            background: #dcdcdc;
+            border-radius: 40px;
+            margin-top: 20px;
+        }
+        .comentariosCaja{
+            max-height: 250px;
+            overflow: auto;
+        }
+        .likes{
+            color: blue;
+            margin-left: 10%;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .likescero{
+            color: #c2c2c2;
+        }
     </style>
 @endsection
 @section('content')
@@ -51,9 +71,9 @@
                             <div class="d-flex">
                                 <img class="link" :src="dia.imagen" width="100%"/>
                                 <div v-if="dia.id!=null">
-                                    <button class="btn btn-sm btn-light" @click="comentar(dia)">
+                                    <!--button class="btn btn-sm btn-light" @click="comentar(dia)">
                                         <i class="fa fa-comment"></i>
-                                    </button>
+                                    </button-->
                                     <button class="btn btn-sm btn-light"  @click="mostrar(dia)">
                                         <i class="fa fa-image"></i>
                                     </button>
@@ -73,7 +93,27 @@
             </div>
             <modal ref="modalImagen" title="Imagen" :showok="false" :showcancel="false">
 
+                <div v-if="bandera">
                 <img :src="dia.imagen" width="100%">
+                <div v-if="likescount>0" class="likes" @click="likes(dia)">@{{ likescount }} <i class="fas fa-bolt"></i> (Likes)</div>
+                <div v-if="likescount==0" class="likes likescero" @click="likes(dia)">@{{ likescount }} <i class="fas fa-bolt"></i> (Likes)</div>
+<br>
+                    <div class="comentariosCaja">
+                        <div class="row col-md-12">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" placeholder="Comenta" v-model="comentario_nuevo" @keyup.enter="comenta(dia)">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-primary" type="button" @click="comenta(dia)"><i class="fas fa-paper-plane"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div v-for="p in this.posts[0]" class="comentariousuario">
+                            <div class="nombrecomenta">@{{ p.usuario_comenta.name }}</div>
+                            <div class="comentariounico">@{{ p.comentario }}</div>
+                        </div>
+                    </div>
+                </div>
+
             </modal>
         </div>
     </template>
@@ -94,6 +134,10 @@
                         comentarios: ''
                     },
                     loading: false,
+                    posts: [],
+                    bandera: false,
+                    likescount: 0,
+                    comentario_nuevo: ''
                 }
             },
             methods: {
@@ -102,8 +146,52 @@
                     this.errors = [];
                 },
                 mostrar: function (dia) {
-                  this.dia = dia;
-                  this.$refs.modalImagen.showModal();
+                    let vm = this;
+                    vm.errors = [];
+                    this.dia = dia;
+                    var datas = [];
+                    var aa = this.$refs;
+                    this.posts = [];
+                    aa.modalImagen.showModal();
+                    this.bandera = true;
+
+                    axios.post('{{url('/usuarios/likes')}}/'+dia.dia+'/'+this.usuario.id)
+                    .then((response) => {
+                        this.likescount = response.data;
+                    }).catch(function (error) {
+                        console.log(error);
+                        vm.errors = error.response;
+                    });
+
+                    axios.post('{{url('/usuarios/comentarios')}}/'+dia.dia+'/'+this.usuario.id)
+                        .then((response) => {
+                            this.posts.push(response.data);
+                        }).catch(function (error) {
+                        console.log(error);
+                        vm.errors = error.response;
+                    });
+
+                },
+                comenta: function(dia){
+                    axios.post('{{url('/usuarios/comentario_nuevo')}}/'+dia.dia+'/'+this.usuario.id, {comentario: this.comentario_nuevo})
+                        .then((response) => {
+                            this.posts = [];
+                            this.posts.push(response.data);
+                            this.comentario_nuevo = '';
+                        }).catch(function (error) {
+                        console.log(error);
+                        vm.errors = error.response;
+                    });
+                },
+                likes: function (dia) {
+                    axios.post('{{url('/usuarios/setlikes')}}/'+dia.dia+'/'+this.usuario.id)
+                    .then((response) => {
+                        this.likescount = response.data;
+                    }).catch(function (error) {
+                        console.log(error);
+                        vm.errors = error.response;
+                    });
+
                 },
                 agregarComentario: function (dia) {
                     let vm = this;
@@ -113,6 +201,20 @@
                         if (response.data.status == 'ok') {
                             dia.comentar = 0;
                         }
+                    }).catch(function (error) {
+                        vm.errors = error.response.data.errors;
+                    });
+                },
+                comentarios: function (dia) {
+                    let vm = this;
+                    vm.errors = [];
+
+                    axios.post('{{url('/usuarios/comentarios')}}/'+dia+'/'+this.usuario.id).then(function (response) {
+                        Vue.set(this, 'post', response.data)
+                        console.log(this.post);
+                        this.bandera = true;
+                        console.log(this.bandera);
+                        //this.$set(this, 'comentarios', response.data);
                     }).catch(function (error) {
                         vm.errors = error.response.data.errors;
                     });
@@ -131,6 +233,7 @@
                 }
             },
             created: function () {
+                this.posts = [];
                 this.dias = this.p_dias;
                 this.semana = this.p_semana;
             }

@@ -98,11 +98,82 @@
                                 <br>
                                 <br>
                                 <a href="{{asset('/assets/cuaderno.pdf')}}" target="_blank">
-                                    <i class="fa fa-file-pdf"></i> Descarga aquí tu manual de apoyo
+                                    <!--i class="fa fa-file-pdf"></i> Descarga aquí tu manual de apoyo-->
                                 </a>
                             </div>
+
                         </div>
                     </div>
+                    <hr>
+
+                        <div class="card mb-3">
+                            <div class="card-header"><i class="far fa-clipboard"></i> Personas en ACTON</div>
+                            <div class="card-body">
+                                <form  action="/usuarios/seguir/" method="POST">
+                                    @csrf
+                                    <div style="display: flex; flex-wrap: wrap">
+                                        <div class="col-sm-3">
+                                            <label>Nombre</label>
+                                            <input class="form-control" v-model="filtros.nombre" name="nombre">
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <label>Conexiones</label>
+                                            <select class="form-control" v-model="filtros.conexion" name="conexion">
+                                                <option></option>
+                                                <option>Siguiendo</option>
+                                                <option>Sin conexión</option>
+                                                <option>Tiendas</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <label>Tiendas/GYM</label>
+                                            <select class="form-control" v-model="filtros.tiendagym" name="tienda">
+                                                <option></option>
+                                                <option v-for="p in this.tiendas[0]">@{{ p.name }}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <label>Estado</label>
+                                            <select class="form-control" v-model="filtros.estado" @change="getCiudades()" name="estado">
+                                                <option></option>
+                                                <option v-for="p in this.estados[0]">@{{ p.estado }}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <label>Ciudad</label>
+                                            <select class="form-control" v-model="filtros.ciudad" @change="getCPs()" name="ciudad">
+                                                <option></option>
+                                                <option v-for="p in this.ciudades[0]">@{{ p.ciudad }}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <label>Codigo Postal</label>
+                                            <select class="form-control" v-model="filtros.cp" @change="getColonias()" name="cp">
+                                                <option></option>
+                                                <option v-for="p in this.cps[0]">@{{ p.cp }}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <label>Colonias</label>
+                                            <select class="form-control" v-model="filtros.colonia" name="colonia">
+                                                <option></option>
+                                                <option  v-for="p in this.colonias[0]">@{{ p.colonia }}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <label>&nbsp;</label>
+                                            <br>
+                                            <button class="btn btn-primary" @click="buscar" :disabled=" buscando" class="col-sm-12">
+                                                <i v-if="buscando" class="fa fa-spinner fa-spin"></i>
+                                                <i v-else class="fas fa-search"></i>&nbsp;Buscar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+
                     <hr>
                     <div class="dash">
                         <div class="table-responsive">
@@ -111,9 +182,9 @@
                                     <h6>Estas son las personas que han usado tu código de referencia: </h6>
                                 </div>
                                 <div class="col-12 col-sm-12 col-md-6 d-flex justify-content-end">
-                                    <span class="badge badge-light money" v-tooltip="{content:'Total generado'}">TG <money :caracter="true" :cantidad="''+usuario.total"></money></span>
+                                    <!--span class="badge badge-light money" v-tooltip="{content:'Total generado'}">TG <money :caracter="true" :cantidad="''+usuario.total"></money></span>
                                     <span class="badge badge-light money" v-tooltip="{content:'Total transferido'}">TT <money :caracter="true" :cantidad="''+usuario.depositado"></money></span>
-                                    <span class="badge badge-light money" v-tooltip="{content:'Pendiete por pagar'}">PP <money :caracter="true" :cantidad="''+usuario.saldo"></money></span>
+                                    <span class="badge badge-light money" v-tooltip="{content:'Pendiete por pagar'}">PP <money :caracter="true" :cantidad="''+usuario.saldo"></money></span-->
                                 </div>
                             </div>
                             <table class="table" style="margin: 0px;">
@@ -180,12 +251,27 @@
                     referenciados: [],
                     pagos: [],
                     filtros:{
-                        referencia: ''
+                        referencia: '',
+                        estado: '0',
+                        ciudad: '0',
+                        cp: '0',
+                        estado: '0',
+                        colonia: '0',
+                        tiendagym: '0',
+                        conexion: '0',
+                        ingresadosReto: ''
                     },
                     buscando: false,
                     montopago: this.monto,
                     saldochk: false,
-                    dias: 24
+                    dias: 24,
+                    estados:[],
+                    ciudades:[],
+                    cps:[],
+                    colonias:[],
+
+                    tiendas:[],
+                    conexiones:[],
                 }},
             methods: {
                 loaded: function (referencias) {
@@ -279,11 +365,69 @@
                     axios.get('{{url('/usuarios/actualizar_dias/')}}/'+this.dias).then(function (response) {
 
                     });
+                },
+                getTiendas: function () {
+                    let vm = this;
+                    axios.post('{{url('/usuarios/getTiendas')}}').then((response) => {
+                        this.tiendas=[];
+                        this.tiendas.push(response.data);
+                    }).catch(function (error) {
+                        console.log(error);
+                        vm.errors = error.response;
+                    });
+                },
+                getEstados: function () {
+                    let vm = this;
+                    axios.post('{{url('/usuarios/getEstados')}}').then((response) => {
+                        this.estados=[];
+                        this.ciudades=[];
+                        this.cps=[];
+                        this.colonias=[];
+                        this.estados.push(response.data);
+                    }).catch(function (error) {
+                        console.log(error);
+                        vm.errors = error.response;
+                    });
+                },
+                getCiudades: function () {
+                    let vm = this;
+                    axios.post('{{url('/usuarios/getCiudades')}}', {estado:this.filtros.estado}).then((response) => {
+                        this.ciudades=[];
+                        this.cps=[];
+                        this.colonias=[];
+                        this.ciudades.push(response.data);
+                    }).catch(function (error) {
+                        console.log(error);
+                        vm.errors = error.response;
+                    });
+                },
+                getCPs: function () {
+                    let vm = this;
+                    axios.post('{{url('/usuarios/getCP')}}', {ciudad:this.filtros.ciudad}).then((response) => {
+                        this.cps=[];
+                        this.colonias=[];
+                        this.cps.push(response.data);
+                    }).catch(function (error) {
+                        console.log(error);
+                        vm.errors = error.response;
+                    });
+                },
+                getColonias: function () {
+                    let vm = this;
+                    axios.post('{{url('/usuarios/getColonias')}}', {cp:this.filtros.cp}).then((response) => {
+                        this.colonias=[];
+                        this.colonias.push(response.data);
+                    }).catch(function (error) {
+                        console.log(error);
+                        vm.errors = error.response;
+                    });
                 }
             },
             mounted: function () {
                 this.filtros.referencia = this.usuario.referencia;
                 this.buscar();
+                this.getEstados();
+                this.getTiendas();
                 @if(\Illuminate\Support\Facades\Auth::user()->vencido)
                     this.$refs.cobro.configurar(
                     this.usuario.name,

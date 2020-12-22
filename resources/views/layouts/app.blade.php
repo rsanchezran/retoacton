@@ -90,13 +90,15 @@
                         @endif
                         @if(\Illuminate\Support\Facades\Auth::user()->rol==\App\Code\RolUsuario::CLIENTE)
                             @if(\Illuminate\Support\Facades\Auth::user()->inicio_reto!=null)
-                                <a class="nav-link" href="{{ url('/reto/cliente') }}"><i class="far fa-running"></i> Actividades</a>
+                                <a class="nav-link" href="{{ url('/reto/cliente') }}"><i class="far fa-running"></i> Mis fotos</a>
                             @endif
                             <a class="nav-link" href="{{ url('/reto/programa') }}">
                                 <i class="far fa-calendar-alt"></i> Programa</a>
+                            <a class="nav-link" href="{{ url('/usuarios/seguir') }}">
+                                <i class="fas fa-user-friends"></i> Personas</a>
                         @else
                             <a class="nav-link" href="{{ url('/reto/configuracion') }}">
-                                <i class="far fa-running"></i> Actividades</a>
+                                <i class="far fa-running"></i> Mis fotos</a>
                         @endif
                         @if(\Illuminate\Support\Facades\Auth::user()!=null && \Illuminate\Support\Facades\Auth::user()->vencido)
                             <button id="breathPC" class="nav-link btn btn-sm btn-warning ld x2 ld-breath" data-toggle="modal" data-target="#terminoModal">
