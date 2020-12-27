@@ -62,9 +62,9 @@
                             <td>{{ $u->email }}</td>
                             <td class="text-center">{{ $u->created_at }}</td>
                             <td>
-                                <button v-tooltip="{content:'Pagar'}" class="btn btn-sm btn-success" @click="PagarTienda({{$u->id}})">
+                                <!--button v-tooltip="{content:'Pagar'}" class="btn btn-sm btn-success" @click="PagarTienda({{$u->id}})">
                                     <i class="fas fa-money-bill-wave"></i>
-                                </button>
+                                </button-->
                             </td>
                         </tr>
                     @empty
