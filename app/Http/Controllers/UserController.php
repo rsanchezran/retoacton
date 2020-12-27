@@ -44,7 +44,7 @@ class UserController extends Controller
         $cp_prop=$request->cp;
         $colonia_prop=$request->colonia;
         $tienda_prop=$request->tienda;
-        
+
         return view('users.usuarios')
             ->with([
                 'nombre_prop'=>$nombre_prop,
