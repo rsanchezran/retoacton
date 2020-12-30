@@ -27,6 +27,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 use App\Code\TipoRespuesta;
 use App\Http\Controllers\Controller;
@@ -653,7 +654,7 @@ class ConfiguracionController extends Controller
         $email = trim($request->email);
         $codigo = trim($request->codigo);
         $usuario = User::withTrashed()->orderBy('created_at')->where('email', $email)->get()->last();
-        if ($usuario!=null&&$usuario->id==1&&$cod!=null){
+        if ($usuario!=null&&$usuario->id==1){
             $status = 'error';
             $mensaje = 'Este usuario ya pertenece al RETO ACTON.';
         }else{
@@ -675,6 +676,9 @@ class ConfiguracionController extends Controller
                     $contacto = new User();
                     $contacto->email = $email;
                 }
+
+                $random = Str::random(7);
+
                 $contacto->name = $result = preg_replace('/\d/', '', $request->nombres);
                 $contacto->last_name = $request->apellidos;
                 $contacto->tipo_referencia = 3;
@@ -684,6 +688,7 @@ class ConfiguracionController extends Controller
                 $contacto->encuestado = 0;
                 $contacto->pagado = 1;
                 $contacto->modo = 1;
+                $contacto->referencia = strtoupper($random);
                 $contacto->cp = '1';
                 $contacto->estado = '1';
                 $contacto->ciudad = '1';
