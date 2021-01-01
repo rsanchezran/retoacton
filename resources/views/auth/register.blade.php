@@ -6,6 +6,10 @@
             background: #f6f6f6 !important;
         }
 
+        #imagentop{
+            width: 50%;
+        }
+
         #pagar{
             width: 250px;
             font-size: 50px !important;
@@ -164,22 +168,26 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            height: 100%;
+            height: 550px;
         }
 
         .feature .img {
-            height: 100%;
+            cursor: pointer;
+            height: auto;
         }
 
         .subinfo img {
             width: 100%;
-            height: 100%;
+            height: auto;
         }
+
 
         #features {
             background-color: #005D9C;
             padding: 20px;
-            width: 106%;
+            height: 480px;
+            width: 106.7%;
+            margin-left: -3px !important;
         }
 
         #features .subinfo {
@@ -462,6 +470,9 @@
         }
 
         @media only screen and (max-width: 990px) {
+            #features{
+                height: auto;
+            }
             #features .subtitle {
                 font-size: 2.5vw;
             }
@@ -469,6 +480,9 @@
             #features .subinfo h6 {
                 font-size: .7rem !important;
                 line-height: 1.2 !important;
+            }
+            #imagentop{
+                width: 100%;
             }
 
             .comienza {
@@ -1258,7 +1272,7 @@
         <div class="container">
             <div align="center" style="width: 95%; margin-left: 2%;">
                 <div id="header" align="center">
-                    <img src="images/imagesremodela/12top.png" id="imagentop" width="100%">
+                    <img src="images/imagesremodela/12top.png" id="imagentop">
                     <br>
                     <br>
                 </div>
@@ -1443,36 +1457,36 @@
             <div class="planesacton">
                 <div id="features" class="d-flex flex-wrap mr-auto ml-auto">
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
-                        <div id="comidasFeature" class="feature" @click="features.comidas=false" @mouseover="features.comidas=false"
+                        <div id="comidasFeature" class="feature" @click="features.comidas=false"
                              @mouseleave="features.comidas=true" onclick="location.href = '/register?q=14';">
                             <transition name="fade" mode="out-in">
                                 <div v-if="features.comidas" key="primero">
-                                    <img id="comidasImg" class="img" src="{{asset('/img/2semanasblanco.png')}}" width="100%">
+                                    <img id="comidasImg" class="img" src="{{asset('/images/imagesremodela/2semanasR.png')}}" width="100%">
                                     <h3 id="comidasSub" class="subtitle">
-                                        <span>Plan de 2 semanas </span>
-                                        <span class="small text-lowercase">ver más</span>
+                                        <span></span>
+                                        <span class="small text-lowercase"></span>
                                     </h3>
                                 </div>
                                 <div v-else class="subinfo" key="segundo">
-                                    <img src="{{asset('img/2semanas.png')}}">
+                                    <img src="{{asset('/images/imagesremodela/2semanasR.png')}}">
+                                    <div>
+                                    </div>
                                 </div>
                             </transition>
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
-                        <div id="entrenamientoFeature" class="feature" @click="features.entrenamiento=false" @mouseover="features.entrenamiento=false"
+                        <div id="entrenamientoFeature" class="feature" @click="features.entrenamiento=false"
                              @mouseleave="features.entrenamiento=true" onclick="location.href = '/register?q=28';">
                             <transition name="fade" mode="out-in">
                                 <div v-if="features.entrenamiento" key="first">
-                                    <img id="entrenamientoImg" class="img" src="{{asset('/img/4semanasblanco.png')}}"
+                                    <img id="entrenamientoImg" class="img" src="{{asset('/images/imagesremodela/4semanasR.png')}}"
                                          width="100%">
                                     <h3 id="entrenamientoSub" class="subtitle">
-                                        <span>Plan 4 semanas</span>
-                                        <span class="small text-lowercase">ver más</span>
                                     </h3>
                                 </div>
                                 <div v-else class="subinfo" key="second">
-                                    <img src="{{asset('img/4semanas.png')}}">
+                                    <img src="{{asset('/images/imagesremodela/4semanasR.png')}}">
                                     <div>
                                     <!--h6 class="text-justify">Puedes elegir si deseas entrenar en el gym, desde la comodidad
                                             de tu hogar o en el lugar donde te encuentres, ya que dentro de tu sesión tienes un
@@ -1488,19 +1502,17 @@
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
-                        <div id="suplementosFeature" class="feature" @click="features.suplementos=false" @mouseover="features.suplementos=false"
+                        <div id="suplementosFeature" class="feature" @click="features.suplementos=false"
                              @mouseleave="features.suplementos=true" onclick="location.href = '/register?q=56';">
                             <transition name="fade" mode="out-in">
                                 <div v-if="features.suplementos" key="first">
-                                    <img id="suplementosImg" class="img" src="{{asset('/img/8semanasblanco.png')}}"
+                                    <img id="suplementosImg" class="img" src="{{asset('/images/imagesremodela/8semanasR.png')}}"
                                          width="100%">
                                     <h3 id="suplementosSub" class="subtitle">
-                                        <span>Plan de 8 semanas</span>
-                                        <span class="small text-lowercase">ver más</span>
                                     </h3>
                                 </div>
                                 <div v-else class="subinfo" key="second">
-                                    <img src="{{asset('img/8semanas.png')}}">
+                                    <img src="{{asset('/images/imagesremodela/8semanasR.png')}}">
                                     <div>
                                         <!--h6>Te diremos cuáles son los suplementos adecuados con las dosis óptimas para alcanzar
                                             de una manera más efectiva y rápida el objetivo de que deseas <span
@@ -1512,18 +1524,16 @@
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
-                        <div id="videosFeature" class="feature" @click="features.videos=false" @mouseover="features.videos=false"
+                        <div id="videosFeature" class="feature" @click="features.videos=false"
                              @mouseleave="features.videos=true" onclick="location.href = '/register?q=84';">
                             <transition name="fade" mode="out-in">
                                 <div v-if="features.videos" key="first">
-                                    <img id="videosImg" class="img" src="{{asset('/img/12semanasblanco.png')}}" width="100%">
+                                    <img id="videosImg" class="img" src="{{asset('/images/imagesremodela/12semanasR.png')}}" width="100%">
                                     <h3 id="videosSub" class="subtitle">
-                                        <span>Plan de 12 semanas</span>
-                                        <span class="small text-lowercase">ver más</span>
                                     </h3>
                                 </div>
                                 <div v-else class="subinfo" key="second">
-                                    <img src="{{asset('img/12semanas.png')}}">
+                                    <img src="{{asset('/images/imagesremodela/12semanasR.png')}}">
                                     <div>
                                         <!--h6><span class="font-weight-bold text-center" style="font-family: unitext">Más de 500 videos de alta resolución </span>
                                             en tu sesión con explicación de cada ejercicio para que puedas ver la técnica

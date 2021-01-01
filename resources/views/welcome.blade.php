@@ -745,7 +745,7 @@
                     </div>
                 </div>
             </div>
-            <div id="tituloFeature" class="section container text-center">
+            <!--div id="tituloFeature" class="section container text-center">
                 <div class="col-12 col-sm-9 mr-auto ml-auto" id="verdadero">
                     <h6 class="text-uppercase bigger thin" style="color:#929494">El verdadero cambio </h6>
                     <h6 class="text-uppercase font-weight-bold biggest">Comienza</h6>
@@ -758,7 +758,13 @@
                     <h6 class="comienza text-uppercase font-weight-bold">Buscamos ser inspiración y motivación para</h6>
                     <h6 class="comienza text-uppercase font-weight-bold">alcanzar cualquier meta que te propongas.</h6>
                 </div>
-            </div>
+            </div-->
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
             <div class="section">
                 <div id="curva"></div>
                 <div id="pipo" class="d-flex flex-wrap">
