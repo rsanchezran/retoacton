@@ -19,6 +19,7 @@
         .info {
             padding: 20px 10px;
             background-color: #f6f6f6;
+            cursor: pointer;
         }
 
         .section {
