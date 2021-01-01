@@ -484,6 +484,14 @@
                 margin-left: -8%;
             }
 
+            .feature {
+                padding-bottom: 30px;
+                display: flex;
+                flex-direction: column-reverse;
+                justify-content: normal;
+                height: auto;
+            }
+
             #features .subinfo h6 {
                 font-size: .7rem !important;
                 line-height: 1.2 !important;

@@ -369,6 +369,13 @@
                 width: 116%;
                 margin-left: -8%;
             }
+            .feature {
+                padding-bottom: 30px;
+                display: flex;
+                flex-direction: column-reverse;
+                justify-content: normal;
+                height: auto;
+            }
 
             #features .subinfo h6 {
                 font-size: .7rem !important;
