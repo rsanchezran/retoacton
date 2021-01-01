@@ -143,8 +143,6 @@ class UserController extends Controller
                 $usuarios = $usuarios->where('rol', 'tienda');
             }
         }
-        error_log('TIENDAAAAA::::::::'.$campos->tiendagym);
-        error_log('CONEXION::::::::'.$campos->conexion);
         if($campos->tiendagym != '0' and $campos->tiendagym != '') {
             $usuarios = $usuarios->where('name', $campos->tiendagym)->where('rol', 'tienda');
         }
@@ -161,6 +159,9 @@ class UserController extends Controller
         if ($campos->fecha_final != null) {
             $fecha = join('-', array_reverse(explode('/', $campos->fecha_final)));
             $usuarios = $usuarios->where('inicio_reto', '<=', $fecha);
+        }
+        if ($campos->codigo_personal != null) {
+            $usuarios = $usuarios->where('referencia', '<=', $campos->codigo_personal);
         }
         if ($campos->saldo != null) {
             if (is_numeric($campos->saldo))
@@ -192,14 +193,14 @@ class UserController extends Controller
         if ($campos->colonia != '0' and $campos->colonia != '') {
             $usuarios = $usuarios->where('colonia', $campos->colonia);
         }
-        if ($campos->estado != 0) {
+        /*if ($campos->estado != 0) {
             if ($campos->estado == 1) {
                 $consulta = 'CURDATE() >= DATE_ADD(fecha_inscripcion, interval ' . (env('DIAS') - 1) . ' DAY)';
             } else if ($campos->estado == 2) {
                 $consulta = 'CURDATE() < DATE_ADD(fecha_inscripcion, interval ' . (env('DIAS')) . ' DAY)';
             }
             $usuarios = $usuarios->whereRaw($consulta);
-        }
+        }*/
         $usuarios = $usuarios->orderByDesc('created_at');
         $usuarios = $usuarios->select(['users.*'])->paginate(15);
         $comision = intval(env('COMISION'));

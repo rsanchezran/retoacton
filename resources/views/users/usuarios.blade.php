@@ -26,13 +26,16 @@
     <template id="temp">
         <div>
             <div class="card mb-3">
-                {{$nombre_prop}}
                 <div class="card-header"><i class="far fa-clipboard"></i> Personas en ACTON</div>
                 <div class="card-body">
                     <div style="display: flex; flex-wrap: wrap">
                         <div class="col-sm-3">
                             <label>Nombre</label>
                             <input class="form-control" v-model="filtros.nombre" @keyup.enter="buscar">
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Codigo Personal</label>
+                            <input class="form-control" v-model="filtros.codigo_personal" name="codigo_personal">
                         </div>
                         <div class="col-sm-3">
                             <label>Conexiones</label>
@@ -252,7 +255,8 @@
                         colonia: '0',
                         tiendagym: '0',
                         conexion: '0',
-                        ingresadosReto: ''
+                        ingresadosReto: '',
+                        codigo_personal: ''
                     },
                     usuario: {
                         id: '',

@@ -117,6 +117,10 @@
                                             <input class="form-control" v-model="filtros.nombre" name="nombre">
                                         </div>
                                         <div class="col-sm-3">
+                                            <label>Codigo Personal</label>
+                                            <input class="form-control" v-model="filtros.codigo_personal" name="codigo_personal">
+                                        </div>
+                                        <div class="col-sm-3">
                                             <label>Conexiones</label>
                                             <select class="form-control" v-model="filtros.conexion" name="conexion">
                                                 <option></option>
@@ -259,7 +263,8 @@
                         colonia: '0',
                         tiendagym: '0',
                         conexion: '0',
-                        ingresadosReto: ''
+                        ingresadosReto: '',
+                        codigo_personal: ''
                     },
                     buscando: false,
                     montopago: this.monto,

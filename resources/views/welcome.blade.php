@@ -72,34 +72,33 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            height: 376px;
+            height: 550px;
         }
 
         .feature .img {
-            height: 376px;
+            cursor: pointer;
+            height: auto;
         }
 
         .subinfo img {
             width: 100%;
-            height: 376px;
+            height: auto;
         }
 
         .subinfo div{
-            padding: 20px;
         }
 
 
         #features {
             background-color: #005D9C;
             padding: 20px;
+            height: 480px;
         }
 
         #features .subinfo {
-            background-color: #F0F0F0;
             font-size: .7rem;
             font-family: unitext_light;
             flex-grow: 1;
-            height: 376px;
         }
 
         #features .subtitle {
@@ -212,6 +211,7 @@
             text-align: center;
             margin: 1px auto;
             line-height: 1.2;
+            font-size: 40px;
         }
 
         #cree p {
@@ -369,6 +369,9 @@
 
             .comienza {
                 font-size: .62rem;
+            }
+            #features {
+                height: auto;
             }
         }
 
@@ -612,16 +615,16 @@
                     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-pause="false">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
+                                <img class="d-block w-100" src="{{asset('images/imagesremodela/INDIVIDUALES_BANNER_LIFE.jpg')}}" alt="First slide">
+                            </div>
+                            <div class="carousel-item">
                                 <img class="d-block w-100" src="{{asset('img/landing3.jpg')}}" alt="Third slide">
                             </div>
                             <div class="carousel-item">
                                 <img class="d-block w-100" src="{{asset('img/landing2.jpg')}}" alt="Second slide">
                             </div>
                             <div class="carousel-item">
-                                <img class="d-block w-100" src="{{asset('img/landing1.jpg')}}" alt="First slide">
-                            </div>
-                            <div class="carousel-item">
-                                <img class="d-block w-100" src="{{asset('img/landing4.jpg')}}" alt="Forth slide">
+                                <img class="d-block w-100" src="{{asset('img/landing1.jpg')}}" alt="Forth slide">
                             </div>
                         </div>
                         <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
@@ -653,44 +656,36 @@
             <div class="">
                 <div id="features" class="d-flex flex-wrap mr-auto ml-auto">
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
-                        <div id="comidasFeature" class="feature" @click="features.comidas=false" @mouseover="features.comidas=false"
+                        <div id="comidasFeature" class="feature" @click="features.comidas=false"
                              @mouseleave="features.comidas=true" onclick="location.href = '/register?q=14';">
                             <transition name="fade" mode="out-in">
                                 <div v-if="features.comidas" key="primero">
-                                    <img id="comidasImg" class="img" src="{{asset('/img/2semanasblanco.png')}}" width="100%">
+                                    <img id="comidasImg" class="img" src="{{asset('/images/imagesremodela/2semanasR.png')}}" width="100%">
                                     <h3 id="comidasSub" class="subtitle">
-                                        <span>Plan de 2 semanas </span>
-                                        <span class="small text-lowercase">ver más</span>
+                                        <span></span>
+                                        <span class="small text-lowercase"></span>
                                     </h3>
                                 </div>
                                 <div v-else class="subinfo" key="segundo">
-                                    <img src="{{asset('img/2semanas.png')}}">
+                                    <img src="{{asset('/images/imagesremodela/2semanasR.png')}}">
                                     <div>
-                                        <!--h6 style="font-family: unitext_bold_cursive;">Los planes de alimentación que
-                                            recibes en este programa de 8 semanas son totalmente personalizados.</h6>
-                                        <h6>En <b style="font-family: unitext_bold_cursive">ACTON</b> estamos seguros de que,
-                                            para tener más posibilidades de cambio, tu plan de alimentación te debe agradar, por
-                                            lo que tú puedes elegir cuáles alimentos NO quieres que aparezcan en tu programa
-                                            para que sea más fácil llevarlo</h6-->
                                     </div>
                                 </div>
                             </transition>
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
-                        <div id="entrenamientoFeature" class="feature" @click="features.entrenamiento=false" @mouseover="features.entrenamiento=false"
+                        <div id="entrenamientoFeature" class="feature" @click="features.entrenamiento=false"
                              @mouseleave="features.entrenamiento=true" onclick="location.href = '/register?q=28';">
                             <transition name="fade" mode="out-in">
                                 <div v-if="features.entrenamiento" key="first">
-                                    <img id="entrenamientoImg" class="img" src="{{asset('/img/4semanasblanco.png')}}"
+                                    <img id="entrenamientoImg" class="img" src="{{asset('/images/imagesremodela/4semanasR.png')}}"
                                          width="100%">
                                     <h3 id="entrenamientoSub" class="subtitle">
-                                        <span>Plan 4 semanas</span>
-                                        <span class="small text-lowercase">ver más</span>
                                     </h3>
                                 </div>
                                 <div v-else class="subinfo" key="second">
-                                    <img src="{{asset('img/4semanas.png')}}">
+                                    <img src="{{asset('/images/imagesremodela/4semanasR.png')}}">
                                     <div>
                                     <!--h6 class="text-justify">Puedes elegir si deseas entrenar en el gym, desde la comodidad
                                             de tu hogar o en el lugar donde te encuentres, ya que dentro de tu sesión tienes un
@@ -706,19 +701,17 @@
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
-                        <div id="suplementosFeature" class="feature" @click="features.suplementos=false" @mouseover="features.suplementos=false"
+                        <div id="suplementosFeature" class="feature" @click="features.suplementos=false"
                              @mouseleave="features.suplementos=true" onclick="location.href = '/register?q=56';">
                             <transition name="fade" mode="out-in">
                                 <div v-if="features.suplementos" key="first">
-                                    <img id="suplementosImg" class="img" src="{{asset('/img/8semanasblanco.png')}}"
+                                    <img id="suplementosImg" class="img" src="{{asset('/images/imagesremodela/8semanasR.png')}}"
                                          width="100%">
                                     <h3 id="suplementosSub" class="subtitle">
-                                        <span>Plan de 8 semanas</span>
-                                        <span class="small text-lowercase">ver más</span>
                                     </h3>
                                 </div>
                                 <div v-else class="subinfo" key="second">
-                                    <img src="{{asset('img/8semanas.png')}}">
+                                    <img src="{{asset('/images/imagesremodela/8semanasR.png')}}">
                                     <div>
                                         <!--h6>Te diremos cuáles son los suplementos adecuados con las dosis óptimas para alcanzar
                                             de una manera más efectiva y rápida el objetivo de que deseas <span
@@ -730,18 +723,16 @@
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
-                        <div id="videosFeature" class="feature" @click="features.videos=false" @mouseover="features.videos=false"
+                        <div id="videosFeature" class="feature" @click="features.videos=false"
                              @mouseleave="features.videos=true" onclick="location.href = '/register?q=84';">
                             <transition name="fade" mode="out-in">
                                 <div v-if="features.videos" key="first">
-                                    <img id="videosImg" class="img" src="{{asset('/img/12semanasblanco.png')}}" width="100%">
+                                    <img id="videosImg" class="img" src="{{asset('/images/imagesremodela/12semanasR.png')}}" width="100%">
                                     <h3 id="videosSub" class="subtitle">
-                                        <span>Plan de 12 semanas</span>
-                                        <span class="small text-lowercase">ver más</span>
                                     </h3>
                                 </div>
                                 <div v-else class="subinfo" key="second">
-                                    <img src="{{asset('img/12semanas.png')}}">
+                                    <img src="{{asset('/images/imagesremodela/12semanasR.png')}}">
                                     <div>
                                         <!--h6><span class="font-weight-bold text-center" style="font-family: unitext">Más de 500 videos de alta resolución </span>
                                             en tu sesión con explicación de cada ejercicio para que puedas ver la técnica
@@ -777,17 +768,18 @@
                     <div class="col-sm-7 col-7" id="quote">
                         <div id="frase">
                             <div id="cree">
-                                <p class="text-uppercase">Tus más grandes deseos llegarán a ti tarde o temprano</p>
+                                <!--p class="text-uppercase">Tus más grandes deseos llegarán a ti tarde o temprano</p>
                                 <br>
                                 <p class="text-uppercase">La rapidez con la que aparecerán en</p>
                                 <p class="text-uppercase">tu vida depende de tu nivel de fe</p>
                                 <p class="text-uppercase">en que lo conseguirás</p>
-                                <br>
-                                <p class="text-uppercase">¡Cree en ti y todo será posible! </p>
+                                <br-->
+                                <p class="text-uppercase">¡Cree en ti y </p>
+                                <p class="text-uppercase">todo será</p>
+                                <p class="text-uppercase">posible! </p>
+                                <p class="text-uppercase turquesa" style="font-family: unitext_cursive; font-weight:bold; font-size: 15px;">- Reto Acton </p>
                             </div>
-                            <br>
-                            <span class="turquesa text-uppercase float-right"
-                                  style="font-family: unitext_cursive; font-weight:bold;">- Reto Acton</span>
+
                             <br>
                             <br>
                             <h6 class="momento biggest text-uppercase font-weight-bold"
@@ -1097,22 +1089,13 @@
                     <br>
                     <div id="monitores" class="d-flex flex-wrap">
                         <div class="col-sm-4 col-12 monitor">
-                            <h6 class="text-center font-weight-bold text-uppercase">Paso 1</h6>
-                            <img src="{{asset('img/monitor1.png')}}" width="90%">
-                            <h6>Recibirás un correo con tu usuario y contraseña para poder ingresar a tu sesión</h6>
+                            <img src="{{asset('images/imagesremodela/pasouno.png')}}" width="90%">
                         </div>
                         <div class="col-sm-4 col-12 monitor">
-                            <h6 class="text-center font-weight-bold text-uppercase">Paso 2</h6>
-                            <img src="{{asset('img/monitor2.png')}}" width="90%">
-                            <h6>En seguida empezarás un cuestionario en el que nos pasarás tus datos necesarios para hacer
-                                tu programa personalizado</h6>
-                            <br>
+                            <img src="{{asset('images/imagesremodela/pasodos.png')}}" width="90%">
                         </div>
                         <div class="col-sm-4 col-12 monitor">
-                            <h6 class="text-center font-weight-bold text-uppercase">Paso 3</h6>
-                            <img src="{{asset('img/monitor3.png')}}" width="90%">
-                            <h6>Al finalizar este cuestionario entrarás automáticamente a tu programa y estarás listo para
-                                empezar</h6>
+                            <img src="{{asset('images/imagesremodela/pasotres.png')}}" width="90%">
                         </div>
                         <div class="col-12 col-sm-4 d-block ml-auto mr-auto">
                             <a class="btn btn-primary" href="{{url('register')}}"
