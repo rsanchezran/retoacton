@@ -645,12 +645,8 @@
                     <h6 class="text-uppercase bigger thin" style="color:#929494; font-size: 2.4rem">El mejor
                         momento</h6>
                     <h6 class="text-uppercase font-weight-bold biggest">para empezar</h6>
-                    <h6 class="text-uppercase font-weight-bold biggest"> es hoy</h6>
+                    <h6 class="text-uppercase font-weight-bold biggest"> es este</h6>
                     <br>
-                    <div>
-                        <h6 style="font-size: 1.3rem; margin-bottom: 2px;" class="text-uppercase">+ 33,000 personas</h6>
-                        <h6 style="font-size: 1.3rem" class="text-uppercase">mejoraron su vida</h6>
-                    </div>
                 </div>
             </div>
             <div class="">
@@ -745,25 +741,14 @@
                     </div>
                 </div>
             </div>
-            <!--div id="tituloFeature" class="section container text-center">
+            <div id="tituloFeature" class="section container text-center">
                 <div class="col-12 col-sm-9 mr-auto ml-auto" id="verdadero">
                     <h6 class="text-uppercase bigger thin" style="color:#929494">El verdadero cambio </h6>
                     <h6 class="text-uppercase font-weight-bold biggest">Comienza</h6>
-                    <h6 class="text-uppercase font-weight-bold biggest">en tu mente</h6>
+                    <h6 class="text-uppercase font-weight-bold biggest">desde adentro</h6>
                     <br>
-                    <h6 class="comienza gris" style="font-family: unitext_light; font-weight: bold;">Nuestro reto
-                        contigo durante estas semanas es demostrarte que</h6>
-                    <h6 class="comienza gris" style="font-family: unitext_light; font-weight: bold;">puedes alcanzar el
-                        cuerpo que deseas cuando tu mente así lo decide.</h6>
-                    <h6 class="comienza text-uppercase font-weight-bold">Buscamos ser inspiración y motivación para</h6>
-                    <h6 class="comienza text-uppercase font-weight-bold">alcanzar cualquier meta que te propongas.</h6>
                 </div>
-            </div-->
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
+            </div>
             <br>
             <div class="section">
                 <div id="curva"></div>
@@ -1118,9 +1103,9 @@
                             <i :class="'fas fa-sort-'+(!faqs.reto?'down':'up')+' float-right'"></i>
                         </div>
                         <p class="subinfo" v-show="faqs.reto">
-                            Es un programa de transformación de 8 semanas en el cual
-                            se te dan las herramientas necesarias para lograr la mejor versión de
-                            ti en 56 días.
+                            Son programas de distinta duración donde serás retado a salir de tu
+                            zona de confort para poder llegar a tu mejor versión en tiempo
+                            récord.
                         </p>
                     </div>
                     <hr>
@@ -1130,25 +1115,20 @@
                             <i :class="'fas fa-sort-'+(!faqs.diferente?'down':'up')+' float-right'"></i>
                         </div>
                         <p class="subinfo" v-show="faqs.diferente">
-                            A diferencia de otros programas donde se les da una misma dieta a
-                            todos los participantes, en el RETO ACTON el plan de alimentación es
-                            específicamente planeado para ti, es decir, nunca será igual al de algún otro participante. Además este reto te da la oportunidad de ganar
-                            dinero diariamente, es decir, todos pueden obtener premios en efectivo. ¡Aquí todos ganan!
-                            También habrá un grupo privado de Facebook donde podrás interactuar con otros participantes y ayudarse unos con otros para mantener
-                            la motivación.
+                            Las dietas que obtienes en el reto son totalmente personalizadas, nunca será igual a la dieta de algún otro participante ya que tu
+                            eliges cuales alimentos quieres omitir en tu dieta.
                         </p>
                     </div>
                     <hr>
                     <div>
                         <div @click="cambiarFaqs('dinero')" class="in-cursor">
                             <h3 class="subtitle">
-                                ¿CUÁNTO DINERO PUEDO GENERAR EN EL RETO ACTON?
+                                ¿HABRA QUIEN RESUELVA MIS DUDAS ?
                             </h3>
                             <i :class="'fas fa-sort-'+(!faqs.dinero?'down':'up')+' float-right'"></i>
                         </div>
                         <p class="subinfo" v-show="faqs.dinero">
-                            Lo que tú te propongas, no hay límite.
-                            Recuerda que con cada inscrito que viene de tu parte se te premia con $500 MXN
+                            Claro. El team Acton estará siempre al pendiente de tus dudas e inquietudes por medio de WhatsApp o por la plataforma.
                         </p>
                     </div>
                     <hr>
@@ -1158,13 +1138,12 @@
                             <i :class="'fas fa-sort-'+(!faqs.finalizar?'down':'up')+' float-right'"></i>
                         </div>
                         <p class="subinfo" v-show="faqs.finalizar">
-                            Otra de las ventajas que tienes en el RETO ACTON es que, una vez
-                            que lo finalizas tienes la oportunidad de obtener un seguimiento
-                            mensual y así mantener los avances y seguir mejorando
+                            Puedes elegir un nuevo reto de distinta duración y usar tu saldo a favor para re inscribirte a un nuevo reto, recuerda que por cada
+                            amigo que invitas generas Saldo a Favor el cual se ve reflejado en tu sesión.
                         </p>
                     </div>
                     <hr>
-                    <div>
+                    <!--div>
                         <div @click="cambiarFaqs('dudas')" class="in-cursor">
                             <h3 class="subtitle">¿HABRÁ QUIÉN ME RESUELVA DUDAS?</h3>
                             <i :class="'fas fa-sort-'+(!faqs.dudas?'down':'up')+' float-right'"></i>
@@ -1186,7 +1165,7 @@
                             Sí, como el programa es 100% en línea puedes empezarlo desde
                             cualquier lugar.
                         </p>
-                    </div>
+                    </div-->
                 </div>
             </div>
     </template>
