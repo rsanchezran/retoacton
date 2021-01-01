@@ -363,6 +363,13 @@
                 font-size: 2.5vw;
             }
 
+            .feature .img {
+                cursor: pointer;
+                height: 97%;
+                width: 110%;
+                margin-left: -5%;
+            }
+
             #features .subinfo h6 {
                 font-size: .7rem !important;
                 line-height: 1.2 !important;
