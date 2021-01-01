@@ -365,9 +365,9 @@
 
             .feature .img {
                 cursor: pointer;
-                height: 97%;
-                width: 110%;
-                margin-left: -5%;
+                height: 105%;
+                width: 116%;
+                margin-left: -8%;
             }
 
             #features .subinfo h6 {
