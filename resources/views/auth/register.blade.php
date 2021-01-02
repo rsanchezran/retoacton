@@ -3,7 +3,7 @@
     <style>
 
         #pago {
-            background: #f6f6f6 !important;
+            background: #f2f2f2 !important;
         }
 
         #imagentop{
@@ -277,11 +277,11 @@
             background-repeat: no-repeat;
             background-size: 150px;
             background-position: top right;
-            width: 106.3%;
-            margin-left: -1.4%;
+            width: 115.2%;
+            margin-left: -6.7%;
         }
         #descripcionsemanas{
-            margin-left: -1.5%;
+            margin-left: -2%;
             width: 110%;
         }
 
@@ -1119,8 +1119,8 @@
 
         @media only screen and (max-width: 430px) {
             #testtitulo{
-                width: 113.2%;
-                margin-left: -6.4%;
+                width: 118.2%;
+                margin-left: -10.4%;
             }
             #descripcionsemanas{
                 margin-left: -6.5%;
@@ -1185,15 +1185,15 @@
             .minreloj {
                 font-size: 55px;
                 color: white;
-                letter-spacing: 22px;
-                margin-left: 33%;
+                letter-spacing: 21px;
+                margin-left: 31%;
                 margin-top: -117px;
             }
             .segundoreloj{
                 font-size: 55px;
                 color: white;
-                letter-spacing: 22px;
-                margin-left: 64%;
+                letter-spacing: 21px;
+                margin-left: 60%;
                 margin-top: -117px;
             }
         }
@@ -1249,30 +1249,30 @@
                 color: white;
                 position: absolute;
                 letter-spacing: 12px;
-                margin-left: 5px;
+                margin-left: 1px;
                 margin-top: -15px;
             }
             .minreloj {
                 font-size: 55px;
                 color: white;
                 letter-spacing: 16px;
-                margin-left: 33%;
-                margin-top: -110px;
+                margin-left: 30%;
+                margin-top: -106px;
             }
             .segundoreloj{
                 font-size: 55px;
                 color: white;
                 letter-spacing: 16px;
-                margin-left: 63%;
-                margin-top: -110px;
+                margin-left: 59%;
+                margin-top: -106px;
             }
             #descripcionsemanas {
                 margin-left: -5.5%;
                 width: 113.5%;
             }
             #testtitulo {
-                width: 113.2%;
-                margin-left: -6%;
+                width: 119.2%;
+                margin-left: -11%;
             }
         }
 
@@ -1383,12 +1383,12 @@
                 <div v-show="mensaje!=''">
                     <h6 class="detalle">@{{ mensaje }}</h6>
                 </div>
-                <div v-show="mensaje==''">
-                    <h6 class="detalle">¡Gracias por compartirnos tus datos,</h6>
+                <div v-show="mensaje==''" style="margin-left: 5%">
+                    <!--h6 class="detalle">¡Gracias por compartirnos tus datos,</h6>
                     <h6 class="detalle"> nos encantará ayudarte!</h6>
                     <h6 class="detalle"> El costo para unirte y tener los </h6>
                     <h6 class="detalle"> beneficios del <b class="text-uppercase">Reto Acton</b> es de:
-                    </h6>
+                    </h6-->
                     <label style="font-size: 1.4rem; font-family: unitext_bold_cursive">
                         <money v-if="descuento>0" id="cobro_anterior" :cantidad="''+original" :decimales="0"
                                estilo="font-size:1.2em; color:#000000" adicional=" MXN"
@@ -1400,6 +1400,17 @@
                         <label style="font-size: 1.4rem; margin-top: -5px; font-family: unitext_bold_cursive">@{{descuento }}% de descuento </label>
                         <label style="color: #000; font-weight: bold; font-family: unitext_bold_cursive" v-if="descuento=='{{env('DESCUENTO')}}'">ÚLTIMO DIA</label>
                     </div>
+
+
+
+                    <div v-if="informacion.medio!=='Por medio de un gimnasio o tienda de suplementos'">
+                        <div style="margin-top: 40px;">
+                            <div style="margin-top:60px; margin-bottom: 70px">
+                                <img src="{{asset("images/imagesremodela/ultimodia.png")}}" width="100%" id="ultimodia" style="width: 100%;margin-left: -2.7%;">
+                            </div>
+                        </div>
+                    </div>
+
                     <div id="pagar">
                         <div>a sólo</div>
                         <div style="font-size: 1.5rem; margin-left: 5px">
@@ -1411,7 +1422,7 @@
                 </div>
                 <br>
 
-                <div v-if="informacion.medio!=='Por medio de un gimnasio o tienda de suplementos'">
+                <div v-if="informacion.medio!=='Por medio de un gimnasio o tienda de suplementos'" style="margin-left: 5%">
                     <div id="apps" v-if="this.informacion.tipo == 14 || this.informacion.tipo == 84">
                         <div  v-if="hr" class="horasrestantes" style="display: inline;">
                             <div class="horas" style="display: inline;">
@@ -1432,22 +1443,21 @@
 
 
 
-                <div v-if="informacion.medio!=='Por medio de un gimnasio o tienda de suplementos'">
+                <div v-if="informacion.medio!=='Por medio de un gimnasio o tienda de suplementos'" style="margin-left: 5%">
                     <div style="margin-top: 40px;">
                         <div style="margin-top:60px; margin-bottom: 70px">
                             <img src="{{asset("images/imagesremodela/ultimashoras1.png")}}" width="100%" id="ultimashoras1" style="width: 100%;margin-left: -2.7%;">
                             <img src="{{asset("images/imagesremodela/ultimodia1.png")}}" width="100%" id="ultimodia1" style="width: 50%;">
-                            <img src="{{asset("images/imagesremodela/ultimodia.png")}}" width="100%" id="ultimodia" style="width: 100%;margin-left: -2.7%;">
                             <img src="{{asset("images/imagesremodela/ultimashoras.png")}}" width="100%" id="ultimashoras" style="width: 50%;">
-                            <div v-if="this.informacion.tipo == 14" class="text-center text-danger" id="soloquedan"><h2>Quedan sólo 3 lugares</h2></div>
+                            <div v-if="this.informacion.tipo == 28" class="text-center text-danger" id="soloquedan"><h2>Quedan sólo 3 lugares</h2></div>
                         </div>
                     </div>
                 </div>
 
 
-                <img src="{{asset('images/imagesremodela/metodos.png')}}" id="metodos" style="width: 35%;margin-top: 50px;margin-bottom: 50px;margin-left:0%;">
+                <img src="{{asset('images/imagesremodela/metodos.png')}}" id="metodos" style="width: 35%;margin-top: 50px;margin-bottom: 50px;margin-left:0%;margin-left: 5%">
 
-                <div class="pasarelas">
+                <div class="pasarelas" style="margin-left: 2%">
                     <h6 style="color: #000;">Estas son las formas de realizar tu pago de manera segura</h6>
                     <cobro ref="cobro" :cobro="''+monto" :url="'{{url('/')}}'" :id="'{{env('OPENPAY_ID')}}'"
                            :llave="'{{env('CONEKTA_PUBLIC')}}'" :sandbox="'{{env('SANDBOX')}}'==true" :meses="true"
@@ -1455,7 +1465,7 @@
                 </div>
 
                 <div>
-                    <div id="" class="" style="padding-top:100px; padding-bottom:10px;">
+                    <div id="" class="" style="padding-top:100px; padding-bottom:10px;margin-left: 5%">
                         <div id="testtitulo" class="">
                             <img src="{{asset('img/historias_exito.jpg')}}" width="100%" id="historiasexito">
                             <img src="{{asset('images/imagesremodela/historiasmovil.png')}}" width="100%" id="historiasexitomovil">
