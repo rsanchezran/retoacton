@@ -12,8 +12,8 @@
 
 
         #ultimodia{
-            width: 100%;
-            margin-left: -13.6%;
+            width: 100% !important;
+            margin-left: -13.6% !important;
         }
         #pagar{
             width: 250px;
@@ -809,8 +809,8 @@
                 width: 80% !important;
             }
             #ultimodia{
-                width: 100%;
-                margin-left: -20.7%;
+                width: 100% !important;
+                margin-left: -20.7% !important;
             }
         }
 
