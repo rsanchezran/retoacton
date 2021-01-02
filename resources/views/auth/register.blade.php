@@ -147,7 +147,7 @@
         .subinfo {
             text-align: justify;
             font-size: 1em;
-            height: 230px;
+            height: 0px;
         }
 
         .btn-primary {
@@ -191,7 +191,7 @@
         }
 
         #features .subinfo {
-            background-color: #F0F0F0;
+            background-color: transparent;
             font-size: .7rem;
             font-family: unitext_light;
             flex-grow: 1;
@@ -1472,11 +1472,11 @@
             <div class="planesacton">
                 <div id="features" class="d-flex flex-wrap mr-auto ml-auto">
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
-                        <div id="comidasFeature" class="feature" @click="features.comidas=false"
+                        <div id="comidasFeature" class="feature" @click="features.comidas=false" @mouseover="features.comidas=false"
                              @mouseleave="features.comidas=true" onclick="location.href = '/register?q=14';">
                             <transition name="fade" mode="out-in">
                                 <div v-if="features.comidas" key="primero">
-                                    <img id="comidasImg" class="img" src="{{asset('/images/imagesremodela/2semanasR.png')}}" width="100%">
+                                    <img id="comidasImg" class="img" src="{{asset('/images/imagesremodela/2semanasRB.png')}}" width="100%">
                                     <h3 id="comidasSub" class="subtitle">
                                         <span></span>
                                         <span class="small text-lowercase"></span>
@@ -1484,77 +1484,53 @@
                                 </div>
                                 <div v-else class="subinfo" key="segundo">
                                     <img src="{{asset('/images/imagesremodela/2semanasR.png')}}">
-                                    <div>
-                                    </div>
                                 </div>
                             </transition>
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
-                        <div id="entrenamientoFeature" class="feature" @click="features.entrenamiento=false"
+                        <div id="entrenamientoFeature" class="feature" @click="features.entrenamiento=false" @mouseover="features.entrenamiento=false"
                              @mouseleave="features.entrenamiento=true" onclick="location.href = '/register?q=28';">
                             <transition name="fade" mode="out-in">
                                 <div v-if="features.entrenamiento" key="first">
-                                    <img id="entrenamientoImg" class="img" src="{{asset('/images/imagesremodela/4semanasR.png')}}"
+                                    <img id="entrenamientoImg" class="img" src="{{asset('/images/imagesremodela/4semanasRB.png')}}"
                                          width="100%">
                                     <h3 id="entrenamientoSub" class="subtitle">
                                     </h3>
                                 </div>
                                 <div v-else class="subinfo" key="second">
                                     <img src="{{asset('/images/imagesremodela/4semanasR.png')}}">
-                                    <div>
-                                    <!--h6 class="text-justify">Puedes elegir si deseas entrenar en el gym, desde la comodidad
-                                            de tu hogar o en el lugar donde te encuentres, ya que dentro de tu sesión tienes un
-                                            botón en el cual puedes cambiar tu rutina a </h6>
-                                        <h6 class="font-weight-bold text-center" style="font-family: unitext;">Modo: GYM o CASA</h6>
-                                        <div class="col-sm-10 col-md-10 col-lg-10 col-xl-10 d-flex justify-content-between p-0 ml-auto mr-auto">
-                                            <img class="modo" src="{{asset('img/Boton01.png')}}"/>
-                                            <img class="modo" src="{{asset('img/Boton02.png')}}"/>
-                                        </div-->
-                                    </div>
                                 </div>
                             </transition>
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
-                        <div id="suplementosFeature" class="feature" @click="features.suplementos=false"
+                        <div id="suplementosFeature" class="feature" @click="features.suplementos=false" @mouseover="features.suplementos=false"
                              @mouseleave="features.suplementos=true" onclick="location.href = '/register?q=56';">
                             <transition name="fade" mode="out-in">
                                 <div v-if="features.suplementos" key="first">
-                                    <img id="suplementosImg" class="img" src="{{asset('/images/imagesremodela/8semanasR.png')}}"
+                                    <img id="suplementosImg" class="img" src="{{asset('/images/imagesremodela/8semanasRB.png')}}"
                                          width="100%">
                                     <h3 id="suplementosSub" class="subtitle">
                                     </h3>
                                 </div>
                                 <div v-else class="subinfo" key="second">
                                     <img src="{{asset('/images/imagesremodela/8semanasR.png')}}">
-                                    <div>
-                                        <!--h6>Te diremos cuáles son los suplementos adecuados con las dosis óptimas para alcanzar
-                                            de una manera más efectiva y rápida el objetivo de que deseas <span
-                                                class="font-weight-bold"
-                                                style="font-family:unitext;">siempre cuidando tu salud.</span></h6-->
-                                    </div>
                                 </div>
                             </transition>
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
-                        <div id="videosFeature" class="feature" @click="features.videos=false"
+                        <div id="videosFeature" class="feature" @click="features.videos=false" @mouseover="features.videos=false"
                              @mouseleave="features.videos=true" onclick="location.href = '/register?q=84';">
                             <transition name="fade" mode="out-in">
                                 <div v-if="features.videos" key="first">
-                                    <img id="videosImg" class="img" src="{{asset('/images/imagesremodela/12semanasR.png')}}" width="100%">
+                                    <img id="videosImg" class="img" src="{{asset('/images/imagesremodela/12semanasRB.png')}}" width="100%">
                                     <h3 id="videosSub" class="subtitle">
                                     </h3>
                                 </div>
                                 <div v-else class="subinfo" key="second">
                                     <img src="{{asset('/images/imagesremodela/12semanasR.png')}}">
-                                    <div>
-                                        <!--h6><span class="font-weight-bold text-center" style="font-family: unitext">Más de 500 videos de alta resolución </span>
-                                            en tu sesión con explicación de cada ejercicio para que puedas ver la técnica
-                                            correcta de cada movimiento. Cada uno de los ejercicios trae video, ya sea de casa o
-                                            gym.</h6-->
-                                    </div>
                                 </div>
                             </transition>
                         </div>
