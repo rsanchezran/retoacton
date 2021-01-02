@@ -371,6 +371,15 @@ class UserController extends Controller
         }
     }
 
+    public function aumentarSaldo(Request $request)
+    {
+        $usuario = User::find($request->id);
+        if ($usuario !== null) {
+            $usuario->saldo = $usuario->saldo+$request->saldoAumentado;
+            $usuario->save();
+        }
+    }
+
     public function exportar($filtros)
     {
         $this->authorize('usuarios');

@@ -256,7 +256,7 @@
                         tiendagym: '0',
                         conexion: '0',
                         ingresadosReto: '',
-                        codigo_personal: ''
+                        codigo_personal: '',
                     },
                     usuario: {
                         id: '',

@@ -1287,7 +1287,7 @@
         <div class="container">
             <div align="center" style="width: 95%; margin-left: 2%;">
                 <div id="header" align="center">
-                    <img src="images/imagesremodela/12top.png" id="imagentop">
+                    <img src="images/imagesremodela/2top.png" id="imagentop">
                     <br>
                     <br>
                 </div>

@@ -142,6 +142,11 @@
                                 <button v-tooltip="{content:'Eliminar usuario'}" class="btn btn-sm btn-danger" @click="confirmar(usuario)">
                                     <i class="fa fa-trash"></i>
                                 </button>
+                                <div>
+                                    <button v-tooltip="{content:'Agregar saldo'}" class="btn btn-sm btn-default" @click="agregarSaldo(usuario)">
+                                        <i class="fas fa-money-bill-wave"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -153,6 +158,10 @@
                     </div>
                 </div>
             </div>
+            <modal ref="agregarSaldo" title="DejarSeguir" @ok="aumentaSaldo">
+                <h5>¿Cuanto saldo quieres agregar a @{{ usuario.name +' '+usuario.last_name }}?</h5>
+                <input type="text" class="form-control" v-model="usuario.saldoAumentado" @keyup.enter="aumentaSaldo">
+            </modal>
             <modal ref="comisionModal" :title="'Pago de comisión a usuario'" @ok="pagar()" height="400" :oktext="'Pagar'">
                 <div class="d-flex flex-column">
                     <span><b>Email : </b>@{{ usuario.email }}</span>
@@ -262,7 +271,8 @@
                         tarjeta: '',
                         saldo: '',
                         referencia: '',
-                        dias_reto:''
+                        dias_reto:'',
+                        saldoAumentado: 0,
                     },
                     referencias:{
                         data:[]
@@ -366,6 +376,17 @@
                         }
                     })
                 },
+                agregarSaldo: function (usuario) {
+                    this.usuario = usuario;
+                    this.$refs.agregarSaldo.showModal();
+                },
+                aumentaSaldo: function (){
+                    let vm = this;
+                    axios.post('{{url('/usuarios/aumentarSaldo')}}', this.usuario).then(function (response) {
+                        vm.$refs.agregarSaldo.closeModal();
+                        vm.buscar();
+                    });
+                }
 
             },
             mounted: function () {
