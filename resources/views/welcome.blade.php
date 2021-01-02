@@ -358,6 +358,41 @@
             font-size: .75rem;
         }
 
+        @media only screen and (min-width: 1300px) {
+            #features {
+                height: 530px;
+            }
+        }
+
+        @media only screen and (min-width: 1400px) {
+            #features {
+                height: 580px;
+            }
+        }
+
+        @media only screen and (min-width: 1600px) {
+            #features {
+                height: 620px;
+            }
+        }
+
+        @media only screen and (min-width: 1700px) {
+            #features {
+                height: 650px;
+            }
+        }
+
+        @media only screen and (min-width: 1800px) {
+            #features {
+                height: 680px;
+            }
+        }
+
+        @media only screen and (min-width: 1900px) {
+            #features {
+                height: 720px;
+            }
+        }
         @media only screen and (max-width: 990px) {
             #features .subtitle {
                 font-size: 2.5vw;
