@@ -250,23 +250,26 @@
                     </div>
                     <transition name="encuesta">
                         <div v-if="terminar" align="center">
-                            <video @ended="continuar=true" controls autoplay width="90%" poster="{{asset('/img/poster.png')}}">
+                            <!--video @ended="continuar=true" controls autoplay width="90%" poster="{{asset('/img/poster.png')}}">
                                 <source src="{{url('/getVideo/registro').'/'.rand(1,1000)}}" type="video/mp4">
                             </video>
                             <br>
                             <span>Estamos generando tu programa , en lo que terminamos te invitamos a ver este video de bienvenida</span>
-                            <br>
-                            <div v-if="continuar">
+                            <br-->
+
+                            <!--div v-if="continuar"-->
                                 @if(\Illuminate\Support\Facades\Auth::user()->rol==\App\Code\RolUsuario::CLIENTE)
-                                    <a class="btn btn-primary btn-md" href="{{url('/reto/programa')}}">
-                                        <span>Ver plan</span>
+                                    <!--a class="btn btn-primary btn-md" href="{{url('/reto/programa')}}"-->
+                                    <a class="btn btn-primary btn-md" href="{{url('/cuenta')}}">
+                                        <span>Comenzar</span>
                                     </a>
                                 @else
-                                    <a class="btn btn-primary btn-md" href="{{url('/reto/dia/1/0/0')}}">
-                                        <span>Ver plan</span>
+                                    <!--a class="btn btn-primary btn-md" href="{{url('/reto/dia/1/0/0')}}"-->
+                                    <a class="btn btn-primary btn-md" href="{{url('/cuenta')}}">
+                                        <span>Comenzar</span>
                                     </a>
                                 @endif
-                            </div>
+                            <!--/div-->
                         </div>
                     </transition>
                 </div>
