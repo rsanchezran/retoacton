@@ -10,6 +10,11 @@
             width: 50%;
         }
 
+
+        #ultimodia{
+            width: 100%;
+            margin-left: -13.6%;
+        }
         #pagar{
             width: 250px;
             font-size: 50px !important;
@@ -796,6 +801,16 @@
             .satisfaccion_total{
                 margin-left: -25% !important;
                 width: 135% !important;
+            }
+            #50personas{
+                width: 80% !important;
+            }
+            #ultimosdias{
+                width: 80% !important;
+            }
+            #ultimodia{
+                width: 100%;
+                margin-left: -20.7%;
             }
         }
 
