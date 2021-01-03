@@ -146,6 +146,23 @@ class User extends Authenticatable
             $monto = 3000;
             $descuento = 50;
         }
+
+        $codigo_tienda = CodigosTienda::where('codigo', $codigo)->where('email', $email)->get()->count();
+
+        var_dump($codigo_tienda);
+
+        if($codigo_tienda>0){
+            if(intval($dias->dias) == 14){
+                $descuento = 30;
+            }elseif (intval($dias->dias) == 28) {
+                $descuento = 55;
+            }elseif (intval($dias->dias) == 56) {
+                $descuento = 55;
+            }elseif (intval($dias->dias) == 84) {
+                $descuento = 63;
+            }
+        }
+
         //$monto = intval(env('COBRO_ORIGINAL'));
         if ($created_at == null || $deleted_at != null) {
             if ($referenciado == null) {
@@ -175,21 +192,7 @@ class User extends Authenticatable
                         $descuento = intval(env('DESCUENTO_REFERENCIA'));
                     }
 
-                    $codigo_tienda = CodigosTienda::where('codigo', $codigo)->where('email', $email)->get()->count();
 
-                    var_dump($codigo_tienda);
-
-                    if($codigo_tienda>0){
-                        if(intval($dias->dias) == 14){
-                            $descuento = 30;
-                        }elseif (intval($dias->dias) == 28) {
-                            $descuento = 55;
-                        }elseif (intval($dias->dias) == 56) {
-                            $descuento = 55;
-                        }elseif (intval($dias->dias) == 84) {
-                            $descuento = 63;
-                        }
-                    }
 
                 } else {
                     //$monto = intval(env('COBRO_REFRENDO'));
