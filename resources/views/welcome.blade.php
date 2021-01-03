@@ -405,7 +405,7 @@
                 margin-left: -8%;
             }
 
-            .subinfo .img {
+            .subinfo img {
                 cursor: pointer !important;
                 height: auto !important;
                 width: 116% !important;
