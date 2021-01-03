@@ -387,6 +387,7 @@
                         this.pregunta = this.preguntasCerradas[vm.numero-1].pregunta
                     } else {
                         vm.terminar = true;
+                        this.pregunta = "Por favor llena esta información";
                         let respuestas = vm.preguntasAbiertas.concat(vm.preguntasCerradas);
                         /*axios.post("", {usuario: vm.user, respuestas: respuestas})
                             .then(function (respuesta) {
