@@ -588,7 +588,7 @@ class ConfiguracionController extends Controller
                     }
                 }
             }else{
-                $contacto = User::withTrashed()->where("email", $email)->first();
+                /*$contacto = User::withTrashed()->where("email", $email)->first();
                 if ($contacto == null) {
                     $contacto = new User();
                     $contacto->email = $email;
@@ -621,7 +621,7 @@ class ConfiguracionController extends Controller
                             }
                         }
                     }
-                }
+                }*/
             }
         }
         return response()->json(['status' => $status, 'mensaje' => $mensaje]);

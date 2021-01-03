@@ -162,7 +162,7 @@ class User extends Authenticatable
                 }
             } else {
                 if ($deleted_at == null) {
-                    /*$userref = User::where('referencia', $codigo)->where('id', '!=', 1)->first();
+                    $userref = User::where('referencia', $codigo)->where('id', '!=', 1)->first();
                     if(intval($dias->dias) == 14 && $userref->tipo_referencia !== 1){
                         $descuento = 40;
                     }elseif (intval($dias->dias) == 28 && $userref->tipo_referencia !== 1) {
@@ -173,7 +173,7 @@ class User extends Authenticatable
                         $descuento = 63;
                     }else{
                         $descuento = intval(env('DESCUENTO_REFERENCIA'));
-                    }*/
+                    }
                 } else {
                     //$monto = intval(env('COBRO_REFRENDO'));
                     //$descuento = 0;
