@@ -16,6 +16,12 @@
             margin-left: -13.6% !important;
         }
 
+        #preciogym{
+            margin-left: -3% !important;
+            width: 100% !important;
+
+        }
+
         #ultimashoras1{
             width: 100%;
             margin-left: -13.7% !important;
