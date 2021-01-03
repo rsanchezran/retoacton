@@ -76,6 +76,7 @@ Route::group(['prefix' => 'configuracion', 'middleware' => ['auth', 'pago']], fu
     Route::post('categoria', 'ConfiguracionController@saveCategoria');
     Route::get('registro-tiendas', 'ConfiguracionController@agregarTienda');//AQUI
     Route::post('saveContactoTienda', 'ConfiguracionController@saveContactoTienda');//AQUI
+    Route::post('saveCodigoTienda', 'ConfiguracionController@saveCodigoTienda');//AQUI
     Route::get('registro-usuario', 'ConfiguracionController@agregarUsuarioNuevo');//AQUI
     Route::post('saveContactoUsuarioNuevo', 'ConfiguracionController@saveContactoUsuarioNuevo');//AQUI
     Route::get('generar-codigo', 'ConfiguracionController@generarCodigo');//AQUI

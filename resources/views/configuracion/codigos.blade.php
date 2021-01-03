@@ -125,7 +125,7 @@
                       this.errors.codigo = ['El codigo de referencia es obligatorio'];
                   }
                   if (Object.keys(this.errors).length == 0) {
-                      axios.post("{{url("configuracion/saveContactoTienda")}}", this.informacion).then(function (response) {
+                      axios.post("{{url("configuracion/saveCodigoTienda")}}", this.informacion).then(function (response) {
                           vm.sent = true;
                           vm.loading = false;
 

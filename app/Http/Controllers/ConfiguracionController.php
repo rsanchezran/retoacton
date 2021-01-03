@@ -627,6 +627,50 @@ class ConfiguracionController extends Controller
         return response()->json(['status' => $status, 'mensaje' => $mensaje]);
     }
 
+    public function saveCodigoTienda(Request $request)
+    {
+        $id = null;
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|max:100|min:3|email',
+            'codigo' => 'max:7',
+        ], [
+            'email.required' => 'El correo electrónico es obligatorio',
+            'email.min' => 'Debe capturar minimo 3 caracteres en el correo electrónico',
+            'email.max' => 'Debe capturar máximo 100 caracteres en el correo electrónico',
+            'email.unique' => 'El correo ya ha sido registrado',
+            'email.email' => 'El formato no es válido en el correo electrónico',
+            'codigo.max' => 'La referencia debe tener 7 caracteres',
+        ]);
+        $validator->after(function ($validator) use ($request) {
+            if (ValidarCorreo::validarCorreo($request->email)) {
+                $validator->errors()->add("email", "El email debe tener formato correcto");
+            }
+        });
+        $validator->validate();
+        $email = trim($request->email);
+        $codigo = trim($request->codigo);
+        $usuario = User::withTrashed()->orderBy('created_at')->where('email', $email)->get()->last();
+        $cod = CodigosTienda::where('email', $email)->get()->last();
+        if ($usuario!=null&&$usuario->id==1&&$cod!=null){
+            $status = 'error';
+            $mensaje = 'Este usuario ya pertenece al RETO ACTON.';
+        }else {
+            $contacto = CodigosTienda::where("email", $email)->first();
+            if ($contacto == null) {
+                $contacto = new CodigosTienda();
+                $contacto->email = $email;
+                $contacto->codigo = $codigo;
+            }
+            $contacto->email = $email;
+            $contacto->codigo = $codigo;
+            $contacto->usuario_id_creador = Auth::id();
+            $contacto->save();
+            $mensaje = '';
+            $status = 'ok';
+        }
+        return response()->json(['status' => $status, 'mensaje' => $mensaje]);
+    }
+
 
     public function agregarUsuarioNuevo(Request $request)
     {

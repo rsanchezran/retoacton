@@ -174,6 +174,21 @@ class User extends Authenticatable
                     }else{
                         $descuento = intval(env('DESCUENTO_REFERENCIA'));
                     }
+
+                    $codigo_tienda = CodigosTienda::where('codigo', $codigo)->where('email', $email)->first();
+
+                    if($codigo_tienda){
+                        if(intval($dias->dias) == 14){
+                            $descuento = 30;
+                        }elseif (intval($dias->dias) == 28) {
+                            $descuento = 55;
+                        }elseif (intval($dias->dias) == 56) {
+                            $descuento = 55;
+                        }elseif (intval($dias->dias) == 84) {
+                            $descuento = 63;
+                        }
+                    }
+
                 } else {
                     //$monto = intval(env('COBRO_REFRENDO'));
                     //$descuento = 0;
