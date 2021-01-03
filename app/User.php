@@ -163,13 +163,13 @@ class User extends Authenticatable
             } else {
                 if ($deleted_at == null) {
                     $userref = User::where('referencia', $codigo)->where('id', '!=', 1)->first();
-                    if(intval($dias->dias) == 14 && $userref->tipo_referencia !== 1){
+                    if(intval($dias->dias) == 14){
                         $descuento = 30;
-                    }elseif (intval($dias->dias) == 28 && $userref->tipo_referencia !== 1) {
+                    }elseif (intval($dias->dias) == 28) {
                         $descuento = 55;
-                    }elseif (intval($dias->dias) == 56 && $userref->tipo_referencia !== 1) {
+                    }elseif (intval($dias->dias) == 56) {
                         $descuento = 55;
-                    }elseif (intval($dias->dias) == 84 && $userref->tipo_referencia !== 1) {
+                    }elseif (intval($dias->dias) == 84) {
                         $descuento = 63;
                     }else{
                         $descuento = intval(env('DESCUENTO_REFERENCIA'));
