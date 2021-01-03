@@ -404,6 +404,13 @@
                 width: 116%;
                 margin-left: -8%;
             }
+
+            .subinfo .img {
+                cursor: pointer;
+                height: 105%;
+                width: 116%;
+                margin-left: -8%;
+            }
             .feature {
                 padding-bottom: 30px;
                 display: flex;
