@@ -602,6 +602,10 @@ class ConfiguracionController extends Controller
                 $contacto->encuestado = 1;
                 $contacto->pagado = 1;
                 $contacto->modo = 1;
+                $contacto->cp = "1";
+                $contacto->estado = "1";
+                $contacto->colonia = "1";
+                $contacto->ciudad = "1";
                 $contacto->save();
                 $mensaje = '';
                 $status = 'ok';

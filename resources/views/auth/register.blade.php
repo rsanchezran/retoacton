@@ -298,8 +298,8 @@
             margin-left: -6.7%;
         }
         #descripcionsemanas{
-            margin-left: -2%;
-            width: 110%;
+            margin-left: -1.5%;
+            width: 109.5%;
         }
 
         .modo{
