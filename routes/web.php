@@ -157,5 +157,6 @@ Route::group(['prefix'=>'encuesta', 'middleware'=>['auth']], function (){
     Route::get('/', 'HomeController@encuesta');
     Route::get('/pago', 'HomeController@encuesta');
     Route::post('/validarAbiertas', 'HomeController@validarAbiertas');
+    Route::post('/validarAbiertasdos', 'HomeController@validarAbiertasdos');
     Route::post('/save', 'HomeController@save');
 });

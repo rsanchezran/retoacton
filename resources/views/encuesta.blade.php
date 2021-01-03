@@ -191,10 +191,10 @@
                     </div>
                     <transition :name="mostrarEncuesta.animacion">
                         <div v-if="mostrarEncuesta.mostrar" class="col-sm-8 d-block mr-auto ml-auto">
-                            <div v-for="(pregunta) in preguntasAbiertas">
-                                <input class="form-control encuesta" v-model="pregunta.respuesta"
+                            <div v-for="(pregunta,key,index) in preguntasAbiertas">
+                                <input v-if="key < 2" class="form-control encuesta" v-model="pregunta.respuesta"
                                        :placeholder="pregunta.pregunta">
-                                <form-error align="left" :name="pregunta.pregunta+'.respuesta'"
+                                <form-error v-if="key < 2" align="left" :name="pregunta.pregunta+'.respuesta'"
                                             :errors="errors"></form-error>
                             </div>
                             <div style="display: flex; justify-content: space-between">
@@ -250,26 +250,31 @@
                     </div>
                     <transition name="encuesta">
                         <div v-if="terminar" align="center">
-                            <!--video @ended="continuar=true" controls autoplay width="90%" poster="{{asset('/img/poster.png')}}">
-                                <source src="{{url('/getVideo/registro').'/'.rand(1,1000)}}" type="video/mp4">
-                            </video>
-                            <br>
-                            <span>Estamos generando tu programa , en lo que terminamos te invitamos a ver este video de bienvenida</span>
-                            <br-->
+                            <div v-for="(pregunta,key,index) in preguntasAbiertas">
+                                <textarea v-if="key == 2" class="form-control encuesta" v-model="pregunta.respuesta"
+                                          :placeholder="pregunta.pregunta" rows="5"></textarea>
+                            </div>
+                            <div style="display: flex; justify-content: space-between">
+                                <button class="siguiente" @click="termina">
+                                    <i class="far fa-chevron-double-right"></i>
+                                </button>
+                            </div>
+                            <span v-if="errorAbierta" style="color:red;">Completa la información</span>
+                            <form-error name="siguiente" :errors="errors"></form-error>
+                        </div>
 
-                            <!--div v-if="continuar"-->
-                                @if(\Illuminate\Support\Facades\Auth::user()->rol==\App\Code\RolUsuario::CLIENTE)
-                                    <!--a class="btn btn-primary btn-md" href="{{url('/reto/programa')}}"-->
-                                    <a class="btn btn-primary btn-md" href="{{url('/cuenta')}}">
-                                        <span>Comenzar</span>
-                                    </a>
-                                @else
-                                    <!--a class="btn btn-primary btn-md" href="{{url('/reto/dia/1/0/0')}}"-->
-                                    <a class="btn btn-primary btn-md" href="{{url('/cuenta')}}">
-                                        <span>Comenzar</span>
-                                    </a>
-                                @endif
-                            <!--/div-->
+                        <div v-if="continuar" align="center">
+                        @if(\Illuminate\Support\Facades\Auth::user()->rol==\App\Code\RolUsuario::CLIENTE)
+                            <!--a class="btn btn-primary btn-md" href="{{url('/reto/programa')}}"-->
+                                <a class="btn btn-primary btn-md" href="{{url('/cuenta')}}">
+                                    <span>Comenzar</span>
+                                </a>
+                        @else
+                            <!--a class="btn btn-primary btn-md" href="{{url('/reto/dia/1/0/0')}}"-->
+                                <a class="btn btn-primary btn-md" href="{{url('/cuenta')}}">
+                                    <span>Comenzar</span>
+                                </a>
+                            @endif
                         </div>
                     </transition>
                 </div>
@@ -292,7 +297,8 @@
                     },
                     mostrarEncuesta: {
                         animacion: 'encuesta',
-                        mostrar: false
+                        mostrar: false,
+                        mostrarUltima: false
                     },
                     datosPersonales: {
                         animacion: 'encuesta',
@@ -309,7 +315,8 @@
                     pago: '',
                     errors: [],
                     continuar: false,
-                    pregunta: ''
+                    pregunta: '',
+                    errorAbierta: false,
                 }
             },
             methods: {
@@ -355,7 +362,7 @@
                 mostrarAbiertas: function () { //muestra la siguiente pantalla inicio con solo preguntasAbiertas
                     this.inicio.mostrar = false;
                     this.mostrarEncuesta.mostrar = true;
-                    this.preguntasAbiertas.forEach(function (item) {
+                    this.preguntasAbiertas.forEach(function (item, index) {
                         item.mostrar = true;
                     });
                     this.pregunta = "Por favor llena esta información";
@@ -379,16 +386,40 @@
                         vm.numero++;
                         this.pregunta = this.preguntasCerradas[vm.numero-1].pregunta
                     } else {
+                        vm.terminar = true;
                         let respuestas = vm.preguntasAbiertas.concat(vm.preguntasCerradas);
-                        axios.post("{{url('encuesta/save')}}", {usuario: vm.user, respuestas: respuestas})
+                        /*axios.post("", {usuario: vm.user, respuestas: respuestas})
                             .then(function (respuesta) {
                                 vm.terminar = true;
                                 vm.pregunta = "Estamos casi listos..."
                             })
                             .catch(function (error) {
                                 vm.terminar = false;
-                            });
+                            });*/
                     }
+                },
+                termina: function () { //muestra la siguiente pregunta y cierra la anteriror
+                    var vm = this;
+                    var respuestas = vm.preguntasAbiertas.concat(vm.preguntasCerradas);
+
+                    vm.errorAbierta = true
+                    vm.errors = [];
+                    axios.post('{{url('encuesta/validarAbiertasdos')}}', vm.preguntasAbiertas)
+                        .then(function (respuesta) {
+                            vm.continuar = true;
+                            axios.post("{{url('encuesta/save')}}", {usuario: vm.user, respuestas: respuestas})
+                                .then(function (respuesta) {
+                                    vm.continuar = true;
+                                    vm.terminar = false;
+                                    vm.pregunta = "Estamos casi listos..."
+                                })
+                                .catch(function (error) {
+                                });
+                        })
+                        .catch(function (errors) {
+                            vm.errors = errors.response.data.errors;
+                            vm.errors['siguiente'] = ['Llene todos los campos']
+                        });
                 },
                 anteriorCerrada: function (pregunta) {
                     pregunta.mostrar = false;

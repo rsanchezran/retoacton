@@ -352,6 +352,23 @@ class HomeController extends Controller
         )->validate();
     }
 
+    public function validarAbiertasdos(Request $request)
+    {
+        $preguntas = collect($request->all())->keyBy('pregunta')->toArray();
+
+
+        foreach ($preguntas as $p) {
+            if($p["id"]==13){
+                if($p["respuesta"]==null){
+                    return \Response::make('message', 422);
+                }else{
+                    return \Response::make('message', 200);
+                }
+            }
+        }
+
+    }
+
     public function faqs()
     {
         return view("faqs");
