@@ -358,7 +358,7 @@ class HomeController extends Controller
 
 
         foreach ($preguntas as $p) {
-            if($p["id"]==13){
+            if($p["id"]==14){
                 if($p["respuesta"]==null){
                     return \Response::make('message', 422);
                 }else{
