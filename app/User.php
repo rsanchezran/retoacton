@@ -175,9 +175,9 @@ class User extends Authenticatable
                         $descuento = intval(env('DESCUENTO_REFERENCIA'));
                     }
 
-                    $codigo_tienda = CodigosTienda::where('codigo', $codigo)->where('email', $email)->first();
+                    $codigo_tienda = CodigosTienda::where('codigo', $codigo)->where('email', $email)->get()->count();
 
-                    if($codigo_tienda){
+                    if($codigo_tienda>0){
                         if(intval($dias->dias) == 14){
                             $descuento = 30;
                         }elseif (intval($dias->dias) == 28) {
