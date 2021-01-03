@@ -15,9 +15,21 @@
             width: 100% !important;
             margin-left: -13.6% !important;
         }
+
+        #ultimashoras1{
+            width: 100%;
+            margin-left: -13.7% !important;
+        }
         #pagar{
-            width: 250px;
             font-size: 50px !important;
+            text-align: center !important;
+        }
+
+        #cobro_anterior:before {
+            height: 33px !important;
+        }
+        #cobro_anterior {
+            font-size: 2.2em !important;
         }
         #pagar span{
             font-size: 50px !important;
@@ -1413,7 +1425,7 @@
                         <label style="font-size: 1rem; color: #000; font-family: unitext_bold_cursive">aprovecha
                             el </label>
                         <label style="font-size: 1.4rem; margin-top: -5px; font-family: unitext_bold_cursive">@{{descuento }}% de descuento </label>
-                        <label style="color: #000; font-weight: bold; font-family: unitext_bold_cursive" v-if="descuento=='{{env('DESCUENTO')}}'">ÚLTIMO DIA</label>
+                        <label style="color: #000; font-weight: bold; font-family: unitext_bold_cursive" v-if="descuento=='{{env('DESCUENTO')}}'"></label>
                     </div>
 
 

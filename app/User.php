@@ -131,29 +131,20 @@ class User extends Authenticatable
         $dias = Contacto::where('email', $email)->first();
         $referenciado = $codigo == '' ? null : User::where('referencia', $codigo)->where('id', '!=', 1)->first();
         if (!$dias) {
-            error_log('AQUI ENTRO');
             $dias = User::where('id', auth()->user())->first();
         }
         if(intval($dias->dias) == 14){
-            //$monto = 600;
-            //$descuento = 25;
-            $monto = 15;
-            $descuento = 0;
+            $monto = 600;
+            $descuento = 25;
         }elseif (intval($dias->dias) == 28) {
-            //$monto = 1000;
-            //$descuento = 35;
-            $monto = 15;
-            $descuento = 0;
+            $monto = 1000;
+            $descuento = 35;
         }elseif (intval($dias->dias) == 56) {
-            //$monto = 2000;
-            //$descuento = 40;
-            $monto = 15;
-            $descuento = 0;
+            $monto = 2000;
+            $descuento = 40;
         }elseif (intval($dias->dias) == 84) {
-            //$monto = 3000;
-            //$descuento = 50;
-            $monto = 15;
-            $descuento = 0;
+            $monto = 3000;
+            $descuento = 50;
         }
         //$monto = intval(env('COBRO_ORIGINAL'));
         if ($created_at == null || $deleted_at != null) {
@@ -196,8 +187,6 @@ class User extends Authenticatable
                 }
             }
         }
-        error_log('AQUI ENTRO');
-        error_log($monto);
         $compra->original = $monto;
         $compra->descuento = $descuento;
         $compra->monto = round($monto - ($monto * ($descuento / 100)), 2);
