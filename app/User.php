@@ -149,8 +149,7 @@ class User extends Authenticatable
 
         $codigo_tienda = CodigosTienda::where('codigo', $codigo)->where('email', $email)->get()->count();
 
-        var_dump($codigo_tienda);
-
+        
         if($codigo_tienda>0){
             if(intval($dias->dias) == 14){
                 $descuento = 30;
