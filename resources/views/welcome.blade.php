@@ -406,13 +406,13 @@
             }
 
             .subinfo .img {
-                cursor: pointer;
-                height: 105%;
-                width: 116%;
-                margin-left: -8%;
+                cursor: pointer !important;
+                height: auto !important;
+                width: 116% !important;
+                margin-left: -8% !important;
             }
             .feature {
-                padding-bottom: 30px;
+                padding-bottom: 80px;
                 display: flex;
                 flex-direction: column-reverse;
                 justify-content: normal;
@@ -434,7 +434,7 @@
 
             @media only screen and (max-width: 800px) {
                 .feature .subinfo {
-                    height: 376px !important;
+                    height: auto !important;
                 }
 
                 #testtitulo {
@@ -594,6 +594,21 @@
                 #bonus {
                     margin-left: 40px;
                     margin-top: 100px;
+                }
+
+
+                .feature .img {
+                    cursor: pointer;
+                    height: 105%;
+                    width: 116%;
+                    margin-left: -8%;
+                }
+
+                .subinfo .img {
+                    cursor: pointer !important;
+                    height: auto !important;
+                    width: 116% !important;
+                    margin-left: -8% !important;
                 }
             }
 
