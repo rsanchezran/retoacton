@@ -134,8 +134,8 @@ class User extends Authenticatable
             $dias = User::where('id', auth()->user())->first();
         }
         if(intval($dias->dias) == 14){
-            $monto = 600;
-            $descuento = 25;
+            $monto = 500;
+            $descuento = 10;
         }elseif (intval($dias->dias) == 28) {
             $monto = 1000;
             $descuento = 35;
