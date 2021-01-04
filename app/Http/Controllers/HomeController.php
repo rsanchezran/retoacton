@@ -40,6 +40,7 @@ class HomeController extends Controller
         $usuario->depositado = $usuario->total - $usuario->saldo;
         $referencias = User::select(['id', 'name', 'email', 'created_at', 'num_inscripciones'])
             ->where('codigo', $request->user()->referencia)->whereNotNull('codigo')->get();
+
         if ($usuario->dias == 14){
             $monto = env('COBRO_REFRENDO1');
             $original = env('COBRO_REFRENDO1');
