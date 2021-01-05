@@ -88,7 +88,7 @@
                         <div class="col-12 col-sm-6 d-flex" style="align-items: flex-end;">
                             <div class="d-block ml-auto mr-auto text-center">
                                 <h4>Saldo a favor</h4>
-                                <h4 class="acton">$<money :cantidad="''+usuario.total"></money></h4>
+                                <h4 class="acton">$<money :cantidad="''+usuario.saldo"></money></h4>
                                 <a v-if="usuario.inicio_reto==null" class="btn btn-lg btn-primary" href="{{url('/reto/comenzar/')}}">
                                     <span>EMPEZAR RETO</span>
                                 </a>
