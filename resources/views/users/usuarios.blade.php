@@ -466,7 +466,6 @@
                 this.filtros.colonia = '{{$colonia_prop}}';
                 this.filtros.tiendagym = '{{$tienda_prop}}';
                 this.filtros.conexion = '{{$conexion_prop}}';
-                this.buscar();
             }
         });
 
