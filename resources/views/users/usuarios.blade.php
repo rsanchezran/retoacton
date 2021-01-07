@@ -467,6 +467,11 @@
                 this.filtros.colonia = '{{$colonia_prop}}';
                 this.filtros.tiendagym = '{{$tienda_prop}}';
                 this.filtros.conexion = '{{$conexion_prop}}';
+                let uri = window.location.search.substring(1);
+                let params = new URLSearchParams(uri);
+                if(params.get("_token")) {
+                    this.buscar();
+                }
             }
         });
 
