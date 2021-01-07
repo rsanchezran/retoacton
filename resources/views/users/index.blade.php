@@ -159,7 +159,7 @@
                 </div>
             </div>
             <modal ref="agregarSaldo" title="DejarSeguir" @ok="aumentaSaldo">
-                <h5>¿Cuanto saldo quieres agregar a @{{ usuario.name +' '+usuario.last_name }}?</h5>
+                <h5>Actualización de saldo de @{{ usuario.name +' '+usuario.last_name }}</h5>
                 <input type="text" class="form-control" v-model="usuario.saldoAumentado" @keyup.enter="aumentaSaldo">
             </modal>
             <modal ref="comisionModal" :title="'Pago de comisión a usuario'" @ok="pagar()" height="400" :oktext="'Pagar'">
