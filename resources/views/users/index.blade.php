@@ -143,7 +143,7 @@
                                     <i class="fa fa-trash"></i>
                                 </button>
                                 <div>
-                                    <button v-tooltip="{content:'Agregar saldo'}" class="btn btn-sm btn-default" @click="agregarSaldo(usuario)">
+                                    <button v-tooltip="{content:'Modificar saldo'}" class="btn btn-sm btn-default" @click="agregarSaldo(usuario, usuario.saldo)">
                                         <i class="fas fa-money-bill-wave"></i>
                                     </button>
                                 </div>
@@ -376,8 +376,9 @@
                         }
                     })
                 },
-                agregarSaldo: function (usuario) {
+                agregarSaldo: function (usuario, saldo) {
                     this.usuario = usuario;
+                    this.usuario.saldoAumentado = saldo;
                     this.$refs.agregarSaldo.showModal();
                 },
                 aumentaSaldo: function (){

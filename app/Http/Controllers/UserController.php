@@ -379,7 +379,7 @@ class UserController extends Controller
     {
         $usuario = User::find($request->id);
         if ($usuario !== null) {
-            $usuario->saldo = $usuario->saldo+$request->saldoAumentado;
+            $usuario->saldo = $request->saldoAumentado;
             $usuario->save();
         }
     }
