@@ -142,6 +142,10 @@ class UserController extends Controller
             if($campos->conexion == 'Tiendas'){
                 $usuarios = $usuarios->where('rol', 'tienda');
             }
+            if($campos->conexion == 'Me siguen'){
+                $amistad = Amistades::where('usuario_amigo_id', auth()->user()->id)->select('usuario_solicita_id')->get();
+                $usuarios = $usuarios->whereIn('id', $amistad);
+            }
         }
         if($campos->tiendagym != '0' and $campos->tiendagym != '') {
             $usuarios = $usuarios->where('name', $campos->tiendagym)->where('rol', 'tienda');

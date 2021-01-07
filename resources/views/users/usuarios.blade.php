@@ -42,6 +42,7 @@
                             <select class="form-control" v-model="filtros.conexion" @keyup.enter="buscar">
                                 <option></option>
                                 <option>Siguiendo</option>
+                                <option>Me siguen</option>
                                 <option>Sin conexión</option>
                                 <option>Tiendas</option>
                             </select>
