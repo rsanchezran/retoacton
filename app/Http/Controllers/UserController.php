@@ -131,7 +131,7 @@ class UserController extends Controller
     public function buscarSeguir(Request $request)
     {
         $campos = json_decode($request->campos);
-        $usuarios = User;
+        $usuarios = User::where('rol', '!=', '111');
 
         if($campos->conexion != '0' and $campos->conexion != '') {
             $amistad = Amistades::where('usuario_solicita_id', auth()->user()->id)->select('usuario_amigo_id')->get();
