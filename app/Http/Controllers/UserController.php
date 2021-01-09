@@ -197,7 +197,6 @@ class UserController extends Controller
             $usuarios = $usuarios->where('colonia', $campos->colonia);
         }
         if ($campos->codigo_personal != null) {
-            var_dump($usuarios);
             $usuarios = $usuarios->where('referencia', strtoupper($campos->codigo_personal));
         }
         /*if ($campos->estado != 0) {
