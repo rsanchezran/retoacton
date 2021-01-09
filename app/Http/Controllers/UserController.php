@@ -165,7 +165,7 @@ class UserController extends Controller
             $usuarios = $usuarios->where('inicio_reto', '<=', $fecha);
         }
         if ($campos->codigo_personal != null) {
-            $usuarios = $usuarios->where('referencia', '<=', $campos->codigo_personal);
+            $usuarios = $usuarios->where('referencia', '<=', strtoupper($campos->codigo_personal));
         }
         if ($campos->saldo != null) {
             if (is_numeric($campos->saldo))
