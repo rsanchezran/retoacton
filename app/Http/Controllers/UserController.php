@@ -44,6 +44,7 @@ class UserController extends Controller
         $cp_prop=$request->cp;
         $colonia_prop=$request->colonia;
         $tienda_prop=$request->tienda;
+        $codigo_personal_prop=$request->codigo_personal;
 
         return view('users.usuarios')
             ->with([
