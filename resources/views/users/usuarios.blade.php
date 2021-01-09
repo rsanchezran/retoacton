@@ -237,7 +237,8 @@
                 'ciudad_prop',
                 'cp_prop',
                 'colonia_prop',
-                'tienda_prop'
+                'tienda_prop',
+                'codigo_personal_prop'
             ],
             data: function () {
                 return {
@@ -461,6 +462,7 @@
                 this.getEstados();
                 this.getTiendas();
                 this.filtros.nombre = '{{$nombre_prop}}';
+                this.filtros.codigo_personal = '{{$codigo_personal_prop}}';
                 this.filtros.estado = '{{$estado_prop}}';
                 this.filtros.ciudad = '{{$ciudad_prop}}';
                 this.filtros.cp = '{{$cp_prop}}';

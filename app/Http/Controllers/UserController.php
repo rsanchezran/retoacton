@@ -54,6 +54,7 @@ class UserController extends Controller
                 'cp_prop'=>$cp_prop,
                 'colonia_prop'=>$colonia_prop,
                 'tienda_prop'=>$tienda_prop,
+                'codigo_personal_prop'=>$codigo_personal_prop,
             ]);
     }
 
