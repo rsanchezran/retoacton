@@ -166,9 +166,6 @@ class UserController extends Controller
             $fecha = join('-', array_reverse(explode('/', $campos->fecha_final)));
             $usuarios = $usuarios->where('inicio_reto', '<=', $fecha);
         }
-        if ($campos->codigo_personal != null) {
-            $usuarios = $usuarios->where('referencia', strtoupper($campos->codigo_personal));
-        }
         if ($campos->saldo != null) {
             if (is_numeric($campos->saldo))
                 $usuarios = $usuarios->where('saldo', $campos->saldo);
@@ -198,6 +195,9 @@ class UserController extends Controller
         }
         if ($campos->colonia != '0' and $campos->colonia != '') {
             $usuarios = $usuarios->where('colonia', $campos->colonia);
+        }
+        if ($campos->codigo_personal != null) {
+            $usuarios = $usuarios->where('referencia', strtoupper($campos->codigo_personal));
         }
         /*if ($campos->estado != 0) {
             if ($campos->estado == 1) {
