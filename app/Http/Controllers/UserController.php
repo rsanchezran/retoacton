@@ -168,7 +168,6 @@ class UserController extends Controller
         }
         if ($campos->codigo_personal != null) {
             $usuarios = $usuarios->where('referencia', strtoupper($campos->codigo_personal));
-            var_dump($usuarios);
         }
         if ($campos->saldo != null) {
             if (is_numeric($campos->saldo))
