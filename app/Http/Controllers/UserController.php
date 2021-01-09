@@ -166,9 +166,9 @@ class UserController extends Controller
             $fecha = join('-', array_reverse(explode('/', $campos->fecha_final)));
             $usuarios = $usuarios->where('inicio_reto', '<=', $fecha);
         }
-        var_dump($campos);
         if ($campos->codigo_personal != null) {
             $usuarios = $usuarios->where('referencia', strtoupper($campos->codigo_personal));
+            var_dump($usuarios);
         }
         if ($campos->saldo != null) {
             if (is_numeric($campos->saldo))
