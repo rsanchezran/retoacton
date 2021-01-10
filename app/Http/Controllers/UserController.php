@@ -64,6 +64,7 @@ class UserController extends Controller
         $this->authorize('usuarios');
         $campos = json_decode($request->campos);
         $usuarios = User::where('rol', '!=', RolUsuario::ADMIN);
+        $usuarios = $usuarios->where('rol', '!=', RolUsuario::TIENDA);
 
         if ($campos->nombre != null) {
             $usuarios = $usuarios->where('name', 'like', '%' . $campos->nombre . '%');
