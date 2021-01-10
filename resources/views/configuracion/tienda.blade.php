@@ -211,7 +211,7 @@
                 bajar: function () {
                     axios.post('{{url('/usuarios/bajar')}}', this.usuario).then(function (response) {
                         if (response.data.status=='ok'){
-                            window.location.href = response.data.redirect;
+                            window.location.reload();
                         }
                     }).catch(function () {
 
