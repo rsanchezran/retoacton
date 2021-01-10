@@ -73,6 +73,9 @@
                         </tr>
                     @endforelse
                 </table>
+                <modal ref="baja" title="Baja de usuario" @ok="bajar">
+                    <h5>¿Quiere desactivar dar de baja?</h5>
+                </modal>
             </div>
         </div>
     </template>
@@ -200,6 +203,19 @@
                         this.sent = false;
                         this.loading = false;
                     }
+                },
+                confirmar: function (usuario) {
+                    this.usuario = usuario;
+                    this.$refs.baja.showModal();
+                },
+                bajar: function () {
+                    axios.post('{{url('/usuarios/bajar')}}', this.usuario).then(function (response) {
+                        if (response.data.status=='ok'){
+                            window.location.href = response.data.redirect;
+                        }
+                    }).catch(function () {
+
+                    });
                 }
             }
         });
