@@ -1139,7 +1139,7 @@
                             <img src="{{asset('images/imagesremodela/pasotres.png')}}" width="90%">
                         </div>
                         <div class="col-12 col-sm-4 d-block ml-auto mr-auto">
-                            <a class="btn btn-primary" name="features"
+                            <a class="btn btn-primary" id="features"
                                style="width: 100%; font-family: unitext_bold_cursive">Ver Retos</a>
                         </div>
                     </div>
