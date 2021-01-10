@@ -130,6 +130,8 @@
                           vm.loading = false;
 
                           vm.mensaje = response.data.mensaje;
+                          location.reload();
+
                       }).catch(function (error) {
                           vm.sent = false;
                           vm.loading = false;
