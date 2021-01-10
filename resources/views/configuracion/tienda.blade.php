@@ -62,6 +62,9 @@
                                 <button v-tooltip="{content:'Pagar'}" class="btn btn-sm btn-success" @click="PagarTienda({{$u->id}})">
                                     <i class="fas fa-money-bill-wave"></i>
                                 </button>
+                                <button v-tooltip="{content:'Eliminar usuario'}" class="btn btn-sm btn-danger" @click="confirmar(usuario)">
+                                    <i class="fa fa-trash"></i>
+                                </button>
                             </td>
                         </tr>
                     @empty
