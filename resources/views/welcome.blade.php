@@ -1139,8 +1139,8 @@
                             <img src="{{asset('images/imagesremodela/pasotres.png')}}" width="90%">
                         </div>
                         <div class="col-12 col-sm-4 d-block ml-auto mr-auto">
-                            <a class="btn btn-primary" href="{{url('register')}}"
-                               style="width: 100%; font-family: unitext_bold_cursive">Registrarme</a>
+                            <a class="btn btn-primary" name="features"
+                               style="width: 100%; font-family: unitext_bold_cursive">Ver Retos</a>
                         </div>
                     </div>
                 </div>
