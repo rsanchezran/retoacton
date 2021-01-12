@@ -135,7 +135,7 @@ class User extends Authenticatable
         }
         if(intval($dias->dias) == 14){
             $monto = 500;
-            $descuento = 10;
+            $descuento = 0;
         }elseif (intval($dias->dias) == 28) {
             $monto = 1000;
             $descuento = 35;
