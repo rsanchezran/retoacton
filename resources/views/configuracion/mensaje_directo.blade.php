@@ -76,6 +76,16 @@
             max-height: 500px;
             overflow: scroll;
         }
+
+        @media only screen and (max-width: 800px) {
+            .boxleft {
+                margin-left: 0px !important;
+            }
+
+            .boxright {
+                margin-left: 0% !important;
+            }
+        }
     </style>
 @endsection
 @section('content')
@@ -115,7 +125,8 @@
                     mensajes_array: [],
                     id: 0,
                     aut: 0,
-                    mensaje: ''
+                    mensaje: '',
+                    scrollr: true
                 }
             },
             methods: {
@@ -124,8 +135,6 @@
                     axios.post('{{url('/configuracion/conversacion')}}/'+this.id).then((response) => {
                         this.mensajes_array.splice(0);
                         this.mensajes_array.push(response.data);
-                        var objDiv = document.getElementById("conversacion");
-                        objDiv.scrollTop = objDiv.scrollHeight;
                     }).catch(function (error) {
                         console.log(error);
                         vm.errors = error.response;
@@ -144,8 +153,10 @@
                 this.id = '{{$id}}';
                 this.aut = '{{ Auth::user()->id }}';
                 this.getMensajes();
-                var objDiv = document.getElementById("conversacion");
-                objDiv.scrollTop = objDiv.scrollHeight;
+                setTimeout(function(){
+                    var objDiv = document.getElementById("conversacion");
+                    objDiv.scrollTop = objDiv.scrollHeight;
+                }, 1000);
                 setInterval(() => {
                     this.getMensajes();
                 }, 2000)
