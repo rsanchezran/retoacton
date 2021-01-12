@@ -5,6 +5,7 @@
             background: #f2f2f2;
             border-radius: 10px;
             max-height: 500px;
+            min-height: 500px;
             margin-bottom: 20px;
             margin-top: 20px;
             padding: 20px;
@@ -85,7 +86,7 @@
     </div>
 
     <template id="temp">
-        <div class="conversacion">
+        <div class="conversacion" id="conversacion">
             <div v-for="p in this.mensajes_array[0]" class="mensajes">
                 <div v-if="p.usuario_emisor_id == aut" class="box arrow-right col-md-6 offset-6 boxright">@{{ p.mensaje }}</div>
                 <div v-else class="box arrow-left col-md-6 boxleft">@{{ p.mensaje }}</div>
@@ -123,6 +124,8 @@
                     axios.post('{{url('/configuracion/conversacion')}}/'+this.id).then((response) => {
                         this.mensajes_array.splice(0);
                         this.mensajes_array.push(response.data);
+                        var objDiv = document.getElementById("conversacion");
+                        objDiv.scrollTop = objDiv.scrollHeight;
                     }).catch(function (error) {
                         console.log(error);
                         vm.errors = error.response;
@@ -141,6 +144,8 @@
                 this.id = '{{$id}}';
                 this.aut = '{{ Auth::user()->id }}';
                 this.getMensajes();
+                var objDiv = document.getElementById("conversacion");
+                objDiv.scrollTop = objDiv.scrollHeight;
                 setInterval(() => {
                     this.getMensajes();
                 }, 2000)
