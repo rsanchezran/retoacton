@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\MensajesDirectos;
 use Auth;
 use App\Categoria;
 use App\CodigosTienda;
@@ -13,6 +14,7 @@ use App\Console\Commands\EnviarCorreos;
 use App\Contacto;
 use App\Dia;
 use App\Ejercicio;
+use App\Amistades;
 use App\Events\ProcesarVideoEvent;
 use App\Code\ValidarCorreo;
 use App\Notas;
@@ -847,5 +849,115 @@ class ConfiguracionController extends Controller
         $usr->saldo = 0;
         $usr->save();
         return response()->json(['status' => 'OK', 'mensaje' => '']);
+    }
+
+
+    public function mensajes(Request $request)
+    {
+         return view('configuracion.mensajes');
+    }
+
+
+    public function buscarSeguir(Request $request)
+    {
+        $usuarios = User::where('rol', '!=', '111');
+
+        $amistad = Amistades::where('usuario_solicita_id', auth()->user()->id)->select('usuario_amigo_id')->get();
+        $usuarios = $usuarios->whereIn('id', $amistad);
+        //$amistad_me_siguen = Amistades::where('usuario_amigo_id', auth()->user()->id)->select('usuario_solicita_id')->get();
+        //$usuarios = $usuarios->whereIn('id', $amistad_me_siguen);
+
+        $usuarios = $usuarios->orderByDesc('created_at');
+        $usuarios = $usuarios->select(['users.*'])->paginate(15);
+        $comision = intval(env('COMISION'));
+        $contactos = Contacto::whereIn('email', $usuarios->pluck('email'))->get()->keyBy('email');
+        foreach ($usuarios as $usuario) {
+            $usuario->dias_reto = 0;
+            $usuario->isVencido();
+            if ($usuario->inicio_reto != null) {
+                $usuario->dias_reto = Carbon::now()->startOfDay()->diffInDays(Carbon::parse($usuario->inicio_reto)->startOfDay()) + 1;
+            }
+
+            $mio = Auth::id();
+            $mensajes_e = MensajesDirectos::where(function($query) use ($usuario,$mio){
+                $query->where('usuario_receptor_id', '=', $usuario->id);
+                $query->where('usuario_emisor_id', '=', $mio);
+            })->where('visto', '0')->count();
+
+            $mensajes_r = MensajesDirectos::where(function($query) use ($usuario,$mio){
+                $query->where('usuario_emisor_id', '=', $usuario->id);
+                $query->where('usuario_receptor_id', '=', $mio);
+            })->where('visto', '0')->count();
+
+
+            $usuario->sin_leer = $mensajes_e+$mensajes_r;
+
+            $usuario->total = $usuario->ingresados * $comision;
+            $usuario->depositado = $usuario->total - $usuario->saldo;
+            $usuario->pendientes = $usuario->saldo / $comision;
+            $usuario->pagados = $usuario->depositado / $comision;
+            $contacto = $contactos->get($usuario->email);
+            $usuario->medio = $contacto == null ? '' : $contacto->medio;
+            $usuario->telefono = $contacto == null ? '' : $contacto->telefono;
+            $usuario->vigente = !$usuario->vencido;
+            $amistad = Amistades::where('usuario_amigo_id', $usuario->id)->where('usuario_solicita_id', Auth::id())->first();
+            $usuario->amistad = 'no';
+            if($amistad){
+                $usuario->amistad = 'si';
+            }
+
+        }
+
+        return $usuarios;
+    }
+
+
+    public function mensaje_directo($id, Request $request)
+    {
+        return view('configuracion.mensaje_directo', ['id' => $id]);
+    }
+
+    public function conversacion($id){
+        //$mensajes = MensajesDirectos::where('usuario_emisor_id', $id)->orWhere('usuario_receptor_id', $id);
+        //$mensajes = $mensajes->where('usuario_emisor_id', auth()->user()->id)->orWhere('usuario_receptor_id', auth()->user()->id)->get();
+
+        $mio = Auth::id();
+        $mensajes_e = MensajesDirectos::where(function($query) use ($id,$mio){
+            $query->where('usuario_receptor_id', $id);
+            $query->where('usuario_emisor_id', $mio);
+        })->orWhere(function($query) use ($id,$mio){
+            $query->where('usuario_receptor_id', $mio);
+            $query->where('usuario_emisor_id', $id);
+        })->get();
+
+        $actualizado = $mensajes_e;
+
+        $i = 0;
+        $ilen = count( $actualizado );
+        foreach ($actualizado as $a){
+            $a->visto = '1';
+            $a->save();
+            if( ++$i == $ilen && $a->usuario_emisor_id == auth()->user()->id ){
+                $a->visto = '0';
+                $a->save();
+            }
+        }
+
+
+        return $mensajes_e;
+    }
+
+    public function nuevo_mensaje($id, Request $request){
+        $mensajes = MensajesDirectos::create([
+            'usuario_emisor_id'=> auth()->user()->id,
+            'usuario_receptor_id' => $id,
+            'visto' => '0',
+            'mensaje' => $request->mensaje
+        ]);
+
+        $mensajes = MensajesDirectos::where('usuario_emisor_id', $id)->orWhere('usuario_receptor_id', $id);
+        $mensajes = $mensajes->where('usuario_emisor_id', auth()->user()->id)->orWhere('usuario_receptor_id', auth()->user()->id)->get();
+
+        return $mensajes;
     }
 }

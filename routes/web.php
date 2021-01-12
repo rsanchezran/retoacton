@@ -81,6 +81,11 @@ Route::group(['prefix' => 'configuracion', 'middleware' => ['auth', 'pago']], fu
     Route::post('saveContactoUsuarioNuevo', 'ConfiguracionController@saveContactoUsuarioNuevo');//AQUI
     Route::get('generar-codigo', 'ConfiguracionController@generarCodigo');//AQUI
     Route::get('pagar-tienda/{usuario}', 'ConfiguracionController@pagarTienda');//AQUI
+    Route::get('mensajes', 'ConfiguracionController@mensajes');//AQUI
+    Route::get('buscarSeguir', 'ConfiguracionController@buscarSeguir');//AQUI
+    Route::get('mensaje-directo/{id}', 'ConfiguracionController@mensaje_directo');//AQUI
+    Route::post('conversacion/{id}', 'ConfiguracionController@conversacion');//AQUI
+    Route::post('nuevo_mensaje/{id}', 'ConfiguracionController@nuevo_mensaje');//AQUI
 });
 
 Route::group(['prefix' => 'suplementos', 'middleware' => ['auth', 'pago']], function (){

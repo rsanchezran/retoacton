@@ -166,6 +166,10 @@
                                 </div>
                             </li>
                         @endif
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('/configuracion/mensajes') }}">
+                                <i class="far fa-comment"></i> Mensajes</a>
+                        </li>
                     @endguest
                 </ul>
 
