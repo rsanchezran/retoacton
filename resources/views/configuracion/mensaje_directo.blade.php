@@ -144,6 +144,7 @@
                     let vm = this;
                     axios.post('{{url('/configuracion/nuevo_mensaje')}}/'+this.id, {"mensaje": this.mensaje}).then((response) => {
                         this.getMensajes();
+                        this.mensaje = '';
                     }).catch(function (error) {
                         vm.errors = error.response;
                     });
