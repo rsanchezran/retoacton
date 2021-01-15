@@ -1313,6 +1313,128 @@
             display: none !important;
         }
 
+
+        @media only screen and (min-width: 1350px) {
+            .horareloj {
+                letter-spacing: 33px;
+                margin-left: 8px;
+                margin-top: -16px;
+            }
+            .minreloj {
+                letter-spacing: 33px;
+                margin-left: 8px;
+                margin-top: -16px;
+            }
+            .segundoreloj {
+                letter-spacing: 33px;
+                margin-left: 8px;
+                margin-top: -16px;
+            }
+        }
+
+
+
+        @media only screen and (min-width: 1450px) {
+            .horareloj {
+                letter-spacing: 40px;
+                margin-left: 13px;
+                margin-top: -11px;
+            }
+            .minreloj {
+                letter-spacing: 40px;
+                margin-left: 13px;
+                margin-top: -11px;
+            }
+            .segundoreloj {
+                letter-spacing: 40px;
+                margin-left: 13px;
+                margin-top: -11px;
+            }
+        }
+
+
+        @media only screen and (min-width: 1550px) {
+            .horareloj {
+                font-size: 94px;
+                letter-spacing: 40px;
+                margin-left: 13px;
+                margin-top: -11px;
+            }
+            .minreloj {
+                font-size: 94px;
+                letter-spacing: 40px;
+                margin-left: 13px;
+                margin-top: -11px;
+            }
+            .segundoreloj {
+                font-size: 94px;
+                letter-spacing: 40px;
+                margin-left: 13px;
+                margin-top: -11px;
+            }
+        }
+
+
+        @media only screen and (min-width: 1650px) {
+            .horareloj {
+                font-size: 110px;
+                letter-spacing: 45px;
+                margin-top: -15px;
+            }
+            .minreloj {
+                font-size: 110px;
+                letter-spacing: 45px;
+                margin-top: -15px;
+            }
+            .segundoreloj {
+                font-size: 110px;
+                letter-spacing: 45px;
+                margin-top: -15px;
+            }
+        }
+
+
+        @media only screen and (min-width: 1750px) {
+            .horareloj {
+                font-size: 118px;
+            }
+            .minreloj {
+                font-size: 118px;
+            }
+            .segundoreloj {
+                font-size: 118px;
+            }
+        }
+
+
+        @media only screen and (min-width: 1850px) {
+            .horareloj {
+                font-size: 129px;
+                margin-top: -22px;
+            }
+            .minreloj {
+                font-size: 129px;
+                margin-top: -22px;
+            }
+            .segundoreloj {
+                font-size: 129px;
+                margin-top: -22px;
+            }
+        }
+
+
+        @media only screen and (min-width: 1920px) {
+            .horareloj {
+                font-size: 135px;
+            }
+            .minreloj {
+                font-size: 135px;
+            }
+            .segundoreloj {
+                font-size: 135px;
+            }
+        }
+
     </style>
 @endsection
 @section('content')
