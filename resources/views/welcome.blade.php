@@ -686,7 +686,7 @@
                 <div id="inicioFeature">
                     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-pause="false">
                         <div class="carousel-inner">
-                            <!--div class="carousel-item active">
+                            <div class="carousel-item active">
                                 <img class="d-block w-100" src="{{asset('img/landing3.jpg')}}" alt="Third slide">
                             </div>
                             <div class="carousel-item">
@@ -694,7 +694,7 @@
                             </div>
                             <div class="carousel-item">
                                 <img class="d-block w-100" src="{{asset('img/landing1.jpg')}}" alt="Forth slide">
-                            </div-->
+                            </div>
                             <div class="carousel-item">
                                 <img class="d-block w-100" src="{{asset('images/imagesremodela/INDIVIDUALES_BANNER_LIFE.jpg')}}" alt="First slide">
                             </div>
