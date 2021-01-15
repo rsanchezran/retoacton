@@ -1163,6 +1163,11 @@
 
         @media only screen and (max-width: 400px) {
 
+
+            #cobro_anterior:before {
+                width: 110% !important;
+            }
+
             /*.minutos{
                 display: block !important;
             }
