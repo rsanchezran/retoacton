@@ -138,13 +138,13 @@ class User extends Authenticatable
             $monto = 500;
         }elseif (intval($dias->dias) == 28) {
             $monto = 1000;
-            //$descuento = 35;
+            $descuento = 35;
         }elseif (intval($dias->dias) == 56) {
             $monto = 2000;
-            //$descuento = 40;
+            $descuento = 40;
         }elseif (intval($dias->dias) == 84) {
             $monto = 3000;
-            //$descuento = 50;
+            $descuento = 50;
         }
 
         $codigo_tienda = CodigosTienda::where('codigo', $codigo)->where('email', $email)->get()->count();
