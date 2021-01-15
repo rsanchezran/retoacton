@@ -1309,6 +1309,10 @@
             }
         }
 
+        #ultimashoras1{
+            display: none !important;
+        }
+
     </style>
 @endsection
 @section('content')
@@ -1398,7 +1402,7 @@
                 </div>
                 <div style="margin-top: 40px;">
                     <div style="margin-top:0px; margin-bottom: 70px">
-                        <img src="{{asset("img/satisfaccion_total.png")}}" width="100%" style="margin-left: 0%;" id="satisfaccion_total_completo">
+                        <img src="{{asset("images/imagesremodela/garantia.png")}}" width="100%" style="margin-left: 3%;" id="satisfaccion_total_completo">
                         <img src="{{asset("images/imagesremodela/satisfaccionmovil.png")}}" width="100%" style="margin-left: 0%;" id="satisfaccion_total_movil">
                     </div>
                 </div>
@@ -1482,7 +1486,7 @@
                             <img src="{{asset("images/imagesremodela/ultimashoras1.png")}}" width="100%" id="ultimashoras1" style="width: 100%;margin-left: -2.7%;">
                             <img src="{{asset("images/imagesremodela/ultimodia1.png")}}" width="100%" id="ultimodia1" style="width: 50%;">
                             <img src="{{asset("images/imagesremodela/ultimashoras.png")}}" width="100%" id="ultimashoras" style="width: 50%;">
-                            <div v-if="this.informacion.tipo == 28" class="text-center text-danger" id="soloquedan"><h2>Quedan sólo 3 lugares</h2></div>
+                            <div v-if="this.informacion.tipo == 28" class="text-center text-danger" id="soloquedan"><h2>Quedan sólo 14 lugares con descuento</h2></div>
                         </div>
                     </div>
                 </div>
@@ -1859,6 +1863,11 @@
                     if(this.sent){
                         this.saveContacto();
                     }
+                    var randomnumber = Math.floor(Math.random() * (20000 - 2000 + 1)) + 2000;
+                    setTimeout(function(){
+                        $('#soloquedan').html('<h2>Quedan sólo 13 lugares con descuento</h2>');
+                    }, randomnumber);
+
                 }
             }
         });
