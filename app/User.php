@@ -133,18 +133,18 @@ class User extends Authenticatable
         if (!$dias) {
             $dias = User::where('id', auth()->user())->first();
         }
+        $descuento = 0;
         if(intval($dias->dias) == 14){
             $monto = 500;
-            $descuento = 0;
         }elseif (intval($dias->dias) == 28) {
             $monto = 1000;
-            $descuento = 35;
+            //$descuento = 35;
         }elseif (intval($dias->dias) == 56) {
             $monto = 2000;
-            $descuento = 40;
+            //$descuento = 40;
         }elseif (intval($dias->dias) == 84) {
             $monto = 3000;
-            $descuento = 50;
+            //$descuento = 50;
         }
 
         $codigo_tienda = CodigosTienda::where('codigo', $codigo)->where('email', $email)->get()->count();
@@ -154,11 +154,11 @@ class User extends Authenticatable
             if(intval($dias->dias) == 14){
                 //$descuento = 30;
             }elseif (intval($dias->dias) == 28) {
-                $descuento = 55;
+                //$descuento = 55;
             }elseif (intval($dias->dias) == 56) {
-                $descuento = 55;
+                //$descuento = 55;
             }elseif (intval($dias->dias) == 84) {
-                $descuento = 63;
+                //$descuento = 63;
             }
         }
 
@@ -182,11 +182,11 @@ class User extends Authenticatable
                     if(intval($dias->dias) == 14){
                         //$descuento = 30;
                     }elseif (intval($dias->dias) == 28) {
-                        $descuento = 55;
+                        //$descuento = 55;
                     }elseif (intval($dias->dias) == 56) {
-                        $descuento = 55;
+                        //$descuento = 55;
                     }elseif (intval($dias->dias) == 84) {
-                        $descuento = 63;
+                        //$descuento = 63;
                     }else{
                         $descuento = intval(env('DESCUENTO_REFERENCIA'));
                     }

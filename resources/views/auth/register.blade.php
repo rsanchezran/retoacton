@@ -1582,7 +1582,7 @@
                 <br>
 
                 <div v-if="informacion.medio!=='Por medio de un gimnasio o tienda de suplementos'" style="margin-left: 5%">
-                    <div id="apps" v-if="this.informacion.tipo == 14 || this.informacion.tipo == 84">
+                    <div id="apps" v-if="this.informacion.tipo == 100 || this.informacion.tipo == 804">
                         <div  v-if="hr" class="horasrestantes" style="display: inline;">
                             <div class="horas" style="display: inline;">
                                 <span class="horareloj" style="">@{{hr}}</span>

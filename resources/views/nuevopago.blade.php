@@ -120,6 +120,11 @@
                     <br>
                     <img src="{{asset('img/oxxopay.jpg')}}" width="120">
                 </div>
+                <div class="formaPago" @click="metodoPago('deposito')">
+                    Depósito o Transferencia
+                    <br>
+                    <img src="{{asset('images/imagesremodela/deposito.png')}}" width="120">
+                </div>
                 <hr>
             </div>
             <div v-if="response.referencia!=''">
@@ -186,6 +191,49 @@
                     <form-error name="email" :errors="errors"></form-error>
                     <input name="telefono" class="form-control" placeholder="Telefono" v-model="informacion.telefono" />
                     <form-error name="telefono" :errors="errors"></form-error>
+                </div>
+            </modal>
+            <modal ref="deposito" :title="'Depósito o Transferencia'" @ok="deposito">
+                <div class="opps">
+                    <div class="opps-header">
+                        <div class="opps-reminder">Ficha digital. No es necesario imprimir.</div>
+                        <div class="opps-info">
+                            <div class="opps-ammount">
+                                <h3>Monto a pagar</h3>
+                                <h2>$ @{{this.pago}} <sup>MXN</sup></h2>
+                            </div>
+                        </div>
+                        <div class="opps-reference">
+                            <h3>Referencia</h3>
+                            <h1 class="reference">Banamex 5204 1653 0217 4390</</h1>
+                            <h1 class="reference">HSBC 4213 1661 0039 0750</</h1>
+                        </div>
+                        <p>Este código es válido las siguientes 6 horas.</p>
+                    </div>
+                    <div class="opps-instructions">
+                        <h3>Instrucciones</h3>
+                        <ol>
+                            <li>En esta opción de pago se hace el depósito a cualquiera de estas cuentas:
+                            </li>
+                            <li>Banamex 5204 1653 0217 4390</li>
+                            <li>HSBC 4213 1661 0039 0750</li>
+
+
+                            <li>Al confirmar tu pago, el cajero te entregará un comprobante impreso. <strong>En el podrás
+                                    verificar que se haya realizado correctamente.</strong> Conserva este comprobante de
+                                pago para cualquier aclaración.
+                            </li>
+
+                            <li>Manda el comprobante ya sea por medio de WhatsApp (<a href="wa.link/b3peq4" target="_blank">4775581937</a>) o por correo (pagos@retoacton.com).</li>
+                            <li>Anexando junto con tu comprobante:</li>
+                            <li>-Nombre completo</li>
+                            <li>-Correo electrónico</li>
+                            <li>-Número de teléfono </li>
+
+                        </ol>
+                        <div class="opps-footnote">Y a la brevedad empezaremos el proceso de inscripción.
+                        </div>
+                    </div>
                 </div>
             </modal>
             <modal ref="referencia" :title="'Ficha de pago'" @ok="urlLogin()" :cancelDisabled="true">
@@ -332,6 +380,10 @@
                         vm.errors = errors.response.data.errors;
                         vm.$refs[vm.pago].working = false;
                     });
+                },
+                deposito: function () {
+                    let vm = this;
+                    vm.$refs.deposito.closeModal();
                 },
                 urlLogin: function(){
                     window.location.href = 'login';
