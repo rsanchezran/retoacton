@@ -152,7 +152,7 @@ class User extends Authenticatable
 
         if($codigo_tienda>0){
             if(intval($dias->dias) == 14){
-                $descuento = 30;
+                //$descuento = 30;
             }elseif (intval($dias->dias) == 28) {
                 $descuento = 55;
             }elseif (intval($dias->dias) == 56) {
@@ -180,7 +180,7 @@ class User extends Authenticatable
                 if ($deleted_at == null) {
                     $userref = User::where('referencia', $codigo)->where('id', '!=', 1)->first();
                     if(intval($dias->dias) == 14){
-                        $descuento = 30;
+                        //$descuento = 30;
                     }elseif (intval($dias->dias) == 28) {
                         $descuento = 55;
                     }elseif (intval($dias->dias) == 56) {
@@ -295,13 +295,13 @@ class User extends Authenticatable
                         case 2:
                             $comision = env('COMISION1');
                             break;
-                        case 2:
+                        case 4:
                             $comision = env('COMISION2');
                             break;
-                        case 3:
+                        case 8:
                             $comision = env('COMISION3');
                             break;
-                        case 4:
+                        case 12:
                             $comision = env('COMISION4');
                             break;
                     }
