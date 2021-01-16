@@ -1732,8 +1732,8 @@
                         </div>
                         <div class="opps-reference">
                             <h3>Referencias:</h3>
-                            <h1 class="reference text-center"><img src="{{asset('/images/imagesremodela/banamex.png')}}" style="width: 400px;"><br> 5204 1653 0217 4390</</h1>
-                            <h1 class="reference text-center"><img src="{{asset('/images/imagesremodela/hsbc.png')}}" style="width: 400px;"><br> 4213 1661 0039 0750</</h1>
+                            <h1 class="reference text-center"><img src="{{asset('/images/imagesremodela/banamex.png')}}" style="width: 200px;"><br> 5204 1653 0217 4390</</h1>
+                            <h1 class="reference text-center"><img src="{{asset('/images/imagesremodela/hsbc.png')}}" style="width: 200px;"><br> 4213 1661 0039 0750</</h1>
                         </div>
                     </div>
                     <div class="opps-instructions">
