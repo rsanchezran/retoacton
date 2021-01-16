@@ -1626,6 +1626,14 @@
                     <cobro ref="cobro" :cobro="''+monto" :url="'{{url('/')}}'" :id="'{{env('OPENPAY_ID')}}'"
                            :llave="'{{env('CONEKTA_PUBLIC')}}'" :sandbox="'{{env('SANDBOX')}}'==true" :meses="true"
                            @terminado="terminado"></cobro>
+
+                    <div class="col-md-3 d-block ml-auto mr-auto">
+                        <div class="formaPago" @click="metodoPagoLocal('deposito')" style="border: 2px solid #e6e6e6;border-radius: 20px;">
+                            Depósito o Transferencia
+                            <br>
+                            <img src="{{asset('images/imagesremodela/deposito.png')}}" width="120">
+                        </div>
+                    </div>
                 </div>
 
                 <div>
@@ -1712,6 +1720,49 @@
                 </div>
             </div>
             <br><br>
+            <modal ref="deposito" :title="'Depósito o Transferencia'" @ok="deposito">
+                <div class="opps">
+                    <div class="opps-header">
+                        <div class="opps-reminder">Ficha digital. No es necesario imprimir.</div>
+                        <div class="opps-info">
+                            <div class="opps-ammount text-center">
+                                <h3>Monto a pagar</h3>
+                                <h2>$ @{{this.monto}} <sup>MXN</sup></h2>
+                            </div>
+                        </div>
+                        <div class="opps-reference">
+                            <h3>Referencias:</h3>
+                            <h1 class="reference text-center"><img src="{{asset('/images/imagesremodela/banamex.png')}}" style="width: 400px;"><br> 5204 1653 0217 4390</</h1>
+                            <h1 class="reference text-center"><img src="{{asset('/images/imagesremodela/hsbc.png')}}" style="width: 400px;"><br> 4213 1661 0039 0750</</h1>
+                        </div>
+                    </div>
+                    <div class="opps-instructions">
+                        <h3>Instrucciones</h3>
+                        <ol>
+                            <li>En esta opción de pago se hace el depósito a cualquiera de estas cuentas:
+                            </li>
+                            <li>Banamex 5204 1653 0217 4390</li>
+                            <li>HSBC 4213 1661 0039 0750</li>
+
+
+                            <li>Al confirmar tu pago, el cajero te entregará un comprobante impreso. <strong>En el podrás
+                                    verificar que se haya realizado correctamente.</strong> Conserva este comprobante de
+                                pago para cualquier aclaración.
+                            </li>
+
+                            <li>Manda el comprobante ya sea por medio de WhatsApp (<a href="wa.link/b3peq4" target="_blank">4775581937</a>) o por correo (pagos@retoacton.com).</li>
+                            <li>Anexando junto con tu comprobante:</li>
+                            <li>-Nombre completo</li>
+                            <li>-Correo electrónico</li>
+                            <li>-Número de teléfono</li>
+                            <li>-Número de referencia (en caso de aplicar)</li>
+
+                        </ol>
+                        <div class="opps-footnote">Y a la brevedad empezaremos el proceso de inscripción.
+                        </div>
+                    </div>
+                </div>
+            </modal>
         </div>
     </template>
 @endsection
@@ -1854,6 +1905,9 @@
             methods: {
                 terminado: function () {
                     window.location.href = "{{url('/login')}}";
+                },
+                metodoPagoLocal: function (pago) {
+                    this.$refs[pago].showModal();
                 },
                 buscarReferencia: function () {
                     let vm = this;

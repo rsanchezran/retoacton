@@ -21,6 +21,8 @@
                         <form-error name="apellidos" :errors="errors"></form-error>
                         <input class="form-control" placeholder="Teléfono" v-model="informacion.telefono">
                         <form-error name="telefono" :errors="errors"></form-error>
+                        <input class="form-control" placeholder="Referencia" v-model="informacion.referencia">
+                        <form-error name="referencia" :errors="errors"></form-error>
                         <select class="form-control" v-model="informacion.dias">
                             <option value="14" selected>2 Semanas</option>
                             <option value="28">4 semanas</option>
@@ -106,7 +108,8 @@
                         telefono: '',
                         medio: '',
                         dias: '',
-                        tipo: ''
+                        tipo: '',
+                        referencia: '',
                     },
                     mensaje:'',
                     contacto:{},

@@ -739,6 +739,7 @@ class ConfiguracionController extends Controller
                 $contacto->pagado = 1;
                 $contacto->modo = 1;
                 $contacto->referencia = strtoupper($random);
+                $contacto->codigo = $request->referencia;
                 $contacto->cp = '1';
                 $contacto->estado = '1';
                 $contacto->ciudad = '1';

@@ -224,6 +224,12 @@
                     <br>
                     <div id="paypalDiv" class="d-block ml-auto mr-auto" style="width:80%"></div>
                 </div>
+
+                <div class="formaPago" @click="metodoPago('deposito')">
+                    Depósito o Transferencia
+                    <br>
+                    <img src="{{asset('images/imagesremodela/deposito.png')}}" width="120">
+                </div>
             </div>
         </div>
         <div v-if="response.referencia!=''">
