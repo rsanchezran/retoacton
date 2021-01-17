@@ -1740,9 +1740,9 @@
                         <h3>Instrucciones</h3>
                         <ol>
                             <li>En esta opción de pago se hace el depósito a cualquiera de estas cuentas:
+                                <p>Banamex 5204 1653 0217 4390</p>
+                                <p>HSBC 4213 1661 0039 0750</p>
                             </li>
-                            <li>Banamex 5204 1653 0217 4390</li>
-                            <li>HSBC 4213 1661 0039 0750</li>
 
 
                             <li>Al confirmar tu pago, el cajero te entregará un comprobante impreso. <strong>En el podrás

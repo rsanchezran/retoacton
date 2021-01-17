@@ -746,6 +746,24 @@ class ConfiguracionController extends Controller
                 $contacto->colonia = '1';
                 $contacto->dias = $request->dias;
                 $contacto->save();
+                $usuario_ref = User::where('codigo', $request->referencia)->get();
+                if ($usuario_ref) {
+                    $saldo_favor = 0;
+                    if ($request->dias == 14) {
+                        $saldo_favor = env('COMISION1');
+                    }
+                    if ($request->dias == 28) {
+                        $saldo_favor = env('COMISION2');
+                    }
+                    if ($request->dias == 56) {
+                        $saldo_favor = env('COMISION3');
+                    }
+                    if ($request->dias == 84) {
+                        $saldo_favor = env('COMISION4');
+                    }
+                    $usuario_ref->saldo = $usuario_ref->saldo + $saldo_favor;
+                    $usuario_ref->save();
+                }
                 $mensaje = '';
                 $status = 'ok';
                 if ($usuario !== null) {
