@@ -242,17 +242,26 @@ class User extends Authenticatable
         $this->num_inscripciones = $this->num_inscripciones + 1;
         $this->fecha_inscripcion = Carbon::now();
         $this->inicio_reto = Carbon::now();
+        $dias = 14;
         if ($monto <= env(COBRO_REFRENDO1)){
-            $this->dias = $this->dias+24;
+            $dias = 14;
+            $this->dias = $this->dias+14;
+            //$this->dias = $this->dias;
         }
         if ($monto <= env(COBRO_REFRENDO2) && $monto > env(COBRO_REFRENDO1)){
-            $this->dias = $this->dias+48;
+            $dias = 28;
+            $this->dias = $this->dias+28;
+            //$this->dias = $this->dias;
         }
         if ($monto <= env(COBRO_REFRENDO3) && $monto > env(COBRO_REFRENDO2)){
+            $dias = 56;
+            //$this->dias = $this->dias;
             $this->dias = $this->dias+56;
         }
         if ($monto <= env(COBRO_REFRENDO4) && $monto > env(COBRO_REFRENDO3)){
+            $dias = 84;
             $this->dias = $this->dias+84;
+            //$this->dias = $this->dias;
         }
         if ($this->deleted_at != null) {
             $pass = Utils::generarRandomString();
@@ -264,6 +273,55 @@ class User extends Authenticatable
         if ($this->codigo != '') {
             $this->aumentarSaldo();
         }
+
+        $renovaciones = new Renovaciones();
+        $renovaciones->dias = $dias;
+        $renovaciones->usuario_id = $this->id;
+        $renovaciones->save();
+
+
+        $ignorar = collect();//Generar dieta
+        $preguntaAlimentos = Pregunta::where('pregunta', 'like', '%Eliminar de mi dieta lo siguiente%')->get();
+        $respuestas = Respuesta::where('usuario_id', $this->id)->get()->keyBy('pregunta_id');
+        foreach ($preguntaAlimentos as $preguntaAlimento) {
+            foreach (json_decode($respuestas->get($preguntaAlimento->id)->respuesta) as $item) {
+                if ($item == 'Pollo' || $item == 'Pavo')
+                    $ignorar->push("Pechuga de $item");
+                else if ($item == 'Huevo')
+                    $ignorar->push("Claras de $item");
+                $ignorar->push($item);
+            }
+        }
+
+
+        $alimentosIgnorados = Dieta::whereIn('comida', $ignorar)->get()->pluck('id');
+        $sexo = Pregunta::where('pregunta', 'like', '%Sexo%')->first();
+        $objetivo = Pregunta::where('pregunta', 'like', '%Objetivo fitness%')->first();
+        $preguntaPeso = Pregunta::where('pregunta', 'like', '%peso%')->first();
+        $objetivo = strpos($respuestas->get($objetivo->id)->respuesta, "Bajar") ? 'bajar' : 'subir';
+        $sexo = json_decode($respuestas->get($sexo->id)->respuesta);
+        $peso = json_decode($respuestas->get($preguntaPeso->id)->respuesta);
+        $this->genero = $sexo[0] == 'H' ? Genero::HOMBRE : Genero::MUJER;
+        $this->objetivo = $objetivo == 'bajar' ? 0 : 1;
+
+
+        $dietaAnterior = UsuarioDieta::where('usuario_id', $this->id)->where('dieta', '>', 1)->get()->last();
+        if ($this->rol == RolUsuario::CLIENTE) {
+            $numDieta = $dietaAnterior == null ? 1 : $dietaAnterior->dieta + 1;
+            $this->generarDieta($this, $objetivo, $peso, $alimentosIgnorados, $numDieta);
+            $this->generarDieta($this, $objetivo, $peso, $alimentosIgnorados, $numDieta + 1);
+            $kits = UsuarioKit::where('user_id', $this->id)->get();
+            $this->agregarKit($this, $kits->count() == 0 ? 2 : 1);
+        } else {
+            $this->generarDieta($this, $objetivo, $peso, $alimentosIgnorados, 7);
+            $this->generarDieta($this, $objetivo, $peso, $alimentosIgnorados, 8);
+            $this->generarDieta($this, $objetivo, $peso, $alimentosIgnorados, 9);
+            $this->generarDieta($this, $objetivo, $peso, $alimentosIgnorados, 10);
+            $this->generarDieta($this, $objetivo, $peso, $alimentosIgnorados, 11);
+            $this->generarDieta($this, $objetivo, $peso, $alimentosIgnorados, 12);
+        }
+
+
         $compra = new Compra();
         $compra->monto = $monto;
         $compra->usuario_id = $this->id;
@@ -346,8 +404,9 @@ class User extends Authenticatable
 
     public function isVencido()
     {
+        $num_dias = Renovaciones::where('usuario_id', $this->id)->sum('dias');
         if($this->num_inscripciones > 0) {
-            $this->vencido = Carbon::now()->startOfDay()->diffInDays(Carbon::parse($this->inicio_reto)->startOfDay()) >= (intval($this->dias * $this->num_inscripciones)-1);
+            $this->vencido = Carbon::now()->startOfDay()->diffInDays(Carbon::parse($this->inicio_reto)->startOfDay()) >= (intval($this->dias)-1);
         }else{
             $this->vencido = Carbon::now()->startOfDay()->diffInDays(Carbon::parse($this->inicio_reto)->startOfDay()) >= (intval($this->dias)-1);
         }
