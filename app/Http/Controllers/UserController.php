@@ -712,18 +712,18 @@ class UserController extends Controller
         $usuario->pagado = true;
         $usuario->num_inscripciones = $usuario->num_inscripciones + 1;
         $usuario->fecha_inscripcion = Carbon::now();
-        $dias = $usuario->dias+$request->dias;
+        $usuario->dias = $usuario->dias+$request->dias;
         $resta = 0;
-        if($dias == 14){
+        if($request->dias == 14){
             $resta = 500;
         }
-        if($dias == 28){
+        if($request->dias == 28){
             $resta = 1000;
         }
-        if($dias == 56){
+        if($request->dias == 56){
             $resta = 2000;
         }
-        if($dias == 84){
+        if($request->dias == 84){
             $resta = 3000;
         }
         $usuario->saldo = $usuario->saldo-$resta;
