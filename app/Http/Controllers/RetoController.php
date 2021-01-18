@@ -282,6 +282,7 @@ class RetoController extends Controller
                 app('App\Http\Controllers\HomeController')->generarDieta($request->user(), $objetivo, $peso, $alimentosIgnorados, $numDieta);
             }
 
+            $diasTranscurridos = Carbon::now()->startOfDay()->diffInDays($inicioReto);
             $diaDB = Dia::buildDia(($diasRetoOriginal-$diasTranscurridos), $genero, $objetivo, $request->user(), $numDieta, $numSemanaSuplementacion);
             return view('reto.dia', ['dia' => $diaDB, 'genero' => $genero, 'objetivo' => $objetivo,
                 'dias' => $dias, 'lugar' => $user->modo, 'semana' => $semana, 'maximo' => $diasTranscurridos,
