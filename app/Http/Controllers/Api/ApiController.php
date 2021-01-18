@@ -80,7 +80,7 @@ class ApiController extends Controller
                     return response()->json(['status' => 'ok', 'res' => 'no hay paid']);
                 }
 
-                return response()->json(['status' => 'ok', 'res' => 'no hay order']);
+                return response()->json(['status' => 'ok', json_encode($object)]);
             }
 
             return response()->json(['status' => 'ok', 'res' => 'no hay object']);
