@@ -736,7 +736,7 @@ class UserController extends Controller
         $usuario->save();
 
         $renovaciones = new Renovaciones();
-        $renovaciones->dias = $dias;
+        $renovaciones->dias = $request->dias;
         $renovaciones->usuario_id = $usuario->id;
         $renovaciones->save();
 
