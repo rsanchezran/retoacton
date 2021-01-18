@@ -250,23 +250,28 @@ class User extends Authenticatable
         if ($monto <= env(COBRO_REFRENDO1)){
             $dias = 14;
             $this->dias = $this->dias+14;
+            $resta = 500 - $this->monto;
             //$this->dias = $this->dias;
         }
         if ($monto <= env(COBRO_REFRENDO2) && $monto > env(COBRO_REFRENDO1)){
             $dias = 28;
             $this->dias = $this->dias+28;
+            $resta = 1000 - $this->monto;
             //$this->dias = $this->dias;
         }
         if ($monto <= env(COBRO_REFRENDO3) && $monto > env(COBRO_REFRENDO2)){
             $dias = 56;
             //$this->dias = $this->dias;
             $this->dias = $this->dias+56;
+            $resta = 2000 - $this->monto;
         }
         if ($monto <= env(COBRO_REFRENDO4) && $monto > env(COBRO_REFRENDO3)){
             $dias = 84;
             $this->dias = $this->dias+84;
+            $resta = 3000 - $this->monto;
             //$this->dias = $this->dias;
         }
+        $this->saldo = $this->saldo-$resta;
         if ($this->deleted_at != null) {
             $pass = Utils::generarRandomString();
             $this->password = Hash::make($pass);

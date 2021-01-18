@@ -62,6 +62,9 @@
                             </div>
                         </div>
                         <br>
+                        <div>
+                            <button id="pagarceros" @click="pagaRefrendo" class="btn btn-primary col-md-4 offset-4">Pagar</button>
+                        </div>
                         <h6 style="color: #000;">Estas son las formas de realizar tu pago de manera segura</h6>
                         <cobro ref="cobro" :cobro="''+montopago" :url="'{{url('/')}}'" :id="'{{env('OPENPAY_ID')}}'"
                                :llave="'{{env('CONEKTA_PUBLIC')}}'" :sandbox="'{{env('SANDBOX')}}'==true" :meses="true"
@@ -303,28 +306,44 @@
                     console.log(this.saldochk)
                     if (this.dias == 14){
                         if (this.saldochk){
-                            this.montopago = 500-this.saldo
+                            if(this.saldo > 500){
+                                this.montopago = 0
+                            }else{
+                                this.montopago = 500-this.saldo
+                            }
                         }else{
                             this.montopago = 500
                         }
                     }
                     if (this.dias == 28){
                         if (this.saldochk){
-                            this.montopago = 1000-this.saldo
+                            if(this.saldo > 1000){
+                                this.montopago = 0
+                            }else{
+                                this.montopago = 1000-this.saldo
+                            }
                         }else{
                             this.montopago = 1000
                         }
                     }
                     if (this.dias == 56){
                         if (this.saldochk){
-                            this.montopago = 2000-this.saldo
+                            if(this.saldo > 1000){
+                                this.montopago = 0
+                            }else{
+                                this.montopago = 2000-this.saldo
+                            }
                         }else{
                             this.montopago = 2000
                         }
                     }
                     if (this.dias == 84){
                         if (this.saldochk){
-                            this.montopago = 3000-this.saldo
+                            if(this.saldo > 3000){
+                                this.montopago = 0
+                            }else{
+                                this.montopago = 3000-this.saldo
+                            }
                         }else{
                             this.montopago = 3000
                         }
@@ -360,11 +379,19 @@
                             this.montopago = 3000
                         }
                     }
+                    if(this.montopago == 0){
+                        $("#pagarceros").show();
+                    }
                     this.saveDiasNuevo();
                 },
                 saveDiasNuevo: function(){
-                    axios.get('{{url('/usuarios/actualizar_dias/')}}/' + this.dias, {saldo: this.saldo}).then(function (response) {
-                    });
+                    if (this.saldochk) {
+                        axios.get('{{url('/usuarios/actualizar_dias/')}}/' + this.dias, {saldo: this.saldo, operacion: 'resta'}).then(function (response) {
+                        });
+                    }else{
+                        axios.get('{{url('/usuarios/actualizar_dias/')}}/' + this.dias, {saldo: this.saldo, operacion: 'suma'}).then(function (response) {
+                        });
+                    }
                 },
                 getTiendas: function () {
                     let vm = this;
@@ -424,6 +451,7 @@
                 }
             },
             mounted: function () {
+                $("#pagarceros").hide();
                 this.filtros.referencia = this.usuario.referencia;
                 this.buscar();
                 this.getEstados();
