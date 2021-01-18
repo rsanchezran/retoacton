@@ -466,6 +466,7 @@ class RetoController extends Controller
                 $teoricos = $diasRetoOriginal;
             }
         }
+        $teoricos = $user->dias;
         return $this->dia($request, $teoricos, $user->genero, $user->objetivo, $diasReto);
     }
 
