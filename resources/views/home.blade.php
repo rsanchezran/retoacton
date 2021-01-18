@@ -353,28 +353,44 @@
                 diasChange: function () {
                     if (this.dias == 14){
                         if (this.saldochk){
-                            this.montopago = 500-this.saldo
+                            if(this.saldo > 500){
+                                this.montopago = 0
+                            }else{
+                                this.montopago = 500-this.saldo
+                            }
                         }else{
                             this.montopago = 500
                         }
                     }
                     if (this.dias == 28){
                         if (this.saldochk){
-                            this.montopago = 1000-this.saldo
+                            if(this.saldo > 1000){
+                                this.montopago = 0
+                            }else{
+                                this.montopago = 1000-this.saldo
+                            }
                         }else{
                             this.montopago = 1000
                         }
                     }
                     if (this.dias == 56){
                         if (this.saldochk){
-                            this.montopago = 2000-this.saldo
+                            if(this.saldo > 1000){
+                                this.montopago = 0
+                            }else{
+                                this.montopago = 2000-this.saldo
+                            }
                         }else{
                             this.montopago = 2000
                         }
                     }
                     if (this.dias == 84){
                         if (this.saldochk){
-                            this.montopago = 3000-this.saldo
+                            if(this.saldo > 3000){
+                                this.montopago = 0
+                            }else{
+                                this.montopago = 3000-this.saldo
+                            }
                         }else{
                             this.montopago = 3000
                         }
