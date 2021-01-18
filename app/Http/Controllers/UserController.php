@@ -699,7 +699,7 @@ class UserController extends Controller
 
     }
 
-    public function refrendarPagoCeros(Request $request, $id)
+    public function refrendarPagoCeros(Request $request)
     {
         $mensaje = new \stdClass();
         $mensaje->subject = "Bienvenido de nuevo al Reto Acton";
