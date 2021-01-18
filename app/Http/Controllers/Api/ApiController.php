@@ -47,20 +47,27 @@ class ApiController extends Controller
     public function webhook(Request $request)
     {
         if (isset($request->data['object'])) {
+            error_log('Objeto 1');
             $object = $request->data['object'];
             if ($object != null) {
+                error_log('OBJETO');
 
                 if (array_key_exists('order_id', $object)) {
+                    error_log('ID EXISTE');
                     if ($object['status'] == 'paid') {
                         $order_id = $object["order_id"];
                         $cobro = $object["amount"] / 100;
                         $contacto = Contacto::where("order_id", $order_id)->first();
+                        error_log('PAGADO');
                         if ($contacto !== null) {
                             $usuario = User::withTrashed()->where('email', $contacto->email)->first();
+                            error_log('CONTACTO NULL');
                             if ($usuario == null) {
+                                error_log('USUARIO NO NULL');
                                 User::crear($contacto->nombres, $contacto->apellidos, $contacto->email,
                                     $object["payment_method"]["type"], 0, $contacto->codigo, $cobro);
                             } else {
+                                error_log('USUARIO NULL');
                                 $usuario->refrendarPago($cobro, $contacto->telefono);
                             }
                         }
@@ -68,6 +75,7 @@ class ApiController extends Controller
                 }
             }
         }
+        error_log('RETURN');
         return response()->json(['status' => 'ok']);
     }
 
