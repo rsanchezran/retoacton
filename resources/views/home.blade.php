@@ -348,6 +348,9 @@
                             this.montopago = 3000
                         }
                     }
+                    if(this.montopago == 0){
+                        $("#pagarceros").show();
+                    }
                     this.saveDiasNuevo();
                 },
                 diasChange: function () {
