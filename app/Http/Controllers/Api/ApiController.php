@@ -66,14 +66,24 @@ class ApiController extends Controller
                                 error_log('USUARIO NO NULL');
                                 User::crear($contacto->nombres, $contacto->apellidos, $contacto->email,
                                     $object["payment_method"]["type"], 0, $contacto->codigo, $cobro);
+                                return response()->json(['status' => 'ok', 'res' => 'usr no null']);
                             } else {
                                 error_log('USUARIO NULL');
                                 $usuario->refrendarPago($cobro, $contacto->telefono);
+                                return response()->json(['status' => 'ok', 'res' => 'usr null']);
                             }
                         }
+
+                        return response()->json(['status' => 'ok', 'res' => 'contacto null']);
                     }
+
+                    return response()->json(['status' => 'ok', 'res' => 'no hay paid']);
                 }
+
+                return response()->json(['status' => 'ok', 'res' => 'no hay order']);
             }
+
+            return response()->json(['status' => 'ok', 'res' => 'no hay object']);
         }
         error_log('RETURN');
         return response()->json(['status' => 'ok', 'res' => 'res']);

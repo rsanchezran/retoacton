@@ -332,9 +332,6 @@
                     this.saveDiasNuevo();
                 },
                 diasChange: function () {
-                    console.log(this.dias);
-                    console.log('SALDO');
-                    console.log(this.saldo);
                     if (this.dias == 14){
                         if (this.saldochk){
                             this.montopago = 500-this.saldo
@@ -366,8 +363,7 @@
                     this.saveDiasNuevo();
                 },
                 saveDiasNuevo: function(){
-                    axios.get('{{url('/usuarios/actualizar_dias/')}}/'+this.dias).then(function (response) {
-
+                    axios.get('{{url('/usuarios/actualizar_dias/')}}/' + this.dias, {saldo: this.saldo}).then(function (response) {
                     });
                 },
                 getTiendas: function () {
