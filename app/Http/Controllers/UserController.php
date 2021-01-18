@@ -753,6 +753,7 @@ class UserController extends Controller
         } catch (\Exception $e) {
             Log::error($e->getMessage());
         }
+        return $usuario;
     }
 
 
