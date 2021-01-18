@@ -52,7 +52,7 @@ class ApiController extends Controller
             if ($object != null) {
                 error_log('OBJETO');
 
-                if (array_key_exists('id', $object)) {
+                if (array_key_exists('order_id', $object)) {
                     error_log('ID EXISTE');
                     if ($object['payment_status'] == 'paid') {
                         $order_id = $object["id"];
