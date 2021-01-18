@@ -50,8 +50,9 @@ class ApiController extends Controller
             error_log('Objeto 1');
             $object = $request->data['object'];
             if ($object != null) {
-                error_log('OBJETO');
+                error_log($object["id"]);
 
+                if (array_key_exists('id', $object)) {
                     error_log('ID EXISTE');
                     if ($object['payment_status'] == 'paid') {
                         $order_id = $object["id"];
@@ -77,6 +78,9 @@ class ApiController extends Controller
                     }
 
                     return response()->json(['status' => 'ok', 'res' => 'no hay paid']);
+                }
+
+                return response()->json(['status' => 'ok', ($object)]);
             }
 
             return response()->json(['status' => 'ok', 'res' => 'no hay object']);
