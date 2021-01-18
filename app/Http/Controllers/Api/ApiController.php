@@ -50,7 +50,7 @@ class ApiController extends Controller
             error_log('Objeto 1');
             $object = $request->data['object'];
             if ($object != null) {
-                error_log($object->id);
+                
 
                 if (array_key_exists('id', $object)) {
                     error_log('ID EXISTE');
