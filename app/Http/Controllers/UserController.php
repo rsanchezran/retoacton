@@ -10,6 +10,7 @@ use App\ComentariosAmigos;
 use App\Compra;
 use App\Contacto;
 use App\Dia;
+use App\Renovaciones;
 use App\LikesFotos;
 use App\Pago;
 use App\User;
@@ -711,8 +712,7 @@ class UserController extends Controller
         $usuario->pagado = true;
         $usuario->num_inscripciones = $usuario->num_inscripciones + 1;
         $usuario->fecha_inscripcion = Carbon::now();
-        $usuario->inicio_reto = Carbon::now();
-        $dias = $request->dias;
+        $dias = $usuario->dias+$request->dias;
         $resta = 0;
         if($dias == 14){
             $resta = 500;

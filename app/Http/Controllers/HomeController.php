@@ -13,6 +13,7 @@ use App\Compra;
 use App\Console\Commands\Mailchimp;
 use App\Contacto;
 use App\Dieta;
+use App\Renovaciones;
 use App\Events\EnviarCorreosEvent;
 use App\Events\EnviarDudasEvent;
 use App\Kits;
@@ -192,12 +193,34 @@ class HomeController extends Controller
         $user->save();
 
         if ($user->inicio_reto == null) { //Se generan 4 dietas a lo largo del reto
-            $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 1);
-            $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 2);
-            $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 3);
-            $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 4);
-            $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 5);
-            $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 6);
+            if($user->dias == 14){
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 1);
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 2);
+            }
+            if($user->dias == 28) {
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 1);
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 2);
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 3);
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 4);
+            }
+            if($user->dias == 56) {
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 1);
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 2);
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 3);
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 4);
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 5);
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 6);
+            }
+            if($user->dias == 84) {
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 1);
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 2);
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 3);
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 4);
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 5);
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 6);
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 7);
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 8);
+            }
             if ($user->rol == RolUsuario::CLIENTE) {
                 $this->agregarKit($user, 2);
             }
@@ -205,17 +228,77 @@ class HomeController extends Controller
             $dietaAnterior = UsuarioDieta::where('usuario_id', $user->id)->where('dieta', '>', 1)->get()->last();
             if ($user->rol == RolUsuario::CLIENTE) {
                 $numDieta = $dietaAnterior == null ? 1 : $dietaAnterior->dieta + 1;
-                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta);
-                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta + 1);
+                $renovacion = Renovaciones::where('usuario_id', $user->id)->get()->last();
+                if($renovacion == null) {
+                    $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta);
+                    $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta + 1);
+                }else{
+                    if($user->dias == 14){
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta);
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta+1);
+                    }
+                    if($user->dias == 28) {
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta);
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta+1);
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta+2);
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta+3);
+                    }
+                    if($user->dias == 56) {
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta);
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta+1);
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta+2);
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta+3);
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta+4);
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta+5);
+                    }
+                    if($user->dias == 84) {
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta);
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta+1);
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta+2);
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta+3);
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta+4);
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta+5);
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta+6);
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta+7);
+                    }
+                    if ($renovacion->rol == RolUsuario::CLIENTE) {
+                        $this->agregarKit($user, 2);
+                    }
+                }
                 $kits = UsuarioKit::where('user_id', $user->id)->get();
                 $this->agregarKit($user, $kits->count() == 0 ? 2 : 1);
             } else {
-                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 1);
-                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 2);
-                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 3);
-                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 4);
-                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 5);
-                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 6);
+                if($user->dias == 14){
+                    $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 1);
+                    $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 2);
+                }
+                if($user->dias == 28) {
+                    $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 1);
+                    $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 2);
+                    $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 3);
+                    $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 4);
+                }
+                if($user->dias == 56) {
+                    $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 1);
+                    $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 2);
+                    $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 3);
+                    $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 4);
+                    $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 5);
+                    $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 6);
+                }
+                if($user->dias == 84) {
+                    $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 1);
+                    $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 2);
+                    $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 3);
+                    $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 4);
+                    $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 5);
+                    $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 6);
+                    $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 7);
+                    $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 8);
+                }
+                if ($user->rol == RolUsuario::CLIENTE) {
+                    $this->agregarKit($user, 2);
+                }
             }
         }
         $user->save();
