@@ -65,7 +65,7 @@ class ApiController extends Controller
                             if ($usuario == null) {
                                 error_log('USUARIO NO NULL');
                                 User::crear($contacto->nombres, $contacto->apellidos, $contacto->email,
-                                    $object["charges"]["data"]["payment_method"]["type"], 0, $contacto->codigo, $cobro);
+                                    $object["charges"]["data"][0]["payment_method"]["type"], 0, $contacto->codigo, $cobro);
                                 return response()->json(['status' => 'ok', 'res' => 'usr no null']);
                             } else {
                                 error_log('USUARIO NULL');
