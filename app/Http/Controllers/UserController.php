@@ -378,7 +378,7 @@ class UserController extends Controller
         }
     }
 
-    public function aumentarSaldo(Request $request)
+    public function aumentarSaldos(Request $request)
     {
         $usuario = User::find($request->id);
         if ($usuario !== null) {
