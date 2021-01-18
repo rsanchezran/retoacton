@@ -746,13 +746,6 @@ class UserController extends Controller
         $compra->usuario_id = $usuario->id;
         $compra->save();
 
-        try {
-            Mail::queue(new Registro($usuario, $mensaje));
-            $usuario->correo_enviado = 1;
-            $usuario->save();
-        } catch (\Exception $e) {
-            Log::error($e->getMessage());
-        }
         return $usuario;
     }
 
