@@ -89,7 +89,11 @@ class User extends Authenticatable
                 'fecha_inscripcion' => Carbon::now(),
                 'correo_enviado' => 0,
                 'num_inscripciones' => 1,
-                'dias' => $contacto->dias
+                'dias' => $contacto->dias,
+                'cp' => '0',
+                'colonia' => '0',
+                'estado' => '0',
+                'ciudad' => '0',
             ]);
         } else {
             $usuario->password = Hash::make($pass);
