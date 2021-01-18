@@ -124,6 +124,7 @@ Route::group(['prefix' => 'usuarios', 'middleware'=>['auth', 'pago']], function 
     Route::get('exportar/{filtros}', 'UserController@exportar');
     Route::get('getSemana/{usuario}/{semana}', 'UserController@getSemana');
     Route::get('actualizar_dias/{dias}', 'UserController@actualizarDias');
+    Route::get('refrendar_ceros/{id}', 'UserController@refrendarPagoCeros');
 });
 
 Route::group(['prefix'=>'reto', 'middleware'=>['auth', 'pago'] ],function (){

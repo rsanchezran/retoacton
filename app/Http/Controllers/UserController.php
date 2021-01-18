@@ -699,6 +699,62 @@ class UserController extends Controller
 
     }
 
+    public function refrendarPagoCeros(Request $request, $id)
+    {
+        $mensaje = new \stdClass();
+        $mensaje->subject = "Bienvenido de nuevo al Reto Acton";
+        $mensaje->pass = "";
+        $usuario = User::where('id', auth()->user()->id)->first();
+        $usuario->objetivo = 0;
+        $usuario->encuestado = false;
+        $usuario->correo_enviado = 0;
+        $usuario->pagado = true;
+        $usuario->num_inscripciones = $usuario->num_inscripciones + 1;
+        $usuario->fecha_inscripcion = Carbon::now();
+        $usuario->inicio_reto = Carbon::now();
+        $dias = $request->dias;
+        $resta = 0;
+        if($dias == 14){
+            $resta = 500;
+        }
+        if($dias == 28){
+            $resta = 1000;
+        }
+        if($dias == 56){
+            $resta = 2000;
+        }
+        if($dias == 84){
+            $resta = 3000;
+        }
+        $usuario->saldo = $usuario->saldo-$resta;
+        if ($usuario->deleted_at != null) {
+            $pass = Utils::generarRandomString();
+            $usuario->password = Hash::make($pass);
+            $mensaje->pass = $pass;
+        }
+        $usuario->deleted_at = null;
+        $usuario->save();
+
+        $renovaciones = new Renovaciones();
+        $renovaciones->dias = $dias;
+        $renovaciones->usuario_id = $usuario->id;
+        $renovaciones->save();
+
+
+        $compra = new Compra();
+        $compra->monto = '0';
+        $compra->usuario_id = $usuario->id;
+        $compra->save();
+
+        try {
+            Mail::queue(new Registro($usuario, $mensaje));
+            $usuario->correo_enviado = 1;
+            $usuario->save();
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+        }
+    }
+
 
 
 }

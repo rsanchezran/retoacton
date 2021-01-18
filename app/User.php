@@ -10,6 +10,7 @@ use App\Code\Utils;
 use App\CodigosTienda;
 use App\Mail\Registro;
 use Carbon\Carbon;
+use http\Env\Request;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Notifications\MyResetPassword;
 use Illuminate\Notifications\Notifiable;
@@ -287,48 +288,6 @@ class User extends Authenticatable
         $renovaciones->dias = $dias;
         $renovaciones->usuario_id = $this->id;
         $renovaciones->save();
-
-
-        $ignorar = collect();//Generar dieta
-        $preguntaAlimentos = Pregunta::where('pregunta', 'like', '%Eliminar de mi dieta lo siguiente%')->get();
-        $respuestas = Respuesta::where('usuario_id', $this->id)->get()->keyBy('pregunta_id');
-        foreach ($preguntaAlimentos as $preguntaAlimento) {
-            foreach (json_decode($respuestas->get($preguntaAlimento->id)->respuesta) as $item) {
-                if ($item == 'Pollo' || $item == 'Pavo')
-                    $ignorar->push("Pechuga de $item");
-                else if ($item == 'Huevo')
-                    $ignorar->push("Claras de $item");
-                $ignorar->push($item);
-            }
-        }
-
-
-        $alimentosIgnorados = Dieta::whereIn('comida', $ignorar)->get()->pluck('id');
-        $sexo = Pregunta::where('pregunta', 'like', '%Sexo%')->first();
-        $objetivo = Pregunta::where('pregunta', 'like', '%Objetivo fitness%')->first();
-        $preguntaPeso = Pregunta::where('pregunta', 'like', '%peso%')->first();
-        $objetivo = strpos($respuestas->get($objetivo->id)->respuesta, "Bajar") ? 'bajar' : 'subir';
-        $sexo = json_decode($respuestas->get($sexo->id)->respuesta);
-        $peso = json_decode($respuestas->get($preguntaPeso->id)->respuesta);
-        $this->genero = $sexo[0] == 'H' ? Genero::HOMBRE : Genero::MUJER;
-        $this->objetivo = $objetivo == 'bajar' ? 0 : 1;
-
-
-        $dietaAnterior = UsuarioDieta::where('usuario_id', $this->id)->where('dieta', '>', 1)->get()->last();
-        if ($this->rol == RolUsuario::CLIENTE) {
-            $numDieta = $dietaAnterior == null ? 1 : $dietaAnterior->dieta + 1;
-            $this->generarDieta($this, $objetivo, $peso, $alimentosIgnorados, $numDieta);
-            $this->generarDieta($this, $objetivo, $peso, $alimentosIgnorados, $numDieta + 1);
-            $kits = UsuarioKit::where('user_id', $this->id)->get();
-            $this->agregarKit($this, $kits->count() == 0 ? 2 : 1);
-        } else {
-            $this->generarDieta($this, $objetivo, $peso, $alimentosIgnorados, 7);
-            $this->generarDieta($this, $objetivo, $peso, $alimentosIgnorados, 8);
-            $this->generarDieta($this, $objetivo, $peso, $alimentosIgnorados, 9);
-            $this->generarDieta($this, $objetivo, $peso, $alimentosIgnorados, 10);
-            $this->generarDieta($this, $objetivo, $peso, $alimentosIgnorados, 11);
-            $this->generarDieta($this, $objetivo, $peso, $alimentosIgnorados, 12);
-        }
 
 
         $compra = new Compra();
