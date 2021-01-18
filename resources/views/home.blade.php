@@ -350,6 +350,9 @@
                     }
                     if(this.montopago == 0){
                         $("#pagarceros").show();
+                    }else{
+                        $("#pagarceros").hide();
+
                     }
                     this.saveDiasNuevo();
                 },
@@ -400,6 +403,9 @@
                     }
                     if(this.montopago == 0){
                         $("#pagarceros").show();
+                    }else{
+                        $("#pagarceros").hide();
+
                     }
                     this.saveDiasNuevo();
                 },
@@ -470,7 +476,7 @@
                 },
                 pagaRefrendo: function () {
                     let vm = this;
-                    axios.post('{{url('/refrendar_ceros/')}}/', {dias: this.dias}).then((response) => {
+                    axios.post('{{url('/refrendar_ceros')}}', {dias: this.dias}).then((response) => {
                     }).catch(function (error) {
                         console.log(error);
                         vm.errors = error.response;
