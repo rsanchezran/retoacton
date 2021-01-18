@@ -476,7 +476,7 @@
                 },
                 pagaRefrendo: function () {
                     let vm = this;
-                    axios.post('{{url('/refrendar_ceros')}}', {dias: this.dias}).then((response) => {
+                    axios.post('{{url('/usuarios/refrendar_ceros')}}', {dias: this.dias}).then((response) => {
                     }).catch(function (error) {
                         console.log(error);
                         vm.errors = error.response;
