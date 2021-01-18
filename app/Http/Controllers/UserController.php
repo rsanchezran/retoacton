@@ -727,11 +727,6 @@ class UserController extends Controller
             $resta = 3000;
         }
         $usuario->saldo = $usuario->saldo-$resta;
-        if ($usuario->deleted_at != null) {
-            $pass = Utils::generarRandomString();
-            $usuario->password = Hash::make($pass);
-            $mensaje->pass = $pass;
-        }
         $usuario->deleted_at = null;
         $usuario->save();
 
