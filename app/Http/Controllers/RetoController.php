@@ -232,6 +232,7 @@ class RetoController extends Controller
                 $teorico = $diasRetoOriginal;
             }
         }
+        $teorico = $diasRetoOriginal;
         if ($teorico == 0) {
             $semana = 1;
             $teorico++;
@@ -466,7 +467,6 @@ class RetoController extends Controller
                 $teoricos = $diasRetoOriginal;
             }
         }
-        $teoricos = $user->dias;
         return $this->dia($request, $teoricos, $user->genero, $user->objetivo, $diasReto);
     }
 
