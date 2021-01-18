@@ -48,7 +48,7 @@ class ApiController extends Controller
     {
         if (isset($request->data['object'])) {
             error_log('Objeto 1');
-            $object = $request->data['object'];
+            $object = json_decode($request->data['object']);
             if ($object != null) {
                 error_log('OBJETO');
 
