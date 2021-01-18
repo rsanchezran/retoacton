@@ -52,7 +52,7 @@ class ApiController extends Controller
             if ($object != null) {
                 error_log('OBJETO');
 
-                if (array_key_exists('order_id', $object)) {
+                if (array_key_exists('id', $object)) {
                     error_log('ID EXISTE');
                     if ($object['payment_status'] == 'paid') {
                         $order_id = $object["id"];
@@ -65,7 +65,7 @@ class ApiController extends Controller
                             if ($usuario == null) {
                                 error_log('USUARIO NO NULL');
                                 User::crear($contacto->nombres, $contacto->apellidos, $contacto->email,
-                                    $object["payment_method"]["type"], 0, $contacto->codigo, $cobro);
+                                    $object["charges"]["data"]["payment_method"]["type"], 0, $contacto->codigo, $cobro);
                                 return response()->json(['status' => 'ok', 'res' => 'usr no null']);
                             } else {
                                 error_log('USUARIO NULL');
