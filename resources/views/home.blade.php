@@ -303,33 +303,32 @@
                     console.log(this.saldochk)
                     if (this.dias == 14){
                         if (this.saldochk){
+                            this.montopago = 500-this.saldo
+                        }else{
+                            this.montopago = 500
+                        }
+                    }
+                    if (this.dias == 28){
+                        if (this.saldochk){
                             this.montopago = 1000-this.saldo
                         }else{
                             this.montopago = 1000
                         }
                     }
-                    if (this.dias == 28){
+                    if (this.dias == 56){
                         if (this.saldochk){
                             this.montopago = 2000-this.saldo
                         }else{
                             this.montopago = 2000
                         }
                     }
-                    if (this.dias == 56){
+                    if (this.dias == 84){
                         if (this.saldochk){
                             this.montopago = 3000-this.saldo
                         }else{
                             this.montopago = 3000
                         }
                     }
-                    if (this.dias == 84){
-                        if (this.saldochk){
-                            this.montopago = 4000-this.saldo
-                        }else{
-                            this.montopago = 4000
-                        }
-                    }
-                    this.montopago = 15;
                     this.saveDiasNuevo();
                 },
                 diasChange: function () {
@@ -338,33 +337,32 @@
                     console.log(this.saldo);
                     if (this.dias == 14){
                         if (this.saldochk){
+                            this.montopago = 500-this.saldo
+                        }else{
+                            this.montopago = 500
+                        }
+                    }
+                    if (this.dias == 28){
+                        if (this.saldochk){
                             this.montopago = 1000-this.saldo
                         }else{
                             this.montopago = 1000
                         }
                     }
-                    if (this.dias == 28){
+                    if (this.dias == 56){
                         if (this.saldochk){
                             this.montopago = 2000-this.saldo
                         }else{
                             this.montopago = 2000
                         }
                     }
-                    if (this.dias == 56){
+                    if (this.dias == 84){
                         if (this.saldochk){
                             this.montopago = 3000-this.saldo
                         }else{
                             this.montopago = 3000
                         }
                     }
-                    if (this.dias == 84){
-                        if (this.saldochk){
-                            this.montopago = 4000-this.saldo
-                        }else{
-                            this.montopago = 4000
-                        }
-                    }
-                    this.montopago = 15;
                     this.saveDiasNuevo();
                 },
                 saveDiasNuevo: function(){
