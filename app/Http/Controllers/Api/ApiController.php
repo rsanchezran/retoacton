@@ -76,7 +76,7 @@ class ApiController extends Controller
             }
         }
         error_log('RETURN');
-        return response()->json(['status' => 'ok']);
+        return response()->json(['status' => 'ok', 'res' => 'res']);
     }
 
     public function getWebhook()
