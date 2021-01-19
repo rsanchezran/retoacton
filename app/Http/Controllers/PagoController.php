@@ -240,8 +240,8 @@ class PagoController extends Controller
             if($contacto == null){
                 $usuario_s = User::where('email', $request->email)->first();
                 $contacto = new Contacto();
-                $contacto->nombres = $usuario_s->nombre;
-                $contacto->apellidos = "";
+                $contacto->nombres = $usuario_s->name;
+                $contacto->apellidos = "ok";
                 $contacto->email = $usuario_s->email;
                 $contacto->telefono = "";
                 $contacto->objetivo = "";
