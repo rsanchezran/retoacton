@@ -1818,8 +1818,7 @@ __webpack_require__.r(__webpack_exports__);
         cvc: '',
         meses: false,
         conektaTokenId: '',
-        deposito: false,
-          monto: this.cobro
+        deposito: false
       }
     };
   },
