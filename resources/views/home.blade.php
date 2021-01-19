@@ -271,7 +271,7 @@
                         codigo_personal: ''
                     },
                     buscando: false,
-                    montopago: this.monto,
+                    montopago: 0,
                     saldochk: false,
                     dias: 24,
                     estados:[],
