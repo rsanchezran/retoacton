@@ -47,7 +47,7 @@ class Dia extends Model
             $datos->where('genero', $genero)->where('objetivo', $objetivo);
         };
         $diaDB = Dia::with(['cardio' => $filtro, 'notas' => $filtro])
-            ->where('dia', $dia)->get()->first();
+            ->where('dia', 14)->get()->first();
         if ($diaDB == null) {
             $diaDB = new Dia();
             $diaDB->dia = 14;
