@@ -46,7 +46,7 @@ class Dia extends Model
         $filtro = function ($datos) use ($genero, $objetivo) { //funcion para cad with
             $datos->where('genero', $genero)->where('objetivo', $objetivo);
         };
-        $diaDB = Dia::with(['cardio' => $filtro, 'notas' => $filtro])
+        $diaDB = Dia::with(['notas' => $filtro])
             ->where('dia', $dia)->get()->first();
         if ($diaDB == null) {
             $diaDB = new Dia();
