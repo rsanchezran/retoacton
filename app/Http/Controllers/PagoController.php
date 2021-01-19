@@ -244,6 +244,7 @@ class PagoController extends Controller
                         "nombres" => $request->email,
                         "email" => $request->email,
                         "dias" => '14',
+                        "nombres" => $request->email,
                         "costo" => '500'
                     ]
                 );
