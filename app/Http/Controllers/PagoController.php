@@ -239,15 +239,15 @@ class PagoController extends Controller
             $contacto = Contacto::where('email', $request->email)->first();
             if($contacto == null){
                 $usuario_s = User::where('email', $request->email)->first();
-                $contacto = Contacto::create(
-                    [
-                        "nombres" => $request->email,
-                        "email" => $request->email,
-                        "dias" => '14',
-                        "nombres" => $request->email,
-                        "costo" => '500'
-                    ]
-                );
+                $contacto = new Contacto();
+                $contacto->nombres = $usuario_s->nombre;
+                $contacto->apellidos = "";
+                $contacto->email = $usuario_s->email;
+                $contacto->telefono = "";
+                $contacto->objetivo = "";
+                $contacto->dias = "14";
+                $contacto->costo = "500";
+                $contacto->mensaje = "";
             }
             $contacto->order_id = $order->id;
             $orden = new \stdClass();
