@@ -239,7 +239,7 @@
             <modal ref="referencia" :title="'Ficha de pago'" @ok="urlLogin()" :cancelDisabled="true">
                 <div class="opps">
                     <div class="opps-header">
-                        <div class="opps-reminder">Ficha digital. No es necesario imprimir.</div>
+                        <div class="opps-reminder">Ficha digital. No es necesario imprimir</div>
                         <div class="opps-info">
                             <div class="opps-brand">
                                 <img v-if="response.origen=='oxxo'" src="{{asset('img/oxxo.png')}}" alt="oxxo" width="100">

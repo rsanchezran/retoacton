@@ -79,7 +79,7 @@
             },
             OxxoSpei: function () {
                 let vm = this;
-                axios.post('/pago/' + vm.cobro, vm.informacion).then(function (response) {
+                axios.post('/pago/' + vm.pago, vm.informacion).then(function (response) {
                     if (response.data.status == 'ok') {
                         vm.$refs[vm.pago].closeModal();
                         vm.response.referencia = response.data.referencia;
