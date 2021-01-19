@@ -233,7 +233,7 @@ class RetoController extends Controller
             }
         }
         $diasTranscurridosuno = Carbon::now()->startOfDay()->diffInDays($inicioReto);
-        $teorico = ($diasRetoOriginal-$diasTranscurridosuno);
+        $teorico = $diasTranscurridosuno;
         if ($teorico == 0) {
             $semana = 1;
             $teorico++;
