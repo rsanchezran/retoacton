@@ -202,7 +202,7 @@ class PagoController extends Controller
             $usuario == null ? null : $usuario->deleted_at)->monto;
 
         $d = explode('00', $usuario->dias_paso);
-        if(intval($d[1]) == 1){
+        if($usuario->dias_paso !== null){
             if(intval($d[0]) == 14){$cobro=500;}
             if(intval($d[0]) == 28){$cobro=1000;}
             if(intval($d[0]) == 56){$cobro=2000;}
