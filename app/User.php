@@ -273,11 +273,6 @@ class User extends Authenticatable
             //$this->dias = $this->dias;
         }
         $this->saldo = $this->saldo-$resta;
-        if ($this->deleted_at != null) {
-            $pass = Utils::generarRandomString();
-            $this->password = Hash::make($pass);
-            $mensaje->pass = $pass;
-        }
         $this->deleted_at = null;
         $this->save();
         if ($this->codigo != '') {
