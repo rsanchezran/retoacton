@@ -50,7 +50,8 @@
                     cvc: '',
                     meses: false,
                     conektaTokenId: '',
-                    deposito: false
+                    deposito: false,
+                    monto: this.cobro
                 },
             }
         },
@@ -96,12 +97,13 @@
             redirect: function () {
                 window.location.href = '/login';
             },
-            configurar: function (nombres, apellidos, email, telefono, codigo) {
+            configurar: function (nombres, apellidos, email, telefono, codigo, monto) {
                 this.informacion.nombres = nombres;
                 this.informacion.apellidos = apellidos;
                 this.informacion.email = email;
                 this.informacion.telefono = telefono;
                 this.informacion.codigo = codigo;
+                this.informacion.monto = monto;
             },
             terminado: function () {
                 this.$emit('terminado');
