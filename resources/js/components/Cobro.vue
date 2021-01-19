@@ -191,6 +191,7 @@
     };
 </script>
 <template>
+    <div>
     <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 d-block mr-auto ml-auto">
         <div class="d-flex flex-wrap">
             <div class="col-12 col-sm-6" @click="metodoPago('spei')">
@@ -469,6 +470,7 @@
             <p>Estamos procesando tu pago con Paypal</p>
             <i v-if="loading" class="fa fa-spinner fa-spin"></i>
         </modal>
+    </div>
     </div>
 </template>
 
