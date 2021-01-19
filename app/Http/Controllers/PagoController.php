@@ -238,7 +238,7 @@ class PagoController extends Controller
             $order = \Conekta\Order::create($valid_order);
             $contacto = Contacto::where('email', $request->email)->first();
             if($contacto == null){
-                $usuario_s = User::where('email', $request-email)->first();
+                $usuario_s = User::where('email', $request->email)->first();
                 $contacto = Contacto::create(
                     [
                         "nombre" => $usuario_s->name,
