@@ -415,10 +415,10 @@
                 },
                 saveDiasNuevo: function(){
                     if (this.saldochk) {
-                        axios.get('{{url('/usuarios/actualizar_dias/')}}/1', {saldo: this.saldo, operacion: 'resta', usa: 1}).then(function (response) {
+                        axios.get('{{url('/usuarios/actualizar_dias/')}}/' + this.dias, {saldo: this.saldo, operacion: 'resta', usa: 1}).then(function (response) {
                         });
                     }else{
-                        axios.get('{{url('/usuarios/actualizar_dias/')}}/0', {saldo: this.saldo, operacion: 'suma', usa: 0}).then(function (response) {
+                        axios.get('{{url('/usuarios/actualizar_dias/')}}/' + this.dias, {saldo: this.saldo, operacion: 'suma', usa: 0}).then(function (response) {
                         });
                     }
                 },
