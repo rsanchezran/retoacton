@@ -208,7 +208,7 @@ class PagoController extends Controller
             if(intval($d[0]) == 56){$cobro=2000;}
             if(intval($d[0]) == 84){$cobro=3000;}
             if(intval($d[1])==1){
-                if($usuario->saldo>$cobro) {
+                if($usuario->saldo<$cobro) {
                     $cobro = ($cobro - $usuario->saldo) * 100;
                 }else{
                     $cobro = 0;
