@@ -237,6 +237,17 @@ class PagoController extends Controller
         try {
             $order = \Conekta\Order::create($valid_order);
             $contacto = Contacto::where('email', $request->email)->first();
+            if($contacto == null){
+                $usuario_s = User::where('email', $request-email)->first();
+                $contacto = Contacto::create(
+                    [
+                        "nombre" => $usuario_s->name,
+                        "email" => $usuario_s->email,
+                        "dias" => 14,
+                        "costo" => 500
+                    ]
+                );
+            }
             $contacto->order_id = $order->id;
             $orden = new \stdClass();
             $orden->id = $order->id;
