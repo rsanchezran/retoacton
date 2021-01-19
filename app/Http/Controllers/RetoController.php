@@ -284,7 +284,7 @@ class RetoController extends Controller
             }
 
             $diasTranscurridosuno = Carbon::now()->startOfDay()->diffInDays($inicioReto);
-            $diaDB = Dia::buildDia(($diasRetoOriginal-$diasTranscurridosuno), $genero, $objetivo, $request->user(), $numDieta, $numSemanaSuplementacion);
+            $diaDB = Dia::buildDia($diasTranscurridosuno, $genero, $objetivo, $request->user(), $numDieta, $numSemanaSuplementacion);
             return view('reto.dia', ['dia' => $diaDB, 'genero' => $genero, 'objetivo' => $objetivo,
                 'dias' => $dias, 'lugar' => $user->modo, 'semana' => $semana, 'maximo' => $diasTranscurridos,
                 'teorico' => $teorico, 'diasReto' => $diasReto]);
