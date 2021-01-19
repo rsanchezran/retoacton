@@ -201,8 +201,8 @@ class PagoController extends Controller
             $usuario == null ? null : $usuario->inicio_reto,
             $usuario == null ? null : $usuario->deleted_at)->monto;
 
-        if($request->cobro !== null){
-            $cobro = $request->cobro;
+        if($request->monto !== null){
+            $cobro = $request->monto;
         }
 
         if ($usuario->dias_paso !== 0 && !$usuario->pago_refrendo){
