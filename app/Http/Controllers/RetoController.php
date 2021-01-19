@@ -457,8 +457,8 @@ class RetoController extends Controller
             if (Carbon::parse($user->fecha_inscripcion)->startOfDay() == $inicioReto->startOfDay()) {
                 $teoricos++;
             }
-            if ($teoricos > $diasRetoOriginal + (($user->num_inscripciones - 1))) {
-                $teoricos = $diasRetoOriginal + ($user->num_inscripciones - 1);
+            if ($teoricos > $diasRetoOriginal + (($user->num_inscripciones - 1) * $diasReto)) {
+                $teoricos = $diasRetoOriginal + ($user->num_inscripciones - 1) * $diasReto;
             }
         } else {
             $teoricos = Carbon::now()->startOfDay()->diffInDays(Carbon::parse($user->inicio_reto)) + 1;
@@ -470,7 +470,7 @@ class RetoController extends Controller
             }
         }
 
-        return $this->dia($request, $teoricos, $user->genero, $user->objetivo, $diasReto);
+        return $this->dia($request, Carbon::now()->startOfDay()->diffInDays($inicioReto), $user->genero, $user->objetivo, $diasReto);
     }
 
     public function saveAudio(Request $request)
