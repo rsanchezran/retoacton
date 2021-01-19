@@ -97,12 +97,13 @@
             redirect: function () {
                 window.location.href = '/login';
             },
-            configurar: function (nombres, apellidos, email, telefono, codigo) {
+            configurar: function (nombres, apellidos, email, telefono, codigo, monto) {
                 this.informacion.nombres = nombres;
                 this.informacion.apellidos = apellidos;
                 this.informacion.email = email;
                 this.informacion.telefono = telefono;
                 this.informacion.codigo = codigo;
+                this.informacion.monto = monto;
             },
             terminado: function () {
                 this.$emit('terminado');
@@ -143,7 +144,6 @@
         },
         mounted() {
             let vm = this;
-            alert();
             this.informacion.nombres = this.nombres;
             this.informacion.email = this.email;
             Conekta.setPublicKey(vm.llave);
