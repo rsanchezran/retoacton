@@ -512,7 +512,7 @@ class UserController extends Controller
 
         error_log(auth()->user());
 
-        $usuario->dias_paso = $dias.'00'.$request->usa;
+        $usuario->dias_paso = $dias;
         $usuario->save();
 
         return $dias;
