@@ -246,7 +246,7 @@ class PagoController extends Controller
                 $contacto->telefono = "";
                 $contacto->objetivo = "";
                 $contacto->dias = "14";
-                $contacto->costo = "500";
+                $contacto->costo = 0;
                 $contacto->mensaje = "";
             }
             $contacto->order_id = $order->id;
