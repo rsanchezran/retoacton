@@ -500,8 +500,7 @@
                     this.usuario.last_name,
                     this.usuario.email,
                     this.usuario.telefono,
-                    this.usuario.codigo,
-                    this.usuario.referenciado
+                    this.usuario.codigo
                 );
                 @endif
             }

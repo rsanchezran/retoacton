@@ -51,7 +51,7 @@
                     meses: false,
                     conektaTokenId: '',
                     deposito: false,
-                    monto: 0
+                    monto: this.cobro
                 },
             }
         },
@@ -97,13 +97,12 @@
             redirect: function () {
                 window.location.href = '/login';
             },
-            configurar: function (nombres, apellidos, email, telefono, codigo, monto) {
+            configurar: function (nombres, apellidos, email, telefono, codigo) {
                 this.informacion.nombres = nombres;
                 this.informacion.apellidos = apellidos;
                 this.informacion.email = email;
                 this.informacion.telefono = telefono;
                 this.informacion.codigo = codigo;
-                this.informacion.monto = monto;
             },
             terminado: function () {
                 this.$emit('terminado');
@@ -144,9 +143,9 @@
         },
         mounted() {
             let vm = this;
+            alert();
             this.informacion.nombres = this.nombres;
             this.informacion.email = this.email;
-            this.informacion.monto = this.cobro;
             Conekta.setPublicKey(vm.llave);
             Vue.nextTick(function () {
                 document.getElementById('paypalDiv').innerHTML = "";
