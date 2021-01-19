@@ -163,6 +163,14 @@
             </modal>
             <modal ref="oxxo" :title="'Pago en oxxo'" @ok="OxxoSpei">
                 <div class="payment">
+                    <input class="form-control" disabled v-model="informacion.nombre">
+                    <form-error name="nombre" :errors="errors"></form-error>
+                    <input class="form-control" disabled v-model="informacion.email"/>
+                    <form-error name="email" :errors="errors"></form-error>
+                    <input class="form-control" placeholder="Telefono" v-model="informacion.telefono"/>
+                    <form-error name="telefono" :errors="errors"></form-error>
+                    <form-error name="nombre" :errors="errors"></form-error>
+                    <form-error name="email" :errors="errors"></form-error>
                 </div>
             </modal>
             <modal ref="spei" :title="'Pago con SPEI'" @ok="OxxoSpei">
