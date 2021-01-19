@@ -50,7 +50,7 @@ class Dia extends Model
             ->where('dia', $dia)->get()->first();
         if ($diaDB == null) {
             $diaDB = new Dia();
-            $diaDB->dia = $dia;
+            $diaDB->dia = 14;
             $diaDB->cardio = collect();
             $diaDB->nota = new \stdClass();
             $diaDB->nota->descripcion = "";
@@ -64,7 +64,7 @@ class Dia extends Model
         $diaDB->comidas = UsuarioDieta::where('usuario_id', $user->id)->where('dieta', $dieta)->get()->groupBy('comida')->values();
         $diaDB->gym = Serie::with(['ejercicios'=>function($q){
             $q->orderBy('orden');
-        }])->where('dia_id', $dia)->where($filtro)
+        }])->where('dia_id', 14)->where($filtro)
             ->whereHas('ejercicios', function ($q){
             $q->where('lugar', LugarEjercicio::GYM);
         })->where($filtro)->orderBy('orden')->get();
