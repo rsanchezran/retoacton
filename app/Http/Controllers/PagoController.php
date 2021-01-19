@@ -202,7 +202,11 @@ class PagoController extends Controller
             $usuario == null ? null : $usuario->deleted_at)->monto;
 
         if($usuario->dias_paso !== 0){
-            $cobro = ($cobro-$usuario->saldo)*100;
+            if($usuario->saldo>$cobro) {
+                $cobro = ($cobro - $usuario->saldo) * 100;
+            }else{
+                $cobro = 0;
+            }
         }
 
         if ($usuario->dias_paso !== 0 && !$usuario->pago_refrendo){
