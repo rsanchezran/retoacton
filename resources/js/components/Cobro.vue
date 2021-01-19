@@ -51,7 +51,7 @@
                     meses: false,
                     conektaTokenId: '',
                     deposito: false,
-                    monto: 500
+                    monto: 0
                 },
             }
         },
