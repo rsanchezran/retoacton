@@ -241,7 +241,7 @@ class PagoController extends Controller
                 $usuario_s = User::where('email', $request->email)->first();
                 $contacto = Contacto::create(
                     [
-                        "nombres" => $usuario_s->name,
+                        "nombres" => $usuario_s->name+'',
                         "email" => $usuario_s->email,
                         "dias" => 14,
                         "costo" => 500
