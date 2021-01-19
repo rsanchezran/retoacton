@@ -50,7 +50,7 @@
                     cvc: '',
                     meses: false,
                     conektaTokenId: '',
-                    deposito: false,
+                    deposito: this.cobro,
                     monto: this.cobro
                 },
             }
