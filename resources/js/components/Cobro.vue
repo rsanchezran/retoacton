@@ -51,7 +51,7 @@
                     meses: false,
                     conektaTokenId: '',
                     deposito: false,
-                    monto: this.cobro
+                    monto: 500
                 },
             }
         },
@@ -146,6 +146,7 @@
             let vm = this;
             this.informacion.nombres = this.nombres;
             this.informacion.email = this.email;
+            this.informacion.monto = this.cobro;
             Conekta.setPublicKey(vm.llave);
             Vue.nextTick(function () {
                 document.getElementById('paypalDiv').innerHTML = "";
