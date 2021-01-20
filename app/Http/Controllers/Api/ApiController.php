@@ -46,7 +46,7 @@ class ApiController extends Controller
 
 
 
-    public function webhookUNO(Request $request)
+    public function webhook(Request $request)
     {
         if (isset($request->data['object'])) {
             $object = $request->data['object'];
@@ -76,8 +76,7 @@ class ApiController extends Controller
         return response()->json(['status' => 'ok']);
     }
 
-
-    public function webhook(Request $request)
+    public function webhookUNO(Request $request)
     {
         if (isset($request->data['object'])) {
             $object = $request->data['object'];
