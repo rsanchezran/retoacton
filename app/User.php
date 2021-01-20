@@ -248,25 +248,25 @@ class User extends Authenticatable
         $this->fecha_inscripcion = Carbon::now();
         $this->inicio_reto = Carbon::now();
         $dias = 14;
-        if ($monto <= env(COBRO_REFRENDO1)){
+        if ($monto <= env(500)){
             $dias = 14;
             $this->dias = $this->dias+14;
             $resta = 500 - $this->monto;
             //$this->dias = $this->dias;
         }
-        if ($monto <= env(COBRO_REFRENDO2) && $monto > env(COBRO_REFRENDO1)){
+        if ($monto <= (1000) && $monto > (500)){
             $dias = 28;
             $this->dias = $this->dias+28;
             $resta = 1000 - $this->monto;
             //$this->dias = $this->dias;
         }
-        if ($monto <= env(COBRO_REFRENDO3) && $monto > env(COBRO_REFRENDO2)){
+        if ($monto <= (2000) && $monto > (1000)){
             $dias = 56;
             //$this->dias = $this->dias;
             $this->dias = $this->dias+56;
             $resta = 2000 - $this->monto;
         }
-        if ($monto <= env(COBRO_REFRENDO4) && $monto > env(COBRO_REFRENDO3)){
+        if ($monto <= (3000) && $monto > (2000)){
             $dias = 84;
             $this->dias = $this->dias+84;
             $resta = 3000 - $this->monto;
