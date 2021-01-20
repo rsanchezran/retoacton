@@ -217,10 +217,11 @@ class RetoController extends Controller
         $diasReto = intval($user->dias);
         $diasTranscurridos = UsuarioDia::where('usuario_id', $user->id)->count();
 
-        $numDieta = $dia % 14 == 0 ? intval($dia % 14) : intval($dia % 14); //Se obtiene el numero de dieta con base en la cantidad de dias del reto
-        $numDieta = $numDieta+1;
 
         $inicioReto = Carbon::parse($user->inicio_reto);
+        $numDieta = Carbon::now()->startOfDay()->diffInDays($inicioReto) % 14 == 0 ? intval(Carbon::now()->startOfDay()->diffInDays($inicioReto) % 14) : intval(Carbon::now()->startOfDay()->diffInDays($inicioReto) % 14); //Se obtiene el numero de dieta con base en la cantidad de dias del reto
+        $numDieta = $numDieta+1;
+        
         if ($user->num_inscripciones > 1) {
             $teorico = $diasRetoOriginal + (($user->num_inscripciones - 2) * $diasReto) + Carbon::now()->startOfDay()->diffInDays($inicioReto);
             if (Carbon::parse($user->fecha_inscripcion)->startOfDay() == $inicioReto->startOfDay()) {
