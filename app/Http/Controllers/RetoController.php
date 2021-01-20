@@ -217,11 +217,7 @@ class RetoController extends Controller
         $diasReto = intval($user->dias);
         $diasTranscurridos = UsuarioDia::where('usuario_id', $user->id)->count();
 
-
         $inicioReto = Carbon::parse($user->inicio_reto);
-        $numDieta = Carbon::now()->startOfDay()->diffInDays($inicioReto) % 14 == 0 ? intval(Carbon::now()->startOfDay()->diffInDays($inicioReto) % 14) : intval(Carbon::now()->startOfDay()->diffInDays($inicioReto) % 14); //Se obtiene el numero de dieta con base en la cantidad de dias del reto
-        $numDieta = $numDieta+1;
-        
         if ($user->num_inscripciones > 1) {
             $teorico = $diasRetoOriginal + (($user->num_inscripciones - 2) * $diasReto) + Carbon::now()->startOfDay()->diffInDays($inicioReto);
             if (Carbon::parse($user->fecha_inscripcion)->startOfDay() == $inicioReto->startOfDay()) {
@@ -262,6 +258,7 @@ class RetoController extends Controller
                 'dias' => $user->dias, 'diasReto' => $diasReto]);
         } else {
             $sem = $dia % 7 == 0 ? intval($dia / 7) : intval($dia / 7) + 1;
+            $numDieta = $sem % 2 == 0 ? intval($sem / 2) : intval($sem / 2) + 1; //Se obtiene el numero de dieta con base en la cantidad de dias del reto
             $numSemanaSuplementacion = $sem % 4 == 0 ? intval($sem / 4) : intval($sem / 4) + 1;
             $dietaCreada = UsuarioDieta::where('usuario_id', $user->id)->where('dieta', $numDieta)->count();
             if ($dietaCreada==0){
@@ -285,9 +282,10 @@ class RetoController extends Controller
 
                 app('App\Http\Controllers\HomeController')->generarDieta($request->user(), $objetivo, $peso, $alimentosIgnorados, $numDieta);
             }
+            $numDieta = $sem % 2 == 0 ? intval($sem / 2) : intval($sem / 2) + 1; //Se obtiene el numero de dieta con base en la cantidad de dias del reto
 
             $diasTranscurridosuno = Carbon::now()->startOfDay()->diffInDays($inicioReto);
-            $diaDB = Dia::buildDia($dia, $genero, $objetivo, $request->user(), $numDieta, $numSemanaSuplementacion);
+            $diaDB = Dia::buildDia($dia, $genero, $objetivo, $request->user(), 3, $numSemanaSuplementacion);
             return view('reto.dia', ['dia' => $diaDB, 'genero' => $genero, 'objetivo' => $objetivo,
                 'dias' => $dias, 'lugar' => $user->modo, 'semana' => $semana, 'maximo' => $diasTranscurridos,
                 'teorico' => $teorico, 'diasReto' => $diasReto]);
