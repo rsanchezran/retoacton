@@ -248,7 +248,7 @@ class User extends Authenticatable
         $this->fecha_inscripcion = Carbon::now();
         $this->inicio_reto = Carbon::now();
         $dias = 14;
-        if ($monto <= env(500)){
+        if ($monto <= (500)){
             $dias = 14;
             $this->dias = $this->dias+14;
             $resta = 500 - $this->monto;
