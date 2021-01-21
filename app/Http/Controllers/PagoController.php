@@ -369,7 +369,7 @@ class PagoController extends Controller
             User::crear($request->nombres, $request->apellidos, $request->email,
                 'paypal', 0, $request->codigo, $cobro);
         } else {
-            $usuario->refrendarPago($cobro);
+            $usuario->refrendarPagoCeros($cobro);
         }
         return response()->json(['status' => 'ok', 'redirect' => url('login')]);
     }
