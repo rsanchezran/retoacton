@@ -222,11 +222,6 @@ class RegisterController extends Controller
             ->where('id','!=',1)->get()->first();
         if ($user == null) {
             abort(403, 'Unauthorized action.');
-        }else{
-            $user->isVencido();
-            if ($user->vencido){
-                abort(403, 'Unauthorized action.');
-            }
         }
         return response()->json(['usuario' => $user->name . ' ' . $user->last_name]);
     }
