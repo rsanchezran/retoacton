@@ -134,6 +134,11 @@ class User extends Authenticatable
     {
         $compra = new \stdClass();
         $dias = User::where('email', $email)->first();
+
+        if($dias == null){
+            $dias = Contacto::where('email', $email)->first();
+        }
+
         $referenciado = $codigo == '' ? null : User::where('referencia', $codigo)->where('id', '!=', 1)->first();
         if (!$dias) {
             $dias = User::where('id', auth()->user())->first();
