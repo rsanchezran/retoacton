@@ -334,37 +334,7 @@ class PagoController extends Controller
         $cobro = User::calcularMontoCompra($request->codigo, $request->email,
             $usuario == null ? null : $usuario->created_at,
             $usuario == null ? null : $usuario->fecha_inscripcion,
-            $usuario == null ? null : $usuario->inicio_reto,
-            $usuario == null ? null : $usuario->deleted_at)->monto;
-        var_dump($cobro);
-
-        if($usuario == null){
-            $usuario = Contacto::where('email', $request->email)->get()->last();
-            $d = $usuario->dias;
-        }else {
-            $d = explode('00', $usuario->dias_paso);
-        }
-        if($usuario->dias_paso !== null){
-            if(intval($d[0]) == 14){$cobro=500;}
-            /*if(intval($d[0]) == 28){$cobro=1000;}
-            if(intval($d[0]) == 56){$cobro=2000;}
-            if(intval($d[0]) == 84){$cobro=3000;}*/
-        }else{
-            if(intval($d) == 14){$cobro=500;}
-            /*if(intval($d[0]) == 28){$cobro=1000;}
-            if(intval($d[0]) == 56){$cobro=2000;}
-            if(intval($d[0]) == 84){$cobro=3000;}*/
-        }
-
-        if ($usuario->dias_paso !== 0 && !$usuario->pago_refrendo){
-            $usuario->dias = $usuario->dias_paso;
-            $usuario->dias_paso = 0;
-            $usuario->pago_refrendo = true;
-        }
-
-        error_log("COCBROOOOO");
-        var_dump($cobro);
-
+            $usuario == null ? null : $usuario->inicio_reto, $usuario == null ? null : $usuario->deleted_at)->monto;
         Conekta::setApiKey(env("CONEKTA_PRIVATE"));
         Conekta::setApiVersion("2.0.0");
         $valid_order =
