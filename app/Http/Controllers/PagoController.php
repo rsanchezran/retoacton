@@ -195,7 +195,7 @@ class PagoController extends Controller
             $chargeRequest = array(
                 'method' => 'card',
                 'source_id' => $request->token,
-                'amount' => "$cobro",
+                'amount' => "15",
                 'currency' => 'MXN',
                 'description' => 'Inscripción al Reto Acton',
                 'device_session_id' => $request->deviceSessionId,
