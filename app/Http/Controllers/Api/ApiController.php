@@ -53,6 +53,7 @@ class ApiController extends Controller
             if ($object != null) {
 
                 if (array_key_exists('id', $object)) {
+                    var_dump($object);
                     if ($object['payment_status'] == 'paid') {
                         $order_id = $object["id"];
                         $cobro = $object["amount"] / 100;
