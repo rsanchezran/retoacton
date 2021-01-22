@@ -211,7 +211,6 @@ class User extends Authenticatable
         } else {
             if (self::isNuevo($created_at, $fecha_inscripcion)) {
                 if (intval(intval($dias->dias) > Carbon::now()->diffInDays(Carbon::parse($inicio_reto)))) {
-                    $monto = 0;
                     $descuento = 0;
                 }
             }
