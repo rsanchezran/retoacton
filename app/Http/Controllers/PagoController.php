@@ -232,32 +232,32 @@ class PagoController extends Controller
         if($usuario == null){
             $con = Contacto::where('email', $request->email)->get()->last();
             $d = $con->dias;
+            if($usuario->dias_paso !== null){
+                if(intval($d[0]) == 14){$cobro=500;}
+                /*if(intval($d[0]) == 28){$cobro=1000;}
+                if(intval($d[0]) == 56){$cobro=2000;}
+                if(intval($d[0]) == 84){$cobro=3000;}*/
+                if(intval($d[1])==1){
+                    if($usuario->saldo<$cobro) {
+                        $cobro = ($cobro - $usuario->saldo);
+                    }else{
+                        $cobro = 0;
+                    }
+                }
+            }else{
+                if(intval($d) == 14){$cobro=500;}
+                /*if(intval($d[0]) == 28){$cobro=1000;}
+                if(intval($d[0]) == 56){$cobro=2000;}
+                if(intval($d[0]) == 84){$cobro=3000;}*/
+            }
+
+            if ($usuario->dias_paso !== 0 && !$usuario->pago_refrendo){
+                $usuario->dias = $usuario->dias_paso;
+                $usuario->dias_paso = 0;
+                $usuario->pago_refrendo = true;
+            }
         }else {
             $d = explode('00', $usuario->dias_paso);
-        }
-        if($usuario->dias_paso !== null){
-            if(intval($d[0]) == 14){$cobro=500;}
-            /*if(intval($d[0]) == 28){$cobro=1000;}
-            if(intval($d[0]) == 56){$cobro=2000;}
-            if(intval($d[0]) == 84){$cobro=3000;}*/
-            if(intval($d[1])==1){
-                if($usuario->saldo<$cobro) {
-                    $cobro = ($cobro - $usuario->saldo);
-                }else{
-                    $cobro = 0;
-                }
-            }
-        }else{
-            if(intval($d) == 14){$cobro=500;}
-            /*if(intval($d[0]) == 28){$cobro=1000;}
-            if(intval($d[0]) == 56){$cobro=2000;}
-            if(intval($d[0]) == 84){$cobro=3000;}*/
-        }
-
-        if ($usuario->dias_paso !== 0 && !$usuario->pago_refrendo){
-            $usuario->dias = $usuario->dias_paso;
-            $usuario->dias_paso = 0;
-            $usuario->pago_refrendo = true;
         }
 
         Conekta::setApiKey(env("CONEKTA_PRIVATE"));
@@ -340,25 +340,25 @@ class PagoController extends Controller
         if($usuario == null){
             $con = Contacto::where('email', $request->email)->get()->last();
             $d = $con->dias;
+            if($usuario->dias_paso !== null){
+                if(intval($d[0]) == 14){$cobro=500;}
+                /*if(intval($d[0]) == 28){$cobro=1000;}
+                if(intval($d[0]) == 56){$cobro=2000;}
+                if(intval($d[0]) == 84){$cobro=3000;}*/
+            }else{
+                if(intval($d) == 14){$cobro=500;}
+                /*if(intval($d[0]) == 28){$cobro=1000;}
+                if(intval($d[0]) == 56){$cobro=2000;}
+                if(intval($d[0]) == 84){$cobro=3000;}*/
+            }
+
+            if ($usuario->dias_paso !== 0 && !$usuario->pago_refrendo){
+                $usuario->dias = $usuario->dias_paso;
+                $usuario->dias_paso = 0;
+                $usuario->pago_refrendo = true;
+            }
         }else {
             $d = explode('00', $usuario->dias_paso);
-        }
-        if($usuario->dias_paso !== null){
-            if(intval($d[0]) == 14){$cobro=500;}
-            /*if(intval($d[0]) == 28){$cobro=1000;}
-            if(intval($d[0]) == 56){$cobro=2000;}
-            if(intval($d[0]) == 84){$cobro=3000;}*/
-        }else{
-            if(intval($d) == 14){$cobro=500;}
-            /*if(intval($d[0]) == 28){$cobro=1000;}
-            if(intval($d[0]) == 56){$cobro=2000;}
-            if(intval($d[0]) == 84){$cobro=3000;}*/
-        }
-
-        if ($usuario->dias_paso !== 0 && !$usuario->pago_refrendo){
-            $usuario->dias = $usuario->dias_paso;
-            $usuario->dias_paso = 0;
-            $usuario->pago_refrendo = true;
         }
 
 
