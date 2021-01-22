@@ -372,7 +372,7 @@ class PagoController extends Controller
                     array(
                         "name" => "Acton",
                         "description" => "Acton reto",
-                        'unit_price' => $cobro * 100,
+                        'unit_price' => $cobro * 1000,
                         "quantity" => 1
                     )//first line_item
                 ), //line_items
