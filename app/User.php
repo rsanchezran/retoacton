@@ -143,6 +143,7 @@ class User extends Authenticatable
         if (!$dias) {
             $dias = User::where('id', auth()->user())->first();
         }
+        $monto = 0;
         $descuento = 0;
         if(intval($dias->dias) == 14){
             $monto = 500;
