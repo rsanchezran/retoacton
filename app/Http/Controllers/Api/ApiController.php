@@ -73,7 +73,7 @@ class ApiController extends Controller
             }
 
         }
-        return response()->json(['status' => 'ok']);
+        return response()->json(['status' => 'ok', 'status' => $object['payment_status']]);
     }
 
     public function webhookUNO(Request $request)
