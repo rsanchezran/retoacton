@@ -231,7 +231,7 @@ class PagoController extends Controller
 
         if($usuario == null){
             $con = Contacto::where('email', $request->email)->get()->last();
-            $d = $usuario->dias;
+            $d = $con->dias;
         }else {
             $d = explode('00', $usuario->dias_paso);
         }
