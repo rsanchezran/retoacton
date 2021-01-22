@@ -190,7 +190,8 @@ class PagoController extends Controller
             $customer = array(
                 'name' => $request->nombres,
                 'last_name' => $request->apellidos,
-                'email' => $request->email
+                'email' => $request->email,
+                'phone_number' => '4421112233',
             );
             $chargeRequest = array(
                 'method' => 'card',
