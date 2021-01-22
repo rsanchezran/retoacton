@@ -230,7 +230,7 @@ class PagoController extends Controller
             $usuario == null ? null : $usuario->deleted_at)->monto;
 
         if($usuario == null){
-            $usuario = Contacto::where('email', $request->email)->get()->last();
+            $con = Contacto::where('email', $request->email)->get()->last();
             $d = $usuario->dias;
         }else {
             $d = explode('00', $usuario->dias_paso);
@@ -338,8 +338,8 @@ class PagoController extends Controller
             $usuario == null ? null : $usuario->deleted_at)->monto;
 
         if($usuario == null){
-            $usuario = Contacto::where('email', $request->email)->get()->last();
-            $d = $usuario->dias;
+            $con = Contacto::where('email', $request->email)->get()->last();
+            $d = $con->dias;
         }else {
             $d = explode('00', $usuario->dias_paso);
         }
