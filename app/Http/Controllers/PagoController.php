@@ -368,6 +368,9 @@ class PagoController extends Controller
             $usuario->pago_refrendo = true;
         }
 
+        error_log("COCBROOOOO");
+        error_log($cobro);
+
         Conekta::setApiKey(env("CONEKTA_PRIVATE"));
         Conekta::setApiVersion("2.0.0");
         $valid_order =
