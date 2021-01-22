@@ -389,7 +389,7 @@
                 </div>
             </div>
         </modal>
-        <modal ref="referencia" :title="'Ficha de pago'" @ok="redirect()" :showcancel="false" :btncerrar="false" :oktext="'Salir'">
+        <modal ref="referencia" :title="'Ficha de pago'" @ok="" :showcancel="false" :btncerrar="false" :oktext="'Salir'">
             <div class="opps">
                 <div class="opps-header">
                     <div class="opps-reminder">Ficha digital. No es necesario imprimir.</div>
