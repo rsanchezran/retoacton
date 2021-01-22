@@ -331,18 +331,18 @@ class PagoController extends Controller
     {
         $this->validarTelefono($request);
         $usuario = User::withTrashed()->orderBy('created_at')->where('email', $request->email)->get()->last();
-        $cobro = User::calcularMontoCompra($request->codigo, $request->email,
-            $usuario == null ? null : $usuario->created_at,
-            $usuario == null ? null : $usuario->fecha_inscripcion,
-            $usuario == null ? null : $usuario->inicio_reto,
-            $usuario == null ? null : $usuario->deleted_at)->monto;
-
         if($usuario == null){
             $usuario = Contacto::where('email', $request->email)->get()->last();
             $d = $usuario->dias;
         }else {
             $d = explode('00', $usuario->dias_paso);
         }
+        $cobro = User::calcularMontoCompra($request->codigo, $request->email,
+            $usuario == null ? null : $usuario->created_at,
+            $usuario == null ? null : $usuario->fecha_inscripcion,
+            $usuario == null ? null : $usuario->inicio_reto,
+            $usuario == null ? null : $usuario->deleted_at)->monto;
+
         if($usuario->dias_paso !== null){
             if(intval($d[0]) == 14){$cobro=500;}
             /*if(intval($d[0]) == 28){$cobro=1000;}
@@ -372,7 +372,7 @@ class PagoController extends Controller
                     array(
                         "name" => "Acton",
                         "description" => "Acton reto",
-                        'unit_price' => $cobro * 1000,
+                        'unit_price' => $cobro * 100,
                         "quantity" => 1
                     )//first line_item
                 ), //line_items
