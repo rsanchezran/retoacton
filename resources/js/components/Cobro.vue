@@ -332,7 +332,7 @@
                 <div class="payment" align="left">
                     <input type="checkbox" id="acuerdoTarjeta" v-model="acuerdo">
                     <label for="acuerdoTarjeta">He leído y estoy de acuerdo con los
-                        <a :href="url+'/terminos'" target="_blank">términos de referencia</a>
+                        <a :href="url+'/terminos'" target="_blank">términos y condiciones</a>
                     </label>
                 </div>
             </div>
@@ -358,7 +358,7 @@
                 <div class="payment" align="left">
                     <input type="checkbox" id="acuerdoOxxo" v-model="acuerdo">
                     <label for="acuerdoOxxo">He leído y estoy de acuerdo con los
-                        <a :href="url+'/terminos'" target="_blank">términos de referencia</a>
+                        <a :href="url+'/terminos'" target="_blank">términos y condiciones</a>
                     </label>
                 </div>
             </div>
@@ -384,7 +384,7 @@
                 <div class="payment" align="left">
                     <input type="checkbox" id="acuerdoSpei" v-model="acuerdo">
                     <label for="acuerdoSpei">He leído y estoy de acuerdo con los
-                        <a :href="url+'/terminos'" target="_blank">términos de referencia</a>
+                        <a :href="url+'/terminos'" target="_blank">términos y condiciones</a>
                     </label>
                 </div>
             </div>
