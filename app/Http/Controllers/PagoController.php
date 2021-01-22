@@ -232,6 +232,8 @@ class PagoController extends Controller
         if($usuario == null){
             $con = Contacto::where('email', $request->email)->get()->last();
             $d = $con->dias;
+        }else {
+            $d = explode('00', $usuario->dias_paso);
             if($usuario->dias_paso !== null){
                 if(intval($d[0]) == 14){$cobro=500;}
                 /*if(intval($d[0]) == 28){$cobro=1000;}
@@ -256,8 +258,6 @@ class PagoController extends Controller
                 $usuario->dias_paso = 0;
                 $usuario->pago_refrendo = true;
             }
-        }else {
-            $d = explode('00', $usuario->dias_paso);
         }
 
         Conekta::setApiKey(env("CONEKTA_PRIVATE"));
@@ -340,6 +340,8 @@ class PagoController extends Controller
         if($usuario == null){
             $con = Contacto::where('email', $request->email)->get()->last();
             $d = $con->dias;
+        }else {
+            $d = explode('00', $usuario->dias_paso);
             if($usuario->dias_paso !== null){
                 if(intval($d[0]) == 14){$cobro=500;}
                 /*if(intval($d[0]) == 28){$cobro=1000;}
@@ -357,8 +359,6 @@ class PagoController extends Controller
                 $usuario->dias_paso = 0;
                 $usuario->pago_refrendo = true;
             }
-        }else {
-            $d = explode('00', $usuario->dias_paso);
         }
 
 
