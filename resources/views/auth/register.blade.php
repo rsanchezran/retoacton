@@ -1623,7 +1623,7 @@
 
                 <div class="pasarelas" style="margin-left: 2%">
                     <h6 style="color: #000;">Estas son las formas de realizar tu pago de manera segura</h6>
-                    <cobro ref="cobro" :cobro="15" :url="'{{url('/')}}'" :id="'{{env('OPENPAY_ID')}}'"
+                    <cobro ref="cobro" :cobro="''+monto" :url="'{{url('/')}}'" :id="'{{env('OPENPAY_ID')}}'"
                            :llave="'{{env('CONEKTA_PUBLIC')}}'" :sandbox="'{{env('SANDBOX')}}'==true" :meses="true"
                            @terminado="terminado"></cobro>
 
