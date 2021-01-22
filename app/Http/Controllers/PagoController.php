@@ -362,7 +362,7 @@ class PagoController extends Controller
         }
 
         error_log("COCBROOOOO");
-        error_log($cobro);
+        var_dump($cobro);
 
         Conekta::setApiKey(env("CONEKTA_PRIVATE"));
         Conekta::setApiVersion("2.0.0");
