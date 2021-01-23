@@ -166,4 +166,5 @@ Route::group(['prefix'=>'encuesta', 'middleware'=>['auth']], function (){
     Route::post('/validarAbiertas', 'HomeController@validarAbiertas');
     Route::post('/validarAbiertasdos', 'HomeController@validarAbiertasdos');
     Route::post('/save', 'HomeController@save');
+    Route::post('/generarDietaUsuario/{id}', 'HomeController@generarDietaUsuario');
 });

@@ -307,6 +307,106 @@ class HomeController extends Controller
         return response()->json(['respuesta' => 'ok']);
     }
 
+    public function generarDietaUsuario($usr)
+    {
+
+        $ignorar = collect();//Generar dieta
+        $user = User::where('id', $usr)->get()->first();
+        $preguntaAlimentos = Pregunta::where('pregunta', 'like', '%Eliminar de mi dieta lo siguiente%')->get();
+        $respuestas = Respuesta::where('usuario_id', $usr)->get()->keyBy('pregunta_id');
+        foreach ($preguntaAlimentos as $preguntaAlimento) {
+            foreach (json_decode($respuestas->get($preguntaAlimento->id)->respuesta) as $item) {
+                if ($item == 'Pollo' || $item == 'Pavo')
+                    $ignorar->push("Pechuga de $item");
+                else if ($item == 'Huevo')
+                    $ignorar->push("Claras de $item");
+                $ignorar->push($item);
+            }
+        }
+        $alimentosIgnorados = Dieta::whereIn('comida', $ignorar)->get()->pluck('id');
+        $sexo = Pregunta::where('pregunta', 'like', '%Sexo%')->first();
+        $objetivo = Pregunta::where('pregunta', 'like', '%Objetivo fitness%')->first();
+        $preguntaPeso = Pregunta::where('pregunta', 'like', '%peso%')->first();
+        $objetivo = strpos($respuestas->get($objetivo->id)->respuesta, "Bajar") ? 'bajar' : 'subir';
+        $sexo = json_decode($respuestas->get($sexo->id)->respuesta);
+        $peso = json_decode($respuestas->get($preguntaPeso->id)->respuesta);
+
+        if ($user->inicio_reto == null) { //Se generan 4 dietas a lo largo del reto
+            if($user->dias == 14){
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 1);
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 2);
+            }
+            if($user->dias == 28) {
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 1);
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 2);
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 3);
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 4);
+            }
+            if($user->dias == 56) {
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 1);
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 2);
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 3);
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 4);
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 5);
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 6);
+            }
+            if($user->dias == 84) {
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 1);
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 2);
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 3);
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 4);
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 5);
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 6);
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 7);
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 8);
+            }
+            if ($user->rol == RolUsuario::CLIENTE) {
+                $this->agregarKit($user, 2);
+            }
+        } else {
+            $dietaAnterior = UsuarioDieta::where('usuario_id', $user->id)->where('dieta', '>', 1)->get()->last();
+            if ($user->rol == RolUsuario::CLIENTE) {
+                $numDieta = $dietaAnterior == null ? 1 : $dietaAnterior->dieta + 1;
+                $renovacion = Renovaciones::where('usuario_id', $user->id)->get()->last();
+                if($renovacion == null) {
+                    $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta);
+                    $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta + 1);
+                }else{
+                    if($user->dias == 14){
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta);
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta+1);
+                    }
+                    if($user->dias == 28) {
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta);
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta+1);
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta+2);
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta+3);
+                    }
+                    if($user->dias == 56) {
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta);
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta+1);
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta+2);
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta+3);
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta+4);
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta+5);
+                    }
+                    if($user->dias == 84) {
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta);
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta+1);
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta+2);
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta+3);
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta+4);
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta+5);
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta+6);
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta+7);
+                    }
+                }
+            }
+        }
+
+        return response()->json(['respuesta' => 'ok']);
+    }
+
     public function buscarComidas($objetivo, $proteinas_permitidas)
     { //buscar las comidas a las que pertenece cada tipocomida
         $relacionProteina = Dieta::select('dietas.comida', 'rd.comida as tipo')

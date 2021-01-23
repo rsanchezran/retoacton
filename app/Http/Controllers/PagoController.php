@@ -89,13 +89,14 @@ class PagoController extends Controller
                 $usuario == null ? null : $usuario->created_at,
                 $usuario == null ? null : $usuario->fecha_inscripcion,
                 $usuario == null ? null : $usuario->inicio_reto, $usuario == null ? null : $usuario->deleted_at)->monto;
-            
+
             if($usuario == null){
                 $usuario = Contacto::where('email', $request->email)->get()->last();
                 $d = $usuario->dias;
             }else {
                 $d = explode('00', $usuario->dias_paso);
             }
+            
             if($usuario->dias_paso !== null){
                 if(intval($d[0]) == 14){$cobro=500;}
                 /*if(intval($d[0]) == 28){$cobro=1000;}
