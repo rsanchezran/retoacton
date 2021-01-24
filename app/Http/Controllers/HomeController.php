@@ -323,6 +323,7 @@ class HomeController extends Controller
                 $ignorar->push($item);
             }
         }
+        $ignorar->push(24);
         $alimentosIgnorados = Dieta::whereIn('comida', $ignorar)->get()->pluck('id');
         $sexo = Pregunta::where('pregunta', 'like', '%Sexo%')->first();
         $objetivo = Pregunta::where('pregunta', 'like', '%Objetivo fitness%')->first();
