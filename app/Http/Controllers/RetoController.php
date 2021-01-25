@@ -211,6 +211,8 @@ class RetoController extends Controller
         $user = $request->user();
         $user->modo = $user->modo == true;
 
+        $diaparabuild = $dia;
+
         $numDietas = $dia % 7 == 0 ? intval($dia / 7) : intval($dia / 7) + 1; //Se obtiene el numero de dieta con base en la cantidad de dias del reto
 
         //$diasRetoOriginal = intval(env('DIAS'));
@@ -262,7 +264,7 @@ class RetoController extends Controller
             $sem = $dia % 7 == 0 ? intval($dia / 7) : intval($dia / 7) + 1;
             $numDieta = $sem % 2 == 0 ? intval($sem / 2) : intval($sem / 2) + 1; //Se obtiene el numero de dieta con base en la cantidad de dias del reto
             $numSemanaSuplementacion = $sem % 4 == 0 ? intval($sem / 4) : intval($sem / 4) + 1;
-            $dietaCreada = UsuarioDieta::where('usuario_id', $user->id)->where('dieta', $numDieta)->count();
+            $dietaCreada = UsuarioDieta::where('usuario_id', $user->id)->where('dieta', $numDietas)->count();
             if ($dietaCreada==0){
                 $ignorar = collect();//Generar dieta
                 $preguntaAlimentos = Pregunta::where('pregunta', 'like', '%no quiero%')->get();
@@ -472,8 +474,11 @@ class RetoController extends Controller
                 $teoricos = $diasRetoOriginal;
             }
         }
-
-        return $this->dia($request, Carbon::now()->startOfDay()->diffInDays($inicioReto), $user->genero, $user->objetivo, $diasReto);
+        $dia = Carbon::now()->startOfDay()->diffInDays($inicioReto);
+        if ($dia == 0){
+            $dia = 1;
+        }
+        return $this->dia($request, $dia, $user->genero, $user->objetivo, $diasReto);
     }
 
     public function saveAudio(Request $request)

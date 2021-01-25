@@ -314,6 +314,7 @@ class HomeController extends Controller
         $user = User::where('id', $usr)->get()->first();
         $preguntaAlimentos = Pregunta::where('pregunta', 'like', '%Eliminar de mi dieta lo siguiente%')->get();
         $respuestas = Respuesta::where('usuario_id', $usr)->get()->keyBy('pregunta_id');
+        var_dump($respuestas);
         foreach ($preguntaAlimentos as $preguntaAlimento) {
             foreach (json_decode($respuestas->get($preguntaAlimento->id)->respuesta) as $item) {
                 if ($item == 'Pollo' || $item == 'Pavo')
