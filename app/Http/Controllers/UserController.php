@@ -388,6 +388,22 @@ class UserController extends Controller
         }
     }
 
+    public function aumentarSemanas(Request $request)
+    {
+        $usuario = User::find($request->id);
+        if ($usuario !== null) {
+            $usuario->dias = $usuario->dias+intval($request->nuevaSemanas)*7;
+            $usuario->encuestado = false;
+            $usuario->save();
+
+            $renovaciones = new Renovaciones();
+            $renovaciones->dias = intval($request->nuevaSemanas)*7;
+            $renovaciones->usuario_id = $request->id;
+            $renovaciones->save();
+        }
+        return "{'status': 'ok'}";
+    }
+
     public function exportar($filtros)
     {
         $this->authorize('usuarios');

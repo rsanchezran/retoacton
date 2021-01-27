@@ -2048,6 +2048,9 @@
                     setTimeout(function(){
                         $('#soloquedan').html('<h2>Quedan sólo 13 lugares con descuento</h2>');
                     }, randomnumber);
+                    setTimeout(function(){
+                        $('#soloquedan').html('<h2>Quedan sólo 12 lugares con descuento</h2>');
+                    }, 120000);
 
                 }
             }

@@ -110,9 +110,11 @@
                     <hr>
 
                         <div class="card mb-3">
-                            <div class="card-header"><i class="far fa-clipboard"></i> Personas en ACTON</div>
-                            <div class="card-body">
-                                <form  action="/usuarios/seguir/" method="GET">
+                            <div class="card-header" @click="BusquedaBlock()" style="cursor: pointer">
+                                <i class="far fa-clipboard"></i> Personas en ACTON
+                            </div>
+                            <div class="card-body"  v-if="this.frmBusqueda">
+                                <form  action="/usuarios/seguir/" method="GET" id="formBusqueda">
                                     @csrf
                                     <div style="display: flex; flex-wrap: wrap">
                                         <div class="col-sm-3">
@@ -281,8 +283,16 @@
 
                     tiendas:[],
                     conexiones:[],
+                    frmBusqueda: false
                 }},
             methods: {
+                BusquedaBlock: function (){
+                    if (this.frmBusqueda == true){
+                        this.frmBusqueda = false;
+                    }else{
+                        this.frmBusqueda = true;
+                    }
+                },
                 loaded: function (referencias) {
                     this.referenciados = referencias;
                 },

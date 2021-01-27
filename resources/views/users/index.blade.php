@@ -147,6 +147,11 @@
                                         <i class="fas fa-money-bill-wave"></i>
                                     </button>
                                 </div>
+                                <div>
+                                    <button v-tooltip="{content:'Agregar semanas'}" class="btn btn-sm btn-default" @click="agregarSemanas(usuario)">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -161,6 +166,10 @@
             <modal ref="agregarSaldo" title="DejarSeguir" @ok="aumentaSaldo">
                 <h5>Actualización de saldo de @{{ usuario.name +' '+usuario.last_name }}</h5>
                 <input type="text" class="form-control" v-model="usuario.saldoAumentado" @keyup.enter="aumentaSaldo">
+            </modal>
+            <modal ref="agregarSemanas" title="Agregar Semanas" @ok="aumentaSemanas">
+                <h5>Actualización de semanas de @{{ usuario.name +' '+usuario.last_name }}</h5>
+                <input type="number" step="2" min="2" max="12" class="form-control" v-model="usuario.nuevaSemanas" @keyup.enter="aumentaSemanas">
             </modal>
             <modal ref="comisionModal" :title="'Pago de comisión a usuario'" @ok="pagar()" height="400" :oktext="'Pagar'">
                 <div class="d-flex flex-column">
@@ -273,6 +282,7 @@
                         referencia: '',
                         dias_reto:'',
                         saldoAumentado: 0,
+                        nuevaSemanas: 0
                     },
                     referencias:{
                         data:[]
@@ -381,11 +391,26 @@
                     this.usuario.saldoAumentado = saldo;
                     this.$refs.agregarSaldo.showModal();
                 },
+                agregarSemanas: function (usuario) {
+                    this.usuario = usuario;
+                    this.$refs.agregarSemanas.showModal();
+                },
                 aumentaSaldo: function (){
                     let vm = this;
                     axios.post('{{url('/usuarios/aumentarSaldo')}}', this.usuario).then(function (response) {
                         vm.$refs.agregarSaldo.closeModal();
                         vm.buscar();
+                    });
+                },
+                aumentaSemanas: function (){
+                    let vm = this;
+                    axios.post('{{url('/usuarios/aumentarSemanas')}}', this.usuario).then(response => {
+                        if (response.status === 200) {
+                            vm.$refs.agregarSemanas.closeModal();
+                            vm.buscar();
+                        }
+                    }).catch(error => {
+                        //run this code always when status!==200
                     });
                 }
 

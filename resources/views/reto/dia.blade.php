@@ -178,8 +178,10 @@
                             </select>
                         </div>
                         <div class="d-flex flex-wrap ">
-                            <div v-for="d in 7" class="dia" @click="getDia(((semana-1)*7)+d)">
+                            <div v-for="d in dias" class="dia" @click="getDia(((semana-1)*7)+d)">
                                 <a @click="getDia(((semana-1)*7)+d )">@{{ ((semana-1)*7)+d }}</a>
+                            </div>
+                            <div v-for="d in 7-dias" class="nodia">
                             </div>
                         </div>
                     </div>
