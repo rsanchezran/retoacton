@@ -26,12 +26,42 @@
             font: caption;
         }
         .planes .col-sm-3{
-            padding: 40px;
+            padding: 10px;
         }
         .planes{
             background-color: rgba(0, 93, 156, 1);
             width: 100%;
             height: auto;
+        }
+        #pagar{
+            width: 25% !important;
+        }
+        .card-img-top {
+            width: 70% !important;
+            margin-left: 15% !important;
+            padding-top: 25px !important;
+            padding-bottom: 42px !important;
+        }
+
+
+        @media only screen and (max-width: 800px) {
+            #pagar {
+                width: 80% !important;
+            }
+            .estas_listo{
+                height: 230px;
+            }
+            .estas_listo img{
+                margin-top: -5px;
+            }
+            .controls-top{
+                display: none;
+            }
+            .carousel-indicators li {
+                width: 8px !important;
+                height: 6px !important;
+                border-radius: 50% !important;
+            }
         }
     </style>
 @endsection
@@ -43,61 +73,6 @@
 
     <template id="inicio-template">
         <div class="contenedor">
-            @if(\Illuminate\Support\Facades\Auth::user()->vencido)
-                <div class="card">
-                    <div class="card-header">Reto concluido</div>
-                    <div class="card-body">
-                        <h6 style="font-size: 1.4em">Tu reto ha concluido, te invitamos a realizar tu pago para que sigas gozando los beneficios del Reto Acton</h6>
-                        <hr>
-                        <label style="font-size: 1.4rem; font-family: unitext_bold_cursive">
-                            <money v-if="descuento>0" id="cobro_anterior" :cantidad="''+original" :decimales="0"
-                                   estilo="font-size:1.2em; color:#000000" adicional=" MXN"
-                                   :caracter="true"></money>
-                        </label>
-
-                        Semanas: <select class="form-control" v-model="dias"
-                                         @change="diasChange()">
-                            <option value="14" :selected="dias === 24">2 Semanas</option>
-                            <option value="28">4 semanas</option>
-                            <option value="56">8 semanas</option>
-                            <option value="84">12 semanas</option>
-                        </select>
-                        <br>
-
-                        <div id="infoPago" v-if="descuento>0">
-                            <label style="font-size: 1rem; color: #000; font-family: unitext_bold_cursive">aprovecha
-                                el </label>
-                            <label style="font-size: 1.4rem; margin-top: -5px; font-family: unitext_bold_cursive">@{{descuento }}% de descuento </label>
-                            <label style="color: #000; font-weight: bold; font-family: unitext_bold_cursive">ÚLTIMO DIA</label>
-                        </div>
-                        <div id="pagar">
-                            <div>a solo</div>
-                            <div style="font-size: 1.5rem; margin-left: 5px">
-                                <div>
-                                    <input
-                                            type="checkbox"
-                                            :value="saldochk"
-                                            id="saldochk"
-                                            v-model="saldochk"
-                                            @change="check($event)">
-                                    Usar saldo<br>
-                                </div>
-                                <money :cantidad="''+montopago" :caracter="true" :decimales="0"
-                                       estilo="font-size:1.5em; font-weight: bold"></money>
-                            </div>
-                        </div>
-                        <br>
-                        <div>
-                            <button id="pagarceros" @click="pagaRefrendo" class="btn btn-primary col-md-4 offset-4">Pagar</button>
-                        </div>
-                        <h6 style="color: #000;">Estas son las formas de realizar tu pago de manera segura</h6>
-                        <cobro ref="cobro" :cobro="''+montopago" :url="'{{url('/')}}'" :id="'{{env('OPENPAY_ID')}}'"
-                               :llave="'{{env('CONEKTA_PUBLIC')}}'" :sandbox="'{{env('SANDBOX')}}'==true" :meses="true"
-                               @terminado="terminado"></cobro>
-                    </div>
-                </div>
-                <hr>
-            @endif
             <div class="card">
                 <div class="card-header">Hola, @{{ usuario.name }}</div>
                 <div class="card-body" style="padding: 0">
@@ -133,6 +108,154 @@
                         </div>
                     </div>
                     <hr>
+                        @if(\Illuminate\Support\Facades\Auth::user()->vencido)
+                            <div class="">
+                                <div class="">
+                                    <label style="font-size: 1.4rem; font-family: unitext_bold_cursive">
+                                        <money v-if="descuento>0" id="cobro_anterior" :cantidad="''+original" :decimales="0"
+                                               estilo="font-size:1.2em; color:#000000" adicional=" MXN"
+                                               :caracter="true"></money>
+                                    </label>
+
+
+
+                                    <div class="estas_listo text-center">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div>
+                                                    <h1>¿Estas listo para elegir<br>
+                                                        tu plan de seguimiento?</h1>
+                                                </div>
+                                                <div>
+                                                    <img src="{{asset('/images/imagesremodela/tablaok.png')}}" width="50">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="planes text-center flex-column d-none d-md-block d-lg-block">
+                                        <div class="row col-sm-11" style="margin-left: 4%;padding-top: 20px;padding-bottom: 20px;">
+                                            <div class="col-sm-3">
+                                                <img src="{{asset('/images/imagesremodela/2semanasrenovar.png')}}" width="95%" @click="diasChange(14)">
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <img src="{{asset('/images/imagesremodela/4semanasrenovar.png')}}" width="95%" @click="diasChange(28)">
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <img src="{{asset('/images/imagesremodela/8semanasrenovar.png')}}" width="95%" @click="diasChange(56)">
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <img src="{{asset('/images/imagesremodela/12semanasrenovar.png')}}" width="95%" @click="diasChange(84)">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="planes text-center flex-column d-none d-sm-block d-block d-md-none">
+
+
+                                        <div id="multi-item-example" class="carousel slide carousel-multi-item" data-ride="carousel">
+
+                                            <!--Controls-->
+                                            <div class="controls-top">
+                                                <a class="btn-floating" href="#multi-item-example" data-slide="prev"><i class="fa fa-chevron-left"></i></a>
+                                                <a class="btn-floating" href="#multi-item-example" data-slide="next"><i class="fa fa-chevron-right"></i></a>
+                                            </div>
+                                            <!--/.Controls-->
+
+                                            <!--Indicators-->
+                                            <ol class="carousel-indicators">
+                                                <li data-target="#multi-item-example" data-slide-to="0" class="active"></li>
+                                                <li data-target="#multi-item-example" data-slide-to="1"></li>
+                                                <li data-target="#multi-item-example" data-slide-to="2"></li>
+                                                <li data-target="#multi-item-example" data-slide-to="3"></li>
+                                            </ol>
+                                            <!--/.Indicators-->
+
+                                            <!--Slides-->
+                                            <div class="carousel-inner" role="listbox">
+
+                                                <!--First slide-->
+                                                <div class="carousel-item active">
+
+                                                    <div class="row">
+                                                        <img class="card-img-top" src="{{asset('/images/imagesremodela/2semanasrenovar.png')}}" width="50%">
+                                                    </div>
+
+                                                </div>
+                                                <!--/.First slide-->
+                                                <!--First slide-->
+                                                <div class="carousel-item">
+
+                                                    <div class="row">
+                                                        <img class="card-img-top" src="{{asset('/images/imagesremodela/4semanasrenovar.png')}}" width="50%">
+                                                    </div>
+
+                                                </div>
+                                                <!--/.First slide-->
+                                                <!--First slide-->
+                                                <div class="carousel-item ">
+
+                                                    <div class="row">
+                                                        <img class="card-img-top" src="{{asset('/images/imagesremodela/8semanasrenovar.png')}}" width="50%">
+                                                    </div>
+
+                                                </div>
+                                                <!--/.First slide-->
+                                                <!--First slide-->
+                                                <div class="carousel-item ">
+
+                                                    <div class="row">
+                                                        <img class="card-img-top" src="{{asset('/images/imagesremodela/12semanasrenovar.png')}}" width="50%">
+                                                    </div>
+
+                                                </div>
+                                                <!--/.First slide-->
+
+
+
+                                            </div>
+                                            <!--/.Slides-->
+
+                                        </div>
+
+
+                                    </div>
+                                    <br>
+
+
+                                    <div id="infoPago" v-if="descuento>0">
+                                        <label style="font-size: 1rem; color: #000; font-family: unitext_bold_cursive">aprovecha
+                                            el </label>
+                                        <label style="font-size: 1.4rem; margin-top: -5px; font-family: unitext_bold_cursive">@{{descuento }}% de descuento </label>
+                                        <label style="color: #000; font-weight: bold; font-family: unitext_bold_cursive">ÚLTIMO DIA</label>
+                                    </div>
+                                    <div id="pagar" class="text-center" style="widows: 20% !important; color: black;">
+                                        <div>
+                                            <img src="{{asset('/images/imagesremodela/medalla.png')}}" width="95%">
+                                        </div>
+                                        <div style="font-size: 1.5rem;margin-left: 20%;">
+                                                <input
+                                                        type="checkbox"
+                                                        :value="saldochk"
+                                                        id="saldochk"
+                                                        v-model="saldochk"
+                                                        @change="check($event)">
+                                                Usar saldo<br>
+                                                a sólo<br>
+                                            <money :cantidad="''+montopago" :caracter="true" :decimales="0"
+                                                   estilo="font-size:1.5em; font-weight: bold"></money>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div>
+                                        <button id="pagarceros" @click="pagaRefrendo" class="btn btn-primary col-md-4 offset-4">Pagar</button>
+                                    </div>
+                                    <cobro ref="cobro" :cobro="''+montopago" :url="'{{url('/')}}'" :id="'{{env('OPENPAY_ID')}}'"
+                                           :llave="'{{env('CONEKTA_PUBLIC')}}'" :sandbox="'{{env('SANDBOX')}}'==true" :meses="true"
+                                           @terminado="terminado"></cobro>
+                                </div>
+                            </div>
+                            <hr>
+                        @endif
 
                         <div class="card mb-3">
                             <div class="card-header" @click="BusquedaBlock()" style="cursor: pointer">
@@ -210,8 +333,6 @@
                         </div>
 
                     <hr>
-
-
 
                     <div class="dash">
                         <div class="table-responsive">
@@ -396,8 +517,9 @@
                     }
                     this.saveDiasNuevo();
                 },
-                diasChange: function () {
-                    if(this.saldo > 0) {
+                diasChange: function (d) {
+                    this.dias = d;
+                    if(this.saldo >= 0) {
                         if (this.dias == 14) {
                             if (this.saldochk) {
                                 if (this.saldo > 500) {
