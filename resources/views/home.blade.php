@@ -239,7 +239,7 @@
                                         <div>
                                             <img src="{{asset('/images/imagesremodela/medalla.png')}}" width="95%">
                                         </div>
-                                        <div style="font-size: 1.5rem;margin-left: 25%;">
+                                        <div style="font-size: 1.5rem;margin-left: 10%;">
                                                 <input
                                                         type="checkbox"
                                                         :value="saldochk"
