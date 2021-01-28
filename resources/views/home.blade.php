@@ -94,8 +94,8 @@
     <template id="inicio-template">
         <div class="contenedor">
 
-            <div class="row">
-                <div class="card col-md-3" style="border: solid 0px; margin-left: 1%;">
+            <div class="row" style="width: 104%;">
+                <div class="card col-md-3" style="border: solid 0px; margin-left: 3%;">
 
                     <div class="card-header">Hola, @{{ usuario.name }}</div>
                     <div class="card-body" style="padding: 0">
@@ -115,7 +115,7 @@
                 </div>
 
 
-                <div class="card col-md-3" style="color:#007FDC;font-weight: bold;">
+                <div class="card col-md-3" style="color:#007FDC;font-weight: bold;margin-left: 3%;">
                     <br>
                     <h4>Código personal</h4>
                     <h4 class="">{{\Illuminate\Support\Facades\Auth::user()->referencia}}</h4>

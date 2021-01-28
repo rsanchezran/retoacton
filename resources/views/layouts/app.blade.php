@@ -214,7 +214,7 @@
     </main>
     <footer>
         <div class="container">
-            <div class="row">
+            <div class="row col-sm-10">
                 <div class="col-sm-3">
                     <h5 class="font-weight-bold">ATENCIÓN A CLIENTES</h5>
                     <ul class="list-unstyled">
