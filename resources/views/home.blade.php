@@ -58,7 +58,7 @@
                 width: 80% !important;
             }
             .estas_listo{
-                height: 230px;
+                height: 300px;
             }
             .estas_listo img{
                 margin-top: -5px;
@@ -73,13 +73,6 @@
             }
             .copa{
                 width: 60% !important;
-            }
-        }
-
-
-        @media only screen and (max-width: 361px) {
-            .estas_listo{
-                height: 300px;
             }
         }
 
@@ -159,7 +152,7 @@
 
 
                                     <div class="estas_listo text-center">
-                                        <div class="row">
+                                        <div class="row" style="width: 100%;">
                                             <div class="col-sm-12">
                                                 <div>
                                                     <h1>¿Estas listo para elegir<br>
