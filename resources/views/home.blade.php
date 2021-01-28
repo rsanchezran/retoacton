@@ -43,6 +43,15 @@
             padding-bottom: 42px !important;
         }
 
+        .imagenpersonal img {
+            display:block;
+            margin:auto;
+        }
+
+        .card {
+            border: 0px solid rgba(0, 0, 0, 0.125) !important;
+        }
+
 
         @media only screen and (max-width: 800px) {
             #pagar {
@@ -81,41 +90,60 @@
 
     <template id="inicio-template">
         <div class="contenedor">
-            <div class="card">
-                <div class="card-header">Hola, @{{ usuario.name }}</div>
-                <div class="card-body" style="padding: 0">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-                    <div style="display: flex; flex-wrap:wrap;  background-color: #E9E9E9; padding: 20px">
-                        <div class="col-12 col-sm-6" align="center" style="border:padding: 5px">
-                            <img :src="'{{url('cuenta/getFotografia/'.\Illuminate\Support\Facades\Auth::user()->id.'/'.rand(0,10))}}'"
-                                 width="100">
-                            <h4>Código personal</h4>
-                            <h4 class="acton">{{\Illuminate\Support\Facades\Auth::user()->referencia}}</h4>
-                        </div>
-                        <div class="col-12 col-sm-6 d-flex" style="align-items: flex-end;">
-                            <div class="d-block ml-auto mr-auto text-center">
-                                <h4>Saldo a favor</h4>
-                                <h4 class="acton">$<money :cantidad="''+usuario.saldo"></money></h4>
-                                <a v-if="usuario.inicio_reto==null" class="btn btn-lg btn-primary" href="{{url('/reto/comenzar/')}}">
-                                    <span>EMPEZAR RETO</span>
-                                </a>
-                                <!--a v-else class="btn btn-lg btn-primary" href="{{url('/reto/programa')}}">
-                                    <span>Mi programa</span>
-                                </a-->
-                                <br>
-                                <br>
-                                <a href="{{asset('/assets/cuaderno.pdf')}}" target="_blank">
-                                    <!--i class="fa fa-file-pdf"></i> Descarga aquí tu manual de apoyo-->
-                                </a>
+
+            <div class="row">
+                <div class="card col-md-3" style="border: solid 0px; margin-left: 1%;">
+
+                    <div class="card-header">Hola, @{{ usuario.name }}</div>
+                    <div class="card-body" style="padding: 0">
+                        @if (session('status'))
+                            <div class="alert alert-success" role="alert">
+                                {{ session('status') }}
+                            </div>
+                        @endif
+                        <div style="display: flex; flex-wrap:wrap;  background-color: #E9E9E9; padding: 20px">
+                            <div class="col-12 col-sm-6 imagenpersonal d-block ml-auto mr-auto text-center" align="center" style="border:padding: 5px; min-height: 160px;">
+                                <img :src="'{{url('cuenta/getFotografia/'.\Illuminate\Support\Facades\Auth::user()->id.'/'.rand(0,10))}}'"
+                                     width="100">
                             </div>
 
                         </div>
                     </div>
-                    <hr>
+                </div>
+
+
+                <div class="card col-md-3" style="color:#007FDC;font-weight: 700;">
+                    <br>
+                    <h4>Código personal</h4>
+                    <h4 class="">{{\Illuminate\Support\Facades\Auth::user()->referencia}}</h4>
+                    <h4>Saldo a favor</h4>
+                    <h4 class="acton" style="color:#007FDC;">$<money :cantidad="''+usuario.saldo"></money></h4>
+                    <a v-if="usuario.inicio_reto==null" class="btn btn-lg btn-primary" href="{{url('/reto/comenzar/')}}">
+                        <span>EMPEZAR RETO</span>
+                    </a>
+                <!--a v-else class="btn btn-lg btn-primary" href="{{url('/reto/programa')}}">
+                                <span>Mi programa</span>
+                            </a-->
+                    <br>
+                    <br>
+                    <a href="{{asset('/assets/cuaderno.pdf')}}" target="_blank">
+                    <!--i class="fa fa-file-pdf"></i> Descarga aquí tu manual de apoyo-->
+                    </a>
+
+
+                </div>
+
+
+
+                <div class="card col-md-5 d-block ml-auto mr-auto text-center">
+                    @if(\Illuminate\Support\Facades\Auth::user()->vencido)
+                        <img src="{{asset('/images/imagesremodela/copa.png')}}" width="45%">
+                    @endif
+                </div>
+
+            </div>
+
+            <div class="card">
                         @if(\Illuminate\Support\Facades\Auth::user()->vencido)
                             <div class="">
                                 <div class="">
