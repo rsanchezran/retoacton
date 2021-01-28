@@ -87,7 +87,7 @@
     <template id="inicio-template">
         <div class="contenedor">
 
-            <div class="row" style="width: 105%;">
+            <div class="row" style="width: 104%;">
                 <div class="card col-md-3" style="border: solid 0px; margin-left: 3%;">
 
                     <div class="card-header">Hola, @{{ usuario.name }}</div>
