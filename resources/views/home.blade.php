@@ -112,7 +112,7 @@
                 </div>
 
 
-                <div class="card col-md-3" style="color:#007FDC;font-weight: 700;">
+                <div class="card col-md-3" style="color:#007FDC;font-weight: bold;">
                     <br>
                     <h4>Código personal</h4>
                     <h4 class="">{{\Illuminate\Support\Facades\Auth::user()->referencia}}</h4>
