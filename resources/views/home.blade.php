@@ -8,16 +8,41 @@
         .money{
             margin-left: 5px;
         }
+        .contenedor{
+            width: 100% !important;
+        }
+        .estas_listo img{
+            margin-top: -55px;
+            margin-left: 20px;
+        }
+        .estas_listo div{
+            padding-top: 10px;
+            display: inline-block;
+        }
+        .estas_listo{
+            background-color: rgba(0, 159, 227, 1);
+            color: white;
+            height: 150px;
+            font: caption;
+        }
+        .planes .col-sm-3{
+            padding: 40px;
+        }
+        .planes{
+            background-color: rgba(0, 93, 156, 1);
+            width: 100%;
+            height: auto;
+        }
     </style>
 @endsection
 @section('content')
-    <div id="vue" class="container flex-center">
+    <div id="vue" class="flex-center">
         <inicio :usuario="{{ $usuario}}" :referencias="{{$referencias}}" :monto="{{$monto}}" :descuento="{{$descuento}}"
                 :original="{{$original}}" :saldo="{{$saldo}}"></inicio>
     </div>
 
     <template id="inicio-template">
-        <div class="container">
+        <div class="contenedor">
             @if(\Illuminate\Support\Facades\Auth::user()->vencido)
                 <div class="card">
                     <div class="card-header">Reto concluido</div>
@@ -185,6 +210,9 @@
                         </div>
 
                     <hr>
+
+
+
                     <div class="dash">
                         <div class="table-responsive">
                             <div class="d-flex flex-wrap">
