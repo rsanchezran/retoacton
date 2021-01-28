@@ -71,6 +71,9 @@
                 height: 6px !important;
                 border-radius: 50% !important;
             }
+            .copa{
+                width: 60% !important;
+            }
         }
 
 
@@ -137,7 +140,7 @@
 
                 <div class="card col-md-5 d-block ml-auto mr-auto text-center">
                     @if(\Illuminate\Support\Facades\Auth::user()->vencido)
-                        <img src="{{asset('/images/imagesremodela/copa.png')}}" width="45%">
+                        <img src="{{asset('/images/imagesremodela/copa.png')}}" width="45%" class="copa">
                     @endif
                 </div>
 
