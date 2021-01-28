@@ -215,7 +215,7 @@
                                                 <div class="carousel-item active">
 
                                                     <div class="row">
-                                                        <img class="card-img-top" src="{{asset('/images/imagesremodela/2semanasrenovar.png')}}" width="50%" @click="diasChange(84)">
+                                                        <img class="card-img-top" src="{{asset('/images/imagesremodela/2semanasrenovar.png')}}" width="50%" @click="diasChange(14)">
                                                     </div>
 
                                                 </div>
@@ -224,7 +224,7 @@
                                                 <div class="carousel-item">
 
                                                     <div class="row">
-                                                        <img class="card-img-top" src="{{asset('/images/imagesremodela/4semanasrenovar.png')}}" width="50%" @click="diasChange(84)">
+                                                        <img class="card-img-top" src="{{asset('/images/imagesremodela/4semanasrenovar.png')}}" width="50%" @click="diasChange(28)">
                                                     </div>
 
                                                 </div>
@@ -233,7 +233,7 @@
                                                 <div class="carousel-item ">
 
                                                     <div class="row">
-                                                        <img class="card-img-top" src="{{asset('/images/imagesremodela/8semanasrenovar.png')}}" width="50%" @click="diasChange(84)">
+                                                        <img class="card-img-top" src="{{asset('/images/imagesremodela/8semanasrenovar.png')}}" width="50%" @click="diasChange(56)">
                                                     </div>
 
                                                 </div>
