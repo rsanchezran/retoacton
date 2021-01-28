@@ -63,6 +63,14 @@
                 border-radius: 50% !important;
             }
         }
+
+
+        @media only screen and (max-width: 361px) {
+            .estas_listo{
+                height: 300px;
+            }
+        }
+
     </style>
 @endsection
 @section('content')
@@ -227,7 +235,7 @@
                                         <label style="font-size: 1.4rem; margin-top: -5px; font-family: unitext_bold_cursive">@{{descuento }}% de descuento </label>
                                         <label style="color: #000; font-weight: bold; font-family: unitext_bold_cursive">ÚLTIMO DIA</label>
                                     </div>
-                                    <div id="pagar" class="text-center" style="widows: 20% !important; color: black;">
+                                    <div id="pagar" class="text-center" style="widows: 13% !important; color: black;">
                                         <div>
                                             <img src="{{asset('/images/imagesremodela/medalla.png')}}" width="95%">
                                         </div>
