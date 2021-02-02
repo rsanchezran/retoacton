@@ -301,6 +301,10 @@ class RetoController extends Controller
                 }
             }
 
+            if(intval($user->dias) < $dia){
+                $diasTranscurridosuno = intval($user->dias);
+            }
+
             $diaDB = Dia::buildDia($diasTranscurridosuno, $genero, $objetivo, $request->user(), $numDietas, $numSemanaSuplementacion);
             return view('reto.dia', ['dia' => $diaDB, 'genero' => $genero, 'objetivo' => $objetivo,
                 'dias' => $dias, 'lugar' => $user->modo, 'semana' => $semana, 'maximo' => $diasTranscurridos,
