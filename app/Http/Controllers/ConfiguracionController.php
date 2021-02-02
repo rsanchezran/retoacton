@@ -580,6 +580,8 @@ class ConfiguracionController extends Controller
             $mensaje = '';
             $status = 'ok';
             if ($usuario !== null) {
+                $usuario->tipo_referencia = 2;
+                $usuario->save();
                 if ($usuario->deleted_at == null) {
                     if ($usuario->inicio_reto == null) {
                         $status = 'error';
