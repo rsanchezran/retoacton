@@ -246,7 +246,7 @@ class RetoController extends Controller
             $semana = 1;
             $teorico++;
         } else {
-            $semana = 28 % 7 == 0 ? intval(28 / 7) : intval(28 / 7) + 1;
+            $semana = $teorico % 7 == 0 ? intval($teorico / 7) : intval($teorico / 7) + 1;
         }
         if ($semana * 7 < $teorico) {
             $dias = 7;
