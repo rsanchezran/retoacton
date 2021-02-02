@@ -237,7 +237,7 @@ class RetoController extends Controller
             }
         }
         $diasTranscurridosuno = Carbon::now()->startOfDay()->diffInDays($inicioReto);
-        if($diasTranscurridos >= intval($user->dias)){
+        if(intval($diasTranscurridos) > intval($user->dias)){
             $diasTranscurridos = intval($user->dias);
         }
         $teorico = $diasTranscurridosuno;
