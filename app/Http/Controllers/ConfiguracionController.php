@@ -580,8 +580,6 @@ class ConfiguracionController extends Controller
             $mensaje = '';
             $status = 'ok';
             if ($usuario !== null) {
-                $usuario->tipo_referencia = 2;
-                $usuario->save();
                 if ($usuario->deleted_at == null) {
                     if ($usuario->inicio_reto == null) {
                         $status = 'error';
@@ -718,7 +716,6 @@ class ConfiguracionController extends Controller
                 'pagado' => true,
                 'encuestado' => true,
                 'objetivo' => 1,
-                'tipo_referencia' => 2,
                 'referencia' => $codigo,
                 'codigo' => $ref->referencia,
                 'rol' => RolUsuario::ENTRENADOR,
@@ -732,7 +729,10 @@ class ConfiguracionController extends Controller
                 'colonia' => '0',
                 'estado' => '0',
                 'ciudad' => '0',
+                'tipo_referencia' => 2,
             ]);
+            $usuario->tipo_referencia = 2;
+            $usuario->save();
             $mensaje = '';
             $status = 'ok';
         }
