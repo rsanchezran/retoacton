@@ -163,13 +163,26 @@ class User extends Authenticatable
 
         if($codigo_tienda>0){
             if(intval($dias->dias) == 14){
-                //$descuento = 30;
+                $descuento = 30;
             }elseif (intval($dias->dias) == 28) {
-                //$descuento = 55;
+                $descuento = 40;
             }elseif (intval($dias->dias) == 56) {
-                //$descuento = 55;
+                $descuento = 45;
             }elseif (intval($dias->dias) == 84) {
-                //$descuento = 63;
+                $descuento = 55;
+            }
+        }else{
+            $codigo_tienda = User::where('referencia', $codigo)->where('rol', 'entrenador')->get()->count();
+            if($codigo_tienda>0){
+                if(intval($dias->dias) == 14){
+                    $descuento = 30;
+                }elseif (intval($dias->dias) == 28) {
+                    $descuento = 40;
+                }elseif (intval($dias->dias) == 56) {
+                    $descuento = 45;
+                }elseif (intval($dias->dias) == 84) {
+                    $descuento = 55;
+                }
             }
         }
 
@@ -306,17 +319,16 @@ class User extends Authenticatable
     public function aumentarSaldo()
     {
         $usuario = User::where('referencia', $this->codigo)->where('id', '!=', 1)->get()->first();
-        error_log('aumenta saldo');
-        error_log($usuario);
+        $ddias = substr('abcdef', 0, 2);
         if ($usuario != null) {
-            $usuario->isVencido();
-            if (!$usuario->vencido) {
+            //$usuario->isVencido();
+            //if (!$usuario->vencido) {
                 $usuario->ingresados_reto += 1;
                 $usuario->ingresados += 1;
                 if($usuario->tipo_referencia == 1){
                     $usuario->saldo += intval(env('COMISION'));
                 }elseif ($usuario->tipo_referencia == 2) {
-                    $semanas = intval($usuario->dias)/7;
+                    $semanas = intval($ddias)/7;
                     switch ($semanas) {
                         case 2:
                             $comision = env('COMISION1');
@@ -333,39 +345,54 @@ class User extends Authenticatable
                     }
                     $usuario->saldo += intval($comision);
                 }
-                unset($usuario->vencido);
                 $usuario->save();
-            }
+                $usr_padre = User::where('referencia', $usuario->codigo)->where('id', '!=', 1)->get()->first();
+                if($usr_padre != null){
+                    $usr_padre->ingresados_reto += 1;
+                    $usr_padre->ingresados += 1;
+                    $semanas = intval($ddias)/7;
+                    switch ($semanas) {
+                        case 2:
+                            $comision = env('COMISION1');
+                            break;
+                        case 4:
+                            $comision = env('COMISION2');
+                            break;
+                        case 8:
+                            $comision = env('COMISION3');
+                            break;
+                        case 12:
+                            $comision = env('COMISION4');
+                            break;
+                    }
+                    $usr_padre->saldo += intval($comision);
+                    $usuario->save();
+                }
+            //}
         }else{
             $usuario = CodigosTienda::where('codigo', $this->codigo)->where('email', $this->email)->get()->first();
             if ($usuario != null) {
-                $usuario->isVencido();
-                if (!$usuario->vencido) {
-                    $usuario->ingresados_reto += 1;
-                    $usuario->ingresados += 1;
-                    if($usuario->tipo_referencia == 1){
-                        $usuario->saldo += intval(env('COMISION'));
-                    }elseif ($usuario->tipo_referencia == 2) {
-                        $semanas = intval($usuario->dias)/7;
-                        switch ($semanas) {
-                            case 2:
-                                $comision = env('COMISION1');
-                                break;
-                            case 2:
-                                $comision = env('COMISION2');
-                                break;
-                            case 3:
-                                $comision = env('COMISION3');
-                                break;
-                            case 4:
-                                $comision = env('COMISION4');
-                                break;
-                        }
-                        $usuario->saldo += intval($comision);
-                    }
-                    unset($usuario->vencido);
-                    $usuario->save();
+                $usuario->ingresados_reto += 1;
+                $usuario->ingresados += 1;
+                $semanas = intval($ddias)/7;
+                switch ($semanas) {
+                    case 2:
+                        $comision = env('COMISION1');
+                        break;
+                    case 2:
+                        $comision = env('COMISION2');
+                        break;
+                    case 3:
+                        $comision = env('COMISION3');
+                        break;
+                    case 4:
+                        $comision = env('COMISION4');
+                        break;
                 }
+                $usuario->saldo += intval($comision);
+                unset($usuario->vencido);
+                $usuario->save();
+
             }
         }
     }

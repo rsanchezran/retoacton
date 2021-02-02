@@ -17,6 +17,10 @@
                 <div class="d-flex flex-wrap">
                   <input class="form-control col-6" v-model="informacion.codigo" placeholder="REFERENCIA" maxlength="7">
                   <form-error name="codigo" :errors="errors"></form-error>
+                  <input class="form-control col-12" v-model="informacion.nombre" placeholder="NOMBRE">
+                  <form-error name="nombre" :errors="errors"></form-error>
+                  <input class="form-control col-12" v-model="informacion.apellidos" placeholder="APELLIDOS">
+                  <form-error name="apellidos" :errors="errors"></form-error>
                   <input type="email" class="form-control" placeholder="Correo electrónico" v-model="informacion.email"
                   @blur="saveContactoTienda" @keypress.enter="saveContactoTienda">
                   <form-error name="email" :errors="errors"></form-error>
@@ -37,7 +41,10 @@
                   <th></th>
                   <th>Codigo</th>
                   <th>Correo electrónico</th>
+                  <th>Nombre</th>
                   <th>Fecha de registro</th>
+                  <th>Saldo actual</th>
+                  <th>Saldo pagado</th>
               </tr>
           @forelse ($codigos as $u)
           <tr>
@@ -45,9 +52,12 @@
                   <i v-if="contacto.contacto" class="fa fa-user text-info"></i>
                   <i v-else class="fa fa-user text-default"></i>
               </th>
-              <td>{{ $u->codigo }}</td>
+              <td>{{ $u->referencia }}</td>
               <td>{{ $u->email }}</td>
+              <td>{{ $u->name }} {{ $u->last_name }}</td>
               <td class="text-center">{{ $u->created_at }}</td>
+              <td class="text-center">{{ $u->saldo }}</td>
+              <td class="text-center">{{ $u->cobrado }}</td>
           </tr>
           @empty
           <tr v-if="contactos.data.length==0">
@@ -82,7 +92,7 @@
                   },
                   loading: false,
                   informacion: {
-                      nombres: '',
+                      nombre: '',
                       apellidos: '',
                       email: '',
                       telefono: '',
@@ -125,7 +135,7 @@
                       this.errors.codigo = ['El codigo de referencia es obligatorio'];
                   }
                   if (Object.keys(this.errors).length == 0) {
-                      axios.post("{{url("configuracion/saveCodigoTienda")}}", this.informacion).then(function (response) {
+                      axios.post("{{url("configuracion/saveCodigo/entrenador")}}", this.informacion).then(function (response) {
                           vm.sent = true;
                           vm.loading = false;
 

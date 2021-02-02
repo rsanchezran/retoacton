@@ -109,8 +109,6 @@ class RegisterController extends Controller
             $status = 'error';
             $mensaje = 'Este usuario ya pertenece al RETO ACTON.';
         }else{
-            error_log('AQUIIIIIIIIIIIIIII');
-            error_log($request->tipo);
             $contacto = Contacto::withTrashed()->where("email", $email)->first();
             if ($contacto == null) {
                 $contacto = new Contacto();
@@ -232,14 +230,22 @@ class RegisterController extends Controller
             ->where('id','!=',1)->get()->first();
 
         if (!$user) {
-            error_log('BBBB');
-            abort(403, 'Unauthorized action.');
+            $user = User::where('referencia', $referencia)->get()->first();
+            if (!$user) {
+                abort(403, 'Unauthorized action.');
+            }else{
+                $user = User::where('id', $user->id)->first();
+
+                return response()->json(['usuario' => $user->name . ' ' .
+                    $user->last_name]);
+            }
+        }else {
+
+            $user = User::where('id', $user->usuario_id_creador)->first();
+
+            return response()->json(['usuario' => $user->name . ' ' .
+                $user->last_name]);
         }
-
-        $user = User::where('id', $user->usuario_id_creador)->first();
-
-        return response()->json(['usuario' => $user->name . ' ' .
-            $user->last_name]);
     }
 
     public function unsuscribe($email)

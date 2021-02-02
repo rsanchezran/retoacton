@@ -254,12 +254,20 @@
             height: 1000px;
         }
 
-        #pipoImg {
+        /*#pipoImg {
             width: 430px;
             margin-top: -120px;
             display: block;
             margin-left: auto;
             margin-right: auto;
+        }*/
+        #pipoImg {
+            width: 500px;
+            margin-top: -190px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            /* height: 135%; */
         }
 
         #monitores h6 {
@@ -795,7 +803,7 @@
                 <div id="curva"></div>
                 <div id="pipo" class="d-flex flex-wrap">
                     <div class="col-sm-5 col-5" id="pipoDiv">
-                        <img id="pipoImg" src="{{asset('img/pipo.png')}}">
+                        <img id="pipoImg" src="{{asset('images/imagesremodela/pipo2.png')}}">
                     </div>
                     <div class="col-sm-7 col-7" id="quote">
                         <div id="frase">

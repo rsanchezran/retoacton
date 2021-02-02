@@ -114,9 +114,11 @@
                     <h4 class="">{{\Illuminate\Support\Facades\Auth::user()->referencia}}</h4>
                     <h4>Saldo a favor</h4>
                     <h4 class="acton" style="color:#007FDC;">$<money :cantidad="''+usuario.saldo"></money></h4>
+                    @if(\Illuminate\Support\Facades\Auth::user()->rol!==\App\Code\RolUsuario::TIENDA && \Illuminate\Support\Facades\Auth::user()->rol!==\App\Code\RolUsuario::ENTRENADOR)
                     <a v-if="usuario.inicio_reto==null" class="btn btn-lg btn-primary" href="{{url('/reto/comenzar/')}}">
                         <span>EMPEZAR RETO</span>
                     </a>
+                    @endif
                 <!--a v-else class="btn btn-lg btn-primary" href="{{url('/reto/programa')}}">
                                 <span>Mi programa</span>
                             </a-->

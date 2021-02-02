@@ -1319,6 +1319,24 @@
         }
 
 
+        @media only screen and (min-width: 1980px) {
+            #features {
+                background-color: #005D9C;
+                padding: 20px;
+                height: 830px;
+                width: 106.7%;
+                margin-left: -3px !important;
+            }
+        }
+        @media only screen and (min-width: 1580px) {
+            #features {
+                background-color: #005D9C;
+                padding: 20px;
+                height: 730px;
+                width: 106.7%;
+                margin-left: -3px !important;
+            }
+        }
         @media only screen and (min-width: 1350px) {
             .horareloj {
                 letter-spacing: 33px;
@@ -1437,6 +1455,22 @@
             }
             .segundoreloj {
                 font-size: 135px;
+            }
+        }
+
+
+        @media only screen and (min-width: 2000px) {
+            .horareloj {
+                font-size: 175px;
+                margin-top: -40px;
+            }
+            .minreloj {
+                font-size: 175px;
+                margin-top: -40px;
+            }
+            .segundoreloj {
+                font-size: 175px;
+                margin-top: -40px;
             }
         }
 
@@ -1587,7 +1621,7 @@
                 <br>
 
                 <div v-if="informacion.medio!=='Por medio de un gimnasio o tienda de suplementos'" style="margin-left: 5%">
-                    <div id="apps" v-if="this.informacion.tipo == 100 || this.informacion.tipo == 804">
+                    <div id="apps" v-if="this.informacion.tipo == 84 || this.informacion.tipo == 804">
                         <div  v-if="hr" class="horasrestantes" style="display: inline;">
                             <div class="horas" style="display: inline;">
                                 <span class="horareloj" style="">@{{hr}}</span>

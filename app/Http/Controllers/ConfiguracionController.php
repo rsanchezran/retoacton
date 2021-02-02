@@ -20,6 +20,8 @@ use App\Code\ValidarCorreo;
 use App\Notas;
 use App\Serie;
 use App\User;
+use App\Code\RolUsuario;
+use App\Code\LugarEjercicio;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -598,6 +600,7 @@ class ConfiguracionController extends Controller
                 $contacto->name = $result = preg_replace('/\d/', '', $request->nombres);
                 $contacto->last_name = $request->apellidos;
                 $contacto->tipo_referencia = 2;
+                $contacto->referencia = Str::random(7);
                 $contacto->deleted_at = null;
                 $contacto->password = Hash::make('acton'.$contacto->name);
                 $contacto->rol = 'tienda';
@@ -667,6 +670,67 @@ class ConfiguracionController extends Controller
             $contacto->codigo = $codigo;
             $contacto->usuario_id_creador = Auth::id();
             $contacto->save();
+            $mensaje = '';
+            $status = 'ok';
+        }
+        return response()->json(['status' => $status, 'mensaje' => $mensaje]);
+    }
+
+    public function saveCodigoEntrenador(Request $request)
+    {
+        $id = null;
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|max:100|min:3|email',
+            'codigo' => 'required|max:7',
+            'nombre' => 'required',
+            'apellidos' => 'required',
+        ], [
+            'email.required' => 'El correo electrónico es obligatorio',
+            'email.min' => 'Debe capturar minimo 3 caracteres en el correo electrónico',
+            'email.max' => 'Debe capturar máximo 100 caracteres en el correo electrónico',
+            'email.unique' => 'El correo ya ha sido registrado',
+            'email.email' => 'El formato no es válido en el correo electrónico',
+            'codigo.max' => 'La referencia debe tener 7 caracteres',
+        ]);
+        $validator->after(function ($validator) use ($request) {
+            if (ValidarCorreo::validarCorreo($request->email)) {
+                $validator->errors()->add("email", "El email debe tener formato correcto");
+            }
+        });
+        $validator->validate();
+        $email = trim($request->email);
+        $codigo = trim($request->codigo);
+        $nombre = trim($request->nombre);
+        $apellidos = trim($request->apellidos);
+        $ref = User::where('id', Auth::id())->get()->first();
+        $usuario = User::withTrashed()->orderBy('created_at')->where('email', $email)->get()->last();
+        if ($usuario!=null){
+            $status = 'error';
+            $mensaje = 'Este usuario ya pertenece al RETO ACTON.';
+        }else {
+            $usuario = User::create([
+                'name' => $nombre,
+                'last_name' => $apellidos,
+                'email' => $email,
+                'password' => Hash::make('acton'.$nombre),
+                'pagado' => true,
+                'encuestado' => true,
+                'objetivo' => 1,
+                'tipo_referencia' => 2,
+                'referencia' => $codigo,
+                'codigo' => $ref->referencia,
+                'rol' => RolUsuario::ENTRENADOR,
+                'tipo_pago' => '',
+                'modo' => LugarEjercicio::GYM,
+                'fecha_inscripcion' => Carbon::now(),
+                'correo_enviado' => 1,
+                'num_inscripciones' => 1,
+                'dias' => 14,
+                'cp' => '0',
+                'colonia' => '0',
+                'estado' => '0',
+                'ciudad' => '0',
+            ]);
             $mensaje = '';
             $status = 'ok';
         }
@@ -855,7 +919,8 @@ class ConfiguracionController extends Controller
     public function generarCodigo(Request $request)
     {
         $medios = MedioContacto::all();
-        $usr = CodigosTienda::where('usuario_id_creador', Auth::id())->get();
+        $ref = User::where('id', Auth::id())->get()->first();
+        $usr = User::where('rol', 'entrenador')->where('codigo', $ref->referencia)->get();
         return view('configuracion.codigos', ['medios' => $medios,'codigos' => $usr]);
     }
 
