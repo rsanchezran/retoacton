@@ -684,6 +684,7 @@
             },
             mounted: function () {
                 $("#pagarceros").hide();
+                this.dias = 14;
                 this.filtros.referencia = this.usuario.referencia;
                 this.buscar();
                 this.getEstados();
