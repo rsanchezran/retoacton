@@ -186,7 +186,7 @@
                     @{{ pregunta }}
                 </div>
                 <div class="card-body" :style="inicio.mostrar?'padding:0':''">
-                    <div v-if="!this.empieza">
+                    <div v-if="!this.empieza && !this.quitavideo">
                         <video poster="/img/header.png" width="100%" height="500px" preload="none" style="object-fit: fill;" controls="controls" src="/configuracion/ejercicio/Abdomen/crunch_con_soga" class="embed-responsive-item" id="videoID" @ended="empieza=true">
                             <source src="https://www.retoacton.com/configuracion/ejercicio/Abdomen/crunch_con_soga" type="video/mp4">
                         </video>
@@ -305,6 +305,7 @@
                         mostrar: false
                     },
                     empieza: false,
+                    quitavideo: false,
                     videointermedio: false,
                     referencia: '',
                     user: {},
@@ -385,6 +386,7 @@
                     this.inicio.mostrar = true;
                 },
                 mostrarAbiertas: function () { //muestra la siguiente pantalla inicio con solo preguntasAbiertas
+                    this.quitavideo = true;
                     this.inicio.mostrar = false;
                     this.mostrarEncuesta.mostrar = true;
                     this.preguntasAbiertas.forEach(function (item, index) {
