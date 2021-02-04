@@ -16,6 +16,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Crypt;
 
 class RegisterController extends Controller
 {
@@ -123,10 +124,18 @@ class RegisterController extends Controller
             $contacto->codigo = $request->codigo;
             $contacto->deleted_at = null;
             $contacto->save();
+            $cookie = false;
+            if(isset($_COOKIE['ksdoi'])){
+                if($_COOKIE['ksdoi'] !== NULL){
+                    $cookie = true;
+                }
+            }
             $cobro = User::calcularMontoCompra($request->codigo, $email,
                 $usuario == null ? null : $usuario->created_at,
                 $usuario == null ? null : $usuario->fecha_inscripcion,
-                $usuario == null ? null : $usuario->inicio_reto, $usuario== null ? null : $usuario->deleted_at);
+                $usuario == null ? null : $usuario->inicio_reto,
+                $usuario== null ? null : $usuario->deleted_at,
+                $cookie);
             $mensaje = '';
             $status = 'ok';
             if ($usuario !== null) {

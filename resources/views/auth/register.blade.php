@@ -1852,6 +1852,9 @@
             },
             mounted: function () {
 
+                var lasCookies = document.cookie;
+
+
                 this.$nextTick(function () {
                     let urlParams = new URLSearchParams(window.location.search);
                     let d = urlParams.get('q');

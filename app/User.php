@@ -130,7 +130,7 @@ class User extends Authenticatable
         }
     }
 
-    public static function calcularMontoCompra($codigo, $email, $created_at, $fecha_inscripcion, $inicio_reto, $deleted_at)
+    public static function calcularMontoCompra($codigo, $email, $created_at, $fecha_inscripcion, $inicio_reto, $deleted_at, $cookie=false)
     {
         $compra = new \stdClass();
         $dias = User::where('email', $email)->first();
@@ -230,6 +230,17 @@ class User extends Authenticatable
             }
         }
         $compra->original = $monto;
+        if($cookie){
+            if(intval($dias->dias) == 14){
+                $descuento = 90;
+            }elseif (intval($dias->dias) == 28) {
+                $descuento = 90;
+            }elseif (intval($dias->dias) == 56) {
+                //$descuento = 55;
+            }elseif (intval($dias->dias) == 84) {
+                //$descuento = 63;
+            }
+        }
         $compra->descuento = $descuento;
         $compra->monto = round($monto - ($monto * ($descuento / 100)), 2);
         $now = \Carbon\Carbon::now();
@@ -264,7 +275,7 @@ class User extends Authenticatable
         $this->pagado = true;
         $this->num_inscripciones = $this->num_inscripciones + 1;
         $this->fecha_inscripcion = Carbon::now();
-        $this->inicio_reto = Carbon::now()->subDays(1);
+        $this->inicio_reto = Carbon::now()->subDays($this->dias+1);
         $dias = 14;
         if ($monto <= (500)){
             $dias = 14;

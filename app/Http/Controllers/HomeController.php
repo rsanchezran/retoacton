@@ -13,6 +13,7 @@ use App\Compra;
 use App\Console\Commands\Mailchimp;
 use App\Contacto;
 use App\Dieta;
+use App\EncuestaEntrada;
 use App\Renovaciones;
 use App\Events\EnviarCorreosEvent;
 use App\Events\EnviarDudasEvent;
@@ -808,6 +809,52 @@ class HomeController extends Controller
     {
         $pagos = Compra::where('usuario_id', $user->id)->orderBy('created_at')->get(['created_at','pagado']);
         return $pagos;
+    }
+
+
+
+    public function encuestaEntrada(Request $request)
+    {
+        $preguntas = EncuestaEntrada::select(['id', 'pregunta', 'opciones', 'multiple', 'excluye'])->get();
+        $photos = Storage::disk('local')->files('public/img');
+        $urls = collect();
+        foreach ($photos as $photo) {
+            $nombre = explode('/', $photo);
+            $nombre = $nombre[count($nombre) - 1];
+            $urls->push(url("getImagen/" . $nombre));
+        }
+        foreach ($preguntas as $pregunta) {
+            $pregunta->mostrar = false;
+            $pregunta->excluye = $pregunta->excluye;
+
+            if ($pregunta->multiple == 1) { //De multiples Selecciones
+                $pregunta->animacion = 'spiral'; //depende del nombre de la animacion en la vista register.blade
+                $opciones = json_decode($pregunta->opciones);
+                $pregunta->opciones = collect();
+                foreach ($opciones as $op) {
+                    $opcion = new \stdClass();
+                    $opcion->respuesta = $op;
+                    $opcion->selected = false;
+                    $pregunta->opciones->push($opcion);
+                }
+                $pregunta->respuesta = [];
+            } else if ($pregunta->multiple === 0) { //De una seleccion Respuesta
+                $pregunta->animacion = 'vertical';
+                $opciones = json_decode($pregunta->opciones);
+                $pregunta->opciones = collect();
+                foreach ($opciones as $op) {
+                    $opcion = new \stdClass();
+                    $opcion->respuesta = $op;
+                    $opcion->selected = false;
+                    $pregunta->opciones->push($opcion);
+                }
+                $pregunta->respuesta = '';
+            } else {
+                $pregunta->respuesta = '';
+            }
+        }
+        return view('encuesta_entrada', ['preguntas' => $preguntas, 'urls' => $urls]);
+
     }
 }
 
