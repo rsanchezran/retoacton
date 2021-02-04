@@ -126,7 +126,7 @@ class RegisterController extends Controller
             $contacto->save();
             $cookie = false;
             if(isset($_COOKIE['ksdoi'])){
-                if($_COOKIE['ksdoi'] !== NULL){
+                if($_COOKIE['ksdoi'] !== NULL && $_COOKIE['ksdoi'] !== 'lls'){
                     $cookie = true;
                 }
             }
