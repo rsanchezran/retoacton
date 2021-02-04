@@ -186,7 +186,7 @@
                     <div v-if="!this.videointermedio || !this.quitavideo">
                         A continuación te mostraré como es que se desarrolla tu programa
                     </div>
-                    <div v-if="this.videointermedio">
+                    <div v-if="this.videointermedio || this.num_pregunta != 8">
                         @{{ pregunta }}
                     </div>
                 </div>
