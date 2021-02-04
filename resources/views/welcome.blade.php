@@ -669,6 +669,11 @@
                     font-size: 2.8rem;
                 }
             }
+            @media only screen and (max-width: 360px) {
+                #pipoImg {
+                    margin-top: -89px;
+                }
+            }
 
 
         @media only screen and (min-width: 1920px) {
