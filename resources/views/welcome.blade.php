@@ -459,7 +459,7 @@
 
                 #pipoImg {
                     width: 210px !important;
-                    margin-top: -70px;
+                    margin-top: -100px;
                 }
 
                 #pipoDiv {
@@ -651,7 +651,10 @@
 
                 #pipoImg {
                     width: 160px !important;
-                    margin-top: -60px;
+                    margin-top: -100px;
+                }
+                .section {
+                    margin-top: 20px;
                 }
 
                 #frase {
