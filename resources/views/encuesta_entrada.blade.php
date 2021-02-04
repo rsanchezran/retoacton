@@ -221,7 +221,7 @@
                                 </video>
                                 <div v-if="endedvideointermedio" align="center">
                                 <!--a class="btn btn-primary btn-md" href="{{url('/reto/dia/1/0/0')}}"-->
-                                    <a class="btn btn-primary btn-md" click="videointermedio=true">
+                                    <a class="btn btn-primary btn-md" @click="videointermedio=true">
                                         <span>Continuar</span>
                                     </a>
                                 </div>
