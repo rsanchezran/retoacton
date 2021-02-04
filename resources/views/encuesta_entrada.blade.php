@@ -324,7 +324,6 @@
                         let count = 0;
                         this.errors = [];
                         let findError = false;
-
                         if (pregunta.multiple == 0) {
                             for (let i = 0, opcion = pregunta.opciones; i < opcion.length && count == 0; i++) {
                                 if (opcion[i].selected) {//buscar que almenos uno este seleccionado
@@ -337,11 +336,34 @@
                                     }
                                 }
                             }
-                            if (count == 0) {
+                            if (count == 0 && pregunta.id != 10) {
                                 findError = true;
                                 this.errors.seleccion = ['Seleccione al menos una opción'];
                             }
+                            if (count == 0 && pregunta.id == 10) {
+                                this.usuarionoapto.push(pregunta.id);
+                            }
+                        }else{
+                            var total = 0;
+                            if(pregunta.id == 7){
+                                total = 5;
+                            }
+                            var resp = 0;
+                            for (var z = 0, opcion = pregunta.opciones; z < opcion.length && resp < total; z++) {
+                                if (opcion[z].selected) {
+                                    resp++;
+                                }
+                            }
+                            if(resp != 0) {
+                                if (resp < total) {
+                                    findError = true;
+                                    this.errors.seleccion = ['Debes seleccionar por lo menos 5'];
+                                }
+                            }else{
+                                this.usuarionoapto.push(pregunta.id);
+                            }
                         }
+                        console.log(this.usuarionoapto);
                         if (!findError) {
                             this.siguienteCerrada(pregunta);
                         }
