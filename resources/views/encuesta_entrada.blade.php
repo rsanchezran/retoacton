@@ -154,6 +154,9 @@
             svg{
                 width: 30px;
             }
+            video{
+                height: 300px !important;
+            }
         }
     </style>
 @endsection
@@ -192,7 +195,7 @@
                 <div class="card-body" :style="inicio.mostrar?'padding:0':''">
                     <div v-if="!this.empieza || !this.quitavideo">
                         <video poster="/img/header.png" width="100%" height="500px" preload="none" style="object-fit: fill;" controls="controls" src="/configuracion/ejercicio/Abdomen/crunch_con_soga" class="embed-responsive-item" id="videoID" @ended="empieza=true">
-                            <source src="https://www.retoacton.com/configuracion/ejercicio/Abdomen/crunch_con_soga" type="video/mp4">
+                            <source src="{{asset('/images/imagesremodela/crunch_con_soga.mp4')}}" type="video/mp4">
                         </video>
                     </div>
                     <transition :name="mostrarEncuesta.animacion">
@@ -216,7 +219,7 @@
                                     v-if="pregunta.multiple != undefined"> {{--animacion de la pantalla de css--}}
                             <div v-if="pregunta.mostrar && (!videointermedio && pregunta.id==8)">
                                 <video poster="/img/header.png" width="100%" height="500px" preload="none" style="object-fit: fill;" controls="controls" src="/configuracion/ejercicio/Abdomen/crunch_con_soga" class="embed-responsive-item" id="videoID" @ended="endedvideointermedio=true">
-                                    <source src="https://www.retoacton.com/configuracion/ejercicio/Abdomen/crunch_con_soga" type="video/mp4">
+                                    <source src="{{asset('/images/imagesremodela/crunch_con_soga.mp4')}}" type="video/mp4">
                                 </video>
                                 <div v-if="endedvideointermedio" align="center">
                                 <!--a class="btn btn-primary btn-md" href="{{url('/reto/dia/1/0/0')}}"-->
