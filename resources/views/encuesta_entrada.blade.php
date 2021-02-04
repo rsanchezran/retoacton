@@ -216,9 +216,15 @@
                         <transition name="encuesta"
                                     v-if="pregunta.multiple != undefined"> {{--animacion de la pantalla de css--}}
                             <div v-if="pregunta.mostrar && (!videointermedio && pregunta.id==8)">
-                                <video poster="/img/header.png" width="100%" height="500px" preload="none" style="object-fit: fill;" controls="controls" src="/configuracion/ejercicio/Abdomen/crunch_con_soga" class="embed-responsive-item" id="videoID" @ended="videointermedio=true">
+                                <video poster="/img/header.png" width="100%" height="500px" preload="none" style="object-fit: fill;" controls="controls" src="/configuracion/ejercicio/Abdomen/crunch_con_soga" class="embed-responsive-item" id="videoID" @ended="endedvideointermedio=true">
                                     <source src="https://www.retoacton.com/configuracion/ejercicio/Abdomen/crunch_con_soga" type="video/mp4">
                                 </video>
+                                <div v-if="endedvideointermedio" align="center">
+                                <!--a class="btn btn-primary btn-md" href="{{url('/reto/dia/1/0/0')}}"-->
+                                    <a class="btn btn-primary btn-md" click="videointermedio=true">
+                                        <span>Continuar</span>
+                                    </a>
+                                </div>
                             </div>
                             <div v-if="pregunta.mostrar">
                                 <div class="d-block mr-auto ml-auto">
@@ -312,6 +318,7 @@
                     empieza: false,
                     quitavideo: false,
                     videointermedio: false,
+                    endedvideointermedio: false,
                     num_pregunta: 0,
                     referencia: '',
                     user: {},
