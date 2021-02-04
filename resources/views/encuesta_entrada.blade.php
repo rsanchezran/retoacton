@@ -386,8 +386,8 @@
                     this.inicio.mostrar = true;
                 },
                 mostrarAbiertas: function () { //muestra la siguiente pantalla inicio con solo preguntasAbiertas
-                    this.quitavideo = true;
                     this.inicio.mostrar = false;
+                    this.quitavideo = true;
                     this.mostrarEncuesta.mostrar = true;
                     this.preguntasAbiertas.forEach(function (item, index) {
                         item.mostrar = true;
