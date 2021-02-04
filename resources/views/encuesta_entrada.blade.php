@@ -170,8 +170,7 @@
                     <div class="d-flex flex-wrap" style="padding: 20px">
                         <div class="col-12 col-sm-6" style="border-right: 1px solid #fff">
                             <span style="font-size: 1.2em; text-align: right">
-                                Empezaremos con un breve cuestionario que nos permitirá identificar qué tipo de programa
-                                se adapta mejor a tus características físicas y objetivo.
+                                <!-- PRIMER TITULO -->
                             </span>
                         </div>
                         <div class="col-12 col-sm-6 text-center" v-if="this.empieza">
