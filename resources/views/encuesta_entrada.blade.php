@@ -183,7 +183,7 @@
                     </div>
                 </div>
                 <div v-else class="card-header text-center" style="padding: 20px; font-size: 1.2rem;">
-                    <div v-if="!this.empieza || !this.quitavideo">
+                    <div v-if="!this.empieza && this.num_pregunta == 8">
                         A continuación te mostraré como es que se desarrolla tu programa
                     </div>
                     <div v-else>
@@ -312,6 +312,7 @@
                     empieza: false,
                     quitavideo: false,
                     videointermedio: false,
+                    num_pregunta: 0,
                     referencia: '',
                     user: {},
                     numero: 0,
@@ -416,7 +417,8 @@
                     if (vm.preguntasCerradas.length != vm.numero) {
                         this.preguntasCerradas[vm.numero].mostrar = true;
                         vm.numero++;
-                        this.pregunta = this.preguntasCerradas[vm.numero-1].pregunta
+                        this.pregunta = this.preguntasCerradas[vm.numero-1].pregunta;
+                        this.num_pregunta = this.preguntasCerradas[vm.numero-1].id;
                     } else {
                         vm.terminar = true;
                         vm.pregunta = "Estamos casi listos..."
