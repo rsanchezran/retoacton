@@ -62,6 +62,17 @@ class RegisterController extends Controller
             $urls->push(url("getCombo/" . $nombre));
         }
         $medios = MedioContacto::all();
+        $nombre = '';
+        $apellidos = '';
+        $email = '';
+        $telefono = '';
+        if(isset($_COOKIE['nombre']) && isset($_COOKIE['apellidos']) && isset($_COOKIE['telefono']) && isset($_COOKIE['email'])){
+            $nombre = $_COOKIE['nombre'];
+            $apellidos = $_COOKIE['apellidos'];
+            $email = $_COOKIE['email'];
+            $telefono = $_COOKIE['telefono'];
+            $email = str_replace("@","|",$email);
+        }
         return view('auth.register', ['urls' => $urls, 'medios' => $medios]);
     }
 

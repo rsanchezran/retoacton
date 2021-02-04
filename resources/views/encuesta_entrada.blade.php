@@ -201,10 +201,11 @@
                     <transition :name="mostrarEncuesta.animacion">
                         <div v-if="mostrarEncuesta.mostrar" class="col-sm-8 d-block mr-auto ml-auto">
                             <div v-for="(pregunta,key,index) in preguntasAbiertas">
-                                <input v-if="key < 2" class="form-control encuesta" v-model="pregunta.respuesta"
-                                       :placeholder="pregunta.pregunta">
-                                <form-error v-if="key < 2" align="left" :name="pregunta.pregunta+'.respuesta'"
-                                            :errors="errors"></form-error>
+                                <input v-if="key < 4" class="form-control encuesta" v-model="pregunta.respuesta"
+                                       :placeholder="pregunta.pregunta" :id="pregunta.id">
+                            </div>
+                            <div v-if="errors_abierta" style="color:red;">
+                                Completa correctamente la información
                             </div>
                             <div style="display: flex; justify-content: space-between">
                                 <button class="siguiente" @click="comprobarAbiertas()">
@@ -336,13 +337,37 @@
                     continuar: false,
                     pregunta: '',
                     errorAbierta: false,
+                    nombre_: '',
+                    apellidos_: '',
+                    telefono_: '',
+                    email_: '',
+                    errors_abierta: false,
                 }
             },
             methods: {
                 comprobarAbiertas: function () {//comprueba errores con las preguntas (cerradas y abiertas)
                     let vm = this;
                     vm.errors = [];
-                    vm.mostrarCerradas();
+                    if(document.getElementById("14").value != '' && document.getElementById("15").value != '' && document.getElementById("16").value != '' && document.getElementById("17").value != '' ){
+                        this.nombre_ = document.getElementById("14").value;
+                        this.apellidos_ = document.getElementById("15").value;
+                        this.telefono_ = document.getElementById("16").value;
+                        this.email_ = document.getElementById("17").value;
+                        document.cookie = "nombre="+this.nombre_;
+                        document.cookie = "apellidos="+this.apellidos_;
+                        document.cookie = "telefono="+this.telefono_;
+                        document.cookie = "email="+this.email_;
+                        if(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.email_)) {
+                            this.errors_abierta = false;
+                            vm.mostrarCerradas();
+                        }else{
+                            findError = true;
+                            this.errors_abierta = true;
+                        }
+                    }else{
+                        findError = true;
+                        this.errors_abierta = true;
+                    }
                 },
                 comprobarCerrada: function (pregunta, direccion) {
                     if (direccion == 1) {
@@ -513,6 +538,7 @@
                         vm.preguntasCerradas.push(item);
                 });
                 vm.inicio.mostrar = true;
+                console.log(vm.preguntasAbiertas);
             },
 
         });

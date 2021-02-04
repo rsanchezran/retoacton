@@ -1478,7 +1478,9 @@
 @endsection
 @section('content')
     <div id="vue" class="container flex-center">
-        <registro class="pt-5" :urls="{{$urls}}" :medios="{{$medios}}"></registro>
+        <registro class="pt-5" :urls="{{$urls}}"
+                  :medios="{{$medios}}"
+        ></registro>
     </div>
 
     <template id="registro-template">
@@ -1853,6 +1855,26 @@
             mounted: function () {
 
                 var lasCookies = document.cookie;
+
+                this.informacion.medio = "Otro";
+
+                lasCookies = lasCookies.split(';');
+                for (var l = 0; l < lasCookies.length; l++) {
+                    console.log(lasCookies[l]);
+                    if(lasCookies[l].indexOf('nombre') != -1){
+                        this.informacion.nombres = lasCookies[l].replace("nombre=", "");
+                    }
+                    if(lasCookies[l].indexOf('telefono') != -1){
+                        this.informacion.telefono = lasCookies[l].replace("telefono=", "");
+                    }
+                    if(lasCookies[l].indexOf('email') != -1){
+                        this.informacion.email = lasCookies[l].replace("email=", "");
+                    }
+                    if(lasCookies[l].indexOf('apellidos') != -1){
+                        this.informacion.apellidos = lasCookies[l].replace("apellidos=", "");
+                    }
+                }
+                this.saveContacto();
 
 
                 this.$nextTick(function () {
