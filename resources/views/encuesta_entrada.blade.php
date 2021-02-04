@@ -183,12 +183,7 @@
                     </div>
                 </div>
                 <div v-else class="card-header text-center" style="padding: 20px; font-size: 1.2rem;">
-                    <div v-if="!this.empieza && this.num_pregunta == 8">
-                        A continuación te mostraré como es que se desarrolla tu programa
-                    </div>
-                    <div v-if="this.empieza || this.num_pregunta != 8">
-                        @{{ pregunta }}
-                    </div>
+                    
                 </div>
                 <div class="card-body" :style="inicio.mostrar?'padding:0':''">
                     <div v-if="!this.empieza || !this.quitavideo">
