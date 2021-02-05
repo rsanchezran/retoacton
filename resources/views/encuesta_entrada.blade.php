@@ -348,10 +348,6 @@
                 comprobarAbiertas: function () {//comprueba errores con las preguntas (cerradas y abiertas)
                     let vm = this;
                     vm.errors = [];
-                    document.cookie = "nombre=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                    document.cookie = "apellidos=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                    document.cookie = "telefono=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                    document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
                     if(document.getElementById("14").value != '' && document.getElementById("15").value != '' && document.getElementById("16").value != '' && document.getElementById("17").value != '' ){
                         this.nombre_ = document.getElementById("14").value;
                         this.apellidos_ = document.getElementById("15").value;
@@ -556,6 +552,10 @@
                 let vm = this;
                 vm.user = vm.p_user;
                 document.cookie = "ksdoi=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                document.cookie = "nombre=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                document.cookie = "apellidos=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                document.cookie = "telefono=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
                 vm.p_preguntas.forEach(function (item) { //separar Preguntas Abiertas de Cerradas
                     if (item.multiple == undefined)
                         vm.preguntasAbiertas.push(item);
