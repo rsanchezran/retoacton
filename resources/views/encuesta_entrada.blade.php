@@ -204,8 +204,8 @@
                                 <input v-if="key < 4" class="form-control encuesta" v-model="pregunta.respuesta"
                                        :placeholder="pregunta.pregunta" :id="pregunta.id">
                             </div>
-                            <div v-if="errors_abierta" style="color:red;">
-                                Completa correctamente la información
+                            <div v-if="errors_abierta" style="color:red;" id="errors_abierta">
+
                             </div>
                             <div style="display: flex; justify-content: space-between">
                                 <button class="siguiente" @click="comprobarAbiertas()">
@@ -361,13 +361,33 @@
                             this.errors_abierta = false;
                             vm.mostrarCerradas();
                         }else{
-                            findError = true;
                             this.errors_abierta = true;
                         }
                     }else{
-                        findError = true;
                         this.errors_abierta = true;
                     }
+                    setTimeout(function(){
+                        if(this.errors_abierta ){
+                            document.getElementById('errors_abierta').innerHTML = 'Completa los siguientes campos:';
+                            if(document.getElementById("14").value == ''){
+                                document.getElementById('errors_abierta').innerHTML += '<br>Nombre';
+                            }
+                            if(document.getElementById("15").value == ''){
+                                document.getElementById('errors_abierta').innerHTML += '<br>Apellidos';
+                            }
+                            if(document.getElementById("16").value == ''){
+                                document.getElementById('errors_abierta').innerHTML += '<br>Teléfono';
+                            }
+                            if(document.getElementById("17").value == ''){
+                                document.getElementById('errors_abierta').innerHTML += '<br>Correo electronico';
+                            }else{
+                                if(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(document.getElementById("17").value)) {
+                                    document.getElementById('errors_abierta').innerHTML += '<br>Correo electronico';
+                                }
+                            }
+                        }
+                    }, 100);
+
                 },
                 comprobarCerrada: function (pregunta, direccion) {
                     if (direccion == 1) {
