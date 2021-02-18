@@ -1880,6 +1880,58 @@
 
 
                 this.$nextTick(function () {
+
+                })
+            },
+            methods: {
+                terminado: function () {
+                    window.location.href = "{{url('/login')}}";
+                },
+                metodoPagoLocal: function (pago) {
+                    this.$refs[pago].showModal();
+                },
+                buscarReferencia: function () {
+                    let vm = this;
+                    vm.referencia = '';
+                    vm.loading = true;
+                    this.informacion.tipocontacto = 1;
+                    axios.get('{{url('buscarReferencia')}}/' + vm.informacion.codigo).then(function (response) {
+                        vm.referencia = response.data.usuario;
+                        vm.loading = false;
+                        vm.encontrado = true;
+                        if(vm.sent){
+                            vm.saveContacto();
+                        }
+                    }).catch(function () {
+                        if(vm.sent){
+                            vm.saveContacto();
+                        }
+                        vm.loading = false;
+                        vm.encontrado = false;
+                    });
+                },
+                buscarReferenciaTienda: function () {
+                    let vm = this;
+                    vm.referencia = '';
+                    vm.loading = true;
+                    this.informacion.tipocontacto = 1;
+                    axios.get('{{url('buscarReferenciaTienda')}}/' + vm.informacion.codigo+'/'+vm.informacion.email).then(function (response) {
+                        vm.referencia = response.data.usuario;
+                        vm.loading = false;
+                        vm.encontrado = true;
+                        if(vm.sent){
+                            vm.saveContacto();
+                        }
+                    }).catch(function () {
+                        if(vm.sent){
+                            vm.saveContacto();
+                        }
+                        vm.loading = false;
+                        vm.encontrado = false;
+                    });
+                },
+                saveContacto: function () {
+
                     let urlParams = new URLSearchParams(window.location.search);
                     let d = urlParams.get('q');
                     if(d !== null){
@@ -1961,56 +2013,7 @@
                             $("#imagentop").attr('src', 'images/imagesremodela/12top.png');
                         }
                     }
-                })
-            },
-            methods: {
-                terminado: function () {
-                    window.location.href = "{{url('/login')}}";
-                },
-                metodoPagoLocal: function (pago) {
-                    this.$refs[pago].showModal();
-                },
-                buscarReferencia: function () {
-                    let vm = this;
-                    vm.referencia = '';
-                    vm.loading = true;
-                    this.informacion.tipocontacto = 1;
-                    axios.get('{{url('buscarReferencia')}}/' + vm.informacion.codigo).then(function (response) {
-                        vm.referencia = response.data.usuario;
-                        vm.loading = false;
-                        vm.encontrado = true;
-                        if(vm.sent){
-                            vm.saveContacto();
-                        }
-                    }).catch(function () {
-                        if(vm.sent){
-                            vm.saveContacto();
-                        }
-                        vm.loading = false;
-                        vm.encontrado = false;
-                    });
-                },
-                buscarReferenciaTienda: function () {
-                    let vm = this;
-                    vm.referencia = '';
-                    vm.loading = true;
-                    this.informacion.tipocontacto = 1;
-                    axios.get('{{url('buscarReferenciaTienda')}}/' + vm.informacion.codigo+'/'+vm.informacion.email).then(function (response) {
-                        vm.referencia = response.data.usuario;
-                        vm.loading = false;
-                        vm.encontrado = true;
-                        if(vm.sent){
-                            vm.saveContacto();
-                        }
-                    }).catch(function () {
-                        if(vm.sent){
-                            vm.saveContacto();
-                        }
-                        vm.loading = false;
-                        vm.encontrado = false;
-                    });
-                },
-                saveContacto: function () {
+
                     if(this.informacion.tipo == 14){
                         $("#ultimashoras1").show();
                     }
