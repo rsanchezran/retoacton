@@ -1915,12 +1915,14 @@
                             $("#imgreto").attr('src', 'images/imagesremodela/reto2.png');
                             $("#descripcionsemanas").attr('src', 'images/imagesremodela/2semanas.png');
                             $("#imagentop").attr('src', 'images/imagesremodela/2top.png');
+                            $("#ultimashoras1").show();
                         }
                         if (d == 4) {
                             $("#imgreto").attr('src', 'images/imagesremodela/reto4.png');
                             $("#descripcionsemanas").attr('src', 'images/imagesremodela/4semans.png');
                             $(".soloquedan").show();
                             $("#imagentop").attr('src', 'images/imagesremodela/4top.png');
+                            $("#50personas").show();
                         }
                         if (d == 8) {
                             $("#imgreto").attr('src', 'images/imagesremodela/reto8.png');
@@ -1928,6 +1930,8 @@
                             $("#imagentop").attr('src', 'images/imagesremodela/8top.png');
                         }
                         if (d == 12) {
+                            $("#ultimosdias").show();
+                            $("#ultimodia").show();
                             $("#ultimashoras").show();
                             $("#imgreto").attr('src', 'images/imagesremodela/reto12.png');
                             $("#descripcionsemanas").attr('src', 'images/imagesremodela/12semanas.png');
