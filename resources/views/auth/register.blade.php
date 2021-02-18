@@ -2030,10 +2030,6 @@
                     this.informacion.telefono = this.informacion.telefono.trim();
                     this.informacion.codigo = this.informacion.codigo.trim();
 
-                    document.cookie = "nombre="+this.informacion.nombres;
-                    document.cookie = "apellidos="+this.informacion.apellidos;
-                    document.cookie = "telefono="+this.informacion.telefono;
-                    document.cookie = "email="+this.informacion.email;
 
                     if(this.informacion.nombres==''){
                         this.errors.nombres = ['El nombre es obligatorio'];
