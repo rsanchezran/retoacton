@@ -13,7 +13,7 @@
 
         #ultimodia{
             width: 100% !important;
-            margin-left: -3.6% !important;
+            margin-left: -13.6% !important;
         }
 
         #preciogym{
@@ -24,7 +24,7 @@
 
         #ultimashoras1{
             width: 100%;
-            margin-left: -3.7% !important;
+            margin-left: -13.7% !important;
         }
         #pagar{
             font-size: 50px !important;
@@ -1576,6 +1576,7 @@
                     <div style="margin-top:60px; margin-bottom: 70px">
                         <div v-if="informacion.medio!=='Por medio de un gimnasio o tienda de suplementos'">
                             <img src="{{asset("images/imagesremodela/50personas.png")}}" width="100%" id="50personas" style="width: 50%;">
+                            <img src="{{asset("images/imagesremodela/ultimosdias.png")}}" width="100%" id="ultimosdias" style="width: 50%;">
                         </div>
                     </div>
                 </div>
@@ -1605,7 +1606,7 @@
                     <div v-if="informacion.medio!=='Por medio de un gimnasio o tienda de suplementos'">
                         <div style="margin-top: 40px;">
                             <div style="margin-top:60px; margin-bottom: 70px">
-                                <img src="{{asset("images/imagesremodela/ultimosdias.png")}}" width="100%" id="ultimosdias" style="width: 50%;">
+                                <img src="{{asset("images/imagesremodela/ultimodia.png")}}" width="100%" id="ultimodia" style="width: 100%;margin-left: -2.7%;">
                             </div>
                         </div>
                     </div>
@@ -1645,6 +1646,7 @@
                 <div v-if="informacion.medio!=='Por medio de un gimnasio o tienda de suplementos'" style="margin-left: 5%">
                     <div style="margin-top: 40px;">
                         <div style="margin-top:60px; margin-bottom: 70px">
+                            <img src="{{asset("images/imagesremodela/ultimashoras1.png")}}" width="100%" id="ultimashoras1" style="width: 100%;margin-left: -2.7%;">
                             <img src="{{asset("images/imagesremodela/ultimodia1.png")}}" width="100%" id="ultimodia1" style="width: 50%;">
                             <img src="{{asset("images/imagesremodela/ultimashoras.png")}}" width="100%" id="ultimashoras" style="width: 50%;">
                             <div v-if="this.informacion.tipo == 28" class="text-center text-danger" id="soloquedan"><h2>Quedan sólo 14 lugares con descuento</h2></div>
@@ -1669,17 +1671,6 @@
                         </div>
                     </div>
                 </div>
-
-
-                <div v-if="informacion.medio!=='Por medio de un gimnasio o tienda de suplementos'">
-                    <div style="margin-top: 40px;">
-                        <div style="margin-top:60px; margin-bottom: 70px">
-                            <img src="{{asset("images/imagesremodela/ultimashoras1.png")}}" width="100%" id="ultimashoras1" style="width: 100%;margin-left: -2.7%;">
-                            <img src="{{asset("images/imagesremodela/ultimodia.png")}}" width="100%" id="ultimodia" style="width: 100%;margin-left: -2.7%;">
-                        </div>
-                    </div>
-                </div>
-
 
                 <div>
                     <div id="" class="" style="padding-top:100px; padding-bottom:10px;margin-left: 5%">
@@ -1921,7 +1912,6 @@
                         $("#historiasexito").show();
                         $("#historiasexitomovil").hide();
                         if (d == 2) {
-                            $("#ultimashoras1").show();
                             $("#imgreto").attr('src', 'images/imagesremodela/reto2.png');
                             $("#descripcionsemanas").attr('src', 'images/imagesremodela/2semanas.png');
                             $("#imagentop").attr('src', 'images/imagesremodela/2top.png');
@@ -1931,17 +1921,13 @@
                             $("#descripcionsemanas").attr('src', 'images/imagesremodela/4semans.png');
                             $(".soloquedan").show();
                             $("#imagentop").attr('src', 'images/imagesremodela/4top.png');
-                            $("#50personas").show();
                         }
                         if (d == 8) {
-                            $("#ultimodia").show();
-                            $("#ultimosdias").show();
                             $("#imgreto").attr('src', 'images/imagesremodela/reto8.png');
                             $("#descripcionsemanas").attr('src', 'images/imagesremodela/8semanas.png');
                             $("#imagentop").attr('src', 'images/imagesremodela/8top.png');
                         }
                         if (d == 12) {
-                            $("#ultimodia1").show();
                             $("#ultimashoras").show();
                             $("#imgreto").attr('src', 'images/imagesremodela/reto12.png');
                             $("#descripcionsemanas").attr('src', 'images/imagesremodela/12semanas.png');
@@ -2025,20 +2011,11 @@
                     });
                 },
                 saveContacto: function () {
-                    let urlParams = new URLSearchParams(window.location.search);
-                    let d = urlParams.get('q');
-                    if(d !== null){
-                        this.informacion.tipo = d;
-                    }else{
-                        this.informacion.tipo = 14;
-                        d = 14;
-                    }
                     if(this.informacion.tipo == 14){
                         $("#ultimashoras1").show();
                     }
                     if(this.informacion.tipo == 28){
                         $("#50personas").show();
-                        console.log($("#50personas"));
                     }
                     if(this.informacion.tipo == 56){
                         $("#ultimosdias").show();
