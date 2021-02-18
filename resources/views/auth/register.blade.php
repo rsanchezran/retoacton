@@ -2012,12 +2012,8 @@
                 },
                 saveContacto: function () {
                     let d = urlParams.get('q');
-                    if(d !== null){
-                        this.informacion.tipo = d;
-                    }else{
-                        this.informacion.tipo = 14;
-                        d = 14;
-                    }
+                    console.log('DDDDDDDD');
+                    console.log(d);
                     if(this.informacion.tipo == 14){
                         $("#ultimashoras1").show();
                     }
