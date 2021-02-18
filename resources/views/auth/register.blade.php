@@ -2011,6 +2011,13 @@
                     });
                 },
                 saveContacto: function () {
+                    let d = urlParams.get('q');
+                    if(d !== null){
+                        this.informacion.tipo = d;
+                    }else{
+                        this.informacion.tipo = 14;
+                        d = 14;
+                    }
                     if(this.informacion.tipo == 14){
                         $("#ultimashoras1").show();
                     }
