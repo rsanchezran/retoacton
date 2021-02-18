@@ -1932,6 +1932,11 @@
                 },
                 saveContacto: function () {
 
+                    document.cookie = "nombre="+this.informacion.nombres;
+                    document.cookie = "apellidos="+this.informacion.apellidos;
+                    document.cookie = "telefono="+this.informacion.telefono;
+                    document.cookie = "email="+this.informacion.email;
+
                     let urlParams = new URLSearchParams(window.location.search);
                     let d = urlParams.get('q');
                     if(d !== null){
