@@ -2011,9 +2011,14 @@
                     });
                 },
                 saveContacto: function () {
+                    let urlParams = new URLSearchParams(window.location.search);
                     let d = urlParams.get('q');
-                    console.log('DDDDDDDD');
-                    console.log(d);
+                    if(d !== null){
+                        this.informacion.tipo = d;
+                    }else{
+                        this.informacion.tipo = 14;
+                        d = 14;
+                    }
                     if(this.informacion.tipo == 14){
                         $("#ultimashoras1").show();
                     }
