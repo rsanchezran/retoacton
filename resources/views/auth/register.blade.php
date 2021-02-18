@@ -1856,25 +1856,27 @@
 
                 var lasCookies = document.cookie;
 
-                this.informacion.medio = "Otro";
 
                 lasCookies = lasCookies.split(';');
-                for (var l = 0; l < lasCookies.length; l++) {
-                    console.log(lasCookies[l]);
-                    if(lasCookies[l].indexOf('nombre') != -1){
-                        this.informacion.nombres = lasCookies[l].replace("nombre=", "");
+                if(lasCookies.length > 0) {
+                    this.informacion.medio = "Otro";
+                    for (var l = 0; l < lasCookies.length; l++) {
+                        console.log(lasCookies[l]);
+                        if(lasCookies[l].indexOf('nombre') != -1){
+                            this.informacion.nombres = lasCookies[l].replace("nombre=", "");
+                        }
+                        if(lasCookies[l].indexOf('telefono') != -1){
+                            this.informacion.telefono = lasCookies[l].replace("telefono=", "");
+                        }
+                        if(lasCookies[l].indexOf('email') != -1){
+                            this.informacion.email = lasCookies[l].replace("email=", "");
+                        }
+                        if(lasCookies[l].indexOf('apellidos') != -1){
+                            this.informacion.apellidos = lasCookies[l].replace("apellidos=", "");
+                        }
                     }
-                    if(lasCookies[l].indexOf('telefono') != -1){
-                        this.informacion.telefono = lasCookies[l].replace("telefono=", "");
-                    }
-                    if(lasCookies[l].indexOf('email') != -1){
-                        this.informacion.email = lasCookies[l].replace("email=", "");
-                    }
-                    if(lasCookies[l].indexOf('apellidos') != -1){
-                        this.informacion.apellidos = lasCookies[l].replace("apellidos=", "");
-                    }
+                    this.saveContacto();
                 }
-                this.saveContacto();
 
 
                 this.$nextTick(function () {
