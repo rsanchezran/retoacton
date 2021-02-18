@@ -1925,13 +1925,14 @@
                             $("#50personas").show();
                         }
                         if (d == 8) {
+                            $("#ultimodia").show();
+                            $("#ultimosdias").show();
                             $("#imgreto").attr('src', 'images/imagesremodela/reto8.png');
                             $("#descripcionsemanas").attr('src', 'images/imagesremodela/8semanas.png');
                             $("#imagentop").attr('src', 'images/imagesremodela/8top.png');
                         }
                         if (d == 12) {
-                            $("#ultimosdias").show();
-                            $("#ultimodia").show();
+                            $("#ultimodia1").show();
                             $("#ultimashoras").show();
                             $("#imgreto").attr('src', 'images/imagesremodela/reto12.png');
                             $("#descripcionsemanas").attr('src', 'images/imagesremodela/12semanas.png');
