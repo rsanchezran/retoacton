@@ -13,7 +13,7 @@
 
         #ultimodia{
             width: 100% !important;
-            margin-left: -13.6% !important;
+            margin-left: -3.6% !important;
         }
 
         #preciogym{
@@ -24,7 +24,7 @@
 
         #ultimashoras1{
             width: 100%;
-            margin-left: -13.7% !important;
+            margin-left: -3.7% !important;
         }
         #pagar{
             font-size: 50px !important;
@@ -1645,7 +1645,6 @@
                 <div v-if="informacion.medio!=='Por medio de un gimnasio o tienda de suplementos'" style="margin-left: 5%">
                     <div style="margin-top: 40px;">
                         <div style="margin-top:60px; margin-bottom: 70px">
-                            <img src="{{asset("images/imagesremodela/ultimashoras1.png")}}" width="100%" id="ultimashoras1" style="width: 100%;margin-left: -2.7%;">
                             <img src="{{asset("images/imagesremodela/ultimodia1.png")}}" width="100%" id="ultimodia1" style="width: 50%;">
                             <img src="{{asset("images/imagesremodela/ultimashoras.png")}}" width="100%" id="ultimashoras" style="width: 50%;">
                             <div v-if="this.informacion.tipo == 28" class="text-center text-danger" id="soloquedan"><h2>Quedan sólo 14 lugares con descuento</h2></div>
@@ -1675,6 +1674,7 @@
                 <div v-if="informacion.medio!=='Por medio de un gimnasio o tienda de suplementos'">
                     <div style="margin-top: 40px;">
                         <div style="margin-top:60px; margin-bottom: 70px">
+                            <img src="{{asset("images/imagesremodela/ultimashoras1.png")}}" width="100%" id="ultimashoras1" style="width: 100%;margin-left: -2.7%;">
                             <img src="{{asset("images/imagesremodela/ultimodia.png")}}" width="100%" id="ultimodia" style="width: 100%;margin-left: -2.7%;">
                         </div>
                     </div>
