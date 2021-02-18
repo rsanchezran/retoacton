@@ -1606,7 +1606,6 @@
                         <div style="margin-top: 40px;">
                             <div style="margin-top:60px; margin-bottom: 70px">
                                 <img src="{{asset("images/imagesremodela/ultimodia.png")}}" width="100%" id="ultimodia" style="width: 100%;margin-left: -2.7%;">
-                                <img src="{{asset("images/imagesremodela/ultimosdias.png")}}" width="100%" id="ultimosdias" style="width: 50%;">
                             </div>
                         </div>
                     </div>
@@ -1671,6 +1670,7 @@
                         </div>
                     </div>
                 </div>
+                <img src="{{asset("images/imagesremodela/ultimosdias.png")}}" width="100%" id="ultimosdias" style="width: 50%;">
 
                 <div>
                     <div id="" class="" style="padding-top:100px; padding-bottom:10px;margin-left: 5%">
