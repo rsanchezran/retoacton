@@ -1576,7 +1576,6 @@
                     <div style="margin-top:60px; margin-bottom: 70px">
                         <div v-if="informacion.medio!=='Por medio de un gimnasio o tienda de suplementos'">
                             <img src="{{asset("images/imagesremodela/50personas.png")}}" width="100%" id="50personas" style="width: 50%;">
-                            <img src="{{asset("images/imagesremodela/ultimosdias.png")}}" width="100%" id="ultimosdias" style="width: 50%;">
                         </div>
                     </div>
                 </div>
@@ -1607,6 +1606,7 @@
                         <div style="margin-top: 40px;">
                             <div style="margin-top:60px; margin-bottom: 70px">
                                 <img src="{{asset("images/imagesremodela/ultimodia.png")}}" width="100%" id="ultimodia" style="width: 100%;margin-left: -2.7%;">
+                                <img src="{{asset("images/imagesremodela/ultimosdias.png")}}" width="100%" id="ultimosdias" style="width: 50%;">
                             </div>
                         </div>
                     </div>
