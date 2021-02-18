@@ -1858,7 +1858,7 @@
 
 
                 lasCookies = lasCookies.split(';');
-                if(lasCookies.length > 0) {
+                if(lasCookies.length > 2) {
                     this.informacion.medio = "Otro";
                     for (var l = 0; l < lasCookies.length; l++) {
                         console.log(lasCookies[l]);
