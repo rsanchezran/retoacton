@@ -185,12 +185,7 @@
                     </div>
                 </div>
                 <div v-else class="card-header text-center" style="padding: 20px; font-size: 1.2rem;">
-                    <div v-if="!this.videointermedio && this.num_pregunta == 13">
-                        A continuación te mostraré como es que se desarrolla tu programa
-                    </div>
-                    <div v-if="this.videointermedio || this.num_pregunta != 13">
                         @{{ pregunta }}
-                    </div>
                 </div>
                 <div class="card-body" :style="inicio.mostrar?'padding:0':''">
                     <div v-if="!this.empieza || !this.quitavideo">
@@ -218,17 +213,7 @@
                     <div class="flex-row" v-for="(pregunta, indexP) in preguntasCerradas">
                         <transition name="encuesta"
                                     v-if="pregunta.multiple != undefined"> {{--animacion de la pantalla de css--}}
-                            <div v-if="pregunta.mostrar && (!videointermedio && pregunta.id==13)">
-                                <video poster="/img/header.png" width="100%" height="500px" preload="none" style="object-fit: fill;" controls="controls" src="{{asset('/images/imagesremodela/crunch_con_soga.mp4')}}" class="embed-responsive-item" id="videoID" @ended="endedvideointermedio=true">
-                                    <source src="{{asset('/images/imagesremodela/crunch_con_soga.mp4')}}" type="video/mp4">
-                                </video>
-                                <div v-if="endedvideointermedio" align="center">
-                                <!--a class="btn btn-primary btn-md" href="{{url('/reto/dia/1/0/0')}}"-->
-                                    <a class="btn btn-primary btn-md" @click="videointermedio=true">
-                                        <span>Continuar</span>
-                                    </a>
-                                </div>
-                            </div>
+
                             <div v-if="pregunta.mostrar">
                                 <div class="d-block mr-auto ml-auto">
                                     <div class="form-group">
@@ -285,10 +270,15 @@
                         </div>
 
                         <div v-if="continuar" align="center">
-                            <!--a class="btn btn-primary btn-md" href="{{url('/reto/dia/1/0/0')}}"-->
-                            <a class="btn btn-primary btn-md" href="{{url('/register')}}">
-                                <span>Ver Retos</span>
-                            </a>
+                                <video poster="/img/header.png" width="100%" height="500px" preload="none" style="object-fit: fill;" controls="controls" src="{{asset('/images/imagesremodela/crunch_con_soga.mp4')}}" class="embed-responsive-item" id="videoID" @ended="endedvideointermedio=true">
+                                    <source src="{{asset('/images/imagesremodela/crunch_con_soga.mp4')}}" type="video/mp4">
+                                </video>
+                                <div v-if="endedvideointermedio" align="center">
+                                <!--a class="btn btn-primary btn-md" href="{{url('/reto/dia/1/0/0')}}"-->
+                                    <a class="btn btn-primary btn-md" @click="videointermedio=true">
+                                        <span>Continuar</span>
+                                    </a>
+                                </div>
                         </div>
                     </transition>
                 </div>
