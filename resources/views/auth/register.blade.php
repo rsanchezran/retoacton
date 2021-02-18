@@ -1921,10 +1921,10 @@
                         $("#historiasexito").show();
                         $("#historiasexitomovil").hide();
                         if (d == 2) {
+                            $("#ultimashoras1").show();
                             $("#imgreto").attr('src', 'images/imagesremodela/reto2.png');
                             $("#descripcionsemanas").attr('src', 'images/imagesremodela/2semanas.png');
                             $("#imagentop").attr('src', 'images/imagesremodela/2top.png');
-                            $("#ultimashoras1").show();
                         }
                         if (d == 4) {
                             $("#imgreto").attr('src', 'images/imagesremodela/reto4.png');
