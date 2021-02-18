@@ -1319,20 +1319,20 @@
         }
 
 
-        @media only screen and (min-width: 1980px) {
-            #features {
-                background-color: #005D9C;
-                padding: 20px;
-                height: 830px;
-                width: 106.7%;
-                margin-left: -3px !important;
-            }
-        }
         @media only screen and (min-width: 1580px) {
             #features {
                 background-color: #005D9C;
                 padding: 20px;
                 height: 730px;
+                width: 106.7%;
+                margin-left: -3px !important;
+            }
+        }
+        @media only screen and (min-width: 1980px) {
+            #features {
+                background-color: #005D9C;
+                padding: 20px;
+                height: 900px;
                 width: 106.7%;
                 margin-left: -3px !important;
             }
