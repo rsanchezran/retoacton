@@ -2023,8 +2023,8 @@
                         $("#ultimashoras1").show();
                     }
                     if(this.informacion.tipo == 28){
-                        alert();
                         $("#50personas").show();
+                        console.log($("#50personas"));
                     }
                     if(this.informacion.tipo == 56){
                         $("#ultimosdias").show();
