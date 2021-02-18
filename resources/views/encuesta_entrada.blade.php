@@ -465,7 +465,7 @@
                         this.num_pregunta = this.preguntasCerradas[vm.numero-1].id;
                     } else {
                         vm.terminar = true;
-                        vm.pregunta = "Estamos casi listos..."
+                        vm.pregunta = "A continuación te mostraré como es que se desarrolla tu programa."
                         vm.continuar = true;
                         vm.terminar = false;
                         if(this.usuarionoapto.length == 0){
