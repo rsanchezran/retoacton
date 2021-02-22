@@ -101,12 +101,12 @@
                         <a class="nav-link" href="{{ url('/usuarios/seguir') }}">
                             <i class="fas fa-user-friends"></i> Personas</a>
                         @if(\Illuminate\Support\Facades\Auth::user()!=null && \Illuminate\Support\Facades\Auth::user()->vencido)
-                            <button id="breathPC" class="nav-link btn btn-sm btn-warning ld x2 ld-breath" data-toggle="modal" data-target="#terminoModal">
+                            <!--button id="breathPC" class="nav-link btn btn-sm btn-warning ld x2 ld-breath" data-toggle="modal" data-target="#terminoModal">
                                 <i class="far fa-exclamation-triangle"></i>
                                 <span>Reto concluído</span>
                                 <br>
                                 <span class="small">(Ver video)</span>
-                            </button>
+                            </button-->
                         @endif
                         @if(\Illuminate\Support\Facades\Auth::user()->rol==\App\Code\RolUsuario::ADMIN)
                             <li class="nav-item dropdown">
