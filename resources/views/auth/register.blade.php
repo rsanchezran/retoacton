@@ -1565,8 +1565,8 @@
                 </div>
                 <div style="margin-top: 40px;">
                     <div style="margin-top:0px; margin-bottom: 70px">
-                        <img src="{{asset("images/imagesremodela/garantia.png")}}" width="100%" style="margin-left: 3%;" id="satisfaccion_total_completo">
-                        <img src="{{asset("images/imagesremodela/satisfaccionmovil.png")}}" width="100%" style="margin-left: 0%;" id="satisfaccion_total_movil">
+                        <img src="{{asset("images/imagesremodela/garantia_reembolso_v2.png")}}" width="100%" style="margin-left: 3%;" id="satisfaccion_total_completo">
+                        <img src="{{asset("images/imagesremodela/garantia_reembolso_v2_movil.png")}}" width="100%" style="margin-left: 0%;" id="satisfaccion_total_movil">
                     </div>
                 </div>
                 <div v-if="informacion.medio=='Por medio de un gimnasio o tienda de suplementos'">
