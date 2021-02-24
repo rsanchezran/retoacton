@@ -365,7 +365,7 @@ class RetoController extends Controller
     {
         $user = $request->user();
         if ($user->inicio_reto === null) {
-            $user->inicio_reto = Carbon::now();
+            $user->inicio_reto = Carbon::now()->subDays(1);
             $user->save();
         }
         return redirect('/reto/cliente');
