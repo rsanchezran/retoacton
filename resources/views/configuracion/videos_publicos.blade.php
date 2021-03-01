@@ -65,17 +65,15 @@
 
                 <div class="card-body">
                     <div class="d-flex flex-wrap">
-                        <div v-for="(v, index) in p_videos" class="col-sm-4">
-                            <label>Video de @{{ v.nombre }}</label>
+                            <label>Video de @{{ p_videos }}</label>
 
                             <video :id="'v'+index" width="520" height="340" controls :src="v.src"
                                    poster="{{asset('/img/poster.png')}}" preload="none" controls="auto">
-                                <source :src="v.src" type="video/mp4">
+                                <source :src="p_videos" type="video/mp4">
                             </video>
 
                         </div>
                         <br>
-                    </div>
                 </div>
             </div>
 
