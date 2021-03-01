@@ -56,12 +56,7 @@
 
     <template id="videos-template">
         <div>
-            <div v-if="loading">
-                <span>Procesando información</span>
-                <br>
-                <i v-if="loading" class="fa fa-2x fa-cog fa-spin"></i>
-            </div>
-            <div v-show="!loading" class="card">
+
 
                 <div class="card-body">
                     <div class="d-flex flex-wrap">
@@ -72,10 +67,10 @@
                                 <source :src="{{ $videos }}" type="video/mp4">
                             </video>
 
-                        </div>
+                    </div>
                         <br>
                 </div>
-            </div>
+
 
 
         </div>
