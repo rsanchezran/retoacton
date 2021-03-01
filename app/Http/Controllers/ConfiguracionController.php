@@ -75,7 +75,7 @@ class ConfiguracionController extends Controller
 
     public function detalle_video($video){
         $video = VideosPublicos::where('nombre', $video);
-        return view('configuracion.videos_publicos', ['video' => $video]);
+        return view('configuracion.videos_publicos', ['video' => "app/public/optimized/$video->nombre.mp4"]);
     }
 
 
