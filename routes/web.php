@@ -19,6 +19,7 @@ Route::get('/getImagen/{image}', 'HomeController@getImage');
 Route::get('/getTestimonio/{image}', 'HomeController@getTestimonio');
 Route::get('/getCombo/{image}', 'HomeController@getCombo');
 Route::get('/getVideo/{video}/{random}', 'HomeController@getVideo');
+Route::get('videos_publicos/{video}', 'ConfiguracionController@detalle_video');
 
 Route::get('unsuscribe/{email}', 'Auth\RegisterController@unsuscribe');
 Route::post('unsuscribe', 'Auth\RegisterController@unsuscribeSave');
@@ -62,7 +63,6 @@ Route::group(['prefix' => 'configuracion', 'middleware' => ['auth', 'pago']], fu
     Route::get('contactos/exportar/{filtros}', 'ConfiguracionController@exportarContactos');
     Route::post('contactos/enviarCorreos', 'ConfiguracionController@enviarCorreos');
     Route::get('videos', 'ConfiguracionController@videos');
-    Route::get('videos_publicos', 'ConfiguracionController@videos_publicos');
     Route::get('programa', 'ConfiguracionController@programa');
     Route::get('programa/getSemanaEjercicios/{semana}', 'ConfiguracionController@getSemanaEjercicios');
     Route::get('dia/{dia}/{genero}/{objetivo}', 'ConfiguracionController@dia');

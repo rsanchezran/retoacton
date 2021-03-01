@@ -72,6 +72,13 @@ class ConfiguracionController extends Controller
         return view('configuracion.videos_publicos', ['categorias' => $categorias]);
     }
 
+
+    public function detalle_video($video){
+        $video = VideosPublicos::where('nombre', strtolower($video));
+        return view('configuracion.videos_publicos', ['video' => $video]);
+    }
+
+
     public function saveVideo(Request $request)
     {
         $this->authorize('configurar.videos');
@@ -83,7 +90,7 @@ class ConfiguracionController extends Controller
                 'video  .size' => 'El archivo debe ser menor a 300MB',
             ]
         );
-        $video_existe = VideosPublicos::firstOrCreate(['nombre' => $request->nombre]);
+        $video_existe = VideosPublicos::firstOrCreate(['nombre' => strtolower($request->nombre)]);
         $nombre = str_replace(" ", "_", $request->nombre);
         $nombre = Utils::clearString($nombre);
         $archivoVideo = $request->video;
