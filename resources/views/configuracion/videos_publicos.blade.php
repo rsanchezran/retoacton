@@ -59,17 +59,21 @@
     <div>
 
 
-        <div class="card-body">
-            <div class="d-flex flex-wrap">
-                <label>Video de {{ $nombre }}</label>
-
-                <video :id="1" width="520" height="340" controls :src="{{ $videos }}"
-                       poster="{{asset('/img/poster.png')}}" preload="none" controls="auto">
-                    <source :src="{{ $videos }}" type="video/mp4">
-                </video>
-
+        <div class="card">
+            <div class="card-header">
+                <h1>Video de {{ $nombre }}</h1>
             </div>
-            <br>
+            <div class="card-body">
+                <div class="d-flex flex-wrap">
+
+                    <video :id="1" width="720" height="480" controls :src="{{ $videos }}"
+                           poster="{{asset('/img/poster.png')}}" preload="none" controls="auto">
+                        <source :src="{{ $videos }}" type="video/mp4">
+                    </video>
+
+                </div>
+                <br>
+            </div>
         </div>
 
 
