@@ -68,7 +68,7 @@
                         <div v-for="(v, index) in p_videos" class="col-sm-4">
                             <label>Video de @{{ v.nombre }}</label>
 
-                            <video :id="'v'+index" width="320" height="240" controls :src="v.src"
+                            <video :id="'v'+index" width="520" height="340" controls :src="v.src"
                                    poster="{{asset('/img/poster.png')}}" preload="none" controls="auto">
                                 <source :src="v.src" type="video/mp4">
                             </video>

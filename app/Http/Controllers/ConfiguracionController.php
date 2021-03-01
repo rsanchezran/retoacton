@@ -75,8 +75,9 @@ class ConfiguracionController extends Controller
 
     public function detalle_video(Request $request, $video){
         $this->authorize('configurar.videos');
-        $videos = VideosPublicos::all();
-        foreach ($videos as $v) {
+        $videos_ = VideosPublicos::all();
+        $videos = [];
+        foreach ($videos_ as $v) {
             if($v->nombre == $video) {
                 $videos->push(['nombre' => $v->nombre, 'src' => url('/getVideo/') . "/$v->nombre/" . rand(1, 100)]
                 );
