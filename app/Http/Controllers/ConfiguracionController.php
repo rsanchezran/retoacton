@@ -91,7 +91,7 @@ class ConfiguracionController extends Controller
         $pendientes = $this->getVideosPendientes();
 
         return view('configuracion.videos_publicos', ['videos' => url('/getVideo/') . "/$video/" . rand(1, 100),
-            'categorias' => $categorias, 'pendientes' => $pendientes]);
+            'categorias' => $categorias, 'pendientes' => $pendientes, 'nombre' => ucfirst($video) ]);
     }
 
 

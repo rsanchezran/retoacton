@@ -65,9 +65,9 @@
 
                 <div class="card-body">
                     <div class="d-flex flex-wrap">
-                            <label>Video de {{ $videos }}</label>
+                            <label>Video de {{ $nombre }}</label>
 
-                            <video :id="'v'+index" width="520" height="340" controls :src="v.src"
+                            <video :id="1" width="520" height="340" controls :src="{{ $videos }}"
                                    poster="{{asset('/img/poster.png')}}" preload="none" controls="auto">
                                 <source :src="{{ $videos }}" type="video/mp4">
                             </video>
