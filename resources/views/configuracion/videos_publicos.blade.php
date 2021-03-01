@@ -50,16 +50,11 @@
             <div class="row justify-content-center">
                 <inicio :p_videos="{{$videos}}" :p_categorias="{{$categorias}}"
                         :p_pendientes="{{$pendientes}}"></inicio>
-            </div>
-        </div>
-    </div>
-
-    <template id="videos-template">
-        <div>
+                <div>
 
 
-                <div class="card-body">
-                    <div class="d-flex flex-wrap">
+                    <div class="card-body">
+                        <div class="d-flex flex-wrap">
                             <label>Video de {{ $nombre }}</label>
 
                             <video :id="1" width="520" height="340" controls :src="{{ $videos }}"
@@ -67,13 +62,18 @@
                                 <source :src="{{ $videos }}" type="video/mp4">
                             </video>
 
-                    </div>
+                        </div>
                         <br>
+                    </div>
+
+
+
                 </div>
-
-
-
+            </div>
         </div>
+    </div>
+
+    <template id="videos-template">
     </template>
 
 @endsection
