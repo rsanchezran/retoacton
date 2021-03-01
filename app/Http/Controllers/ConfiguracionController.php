@@ -92,7 +92,7 @@ class ConfiguracionController extends Controller
 
         $url_video = str_replace ( ' ', '%20', $video);
 
-        return view('configuracion.videos_publicos', ['videos' => url('/getVideo/') . "/$url_video/" . rand(1, 100),
+        return view('videos_publicos', ['videos' => url('/getVideo/') . "/$url_video/" . rand(1, 100),
             'categorias' => $categorias, 'pendientes' => $pendientes, 'nombre' => ucfirst($video) ]);
     }
 
