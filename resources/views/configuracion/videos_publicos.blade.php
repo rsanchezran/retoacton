@@ -55,20 +55,7 @@
 
     <template id="videos-template">
         <div>
-            <div v-for="(v, index) in p_videos" class="col-sm-4">
-                <label>Video de @{{ v.nombre }}</label>
-                <label :for="'video'+index" :class="loading?'disabled':''" class="custom-file-upload">
-                    <i class="fa fa-cloud-upload"></i> Subir
-                </label>
-                <input :id="'video'+index" type="file" @change="subirVideo($event, v.nombre)"
-                       :disabled="loading">
-                <br>
-                <video :id="'v'+index" width="320" height="240" controls :src="v.src"
-                       poster="{{asset('/img/poster.png')}}" preload="none" controls="auto">
-                    <source :src="v.src" type="video/mp4">
-                </video>
-                <form-error :name="v.nombre.replace(' ','_')" :errors="errors"></form-error>
-            </div>
+            {{p_videos}}
         </div>
     </template>
 
