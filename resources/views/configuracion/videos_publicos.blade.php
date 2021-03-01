@@ -65,9 +65,9 @@
             <div class="card-body">
                 <div class="d-flex flex-wrap">
 
-                    <video width="720" height="480" controls :src="{{ $videos }}"
+                    <video width="720" height="480" controls src="{{ $videos }}"
                            poster="{{asset('/img/header.png')}}" preload="none" controls="auto" class="col-md-10 mx-auto">
-                        <source :src="{{ $videos }}" type="video/mp4">
+                        <source src="{{ $videos }}" type="video/mp4">
                     </video>
 
                 </div>
