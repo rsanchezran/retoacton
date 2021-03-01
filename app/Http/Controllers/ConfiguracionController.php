@@ -74,8 +74,12 @@ class ConfiguracionController extends Controller
 
 
     public function detalle_video($video){
-        $video = VideosPublicos::where('nombre', $video);
-        return view('configuracion.videos_publicos', ['video' => $video, 'categorias' => '', 'pendientes' => '']);
+        $videos = VideosPublicos::where('nombre', $video);
+        foreach ($videos as $video) {
+            $videos->push(['nombre' => $video->nombre, 'src' => url('/getVideo/') . "/$video->nombre/" . rand(1, 100)]
+            );
+        }
+        return view('configuracion.videos_publicos', ['videos' => $videos, 'categorias' => '', 'pendientes' => '']);
     }
 
 
