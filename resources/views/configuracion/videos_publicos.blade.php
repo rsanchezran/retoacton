@@ -67,33 +67,6 @@
                     <h6>En esta sección podrás subir o cambiar los videos que se mostrarán en las pantallas públicas del
                         <span class="font-weight-bold text-uppercase">Reto Acton </span></h6>
                     <hr>
-                    <div class="d-flex flex-wrap">
-                        <div v-for="(v, index) in p_videos" class="col-sm-4">
-                            <label>Video de @{{ v.nombre }}</label>
-                            <label :for="'video'+index" :class="loading?'disabled':''" class="custom-file-upload">
-                                <i class="fa fa-cloud-upload"></i> Subir
-                            </label>
-                            <input :id="'video'+index" type="file" @change="subirVideo($event, v.nombre)"
-                                   :disabled="loading">
-                            <br>
-                            <video :id="'v'+index" width="320" height="240" controls :src="v.src"
-                                   poster="{{asset('/img/poster.png')}}" preload="none" controls="auto">
-                                <source :src="v.src" type="video/mp4">
-                            </video>
-                            <form-error :name="v.nombre.replace(' ','_')" :errors="errors"></form-error>
-                        </div>
-                        <br>
-                    </div>
-                </div>
-                <label>Nuevo video</label>
-                <div class="col-6">
-                    <input type="text" class="form-control" name="NuevoVideo" id="NuevoVideo" placeholder="Nombre de video">
-                    <label :for="videonuevo" class="custom-file-upload" v-model="video_nuevo">
-                        <i class="fa fa-cloud-upload"></i> Subir
-                    </label>
-                    <input :id="videonuevo" type="file" @change="subirVideo($event, video_nuevo)"
-                           :disabled="loading">
-                    <br>
                 </div>
             </div>
             <div v-show="!loading" class="card">
@@ -222,8 +195,7 @@
                     buscando: false,
                     mostrarPendientes: true,
                     tarea:null,
-                    categoria:null,
-                    video_nuevo: ''
+                    categoria:null
                 }
             },
             methods: {

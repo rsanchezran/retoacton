@@ -52,7 +52,7 @@ class RegisterController extends Controller
 
     }
 
-    public function showRegistrationForm()
+    public function showRegistrationForm($dias = null)
     {
         $photos = Storage::disk('local')->files('public/combos');
         $urls = collect();
@@ -73,8 +73,13 @@ class RegisterController extends Controller
             $telefono = $_COOKIE['telefono'];
             $email = str_replace("@","|",$email);
         }
-        return view('auth.register', ['urls' => $urls, 'medios' => $medios]);
+        if (!$dias) {
+            return view('auth.register', ['urls' => $urls, 'medios' => $medios, 'dias' => '2semanas']);
+        }else{
+            return view('auth.register', ['urls' => $urls, 'medios' => $medios, 'dias' => $dias]);
+        }
     }
+
 
     public function saveContacto(Request $request)
     {

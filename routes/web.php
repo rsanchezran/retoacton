@@ -29,6 +29,7 @@ Route::post('savePeso', 'Auth\RegisterController@savePeso');
 Route::post('webhook', 'Auth\RegisterController@webhook');
 Route::get('buscarReferencia/{referencia}', 'Auth\RegisterController@buscarReferencia');
 Route::get('buscarReferenciaTienda/{referencia}/{email}', 'Auth\RegisterController@buscarReferenciaTienda');//AQUI
+Route::get('register/{dias}/', 'Auth\RegisterController@showRegistrationForm');
 
 Route::post('/nuevopago', 'PagoController@nuevoPago');
 Route::get('/etapa1/{email}', 'HomeController@etapa1');
@@ -61,6 +62,7 @@ Route::group(['prefix' => 'configuracion', 'middleware' => ['auth', 'pago']], fu
     Route::get('contactos/exportar/{filtros}', 'ConfiguracionController@exportarContactos');
     Route::post('contactos/enviarCorreos', 'ConfiguracionController@enviarCorreos');
     Route::get('videos', 'ConfiguracionController@videos');
+    Route::get('videos_publicos', 'ConfiguracionController@videos_publicos');
     Route::get('programa', 'ConfiguracionController@programa');
     Route::get('programa/getSemanaEjercicios/{semana}', 'ConfiguracionController@getSemanaEjercicios');
     Route::get('dia/{dia}/{genero}/{objetivo}', 'ConfiguracionController@dia');

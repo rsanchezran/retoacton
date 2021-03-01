@@ -732,7 +732,7 @@
                 <div id="features" class="d-flex flex-wrap mr-auto ml-auto">
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
                         <div id="comidasFeature" class="feature" @click="features.comidas=false" @mouseover="features.comidas=false"
-                             @mouseleave="features.comidas=true" onclick="location.href = '/register?q=14';">
+                             @mouseleave="features.comidas=true" onclick="location.href = '/register/2semanas';">
                             <transition name="fade" mode="out-in">
                                 <div v-if="features.comidas" key="primero">
                                     <img id="comidasImg" class="img" src="{{asset('/images/imagesremodela/2semanasRB.png')}}" width="100%">
@@ -751,7 +751,7 @@
                     </div>
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
                         <div id="entrenamientoFeature" class="feature" @click="features.entrenamiento=false" @mouseover="features.entrenamiento=false"
-                             @mouseleave="features.entrenamiento=true" onclick="location.href = '/register?q=28';">
+                             @mouseleave="features.entrenamiento=true" onclick="location.href = '/register/4semanas';">
                             <transition name="fade" mode="out-in">
                                 <div v-if="features.entrenamiento" key="first">
                                     <img id="entrenamientoImg" class="img" src="{{asset('/images/imagesremodela/4semanasRB.png')}}"
@@ -767,7 +767,7 @@
                     </div>
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
                         <div id="suplementosFeature" class="feature" @click="features.suplementos=false" @mouseover="features.suplementos=false"
-                             @mouseleave="features.suplementos=true" onclick="location.href = '/register?q=56';">
+                             @mouseleave="features.suplementos=true" onclick="location.href = '/register/8semanas';">
                             <transition name="fade" mode="out-in">
                                 <div v-if="features.suplementos" key="first">
                                     <img id="suplementosImg" class="img" src="{{asset('/images/imagesremodela/8semanasRB.png')}}"
@@ -783,7 +783,7 @@
                     </div>
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
                         <div id="videosFeature" class="feature" @click="features.videos=false" @mouseover="features.videos=false"
-                             @mouseleave="features.videos=true" onclick="location.href = '/register?q=84';">
+                             @mouseleave="features.videos=true" onclick="location.href = '/register/12semanas';">
                             <transition name="fade" mode="out-in">
                                 <div v-if="features.videos" key="first">
                                     <img id="videosImg" class="img" src="{{asset('/images/imagesremodela/12semanasRB.png')}}" width="100%">

@@ -14,6 +14,7 @@ use App\Console\Commands\EnviarCorreos;
 use App\Contacto;
 use App\Dia;
 use App\Ejercicio;
+use App\VideosPublicos;
 use App\Amistades;
 use App\Events\ProcesarVideoEvent;
 use App\Code\ValidarCorreo;
@@ -42,9 +43,9 @@ class ConfiguracionController extends Controller
     public function videos(Request $request)
     {
         $this->authorize('configurar.videos');
-        $videos = collect();
-        foreach (Videos::allString() as $video) {
-            $videos->push(['nombre' => $video, 'src' => url('/getVideo/') . "/$video/" . rand(1, 100)]
+        $videos = VideosPublicos::all();
+        foreach ($videos as $video) {
+            $videos->push(['nombre' => $video->nombre, 'src' => url('/getVideo/') . "/$video->nombre/" . rand(1, 100)]
             );
         }
         $categorias = Categoria::all();
@@ -58,6 +59,19 @@ class ConfiguracionController extends Controller
         return view('configuracion.videos', ['videos' => $videos, 'categorias' => $categorias, 'pendientes' => $pendientes]);
     }
 
+
+    public function videos_publicos(Request $request)
+    {
+        $categorias = Categoria::all();
+        foreach ($categorias as $categoria) {
+            $categoria->mostrar = false;
+            $categoria->ejercicios = $this->getEjerciciosCategoria($categoria->nombre);
+            $categoria->nueva = false;
+        }
+
+        return view('configuracion.videos_publicos', ['categorias' => $categorias]);
+    }
+
     public function saveVideo(Request $request)
     {
         $this->authorize('configurar.videos');
@@ -69,6 +83,7 @@ class ConfiguracionController extends Controller
                 'video  .size' => 'El archivo debe ser menor a 300MB',
             ]
         );
+        $video_existe = VideosPublicos::firstOrCreate(['nombre', $request->nombre]);
         $nombre = str_replace(" ", "_", $request->nombre);
         $nombre = Utils::clearString($nombre);
         $archivoVideo = $request->video;

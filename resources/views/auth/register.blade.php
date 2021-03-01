@@ -83,7 +83,7 @@
 
         #vue {
             background-color: #f2f2f2;
-            background-image: url("{{asset('images/imagesremodela/rayo.png')}}");
+            background-image: url("{{asset('../images/imagesremodela/rayo.png')}}");
             background-repeat: no-repeat;
             background-position: center;
             background-position-x: -7;
@@ -1487,7 +1487,7 @@
         <div class="container">
             <div align="center" style="width: 95%; margin-left: 2%;">
                 <div id="header" align="center">
-                    <img src="images/imagesremodela/2top.png" id="imagentop">
+                    <img src="../images/imagesremodela/2top.png" id="imagentop">
                     <br>
                     <br>
                 </div>
@@ -1560,23 +1560,23 @@
             <div v-show="sent" id="pago" class="text-center col-12">
                 <div style="margin-top: 40px;">
                     <div style="margin-top:60px; margin-bottom: 70px">
-                        <img src="{{asset("images/imagesremodela/malla.png")}}" width="100%" id="descripcionsemanas" style="">
+                        <img src="{{asset("../images/imagesremodela/malla.png")}}" width="100%" id="descripcionsemanas" style="">
                     </div>
                 </div>
                 <div style="margin-top: 40px;">
                     <div style="margin-top:0px; margin-bottom: 70px">
-                        <img src="{{asset("images/imagesremodela/garantia_reembolso_v2.png")}}" width="100%" style="margin-left: 3%;" id="satisfaccion_total_completo">
-                        <img src="{{asset("images/imagesremodela/garantia_reembolso_v2_movil.png")}}" width="100%" style="margin-left: 0%;" id="satisfaccion_total_movil">
+                        <img src="{{asset("../images/imagesremodela/garantia_reembolso_v2.png")}}" width="100%" style="margin-left: 3%;" id="satisfaccion_total_completo">
+                        <img src="{{asset("../images/imagesremodela/garantia_reembolso_v2_movil.png")}}" width="100%" style="margin-left: 0%;" id="satisfaccion_total_movil">
                     </div>
                 </div>
                 <div v-if="informacion.medio=='Por medio de un gimnasio o tienda de suplementos'">
-                    <img src="{{asset("images/imagesremodela/preciogym.png")}}" width="112%" id="preciogym" style="margin-left: -6%">
+                    <img src="{{asset("../images/imagesremodela/preciogym.png")}}" width="112%" id="preciogym" style="margin-left: -6%">
                 </div>
                 <div style="margin-top: 40px;">
                     <div style="margin-top:60px; margin-bottom: 70px">
                         <div v-if="informacion.medio!=='Por medio de un gimnasio o tienda de suplementos'">
-                            <img src="{{asset("images/imagesremodela/50personas.png")}}" width="100%" id="50personas" style="width: 50%;">
-                            <img src="{{asset("images/imagesremodela/ultimosdias.png")}}" width="100%" id="ultimosdias" style="width: 50%;">
+                            <img src="{{asset("../images/imagesremodela/50personas.png")}}" width="100%" id="50personas" style="width: 50%;">
+                            <img src="{{asset("../images/imagesremodela/ultimosdias.png")}}" width="100%" id="ultimosdias" style="width: 50%;">
                         </div>
                     </div>
                 </div>
@@ -1606,7 +1606,7 @@
                     <div v-if="informacion.medio!=='Por medio de un gimnasio o tienda de suplementos'">
                         <div style="margin-top: 40px;">
                             <div style="margin-top:60px; margin-bottom: 70px">
-                                <img src="{{asset("images/imagesremodela/ultimodia.png")}}" width="100%" id="ultimodia" style="width: 100%;margin-left: -2.7%;">
+                                <img src="{{asset("../images/imagesremodela/ultimodia.png")}}" width="100%" id="ultimodia" style="width: 100%;margin-left: -2.7%;">
                             </div>
                         </div>
                     </div>
@@ -1627,15 +1627,15 @@
                         <div  v-if="hr" class="horasrestantes" style="display: inline;">
                             <div class="horas" style="display: inline;">
                                 <span class="horareloj" style="">@{{hr}}</span>
-                                <img src="images/imagesremodela/nhoras.png" style="width:15%;">
+                                <img src="../images/imagesremodela/nhoras.png" style="width:15%;">
                             </div>
                             <div class="minutos" class="minutos" style="display: inline;">
                                 <span class="minreloj" style="">@{{min}}</span>
-                                <img src="images/imagesremodela/nminutos.png" style="width:15%;">
+                                <img src="../images/imagesremodela/nminutos.png" style="width:15%;">
                             </div>
                             <div class="segundos" class="segundos" style="display: inline;">
                                 <span class="segundoreloj" style="">@{{seg}}</span>
-                                <img src="images/imagesremodela/nsegundos.png" style="width:15%;">
+                                <img src="../images/imagesremodela/nsegundos.png" style="width:15%;">
                             </div>
                         </div>
                     </div>
@@ -1646,16 +1646,16 @@
                 <div v-if="informacion.medio!=='Por medio de un gimnasio o tienda de suplementos'" style="margin-left: 5%">
                     <div style="margin-top: 40px;">
                         <div style="margin-top:60px; margin-bottom: 70px">
-                            <img src="{{asset("images/imagesremodela/ultimashoras1.png")}}" width="100%" id="ultimashoras1" style="width: 100%;margin-left: -2.7%;">
-                            <img src="{{asset("images/imagesremodela/ultimodia1.png")}}" width="100%" id="ultimodia1" style="width: 50%;">
-                            <img src="{{asset("images/imagesremodela/ultimashoras.png")}}" width="100%" id="ultimashoras" style="width: 50%;">
+                            <img src="{{asset("../images/imagesremodela/ultimashoras1.png")}}" width="100%" id="ultimashoras1" style="width: 100%;margin-left: -2.7%;">
+                            <img src="{{asset("../images/imagesremodela/ultimodia1.png")}}" width="100%" id="ultimodia1" style="width: 50%;">
+                            <img src="{{asset("../images/imagesremodela/ultimashoras.png")}}" width="100%" id="ultimashoras" style="width: 50%;">
                             <div v-if="this.informacion.tipo == 28" class="text-center text-danger" id="soloquedan"><h2>Quedan sólo 14 lugares con descuento</h2></div>
                         </div>
                     </div>
                 </div>
 
 
-                <img src="{{asset('images/imagesremodela/metodos.png')}}" id="metodos" style="width: 35%;margin-top: 50px;margin-bottom: 50px;margin-left:0%;margin-left: 5%">
+                <img src="{{asset('../images/imagesremodela/metodos.png')}}" id="metodos" style="width: 35%;margin-top: 50px;margin-bottom: 50px;margin-left:0%;margin-left: 5%">
 
                 <div class="pasarelas" style="margin-left: 2%">
                     <h6 style="color: #000;">Estas son las formas de realizar tu pago de manera segura</h6>
@@ -1667,7 +1667,7 @@
                         <div class="formaPago" @click="metodoPagoLocal('deposito')" style="border: 2px solid #e6e6e6;border-radius: 20px;">
                             Depósito o Transferencia
                             <br>
-                            <img src="{{asset('images/imagesremodela/deposito.png')}}" width="120">
+                            <img src="{{asset('../images/imagesremodela/deposito.png')}}" width="120">
                         </div>
                     </div>
                 </div>
@@ -1676,7 +1676,7 @@
                     <div id="" class="" style="padding-top:100px; padding-bottom:10px;margin-left: 5%">
                         <div id="testtitulo" class="">
                             <img src="{{asset('img/historias_exito.jpg')}}" width="100%" id="historiasexito">
-                            <img src="{{asset('images/imagesremodela/historiasmovil.png')}}" width="100%" id="historiasexitomovil">
+                            <img src="{{asset('../images/imagesremodela/historiasmovil.png')}}" width="100%" id="historiasexitomovil">
                         </div>
                         <div class="col-10 col-sm-4 col-md-4 text-center d-block mr-auto ml-auto mt-8"
                              style="margin-bottom:40px">
@@ -1686,69 +1686,69 @@
             </div>
 
 
-            <img src="{{asset('images/imagesremodela/masretos.png')}}" id="masretos" style="width: 26%;margin-top: 50px;margin-bottom: 50px;margin-left: 37%;">
+            <img src="{{asset('../images/imagesremodela/masretos.png')}}" id="masretos" style="width: 26%;margin-top: 50px;margin-bottom: 50px;margin-left: 37%;">
             <div class="planesacton">
                 <div id="features" class="d-flex flex-wrap mr-auto ml-auto">
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
                         <div id="comidasFeature" class="feature" @click="features.comidas=false" @mouseover="features.comidas=false"
-                             @mouseleave="features.comidas=true" onclick="location.href = '/register?q=14';">
+                             @mouseleave="features.comidas=true" onclick="location.href = '/register/2semanas';">
                             <transition name="fade" mode="out-in">
                                 <div v-if="features.comidas" key="primero">
-                                    <img id="comidasImg" class="img" src="{{asset('/images/imagesremodela/2semanasRB.png')}}" width="100%">
+                                    <img id="comidasImg" class="img" src="{{asset('/../images/imagesremodela/2semanasRB.png')}}" width="100%">
                                     <h3 id="comidasSub" class="subtitle">
                                         <span></span>
                                         <span class="small text-lowercase"></span>
                                     </h3>
                                 </div>
                                 <div v-else class="subinfo" key="segundo">
-                                    <img src="{{asset('/images/imagesremodela/2semanasR.png')}}">
+                                    <img src="{{asset('/../images/imagesremodela/2semanasR.png')}}">
                                 </div>
                             </transition>
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
                         <div id="entrenamientoFeature" class="feature" @click="features.entrenamiento=false" @mouseover="features.entrenamiento=false"
-                             @mouseleave="features.entrenamiento=true" onclick="location.href = '/register?q=28';">
+                             @mouseleave="features.entrenamiento=true" onclick="location.href = '/register/4semanas';">
                             <transition name="fade" mode="out-in">
                                 <div v-if="features.entrenamiento" key="first">
-                                    <img id="entrenamientoImg" class="img" src="{{asset('/images/imagesremodela/4semanasRB.png')}}"
+                                    <img id="entrenamientoImg" class="img" src="{{asset('/../images/imagesremodela/4semanasRB.png')}}"
                                          width="100%">
                                     <h3 id="entrenamientoSub" class="subtitle">
                                     </h3>
                                 </div>
                                 <div v-else class="subinfo" key="second">
-                                    <img src="{{asset('/images/imagesremodela/4semanasR.png')}}">
+                                    <img src="{{asset('/../images/imagesremodela/4semanasR.png')}}">
                                 </div>
                             </transition>
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
                         <div id="suplementosFeature" class="feature" @click="features.suplementos=false" @mouseover="features.suplementos=false"
-                             @mouseleave="features.suplementos=true" onclick="location.href = '/register?q=56';">
+                             @mouseleave="features.suplementos=true" onclick="location.href = '/register/8semanas';">
                             <transition name="fade" mode="out-in">
                                 <div v-if="features.suplementos" key="first">
-                                    <img id="suplementosImg" class="img" src="{{asset('/images/imagesremodela/8semanasRB.png')}}"
+                                    <img id="suplementosImg" class="img" src="{{asset('/../images/imagesremodela/8semanasRB.png')}}"
                                          width="100%">
                                     <h3 id="suplementosSub" class="subtitle">
                                     </h3>
                                 </div>
                                 <div v-else class="subinfo" key="second">
-                                    <img src="{{asset('/images/imagesremodela/8semanasR.png')}}">
+                                    <img src="{{asset('/../images/imagesremodela/8semanasR.png')}}">
                                 </div>
                             </transition>
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
                         <div id="videosFeature" class="feature" @click="features.videos=false" @mouseover="features.videos=false"
-                             @mouseleave="features.videos=true" onclick="location.href = '/register?q=84';">
+                             @mouseleave="features.videos=true" onclick="location.href = '/register/12semanas';">
                             <transition name="fade" mode="out-in">
                                 <div v-if="features.videos" key="first">
-                                    <img id="videosImg" class="img" src="{{asset('/images/imagesremodela/12semanasRB.png')}}" width="100%">
+                                    <img id="videosImg" class="img" src="{{asset('/../images/imagesremodela/12semanasRB.png')}}" width="100%">
                                     <h3 id="videosSub" class="subtitle">
                                     </h3>
                                 </div>
                                 <div v-else class="subinfo" key="second">
-                                    <img src="{{asset('/images/imagesremodela/12semanasR.png')}}">
+                                    <img src="{{asset('/../images/imagesremodela/12semanasR.png')}}">
                                 </div>
                             </transition>
                         </div>
@@ -1768,8 +1768,8 @@
                         </div>
                         <div class="opps-reference">
                             <h3>Referencias:</h3>
-                            <h1 class="reference text-center"><img src="{{asset('/images/imagesremodela/banamex.png')}}" style="width: 200px;"><br> 5204 1653 0217 4390</</h1>
-                            <h1 class="reference text-center"><img src="{{asset('/images/imagesremodela/hsbc.png')}}" style="width: 200px;"><br> 4213 1661 0039 0750</</h1>
+                            <h1 class="reference text-center"><img src="{{asset('/../images/imagesremodela/banamex.png')}}" style="width: 200px;"><br> 5204 1653 0217 4390</</h1>
+                            <h1 class="reference text-center"><img src="{{asset('/../images/imagesremodela/hsbc.png')}}" style="width: 200px;"><br> 4213 1661 0039 0750</</h1>
                         </div>
                     </div>
                     <div class="opps-instructions">
@@ -1938,7 +1938,22 @@
                     document.cookie = "email="+this.informacion.email;
 
                     let urlParams = new URLSearchParams(window.location.search);
-                    let d = urlParams.get('q');
+                    var dias_url = '{{ $dias }}';
+
+                    if(dias_url == '2semanas'){
+                        dias_url = 14;
+                    }
+                    if(dias_url == '4semanas'){
+                        dias_url = 28;
+                    }
+                    if(dias_url == '8semanas'){
+                        dias_url = 56;
+                    }
+                    if(dias_url == '12semanas'){
+                        dias_url = 84;
+                    }
+
+                    let d = dias_url;
                     if(d !== null){
                         this.informacion.tipo = d;
                     }else{
@@ -1969,26 +1984,26 @@
                         $("#historiasexito").show();
                         $("#historiasexitomovil").hide();
                         if (d == 2) {
-                            $("#imgreto").attr('src', 'images/imagesremodela/reto2.png');
-                            $("#descripcionsemanas").attr('src', 'images/imagesremodela/2semanas.png');
-                            $("#imagentop").attr('src', 'images/imagesremodela/2top.png');
+                            $("#imgreto").attr('src', '../images/imagesremodela/reto2.png');
+                            $("#descripcionsemanas").attr('src', '../images/imagesremodela/2semanas.png');
+                            $("#imagentop").attr('src', '../images/imagesremodela/2top.png');
                         }
                         if (d == 4) {
-                            $("#imgreto").attr('src', 'images/imagesremodela/reto4.png');
-                            $("#descripcionsemanas").attr('src', 'images/imagesremodela/4semans.png');
+                            $("#imgreto").attr('src', '../images/imagesremodela/reto4.png');
+                            $("#descripcionsemanas").attr('src', '../images/imagesremodela/4semans.png');
                             $(".soloquedan").show();
-                            $("#imagentop").attr('src', 'images/imagesremodela/4top.png');
+                            $("#imagentop").attr('src', '../images/imagesremodela/4top.png');
                         }
                         if (d == 8) {
-                            $("#imgreto").attr('src', 'images/imagesremodela/reto8.png');
-                            $("#descripcionsemanas").attr('src', 'images/imagesremodela/8semanas.png');
-                            $("#imagentop").attr('src', 'images/imagesremodela/8top.png');
+                            $("#imgreto").attr('src', '../images/imagesremodela/reto8.png');
+                            $("#descripcionsemanas").attr('src', '../images/imagesremodela/8semanas.png');
+                            $("#imagentop").attr('src', '../images/imagesremodela/8top.png');
                         }
                         if (d == 12) {
                             $("#ultimashoras").show();
-                            $("#imgreto").attr('src', 'images/imagesremodela/reto12.png');
-                            $("#descripcionsemanas").attr('src', 'images/imagesremodela/12semanas.png');
-                            $("#imagentop").attr('src', 'images/imagesremodela/12top.png');
+                            $("#imgreto").attr('src', '../images/imagesremodela/reto12.png');
+                            $("#descripcionsemanas").attr('src', '../images/imagesremodela/12semanas.png');
+                            $("#imagentop").attr('src', '../images/imagesremodela/12top.png');
                         }
                     }else{
                         $("#satisfaccion_total_movil").show();
@@ -1996,26 +2011,26 @@
                         $("#historiasexito").hide();
                         $("#historiasexitomovil").show();
                         if (d == 2) {
-                            $("#imgreto").attr('src', 'images/imagesremodela/reto2.png');
-                            $("#descripcionsemanas").attr('src', 'images/imagesremodela/2movil.png');
-                            $("#imagentop").attr('src', 'images/imagesremodela/2top.png');
+                            $("#imgreto").attr('src', '../images/imagesremodela/reto2.png');
+                            $("#descripcionsemanas").attr('src', '../images/imagesremodela/2movil.png');
+                            $("#imagentop").attr('src', '../images/imagesremodela/2top.png');
                         }
                         if (d == 4) {
-                            $("#imgreto").attr('src', 'images/imagesremodela/reto4.png');
-                            $("#descripcionsemanas").attr('src', 'images/imagesremodela/4movil.png');
-                            $("#imagentop").attr('src', 'images/imagesremodela/4top.png');
+                            $("#imgreto").attr('src', '../images/imagesremodela/reto4.png');
+                            $("#descripcionsemanas").attr('src', '../images/imagesremodela/4movil.png');
+                            $("#imagentop").attr('src', '../images/imagesremodela/4top.png');
                             $(".soloquedan").show();
                         }
                         if (d == 8) {
-                            $("#imgreto").attr('src', 'images/imagesremodela/reto8.png');
-                            $("#descripcionsemanas").attr('src', 'images/imagesremodela/8movil.png');
-                            $("#imagentop").attr('src', 'images/imagesremodela/8top.png');
+                            $("#imgreto").attr('src', '../images/imagesremodela/reto8.png');
+                            $("#descripcionsemanas").attr('src', '../images/imagesremodela/8movil.png');
+                            $("#imagentop").attr('src', '../images/imagesremodela/8top.png');
                         }
                         if (d == 12) {
                             $("#ultimashoras").show();
-                            $("#imgreto").attr('src', 'images/imagesremodela/reto12.png');
-                            $("#descripcionsemanas").attr('src', 'images/imagesremodela/12movil.png');
-                            $("#imagentop").attr('src', 'images/imagesremodela/12top.png');
+                            $("#imgreto").attr('src', '../images/imagesremodela/reto12.png');
+                            $("#descripcionsemanas").attr('src', '../images/imagesremodela/12movil.png');
+                            $("#imagentop").attr('src', '../images/imagesremodela/12top.png');
                         }
                     }
 
