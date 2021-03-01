@@ -73,9 +73,22 @@ class ConfiguracionController extends Controller
     }
 
 
-    public function detalle_video($video){
-        $videos = VideosPublicos::where('nombre', $video)->get();
-        return view('configuracion.videos_publicos', ['videos' => url('/getVideo/') . "/$videos->nombre/" . rand(1, 100)]);
+    public function detalle_video(Request $request, $video){
+        $this->authorize('configurar.videos');
+        $videos = VideosPublicos::where('nombre', $video);
+        foreach ($videos as $video) {
+            $videos->push(['nombre' => $video->nombre, 'src' => url('/getVideo/') . "/$video->nombre/" . rand(1, 100)]
+            );
+        }
+        $categorias = Categoria::all();
+        foreach ($categorias as $categoria) {
+            $categoria->mostrar = false;
+            $categoria->ejercicios = $this->getEjerciciosCategoria($categoria->nombre);
+            $categoria->nueva = false;
+        }
+        $pendientes = $this->getVideosPendientes();
+
+        return view('configuracion.videos_publicos', ['videos' => $videos, 'categorias' => $categorias, 'pendientes' => $pendientes]);
     }
 
 
