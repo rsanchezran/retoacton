@@ -74,7 +74,6 @@ class ConfiguracionController extends Controller
 
 
     public function detalle_video(Request $request, $video){
-        $this->authorize('configurar.videos');
         $videos = VideosPublicos::all();
         foreach ($videos as $v) {
             if($v->nombre == $video) {
