@@ -87,8 +87,8 @@
                 </div>
                 <label>Nuevo video</label>
                 <div class="col-6">
-                    <input type="text" class="form-control" name="NuevoVideo" id="NuevoVideo" placeholder="Nombre de video">
-                    <label :for="videonuevo" class="custom-file-upload" v-model="video_nuevo">
+                    <input type="text" class="form-control" name="NuevoVideo" id="NuevoVideo" placeholder="Nombre de video"  v-model="video_nuevo">
+                    <label :for="videonuevo" class="custom-file-upload"  :class="loading?'disabled':''">
                         <i class="fa fa-cloud-upload"></i> Subir
                     </label>
                     <input :id="videonuevo" type="file" @change="subirVideo($event, video_nuevo)"
