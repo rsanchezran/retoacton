@@ -55,7 +55,20 @@
 
     <template id="videos-template">
         <div>
-            {{p_videos}}
+            <div v-for="(v, index) in p_videos" class="col-sm-4">
+                <label>Video de @{{ v.nombre }}</label>
+                <label :for="'video'+index" :class="loading?'disabled':''" class="custom-file-upload">
+                    <i class="fa fa-cloud-upload"></i> Subir
+                </label>
+                <input :id="'video'+index" type="file" @change="subirVideo($event, v.nombre)"
+                       :disabled="loading">
+                <br>
+                <video :id="'v'+index" width="320" height="240" controls :src="v.src"
+                       poster="{{asset('/img/poster.png')}}" preload="none" controls="auto">
+                    <source :src="v.src" type="video/mp4">
+                </video>
+                <form-error :name="v.nombre.replace(' ','_')" :errors="errors"></form-error>
+            </div>
         </div>
     </template>
 
@@ -64,7 +77,7 @@
     <script>
         Vue.component('inicio', {
             template: '#videos-template',
-            props: ['p_videos', 'p_categorias', 'p_pendientes'],
+            props: ['p_videos'],
             data: function () {
                 return {
                     categorias: [],
@@ -79,138 +92,9 @@
                 }
             },
             methods: {
-                validarArchivo: function (pendiente) {
-                    let archivo = pendiente.split('.');
-                    if (archivo.length > 1){
-                        if (archivo[archivo.length-1] != 'mp4'){
-                            return "[Formato incorrecto]";
-                        }
-                    }else{
-                        return "[Formato incorrecto]";
-                    }
-                    return "";
-                },
-                cambiarVisualizacion: function (categoria) {
-                    categoria.mostrar = !categoria.mostrar;
-                },
-                subirCategoria: function(categoria){
-                    let vm = this;
-                    axios.post("{{url('/configuracion/categoria')}}", categoria).then(function (respuesta) {
-                        vm.loading = false;
-                        categoria.nueva = false;
-                    }).catch(function (error) {
-                        vm.loading = false;
-                        vm.errors = error.response.data.errors;
-                    });
-                },
-                subirEjercicios: function (event, categoria) {
-                    let vm = this;
-                    this.categoria = categoria;
-                    vm.errors = {};
-                    vm.loading = true;
-                    let files = event.target.files;
-                    let size = 0;
-                    _.each(files, function (file, i) {
-                        size += Math.round(((file.size / 1024) / 1024) * 100) / 100;
-                    });
-                    if (size >= 320.0) {
-                        this.errors[categoria.nombre] = ['El archivo debe ser menor a 320MB '];
-                        vm.loading = false;
-                    } else {
-                        let formData = new FormData();
-                        formData.append('categoria', categoria.id);
-                        formData.append('nombre', categoria.nombre);
-                        _.each(files, function (file, i) {
-                            let nombre = file.name.replace(' ', '_');
-                            formData.append('archivos[' + i + ']', file);
-                            formData.append('nombres[' + i + ']', nombre);
 
-                        });
-                        axios.post("{{url('/configuracion/ejercicio')}}", formData).then(function (respuesta) {
-                            vm.loading = false;
-                            vm.getVideosPendientes();
-                        }).catch(function (error) {
-                            vm.loading = false;
-                            vm.errors = error.response.data.errors;
-                        });
-                    }
-                },
-                subirVideo: function (event, nombre) {
-                    let vm = this;
-                    let file = event.target.files[0];
-                    let fileSize = Math.round(((file.size / 1024) / 1024) * 100) / 100;
-                    vm.errors = {};
-                    vm.loading = true;
-                    if (fileSize <= 320.0) {
-                        let fm = new FormData();
-                        fm.append('video', file);
-                        fm.append('nombre', nombre);
-
-                        axios.post('{{url('configuracion/video')}}', fm).then(function (response) {
-                            if (response.data.status == 'ok') {
-                                vm.ejercicios.push(response.data.videoNuevo);
-                            }
-                            vm.loading = false;
-                        }).catch(function (error) {
-                            vm.loading = false;
-                            vm.errors = error.response.data.errors;
-                        });
-                    } else {
-                        vm.loading = false;
-                        vm.errors[nombre] = ['El archivo debe ser menor a 300MB']
-                    }
-                },
-                getNombre: function (nombre) {
-                    return nombre.replace(/_/g, " ");
-                },
-                quitarEjercicio: function (categoria, ejercicio) {
-                    let vm = this;
-                    vm.loading = true;
-                    axios.post('{{url('configuracion/quitarEjercicio')}}', {
-                        categoria: categoria.nombre,
-                        ejercicio: ejercicio
-                    }).then(function () {
-                        vm.loading = false;
-                        vm.getEjercicios(categoria);
-                    }).catch(function () {
-                        vm.loading = false;
-                    });
-                },
-                getEjercicios: function (categoria) {
-                    let vm = this;
-                    vm.buscando = true;
-                    axios.get('{{url('configuracion/getEjerciciosCategoria/')}}/' + categoria.nombre).then(function (response) {
-                        categoria.ejercicios = response.data;
-                        vm.buscando = false;
-                    }).catch(function () {
-                        vm.buscando = false;
-                    });
-                },
-                getVideosPendientes: function () {
-                    let vm = this;
-                    vm.buscando = true;
-                    axios.get('{{url('configuracion/getVideosPendientes')}}').then(function (response) {
-                        vm.pendientes = response.data;
-                        vm.buscando = false;
-                        if (vm.pendientes.length>0){
-                            if (vm.tarea==null){
-                                vm.tarea = setInterval(vm.getVideosPendientes,30000);
-                            }
-                        }else{
-                            clearInterval(vm.tarea);
-                            vm.getEjercicios(vm.categoria);
-                        }
-                    }).catch(function (response) {
-                        vm.buscando = false;
-                    });
-                },
-                agregarCategoria: function () {
-                    this.categorias.push({id:null,nombre:'Categoría',ejercicios:[], nueva:true});
-                }
             },
             created: function () {
-                this.categorias = this.p_categorias;
-                this.pendientes = this.p_pendientes;
             },
             mounted: function () {
             }
