@@ -54,7 +54,6 @@
         </div>
     </div>
 
-    <template id="videos-template">
         <div>
 
 
@@ -74,7 +73,6 @@
 
 
         </div>
-    </template>
 
 @endsection
 @section('scripts')
