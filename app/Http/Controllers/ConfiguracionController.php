@@ -74,7 +74,7 @@ class ConfiguracionController extends Controller
 
 
     public function detalle_video($video){
-        $videos = VideosPublicos::where('nombre', $video);
+        $videos = VideosPublicos::where('nombre', $video)->get();
         return view('configuracion.videos_publicos', ['videos' => url('/getVideo/') . "/$videos->nombre/" . rand(1, 100)]);
     }
 
