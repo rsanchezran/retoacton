@@ -47,15 +47,11 @@
 @section('content')
     <div id="vue">
         <div class="container">
-            <div class="row justify-content-center">
-                <inicio :p_videos="{{$video}}"></inicio>
-            </div>
         </div>
     </div>
 
     <template id="videos-template">
         <div>
-            {{p_videos}}
         </div>
     </template>
 
