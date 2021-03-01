@@ -50,31 +50,31 @@
             <div class="row justify-content-center">
                 <inicio :p_videos="{{$videos}}" :p_categorias="{{$categorias}}"
                         :p_pendientes="{{$pendientes}}"></inicio>
-                <div>
-
-
-                    <div class="card-body">
-                        <div class="d-flex flex-wrap">
-                            <label>Video de {{ $nombre }}</label>
-
-                            <video :id="1" width="520" height="340" controls :src="{{ $videos }}"
-                                   poster="{{asset('/img/poster.png')}}" preload="none" controls="auto">
-                                <source :src="{{ $videos }}" type="video/mp4">
-                            </video>
-
-                        </div>
-                        <br>
-                    </div>
-
-
-
-                </div>
             </div>
         </div>
     </div>
 
     <template id="videos-template">
     </template>
+    <div>
+
+
+        <div class="card-body">
+            <div class="d-flex flex-wrap">
+                <label>Video de {{ $nombre }}</label>
+
+                <video :id="1" width="520" height="340" controls :src="{{ $videos }}"
+                       poster="{{asset('/img/poster.png')}}" preload="none" controls="auto">
+                    <source :src="{{ $videos }}" type="video/mp4">
+                </video>
+
+            </div>
+            <br>
+        </div>
+
+
+
+    </div>
 
 @endsection
 @section('scripts')
