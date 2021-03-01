@@ -48,8 +48,7 @@
     <div id="vue">
         <div class="container">
             <div class="row justify-content-center">
-                <inicio :p_videos="{{$videos}}" :p_categorias="{{$categorias}}"
-                        :p_pendientes="{{$pendientes}}"></inicio>
+                <inicio ></inicio>
             </div>
         </div>
     </div>
