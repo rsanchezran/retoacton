@@ -90,9 +90,9 @@ class ConfiguracionController extends Controller
         }
         $pendientes = $this->getVideosPendientes();
 
-        $url_video = str_replace ( ' ', '_', $video);
+        $url_video = str_replace ( ' ', '%20', $video);
 
-        return view('configuracion.videos_publicos', ['videos' => "app/public/optimized/$url_video.mp4",
+        return view('configuracion.videos_publicos', ['videos' => url('/getVideo/') . "/$url_video/" . rand(1, 100),
             'categorias' => $categorias, 'pendientes' => $pendientes, 'nombre' => ucfirst($video) ]);
     }
 
