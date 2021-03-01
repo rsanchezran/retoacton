@@ -59,7 +59,7 @@
     <div>
 
 
-        <div class="card">
+        <div class="card col-md-10 mx-auto">
             <div class="card-header">
                 <h1>Video de {{ $nombre }}</h1>
             </div>
@@ -67,8 +67,8 @@
                 <div class="d-flex flex-wrap">
 
                     <video :id="1" width="720" height="480" controls :src="{{ $videos }}"
-                           poster="{{asset('/img/poster.png')}}" preload="none" controls="auto">
-                        <source :src="{{ $videos }}" type="video/mp4">
+                           poster="{{asset('/img/header.png')}}" preload="none" controls="auto">
+                        <source :src="{{ $videos }}" type="video/mp4" class="col-md-10 mx-auto">
                     </video>
 
                 </div>
