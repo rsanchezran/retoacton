@@ -88,8 +88,9 @@
                 <label>Nuevo video</label>
                 <div class="col-6">
                     <input type="text" class="form-control" name="NuevoVideo" id="NuevoVideo" placeholder="Nombre de video"  v-model="video_nuevo">
-                    <input type="file" class="form-control" name="vid" id="vid" @change="subirVideo($event, video_nuevo)">
-                    
+
+                    <input :id="videonuevo" type="file" @change="subirVideo($event, video_nuevo)"
+                           :disabled="loading" style="display: block !important;">
                     <br>
                 </div>
             </div>
