@@ -589,7 +589,9 @@
                     }
                 },
                 scrolling: function () {
-                    $(document).scrollTo('#masretos');
+                    $('html,body').animate({
+                        scrollTop: $("#masretos").offset().top
+                    }, 'slow');
                 }
 
             },
