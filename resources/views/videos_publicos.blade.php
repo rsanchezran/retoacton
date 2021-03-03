@@ -193,7 +193,7 @@
 
         @media only screen and (max-width: 800px) {
             video{
-                height: 300px !important;
+                height: 280px !important;
             }
 
             .feature .subinfo {
