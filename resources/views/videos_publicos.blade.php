@@ -142,9 +142,17 @@
                 height: 720px;
             }
         }
+        .accesoSuple{
+            font-size: 35px;
+        }
         @media only screen and (max-width: 990px) {
             #features .subtitle {
                 font-size: 2.5vw;
+            }
+
+
+            .accesoSuple{
+                font-size: 15px;
             }
 
             .feature .img {
@@ -469,7 +477,7 @@
             <br>
             <br>
             <img src="{{asset('/images/imagesremodela/masretos.png')}}" id="masretos" style="width: 26%;margin-top: 50px;margin-bottom: 50px;margin-left: 37%;">
-            <a href="https://suplementos.retoacton.com/" class="btn btn-primary btn-lg" style="color: white; background: #fb9b04; font-size: 35px;border-radius: 10px; font-weight: bolder;height: 80px;padding-top: 13px; font-family: unitext_bold_cursive; width: 50%; margin-left: 25%;">Ver suplementos</a>
+            <a href="https://suplementos.retoacton.com/" class="btn btn-primary btn-lg accesoSuple" style="color: white; background: #fb9b04; border-radius: 10px; font-weight: bolder;height: 80px;padding-top: 13px; font-family: unitext_bold_cursive; width: 50%; margin-left: 25%;">Ver suplementos</a>
             <br>
             <br>
             <div class="planesacton">
