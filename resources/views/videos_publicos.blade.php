@@ -192,6 +192,10 @@
         }
 
         @media only screen and (max-width: 800px) {
+            video{
+                height: 300px !important;
+            }
+
             .feature .subinfo {
                 height: auto !important;
             }
@@ -466,7 +470,7 @@
                     <div class="d-flex flex-wrap">
 
                         <video width="720" height="480" controls src="{{ $videos }}"
-                               poster="{{asset('/img/header.png')}}" preload="none" controls="auto" class="col-md-10 mx-auto"  @ended="this.scrolling" @paused="this.scrolling">
+                               poster="{{asset('/img/header.png')}}" preload="none" controls="auto" class="col-md-10 mx-auto"  @ended="this.scrolling" @pause="this.scrolling" @paused="this.scrolling">
                             <source src="{{ $videos }}" type="video/mp4">
                         </video>
 
