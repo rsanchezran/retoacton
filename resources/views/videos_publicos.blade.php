@@ -13,6 +13,12 @@
             display: none;
         }
 
+
+        #masretos{
+            width: 50% !important;
+            margin-left: 25% !important;
+        }
+
         .custom-file-upload {
             border: 1px solid #ccc;
             display: inline-block;
@@ -450,7 +456,7 @@
                     <div class="d-flex flex-wrap">
 
                         <video width="720" height="480" controls src="{{ $videos }}"
-                               poster="{{asset('/img/header.png')}}" preload="none" controls="auto" class="col-md-10 mx-auto">
+                               poster="{{asset('/img/header.png')}}" preload="none" controls="auto" class="col-md-10 mx-auto"  @ended="">
                             <source src="{{ $videos }}" type="video/mp4">
                         </video>
 
@@ -462,14 +468,16 @@
 
             <br>
             <br>
-            <div class="">
+            <img src="{{asset('/images/imagesremodela/masretos.png')}}" id="masretos" style="width: 26%;margin-top: 50px;margin-bottom: 50px;margin-left: 37%;">
+            <a href="https://suplementos.retoacton.com/" class="btn btn-primary col-md-4 offset-4">Ver suplementos</a>
+            <div class="planesacton">
                 <div id="features" class="d-flex flex-wrap mr-auto ml-auto">
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
                         <div id="comidasFeature" class="feature" @click="features.comidas=false" @mouseover="features.comidas=false"
                              @mouseleave="features.comidas=true" onclick="location.href = '/register/2semanas';">
                             <transition name="fade" mode="out-in">
                                 <div v-if="features.comidas" key="primero">
-                                    <img id="comidasImg" class="img" src="{{asset('/images/imagesremodela/2semanasRB.png')}}" width="100%">
+                                    <img id="comidasImg" class="img" src="{{asset('/images/imagesremodela/2semanasR.png')}}" width="100%">
                                     <h3 id="comidasSub" class="subtitle">
                                         <span></span>
                                         <span class="small text-lowercase"></span>
@@ -488,7 +496,7 @@
                              @mouseleave="features.entrenamiento=true" onclick="location.href = '/register/4semanas';">
                             <transition name="fade" mode="out-in">
                                 <div v-if="features.entrenamiento" key="first">
-                                    <img id="entrenamientoImg" class="img" src="{{asset('/images/imagesremodela/4semanasRB.png')}}"
+                                    <img id="entrenamientoImg" class="img" src="{{asset('/images/imagesremodela/4semanasR.png')}}"
                                          width="100%">
                                     <h3 id="entrenamientoSub" class="subtitle">
                                     </h3>
@@ -504,7 +512,7 @@
                              @mouseleave="features.suplementos=true" onclick="location.href = '/register/8semanas';">
                             <transition name="fade" mode="out-in">
                                 <div v-if="features.suplementos" key="first">
-                                    <img id="suplementosImg" class="img" src="{{asset('/images/imagesremodela/8semanasRB.png')}}"
+                                    <img id="suplementosImg" class="img" src="{{asset('/images/imagesremodela/8semanasR.png')}}"
                                          width="100%">
                                     <h3 id="suplementosSub" class="subtitle">
                                     </h3>
@@ -520,7 +528,7 @@
                              @mouseleave="features.videos=true" onclick="location.href = '/register/12semanas';">
                             <transition name="fade" mode="out-in">
                                 <div v-if="features.videos" key="first">
-                                    <img id="videosImg" class="img" src="{{asset('/images/imagesremodela/12semanasRB.png')}}" width="100%">
+                                    <img id="videosImg" class="img" src="{{asset('/images/imagesremodela/12semanasR.png')}}" width="100%">
                                     <h3 id="videosSub" class="subtitle">
                                     </h3>
                                 </div>
@@ -579,12 +587,19 @@
                         this.features[primero]=true;
                         this.features[segundo]=true;
                     }
+                },
+                scrolling: function () {
+                    $(document).scrollTo('#masretos');
                 }
 
             },
             created: function () {
             },
             mounted: function () {
+                $(".planesacton").hide();
+                $("#masretos").click(function(){
+                    $(".planesacton").show();
+                });
             }
         });
 
