@@ -154,6 +154,7 @@
             .accesoSuple{
                 font-size: 20px;
                 height: 40px !important;
+                padding-top: 0px !important;
             }
 
             .feature .img {
