@@ -469,7 +469,7 @@
             <br>
             <br>
             <img src="{{asset('/images/imagesremodela/masretos.png')}}" id="masretos" style="width: 26%;margin-top: 50px;margin-bottom: 50px;margin-left: 37%;">
-            <a href="https://suplementos.retoacton.com/" class="btn btn-primary col-md-4 offset-4">Ver suplementos</a>
+            <a href="https://suplementos.retoacton.com/" class="btn btn-warning btn-lg col-md-4 offset-4 font-weight-bolder">Ver suplementos</a>
             <div class="planesacton">
                 <div id="features" class="d-flex flex-wrap mr-auto ml-auto">
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
