@@ -462,7 +462,7 @@
         <div>
 
 
-            <div class="card col-md-10 mx-auto">
+            <div class="card col-md-10 col-sm-8 mx-auto">
                 <div class="card-header">
                     <h1>Video de {{ $nombre }}</h1>
                 </div>
