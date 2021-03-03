@@ -376,6 +376,10 @@
         }
 
         @media only screen and (max-width: 420px) {
+            .container {
+                padding-left: 0px !important;
+                padding-right: 0px !important;
+            }
             #bonus {
                 margin-top: 140px;
                 margin-left: 10px;
