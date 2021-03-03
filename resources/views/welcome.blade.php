@@ -703,7 +703,8 @@
                     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-pause="false">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
-                                <img class="d-block w-100" src="{{asset('images/imagesremodela/INDIVIDUALES_BANNER_LIFE.jpg')}}" alt="First slide">
+                                <img class="d-none d-lg-block w-100" src="{{asset('images/imagesremodela/INDIVIDUALES_BANNER_LIFE.jpg')}}" alt="First slide">
+                                <img class="d-lg-none w-100" src="{{asset('images/imagesremodela/principalmovil.png')}}" alt="First slide">
                             </div>
                         </div>
                         <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
