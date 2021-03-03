@@ -469,11 +469,13 @@
             <br>
             <br>
             <img src="{{asset('/images/imagesremodela/masretos.png')}}" id="masretos" style="width: 26%;margin-top: 50px;margin-bottom: 50px;margin-left: 37%;">
-            <a href="https://suplementos.retoacton.com/" class="btn btn-warning btn-lg col-md-4 offset-4 font-weight-bolder">Ver suplementos</a>
+            <a href="https://suplementos.retoacton.com/" class="btn btn-primary btn-lg col-md-4 offset-4" style="color: white; background: #fb9b04; font-size: 35px;border-radius: 10px; font-weight: bolder;height: 80px;padding-top: 13px; font-family: unitext_bold_cursive;">Ver suplementos</a>
+            <br>
+            <br>
             <div class="planesacton">
                 <div id="features" class="d-flex flex-wrap mr-auto ml-auto">
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
-                        <div id="comidasFeature" class="feature" @click="features.comidas=false" @mouseover="features.comidas=false"
+                        <div id="comidasFeature" class="feature" @click="features.comidas=false" @mouseover=""
                              @mouseleave="features.comidas=true" onclick="location.href = '/register/2semanas';">
                             <transition name="fade" mode="out-in">
                                 <div v-if="features.comidas" key="primero">
@@ -492,7 +494,7 @@
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
-                        <div id="entrenamientoFeature" class="feature" @click="features.entrenamiento=false" @mouseover="features.entrenamiento=false"
+                        <div id="entrenamientoFeature" class="feature" @click="features.entrenamiento=false" @mouseover=""
                              @mouseleave="features.entrenamiento=true" onclick="location.href = '/register/4semanas';">
                             <transition name="fade" mode="out-in">
                                 <div v-if="features.entrenamiento" key="first">
@@ -508,7 +510,7 @@
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
-                        <div id="suplementosFeature" class="feature" @click="features.suplementos=false" @mouseover="features.suplementos=false"
+                        <div id="suplementosFeature" class="feature" @click="features.suplementos=false" @mouseover=""
                              @mouseleave="features.suplementos=true" onclick="location.href = '/register/8semanas';">
                             <transition name="fade" mode="out-in">
                                 <div v-if="features.suplementos" key="first">
@@ -524,7 +526,7 @@
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
-                        <div id="videosFeature" class="feature" @click="features.videos=false" @mouseover="features.videos=false"
+                        <div id="videosFeature" class="feature" @click="features.videos=false" @mouseover=""
                              @mouseleave="features.videos=true" onclick="location.href = '/register/12semanas';">
                             <transition name="fade" mode="out-in">
                                 <div v-if="features.videos" key="first">
