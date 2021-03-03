@@ -152,9 +152,9 @@
 
 
             .accesoSuple{
-                font-size: 17px;
+                font-size: 15px;
                 height: 40px !important;
-                padding-top: 5px !important;
+                padding-top: 7px !important;
             }
 
             .feature .img {
@@ -193,7 +193,7 @@
 
         @media only screen and (max-width: 800px) {
             video{
-                height: 280px !important;
+                height: 240px !important;
             }
 
             .feature .subinfo {
