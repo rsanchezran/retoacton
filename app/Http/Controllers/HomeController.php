@@ -104,7 +104,7 @@ class HomeController extends Controller
     {
         $nombre = str_replace(" ", "_", $video);
         $nombre = Utils::quitarTildes($nombre);
-        return response()->file(storage_path("storage/app/public/optimized/$nombre.mp4"));
+        return response()->file(storage_path("app/public/optimized/$nombre.mp4"));
     }
 
     public function encuesta(Request $request)

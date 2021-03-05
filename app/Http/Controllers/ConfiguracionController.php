@@ -111,11 +111,11 @@ class ConfiguracionController extends Controller
         $nombre = str_replace(" ", "_", $request->nombre);
         $nombre = Utils::clearString($nombre);
         $archivoVideo = $request->video;
-        $archivoVideo->storeAs('public', 'storage/home/' . $nombre . '.mp4');
+        $archivoVideo->storeAs('public', 'home/' . $nombre . '.mp4');
         $path = $request->file('video')->storeAs(
             'home', $nombre . '.mp4'
         );
-        event(new ProcesarVideoEvent("public/storage/home", "public/storage/optimized", "$nombre.mp4"));
+        event(new ProcesarVideoEvent("public/home", "public/optimized", "$nombre.mp4"));
         return "ok";
     }
 
