@@ -115,7 +115,7 @@ class ConfiguracionController extends Controller
         $path = $request->file('video')->storeAs(
             'home', $nombre . '.mp4'
         );
-        event(new ProcesarVideoEvent("home", "public/optimized", "$nombre.mp4"));
+        event(new ProcesarVideoEvent("public/home", "public/optimized", "$nombre.mp4"));
         return "ok";
     }
 
