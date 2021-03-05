@@ -116,6 +116,7 @@ class ConfiguracionController extends Controller
             'home', $nombre . '.mp4'
         );
         event(new ProcesarVideoEvent("public/home", "public/optimized", "$nombre.mp4"));
+        event(new ProcesarVideoEvent("home", "public/optimized", "$nombre.mp4"));
         return "ok";
     }
 
