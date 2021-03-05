@@ -113,7 +113,7 @@ class ConfiguracionController extends Controller
         $archivoVideo = $request->video;
         $archivoVideo->storeAs('public', 'home/' . $nombre . '.mp4');
         $path = $request->file('video')->storeAs(
-            'home', $nombre . '.mp4'
+            'public/home', $nombre . '.mp4'
         );
         event(new ProcesarVideoEvent("public/home", "public/optimized", "$nombre.mp4"));
         return "ok";
