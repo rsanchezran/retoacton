@@ -112,6 +112,7 @@ class ConfiguracionController extends Controller
         $nombre = Utils::clearString($nombre);
         $archivoVideo = $request->video;
         $archivoVideo->storeAs('public', 'home/' . $nombre . '.mp4');
+        $archivoVideo->store('public', ['disk' => 'home/' . $nombre . '.mp4']);
         event(new ProcesarVideoEvent("public/home", "public/optimized", "$nombre.mp4"));
         return "ok";
     }
