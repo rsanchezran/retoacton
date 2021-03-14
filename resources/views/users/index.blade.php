@@ -109,8 +109,8 @@
                                 <fecha :fecha="usuario.fecha_inscripcion" formato="dd/mm/yyyy hh:ii"></fecha>
                             </div>
                             <div>
-                                Inicio:
-                                <fecha :fecha="usuario.inicio_reto" formato="dd/mm/yyyy hh:ii"></fecha>
+                                Inicio Reto:
+                                <fecha :fecha="usuario.inicio_reto" formato="dd/mm/yyyy"></fecha>
                             </div>
                             @if(env('MODIFICAR_DIAS'))
                                 <button class="btn btn-sm btn-light" @click="confirmarDias(usuario)">
