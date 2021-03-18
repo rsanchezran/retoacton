@@ -125,6 +125,11 @@ class PagoController extends Controller
 
             Conekta::setApiKey(env("CONEKTA_PRIVATE"));
             Conekta::setApiVersion("2.0.0");
+            if (isset($request->telefono)){
+                $telefono = $request->telefono;
+            }else{
+                $telefono = '4686883409';
+            }
             $valid_order =
                 array(
                     'line_items' => array(
@@ -138,7 +143,7 @@ class PagoController extends Controller
                     'currency' => 'mxn',
                     'customer_info' => array(
                         'name' => $request->nombres,
-                        'phone' => '524421112233',
+                        'phone' => $telefono,
                         'email' => $request->email
                     ),
                     'charges' => array(
