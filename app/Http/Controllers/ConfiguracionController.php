@@ -830,6 +830,21 @@ class ConfiguracionController extends Controller
                     }
                 }
             }else{
+                $contacto = Contacto::withTrashed()->where("email", $email)->first();
+                if ($contacto == null) {
+                    $contacto = new Contacto();
+                    $contacto->email = $email;
+                    $contacto->etapa = 1;
+                }
+                $contacto->nombres = $result = preg_replace('/\d/', '', $request->nombres);
+                $contacto->apellidos = $request->apellidos;
+                $contacto->dias = $request->dias;
+                $contacto->telefono = $request->telefono;
+                $contacto->medio = 'Por alta directa';
+                $contacto->codigo = '';
+                $contacto->deleted_at = null;
+                $contacto->save();
+
                 $contacto = User::withTrashed()->where("email", $email)->first();
                 if ($contacto == null) {
                     $contacto = new User();
@@ -856,7 +871,7 @@ class ConfiguracionController extends Controller
                 $contacto->dias = $request->dias;
                 $contacto->save();
                 $usuario_ref = User::where('codigo', $request->referencia)->get();
-                if ($usuario_ref) {
+                if (count($usuario_ref) > 0) {
                     $saldo_favor = 0;
                     if ($request->dias == 14) {
                         $saldo_favor = env('COMISION1');
