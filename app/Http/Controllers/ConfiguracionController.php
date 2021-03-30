@@ -118,7 +118,7 @@ class ConfiguracionController extends Controller
 
     public function saveVideo(Request $request)
     {
-        $this->authorize('configurar.videos');
+        //$this->authorize('configurar.videos');
         $this->validate($request, [
             'video' => 'required|mimetypes:video/mp4|file|max:332000',
         ], [
