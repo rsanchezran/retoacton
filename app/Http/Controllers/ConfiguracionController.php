@@ -47,7 +47,11 @@ class ConfiguracionController extends Controller
 
         $vv = array();
         foreach ($videos as $video) {
-            $vv[] = ['nombre' => $video->nombre, 'src' => url('/getVideo/') . "/$video->nombre/" . rand(1, 100)];
+            $vv[] = [
+                'nombre' => $video->nombre,
+                'activo' => $video->activo,
+                'src' => url('/getVideo/') . "/$video->nombre/" . rand(1, 100)
+            ];
         }
         $categorias = Categoria::all();
         foreach ($categorias as $categoria) {
