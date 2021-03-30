@@ -138,6 +138,7 @@ class ConfiguracionController extends Controller
             'activo' => $activo
         ]);
         $video_existe->usuario_id = auth()->user()->id;
+        $video_existe->save();
         $nombre = str_replace(" ", "_", $request->nombre);
         $nombre = Utils::clearString($nombre);
         $archivoVideo = $request->video;
