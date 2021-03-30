@@ -68,13 +68,12 @@ class ConfiguracionController extends Controller
         }else{
             $videos = VideosPublicos::all();
         }
-        $vv = [];
+        $vv = array();
         foreach ($videos as $video) {
-            $vv->push(['nombre' => $video->nombre, 'src' => url('/getVideo/') . "/$video->nombre/" . rand(1, 100)]
-            );
+            $vv[] = ['nombre' => $video->nombre, 'src' => url('/getVideo/') . "/$video->nombre/" . rand(1, 100)];
         }
 
-        return view('configuracion.videos_coach', ['videos' => $vv]);
+        return view('configuracion.videos_coach', ['videos' => collect($vv)]);
     }
 
 
