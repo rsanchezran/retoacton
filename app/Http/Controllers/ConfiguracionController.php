@@ -60,6 +60,23 @@ class ConfiguracionController extends Controller
     }
 
 
+    public function videos_coach(Request $request)
+    {
+        $usuario = User::where('id', auth()->user()->id)->first();
+        if($usuario->rol !== 'admin') {
+            $videos = VideosPublicos::where('usuario_id', auth()->user()->id)->get();
+        }else{
+            $videos = VideosPublicos::all();
+        }
+        foreach ($videos as $video) {
+            $videos->push(['nombre' => $video->nombre, 'src' => url('/getVideo/') . "/$video->nombre/" . rand(1, 100)]
+            );
+        }
+
+        return view('configuracion.videos_coach', ['videos' => $videos]);
+    }
+
+
     public function videos_publicos(Request $request)
     {
         $categorias = Categoria::all();
@@ -74,7 +91,10 @@ class ConfiguracionController extends Controller
 
 
     public function detalle_video(Request $request, $video){
-        $videos = VideosPublicos::all();
+        $videos = VideosPublicos::where('activo', 1)->where('nombre', $video);
+        if($videos->count() == 0){
+            return view('welcome');
+        }
         foreach ($videos as $v) {
             if($v->nombre == $video) {
                 $videos->push(['nombre' => $v->nombre, 'src' => url('/getVideo/') . "/$v->nombre/" . rand(1, 100)]
@@ -107,7 +127,16 @@ class ConfiguracionController extends Controller
                 'video  .size' => 'El archivo debe ser menor a 300MB',
             ]
         );
-        $video_existe = VideosPublicos::firstOrCreate(['nombre' => strtolower($request->nombre)]);
+        $usuario = User::where('id', auth()->user()->id)->first();
+        $activo = 1;
+        if($usuario->rol == 'coach') {
+            $activo = 0;
+        }
+        $video_existe = VideosPublicos::firstOrCreate([
+            'nombre' => strtolower($request->nombre),
+            'usuario_id' => auth()->user()->id,
+            'activo' => $activo
+        ]);
         $nombre = str_replace(" ", "_", $request->nombre);
         $nombre = Utils::clearString($nombre);
         $archivoVideo = $request->video;
@@ -582,6 +611,14 @@ class ConfiguracionController extends Controller
         return view('configuracion.tienda', ['medios' => $medios,'users' => $usr]);
     }
 
+
+    public function agregarCoach(Request $request)
+    {
+        $medios = MedioContacto::all();
+        $usr = User::where('tipo_referencia', 5)->get();
+        return view('configuracion.coach', ['medios' => $medios,'users' => $usr]);
+    }
+
     public function saveContactoTienda(Request $request)
     {
         $id = null;
@@ -647,6 +684,99 @@ class ConfiguracionController extends Controller
                 $contacto->deleted_at = null;
                 $contacto->password = Hash::make('acton'.$contacto->name);
                 $contacto->rol = 'tienda';
+                $contacto->encuestado = 1;
+                $contacto->pagado = 1;
+                $contacto->modo = 1;
+                $contacto->cp = "1";
+                $contacto->estado = "1";
+                $contacto->colonia = "1";
+                $contacto->ciudad = "1";
+                $contacto->save();
+                $mensaje = '';
+                $status = 'ok';
+                if ($usuario !== null) {
+                    if ($usuario->deleted_at == null) {
+                        if ($usuario->inicio_reto == null) {
+                            $status = 'error';
+                            $mensaje = 'Este usuario ya pertenece al RETO ACTON.';
+                        } else {
+                            if (Carbon::parse($usuario->inicio_reto)->diffInDays(Carbon::now()) < intval($usuario->dias)) {
+                                $status = 'error';
+                                $mensaje = 'Este usuario ya pertenece al RETO ACTON.';
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return response()->json(['status' => $status, 'mensaje' => $mensaje]);
+    }
+
+    public function saveContactoCoach(Request $request)
+    {
+        $id = null;
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|max:100|min:3|email',
+            'codigo' => 'max:7',
+        ], [
+            'email.required' => 'El correo electrónico es obligatorio',
+            'email.min' => 'Debe capturar minimo 3 caracteres en el correo electrónico',
+            'email.max' => 'Debe capturar máximo 100 caracteres en el correo electrónico',
+            'email.unique' => 'El correo ya ha sido registrado',
+            'email.email' => 'El formato no es válido en el correo electrónico',
+            'codigo.max' => 'La referencia debe tener 7 caracteres',
+        ]);
+        $validator->after(function ($validator) use ($request) {
+            if (ValidarCorreo::validarCorreo($request->email)) {
+                $validator->errors()->add("email", "El email debe tener formato correcto");
+            }
+        });
+        $validator->validate();
+        $email = trim($request->email);
+        $codigo = trim($request->codigo);
+        $usuario = User::withTrashed()->orderBy('created_at')->where('email', $email)->get()->last();
+        $cod = CodigosTienda::where('email', $email)->get()->last();
+        if ($usuario!=null&&$usuario->id==1&&$cod!=null){
+            $status = 'error';
+            $mensaje = 'Este usuario ya pertenece al RETO ACTON.';
+        }else{
+            $contacto = CodigosTienda::where("email", $email)->first();
+            if ($contacto == null) {
+                $contacto = new CodigosTienda();
+                $contacto->email = $email;
+                $contacto->codigo = $codigo;
+            }
+            $contacto->email = $email;
+            $contacto->codigo = $codigo;
+            $contacto->usuario_id_creador = Auth::id();
+            $contacto->save();
+            $mensaje = '';
+            $status = 'ok';
+            if ($usuario !== null) {
+                if ($usuario->deleted_at == null) {
+                    if ($usuario->inicio_reto == null) {
+                        $status = 'error';
+                        $mensaje = 'Este usuario ya pertenece al RETO ACTON.';
+                    } else {
+                        if (Carbon::parse($usuario->inicio_reto)->diffInDays(Carbon::now()) < intval($usuario->dias)) {
+                            $status = 'error';
+                            $mensaje = 'Este usuario ya pertenece al RETO ACTON.';
+                        }
+                    }
+                }
+            }else{
+                $contacto = User::withTrashed()->where("email", $email)->first();
+                if ($contacto == null) {
+                    $contacto = new User();
+                    $contacto->email = $email;
+                }
+                $contacto->name = $result = preg_replace('/\d/', '', $request->nombres);
+                $contacto->last_name = $request->apellidos;
+                $contacto->tipo_referencia = 5;
+                $contacto->referencia = Str::random(7);
+                $contacto->deleted_at = null;
+                $contacto->password = Hash::make('acton'.$contacto->name);
+                $contacto->rol = 'coach';
                 $contacto->encuestado = 1;
                 $contacto->pagado = 1;
                 $contacto->modo = 1;
@@ -1104,4 +1234,27 @@ class ConfiguracionController extends Controller
 
         return $mensajes;
     }
+
+    public function cambiar_disponibilidad($activo, $id, Request $request){
+
+        $video_publico = VideosPublicos::where('id', $id)->first();
+        $activo_ = 1;
+        if($activo == 'false'){
+            $activo_ = 0;
+        }
+        $video_publico->activo = $activo_;
+        $video_publico->save();
+
+        return $video_publico;
+    }
+
+
+    public function usuarios_coach(Request $request)
+    {
+        $referencias = User::select(['id', 'name', 'email', 'created_at', 'num_inscripciones'])
+            ->where('codigo', $request->user()->referencia)
+            ->where('pagado', true)->whereNotNull('codigo')->get();
+        return view('configuracion.usuarios_coach', ['referencias' => $referencias]);
+    }
+
 }

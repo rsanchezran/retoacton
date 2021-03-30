@@ -1513,6 +1513,22 @@
                               class="font-weight-bold">[No se encontró al alguien con ese código de referencia]</span>
                     </div>
                 </div>
+                <div v-if="informacion.medio=='Por medio de un entrenador'" class="text-left">
+                    <span style="color: #929292">
+                        Si conoces el código de referencia de tu amigo, por favor ingrésalo aquí
+                        <i v-if="loading" class="far fa-spinner fa-spin"></i>
+                    </span>
+                    <input class="form-control col-6" v-model="informacion.codigo" placeholder="REFERENCIA"
+                           @blur="buscarReferenciaCoach()" maxlength="7">
+                    <form-error name="codigo" :errors="errors"></form-error>
+                    <div v-if="encontrado!==null">
+                        <span v-if="encontrado">El código que ingresaste corresponde a:
+                            <i style="font-size:1.1rem" class="font-weight-bold">@{{ referencia }}</i>
+                        </span>
+                        <span v-else
+                              class="font-weight-bold">[No se encontró al alguien con ese código de referencia]</span>
+                    </div>
+                </div>
                 <div v-if="informacion.medio != ''" class="text-left">
                     <input class="form-control" placeholder="Nombres" v-model="informacion.nombres">
                     <form-error name="nombres" :errors="errors"></form-error>
@@ -1564,9 +1580,12 @@
                     </div>
                 </div>
                 <div style="margin-top: 40px;">
-                    <div style="margin-top:0px; margin-bottom: 70px">
-                        <img src="{{asset("../images/imagesremodela/garantia_reembolso_v2.png")}}" width="100%" style="margin-left: 3%;" id="satisfaccion_total_completo">
-                        <img src="{{asset("../images/imagesremodela/garantia_reembolso_v2_movil.png")}}" width="100%" style="margin-left: 0%;" id="satisfaccion_total_movil">
+
+                    <div v-if="informacion.medio!=='Por medio de un entrenador'">
+                        <div style="margin-top:0px; margin-bottom: 70px">
+                            <img src="{{asset("../images/imagesremodela/garantia_reembolso_v2.png")}}" width="100%" style="margin-left: 3%;" id="satisfaccion_total_completo">
+                            <img src="{{asset("../images/imagesremodela/garantia_reembolso_v2_movil.png")}}" width="100%" style="margin-left: 0%;" id="satisfaccion_total_movil">
+                        </div>
                     </div>
                 </div>
                 <div v-if="informacion.medio=='Por medio de un gimnasio o tienda de suplementos'">
@@ -1916,6 +1935,26 @@
                     vm.loading = true;
                     this.informacion.tipocontacto = 1;
                     axios.get('{{url('buscarReferenciaTienda')}}/' + vm.informacion.codigo+'/'+vm.informacion.email).then(function (response) {
+                        vm.referencia = response.data.usuario;
+                        vm.loading = false;
+                        vm.encontrado = true;
+                        if(vm.sent){
+                            vm.saveContacto();
+                        }
+                    }).catch(function () {
+                        if(vm.sent){
+                            vm.saveContacto();
+                        }
+                        vm.loading = false;
+                        vm.encontrado = false;
+                    });
+                },
+                buscarReferenciaCoach: function () {
+                    let vm = this;
+                    vm.referencia = '';
+                    vm.loading = true;
+                    this.informacion.tipocontacto = 1;
+                    axios.get('{{url('buscarReferenciaCoach')}}/' + vm.informacion.codigo+'/'+vm.informacion.email).then(function (response) {
                         vm.referencia = response.data.usuario;
                         vm.loading = false;
                         vm.encontrado = true;

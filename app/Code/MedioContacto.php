@@ -15,9 +15,10 @@ class MedioContacto
     const INSTAGRAM = "Por Instagram";
     const AMIGO = "Por medio de un amigo";
     const GYM = "Por medio de un gimnasio o tienda de suplementos";
+    const COACH = "Por medio de un entrenador";
     const OTRO = "Otro";
 
     public static function all(){
-        return collect([self::FACEBOOK, self::INSTAGRAM, self::AMIGO, self::GYM, self::OTRO]);
+        return collect([self::FACEBOOK, self::INSTAGRAM, self::AMIGO, self::GYM, self::COACH, self::OTRO]);
     }
 }

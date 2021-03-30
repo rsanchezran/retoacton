@@ -15,8 +15,9 @@ class RolUsuario
     const CLIENTE = 'cliente';
     const TIENDA = 'tienda';
     const ENTRENADOR = 'entrenador';
+    const COACH = 'coach';
 
     public static function all(){
-        return collect(['admin'=>self::ADMIN,'cliente'=>self::CLIENTE,'tienda'=>self::TIENDA,'entrenador'=>self::ENTRENADOR]);
+        return collect(['admin'=>self::ADMIN,'cliente'=>self::CLIENTE,'tienda'=>self::TIENDA,'entrenador'=>self::ENTRENADOR,'coach'=>self::COACH]);
     }
 }

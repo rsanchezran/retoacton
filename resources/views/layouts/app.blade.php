@@ -129,8 +129,24 @@
                                         <i class="fas fa-clipboard-list"></i> Alta de Usuarios</a>
                                     <a class="dropdown-item" href="{{ url('/configuracion/registro-tiendas') }}">
                                         <i class="fas fa-dumbbell"></i> Tiendas/GYM</a>
+                                    <a class="dropdown-item" href="{{ url('/configuracion/registro-coach') }}">
+                                        <i class="fas fa-dumbbell"></i> Entrenadores</a>
                                     <a class="dropdown-item" href="{{ url('/configuracion/generar-codigo') }}">
                                         <i class="fas fa-hashtag"></i> Generar codigo</a>
+                                </div>
+                            </li>
+                        @endif
+                        @if(\Illuminate\Support\Facades\Auth::user()->rol==\App\Code\RolUsuario::COACH)
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="far fa-cogs"></i> Configuración
+                                </a>
+                                <div class="dropdown-menu" aria-lab elledby="administracion">
+                                    <a class="dropdown-item" href="{{ url('/configuracion/videos_coach') }}">
+                                        <i class="far fa-video"></i> Videos</a>
+                                    <a class="dropdown-item" href="{{ url('/configuracion/usuarios_coach/') }}">
+                                        <i class="far fa-clipboard-list"></i> Usuarios</a>
                                 </div>
                             </li>
                         @endif

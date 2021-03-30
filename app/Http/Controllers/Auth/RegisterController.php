@@ -273,6 +273,16 @@ class RegisterController extends Controller
         }
     }
 
+    public function buscarReferenciaCoach($referencia, $email)
+    {
+        $user = User::select('name', 'last_name','id','num_inscripciones','inicio_reto')->where('referencia', $referencia)
+            ->where('id','!=',1)->where('rol', 'coach')->get()->first();
+        if ($user == null) {
+            abort(403, 'Unauthorized action.');
+        }
+        return response()->json(['usuario' => $user->name . ' ' . $user->last_name]);
+    }
+
     public function unsuscribe($email)
     {
         $contacto = Contacto::where('email', $email)->first();

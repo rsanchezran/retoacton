@@ -48,8 +48,7 @@
     <div id="vue">
         <div class="container">
             <div class="row justify-content-center">
-                <inicio :p_videos="{{$videos}}" :p_categorias="{{$categorias}}"
-                        :p_pendientes="{{$pendientes}}"></inicio>
+                <inicio :p_videos="{{$videos}}"></inicio>
             </div>
         </div>
     </div>
@@ -73,15 +72,6 @@
                             <label :for="'video'+index" :class="loading?'disabled':''" class="custom-file-upload">
                                 <i class="fa fa-cloud-upload"></i> Subir
                             </label>
-                            <div v-if="v.activo==1" class="col-sm-4">
-                                <input type="checkbox"
-                                       checked
-                                       @change="cambiar_check($event, v.id)"> Activo
-                            </div>
-                            <div v-if="v.activo==0" class="col-sm-4">
-                                <input type="checkbox"
-                                       @change="cambiar_check($event, v.id)" > Activo
-                            </div>
                             <input :id="'video'+index" type="file" @change="subirVideo($event, v.nombre)"
                                    :disabled="loading">
                             <br>
@@ -103,113 +93,8 @@
                     <br>
                 </div>
             </div>
-            <div v-show="!loading" class="card">
-                <div class="card-body">
-                    <span>En esta sección podrás subir los videos de los ejercicios que se verán en el programa de cada usuario</span>
-                    <hr>
-                    <div class="d-flex justify-content-between">
-                        <label>Videos de los ejercicios</label>
-                        <button class="btn btn-sm btn-success" @click="agregarCategoria">
-                            <i class="fa fa-plus"></i> Agregar categoría de videos
-                        </button>
-                    </div>
-                    <hr>
-                    <div>
-                        <div v-for="(categoria, index) in categorias">
-                            <div class="d-flex">
-                                <div class="col-6">
-                                    <div v-if="categoria.nueva">
-                                        <span class="small float-right">Categoria(@{{ categoria.nombre.length }}/20)</span>
-                                        <input maxlength="20" class="form-control" v-model="categoria.nombre" @blur="subirCategoria(categoria)"/>
-                                        <form-error name="nombre" :errors="errors"></form-error>
-                                    </div>
-                                    <div v-else class="d-flex justify-content-between">
-                                        <h6 class="col-4">@{{ categoria.nombre }}</h6>
-                                        <button class="btn btn-sm" @click="categoria.nueva=true">
-                                            <i class="fa fa-edit"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <label :for="'file'+index" :class="loading?'disabled':''"
-                                           class="custom-file-upload">
-                                        <i class="fa fa-cloud-upload"></i> Subir
-                                    </label>
-                                    <input :id="'file'+index" type="file" multiple
-                                           @change="subirEjercicios($event, categoria)" :disabled="loading">
-                                </div>
-                                <div class="col-2">
-                                    <button class="btn btn-sm btn-light" @click="cambiarVisualizacion(categoria)">
-                                        <i v-if="categoria.mostrar" class="fa fa-arrow-up"></i>
-                                        <i v-else class="fa fa-arrow-down"></i> @{{ categoria.ejercicios.length }}
-                                        videos
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="d-flex flex-wrap" v-if="categoria.mostrar">
-                                <div v-for="ejercicio in categoria.ejercicios" class="ejercicio" align="center">
-                                    <div>
-                                        <span>@{{getNombre(ejercicio)}}</span>
-                                        <span @click="quitarEjercicio(categoria, ejercicio)"><i class="fa fa-times"></i></span>
-                                    </div>
-                                    <br>
-                                    <video :src="'{{url('configuracion/ejercicio/')}}/'+categoria.nombre+'/'+ejercicio"
-                                           width="240" height="120"
-                                           poster="{{asset('/img/poster.png')}}" preload="none" controls="auto">
-                                        <source :src="'{{url('configuracion/ejercicio/')}}/'+ejercicio"
-                                                type="video/mp4">
-                                    </video>
-                                </div>
-                            </div>
-                            <form-error :name="categoria.nombre" :errors="errors"></form-error>
-                            <hr>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="pendientes" v-if="pendientes.length > 0 && mostrarPendientes">
-                <table class="table">
-                    <tr>
-                        <td>
-                            <span>Videos que aún se estan optimizando</span>
-                            <button class="btn btn-sm btn-light" @click="mostrarPendientes=false">
-                                <i class="fa fa-arrow-right"></i>
-                            </button>
-                        </td>
-                        <td>
-                            <button class="btn btn-sm btn-light" @click="getVideosPendientes">
-                                <i v-if="loading" class="fa fa-sync fa-spin"></i>
-                                <i v-else class="fa fa-sync"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr v-for="pendiente in pendientes">
-                        <td>@{{ pendiente }}</td>
-                        <td class="small text-danger">@{{ validarArchivo(pendiente) }}</td>
-                    </tr>
-                </table>
-            </div>
-            <div id="mostrarPendientes" v-if="!mostrarPendientes&&pendientes.length>0">
-                <table class="table">
-                    <tr>
-                        <td>
-                            <button class="btn btn-sm btn-light" @click="mostrarPendientes=true">
-                                <i class="fa fa-arrow-left"></i>
-                            </button>
-                            <span>Procesando...</span>
-                        </td>
-                        <td>
-                            <button class="btn btn-sm btn-light" @click="getVideosPendientes">
-                                <i v-if="loading" class="fa fa-sync fa-spin"></i>
-                                <i v-else class="fa fa-sync"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">@{{ pendientes.length }}</td>
-                    </tr>
-                </table>
-            </div>
+
+
         </div>
     </template>
 
@@ -218,12 +103,11 @@
     <script>
         Vue.component('inicio', {
             template: '#videos-template',
-            props: ['p_videos', 'p_categorias', 'p_pendientes'],
+            props: ['p_videos'],
             data: function () {
                 return {
                     categorias: [],
                     pendientes: [],
-                    checkedCategories: [],
                     prueba: '',
                     errors: {},
                     loading: false,
@@ -235,17 +119,6 @@
                 }
             },
             methods: {
-                cambiar_check: function(e, id) {
-                    //console.log(id);
-                    //console.log(e.srcElement.checked);
-                    let vm = this;
-                    axios.post('{{url('/configuracion/cambiar_disponibilidad')}}/'+e.srcElement.checked+'/'+id).then(function (response) {
-
-                    }).catch(function () {
-
-
-                    });
-                },
                 validarArchivo: function (pendiente) {
                     let archivo = pendiente.split('.');
                     if (archivo.length > 1){

@@ -30,6 +30,7 @@ Route::post('savePeso', 'Auth\RegisterController@savePeso');
 Route::post('webhook', 'Auth\RegisterController@webhook');
 Route::get('buscarReferencia/{referencia}', 'Auth\RegisterController@buscarReferencia');
 Route::get('buscarReferenciaTienda/{referencia}/{email}', 'Auth\RegisterController@buscarReferenciaTienda');//AQUI
+Route::get('buscarReferenciaCoach/{referencia}/{email}', 'Auth\RegisterController@buscarReferenciaCoach');//AQUI
 Route::get('register/{dias}/', 'Auth\RegisterController@showRegistrationForm');
 
 Route::post('/nuevopago', 'PagoController@nuevoPago');
@@ -63,6 +64,7 @@ Route::group(['prefix' => 'configuracion', 'middleware' => ['auth', 'pago']], fu
     Route::get('contactos/exportar/{filtros}', 'ConfiguracionController@exportarContactos');
     Route::post('contactos/enviarCorreos', 'ConfiguracionController@enviarCorreos');
     Route::get('videos', 'ConfiguracionController@videos');
+    Route::get('videos_coach', 'ConfiguracionController@videos_coach');
     Route::get('programa', 'ConfiguracionController@programa');
     Route::get('programa/getSemanaEjercicios/{semana}', 'ConfiguracionController@getSemanaEjercicios');
     Route::get('dia/{dia}/{genero}/{objetivo}', 'ConfiguracionController@dia');
@@ -78,7 +80,10 @@ Route::group(['prefix' => 'configuracion', 'middleware' => ['auth', 'pago']], fu
     Route::get('getVideosPendientes', 'ConfiguracionController@getVideosPendientes');
     Route::post('categoria', 'ConfiguracionController@saveCategoria');
     Route::get('registro-tiendas', 'ConfiguracionController@agregarTienda');//AQUI
+    Route::get('registro-coach', 'ConfiguracionController@agregarCoach');//AQUI
     Route::post('saveContactoTienda', 'ConfiguracionController@saveContactoTienda');//AQUI
+    Route::post('saveContactoCoach', 'ConfiguracionController@saveContactoCoach');//AQUI
+    Route::get('usuarios_coach', 'ConfiguracionController@usuarios_coach');//AQUI
     Route::post('saveCodigoTienda', 'ConfiguracionController@saveCodigoTienda');//AQUI
     Route::post('saveCodigo/entrenador', 'ConfiguracionController@saveCodigoEntrenador');//AQUI
     Route::get('registro-usuario', 'ConfiguracionController@agregarUsuarioNuevo');//AQUI
@@ -90,6 +95,7 @@ Route::group(['prefix' => 'configuracion', 'middleware' => ['auth', 'pago']], fu
     Route::get('mensaje-directo/{id}', 'ConfiguracionController@mensaje_directo');//AQUI
     Route::post('conversacion/{id}', 'ConfiguracionController@conversacion');//AQUI
     Route::post('nuevo_mensaje/{id}', 'ConfiguracionController@nuevo_mensaje');//AQUI
+    Route::post('cambiar_disponibilidad/{activo}/{id}', 'ConfiguracionController@cambiar_disponibilidad');//AQUI
 });
 
 Route::group(['prefix' => 'suplementos', 'middleware' => ['auth', 'pago']], function (){
@@ -100,6 +106,7 @@ Route::group(['prefix' => 'suplementos', 'middleware' => ['auth', 'pago']], func
 Route::group(['prefix' => 'usuarios', 'middleware'=>['auth', 'pago']], function (){
     Route::get('/','UserController@index');
     Route::get('buscar','UserController@buscar');
+    Route::get('buscar_coach','UserController@buscar_coach');
     Route::get('seguir/','UserController@listado');
     Route::post('seguir/{id}','UserController@seguir');
     Route::post('dejar_seguir/{id}','UserController@dejar_seguir');
