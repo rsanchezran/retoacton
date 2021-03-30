@@ -50,6 +50,7 @@ class ConfiguracionController extends Controller
             $vv[] = [
                 'nombre' => $video->nombre,
                 'activo' => $video->activo,
+                'id' => $video->id,
                 'src' => url('/getVideo/') . "/$video->nombre/" . rand(1, 100)
             ];
         }
