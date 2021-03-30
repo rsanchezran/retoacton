@@ -44,9 +44,10 @@ class ConfiguracionController extends Controller
     {
         $this->authorize('configurar.videos');
         $videos = VideosPublicos::all();
+
+        $vv = array();
         foreach ($videos as $video) {
-            $videos->push(['nombre' => $video->nombre, 'src' => url('/getVideo/') . "/$video->nombre/" . rand(1, 100)]
-            );
+            $vv[] = ['nombre' => $video->nombre, 'src' => url('/getVideo/') . "/$video->nombre/" . rand(1, 100)];
         }
         $categorias = Categoria::all();
         foreach ($categorias as $categoria) {
@@ -56,7 +57,7 @@ class ConfiguracionController extends Controller
         }
         $pendientes = $this->getVideosPendientes();
 
-        return view('configuracion.videos', ['videos' => $videos, 'categorias' => $categorias, 'pendientes' => $pendientes]);
+        return view('configuracion.videos', ['videos' => collect($vv), 'categorias' => $categorias, 'pendientes' => $pendientes]);
     }
 
 
