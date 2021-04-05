@@ -1897,6 +1897,89 @@
                     this.saveContacto();
                 }
 
+                let urlParams = new URLSearchParams(window.location.search);
+                var dias_url = '{{ $dias }}';
+
+                if(dias_url == '2semanas'){
+                    dias_url = 14;
+                }
+                if(dias_url == '4semanas'){
+                    dias_url = 28;
+                }
+                if(dias_url == '8semanas'){
+                    dias_url = 56;
+                }
+                if(dias_url == '12semanas'){
+                    dias_url = 84;
+                }
+
+                let d = dias_url;
+                if(d !== null){
+                    this.informacion.tipo = d;
+                }else{
+                    this.informacion.tipo = 14;
+                    d = 14;
+                }
+
+                var width = $(window).width();
+                //alert(width);
+                d = d/7;
+                if (width > 900) {
+                    $("#satisfaccion_total_movil").hide();
+                    $("#satisfaccion_total_completo").show();
+                    $("#historiasexito").show();
+                    $("#historiasexitomovil").hide();
+                    if (d == 2) {
+                        $("#imgreto").attr('src', '../images/imagesremodela/reto2.png');
+                        $("#descripcionsemanas").attr('src', '../images/imagesremodela/2semanas.png');
+                        $("#imagentop").attr('src', '../images/imagesremodela/2top.png');
+                    }
+                    if (d == 4) {
+                        $("#imgreto").attr('src', '../images/imagesremodela/reto4.png');
+                        $("#descripcionsemanas").attr('src', '../images/imagesremodela/4semans.png');
+                        $(".soloquedan").show();
+                        $("#imagentop").attr('src', '../images/imagesremodela/4top.png');
+                    }
+                    if (d == 8) {
+                        $("#imgreto").attr('src', '../images/imagesremodela/reto8.png');
+                        $("#descripcionsemanas").attr('src', '../images/imagesremodela/8semanas.png');
+                        $("#imagentop").attr('src', '../images/imagesremodela/8top.png');
+                    }
+                    if (d == 12) {
+                        $("#ultimashoras").show();
+                        $("#imgreto").attr('src', '../images/imagesremodela/reto12.png');
+                        $("#descripcionsemanas").attr('src', '../images/imagesremodela/12semanas.png');
+                        $("#imagentop").attr('src', '../images/imagesremodela/12top.png');
+                    }
+                }else{
+                    $("#satisfaccion_total_movil").show();
+                    $("#satisfaccion_total_completo").hide();
+                    $("#historiasexito").hide();
+                    $("#historiasexitomovil").show();
+                    if (d == 2) {
+                        $("#imgreto").attr('src', '../images/imagesremodela/reto2.png');
+                        $("#descripcionsemanas").attr('src', '../images/imagesremodela/2movil.png');
+                        $("#imagentop").attr('src', '../images/imagesremodela/2top.png');
+                    }
+                    if (d == 4) {
+                        $("#imgreto").attr('src', '../images/imagesremodela/reto4.png');
+                        $("#descripcionsemanas").attr('src', '../images/imagesremodela/4movil.png');
+                        $("#imagentop").attr('src', '../images/imagesremodela/4top.png');
+                        $(".soloquedan").show();
+                    }
+                    if (d == 8) {
+                        $("#imgreto").attr('src', '../images/imagesremodela/reto8.png');
+                        $("#descripcionsemanas").attr('src', '../images/imagesremodela/8movil.png');
+                        $("#imagentop").attr('src', '../images/imagesremodela/8top.png');
+                    }
+                    if (d == 12) {
+                        $("#ultimashoras").show();
+                        $("#imgreto").attr('src', '../images/imagesremodela/reto12.png');
+                        $("#descripcionsemanas").attr('src', '../images/imagesremodela/12movil.png');
+                        $("#imagentop").attr('src', '../images/imagesremodela/12top.png');
+                    }
+                }
+
 
                 this.$nextTick(function () {
 
@@ -2007,7 +2090,6 @@
                     $("#metodos").click(function(){
                         $(".pasarelas").show();
                     });
-                    d = d/7;
                     $("#ultimashoras").hide();
                     $("#ultimashoras1").hide();
                     $("#50personas").hide();
@@ -2017,6 +2099,7 @@
                     $(".soloquedan").hide();
                     var width = $(window).width();
                     //alert(width);
+                    d = d/7;
                     if (width > 900) {
                         $("#satisfaccion_total_movil").hide();
                         $("#satisfaccion_total_completo").show();
