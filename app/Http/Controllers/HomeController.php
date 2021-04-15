@@ -403,6 +403,12 @@ class HomeController extends Controller
                         $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta+5);
                         $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta+6);
                         $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta+7);
+                    }else{
+                        $days = $user->dias/7;
+                        for ($i=$numDieta-1; $i<$days; $i++) {
+                            $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta + i);
+                        }
+
                     }
                 }
             }
