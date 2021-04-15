@@ -345,7 +345,7 @@ class HomeController extends Controller
             var_dump('iijij');
             for ($i=$numDieta-1; $i<$days; $i++) {
                 var_dump('iijij');
-                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta + i);
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $i);
             }
         }
         var_dump('iijij');
