@@ -316,7 +316,6 @@ class HomeController extends Controller
         $user = User::where('id', $usr)->get()->first();
         $preguntaAlimentos = Pregunta::where('pregunta', 'like', '%Eliminar de mi dieta lo siguiente%')->get();
         $respuestas = Respuesta::where('usuario_id', $usr)->get()->keyBy('pregunta_id');
-        var_dump($respuestas);
         foreach ($preguntaAlimentos as $preguntaAlimento) {
             foreach (json_decode($respuestas->get($preguntaAlimento->id)->respuesta) as $item) {
                 if ($item == 'Pollo' || $item == 'Pavo')
@@ -327,13 +326,16 @@ class HomeController extends Controller
             }
         }
         $ignorar->push(24);
+        var_dump('iijij');
         $alimentosIgnorados = Dieta::whereIn('comida', $ignorar)->get()->pluck('id');
         $sexo = Pregunta::where('pregunta', 'like', '%Sexo%')->first();
         $objetivo = Pregunta::where('pregunta', 'like', '%Objetivo fitness%')->first();
+        var_dump('iijij');
         $preguntaPeso = Pregunta::where('pregunta', 'like', '%peso%')->first();
         $objetivo = strpos($respuestas->get($objetivo->id)->respuesta, "Bajar") ? 'bajar' : 'subir';
         $sexo = json_decode($respuestas->get($sexo->id)->respuesta);
         $peso = json_decode($respuestas->get($preguntaPeso->id)->respuesta);
+        var_dump('iijij');
 
 
         $dietaAnterior = UsuarioDieta::where('usuario_id', $user->id)->where('dieta', '>', 1)->get()->last();
@@ -344,6 +346,7 @@ class HomeController extends Controller
                 $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta + i);
             }
         }
+        var_dump('iijij');
 
 
         return response()->json(['respuesta' => 'ok']);
