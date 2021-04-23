@@ -267,7 +267,8 @@ class RetoController extends Controller
                 'dias' => $user->dias, 'diasReto' => $diasReto]);
         } else {
             $sem = $dia % 7 == 0 ? intval($dia / 7) : intval($dia / 7) + 1;
-            $numDieta = $sem % 2 == 0 ? intval($sem / 2) : intval($sem / 2) + 1; //Se obtiene el numero de dieta con base en la cantidad de dias del reto
+            //$numDieta = $sem % 2 == 0 ? intval($sem / 2) : intval($sem / 2) + 1; //Se obtiene el numero de dieta con base en la cantidad de dias del reto
+            $numDieta = $sem; //Se obtiene el numero de dieta con base en la cantidad de dias del reto
             $numSemanaSuplementacion = $sem % 4 == 0 ? intval($sem / 4) : intval($sem / 4) + 1;
             $dietaCreada = UsuarioDieta::where('usuario_id', $user->id)->where('dieta', $numDietas)->count();
             if ($dietaCreada==0){
