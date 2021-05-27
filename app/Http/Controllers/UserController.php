@@ -468,7 +468,7 @@ class UserController extends Controller
     {
         $usuario = User::find($request->id);
         if ($usuario !== null) {
-            $usuario->inicio_reto = Carbon::now()->subDays($usuario->dias+1);
+            $usuario->inicio_reto = Carbon::now()->subDays(intval($request->nuevaSemanas)*7+1);
             $usuario->dias = $usuario->dias+intval($request->nuevaSemanas)*7;
             $usuario->encuestado = false;
             $usuario->save();
