@@ -233,7 +233,14 @@ class ConfiguracionController extends Controller
         } else {
             $semana = $diasTranscurridos % 7 == 0 ? intval($diasTranscurridos / 7) : intval($diasTranscurridos / 7) + 1;
         }
-        $dias = $this->getSemanaEjercicios($semana);
+        $dia_gym = $semana-7;
+        if($dia_gym<0){
+            $dia_gym = $semana;
+        }
+        if($dia_gym==0){
+            $dia_gym = 1;
+        }
+        $dias = $this->getSemanaEjercicios($dia_gym);
         return (view('configuracion.programa', ['dias' => $dias, 'semana' => $semana, 'maximo' => $diasTranscurridos,
             'teorico' => $diasReto]));
     }
