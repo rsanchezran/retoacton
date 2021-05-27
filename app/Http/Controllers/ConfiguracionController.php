@@ -241,7 +241,7 @@ class ConfiguracionController extends Controller
             $dia_gym = 1;
         }
         $dias = $this->getSemanaEjercicios($dia_gym);
-        return (view('configuracion.programa', ['dias' => $dias, 'semana' => $dia_gym, 'maximo' => $diasTranscurridos,
+        return (view('configuracion.programa', ['dias' => $dias, 'semana' => $semana, 'maximo' => $diasTranscurridos,
             'teorico' => $diasReto]));
     }
 
