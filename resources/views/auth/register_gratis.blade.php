@@ -1561,14 +1561,9 @@
                                   class="font-weight-bold">[No se encontró al alguien con ese código de referencia]</span>
                         </div>
                     </div>
-                    <div class="mt-6 text-left">
-                        <button v-if="informacion.tipo>0" class="btn btn-primary acton" @click="saveContacto" :disabled="loading">
+                    <div class="mt-4 text-left">
+                        <button class="btn btn-primary acton" @click="saveContacto" :disabled="loading">
                             Continuar
-                            <i v-if="loading" class="fa fa-spinner fa-spin"></i>
-                            <i v-else class="fa fa-shopping-cart"></i>
-                        </button>
-                        <button v-else class="btn btn-primary acton" @click="crearCuenta" :disabled="loading">
-                            Crear cuenta gratuita
                             <i v-if="loading" class="fa fa-spinner fa-spin"></i>
                             <i v-else class="fa fa-shopping-cart"></i>
                         </button>
@@ -1605,7 +1600,7 @@
                     </div>
                 </div>
                 <div v-show="mensaje!=''">
-                    <h6 class="detalle">@{{ this.mensaje }}</h6>
+                    <h6 class="detalle">@{{ mensaje }}</h6>
                 </div>
                 <div v-show="mensaje==''" style="margin-left: 5%">
                     <!--h6 class="detalle">¡Gracias por compartirnos tus datos,</h6>
@@ -2239,60 +2234,6 @@
                             }else{
                                 $("#metodos").show();
                             }
-                        }).catch(function (error) {
-                            vm.sent = false;
-                            vm.loading = false;
-                            vm.errors = error;
-                        });
-                    }else{
-                        this.sent = false;
-                        this.loading = false;
-                    }
-
-
-
-                },
-                crearCuenta: function () {
-
-                    document.cookie = "nombre="+this.informacion.nombres;
-                    document.cookie = "apellidos="+this.informacion.apellidos;
-                    document.cookie = "telefono="+this.informacion.telefono;
-                    document.cookie = "email="+this.informacion.email;
-
-                    var dias_url = 7;
-
-                    let d = dias_url;
-
-                    let vm = this;
-                    this.loading = true;
-                    this.errors = {};
-                    this.informacion.nombres = this.informacion.nombres.trim();
-                    this.informacion.apellidos = this.informacion.apellidos.trim();
-                    this.informacion.email = this.informacion.email.trim();
-                    this.informacion.telefono = this.informacion.telefono.trim();
-                    this.informacion.codigo = this.informacion.codigo.trim();
-
-
-                    if(this.informacion.nombres==''){
-                        this.errors.nombres = ['El nombre es obligatorio'];
-                    }
-                    if(this.informacion.apellidos==''){
-                        this.errors.apellidos = ['Los apellidos son obligatorios'];
-                    }
-                    if (this.informacion.telefono==''){
-                        this.errors.telefono = ['El teléfono es obligatorio'];
-                    }
-                    if (this.informacion.email==''){
-                        this.errors.email = ['El correo electrónico es obligatorio'];
-                    }
-                    if (Object.keys(this.errors).length == 0) {
-                        axios.post("{{url("crearCuentaFree")}}", this.informacion).then(function (response) {
-                            vm.sent = true;
-                            vm.loading = false;
-                            if (response.data.status == 'ok') {
-                                window.location.href = "{{url('/login')}}";
-                            }
-                            vm.mensaje = response.data.mensaje;
                         }).catch(function (error) {
                             vm.sent = false;
                             vm.loading = false;

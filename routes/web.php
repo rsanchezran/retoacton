@@ -32,6 +32,7 @@ Route::get('buscarReferencia/{referencia}', 'Auth\RegisterController@buscarRefer
 Route::get('buscarReferenciaTienda/{referencia}/{email}', 'Auth\RegisterController@buscarReferenciaTienda');//AQUI
 Route::get('buscarReferenciaCoach/{referencia}/{email}', 'Auth\RegisterController@buscarReferenciaCoach');//AQUI
 Route::get('register/{dias}/', 'Auth\RegisterController@showRegistrationForm');
+Route::post('crearCuentaFree', 'Auth\RegisterController@crearCuentaFree');
 
 Route::post('/nuevopago', 'PagoController@nuevoPago');
 Route::get('/etapa1/{email}', 'HomeController@etapa1');

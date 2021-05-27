@@ -62,9 +62,16 @@ class Dia extends Model
             ->join('suplementos as s', 'kit_id', 'kits.id')->where('kits.objetivo', $objetivo)
             ->where('genero', $genero)->where('descripcion', 'like', '%'.($semanaSuplementacion-1).'%')->get();
         $diaDB->comidas = UsuarioDieta::where('usuario_id', $user->id)->where('dieta', $dieta)->get()->groupBy('comida')->values();
+        $dia_gym = $dia-55;
+        if($dia_gym<0){
+            $dia_gym = $dia;
+        }
+        if($dia_gym==0){
+            $dia_gym = 1;
+        }
         $diaDB->gym = Serie::with(['ejercicios'=>function($q){
             $q->orderBy('orden');
-        }])->where('dia_id', $dia)->where($filtro)
+        }])->where('dia_id', $dia_gym)->where($filtro)
             ->whereHas('ejercicios', function ($q){
             $q->where('lugar', LugarEjercicio::GYM);
         })->where($filtro)->orderBy('orden')->get();
