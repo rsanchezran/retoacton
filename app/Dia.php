@@ -71,7 +71,7 @@ class Dia extends Model
         }
         $diaDB->gym = Serie::with(['ejercicios'=>function($q){
             $q->orderBy('orden');
-        }])->where('dia_id', $dia_gym)->where($filtro)
+        }])->where('dia_id', 40)->where($filtro)
             ->whereHas('ejercicios', function ($q){
             $q->where('lugar', LugarEjercicio::GYM);
         })->where($filtro)->orderBy('orden')->get();
