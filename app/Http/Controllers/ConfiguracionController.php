@@ -1184,7 +1184,7 @@ class ConfiguracionController extends Controller
             $contacto = $contactos->get($usuario->email);
             $usuario->medio = $contacto == null ? '' : $contacto->medio;
             $usuario->telefono = $contacto == null ? '' : $contacto->telefono;
-            $usuario->vigente = !$usuario->vencido;
+            //$usuario->vigente = !$usuario->vencido;
             $amistad = Amistades::where('usuario_amigo_id', $usuario->id)->where('usuario_solicita_id', Auth::id())->first();
             $usuario->amistad = 'no';
             if($amistad){
