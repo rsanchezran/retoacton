@@ -43,11 +43,11 @@
                 <div class="card-body">
                     <div v-for="usuario in usuarios.data" class="d-flex usuario">
                         <div class="col-4 d-flex flex-column align-items-start">
-                            <span v-if="usuario.vigente">
+                            <!--span v-if="usuario.vigente"-->
                                 <a :href="'/cuenta/'+usuario.id+'/'"><img :src="'/cuenta/getFotografia/'+usuario.id+'/232'"
                                                                           width="50px"></a>
-                                @{{ usuario.name+' '+usuario.last_name }}
-                            </span>
+                                <span>@{{ usuario.name+' '+usuario.last_name }}</span>
+                            <!--/span-->
                         </div>
                         <div class="col-4 d-flex flex-column align-items-end">
 
