@@ -1158,7 +1158,7 @@ class ConfiguracionController extends Controller
         $contactos = Contacto::whereIn('email', $usuarios->pluck('email'))->get()->keyBy('email');
         foreach ($usuarios as $usuario) {
             $usuario->dias_reto = 0;
-            $usuario->isVencido();
+            //$usuario->isVencido();
             if ($usuario->inicio_reto != null) {
                 $usuario->dias_reto = Carbon::now()->startOfDay()->diffInDays(Carbon::parse($usuario->inicio_reto)->startOfDay()) + 1;
             }
