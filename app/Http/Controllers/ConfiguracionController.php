@@ -1149,8 +1149,10 @@ class ConfiguracionController extends Controller
 
         $amistad = Amistades::where('usuario_solicita_id', auth()->user()->id)->select('usuario_amigo_id')->get();
         $amistad_dos = Amistades::where('usuario_amigo_id', auth()->user()->id)->select('usuario_solicita_id')->get();
-        $usuarios = $usuarios->whereIn('id', $amistad);
-        $usuarios = $usuarios->whereIn('id', $amistad_dos);
+        $usuarios = $usuarios->where(function ($query) use ($amistad,$amistad_dos) {
+            $query->whereIn('id', $amistad)
+                ->orWhereIn('id', $amistad_dos);
+        });
         //$amistad_me_siguen = Amistades::where('usuario_amigo_id', auth()->user()->id)->select('usuario_solicita_id')->get();
         //$usuarios = $usuarios->whereIn('id', $amistad_me_siguen);
 
