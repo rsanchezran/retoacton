@@ -135,7 +135,7 @@
                             <div class="d-flex settings">
                                 <button v-tooltip="{content:'Cambiar fecha de inicio'}"
                                         class="btn btn-sm btn-warning" @click="mostrarCambioFecha(usuario)">
-                                    <i class="far fa-bell"></i>
+                                    <i class="fas fa-calendar-day"></i>
                                 </button>
                                 <a v-tooltip="{content:'Ver encuesta'}" class="btn btn-sm btn-info text-light" :href="'{{ url('/usuarios/encuesta') }}/' + usuario.id">
                                     <i class="fas fa-clipboard-list"></i>
