@@ -49,7 +49,7 @@
                             </div>
                         </div>
                         <div class="col-sm-2">
-                            <label>Saldo a favor</label>
+                            <label>Dinero Acton</label>
                             <input class="form-control" v-model="filtros.saldo" @keyup.enter="buscar"
                                    placeholder="0.00">
                         </div>

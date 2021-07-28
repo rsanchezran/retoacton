@@ -1562,13 +1562,8 @@
                         </div>
                     </div>
                     <div class="mt-6 text-left">
-                        <button v-if="informacion.tipo>0" class="btn btn-primary acton" @click="saveContacto" :disabled="loading">
+                        <button v-if="informacion.esgratis==0" class="btn btn-primary acton" @click="saveContacto" :disabled="loading">
                             Continuar
-                            <i v-if="loading" class="fa fa-spinner fa-spin"></i>
-                            <i v-else class="fa fa-shopping-cart"></i>
-                        </button>
-                        <button v-else class="btn btn-primary acton" @click="crearCuenta" :disabled="loading">
-                            Crear cuenta gratuita
                             <i v-if="loading" class="fa fa-spinner fa-spin"></i>
                             <i v-else class="fa fa-shopping-cart"></i>
                         </button>
@@ -1607,6 +1602,13 @@
                 <div v-show="mensaje!=''">
                     <h6 class="detalle">@{{ this.mensaje }}</h6>
                 </div>
+
+                <button v-if="informacion.esgratis==1" class="btn btn-bg btn-primary acton col-md-12" @click="crearCuenta" :disabled="loading"  style="width: 35%;margin-top: 50px;margin-bottom: 50px;margin-left:0%;margin-left: 5%;font-size: 25px">
+                    Crear cuenta gratuita
+                    <i v-if="loading" class="fa fa-spinner fa-spin"></i>
+                    <i v-else class="fa fa-shopping-cart"></i>
+                </button>
+
                 <div v-show="mensaje==''" style="margin-left: 5%">
                     <!--h6 class="detalle">¡Gracias por compartirnos tus datos,</h6>
                     <h6 class="detalle"> nos encantará ayudarte!</h6>
@@ -1711,6 +1713,26 @@
 
 
             <img src="{{asset('../images/imagesremodela/masretos.png')}}" id="masretos" style="width: 26%;margin-top: 50px;margin-bottom: 50px;margin-left: 37%;">
+
+
+            <div class="container-fluid section" style="background-color: white; width: 108%; padding: 5px">
+                <h4 class="text-uppercase font-weight-bold text-center">¿Qué pasa después </h4>
+                <h4 class="text-uppercase font-weight-bold text-center">de registrarme al reto?</h4>
+                <br>
+                <br>
+                <div id="monitores" class="d-flex flex-wrap">
+                <div class="col-sm-4 col-12 monitor">
+                            <img src="{{asset('images/imagesremodela/pasouno.png')}}" width="90%">
+                        </div>
+                        <div class="col-sm-4 col-12 monitor">
+                            <img src="{{asset('images/imagesremodela/pasodos.png')}}" width="90%">
+                        </div>
+                        <div class="col-sm-4 col-12 monitor">
+                            <img src="{{asset('images/imagesremodela/pasotres.png')}}" width="90%">
+                        </div>
+                </div>
+            </div>
+
             <div class="planesacton">
                 <div id="features" class="d-flex flex-wrap mr-auto ml-auto">
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
@@ -1847,7 +1869,8 @@
                         telefono: '',
                         medio: '',
                         codigo: '',
-                        tipocontacto: 0
+                        tipocontacto: 0,
+                        esgratis: 0
                     },
                     features: {
                         comidas: true,
@@ -1897,6 +1920,14 @@
                         }
                         if(lasCookies[l].indexOf('apellidos') != -1){
                             this.informacion.apellidos = lasCookies[l].replace("apellidos=", "");
+                        }
+                        if(lasCookies[l].indexOf('ksdoi') != -1){
+                            var esgratis = lasCookies[l].replace("ksdoi=", "");
+                            if(esgratis == ' dds'){
+                                this.informacion.esgratis = 1;
+                            }else{
+                                this.informacion.esgratis = 0;
+                            }
                         }
                     }
                     this.saveContacto();
@@ -2062,6 +2093,7 @@
                     document.cookie = "nombre="+this.informacion.nombres;
                     document.cookie = "apellidos="+this.informacion.apellidos;
                     document.cookie = "telefono="+this.informacion.telefono;
+                    document.cookie = "email="+this.informacion.email;
                     document.cookie = "email="+this.informacion.email;
 
                     let urlParams = new URLSearchParams(window.location.search);
@@ -2289,10 +2321,8 @@
                         axios.post("{{url("crearCuentaFree")}}", this.informacion).then(function (response) {
                             vm.sent = true;
                             vm.loading = false;
-                            if (response.data.status == 'ok') {
-                                window.location.href = "{{url('/login')}}";
-                            }
-                            vm.mensaje = response.data.mensaje;
+                            vm.mensaje = "Tu usuario es: "+response.data.usuario+" \n"+
+                            "Podras ingresar con la contraseña: "+response.data.pass;
                         }).catch(function (error) {
                             vm.sent = false;
                             vm.loading = false;

@@ -724,7 +724,7 @@
                 <div class="col-12 col-sm-8 mr-auto ml-auto" style="padding: 40px 10px">
                     <h6 class="text-uppercase bigger thin" style="color:#929494; font-size: 2.4rem">El mejor
                         momento</h6>
-                    <h6 class="text-uppercase font-weight-bold biggest">para empezar</h6>
+                    <h6 class="text-uppercase font-weight-bold biggest">para crecer</h6>
                     <h6 class="text-uppercase font-weight-bold biggest"> es este</h6>
                     <br>
                 </div>
@@ -801,9 +801,9 @@
             </div>
             <div id="tituloFeature" class="section container text-center">
                 <div class="col-12 col-sm-9 mr-auto ml-auto" id="verdadero">
-                    <h6 class="text-uppercase bigger thin" style="color:#929494">El verdadero cambio </h6>
-                    <h6 class="text-uppercase font-weight-bold biggest">Comienza</h6>
-                    <h6 class="text-uppercase font-weight-bold biggest">desde adentro</h6>
+                    <h6 class="text-uppercase bigger thin" style="color:#929494">UN CAMBIO REAL </h6>
+                    <h6 class="text-uppercase font-weight-bold biggest">COMIENZA</h6>
+                    <h6 class="text-uppercase font-weight-bold biggest">DESDE ADENTRO</h6>
                     <br>
                 </div>
             </div>
@@ -1132,12 +1132,12 @@
                 </div>
             </div-->
                 <div class="container section">
-                    <h4 class="text-uppercase font-weight-bold text-center">¿Qué pasa después </h4>
+                    <!--h4 class="text-uppercase font-weight-bold text-center">¿Qué pasa después </h4>
                     <h4 class="text-uppercase font-weight-bold text-center">de registrarme al reto?</h4>
                     <br>
-                    <br>
+                    <br-->
                     <div id="monitores" class="d-flex flex-wrap">
-                        <div class="col-sm-4 col-12 monitor">
+                        <!--div class="col-sm-4 col-12 monitor">
                             <img src="{{asset('images/imagesremodela/pasouno.png')}}" width="90%">
                         </div>
                         <div class="col-sm-4 col-12 monitor">
@@ -1145,14 +1145,14 @@
                         </div>
                         <div class="col-sm-4 col-12 monitor">
                             <img src="{{asset('images/imagesremodela/pasotres.png')}}" width="90%">
-                        </div>
-                        <div class="col-12 col-sm-4 d-block ml-auto mr-auto">
+                        </div-->
+                        <!--div class="col-12 col-sm-4 d-block ml-auto mr-auto">
                             <a class="btn btn-primary" href="#features"
                                style="width: 100%; font-family: unitext_bold_cursive">Ver Retos</a>
-                        </div>
+                        </div-->
                     </div>
                 </div>
-                <div class="section info">
+                <!--div class="section info">
                     <div>
                         <h4 class="text-uppercase font-weight-bold">Preguntas frecuentes</h4>
                         <br>
@@ -1200,7 +1200,7 @@
                             amigo que invitas generas Saldo a Favor el cual se ve reflejado en tu sesión.
                         </p>
                     </div>
-                    <hr>
+                    <hr-->
                     <!--div>
                         <div @click="cambiarFaqs('dudas')" class="in-cursor">
                             <h3 class="subtitle">¿HABRÁ QUIÉN ME RESUELVA DUDAS?</h3>
@@ -1224,7 +1224,7 @@
                             cualquier lugar.
                         </p>
                     </div-->
-                </div>
+                <!--/div-->
             </div>
     </template>
 @endsection

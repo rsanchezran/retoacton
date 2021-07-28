@@ -432,4 +432,11 @@ class User extends Authenticatable
             Log::error($e->getMessage());
         }
     }
+
+
+
+    public function mensajeDirectos()
+    {
+        return $this->hasMany('App\MensajesDirectos');
+    }
 }

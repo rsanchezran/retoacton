@@ -16,6 +16,10 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="shortcut icon" href="{{asset('img/favicon.png')}}"/>
     <link href="{{asset('css/breathing.css')}}" rel="stylesheet" type="text/css" />
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
     <style>
         @font-face {
             font-family: unitext;
@@ -44,6 +48,9 @@
 
         .tarjeta{
             border-bottom: 2px solid red;
+        }
+        .badge-warning {
+            font-size: 15px;
         }
     </style>
     @yield('header')
@@ -75,8 +82,8 @@
                         </a>
                         @if(\Illuminate\Support\Facades\Auth::user()->rol==\App\Code\RolUsuario::CLIENTE)
                             @if(\Illuminate\Support\Facades\Auth::user()->tarjeta=='')
-                                <a class="nav-link tarjeta" href="{{url('cuenta')}}" title="Es necesario que registres una tarjeta para depositarte tus comisiones">
-                                    <i class="fas fa-user text-danger"></i> Mi cuenta
+                                <a class="nav-link" href="{{url('cuenta')}}" title="Es necesario que registres una tarjeta para depositarte tus comisiones">
+                                    <i class="fas fa-user"></i> Mi cuenta
                                 </a>
                             @else
                                 <a class="nav-link" href="{{url('cuenta')}}">
@@ -90,13 +97,13 @@
                         @endif
                         @if(\Illuminate\Support\Facades\Auth::user()->rol==\App\Code\RolUsuario::CLIENTE)
                             @if(\Illuminate\Support\Facades\Auth::user()->inicio_reto!=null)
-                                <a class="nav-link" href="{{ url('/reto/cliente') }}"><i class="far fa-running"></i> Mis fotos</a>
+                                <a class="nav-link" href="{{ url('/reto/cliente') }}"><i class="far fa-running"></i> Mi Vida Fit</a>
                             @endif
                             <a class="nav-link" href="{{ url('/reto/programa') }}">
                                 <i class="far fa-calendar-alt"></i> Programa</a>
                         @else
                             <a class="nav-link" href="{{ url('/reto/configuracion') }}">
-                                <i class="far fa-running"></i> Mis fotos</a>
+                                <i class="far fa-running"></i> Mi Vida Fit</a>
                         @endif
                         <a class="nav-link" href="{{ url('/usuarios/seguir') }}">
                             <i class="fas fa-user-friends"></i> Personas</a>
@@ -182,9 +189,28 @@
                                 </div>
                             </li>
                         @endif
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/configuracion/mensajes') }}">
-                                <i class="far fa-comment"></i> Mensajes</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle @if (auth()->user()->unreadnotifications) animate__heartBeat @endif" href="#" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-comment"></i> Mensajes @if (auth()->user()->unreadnotifications)<span class="badge badge-warning">{{ count(auth()->user()->unreadNotifications) }}</span>@endif
+                            </a>
+                            <div class="dropdown-menu" aria-lab elledby="administracion">
+                                <a class="dropdown-item" href="{{ url('/configuracion/mensajes') }}">
+                                <i class="far fa-comment"></i> Ver Todos los Mensajes </a>
+                                @foreach(auth()->user()->unreadNotifications as $notification)
+                                    <a class="dropdown-item" href="{{ url('/configuracion/mensajes') }}">
+                                        <i class="far fa-comment"></i> {{ \App\User::where(['id' => $notification->data['usuario_emisor_id']])->pluck('name')->first() }} {{ \App\User::where(['id' => $notification->data['usuario_emisor_id']])->pluck('last_name')->first() }}
+                                        <span class="float-right text-muted text-sm" style="padding-right: 5px;">{{ $notification->created_at->diffForHumans() }}</span>
+                                    </a>
+                                @endforeach
+                                @forelse(auth()->user()->unreadNotifications as $notification)
+                                    @empty
+                                    <div class="dropdown-item">Sin notificaciones</div>
+                                @endforelse
+                                <a class="dropdown-item dropdown-footer" href="{{ url('markAsRead') }}">
+                                <i class="far fa-comment"></i> Marcar como leido </a>
+
+                            </div>
                         </li>
                     @endguest
                 </ul>

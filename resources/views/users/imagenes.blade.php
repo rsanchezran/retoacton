@@ -32,6 +32,27 @@
         .likescero{
             color: #c2c2c2;
         }
+
+        .gal {
+            -webkit-column-count: 4; /* Chrome, Safari, Opera */
+            -moz-column-count: 4; /* Firefox */
+            column-count: 4;
+        }
+        .gal img{ width: 100%; padding: 7px 0;}
+        .gal video{ width: 100%; padding: 7px 0;}
+        @media (max-width: 500px) {
+
+            .gal {
+
+
+                -webkit-column-count: 1; /* Chrome, Safari, Opera */
+                -moz-column-count: 1; /* Firefox */
+                column-count: 1;
+
+
+            }
+
+        }
     </style>
 @endsection
 @section('content')
@@ -62,29 +83,20 @@
                     <i v-else></i>
                 </div>
                 <hr>
-                <div class="row justify-content-start">
-                    <div v-for="dia in dias" :class="'card m-1 '+(dia.dia==p_dia?'activo':'')" style="width: 15rem;">
-                        <div class="card-header">
-                            Dia: @{{ dia.dia }}
-                        </div>
-                        <div class="card-body">
-                            <div class="d-flex">
-                                <img class="link" :src="dia.imagen" width="100%"/>
-                                <div v-if="dia.id!=null">
-                                    <!--button class="btn btn-sm btn-light" @click="comentar(dia)">
-                                        <i class="fa fa-comment"></i>
-                                    </button-->
-                                    <button class="btn btn-sm btn-light"  @click="mostrar(dia)">
-                                        <i class="fa fa-image"></i>
-                                    </button>
-                                </div>
-                            </div>
+                <div class="row">
+                    <div class="gal">
+                    <span v-for="dia in dias" style="width: 15rem;">
+                                    <img class="link" :src="dia.imagen" @click="mostrar(dia)"/>
+
+                                    <video  v-if="dia.id!=null" width="200" height="140"  :src="dia.video" @click="mostrarVideo(dia)">
+                                        Tu navegador no soporta esta funcion.
+                                    </video>
                             <div v-if="dia.comentar==1">
                                 <span class="small">(@{{dia.comentario.length}}/255)</span>
                                 <textarea class="form-control" @blur="agregarComentario(dia)" v-model="dia.comentario"></textarea>
                                 <form-error v-if="dia.comentario.length>255" name="comentario" :errors="errors" ></form-error>
                             </div>
-                        </div>
+                    </span>
                     </div>
                 </div>
                 <div v-if="dia.length==0" align="center" >
@@ -95,6 +107,32 @@
 
                 <div v-if="bandera">
                 <img :src="dia.imagen" width="100%">
+                <div v-if="likescount>0" class="likes" @click="likes(dia)">@{{ likescount }} <i class="fas fa-bolt"></i> (Likes)</div>
+                <div v-if="likescount==0" class="likes likescero" @click="likes(dia)">@{{ likescount }} <i class="fas fa-bolt"></i> (Likes)</div>
+<br>
+                    <div class="comentariosCaja">
+                        <div class="row col-md-12">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" placeholder="Comenta" v-model="comentario_nuevo" @keyup.enter="comenta(dia)">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-primary" type="button" @click="comenta(dia)"><i class="fas fa-paper-plane"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div v-for="p in this.posts[0]" class="comentariousuario">
+                            <div class="nombrecomenta">@{{ p.usuario_comenta.name }}</div>
+                            <div class="comentariounico">@{{ p.comentario }}</div>
+                        </div>
+                    </div>
+                </div>
+
+            </modal>
+            <modal ref="modalVideo" title="Imagen" :showok="false" :showcancel="false">
+
+                <div v-if="bandera">
+                <video  v-if="dia.id!=null" width="480" controls  :src="dia.video">
+                    Tu navegador no soporta esta funcion.
+                </video>
                 <div v-if="likescount>0" class="likes" @click="likes(dia)">@{{ likescount }} <i class="fas fa-bolt"></i> (Likes)</div>
                 <div v-if="likescount==0" class="likes likescero" @click="likes(dia)">@{{ likescount }} <i class="fas fa-bolt"></i> (Likes)</div>
 <br>
@@ -156,9 +194,36 @@
                     this.bandera = true;
 
                     axios.post('{{url('/usuarios/likes')}}/'+dia.dia+'/'+this.usuario.id)
-                    .then((response) => {
-                        this.likescount = response.data;
-                    }).catch(function (error) {
+                        .then((response) => {
+                            this.likescount = response.data;
+                        }).catch(function (error) {
+                        console.log(error);
+                        vm.errors = error.response;
+                    });
+
+                    axios.post('{{url('/usuarios/comentarios')}}/'+dia.dia+'/'+this.usuario.id)
+                        .then((response) => {
+                            this.posts.push(response.data);
+                        }).catch(function (error) {
+                        console.log(error);
+                        vm.errors = error.response;
+                    });
+
+                },
+                mostrarVideo: function (dia) {
+                    let vm = this;
+                    vm.errors = [];
+                    this.dia = dia;
+                    var datas = [];
+                    var aa = this.$refs;
+                    this.posts = [];
+                    aa.modalVideo.showModal();
+                    this.bandera = true;
+
+                    axios.post('{{url('/usuarios/likes')}}/'+dia.dia+'/'+this.usuario.id)
+                        .then((response) => {
+                            this.likescount = response.data;
+                        }).catch(function (error) {
                         console.log(error);
                         vm.errors = error.response;
                     });

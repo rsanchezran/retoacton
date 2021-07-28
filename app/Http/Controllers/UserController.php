@@ -36,6 +36,12 @@ class UserController extends Controller
         return view('users.index');
     }
 
+    public function usuarios_gratis()
+    {
+        $this->authorize('usuarios');
+        return view('users.usuarios_gratis');
+    }
+
     public function listado(Request $request)
     {
         $nombre_prop=$request->nombre;
@@ -183,6 +189,83 @@ class UserController extends Controller
             }
             $usuarios = $usuarios->whereRaw($consulta);
         }
+        $usuarios = $usuarios->orderByDesc('created_at');
+        $usuarios = $usuarios->select(['users.*'])->paginate(15);
+        $comision = intval(env('COMISION'));
+        $contactos = Contacto::whereIn('email', $usuarios->pluck('email'))->get()->keyBy('email');
+        foreach ($usuarios as $usuario) {
+            $usuario->dias_reto = 0;
+            $usuario->isVencido();
+            if ($usuario->inicio_reto != null) {
+                $usuario->dias_reto = Carbon::now()->startOfDay()->diffInDays(Carbon::parse($usuario->inicio_reto)->startOfDay()) + 1;
+            }
+            $usuario->total = $usuario->ingresados * $comision;
+            $usuario->depositado = $usuario->total - $usuario->saldo;
+            $usuario->pendientes = $usuario->saldo / $comision;
+            $usuario->pagados = $usuario->depositado / $comision;
+            $contacto = $contactos->get($usuario->email);
+            $usuario->medio = $contacto == null ? '' : $contacto->medio;
+            $usuario->telefono = $contacto == null ? '' : $contacto->telefono;
+            $usuario->vigente = !$usuario->vencido;
+        }
+
+        return $usuarios;
+    }
+
+    public function buscar_gratis(Request $request)
+    {
+        $campos = json_decode($request->campos);
+
+        $referencia = User::where('id', auth()->user()->id)->first();
+
+        $usuarios = User::where('rol', '!=', RolUsuario::ADMIN);
+        $usuarios = $usuarios->where('rol', '!=', RolUsuario::TIENDA);
+        $usuarios = $usuarios->where('rol', '!=', RolUsuario::COACH);
+        $usuarios = $usuarios->where('rol', '!=', RolUsuario::COACH);
+
+        $usuarios = $usuarios->where('codigo', $referencia->referencia);
+
+        if ($campos->nombre != null) {
+            $usuarios = $usuarios->where('name', 'like', '%' . $campos->nombre . '%');
+        }
+        if ($campos->email != null) {
+            $usuarios = $usuarios->where('email', 'like', '%' . $campos->email . '%');
+        }
+        if ($campos->fecha_inicio != null) {
+            $fecha = join('-', array_reverse(explode('/', $campos->fecha_inicio)));
+            $usuarios = $usuarios->where('inicio_reto', '>=', $fecha);
+        }
+        if ($campos->fecha_final != null) {
+            $fecha = join('-', array_reverse(explode('/', $campos->fecha_final)));
+            $usuarios = $usuarios->where('inicio_reto', '<=', $fecha);
+        }
+        if ($campos->saldo != null) {
+            if (is_numeric($campos->saldo))
+                $usuarios = $usuarios->where('saldo', $campos->saldo);
+            else
+                return collect();
+        }
+        if ($campos->ingresados != null) {
+            if (is_numeric($campos->ingresados))
+                $usuarios = $usuarios->where('ingresados', $campos->ingresados);
+            else
+                return collect();
+        }
+        if ($campos->ingresadosReto != null) {
+            if (is_numeric($campos->ingresadosReto))
+                $usuarios = $usuarios->where('ingresados_reto', $campos->ingresadosReto);
+            else
+                return collect();
+        }
+        if ($campos->estado != 0) {
+            if ($campos->estado == 1) {
+                $consulta = 'CURDATE() >= DATE_ADD(fecha_inscripcion, interval ' . (env('DIAS') - 1) . ' DAY)';
+            } else if ($campos->estado == 2) {
+                $consulta = 'CURDATE() < DATE_ADD(fecha_inscripcion, interval ' . (env('DIAS')) . ' DAY)';
+            }
+            $usuarios = $usuarios->whereRaw($consulta);
+        }
+        $usuarios = $usuarios->where('tipo_referencia', 3);
         $usuarios = $usuarios->orderByDesc('created_at');
         $usuarios = $usuarios->select(['users.*'])->paginate(15);
         $comision = intval(env('COMISION'));
@@ -370,6 +453,7 @@ class UserController extends Controller
             $imagenDia->comentario = $imagenDia->comentario ?? '';
             $imagenDia->comentar = 0;
             $imagenDia->imagen = url("/reto/getImagen/reto/$usuario->id/" . $dia) . "/" . (Utils::generarRandomString(10));
+            $imagenDia->video = url("/reto/getVideo/reto/$usuario->id/" . $dia) . "/" . (Utils::generarRandomString(10));
             $imagenDia->dia = $dia;
             $imagenDia->subir = $usuario->rol == RolUsuario::ADMIN ? true : $dia <= $usuarioDias->count();
             $imagenDia->loading = false;
@@ -388,6 +472,18 @@ class UserController extends Controller
             $pregunta->respuesta = json_decode($pregunta->respuesta);
         }
         return view('users.encuesta', ['usuario' => $usuario]);
+    }
+
+    public function showEncuestaGratis($usuario_id)
+    {
+        $usuario = User::with(['respuestas' => function ($respuestas) {
+            $respuestas->select('usuario_id', 'pregunta_id', 'respuesta', 'pregunta', 'multiple');
+        }])->where('id', $usuario_id)->get()->first();
+
+        foreach ($usuario->encuesta as $pregunta) {
+            $pregunta->respuesta = json_decode($pregunta->respuesta);
+        }
+        return view('users.encuesta_gratis', ['usuario' => $usuario]);
     }
 
     public function pagar(Request $request)
@@ -477,6 +573,16 @@ class UserController extends Controller
             $renovaciones->dias = intval($request->nuevaSemanas)*7;
             $renovaciones->usuario_id = $request->id;
             $renovaciones->save();
+        }
+        return "{'status': 'ok'}";
+    }
+
+    public function cambiaFecha(Request $request)
+    {
+        $usuario = User::find($request->id);
+        if ($usuario !== null) {
+            $usuario->inicio_reto = $request->fecha;
+            $usuario->save();
         }
         return "{'status': 'ok'}";
     }
@@ -786,6 +892,42 @@ class UserController extends Controller
         $usuario->ciudad = $ciudad;
         $usuario->cp = $cp;
         $usuario->colonia = $colonia;
+
+        $usuario->save();
+
+        return $usuario;
+
+    }
+
+
+    public function guardaInfoGeneral(Request $request)
+    {
+        $edad = $request->edad;
+        $gym = $request->gym;
+        $intereses = implode(',', $request->intereses);
+        $empleo = $request->empleo;
+        $estudios = $request->estudios;
+        $idiomas = implode(',', $request->idiomas);
+        $edad_publico = $request->edad_publico;
+        $empleo_publico = $request->empleo_publico;
+        $gym_publico = $request->gym_publico;
+        $intereses_publico = $request->intereses_publico;
+        $estudios_publico = $request->estudios_publico;
+        $idiomas_publico = $request->idiomas_publico;
+        $usuario = User::where('id', auth()->user()->id)->first();
+
+        $usuario->edad = $edad;
+        $usuario->gym = $gym;
+        $usuario->intereses = $intereses;
+        $usuario->empleo = $empleo;
+        $usuario->estudios = $estudios;
+        $usuario->idiomas = $idiomas;
+        $usuario->edad_publico = $edad_publico;
+        $usuario->empleo_publico = $empleo_publico;
+        $usuario->intereses_publico = $intereses_publico;
+        $usuario->gym_publico = $gym_publico;
+        $usuario->estudios_publico = $estudios_publico;
+        $usuario->idiomas_publico = $idiomas_publico;
 
         $usuario->save();
 

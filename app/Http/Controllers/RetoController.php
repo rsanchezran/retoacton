@@ -98,6 +98,15 @@ class RetoController extends Controller
         }
     }
 
+    public function getVideo($carpeta, $user_id, $dia)
+    {
+        if (Storage::disk('local')->exists("public/$carpeta/$user_id/$dia.jpg")) {
+            return response()->file(storage_path('app/public/' . $carpeta . '/' . $user_id . '/' . $dia . '.mp4'));
+        } else {
+            return response()->file(public_path('/images/none.png'));
+        }
+    }
+
     public function getAudio($carpeta, $user_id, $dia, $random)
     {
         $items = explode('.', $random);
@@ -164,6 +173,53 @@ class RetoController extends Controller
         $image->save(storage_path("app/public/reto/$usuario_id/$request->dia.jpg"));
 
         return response()->json(['respuesta' => 'ok', 'imagen' => url("/reto/getImagen/reto/$usuario_id/$request->dia/" . (Utils::generarRandomString(10)))]);
+    }
+
+    public function saveVideo(Request $request)
+    {
+        ini_set('memory_limit', '-1');
+        $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [], []);
+        $validator->after(function ($validator) use ($request) {
+            $dia = $request->dia - 1;
+            $extension = strtolower($request->file('video')->getClientOriginalExtension());
+            if ($extension == 'mp4') {
+                $size = ((($request->file('video')->getSize() / 1024) / 1024) * 100) / 100;
+                if ($size > 40) {
+                    $validator->errors()->add("imagen$dia", "El tamaño de la imagen debe ser menor a 40MB");
+                }
+            } else {
+                $validator->errors()->add("imagen$dia", "El formato de la imagen no está permitido");
+            }
+        });
+        $validator->validate();
+        $usuario_id = $request->user()->id;
+        $usuarioDia = UsuarioDia::where('dia_id', $request->dia)->where('usuario_id', $usuario_id)->first();
+        if ($usuarioDia == null) { //checar es imagen nueva o ya esta registrada en tabla usuario_dia
+            $usuarioDia = new UsuarioDia();
+            $usuarioDia->dia_id = $request->dia;
+            $usuarioDia->usuario_id = $usuario_id;
+            if ($request->user()->rol == RolUsuario::ADMIN) {
+                $diaDB = Dia::find($request->dia);
+                if ($diaDB === null) {
+                    $diaDB = new Dia();
+                    $diaDB->id = $request->dia;
+                    $diaDB->dia = $request->dia;
+                    $diaDB->comentarios = '';
+                    $diaDB->save();
+                }
+            }
+        }
+        $usuarioDia->comentario = null;
+        $usuarioDia->save();
+        Storage::disk('local')->makeDirectory("public/reto/$usuario_id");
+
+        if (request()->hasFile('video')) {
+            $image = $request->file('video');
+            $destinationPath = public_path("../storage/app/public/reto/$usuario_id/");
+            $image->move($destinationPath, "$request->dia.mp4");
+        }
+
+        return response()->json(['respuesta' => 'ok', 'video' => url("/reto/getVideo/reto/$usuario_id/$request->dia/" . (Utils::generarRandomString(10)))]);
     }
 
     public function comentar(Request $request)
@@ -461,6 +517,7 @@ class RetoController extends Controller
         }
         $usuarioDia->dia = $dia;
         $usuarioDia->imagen = url("/reto/getImagen/reto/$user->id/$dia/" . Utils::generarRandomString(10));
+        $usuarioDia->video = url("/reto/getVideo/reto/$user->id/$dia/" . Utils::generarRandomString(10));
         return response()->json(['dia' => $usuarioDia, 'ejemplo' => $ejemplo]);
     }
 

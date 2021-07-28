@@ -118,7 +118,32 @@
                             </div>
                         </div>
                         <form-error name="imagen" :errors="errors"></form-error>
+                        <div style="border:5px dashed grey; padding: 10px;" class="col-12 col-sm-6"
+                             @drop.prevent="agregarVideo($event)" @dragover.prevent>
+                            <label for="mp4" class="custom-file-upload">
+                                <i class="fa fa-image"></i> Sube tu video aquí
+                            </label>
+                            <br>
+                            <div v-if="loading">
+                                <span class="small">Estamos procesando el video, porfavor espera un momento...</span>
+                                <br>
+                                <i class="fa fa-spinner fa-spin fa-2x"></i>
+                            </div>
+                            <div v-else>
+                                <span class="small">O arrastra el video desde tu computadora</span>
+                                <br>
+                                <video width="320" height="240" controls  :src="dia.video">
+                                    Tu navegador no soporta esta funcion.
+                                </video>
+                            </div>
+                            <input id="mp4" type="file" accept="video/mp4"
+                                   @change="agregarVideo($event)">
+                            <br>
+                            <p>@{{ dia.comentario }}</p>
+                        </div>
                     </div>
+                    <form-error name="video" :errors="errors"></form-error>
+                </div>
                 </div>
                 <div class="comida d-flex justify-content-between mt-4">
                     <h4>Calendario</h4>
@@ -206,11 +231,40 @@
                             vm.loading = false;
                         });
                 },
+                agregarVideo: function (event) {
+                    let video = null;
+                    console.log(event);
+                    if (event.dataTransfer == undefined) {
+                        video = event.target.files[0];
+                    } else {
+                        video = event.dataTransfer.files[0];
+                    }
+                    let vm = this;
+                    let fm = new FormData();
+                    vm.loading = true;
+                    fm.append("video", video);
+                    fm.append("dia", vm.dia.dia);
+                    vm.errors = [];
+                    axios.post("{{url('/reto/saveVideo')}}", fm).then(function (response) {
+                        vm.loading = false;
+                        Vue.nextTick(function () {
+                            vm.dia.video = response.data.video;
+                        });
+                    })
+                        .catch(function (error) {
+                            vm.errors = error.response.data.errors;
+                            vm.loading = false;
+                        });
+                },
                 mostrarModal: function (dia) {
                     this.dia = dia;
                     this.$refs.informacionModal.showModal();
                 },
                 mostrarImagen: function (imagen) {
+                    this.imagen = imagen;
+                    this.$refs.fotoModal.showModal();
+                },
+                mostrarVideo: function (imagen) {
                     this.imagen = imagen;
                     this.$refs.fotoModal.showModal();
                 },

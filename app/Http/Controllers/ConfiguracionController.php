@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\MensajesDirectosEvent;
 use App\MensajesDirectos;
+use App\Notifications\MensajeNotification;
 use Auth;
 use App\Categoria;
 use App\CodigosTienda;
@@ -33,6 +35,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Notification;
 
 use App\Code\TipoRespuesta;
 use App\Http\Controllers\Controller;
@@ -1230,15 +1233,20 @@ class ConfiguracionController extends Controller
     }
 
     public function nuevo_mensaje($id, Request $request){
-        $mensajes = MensajesDirectos::create([
+        $mensajes_directos = MensajesDirectos::create([
             'usuario_emisor_id'=> auth()->user()->id,
             'usuario_receptor_id' => $id,
             'visto' => '0',
             'mensaje' => $request->mensaje
         ]);
 
+        $mensajes = $mensajes_directos;
         $mensajes = MensajesDirectos::where('usuario_emisor_id', $id)->orWhere('usuario_receptor_id', $id);
         $mensajes = $mensajes->where('usuario_emisor_id', auth()->user()->id)->orWhere('usuario_receptor_id', auth()->user()->id)->get();
+
+        //$usuario = User::where('id', $id)->first();
+        //$usuario->notify(new MensajeNotification($mensajes_directos));
+        event(new MensajesDirectosEvent($mensajes_directos));
 
         return $mensajes;
     }

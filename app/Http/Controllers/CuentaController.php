@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Amistades;
 use App\Code\Utils;
 use App\Code\ValidarCorreo;
 use App\User;
@@ -16,7 +17,19 @@ class CuentaController extends Controller
         $user = $request->user();
         $user->tarjeta = $user->tarjeta ?? '';
         $user->pass = substr($user->password, 0, 6);
+        $user->intereses = explode(',', $user->intereses);
+        $user->idiomas = explode(',', $user->idiomas);
         return view('cuenta.index', ['user' => $user]);
+    }
+
+    public function perfil(Request $request)
+    {
+        $user = User::find($request->id);
+        $user->tarjeta = $user->tarjeta ?? '';
+        $user->intereses = str_replace(',', ', ', $user->intereses);
+        $user->idiomas = str_replace(',', ', ', $user->idiomas);
+        $amistades = Amistades::where('usuario_amigo_id', $request->id)->get()->count();
+        return view('cuenta.perfil', ['user' => $user, 'amistades' => $amistades]);
     }
 
     public function save(Request $request)

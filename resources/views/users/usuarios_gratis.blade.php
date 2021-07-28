@@ -14,14 +14,6 @@
         .inactivo{
             background-color: lightgray;
         }
-
-        .sin_leer{
-            width: 10px;
-            height: 10px;
-            background-color: red;
-            display: inline-block;
-            border-radius: 10px;
-        }
     </style>
 @endsection
 @section('content')
@@ -34,27 +26,117 @@
     <template id="temp">
         <div>
             <div class="card mb-3">
-                <div class="card-header"><i class="far fa-clipboard"></i> Mis conversaciones</div>
-
-
+                <div class="card-header"><i class="far fa-clipboard"></i> Usuarios</div>
+                <div class="card-body">
+                    <div style="display: flex; flex-wrap: wrap">
+                        <div class="col-sm-3">
+                            <label>Nombre</label>
+                            <input class="form-control" v-model="filtros.nombre" @keyup.enter="buscar">
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Correo electrónico</label>
+                            <input class="form-control" v-model="filtros.email" @keyup.enter="buscar">
+                        </div>
+                        <div class="col-sm-5">
+                            <label>Fechas de reto</label>
+                            <div class="d-flex ">
+                                <datepicker class="col-sm-4" v-model="filtros.fecha_inicio"
+                                            placeholder="fecha inicio"></datepicker>
+                                <div class="btn-sm btn-default" style="padding-top: 7px; background-color: #F3f3f3">
+                                    <span>A</span></div>
+                                <datepicker class="col-sm-4" v-model="filtros.fecha_final"
+                                            placeholder="fecha final"></datepicker>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <label>Dinero Acton</label>
+                            <input class="form-control" v-model="filtros.saldo" @keyup.enter="buscar"
+                                   placeholder="0.00">
+                        </div>
+                        <div class="col-sm-2">
+                            <label>Personas ingresadas</label>
+                            <input class="form-control" v-model="filtros.ingresados" @keyup.enter="buscar">
+                        </div>
+                        <div class="col-sm-2">
+                            <label>Ingresados por reto</label>
+                            <input class="form-control" v-model="filtros.ingresadosReto" @keyup.enter="buscar">
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Estado del reto</label>
+                            <select class="selectpicker" v-model="filtros.estado" @change="buscar">
+                                <option value="0">Todos</option>
+                                <option value="1">Reto terminado</option>
+                                <option value="2">Reto pendiente</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>&nbsp;</label>
+                            <br>
+                            <button class="btn btn-light" @click="buscar" :disabled=" buscando">
+                                <i v-if="buscando" class="fa fa-spinner fa-spin"></i>
+                                <i v-else class="fas fa-search"></i>&nbsp;Buscar
+                            </button>
+                            <button class="btn btn-light" @click="exportar" :disabled=" buscando">
+                                <i v-if="buscando" class="fa fa-spinner fa-spin"></i>
+                                <i v-else class="fas fa-file-excel"></i>&nbsp;Exportar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="card mb-3">
-                    <a :href="'mensaje-directo/1'" class="btn btn-success text-white">Solución de dudas</a>
                 <div class="card-body">
                     <div v-for="usuario in usuarios.data" class="d-flex usuario">
                         <div class="col-4 d-flex flex-column align-items-start">
-                            <span v-if="usuario.vigente">
-                                <a :href="'/cuenta/'+usuario.id+'/'"><img :src="'/cuenta/getFotografia/'+usuario.id+'/232'"
-                                                                          width="50px"></a>
+                            <span>
+                                <i v-if="usuario.vigente" class="fa fa-user text-info"></i>
+                                <i v-else class="fa fa-user text-default"></i>
                                 @{{ usuario.name+' '+usuario.last_name }}
                             </span>
+                            <span>@{{ usuario.email }}</span>
+                            <span>@{{ usuario.telefono }}</span>
+                            <span>@{{ usuario.medio }}</span>
+                            <button class="btn btn-sm btn-default text-capitalize" @click="verCompras(usuario)">@{{ usuario.tipo_pago }}</button>
+                        </div>
+                        <div class="col-4 d-flex flex-column text-center">
+                            <div>
+                                <i class="far fa-user-clock"></i>
+                                <fecha :fecha="usuario.created_at" formato="dd/mm/yyyy hh:ii"></fecha>
+                            </div>
+                            <div>
+                                <i class="fa fa-user-check"></i>
+                                <fecha :fecha="usuario.fecha_inscripcion" formato="dd/mm/yyyy hh:ii"></fecha>
+                            </div>
+                            <div>
+                                Inicio Reto:
+                                <fecha :fecha="usuario.inicio_reto" formato="dd/mm/yyyy"></fecha>
+                            </div>
+                            @if(env('MODIFICAR_DIAS'))
+                                <button class="btn btn-sm btn-light" @click="confirmarDias(usuario)">
+                                    Dias activo : @{{ usuario.dias_reto }}
+                                </button>
+                            @else
+                                <span>Dias activo : @{{ usuario.dias_reto }}
+                                <i v-if="usuario.dias_reto<{{env('DIASREEMBOLSO')}}" class="fa fa-undo-alt"></i>
+                                </span>
+                            @endif
+                            <button class="btn btn-sm btn-light" @click="verPagos(usuario)">
+                                Pagos efectuados
+                            </button>
                         </div>
                         <div class="col-4 d-flex flex-column align-items-end">
+                            <button class="btn btn-sm btn-light" @click="verReferencias(usuario)">
+                                <span>@{{ usuario.ingresados }}</span>
+                                (<money :cantidad="''+usuario.total" :caracter="true"></money>)
+                            </button>
+                            <span>@{{ usuario.pagados }} (<money :cantidad="''+usuario.depositado" :caracter="true"></money>)</span>
+                            <span>@{{ usuario.pendientes }} (<money :cantidad="''+usuario.saldo" :caracter="true"></money>)</span>
+                            <div class="d-flex settings">
+                                <a v-tooltip="{content:'Ver encuesta'}" class="btn btn-sm btn-info text-light" :href="'{{ url('/usuarios/encuesta_gratis') }}/' + usuario.id">
+                                    <i class="fas fa-clipboard-list"></i>
+                                </a>
 
-                                    <a :href="'mensaje-directo/'+usuario.id" v-tooltip="{content:'Enviar mensaje'}" class="btn btn-sm btn-default" >
-                                        <i class="fas fa-comments"></i> <div v-if="usuario.sin_leer>0" class="sin_leer"></div>
-                                    </a>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -62,13 +144,17 @@
                         <h6 colspan="6">[No hay datos para mostrar]</h6>
                     </div>
                     <div class="float-right">
-                        <paginador ref="paginador" :url="'{{url('/configuracion/buscarSeguir')}}'" @loaded="loaded"></paginador>
+                        <paginador ref="paginador" :url="'{{url('/usuarios/buscar')}}'" @loaded="loaded"></paginador>
                     </div>
                 </div>
             </div>
             <modal ref="agregarSaldo" title="DejarSeguir" @ok="aumentaSaldo">
                 <h5>Actualización de saldo de @{{ usuario.name +' '+usuario.last_name }}</h5>
                 <input type="text" class="form-control" v-model="usuario.saldoAumentado" @keyup.enter="aumentaSaldo">
+            </modal>
+            <modal ref="agregarSemanas" title="Agregar Semanas" @ok="aumentaSemanas">
+                <h5>Actualización de semanas de @{{ usuario.name +' '+usuario.last_name }}</h5>
+                <input type="number" step="2" min="2" max="12" class="form-control" v-model="usuario.nuevaSemanas" @keyup.enter="aumentaSemanas">
             </modal>
             <modal ref="comisionModal" :title="'Pago de comisión a usuario'" @ok="pagar()" height="400" :oktext="'Pagar'">
                 <div class="d-flex flex-column">
@@ -181,6 +267,7 @@
                         referencia: '',
                         dias_reto:'',
                         saldoAumentado: 0,
+                        nuevaSemanas: 0
                     },
                     referencias:{
                         data:[]
@@ -289,11 +376,26 @@
                     this.usuario.saldoAumentado = saldo;
                     this.$refs.agregarSaldo.showModal();
                 },
+                agregarSemanas: function (usuario) {
+                    this.usuario = usuario;
+                    this.$refs.agregarSemanas.showModal();
+                },
                 aumentaSaldo: function (){
                     let vm = this;
                     axios.post('{{url('/usuarios/aumentarSaldo')}}', this.usuario).then(function (response) {
                         vm.$refs.agregarSaldo.closeModal();
                         vm.buscar();
+                    });
+                },
+                aumentaSemanas: function (){
+                    let vm = this;
+                    axios.post('{{url('/usuarios/aumentarSemanas')}}', this.usuario).then(response => {
+                        if (response.status === 200) {
+                            vm.$refs.agregarSemanas.closeModal();
+                            vm.buscar();
+                        }
+                    }).catch(error => {
+                        //run this code always when status!==200
                     });
                 }
 

@@ -285,7 +285,8 @@ class RegisterController extends Controller
 
 
         }
-        return response()->json(['status' => $status, 'mensaje' => $mensaje, 'fecha' => $contacto->created_at]);
+        return response()->json(['status' => $status, 'mensaje' => $mensaje, 'fecha' => $contacto->created_at,
+            'usuario' => $contacto->email, 'pass' => 'acton'.$contacto->name]);
     }
 
     public function saveObjetivo(Request $request)

@@ -49,7 +49,7 @@
                             </div>
                         </div>
                         <div class="col-sm-2">
-                            <label>Saldo a favor</label>
+                            <label>Dinero Acton</label>
                             <input class="form-control" v-model="filtros.saldo" @keyup.enter="buscar"
                                    placeholder="0.00">
                         </div>
@@ -133,6 +133,10 @@
                             <span>@{{ usuario.pagados }} (<money :cantidad="''+usuario.depositado" :caracter="true"></money>)</span>
                             <span>@{{ usuario.pendientes }} (<money :cantidad="''+usuario.saldo" :caracter="true"></money>)</span>
                             <div class="d-flex settings">
+                                <button v-tooltip="{content:'Cambiar fecha de inicio'}"
+                                        class="btn btn-sm btn-warning" @click="mostrarCambioFecha(usuario)">
+                                    <i class="far fa-bell"></i>
+                                </button>
                                 <a v-tooltip="{content:'Ver encuesta'}" class="btn btn-sm btn-info text-light" :href="'{{ url('/usuarios/encuesta') }}/' + usuario.id">
                                     <i class="fas fa-clipboard-list"></i>
                                 </a>
@@ -195,6 +199,15 @@
                 </table>
                 <div class="float-right">
                     <paginador ref="paginadorComision" :url="'{{url('/usuarios/verComprasByReferencia')}}'" @loaded="loadedComision"></paginador>
+                </div>
+            </modal>
+            <modal ref="cambiaFecha" :title="'Cambiar fecha de inio a usuario'" @ok="cambiaFecha()" height="400" :oktext="'Guardar'">
+                <div class="d-flex flex-column">
+                    <span><b>Email : </b>@{{ usuario.email }}</span>
+                    <span><b>Nombre : </b>@{{ usuario.name }}</span>
+                    <br>
+                    Fecha de inicio:
+                    <input type="date" class="form-control" v-model="usuario.fecha" @keyup.enter="cambiaFecha" data-date-format="YYYY-MM-DD">
                 </div>
             </modal>
             <modal ref="baja" title="Baja de usuario" @ok="bajar">
@@ -286,7 +299,8 @@
                         referencia: '',
                         dias_reto:'',
                         saldoAumentado: 0,
-                        nuevaSemanas: 0
+                        nuevaSemanas: 0,
+                        fecha: ''
                     },
                     referencias:{
                         data:[]
@@ -319,6 +333,10 @@
                     Vue.nextTick(()=> {
                         this.$refs.paginadorComision.consultar(this.usuario);
                     });
+                },
+                mostrarCambioFecha: function (usuario) {
+                    this.usuario = usuario;
+                    this.$refs.cambiaFecha.showModal();
                 },
                 confirmar: function (usuario) {
                     this.usuario = usuario;
@@ -403,6 +421,13 @@
                     let vm = this;
                     axios.post('{{url('/usuarios/aumentarSaldo')}}', this.usuario).then(function (response) {
                         vm.$refs.agregarSaldo.closeModal();
+                        vm.buscar();
+                    });
+                },
+                cambiaFecha: function (){
+                    let vm = this;
+                    axios.post('{{url('/usuarios/cambiaFecha')}}', this.usuario).then(function (response) {
+                        vm.$refs.cambiaFecha.closeModal();
                         vm.buscar();
                     });
                 },

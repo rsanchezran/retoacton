@@ -45,12 +45,22 @@
 
         .imagenpersonal img {
             display:block;
-            margin:auto;
+            margin:0 -10px;
         }
 
         .card {
             border: 0px solid rgba(0, 0, 0, 0.125) !important;
         }
+
+        .cardbusqueda {
+            border: 1px solid rgba(0, 0, 0, 0.125) !important;
+        }
+
+        .usuario {
+            padding: 10px;
+            border-bottom: 1px solid #c2c2c2;
+        }
+
 
 
         @media only screen and (max-width: 800px) {
@@ -73,6 +83,12 @@
             }
             .copa{
                 width: 60% !important;
+            }
+
+            .imagenpersonal img {
+                display:block;
+                margin:0 0px;
+                width: 400px !important;
             }
         }
 
@@ -98,9 +114,13 @@
                             </div>
                         @endif
                         <div style="display: flex; flex-wrap:wrap;  background-color: #E9E9E9; padding: 20px">
-                            <div class="col-12 col-sm-6 imagenpersonal d-block ml-auto mr-auto text-center" align="center" style="border:padding: 5px; min-height: 160px;">
+                            <div class="col-12 col-sm-8 imagenpersonal d-block ml-auto mr-auto text-center" align="center" style="border:padding: 5px; min-height: 160px;">
                                 <img :src="'{{url('cuenta/getFotografia/'.\Illuminate\Support\Facades\Auth::user()->id.'/'.rand(0,10))}}'"
-                                     width="100">
+                                     width="200px">
+                                <br>
+                                <h4>Código personal</h4>
+                                <h4 class="">{{\Illuminate\Support\Facades\Auth::user()->referencia}}</h4>
+                                <h4 class="acton" style="color:#007FDC;">Dinero Acton: $<money :cantidad="''+usuario.saldo"></money></h4>
                             </div>
 
                         </div>
@@ -110,10 +130,15 @@
 
                 <div class="card col-md-3" style="color:#007FDC;font-weight: bold;margin-left: 3%;">
                     <br>
-                    <h4>Código personal</h4>
-                    <h4 class="">{{\Illuminate\Support\Facades\Auth::user()->referencia}}</h4>
-                    <h4>Saldo a favor</h4>
-                    <h4 class="acton" style="color:#007FDC;">$<money :cantidad="''+usuario.saldo"></money></h4>
+                    <br>
+                    <h4 class="" style="color:#007FDC;">Edad: @{{ usuario.edad }}</h4>
+                    <h4 class="" style="color:#007FDC;">Empleo: @{{ usuario.empleo }}</h4>
+                    <h4 class="" style="color:#007FDC;">Estudios: @{{ usuario.estudios }}</h4>
+                    <h4 class="" style="color:#007FDC;">Intereses: @{{ usuario.intereses }}</h4>
+                    <h4 class="" style="color:#007FDC;">Idiomas: @{{ usuario.idiomas }}</h4>
+                    <h4 class="" style="color:#007FDC;">Gym: @{{ usuario.gym }}</h4>
+                    <br>
+                    <h4 class="" style="color:#007FDC;">@{{ usuario.estado }}, @{{ usuario.ciudad }}, @{{ usuario.colonia }}</h4>
                     @if(\Illuminate\Support\Facades\Auth::user()->rol!==\App\Code\RolUsuario::TIENDA && \Illuminate\Support\Facades\Auth::user()->rol!==\App\Code\RolUsuario::COACH && \Illuminate\Support\Facades\Auth::user()->rol!==\App\Code\RolUsuario::ENTRENADOR)
                     <a v-if="usuario.inicio_reto==null" class="btn btn-lg btn-primary" href="{{url('/reto/comenzar/')}}">
                         <span>EMPEZAR RETO</span>
@@ -133,11 +158,11 @@
 
 
 
-                <div class="card col-md-5 d-block ml-auto mr-auto text-center">
                     @if(\Illuminate\Support\Facades\Auth::user()->vencido)
+                <div class="card col-md-5 d-block ml-auto mr-auto text-center">
                         <img src="{{asset('/images/imagesremodela/copa.png')}}" width="45%" class="copa">
-                    @endif
                 </div>
+                    @endif
 
             </div>
 
@@ -293,7 +318,7 @@
 
                         <div class="card mb-3">
                             <div class="card-header" @click="BusquedaBlock()" style="cursor: pointer">
-                                <i class="far fa-clipboard"></i> Personas en ACTON
+                                <i class="far fa-clipboard"></i> Personas que han usado tu referencia
                             </div>
                             <div class="card-body"  v-if="this.frmBusqueda">
                                 <form  action="/usuarios/seguir/" method="GET" id="formBusqueda">
@@ -355,7 +380,7 @@
                                         <div class="col-sm-3">
                                             <label>&nbsp;</label>
                                             <br>
-                                            <button class="btn btn-primary" @click="buscar" :disabled=" buscando" class="col-sm-12">
+                                            <button class="btn btn-primary" @click="buscarSeguir" :disabled=" buscando" class="col-sm-12">
                                                 <i v-if="buscando" class="fa fa-spinner fa-spin"></i>
                                                 <i v-else class="fas fa-search"></i>&nbsp;Buscar
                                             </button>
@@ -371,10 +396,10 @@
                     <div class="dash">
                         <div class="table-responsive">
                             <div class="d-flex flex-wrap">
-                                <div class="col-12 col-sm-12 col-md-6">
-                                    <h6>Estas son las personas que han usado tu código de referencia: </h6>
-                                </div>
                                 <div class="col-12 col-sm-12 col-md-6 d-flex justify-content-end">
+                                    <div v-if="referencias.length>1" class="col-12 col-sm-12 col-md-6">
+                                        <h6>Estas son las personas que han usado tu código de referencia: </h6>
+                                    </div>
                                     <!--span class="badge badge-light money" v-tooltip="{content:'Total generado'}">TG <money :caracter="true" :cantidad="''+usuario.total"></money></span>
                                     <span class="badge badge-light money" v-tooltip="{content:'Total transferido'}">TT <money :caracter="true" :cantidad="''+usuario.depositado"></money></span>
                                     <span class="badge badge-light money" v-tooltip="{content:'Pendiete por pagar'}">PP <money :caracter="true" :cantidad="''+usuario.saldo"></money></span-->
@@ -399,9 +424,9 @@
                                         </button>
                                     </td>
                                 </tr>
-                                <tr v-if="referencias.length==0">
+                                <!--tr v-if="referencias.length==0">
                                     <td>[Todavía no se ha utilizado tu referencia]</td>
-                                </tr>
+                                </tr-->
                             </table>
                             <div class="float-right">
                                 <paginador ref="paginador" :url="'{{url('/usuarios/referencias')}}'" @loaded="loaded"></paginador>
@@ -409,22 +434,133 @@
                             </div>
                         </div>
                     </div>
+
+            <div class="card mb-3">
+                <div class="card-header"><i class="far fa-clipboard"></i> Personas en ACTON</div>
+                <div class="card-body">
+                    <div style="display: flex; flex-wrap: wrap">
+                        <div class="col-sm-3">
+                            <label>Nombre</label>
+                            <input class="form-control" v-model="filtros.nombre" @keyup.enter="buscar">
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Codigo Personal</label>
+                            <input class="form-control" v-model="filtros.codigo_personal" name="codigo_personal">
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Conexiones</label>
+                            <select class="form-control" v-model="filtros.conexion" @keyup.enter="buscar">
+                                <option></option>
+                                <option>Siguiendo</option>
+                                <option>Me siguen</option>
+                                <option>Sin conexión</option>
+                                <option>Tiendas</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Tiendas/GYM</label>
+                            <select class="form-control" v-model="filtros.tiendagym" @keyup.enter="buscar">
+                                <option></option>
+                                <option v-for="p in this.tiendas[0]" :selected="p == filtros.tiendagym">@{{ p.name }}</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Estado</label>
+                            <select class="form-control" v-model="filtros.estado" @keyup.enter="buscar" @change="getCiudades()">
+                                <option></option>
+                                <option v-for="p in this.estados[0]">@{{ p.estado }}</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Ciudad</label>
+                            <select class="form-control" v-model="filtros.ciudad" @keyup.enter="buscar" @change="getCPs()">
+                                <option></option>
+                                <option v-for="p in this.ciudades[0]">@{{ p.ciudad }}</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Codigo Postal</label>
+                            <select class="form-control" v-model="filtros.cp" @keyup.enter="buscar" @change="getColonias()">
+                                <option></option>
+                                <option v-for="p in this.cps[0]">@{{ p.cp }}</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Colonias</label>
+                            <select class="form-control" v-model="filtros.colonia" @keyup.enter="buscar">
+                                <option></option>
+                                <option  v-for="p in this.colonias[0]">@{{ p.colonia }}</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>&nbsp;</label>
+                            <br>
+                            <button class="btn btn-primary" @click="buscarSeguir" :disabled=" buscando" class="col-sm-12">
+                                <i v-if="buscando" class="fa fa-spinner fa-spin"></i>
+                                <i v-else class="fas fa-search"></i>&nbsp;Buscar
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <modal ref="pagosModal" :title="'Reinscripciones de '+nombre" @ok="refs.pagosModal.closeModal()">
-                <table class="table table-sm">
-                    <tr v-for="(pago, ipago) in pagos" v-if="ipago > 0">
-                        <td>@{{ ipago }}</td>
-                        <td><fecha :fecha="pago.created_at"></fecha></td>
-                        <td v-if="pago.pagado==1">
-                            Pagado <i class="fa fa-check"></i>
-                        </td>
-                        <td v-else>
-                            Pendiente <i class="fa fa-minus"></i>
-                        </td>
-                    </tr>
-                </table>
+
+            <div class="card cardbusqueda mb-3" style="border:1px solid #d2d2d2">
+                <div class="card-body">
+                    <div v-for="usuario in usuariosSeguir.data" class="d-flex usuario">
+                        <div class="col-4 d-flex flex-column align-items-start">
+                            <span>
+                                <i v-if="usuario.vigente" class="fa fa-user text-info"></i>
+                                <i v-else class="fa fa-user text-default"></i>
+                                @{{ usuario.name+' '+usuario.last_name }}
+                            </span>
+                            <!--span>@{{ usuario.medio }}</span-->
+                        </div>
+                        <div class="col-4 d-flex flex-column text-center">
+                        </div>
+                        <div class="col-4 d-flex flex-column align-items-end">
+                            <div class="d-flex settings">
+                                <div>
+                                    <a v-tooltip="{content:'Ver perfil'}" class="btn btn-sm btn-default" :href="'{{ url('/cuenta/') }}/' + usuario.id">
+                                        <i class="fas fa-user"></i>
+                                    </a>
+                                </div>
+                                <div v-if="usuario.amistad=='si'">
+                                    <a v-tooltip="{content:'Ver reto'}" class="btn btn-sm btn-default" :href="'{{ url('/usuarios/imagenes') }}/' + usuario.id">
+                                        <i class="fas fa-running"></i>
+                                    </a>
+                                </div>
+                                <div v-if="usuario.amistad=='si'">
+                                    <button v-tooltip="{content:'Dejar de Seguir'}" class="btn btn-sm btn-default" @click="dejar(usuario)">
+                                        <i class="fas fa-user-minus"></i>
+                                    </button>
+                                </div>
+                                <div v-if="usuario.amistad=='no'">
+                                    <button v-tooltip="{content:'Seguir'}" class="btn btn-sm btn-default" @click="sigue(usuario)">
+                                        <i class="fas fa-handshake"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-if="usuariosSeguir.length == 0 || usuariosSeguir.data.length == 0" align="center">
+                        <h6 colspan="6">[No hay datos para mostrar]</h6>
+                    </div>
+                    <div class="float-right">
+                        <paginador ref="paginadorBusquedaSeguir" :url="'{{url('/usuarios/buscarSeguir')}}'" @loaded="loadedSeguir"></paginador>
+                    </div>
+                </div>
+            </div>
+
+            <modal ref="baja" title="Baja de usuario" @ok="bajar">
+                <h5>¿Quiere desactivar dar de baja a @{{ usuario.name +' '+usuario.last_name }}?</h5>
             </modal>
+            <modal ref="seguir" title="Seguir" @ok="seguir">
+                <h5>¿Quiere seguir a @{{ usuario.name +' '+usuario.last_name }}?</h5>
+            </modal>
+            <modal ref="dejarseguir" title="DejarSeguir" @ok="dejarseguir">
+                <h5>¿Quiere dejar de seguir a @{{ usuario.name +' '+usuario.last_name }}?</h5>
+            </modal>
+
         </div>
     </template>
 @endsection
@@ -448,12 +584,17 @@
                         estado: '0',
                         ciudad: '0',
                         cp: '0',
-                        estado: '0',
                         colonia: '0',
                         tiendagym: '0',
                         conexion: '0',
                         ingresadosReto: '',
-                        codigo_personal: ''
+                        codigo_personal: '',
+                        nombre: '',
+                        email: '',
+                        fecha_inicio: '',
+                        fecha_final: '',
+                        saldo: '',
+                        ingresados: ''
                     },
                     buscando: false,
                     montopago: 0,
@@ -463,10 +604,22 @@
                     ciudades:[],
                     cps:[],
                     colonias:[],
-
                     tiendas:[],
                     conexiones:[],
-                    frmBusqueda: false
+                    frmBusqueda: false,
+                    usuariosSeguir: [],
+                    usuario: {
+                        id: '',
+                        nombre: '',
+                        tarjeta: '',
+                        saldo: '',
+                        referencia: '',
+                        dias_reto:''
+                    },
+                    referencias:{
+                        data:[]
+                    },
+                    compras:[]
                 }},
             methods: {
                 BusquedaBlock: function (){
@@ -478,22 +631,25 @@
                 },
                 loaded: function (referencias) {
                     this.referenciados = referencias;
+                    this.usuarios = usuarios;
+                    this.buscando = false;
+                },
+                loadedSeguir: function (usuarios) {
+                    this.usuariosSeguir = usuarios;
+                    this.buscando = false;
                 },
                 buscar: function () {
                     this.buscando = true;
                     this.$refs.paginador.consultar(this.filtros);
                     this.buscando = false;
                 },
+                buscarSeguir: function () {
+                    this.buscando = true;
+                    this.$refs.paginadorBusquedaSeguir.consultar(this.filtros);
+                    this.buscando = false;
+                },
                 terminado: function () {
                     window.location.href = "{{url('/home')}}";
-                },
-                verPagos: function (referencia) {
-                    let vm = this;
-                    this.nombre = referencia.name;
-                    axios.get('{{url('/verPagos/')}}/'+referencia.id).then(function (response) {
-                        vm.pagos = response.data;
-                        vm.$refs.pagosModal.showModal();
-                    });
                 },
                 check: function(e) {
                     if(this.saldo > 0) {
@@ -680,15 +836,53 @@
                         console.log(error);
                         vm.errors = error.response;
                     });
-                }
+                },
+                sigue: function (usuario) {
+                    this.usuario = usuario;
+                    this.$refs.seguir.showModal();
+                },
+                dejar: function (usuario) {
+                    this.usuario = usuario;
+                    this.$refs.dejarseguir.showModal();
+                },
+                bajar: function () {
+                    axios.post('{{url('/usuarios/bajar')}}', this.usuario).then(function (response) {
+                        if (response.data.status=='ok'){
+                            window.location.href = response.data.redirect;
+                        }
+                    }).catch(function () {
+
+                    });
+                },
+                seguir: function () {
+                    axios.post('{{url('/usuarios/seguir')}}/'+this.usuario.id).then(function (response) {
+                        location.reload();
+                    }).catch(function () {
+                        window.location.href = '{{ url('/usuarios/imagenes') }}/' + this.usuario.id;
+
+                    });
+                },
+                dejarseguir: function () {
+                    axios.post('{{url('/usuarios/dejar_seguir')}}/'+this.usuario.id).then(function (response) {
+                        location.reload();
+                    }).catch(function () {
+
+                        location.reload();
+                    });
+                },
             },
             mounted: function () {
                 $("#pagarceros").hide();
                 this.diasChange(14);
                 this.filtros.referencia = this.usuario.referencia;
-                this.buscar();
                 this.getEstados();
                 this.getTiendas();
+                this.buscar();
+                let uri = window.location.search.substring(1);
+                let params = new URLSearchParams(uri);
+                if(params.get("_token")) {
+                    this.buscar();
+                }
                 @if(\Illuminate\Support\Facades\Auth::user()->vencido)
                     this.$refs.cobro.configurar(
                     this.usuario.name,

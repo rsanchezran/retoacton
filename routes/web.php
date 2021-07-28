@@ -14,6 +14,10 @@ Auth::routes();
 Route::get('/', 'HomeController@index')->name('index');
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 Route::get('encuesta_entrada', 'HomeController@encuestaEntrada');
+Route::get('markAsRead', function (){
+    auth()->user()->unreadNotifications->markAsRead();
+    return redirect()->back();
+})->name('markAsRead');
 
 Route::get('/getImagen/{image}', 'HomeController@getImage');
 Route::get('/getTestimonio/{image}', 'HomeController@getTestimonio');
@@ -50,6 +54,7 @@ Route::group(['prefix' => '/', 'middleware' => ['auth', 'pago']], function () {
 });
 Route::group(['prefix' => 'cuenta', 'middleware' => ['auth', 'pago']], function () {
     Route::get('/', 'CuentaController@index');
+    Route::get('/{id}/', 'CuentaController@perfil');
     Route::post('/', 'CuentaController@save');
     Route::post('subirFoto', 'CuentaController@subirFoto');
     Route::get('getFotografia/{id}/{random}', 'CuentaController@getFotografia');
@@ -106,7 +111,9 @@ Route::group(['prefix' => 'suplementos', 'middleware' => ['auth', 'pago']], func
 
 Route::group(['prefix' => 'usuarios', 'middleware'=>['auth', 'pago']], function (){
     Route::get('/','UserController@index');
+    Route::get('usuarios_gratis','UserController@usuarios_gratis');
     Route::get('buscar','UserController@buscar');
+    Route::get('buscar_gratis','UserController@buscar_gratis');
     Route::get('buscar_coach','UserController@buscar_coach');
     Route::get('seguir/','UserController@listado');
     Route::post('seguir/{id}','UserController@seguir');
@@ -121,9 +128,11 @@ Route::group(['prefix' => 'usuarios', 'middleware'=>['auth', 'pago']], function 
     Route::post('getColonias/','UserController@getColonias');
     Route::post('getTiendas/','UserController@getTiendas');
     Route::post('guardaUbicacion/','UserController@guardaUbicacion');
+    Route::post('guardaInfoGeneral/','UserController@guardaInfoGeneral');
     Route::get('buscarSeguir','UserController@buscarSeguir');
     Route::get('imagenes/{id}', 'UserController@imagenes');
     Route::get('encuesta/{id}', 'UserController@showEncuesta');
+    Route::get('encuesta_gratis/{id}', 'UserController@showEncuestaGratis');
     Route::post('pagar', 'UserController@pagar');
     Route::get('referencias', 'UserController@getReferencias');
     Route::post('bajar', 'UserController@bajar');
@@ -134,6 +143,7 @@ Route::group(['prefix' => 'usuarios', 'middleware'=>['auth', 'pago']], function 
     Route::post('cambiarDias', 'UserController@cambiarDias');
     Route::post('aumentarSaldo', 'UserController@aumentarSaldos');
     Route::post('aumentarSemanas', 'UserController@aumentarSemanas');
+    Route::post('cambiaFecha', 'UserController@cambiaFecha');
     Route::get('exportar/{filtros}', 'UserController@exportar');
     Route::get('getSemana/{usuario}/{semana}', 'UserController@getSemana');
     Route::get('actualizar_dias/{dias}', 'UserController@actualizarDias');
@@ -148,9 +158,11 @@ Route::group(['prefix'=>'reto', 'middleware'=>['auth', 'pago'] ],function (){
     Route::get('dia/{dia}/{genero}/{objetivo}', 'RetoController@dia');
     Route::get('pdf/{dia}/{genero}/{objetivo}/{dieta}/{lugar}', 'RetoController@pdf');
     Route::get('getImagen/{carpeta}/{id}/{imagen}/{otro?}', 'RetoController@getImagen');
+    Route::get('getVideo/{carpeta}/{id}/{imagen}/{otro?}', 'RetoController@getVideo');
     Route::get('getImagen4/{carpeta}/4/{id}/{imagen}/{otro?}', 'RetoController4@getImagen');//AQUI
     Route::get('getAudio/{carpeta}/{id}/{imagen}/{otro?}', 'RetoController@getAudio');
     Route::post('saveImagen', 'RetoController@saveImagen');
+    Route::post('saveVideo', 'RetoController@saveVideo');
     Route::post('saveAudio', 'RetoController@saveAudio');
     Route::post('quitarAudio', 'RetoController@quitarAudio');
     Route::post('comentar', 'RetoController@comentar');

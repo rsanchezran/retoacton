@@ -109,6 +109,11 @@
                         </div>
                         <div class="col-4 d-flex flex-column align-items-end">
                             <div class="d-flex settings">
+                                <div>
+                                    <a v-tooltip="{content:'Ver perfil'}" class="btn btn-sm btn-default" :href="'{{ url('/cuenta/') }}/' + usuario.id">
+                                        <i class="fas fa-user"></i>
+                                    </a>
+                                </div>
                                 <div v-if="usuario.amistad=='si'">
                                     <a v-tooltip="{content:'Ver reto'}" class="btn btn-sm btn-default" :href="'{{ url('/usuarios/imagenes') }}/' + usuario.id">
                                         <i class="fas fa-running"></i>

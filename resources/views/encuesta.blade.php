@@ -403,7 +403,6 @@
                     var vm = this;
                     var respuestas = vm.preguntasAbiertas.concat(vm.preguntasCerradas);
 
-                    vm.errorAbierta = true
                     vm.errors = [];
                     axios.post('{{url('encuesta/validarAbiertasdos')}}', vm.preguntasAbiertas)
                         .then(function (respuesta) {

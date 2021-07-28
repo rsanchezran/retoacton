@@ -40,6 +40,8 @@ class HomeController extends Controller
         $usuario = User::where('id', $request->user()->id)->get()->first();
         $usuario->total = $usuario->ingresados * $comision;
         $usuario->depositado = $usuario->total - $usuario->saldo;
+        $usuario->intereses = str_replace(',', ', ', $usuario->intereses);
+        $usuario->idiomas = str_replace(',', ', ', $usuario->idiomas);
         $referencias = User::select(['id', 'name', 'email', 'created_at', 'num_inscripciones'])
             ->where('codigo', $request->user()->referencia)
             ->where('pagado', true)->whereNotNull('codigo')->get();
@@ -490,16 +492,14 @@ class HomeController extends Controller
     {
         $preguntas = collect($request->all())->keyBy('pregunta')->toArray();
 
-
-        foreach ($preguntas as $p) {
-            if($p["id"]==14){
-                if($p["respuesta"]==null){
-                    return \Response::make('message', 200);
-                }else{
-                    return \Response::make('message', 200);
-                }
-            }
-        }
+        Validator::make($preguntas,
+            [
+                'Redacta lo que haces durante un día normal desde que despiertas hasta que vas a dormir.respuesta' => 'required',
+            ],
+            [
+                'Redacta lo que haces durante un dia normal desde que despiertas hasta que vas a dormir.respuesta.required' => 'Es d',
+            ]
+        )->validate();
 
     }
 
