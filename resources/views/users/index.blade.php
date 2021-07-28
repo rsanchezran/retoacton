@@ -137,6 +137,10 @@
                                         class="btn btn-sm btn-warning" @click="mostrarCambioFecha(usuario)">
                                     <i class="fas fa-calendar-day"></i>
                                 </button>
+                                <button v-tooltip="{content:'Cambiar contraseña'}"
+                                        class="btn btn-sm btn-warning" @click="mostrarCambioContrania(usuario)">
+                                    <i class="fas fa-unlock-alt"></i>
+                                </button>
                                 <a v-tooltip="{content:'Ver encuesta'}" class="btn btn-sm btn-info text-light" :href="'{{ url('/usuarios/encuesta') }}/' + usuario.id">
                                     <i class="fas fa-clipboard-list"></i>
                                 </a>
@@ -208,6 +212,15 @@
                     <br>
                     Fecha de inicio:
                     <input type="date" class="form-control" v-model="usuario.fecha" @keyup.enter="cambiaFecha" data-date-format="YYYY-MM-DD">
+                </div>
+            </modal>
+            <modal ref="cambiaContrasenia" :title="'Cambiar contraseña'" @ok="cambiaContrasenia()" height="400" :oktext="'Guardar'">
+                <div class="d-flex flex-column">
+                    <span><b>Email : </b>@{{ usuario.email }}</span>
+                    <span><b>Nombre : </b>@{{ usuario.name }}</span>
+                    <br>
+                    Contraseña:
+                    <input type="text" class="form-control" v-model="usuario.contrasenia" @keyup.enter="cambiaContrasenia">
                 </div>
             </modal>
             <modal ref="baja" title="Baja de usuario" @ok="bajar">
@@ -300,7 +313,8 @@
                         dias_reto:'',
                         saldoAumentado: 0,
                         nuevaSemanas: 0,
-                        fecha: ''
+                        fecha: '',
+                        contrasenia: ''
                     },
                     referencias:{
                         data:[]
@@ -337,6 +351,10 @@
                 mostrarCambioFecha: function (usuario) {
                     this.usuario = usuario;
                     this.$refs.cambiaFecha.showModal();
+                },
+                mostrarCambioContrania: function (usuario) {
+                    this.usuario = usuario;
+                    this.$refs.cambiaContrasenia.showModal();
                 },
                 confirmar: function (usuario) {
                     this.usuario = usuario;
@@ -428,6 +446,13 @@
                     let vm = this;
                     axios.post('{{url('/usuarios/cambiaFecha')}}', this.usuario).then(function (response) {
                         vm.$refs.cambiaFecha.closeModal();
+                        vm.buscar();
+                    });
+                },
+                cambiaContrasenia: function (){
+                    let vm = this;
+                    axios.post('{{url('/usuarios/cambiaContrasenia')}}', this.usuario).then(function (response) {
+                        vm.$refs.cambiaContrasenia.closeModal();
                         vm.buscar();
                     });
                 },

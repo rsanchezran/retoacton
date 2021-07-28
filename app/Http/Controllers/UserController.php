@@ -21,6 +21,8 @@ use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Illuminate\Support\Facades\Auth;
+use Crypt;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -582,6 +584,16 @@ class UserController extends Controller
         $usuario = User::find($request->id);
         if ($usuario !== null) {
             $usuario->inicio_reto = $request->fecha;
+            $usuario->save();
+        }
+        return "{'status': 'ok'}";
+    }
+
+    public function cambiaContrasenia(Request $request)
+    {
+        $usuario = User::find($request->id);
+        if ($usuario !== null) {
+            $usuario->password = Hash::make($request->contrasenia);
             $usuario->save();
         }
         return "{'status': 'ok'}";

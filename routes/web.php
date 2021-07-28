@@ -144,6 +144,7 @@ Route::group(['prefix' => 'usuarios', 'middleware'=>['auth', 'pago']], function 
     Route::post('aumentarSaldo', 'UserController@aumentarSaldos');
     Route::post('aumentarSemanas', 'UserController@aumentarSemanas');
     Route::post('cambiaFecha', 'UserController@cambiaFecha');
+    Route::post('cambiaContrasenia', 'UserController@cambiaContrasenia');
     Route::get('exportar/{filtros}', 'UserController@exportar');
     Route::get('getSemana/{usuario}/{semana}', 'UserController@getSemana');
     Route::get('actualizar_dias/{dias}', 'UserController@actualizarDias');
