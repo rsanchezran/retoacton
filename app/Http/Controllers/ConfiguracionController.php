@@ -1145,13 +1145,12 @@ class ConfiguracionController extends Controller
 
     public function buscarSeguir(Request $request)
     {
+        $usuarios = User::where('rol', '!=', '111');
 
         $amistad = Amistades::where('usuario_solicita_id', auth()->user()->id)->select('usuario_amigo_id')->get();
-        if(auth()->user()->id->rol == 'admin'){
-            $usuarios = User::all();
-        }else{
-            $usuarios = User::whereIn('id', $amistad);
-        }
+        $amistad_dos = Amistades::where('usuario_amigo_id', auth()->user()->id)->select('usuario_solicita_id')->get();
+        $usuarios = $usuarios->whereIn('id', $amistad);
+        $usuarios = $usuarios->whereIn('id', $amistad_dos);
         //$amistad_me_siguen = Amistades::where('usuario_amigo_id', auth()->user()->id)->select('usuario_solicita_id')->get();
         //$usuarios = $usuarios->whereIn('id', $amistad_me_siguen);
 
