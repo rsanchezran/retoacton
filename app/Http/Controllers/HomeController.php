@@ -494,10 +494,10 @@ class HomeController extends Controller
 
         Validator::make($preguntas,
             [
-                'Redacta lo que haces durante un día normal desde que despiertas hasta que vas a dormir.respuesta' => 'required',
+                'Redacta lo que haces durante un dia normal desde que despiertas hasta que vas a dormir.respuesta' => 'required',
             ],
             [
-                'Redacta lo que haces durante un dia normal desde que despiertas hasta que vas a dormir.respuesta.required' => 'Es d',
+                'Redacta lo que haces durante un dia normal desde que despiertas hasta que vas a dormir.respuesta.required' => 'Es requerido',
             ]
         )->validate();
 
