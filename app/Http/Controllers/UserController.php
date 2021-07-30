@@ -583,7 +583,8 @@ class UserController extends Controller
     {
         $usuario = User::find($request->id);
         if ($usuario !== null) {
-            $usuario->inicio_reto = $request->fecha;
+            $fecha = join('-', array_reverse(explode('/', $request->fecha)));
+            $usuario->inicio_reto = $fecha;
             $usuario->save();
         }
         return "{'status': 'ok'}";

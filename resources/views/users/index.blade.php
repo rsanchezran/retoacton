@@ -211,7 +211,10 @@
                     <span><b>Nombre : </b>@{{ usuario.name }}</span>
                     <br>
                     Fecha de inicio:
-                    <input type="date" class="form-control" v-model="usuario.fecha" @keyup.enter="cambiaFecha" data-date-format="YYYY-MM-DD">
+
+                    <datepicker class="col-sm-4" v-model="usuario.fecha"
+                                placeholder="fecha inicio"></datepicker>
+
                 </div>
             </modal>
             <modal ref="cambiaContrasenia" :title="'Cambiar contraseña'" @ok="cambiaContrasenia()" height="400" :oktext="'Guardar'">
