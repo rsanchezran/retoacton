@@ -70,6 +70,10 @@ class Dia extends Model
         if($dia_gym==0){
             $dia_gym = 1;
         }
+
+        error_log('DIASSS');
+        error_log($dia_gym);
+
         $diaDB->gym = Serie::with(['ejercicios'=>function($q){
             $q->orderBy('orden');
         }])->where('dia_id', $dia_gym)->where($filtro)

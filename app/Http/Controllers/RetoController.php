@@ -292,7 +292,7 @@ class RetoController extends Controller
                 $teorico = $diasRetoOriginal;
             }
         }
-        $diasTranscurridosuno = Carbon::now()->startOfDay()->diffInDays($inicioReto);
+        $diasTranscurridosuno = (Carbon::now()->startOfDay()->diffInDays($inicioReto)+1);
         if(intval($diasTranscurridosuno) > intval($user->dias)){
             $teorico = intval($user->dias);
             $diasTranscurridosuno = intval($user->dias);
@@ -349,18 +349,21 @@ class RetoController extends Controller
                 app('App\Http\Controllers\HomeController')->generarDieta($request->user(), $objetivo, $peso, $alimentosIgnorados, $numDieta);
             }
 
-            $diasTranscurridosuno = Carbon::now()->startOfDay()->diffInDays($inicioReto);
+            $diasTranscurridosuno = (Carbon::now()->startOfDay()->diffInDays($inicioReto)+1);
             if(intval($diasTranscurridosuno) != $dia){
-                $diasTranscurridosuno = $dia+1;
+                $diasTranscurridosuno = $dia;
             }else{
                 if(intval($diasTranscurridosuno) > intval($user->dias)){
-                    $diasTranscurridosuno = intval($user->dias)+1;
+                    $diasTranscurridosuno = intval($user->dias);
                 }
             }
 
             if(intval($user->dias) < $dia){
-                $diasTranscurridosuno = intval($user->dias)+1;
+                $diasTranscurridosuno = intval($user->dias);
             }
+
+            error_log('DIASSS');
+            error_log($diasTranscurridosuno);
 
             $diaDB = Dia::buildDia($diasTranscurridosuno, $genero, $objetivo, $request->user(), $numDietas, $numSemanaSuplementacion);
             return view('reto.dia', ['dia' => $diaDB, 'genero' => $genero, 'objetivo' => $objetivo,
