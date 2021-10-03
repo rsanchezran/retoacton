@@ -38,6 +38,14 @@
             src: url("{{asset('fonts/unitext cursive.ttf')}}");
         }
 
+        .container_foot_2021{
+            background-image: url("{{asset('/images/2021/fondo_footer.png')}}");
+            background-repeat: no-repeat;
+            background-size: 100% auto;
+            min-height: 350px;
+            background-position-y: bottom;
+        }
+
         #app {
             min-height: 100%;
             font-family: unitext;
@@ -79,7 +87,7 @@
         .navbar {
             padding: 40px;
             box-shadow: none;
-            background-image: url('{{asset('/img/header_back2.png')}}');
+            /*background-image: url('{{asset('/img/header_back2.png')}}');*/
             background-repeat: no-repeat;
             background-size: 100% 100%;
         }
@@ -112,7 +120,7 @@
         @media only screen and (max-width: 420px) {
             .navbar {
                 padding: 0;
-                height: 110px;
+                height: 0px;
             }
 
             .navbar-brand {
@@ -126,12 +134,29 @@
 
             .navbar-toggler {
                 position: absolute;
-                top: 50px;
+                /*top: 50px;*/
                 right: 2px;
             }
 
             .nav-item a {
                 padding: 1px;
+            }
+            footer {
+                background-color: white;
+            }footer {
+                 margin-top: auto;
+                 padding: 0rem 0;
+                 color: white;
+             }
+
+
+            main{
+                background-image: url("{{asset('images/2021/fondo_rayo.png')}}");
+                background-size: 100%;
+                background-attachment: fixed;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: cover;
             }
         }
     </style>
@@ -140,41 +165,60 @@
 <body class="h-100">
 <div id="app" class="d-flex flex-column">
     {{--<img id="onda" src="{{asset('img/ondas.png')}}" alt="acton">--}}
-    <nav class="navbar navbar-expand-md navbar-light navbar-laravel d-flex justify-content-between">
-        <a class="navbar-brand" href="{{ url('/') }}">
-            <img src="{{asset('img/header.png')}}" width="250" id="logo">
-        </a>
-        <div class="navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item links">
-                    <a href="{{ route('login') }}">Acceso a miembros</a>
-                </li>
-            </ul>
-        </div>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-            </ul>
-            <ul class="navbar-nav ml-auto">
-                @guest
-                    <li class="nav-item links">
-                        <a href="{{ route('login') }}">Acceso a miembros</a>
-                    </li>
-                    @else
-                        <li class="nav-item links">
-                            <a href="{{ url('/home') }}">Acceso a miembros</a>
-                        </li>
-                        @endguest
-            </ul>
-        </div>
-    </nav>
+
 
     <main class="d-flex flex-column flex-grow-1 position-relative">
         @yield('content')
     </main>
 </div>
 <footer>
-    <div class="container">
-        <div class="d-flex flex-wrap">
+    <div class="container d-lg-none container_foot_2021">
+        <div class="d-flex flex-wrap d-none d-md-block">
+            <div class="col-sm-3" style="margin-top: 90px">
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="{{url('dudas')}}">
+                            <img class="d-lg-none w-50" src="{{asset('images/2021/registro_1.png')}}" alt="First slide">
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <br>
+            <br>
+            <div class="col-sm-3">
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="{{url('dudas')}}">
+                            <img class="d-lg-none w-50" src="{{asset('images/2021/quienes.png')}}" alt="First slide">
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <br>
+            <br>
+            <div class="col-sm-3">
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="{{url('dudas')}}">
+                            <img class="d-lg-none" src="{{asset('images/2021/face_1.png')}}" alt="First slide" width="15">&nbsp;&nbsp;
+                            <img class="d-lg-none" src="{{asset('images/2021/insta_1.png')}}" alt="First slide" width="25">
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <br>
+            <br>
+            <br>
+            <div class="col-sm-3">
+                <img src="{{asset('images/2021/logo_blanco_1.png')}}" width="250">
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="container d-none d-md-block">
+        <div class="d-flex flex-wrap d-none d-md-block">
             <div class="col-sm-3">
                 <h5>ATENCIÓN A CLIENTES</h5>
                 <ul class="list-unstyled">

@@ -32,7 +32,7 @@ class CuentaController extends Controller
         return view('cuenta.perfil', ['user' => $user, 'amistades' => $amistades]);
     }
 
-    public function save(Request $request)
+    public function saveuno(Request $request)
     {
         $validator = Validator::make($request->all(),
             [
@@ -61,6 +61,32 @@ class CuentaController extends Controller
                 $user->password = bcrypt($request->pass);
             }
             $user->tarjeta = $request->tarjeta;
+            $user->save();
+        }
+        \DB::commit();
+
+        return response()->json(['status' => 'ok', 'redirect' => url('home')]);
+    }
+
+    public function save(Request $request)
+    {
+        $validator = Validator::make($request->all(),
+            [
+                'codigo_nuevo' => 'max:7|min:7|required',
+            ],
+            [
+                'codigo_nuevo.required' => 'Este campo es obligatorio',
+                'codigo_nuevo.max' => 'Debe tener máximo 8 caracteres',
+                'codigo_nuevo.min' => 'Debe tener mínimo 7 caracteres',
+
+            ]
+        );
+        $validator->validate();
+
+        \DB::beginTransaction();
+        $user = User::find($request->id);
+        if ($user !== null) {
+            $user->referencia = $request->codigo_nuevo;
             $user->save();
         }
         \DB::commit();
@@ -114,6 +140,7 @@ class CuentaController extends Controller
                 ['Content-Type' => 'image/png']
             );
         } else {
+            return response()->file(public_path('images/2021/sin_foto.png'));
             return response()->file(public_path('img/user.png'));
         }
     }

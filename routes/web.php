@@ -29,6 +29,7 @@ Route::get('unsuscribe/{email}', 'Auth\RegisterController@unsuscribe');
 Route::post('unsuscribe', 'Auth\RegisterController@unsuscribeSave');
 Route::post('create', 'Auth\RegisterController@create');
 Route::post('saveContacto', 'Auth\RegisterController@saveContacto');
+Route::post('saveContactoGratuito', 'Auth\RegisterController@saveContactoGratuito');
 Route::post('saveObjetivo', 'Auth\RegisterController@saveObjetivo');
 Route::post('savePeso', 'Auth\RegisterController@savePeso');
 Route::post('webhook', 'Auth\RegisterController@webhook');
@@ -36,6 +37,7 @@ Route::get('buscarReferencia/{referencia}', 'Auth\RegisterController@buscarRefer
 Route::get('buscarReferenciaTienda/{referencia}/{email}', 'Auth\RegisterController@buscarReferenciaTienda');//AQUI
 Route::get('buscarReferenciaCoach/{referencia}/{email}', 'Auth\RegisterController@buscarReferenciaCoach');//AQUI
 Route::get('register/{dias}/', 'Auth\RegisterController@showRegistrationForm');
+Route::get('registro/gratis/', 'Auth\RegisterController@registroGratis');
 Route::post('crearCuentaFree', 'Auth\RegisterController@crearCuentaFree');
 
 Route::post('/nuevopago', 'PagoController@nuevoPago');
@@ -112,9 +114,11 @@ Route::group(['prefix' => 'suplementos', 'middleware' => ['auth', 'pago']], func
 Route::group(['prefix' => 'usuarios', 'middleware'=>['auth', 'pago']], function (){
     Route::get('/','UserController@index');
     Route::get('usuarios_gratis','UserController@usuarios_gratis');
+    Route::get('usuarios_validar','UserController@usuarios_validar');
     Route::get('buscar','UserController@buscar');
     Route::get('buscar_gratis','UserController@buscar_gratis');
     Route::get('buscar_coach','UserController@buscar_coach');
+    Route::get('buscar/validar','UserController@buscar_validar');
     Route::get('seguir/','UserController@listado');
     Route::post('seguir/{id}','UserController@seguir');
     Route::post('dejar_seguir/{id}','UserController@dejar_seguir');
@@ -192,5 +196,10 @@ Route::group(['prefix'=>'encuesta', 'middleware'=>['auth']], function (){
     Route::post('/validarAbiertas', 'HomeController@validarAbiertas');
     Route::post('/validarAbiertasdos', 'HomeController@validarAbiertasdos');
     Route::post('/save', 'HomeController@save');
+    Route::post('/subirArchivo1', 'HomeController@subirArchivo1');
+    Route::post('/subirArchivo2', 'HomeController@subirArchivo2');
+    Route::post('/enviarValidacion', 'HomeController@enviarValidacion');
+    Route::post('/enviarValidacion1/{id}', 'HomeController@validaAdmin');
+    Route::post('/enviarRechazo/{id}', 'HomeController@enviarRechazo');
     Route::get('/generarDietaUsuario/{id}', 'HomeController@generarDietaUsuario');
 });

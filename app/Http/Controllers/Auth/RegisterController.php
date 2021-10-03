@@ -19,6 +19,9 @@ use Illuminate\Support\Facades\Validator;
 use Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use App\Code\Utils;
+use App\Code\RolUsuario;
+use App\Code\LugarEjercicio;
 
 class RegisterController extends Controller
 {
@@ -80,6 +83,14 @@ class RegisterController extends Controller
         }else{
             return view('auth.register', ['urls' => $urls, 'medios' => $medios, 'dias' => $dias]);
         }
+    }
+
+    public function registroGratis()
+    {
+        $medios = MedioContacto::all();
+
+        return view('auth.register_gratis', ['medios' => $medios]);
+
     }
 
 
@@ -175,6 +186,75 @@ class RegisterController extends Controller
     }
 
 
+    public function saveContactoGratuito(Request $request)
+    {
+        $id = null;
+        $validator = Validator::make($request->all(), [
+            'nombres' => ['required', 'max:100', 'min:2', 'regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ\s]( )?)+$/'],
+            'apellidos' => 'required|max:100|min:2|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ\s]( )?)+$/',
+            'email' => 'required|max:100|min:3|email',
+            'telefono' => 'required|numeric|max:9999999999|integer',
+            'codigo' => 'max:7',
+        ], [
+            'nombres.required' => 'El nombre es obligatorio',
+            'nombres.min' => 'Debe capturar mínimo 2 caracteres en el nombre',
+            'nombres.max' => 'Debe capturar máximo 100 caracteres en el nombre',
+            'nombres.regex' => 'Debe capturar únicamente letras en el nombre',
+            'apellidos.required' => 'Los apellidos son obligatorios',
+            'apellidos.min' => 'Debe capturar mínimo 2 caracteres en los apellidos',
+            'apellidos.max' => 'Debe capturar máximo 100 caracteres en los apellidos',
+            'apellidos.regex' => 'Debe capturar únicamente letras en los apellidos',
+            'email.required' => 'El correo electrónico es obligatorio',
+            'email.min' => 'Debe capturar minimo 3 caracteres en el correo electrónico',
+            'email.max' => 'Debe capturar máximo 100 caracteres en el correo electrónico',
+            'email.unique' => 'El correo ya ha sido registrado',
+            'email.email' => 'El formato no es válido en el correo electrónico',
+            'telefono.required' => 'El teléfono es requerido',
+            'telefono.numeric' => 'El teléfono debe ser numérico',
+            'telefono.max' => 'El teléfono debe tener 10 caracteres',
+            'telefono.integer' => 'No puede ingresar números negativos',
+            'codigo.max' => 'La referencia debe tener 7 caracteres',
+        ]);
+        $email = trim($request->email);
+        $usuario = User::withTrashed()->orderBy('created_at')->where('email', $email)->get()->last();
+        if ($usuario!=null&&$usuario->id==1){
+            $cobro = new \stdClass();
+            $cobro->original = 0;
+            $cobro->descuento = 0;
+            $cobro->monto = 0;
+            $status = 'error';
+            $mensaje = 'Este usuario ya pertenece al RETO ACTON.';
+        }else{
+            $contacto = User::create([
+                'name' => $request->nombres,
+                'last_name' => $request->apellidos,
+                'email' => $request->email,
+                'password' => Hash::make('acton'.$request->nombres),
+                'pagado' => true,
+                'encuestado' => false,
+                'objetivo' => 1,
+                'referencia' => Utils::generarRandomString(7),
+                'codigo' => $request->codigo,
+                'rol' => RolUsuario::CLIENTE,
+                'tipo_pago' => 7,
+                'modo' => LugarEjercicio::GYM,
+                'fecha_inscripcion' => Carbon::now(),
+                'correo_enviado' => 0,
+                'num_inscripciones' => 1,
+                'dias' => 7,
+                'cp' => '0',
+                'colonia' => '0',
+                'estado' => '0',
+                'ciudad' => '0',
+            ]);
+            $mensaje = '';
+            $status = 'ok';
+        }
+        return response()->json(['status' => $status, 'original' => 0, 'descuento' => '',
+            'monto' => 0, 'mensaje' => $mensaje, 'fecha' => $contacto->created_at, 'horas' => 0]);
+    }
+
+
     public function crearCuentaFree(Request $request)
     {
         $id = null;
@@ -253,7 +333,7 @@ class RegisterController extends Controller
             $contacto->last_name = $request->apellidos;
             $contacto->tipo_referencia = 3;
             $contacto->deleted_at = null;
-            $contacto->password = Hash::make('acton'.$contacto->name);
+            $contacto->password = Hash::make($request->password);
             $contacto->rol = 'cliente';
             $contacto->encuestado = 0;
             $contacto->pagado = 1;

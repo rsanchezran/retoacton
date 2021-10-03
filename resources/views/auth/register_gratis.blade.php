@@ -3,7 +3,6 @@
     <style>
 
         #pago {
-            background: #f2f2f2 !important;
         }
 
         #imagentop{
@@ -82,12 +81,6 @@
         }
 
         #vue {
-            background-color: #f2f2f2;
-            background-image: url("{{asset('../images/imagesremodela/rayo.png')}}");
-            background-repeat: no-repeat;
-            background-position: center;
-            background-position-x: -7;
-            background-position-y: 0;
         }
 
         h6 {
@@ -134,10 +127,6 @@
             width: 100%;
         }
 
-        .info {
-            padding: 20px 10px;
-            background-color: #f6f6f6;
-        }
 
         .section {
             margin-top: 60px;
@@ -279,30 +268,7 @@
             padding: 10px;
         }
 
-        #test {
-            background-image: url('{{asset('img/backrayo.png')}}');
-            background-repeat: no-repeat;
-            background-position: top left;
-            background-size: auto;
-            /*padding-bottom: 20px;*/
-        }
 
-        /*#testtitulo {
-            background-image: url('{{asset('img/logo reto.png')}}');
-            background-repeat: no-repeat;
-            background-size: 150px;
-            background-position: top right;
-            width: 108.4%;
-            margin-left: -4.3%;
-        }*/
-        #testtitulo{
-            background-image: url('{{asset('img/logo reto.png')}}');
-            background-repeat: no-repeat;
-            background-size: 150px;
-            background-position: top right;
-            width: 115.2%;
-            margin-left: -6.7%;
-        }
         #descripcionsemanas{
             margin-left: -1.5%;
             width: 109.5%;
@@ -313,39 +279,7 @@
             width: auto !important;
         }
 
-        #pipo {
-            background-color: #013451;
-            color: #FFF;
-            background-image: url("{{asset('img/lineas.png')}}");
-            background-position: center center;
-            background-repeat: no-repeat;
-            background-size: 100%;
-            min-height: 400px;
-        }
 
-        #curva {
-            background-image: url("{{asset('img/radius.png')}}");
-            background-size: 100% 100%;
-            height: 60px;
-            width: 100%;
-        }
-
-        #quote {
-            background-image: url('{{asset('img/comillas.png')}}');
-            background-repeat: no-repeat;
-            background-size: 200px;
-            background-position: 200px 120px;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-        }
-
-        #cree {
-            width: 320px;
-            text-align: center;
-            margin: 1px auto;
-            line-height: 1.2;
-        }
 
         #cree p {
             padding: 1px;
@@ -361,13 +295,6 @@
             margin-top: 80px;
         }
 
-        #finanzas {
-            padding: 20px 0px 80px 40px;
-            background-image: url("{{asset('img/rayoback.png')}}");
-            background-size: 100% 100%;
-            background-repeat: no-repeat;
-            color: #fff;
-        }
 
         #bonus {
             margin-left: 140px;
@@ -564,7 +491,6 @@
                 }
 
                 #finanzas {
-                    background-image: url("{{asset('img/rayobackmovil.png')}}");
                 }
 
                 #cree {
@@ -1474,26 +1400,50 @@
             }
         }
 
+        select {
+            color: #333333 !important;
+            border-radius: 6px !important;
+            background: rgb(245,245,245) !important;
+            background: linear-gradient(
+                    180deg, rgba(245,245,245,1) 35%, rgba(166,166,166,1) 100%) !important;
+        }
+
+        .custom-select {
+            background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3e%3cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e") no-repeat right 0.75rem center/8px 10px !important;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+
     </style>
 @endsection
 @section('content')
-    <div id="vue" class="container flex-center">
-        <registro class="pt-5" :urls="{{$urls}}"
+    <div id="vue" class="">
+        <registro class=""
                   :medios="{{$medios}}"
         ></registro>
     </div>
 
     <template id="registro-template">
-        <div class="container">
-            <div align="center" style="width: 95%; margin-left: 2%;">
-                <div id="header" align="center">
-                    <img src="../images/imagesremodela/2top.png" id="imagentop">
-                    <br>
-                    <br>
-                </div>
-                <h5 class="text-center" style="color:#0080DD">Antes de comenzar nos gustaría saber un poco más sobre
-                    ti </h5><br>
-                <select class="form-control" v-model="informacion.medio" @change="seleccionarMedio">
+        <div class="">
+        <div id="header" align="center" class="">
+            <img src="{{asset('images/2021/logo_degradado.png')}}" id="imagentop" class="w-100">
+            <br>
+            <br>
+            <img v-if="encontrado!==null" src="{{asset('images/2021/texto_2_semanas.png')}}" id="imagentop" style="width: 90% !important;">
+            <br>
+            <br>
+            <h3 v-if="encontrado!==null" class="col-12 text-center">
+                @{{ referencia }}
+            </h3>
+            <br>
+            <img src="{{asset('images/2021/mensaje_gratis.png')}}" id="imagentop" class="w-75">
+            <br>
+            <br>
+            <br>
+        </div>
+            <div align="center" class="col-12 text-center" style="" v-if="!mostrarDatos">
+                <select class="form-control " v-model="informacion.medio" @change="seleccionarMedio">
                     <option value="" disabled>¿Cómo te enteraste del reto acton?</option>
                     <option v-for="medio in medios" :value="medio">@{{medio}}</option>
                 </select>
@@ -1505,13 +1455,13 @@
                     <input class="form-control col-6" v-model="informacion.codigo" placeholder="REFERENCIA"
                            @blur="buscarReferencia()" maxlength="7">
                     <form-error name="codigo" :errors="errors"></form-error>
-                    <div v-if="encontrado!==null">
+                    <!--div v-if="encontrado!==null">
                         <span v-if="encontrado">El código que ingresaste corresponde a:
                             <i style="font-size:1.1rem" class="font-weight-bold">@{{ referencia }}</i>
                         </span>
                         <span v-else
                               class="font-weight-bold">[No se encontró al alguien con ese código de referencia]</span>
-                    </div>
+                    </div-->
                 </div>
                 <div v-if="informacion.medio=='Por medio de un entrenador'" class="text-left">
                     <span style="color: #929292">
@@ -1536,15 +1486,12 @@
                     <form-error name="apellidos" :errors="errors"></form-error>
                     <input class="form-control" placeholder="Teléfono" v-model="informacion.telefono">
                     <form-error name="telefono" :errors="errors"></form-error>
-                    <input type="email" class="form-control" placeholder="Correo electrónico" v-model="informacion.email"
-                           @blur="saveContacto" @keypress.enter="saveContacto">
+                    <input type="email" class="form-control" placeholder="Correo electrónico" v-model="informacion.email">
                     <form-error name="email" :errors="errors"></form-error>
-                    <select class="form-control" v-model="informacion.tipo" id="tipo_programa">
-                        <option value="84">12 semanas</option>
-                        <option value="56">8 semanas</option>
-                        <option value="28">4 semanas</option>
-                        <option value="14">2 semanas</option>
-                    </select>
+                    <input type="password" class="form-control" placeholder="Contraseña" v-model="informacion.password">
+                    <form-error name="password" :errors="errors"></form-error>
+                    <input type="password" class="form-control" placeholder="Contraseña" v-model="informacion.password_dos">
+                    <form-error name="password_dos" :errors="errors"></form-error>
                     <div v-if="informacion.medio=='Por medio de un gimnasio o tienda de suplementos'" class="text-left">
                         <span style="color: #929292">
                             Si conoces el código de referencia de tu tienda o gimnasio, por favor ingrésalo aquí
@@ -1561,11 +1508,10 @@
                                   class="font-weight-bold">[No se encontró al alguien con ese código de referencia]</span>
                         </div>
                     </div>
-                    <div class="mt-4 text-left">
+                    <div class="mt-4 text-center">
                         <button class="btn btn-primary acton" @click="saveContacto" :disabled="loading">
                             Continuar
                             <i v-if="loading" class="fa fa-spinner fa-spin"></i>
-                            <i v-else class="fa fa-shopping-cart"></i>
                         </button>
                     </div>
                 </div>
@@ -1573,252 +1519,70 @@
             <br>
 
 
-            <div v-show="sent" id="pago" class="text-center col-12">
-                <div style="margin-top: 40px;">
-                    <div style="margin-top:60px; margin-bottom: 70px">
-                        <img src="{{asset("../images/imagesremodela/malla.png")}}" width="100%" id="descripcionsemanas" style="">
-                    </div>
-                </div>
-                <div style="margin-top: 40px;">
-
-                    <div v-if="informacion.medio!=='Por medio de un entrenador'">
-                        <div style="margin-top:0px; margin-bottom: 70px">
-                            <img src="{{asset("../images/imagesremodela/garantia_reembolso_v2.png")}}" width="100%" style="margin-left: 3%;" id="satisfaccion_total_completo">
-                            <img src="{{asset("../images/imagesremodela/garantia_reembolso_v2_movil.png")}}" width="100%" style="margin-left: 0%;" id="satisfaccion_total_movil">
-                        </div>
-                    </div>
-                </div>
-                <div v-if="informacion.medio=='Por medio de un gimnasio o tienda de suplementos'">
-                    <img src="{{asset("../images/imagesremodela/preciogym.png")}}" width="112%" id="preciogym" style="margin-left: -6%">
-                </div>
-                <div style="margin-top: 40px;">
-                    <div style="margin-top:60px; margin-bottom: 70px">
-                        <div v-if="informacion.medio!=='Por medio de un gimnasio o tienda de suplementos'">
-                            <img src="{{asset("../images/imagesremodela/50personas.png")}}" width="100%" id="50personas" style="width: 50%;">
-                            <img src="{{asset("../images/imagesremodela/ultimosdias.png")}}" width="100%" id="ultimosdias" style="width: 50%;">
-                        </div>
-                    </div>
-                </div>
-                <div v-show="mensaje!=''">
-                    <h6 class="detalle">@{{ mensaje }}</h6>
-                </div>
-                <div v-show="mensaje==''" style="margin-left: 5%">
-                    <!--h6 class="detalle">¡Gracias por compartirnos tus datos,</h6>
-                    <h6 class="detalle"> nos encantará ayudarte!</h6>
-                    <h6 class="detalle"> El costo para unirte y tener los </h6>
-                    <h6 class="detalle"> beneficios del <b class="text-uppercase">Reto Acton</b> es de:
-                    </h6-->
-                    <label style="font-size: 1.4rem; font-family: unitext_bold_cursive">
-                        <money v-if="descuento>0" id="cobro_anterior" :cantidad="''+original" :decimales="0"
-                               estilo="font-size:1.2em; color:#000000" adicional=" MXN"
-                               :caracter="true"></money>
-                    </label>
-                    <div id="infoPago" v-if="descuento>0">
-                        <label style="font-size: 1rem; color: #000; font-family: unitext_bold_cursive">aprovecha
-                            el </label>
-                        <label style="font-size: 1.4rem; margin-top: -5px; font-family: unitext_bold_cursive">@{{descuento }}% de descuento </label>
-                        <label style="color: #000; font-weight: bold; font-family: unitext_bold_cursive" v-if="descuento=='{{env('DESCUENTO')}}'"></label>
-                    </div>
-
-
-
-                    <div v-if="informacion.medio!=='Por medio de un gimnasio o tienda de suplementos'">
-                        <div style="margin-top: 40px;">
-                            <div style="margin-top:60px; margin-bottom: 70px">
-                                <img src="{{asset("../images/imagesremodela/ultimodia.png")}}" width="100%" id="ultimodia" style="width: 100%;margin-left: -2.7%;">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="pagar">
-                        <div>a sólo</div>
-                        <div style="font-size: 1.5rem; margin-left: 5px">
-                            <money :cantidad="''+monto" :caracter="true" :decimales="0"
-                                   estilo="font-size:1.5em; font-weight: bold"></money>
-                        </div>
-                    </div>
+            <div class="col-12"  v-if="mostrarDatos">
+                <div id="header" align="center" class="col-12 text-center">
+                    <img src="{{asset('images/2021/logo_movil_azul.png')}}" id="imagentop" class="w-75">
+                    <br>
+                    <br>
+                    <img src="{{asset('images/2021/mensaje_ingreso.png')}}" id="imagentop" class="w-75">
+                    <br>
+                    <br>
                     <br>
                 </div>
-                <br>
+                <div class="col-12 text-center">
+                    <h3>Usuario: @{{ informacion.email }}</h3>
+                    <h3>Contraseña: @{{ informacion.password }}</h3>
+                    <form method="POST" action="{{ route('login') }}" >
+                        @csrf
+                        <div class="form-group row  text-right justify-content-end">
 
-                <div v-if="informacion.medio!=='Por medio de un gimnasio o tienda de suplementos'" style="margin-left: 5%">
-                    <div id="apps" v-if="this.informacion.tipo == 84 || this.informacion.tipo == 804">
-                        <div  v-if="hr" class="horasrestantes" style="display: inline;">
-                            <div class="horas" style="display: inline;">
-                                <span class="horareloj" style="">@{{hr}}</span>
-                                <img src="../images/imagesremodela/nhoras.png" style="width:15%;">
+                            <div class="col-12 justify-content-end">
+                                <input id="email" placeholder="Correo Electronico" type="email" class="form-control @error('email') is-invalid @enderror col-12 " name="email" value="{{ old('email') }}" required autocomplete="email" autofocus style="width: 100%; border-color: #1565C0;">
+
+                                @error('email')
+                                <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                @enderror
                             </div>
-                            <div class="minutos" class="minutos" style="display: inline;">
-                                <span class="minreloj" style="">@{{min}}</span>
-                                <img src="../images/imagesremodela/nminutos.png" style="width:15%;">
+                        </div>
+
+                        <div class="form-group row">
+
+                            <div class="col-12">
+                                <input id="password" placeholder="Contraseña" type="password" class="form-control @error('password') is-invalid @enderror col-12 " name="password" required autocomplete="current-password"  style="width: 100%; border: 1px solid #1565C0;">
+
+                                @error('password')
+                                <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                @enderror
                             </div>
-                            <div class="segundos" class="segundos" style="display: inline;">
-                                <span class="segundoreloj" style="">@{{seg}}</span>
-                                <img src="../images/imagesremodela/nsegundos.png" style="width:15%;">
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-6 offset-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="remember"> Recordar credenciales</label>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
 
+                        <div class="form-group row mb-0">
+                            <div class="col-md-4 offset-md-4">
+                                <button type="submit" class="" style="border: 0px; background-color: white;">
+                                    <img class="d-lg-none w-75" src="{{asset('images/2021/ontinuar.png')}}" alt="First slide">
+                                </button>
 
-
-                <div v-if="informacion.medio!=='Por medio de un gimnasio o tienda de suplementos'" style="margin-left: 5%">
-                    <div style="margin-top: 40px;">
-                        <div style="margin-top:60px; margin-bottom: 70px">
-                            <img src="{{asset("../images/imagesremodela/ultimashoras1.png")}}" width="100%" id="ultimashoras1" style="width: 100%;margin-left: -2.7%;">
-                            <img src="{{asset("../images/imagesremodela/ultimodia1.png")}}" width="100%" id="ultimodia1" style="width: 50%;">
-                            <img src="{{asset("../images/imagesremodela/ultimashoras.png")}}" width="100%" id="ultimashoras" style="width: 50%;">
-                            <div v-if="this.informacion.tipo == 28" class="text-center text-danger" id="soloquedan"><h2>Quedan sólo 14 lugares con descuento</h2></div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-
-
-                <img src="{{asset('../images/imagesremodela/metodos.png')}}" id="metodos" style="width: 35%;margin-top: 50px;margin-bottom: 50px;margin-left:0%;margin-left: 5%">
-
-                <div class="pasarelas" style="margin-left: 2%">
-                    <h6 style="color: #000;">Estas son las formas de realizar tu pago de manera segura</h6>
-                    <cobro ref="cobro" :cobro="''+monto" :url="'{{url('/')}}'" :id="'{{env('OPENPAY_ID')}}'"
-                           :llave="'{{env('CONEKTA_PUBLIC')}}'" :sandbox="'{{env('SANDBOX')}}'==true" :meses="true"
-                           @terminado="terminado"></cobro>
-
-                    <div class="col-md-3 d-block ml-auto mr-auto">
-                        <div class="formaPago" @click="metodoPagoLocal('deposito')" style="border: 2px solid #e6e6e6;border-radius: 20px;">
-                            Depósito o Transferencia
-                            <br>
-                            <img src="{{asset('../images/imagesremodela/deposito.png')}}" width="120">
-                        </div>
-                    </div>
-                </div>
-
-                <div>
-                    <div id="" class="" style="padding-top:100px; padding-bottom:10px;margin-left: 5%">
-                        <div id="testtitulo" class="">
-                            <img src="{{asset('img/historias_exito.jpg')}}" width="100%" id="historiasexito">
-                            <img src="{{asset('../images/imagesremodela/historiasmovil.png')}}" width="100%" id="historiasexitomovil">
-                        </div>
-                        <div class="col-10 col-sm-4 col-md-4 text-center d-block mr-auto ml-auto mt-8"
-                             style="margin-bottom:40px">
-                        </div>
-                    </div>
+                    </form>
                 </div>
             </div>
 
-
-            <img src="{{asset('../images/imagesremodela/masretos.png')}}" id="masretos" style="width: 26%;margin-top: 50px;margin-bottom: 50px;margin-left: 37%;">
-            <div class="planesacton">
-                <div id="features" class="d-flex flex-wrap mr-auto ml-auto">
-                    <div class="col-sm-6 col-md-6 col-lg-3 col-12">
-                        <div id="comidasFeature" class="feature" @click="features.comidas=false" @mouseover="features.comidas=false"
-                             @mouseleave="features.comidas=true" onclick="location.href = '/register/2semanas';">
-                            <transition name="fade" mode="out-in">
-                                <div v-if="features.comidas" key="primero">
-                                    <img id="comidasImg" class="img" src="{{asset('/../images/imagesremodela/2semanasRB.png')}}" width="100%">
-                                    <h3 id="comidasSub" class="subtitle">
-                                        <span></span>
-                                        <span class="small text-lowercase"></span>
-                                    </h3>
-                                </div>
-                                <div v-else class="subinfo" key="segundo">
-                                    <img src="{{asset('/../images/imagesremodela/2semanasR.png')}}">
-                                </div>
-                            </transition>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-6 col-lg-3 col-12">
-                        <div id="entrenamientoFeature" class="feature" @click="features.entrenamiento=false" @mouseover="features.entrenamiento=false"
-                             @mouseleave="features.entrenamiento=true" onclick="location.href = '/register/4semanas';">
-                            <transition name="fade" mode="out-in">
-                                <div v-if="features.entrenamiento" key="first">
-                                    <img id="entrenamientoImg" class="img" src="{{asset('/../images/imagesremodela/4semanasRB.png')}}"
-                                         width="100%">
-                                    <h3 id="entrenamientoSub" class="subtitle">
-                                    </h3>
-                                </div>
-                                <div v-else class="subinfo" key="second">
-                                    <img src="{{asset('/../images/imagesremodela/4semanasR.png')}}">
-                                </div>
-                            </transition>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-6 col-lg-3 col-12">
-                        <div id="suplementosFeature" class="feature" @click="features.suplementos=false" @mouseover="features.suplementos=false"
-                             @mouseleave="features.suplementos=true" onclick="location.href = '/register/8semanas';">
-                            <transition name="fade" mode="out-in">
-                                <div v-if="features.suplementos" key="first">
-                                    <img id="suplementosImg" class="img" src="{{asset('/../images/imagesremodela/8semanasRB.png')}}"
-                                         width="100%">
-                                    <h3 id="suplementosSub" class="subtitle">
-                                    </h3>
-                                </div>
-                                <div v-else class="subinfo" key="second">
-                                    <img src="{{asset('/../images/imagesremodela/8semanasR.png')}}">
-                                </div>
-                            </transition>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-6 col-lg-3 col-12">
-                        <div id="videosFeature" class="feature" @click="features.videos=false" @mouseover="features.videos=false"
-                             @mouseleave="features.videos=true" onclick="location.href = '/register/12semanas';">
-                            <transition name="fade" mode="out-in">
-                                <div v-if="features.videos" key="first">
-                                    <img id="videosImg" class="img" src="{{asset('/../images/imagesremodela/12semanasRB.png')}}" width="100%">
-                                    <h3 id="videosSub" class="subtitle">
-                                    </h3>
-                                </div>
-                                <div v-else class="subinfo" key="second">
-                                    <img src="{{asset('/../images/imagesremodela/12semanasR.png')}}">
-                                </div>
-                            </transition>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <br><br>
-            <modal ref="deposito" :title="'Depósito o Transferencia'" @ok="deposito">
-                <div class="opps">
-                    <div class="opps-header">
-                        <div class="opps-reminder">Ficha digital. No es necesario imprimir.</div>
-                        <div class="opps-info">
-                            <div class="opps-ammount text-center">
-                                <h3>Monto a pagar</h3>
-                                <h2>$ @{{this.monto}} <sup>MXN</sup></h2>
-                            </div>
-                        </div>
-                        <div class="opps-reference">
-                            <h3>Referencias:</h3>
-                            <h1 class="reference text-center"><img src="{{asset('/../images/imagesremodela/banamex.png')}}" style="width: 200px;"><br> 5204 1653 0217 4390</</h1>
-                            <h1 class="reference text-center"><img src="{{asset('/../images/imagesremodela/hsbc.png')}}" style="width: 200px;"><br> 4213 1661 0039 0750</</h1>
-                        </div>
-                    </div>
-                    <div class="opps-instructions">
-                        <h3>Instrucciones</h3>
-                        <ol>
-                            <li>En esta opción de pago se hace el depósito a cualquiera de estas cuentas:
-                                <p>Banamex 5204 1653 0217 4390</p>
-                                <p>HSBC 4213 1661 0039 0750</p>
-                            </li>
-
-
-                            <li>Al confirmar tu pago, el cajero te entregará un comprobante impreso. <strong>En el podrás
-                                    verificar que se haya realizado correctamente.</strong> Conserva este comprobante de
-                                pago para cualquier aclaración.
-                            </li>
-
-                            <li>Manda el comprobante ya sea por medio de WhatsApp (<a href="wa.link/b3peq4" target="_blank">4775581937</a>) o por correo (pagos@retoacton.com).</li>
-                            <li>Anexando junto con tu comprobante:</li>
-                            <li>-Nombre completo</li>
-                            <li>-Correo electrónico</li>
-                            <li>-Número de teléfono</li>
-                            <li>-Número de referencia (en caso de aplicar)</li>
-
-                        </ol>
-                        <div class="opps-footnote">Y a la brevedad empezaremos el proceso de inscripción.
-                        </div>
-                    </div>
-                </div>
-            </modal>
         </div>
+
     </template>
 @endsection
 @section('scripts')
@@ -1864,7 +1628,11 @@
                     min: '',
                     seg: '',
                     mostrarReloj: true,
-                }
+                    usuario: '',
+                    pass: '',
+                    mostrarDatos: false,
+
+            }
             },
             computed: {
                 time: function(){
@@ -1872,6 +1640,15 @@
                 }
             },
             mounted: function () {
+
+                let uri = window.location.search.substring(1);
+                let params = new URLSearchParams(uri);
+                console.log(params.get("codigo"));
+                if(params.get("codigo")){
+                    this.informacion.medio = "Por medio de un amigo";
+                    this.informacion.codigo = params.get("codigo");
+                    this.buscarReferencia();
+                }
 
                 var lasCookies = document.cookie;
 
@@ -1894,96 +1671,8 @@
                             this.informacion.apellidos = lasCookies[l].replace("apellidos=", "");
                         }
                     }
-                    this.saveContacto();
                 }
 
-                let urlParams = new URLSearchParams(window.location.search);
-                var dias_url = '{{ $dias }}';
-
-                if(dias_url == '2semanas'){
-                    dias_url = 14;
-                }
-                if(dias_url == '4semanas'){
-                    dias_url = 28;
-                }
-                if(dias_url == '8semanas'){
-                    dias_url = 56;
-                }
-                if(dias_url == '12semanas'){
-                    dias_url = 84;
-                }
-
-                let d = dias_url;
-                if(d !== null){
-                    this.informacion.tipo = d;
-                }else{
-                    this.informacion.tipo = 14;
-                    d = 14;
-                }
-
-                var width = $(window).width();
-                //alert(width);
-                d = d/7;
-                if (width > 900) {
-                    $("#satisfaccion_total_movil").hide();
-                    $("#satisfaccion_total_completo").show();
-                    $("#historiasexito").show();
-                    $("#historiasexitomovil").hide();
-                    if (d == 2) {
-                        $("#imgreto").attr('src', '../images/imagesremodela/reto2.png');
-                        $("#descripcionsemanas").attr('src', '../images/imagesremodela/2semanas.png');
-                        $("#imagentop").attr('src', '../images/imagesremodela/2top.png');
-                    }
-                    if (d == 4) {
-                        $("#imgreto").attr('src', '../images/imagesremodela/reto4.png');
-                        $("#descripcionsemanas").attr('src', '../images/imagesremodela/4semans.png');
-                        $(".soloquedan").show();
-                        $("#imagentop").attr('src', '../images/imagesremodela/4top.png');
-                    }
-                    if (d == 8) {
-                        $("#imgreto").attr('src', '../images/imagesremodela/reto8.png');
-                        $("#descripcionsemanas").attr('src', '../images/imagesremodela/8semanas.png');
-                        $("#imagentop").attr('src', '../images/imagesremodela/8top.png');
-                    }
-                    if (d == 12) {
-                        $("#ultimashoras").show();
-                        $("#imgreto").attr('src', '../images/imagesremodela/reto12.png');
-                        $("#descripcionsemanas").attr('src', '../images/imagesremodela/12semanas.png');
-                        $("#imagentop").attr('src', '../images/imagesremodela/12top.png');
-                    }
-                }else{
-                    $("#satisfaccion_total_movil").show();
-                    $("#satisfaccion_total_completo").hide();
-                    $("#historiasexito").hide();
-                    $("#historiasexitomovil").show();
-                    if (d == 2) {
-                        $("#imgreto").attr('src', '../images/imagesremodela/reto2.png');
-                        $("#descripcionsemanas").attr('src', '../images/imagesremodela/2movil.png');
-                        $("#imagentop").attr('src', '../images/imagesremodela/2top.png');
-                    }
-                    if (d == 4) {
-                        $("#imgreto").attr('src', '../images/imagesremodela/reto4.png');
-                        $("#descripcionsemanas").attr('src', '../images/imagesremodela/4movil.png');
-                        $("#imagentop").attr('src', '../images/imagesremodela/4top.png');
-                        $(".soloquedan").show();
-                    }
-                    if (d == 8) {
-                        $("#imgreto").attr('src', '../images/imagesremodela/reto8.png');
-                        $("#descripcionsemanas").attr('src', '../images/imagesremodela/8movil.png');
-                        $("#imagentop").attr('src', '../images/imagesremodela/8top.png');
-                    }
-                    if (d == 12) {
-                        $("#ultimashoras").show();
-                        $("#imgreto").attr('src', '../images/imagesremodela/reto12.png');
-                        $("#descripcionsemanas").attr('src', '../images/imagesremodela/12movil.png');
-                        $("#imagentop").attr('src', '../images/imagesremodela/12top.png');
-                    }
-                }
-
-
-                this.$nextTick(function () {
-
-                })
             },
             methods: {
                 terminado: function () {
@@ -2006,7 +1695,7 @@
                         }
                     }).catch(function () {
                         if(vm.sent){
-                            vm.saveContacto();
+                            //vm.saveContacto();
                         }
                         vm.loading = false;
                         vm.encontrado = false;
@@ -2046,7 +1735,7 @@
                         }
                     }).catch(function () {
                         if(vm.sent){
-                            vm.saveContacto();
+                            //vm.saveContacto();
                         }
                         vm.loading = false;
                         vm.encontrado = false;
@@ -2059,116 +1748,10 @@
                     document.cookie = "telefono="+this.informacion.telefono;
                     document.cookie = "email="+this.informacion.email;
 
-                    let urlParams = new URLSearchParams(window.location.search);
-                    var dias_url = '{{ $dias }}';
-
-                    if(dias_url == '2semanas'){
-                        dias_url = 14;
-                    }
-                    if(dias_url == '4semanas'){
-                        dias_url = 28;
-                    }
-                    if(dias_url == '8semanas'){
-                        dias_url = 56;
-                    }
-                    if(dias_url == '12semanas'){
-                        dias_url = 84;
-                    }
-
-                    let d = dias_url;
-                    if(d !== null){
-                        this.informacion.tipo = d;
-                    }else{
-                        this.informacion.tipo = 14;
-                        d = 14;
-                    }
-                    $(".planesacton").hide();
-                    $("#masretos").click(function(){
-                        $(".planesacton").show();
-                    });
-                    $(".pasarelas").hide();
-                    $("#metodos").click(function(){
-                        $(".pasarelas").show();
-                    });
-                    $("#ultimashoras").hide();
-                    $("#ultimashoras1").hide();
-                    $("#50personas").hide();
-                    $("#ultimosdias").hide();
-                    $("#ultimodia1").hide();
-                    $("#ultimodia").hide();
-                    $(".soloquedan").hide();
-                    var width = $(window).width();
-                    //alert(width);
-                    d = d/7;
-                    if (width > 900) {
-                        $("#satisfaccion_total_movil").hide();
-                        $("#satisfaccion_total_completo").show();
-                        $("#historiasexito").show();
-                        $("#historiasexitomovil").hide();
-                        if (d == 2) {
-                            $("#imgreto").attr('src', '../images/imagesremodela/reto2.png');
-                            $("#descripcionsemanas").attr('src', '../images/imagesremodela/2semanas.png');
-                            $("#imagentop").attr('src', '../images/imagesremodela/2top.png');
-                        }
-                        if (d == 4) {
-                            $("#imgreto").attr('src', '../images/imagesremodela/reto4.png');
-                            $("#descripcionsemanas").attr('src', '../images/imagesremodela/4semans.png');
-                            $(".soloquedan").show();
-                            $("#imagentop").attr('src', '../images/imagesremodela/4top.png');
-                        }
-                        if (d == 8) {
-                            $("#imgreto").attr('src', '../images/imagesremodela/reto8.png');
-                            $("#descripcionsemanas").attr('src', '../images/imagesremodela/8semanas.png');
-                            $("#imagentop").attr('src', '../images/imagesremodela/8top.png');
-                        }
-                        if (d == 12) {
-                            $("#ultimashoras").show();
-                            $("#imgreto").attr('src', '../images/imagesremodela/reto12.png');
-                            $("#descripcionsemanas").attr('src', '../images/imagesremodela/12semanas.png');
-                            $("#imagentop").attr('src', '../images/imagesremodela/12top.png');
-                        }
-                    }else{
-                        $("#satisfaccion_total_movil").show();
-                        $("#satisfaccion_total_completo").hide();
-                        $("#historiasexito").hide();
-                        $("#historiasexitomovil").show();
-                        if (d == 2) {
-                            $("#imgreto").attr('src', '../images/imagesremodela/reto2.png');
-                            $("#descripcionsemanas").attr('src', '../images/imagesremodela/2movil.png');
-                            $("#imagentop").attr('src', '../images/imagesremodela/2top.png');
-                        }
-                        if (d == 4) {
-                            $("#imgreto").attr('src', '../images/imagesremodela/reto4.png');
-                            $("#descripcionsemanas").attr('src', '../images/imagesremodela/4movil.png');
-                            $("#imagentop").attr('src', '../images/imagesremodela/4top.png');
-                            $(".soloquedan").show();
-                        }
-                        if (d == 8) {
-                            $("#imgreto").attr('src', '../images/imagesremodela/reto8.png');
-                            $("#descripcionsemanas").attr('src', '../images/imagesremodela/8movil.png');
-                            $("#imagentop").attr('src', '../images/imagesremodela/8top.png');
-                        }
-                        if (d == 12) {
-                            $("#ultimashoras").show();
-                            $("#imgreto").attr('src', '../images/imagesremodela/reto12.png');
-                            $("#descripcionsemanas").attr('src', '../images/imagesremodela/12movil.png');
-                            $("#imagentop").attr('src', '../images/imagesremodela/12top.png');
-                        }
-                    }
-
-                    if(this.informacion.tipo == 14){
-                        $("#ultimashoras1").show();
-                    }
-                    if(this.informacion.tipo == 28){
-                        $("#50personas").show();
-                    }
-                    if(this.informacion.tipo == 56){
-                        $("#ultimosdias").show();
-                        $("#ultimodia").show();
-                    }
                     let vm = this;
                     this.loading = true;
                     this.errors = {};
+                    this.mostrarDatos = true;
                     this.informacion.nombres = this.informacion.nombres.trim();
                     this.informacion.apellidos = this.informacion.apellidos.trim();
                     this.informacion.email = this.informacion.email.trim();
@@ -2188,44 +1771,17 @@
                     if (this.informacion.email==''){
                         this.errors.email = ['El correo electrónico es obligatorio'];
                     }
+                    if (this.informacion.password==''){
+                        this.errors.password = ['La contraseña es obligatoria'];
+                    }
                     if (Object.keys(this.errors).length == 0) {
-                        axios.post("{{url("saveContacto")}}", this.informacion).then(function (response) {
+                        axios.post("{{url("crearCuentaFree")}}", this.informacion).then(function (response) {
                             vm.sent = true;
                             vm.loading = false;
                             if (response.data.status == 'ok') {
-                                vm.original = response.data.original;
-                                vm.monto = response.data.monto;
-                                vm.descuento = response.data.descuento;
-                                vm.horas = response.data.horas;
-                                if(response.data.horas > 0) {
-                                    vm.horasdos = moment("2017-03-13 " + response.data.horas + ':30');
-                                    vm.date = moment("2017-03-13 " + response.data.horas + ':30').format('HH:mm:ss')
 
-
-                                    setInterval(() => {
-                                        vm.horasdos = moment(vm.horasdos.subtract(1, 'seconds'));
-                                        vm.date = moment(vm.horasdos).format('HH:mm:ss');
-                                        vm.hr = moment(vm.horasdos).format('HH');
-                                        vm.min = moment(vm.horasdos).format('mm');
-                                        vm.seg = moment(vm.horasdos).format('ss');
-                                        if (vm.seg == 1){
-                                            var myBurger = document.querySelector('.segundos');
-                                            myBurger.classList.toggle('is-active');
-                                        }
-                                    }, 1500);
-
-                                }
-
-                                vm.$refs.cobro.configurar(
-                                    vm.informacion.nombres,
-                                    vm.informacion.apellidos,
-                                    vm.informacion.email,
-                                    vm.informacion.telefono,
-                                    vm.informacion.codigo,
-                                );
-
-
-
+                                this.usuario = this.informacion.email;
+                                this.pass = this.informacion.password;
 
                             }
                             vm.mensaje = response.data.mensaje;

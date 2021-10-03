@@ -44,6 +44,12 @@ class UserController extends Controller
         return view('users.usuarios_gratis');
     }
 
+    public function usuarios_validar()
+    {
+        $this->authorize('usuarios');
+        return view('users.usuarios_validar');
+    }
+
     public function listado(Request $request)
     {
         $nombre_prop=$request->nombre;
@@ -74,6 +80,77 @@ class UserController extends Controller
         $campos = json_decode($request->campos);
         $usuarios = User::where('rol', '!=', RolUsuario::ADMIN);
         $usuarios = $usuarios->where('rol', '!=', RolUsuario::TIENDA);
+
+        if ($campos->nombre != null) {
+            $usuarios = $usuarios->where('name', 'like', '%' . $campos->nombre . '%');
+        }
+        if ($campos->email != null) {
+            $usuarios = $usuarios->where('email', 'like', '%' . $campos->email . '%');
+        }
+        if ($campos->fecha_inicio != null) {
+            $fecha = join('-', array_reverse(explode('/', $campos->fecha_inicio)));
+            $usuarios = $usuarios->where('inicio_reto', '>=', $fecha);
+        }
+        if ($campos->fecha_final != null) {
+            $fecha = join('-', array_reverse(explode('/', $campos->fecha_final)));
+            $usuarios = $usuarios->where('inicio_reto', '<=', $fecha);
+        }
+        if ($campos->saldo != null) {
+            if (is_numeric($campos->saldo))
+                $usuarios = $usuarios->where('saldo', $campos->saldo);
+            else
+                return collect();
+        }
+        if ($campos->ingresados != null) {
+            if (is_numeric($campos->ingresados))
+                $usuarios = $usuarios->where('ingresados', $campos->ingresados);
+            else
+                return collect();
+        }
+        if ($campos->ingresadosReto != null) {
+            if (is_numeric($campos->ingresadosReto))
+                $usuarios = $usuarios->where('ingresados_reto', $campos->ingresadosReto);
+            else
+                return collect();
+        }
+        if ($campos->estado != 0) {
+            if ($campos->estado == 1) {
+                $consulta = 'CURDATE() >= DATE_ADD(fecha_inscripcion, interval ' . (env('DIAS') - 1) . ' DAY)';
+            } else if ($campos->estado == 2) {
+                $consulta = 'CURDATE() < DATE_ADD(fecha_inscripcion, interval ' . (env('DIAS')) . ' DAY)';
+            }
+            $usuarios = $usuarios->whereRaw($consulta);
+        }
+        $usuarios = $usuarios->orderByDesc('created_at');
+        $usuarios = $usuarios->select(['users.*'])->paginate(15);
+        $comision = intval(env('COMISION'));
+        $contactos = Contacto::whereIn('email', $usuarios->pluck('email'))->get()->keyBy('email');
+        foreach ($usuarios as $usuario) {
+            $usuario->dias_reto = 0;
+            $usuario->isVencido();
+            if ($usuario->inicio_reto != null) {
+                $usuario->dias_reto = Carbon::now()->startOfDay()->diffInDays(Carbon::parse($usuario->inicio_reto)->startOfDay()) + 1;
+            }
+            $usuario->total = $usuario->ingresados * $comision;
+            $usuario->depositado = $usuario->total - $usuario->saldo;
+            $usuario->pendientes = $usuario->saldo / $comision;
+            $usuario->pagados = $usuario->depositado / $comision;
+            $contacto = $contactos->get($usuario->email);
+            $usuario->medio = $contacto == null ? '' : $contacto->medio;
+            $usuario->telefono = $contacto == null ? '' : $contacto->telefono;
+            $usuario->vigente = !$usuario->vencido;
+        }
+
+        return $usuarios;
+    }
+
+    public function buscar_validar(Request $request)
+    {
+        $this->authorize('usuarios');
+        $campos = json_decode($request->campos);
+        $usuarios = User::where('rol', '!=', RolUsuario::ADMIN);
+        $usuarios = $usuarios->where('rol', '!=', RolUsuario::TIENDA);
+        $usuarios = $usuarios->where('enviado_validacion', 1);
 
         if ($campos->nombre != null) {
             $usuarios = $usuarios->where('name', 'like', '%' . $campos->nombre . '%');
@@ -895,16 +972,38 @@ class UserController extends Controller
 
     public function guardaUbicacion(Request $request)
     {
+        print_r('*********************');
+        print_r($request->usuario);
+        print_r('++++++++++++++++++');
+        $intereses = implode(', ', $request->usuario['intereses']);
+        $idiomas = implode(', ', $request->usuario['idiomas']);
         $estado = $request->estado;
         $ciudad = $request->ciudad;
         $cp = $request->cp;
         $colonia = $request->colonia;
         $usuario = User::where('id', auth()->user()->id)->first();
 
+        $usuario->idiomas= $idiomas;
+        $usuario->intereses = $intereses;
+        $usuario->intereses_publico = $request->usuario['intereses_publico'];
+        $usuario->genero = $request->usuario['genero'];
+        $usuario->genero_2 = $request->usuario['genero_2'];
+        $usuario->situacion_actual = $request->usuario['situacion_actual'];
+        $usuario->situacion_actual_publico = $request->usuario['situacion_actual_publico'];
+        $usuario->gym = $request->usuario['gym'];
+        $usuario->gym_ciudad = $request->usuario['gym_ciudad'];
+        $usuario->gym_publico = $request->usuario['gym_publico'];
+        $usuario->numero = $request->usuario['numero'];
         $usuario->estado = $estado;
         $usuario->ciudad = $ciudad;
         $usuario->cp = $cp;
         $usuario->colonia = $colonia;
+        $usuario->calle = $request->usuario['calle'];
+        $usuario->numero = $request->usuario['numero'];
+        $usuario->numero_tarjeta = $request->usuario['numero_tarjeta'];
+        $usuario->banco = $request->usuario['banco'];
+        $usuario->edad = $request->usuario['edad'];
+        $usuario->edad_publico = $request->usuario['edad_publico'];
 
         $usuario->save();
 

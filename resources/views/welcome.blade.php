@@ -697,7 +697,102 @@
         <inicio></inicio>
     </div>
     <template id="inicio-template">
-        <div>
+        <div class="d-lg-none">
+            <div v-animate="'slide-up'" align="center">
+                <div id="inicioFeature">
+                    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-pause="false">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img class="d-lg-none w-100" src="{{asset('images/2021/landing_front.png')}}" alt="First slide">
+                            </div>
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
+                           data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleControls" role="button"
+                           data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <div class="col-12 col-sm-12" style="padding: 0px 10px; margin-top: -60px">
+                    <form method="POST" action="{{ route('login') }}" >
+                        @csrf
+                            <div class="form-group row  text-right justify-content-end">
+
+                                <div class="col-md-4 justify-content-end">
+                                    <input id="email" placeholder="Correo Electronico" type="email" class="form-control @error('email') is-invalid @enderror col-6 offset-6" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus style="width: 100%; border-color: #1565C0;">
+
+                                    @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+
+                                <div class="col-md-4">
+                                    <input id="password" placeholder="Contraseña" type="password" class="form-control @error('password') is-invalid @enderror col-6 offset-6" name="password" required autocomplete="current-password" style=" border-color: #1565C0;">
+
+                                    @error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-6 offset-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="remember"> Recordar credenciales</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-0">
+                            <div class="col-md-4 offset-md-4">
+                                <button type="submit" class="" style="border: 0px; background-color: white;">
+                                    <img class="d-lg-none w-75" src="{{asset('images/2021/iniciar_sesion-100.jpg')}}" alt="First slide">
+                                </button>
+
+                                @if (Route::has('password.request'))
+                                    <a class="btn btn-link" href="{{ route('password.request') }}">
+                                        ¿Olvidaste tu contraseña?
+                                    </a>
+                                @endif
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+            <div class="text-center">
+                <div class="col-8 col-sm-8 mr-auto ml-auto" style="padding: 40px 10px">
+                    <a class="btn btn-link" href="registro/gratis"><img class="d-lg-none w-100" src="{{asset('images/2021/prueba_gratis.png')}}" alt="First slide"></a>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <div class="col-12 col-sm-8 mr-auto ml-auto" style="padding: 40px 10px">
+                    <img class="d-lg-none w-100" src="{{asset('images/2021/mejor_momento-100.jpg')}}" alt="First slide">
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="d-none d-md-block">
             <div v-animate="'slide-up'" align="center">
                 <div id="inicioFeature">
                     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-pause="false">

@@ -112,10 +112,10 @@ class HomeController extends Controller
     public function encuesta(Request $request)
     {
         $user = $request->user();
-        if ($user->rol == RolUsuario::ADMIN || ($user->pagado && !$user->encuestado)) {
+        if ($user->rol == RolUsuario::ADMIN || ($user->pagado && !$user->encuestado) || !$user->validado) {
             $usuario = $request->user();
             $usuario->medio = "";
-            $preguntas = Pregunta::select(['id', 'pregunta', 'opciones', 'multiple'])->get();
+            $preguntas = Pregunta::select(['id', 'pregunta', 'opciones', 'multiple', 'ayuda'])->get();
             $photos = Storage::disk('local')->files('public/img');
             $urls = collect();
             foreach ($photos as $photo) {
@@ -162,6 +162,8 @@ class HomeController extends Controller
     {
         \DB::beginTransaction();
         $user = $request->user();
+        $dialunes = Carbon::parse("monday next week");
+        $user->inicio_reto = $dialunes;
         if ($user->inicio_reto != null) {
             Respuesta::where('usuario_id', $user->id)->delete();
         }
@@ -187,13 +189,16 @@ class HomeController extends Controller
         }
         $alimentosIgnorados = Dieta::whereIn('comida', $ignorar)->get()->pluck('id');
         $sexo = Pregunta::where('pregunta', 'like', '%Sexo%')->first();
-        $objetivo = Pregunta::where('pregunta', 'like', '%Objetivo fitness%')->first();
-        $preguntaPeso = Pregunta::where('pregunta', 'like', '%peso%')->first();
-        $objetivo = strpos($respuestas->get($objetivo->id)->respuesta, "Bajar") ? 'bajar' : 'subir';
+        $objetivo = Pregunta::where('pregunta', 'like', '%Mi objetivo%')->first();
+        $preguntaPeso = Pregunta::where('pregunta', 'like', '%peso en%')->first();
+        $preguntaPesoIdeal = Pregunta::where('pregunta', 'like', '%peso ideal%')->first();
+        $objetivo = strpos($respuestas->get($objetivo->id)->respuesta, "Bajar de peso rápidamente") ? 'bajar' : 'subir';
         $sexo = json_decode($respuestas->get($sexo->id)->respuesta);
         $peso = json_decode($respuestas->get($preguntaPeso->id)->respuesta);
         $user->genero = $sexo[0] == 'H' ? Genero::HOMBRE : Genero::MUJER;
-        $user->objetivo = $objetivo == 'bajar' ? 0 : 1;
+        $user->peso = $peso;
+        $user->peso_ideal = json_decode($respuestas->get($preguntaPesoIdeal->id)->respuesta);
+        $user->objetivo = $objetivo == 'Bajar de peso rápidamente' ? 0 : 1;
         $user->save();
 
         if ($user->inicio_reto == null) { //Se generan 4 dietas a lo largo del reto
@@ -308,7 +313,7 @@ class HomeController extends Controller
         $user->save();
 
         \DB::commit();
-        return response()->json(['respuesta' => 'ok']);
+        return response()->json(['respuesta' => 'ok', 'peso' => $peso, 'peso_ideal' => $user->peso_ideal]);
     }
 
     public function generarDietaUsuario($usr)
@@ -472,6 +477,8 @@ class HomeController extends Controller
                 'Peso en Kg.respuesta' => ['required', 'numeric', 'min:40', 'max:180',
                     'regex:/^([1-9]([0-9]{1,2}))(\.([0-9][0-9]?))?$/'],
                 'Estatura en cm.respuesta' => 'required|numeric|min:100|max:230|integer',
+                'Peso ideal.respuesta' => ['required', 'numeric', 'min:40', 'max:180',
+                    'regex:/^([1-9]([0-9]{1,2}))(\.([0-9][0-9]?))?$/'],
             ],
             [
                 'Peso en Kg.respuesta.required' => 'El peso en kg es requerido',
@@ -484,6 +491,11 @@ class HomeController extends Controller
                 'Estatura en cm.respuesta.min' => 'Debe ingresar un valor mínimo de 100',
                 'Estatura en cm.respuesta.max' => 'Debe ingresar un valor máximo de 230',
                 'Estatura en cm.respuesta.integer' => 'Debe capturar números enteros',
+                'Peso ideal.respuesta.required' => 'El peso ideal es requerido',
+                'Peso ideal.respuesta.numeric' => 'Debe capturar solo números',
+                'Peso ideal.respuesta.min' => 'Debe ingresar un valor mínimo de 40',
+                'Peso ideal.respuesta.max' => 'Debe ingresar un valor máximo de 180',
+                'Peso ideal.respuesta.regex' => 'Debe capturar máximo 3 enteros y hasta 2 decimales',
             ]
         )->validate();
     }
@@ -492,12 +504,19 @@ class HomeController extends Controller
     {
         $preguntas = collect($request->all())->keyBy('pregunta')->toArray();
 
+
         Validator::make($preguntas,
             [
-                'Redacta lo que haces durante un dia normal desde que despiertas hasta que vas a dormir.respuesta' => 'required',
+                '¿Porqué quiere obtener esta asesoria?.respuesta' => 'required',
+                'Pasatiempo favorito.respuesta' => 'required',
+                'Un logro del cúal te sientas orgulloso.respuesta' => 'required',
+                '3 cualidades que veas en ti.respuesta' => 'required',
             ],
             [
-                'Redacta lo que haces durante un dia normal desde que despiertas hasta que vas a dormir.respuesta.required' => 'Es requerido',
+                '¿Porqué quiere obtener esta asesoria?.respuesta.required' => 'Es requerido',
+                '¿A que te dedicas?.respuesta.required' => 'Es requerido',
+                'Un logro del cúal te sientas orgulloso.respuesta.required' => 'Es requerido',
+                '3 cualidades que veas en ti.respuesta.required' => 'Es requerido',
             ]
         )->validate();
 
@@ -752,6 +771,112 @@ class HomeController extends Controller
     {
         $pagos = Compra::where('usuario_id', $user->id)->orderBy('created_at')->get(['created_at','pagado']);
         return $pagos;
+    }
+
+    public function subirArchivo1(Request $request)
+    {
+        $user = $request->user();
+        $request->validate([
+
+            'file' => 'required|mimes:jpg,png|max:2048',
+
+        ]);
+
+        $fileName = $user->id.'_1.jpg';
+        $result = [];
+        $result['error'] = '';
+
+        try {
+            $request->file->move(public_path('images/'), $fileName);
+            $user->archivo_validacion_1 = "images/$fileName";
+            $user->save();
+        } catch (Exception $e) {
+            $result['error'] = $e->getMessage();
+            return json_encode($result);
+        }
+
+        return json_encode($result);
+    }
+
+    public function subirArchivo2(Request $request)
+    {
+        $user = $request->user();
+        $request->validate([
+
+            'file' => 'required|mimes:jpg,png|max:2048',
+
+        ]);
+
+
+        $fileName = $user->id.'_2.jpg';
+        $result = [];
+        $result['error'] = '';
+
+        try {
+            $request->file->move(public_path('images/'), $fileName);
+            $user->archivo_validacion_2 = "images/$fileName";
+            $user->save();
+        } catch (Exception $e) {
+            $result['error'] = $e->getMessage();
+            return json_encode($result);
+        }
+
+        return json_encode($result);
+    }
+
+    public function enviarValidacion(Request $request)
+    {
+        $user = $request->user();
+
+
+        try {
+            $enviado = $user->enviado_validacion;
+            if($enviado == 0) {
+                $user->enviado_validacion = 1;
+            }
+            if($enviado == 1) {
+                $user->enviado_validacion = 2;
+            }
+            $user->save();
+        } catch (Exception $e) {
+            $result['error'] = $e->getMessage();
+            return json_encode($result);
+        }
+
+        return json_encode("{'ok': 'pk'}");
+    }
+
+    public function validaAdmin($id)
+    {
+        $user = User::where('id', $id)->first();
+        print_r($user);
+
+
+        try {
+            $user->enviado_validacion = 2;
+            $user->save();
+        } catch (Exception $e) {
+            $result['error'] = $e->getMessage();
+            return json_encode($result);
+        }
+
+        return json_encode("{'ok': 'pk'}");
+    }
+
+    public function enviarRechazo($id)
+    {
+        $user = User::where('id', $id)->first();
+
+
+        try {
+            $user->enviado_validacion = 0;
+            $user->save();
+        } catch (Exception $e) {
+            $result['error'] = $e->getMessage();
+            return json_encode($result);
+        }
+
+        return json_encode("{'ok': 'pk'}");
     }
 
 

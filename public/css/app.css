@@ -21969,3 +21969,8 @@ btn-success.disabled,
     padding: 5px;
   }
 }
+
+.form-control{
+  border: 1px solid #1565C0 !important;
+
+}
