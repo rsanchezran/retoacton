@@ -72,10 +72,10 @@
             <a class="text-center" href="{{ url('/home') }}">
             <!--a class="navbar-brand" href="{{ url('/home') }}"-->
                 @guest
-                    <img src="/images/2021/logo_degradado.png" id="imgheader" class="w-100">
+                    <img src="/images/2021/logo_degradado.png" id="imgheader" class="w-100" style="    width: 110% !important;margin-left: -5%;margin-top: -3%;">
                     <!--img src="{{asset('images/2021/logo_movil_azul.png')}}"  style="z-index: 2; position: absolute; top: 5px;" id="imgheader"-->
                 @else
-                    <img src="/images/2021/logo_degradado.png" id="imgheader" class="w-100">
+                    <img src="/images/2021/logo_degradado.png" id="imgheader" class="w-100" style="    width: 110% !important;margin-left: -5%;margin-top: -3%;">
                     <!--img src="{{asset('images/2021/logo_movil_azul.png')}}" id="imgheader"-->
                 @endguest
             </a>
