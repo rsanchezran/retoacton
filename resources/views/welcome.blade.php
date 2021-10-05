@@ -763,24 +763,22 @@
                         <div class="form-group row mb-0">
                             <div class="col-md-4 offset-md-4">
                                 <button type="submit" class="" style="border: 0px; background-color: white;">
-                                    <img class="d-lg-none w-75" src="{{asset('images/2021/iniciar_sesion-100.jpg')}}" alt="First slide">
+                                    <img class="d-lg-none w-50" src="{{asset('images/2021/iniciar_sesion-100.jpg')}}" alt="First slide">
                                 </button>
 
                                 @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
+                                    <a class="btn" href="{{ route('password.request') }}" style="color:#808080">
                                         ¿Olvidaste tu contraseña?
                                     </a>
                                 @endif
                             </div>
                         </div>
+                        <div class="col-8 col-sm-8 mr-auto ml-auto" style="padding: 40px 10px; margin-top: -30px">
+                            <a class="btn btn-link" href="registro/gratis"><img class="d-lg-none w-100" src="{{asset('images/2021/prueba_gratis_1.png')}}" alt="First slide"></a>
+                        </div>
                     </form>
 
-                </div>
-            </div>
 
-            <div class="text-center">
-                <div class="col-8 col-sm-8 mr-auto ml-auto" style="padding: 40px 10px">
-                    <a class="btn btn-link" href="registro/gratis"><img class="d-lg-none w-100" src="{{asset('images/2021/prueba_gratis.png')}}" alt="First slide"></a>
                 </div>
             </div>
 

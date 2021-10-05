@@ -1011,7 +1011,7 @@ class ConfiguracionController extends Controller
                 $contacto->colonia = '1';
                 $contacto->dias = $request->dias;
                 $contacto->save();
-                $usuario_ref = User::where('codigo', $request->referencia)->get();
+                $usuario_ref = User::where('referencia', $request->referencia)->get();
                 if (count($usuario_ref) > 0) {
                     $saldo_favor = 0;
                     if ($request->dias == 14) {

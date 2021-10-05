@@ -56,7 +56,7 @@
         }
 
         footer {
-            background-color: #007fdc;
+            /*background-color: #007fdc;*/
         }
 
         .links > a {
