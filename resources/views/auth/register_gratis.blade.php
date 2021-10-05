@@ -1500,17 +1500,17 @@
                     </div>
                 </div>
                 <div v-if="informacion.medio != ''" class="text-left">
-                    <input class="form-control" placeholder="Nombres" v-model="informacion.nombres">
+                    <input class="form-control" placeholder="Nombre" v-model="informacion.nombres">
                     <form-error name="nombres" :errors="errors"></form-error>
-                    <input class="form-control" placeholder="Apellidos" v-model="informacion.apellidos">
+                    <input class="form-control" placeholder="Apellido" v-model="informacion.apellidos">
                     <form-error name="apellidos" :errors="errors"></form-error>
                     <input class="form-control" placeholder="Teléfono" v-model="informacion.telefono">
                     <form-error name="telefono" :errors="errors"></form-error>
                     <input type="email" class="form-control" placeholder="Correo electrónico" v-model="informacion.email">
                     <form-error name="email" :errors="errors"></form-error>
-                    <input type="password" class="form-control" placeholder="Contraseña" v-model="informacion.password">
+                    <input type="password" class="form-control" placeholder="Elige tú contraseña" v-model="informacion.password">
                     <form-error name="password" :errors="errors"></form-error>
-                    <input type="password" class="form-control" placeholder="Contraseña" v-model="informacion.password_dos">
+                    <input type="password" class="form-control" placeholder="Confirma contraseña" v-model="informacion.password_dos">
                     <form-error name="password_dos" :errors="errors"></form-error>
                     <div v-if="informacion.medio=='Por medio de un gimnasio o tienda de suplementos'" class="text-left">
                         <span style="color: #929292">
