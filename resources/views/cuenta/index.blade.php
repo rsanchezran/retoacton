@@ -276,11 +276,15 @@
                                 </div>
                                 <div class="text-center col-12">
                                     <br>
-                                    <button class="btn btn-success" :disabled="loading" @click="save()">
+                                    <br>
+                                    <h3>Tú codigo QR</h3>
+                                    <br>
+                                    <qrcode :value="'https://retoacton.com/registro/gratis/?codigo='+user.referencia" :options="{ width: 200 }" @ready="onReady"></qrcode>
+                                    <!--button class="btn btn-success" :disabled="loading" @click="save()">
                                         <i v-if="loading" class="far fa-spinner fa-spin"></i>
                                         <i v-else class="far fa-save"></i>
                                         Guardar
-                                    </button>
+                                    </button-->
                                 </div>
                             </div>
 
@@ -549,7 +553,8 @@
     <script>
 
         Vue.component('vue-multiselect', window.VueMultiselect.default)
-        Vue.component('vue-multiselect-genero', window.VueMultiselect.default)
+
+        Vue.component(VueQrcode.name, VueQrcode);
 
         Vue.component('cuenta', {
             template: '#cuenta-template',

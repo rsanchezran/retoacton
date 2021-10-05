@@ -847,7 +847,7 @@
                         this.pregunta = this.preguntasCerradas[this.numero-1].pregunta
                     } else {
                         this.mostrarAbiertas();
-                        
+
                     }
                 },
                 select: function (pregunta, opcion) {

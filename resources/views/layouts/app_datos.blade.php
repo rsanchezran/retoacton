@@ -110,6 +110,8 @@
         </div>
     </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.js"></script>
+<script src="https://unpkg.com/@chenfengyuan/vue-qrcode@1.0.1/dist/vue-qrcode.min.js"></script>
 <script>
     $('#terminoModal').on('show.bs.modal', function (event) {
         let elemento = $('video').first();
