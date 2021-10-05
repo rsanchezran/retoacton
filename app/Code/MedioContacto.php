@@ -15,7 +15,7 @@ class MedioContacto
     const INSTAGRAM = "Por Instagram";
     const AMIGO = "Por medio de un amigo";
     /*const GYM = "Por medio de un gimnasio o tienda de suplementos";*/
-    const COACH = "Por medio de un entrenador";
+    const COACH = "Por medio de un coach";
     const OTRO = "Otro";
 
     public static function all(){

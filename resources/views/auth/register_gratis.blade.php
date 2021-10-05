@@ -1450,41 +1450,41 @@
             <img src="{{asset('images/2021/logo_degradado.png')}}" id="imagentop" class="w-100">
             <br>
             <br>
-            <img v-if="encontrado" src="{{asset('images/2021/texto_2_semanas.png')}}" id="imagentop" style="width: 90% !important;">
+            <img v-if="encontrado_url && mensaje_ref==''" src="{{asset('images/2021/texto_2_semanas.png')}}" id="imagentop" style="width: 90% !important;">
             <br>
             <br>
-            <h3 v-if="encontrado" class="col-12 text-center">
+            <h3 v-if="encontrado_url && mensaje_ref==''" class="col-12 text-center">
                 @{{ referencia }}
             </h3>
-            <h3 v-if="mensaje_ref!==''" class="col-12 text-center">
+            <h3 v-if="mensaje_ref!=='' && encontrado_url" class="col-12 text-center">
                 @{{ mensaje_ref }}
             </h3>
             <br>
-            <img src="{{asset('images/2021/mensaje_gratis.png')}}" id="imagentop" class="w-75">
-            <br>
-            <br>
-            <br>
+            <img v-if="!encontrado_url" src="{{asset('images/2021/mensaje_gratis.png')}}" id="imagentop" class="w-75">
+            <br v-if="!encontrado_url">
+            <br v-if="!encontrado_url">
+            <br v-if="!encontrado_url">
         </div>
             <div align="center" class="col-12 text-center" style="" v-if="!mostrarDatos">
-                <select class="form-control " v-model="informacion.medio" @change="seleccionarMedio">
+                <select class="form-control " v-model="informacion.medio" @change="seleccionarMedio" style="display:none">
                     <option value="" disabled>¿Cómo te enteraste de reto acton?</option>
                     <option v-for="medio in medios" :value="medio">@{{medio}}</option>
                 </select>
-                <div v-if="informacion.medio=='Por medio de un amigo'" class="text-left">
+                <div v-if="informacion.medio=='Por medio de un amigo'" class="text-left" style="display:none">
                     <span style="color: #929292">
-                        Si conoces el código de referencia de tu amigo, por favor ingrésalo aquí
+                        Ingrésa su código
                         <i v-if="loading" class="far fa-spinner fa-spin"></i>
                     </span>
                     <input class="form-control col-6" v-model="informacion.codigo" placeholder="REFERENCIA"
                            @blur="buscarReferencia()" maxlength="7">
                     <form-error name="codigo" :errors="errors"></form-error>
-                    <!--div v-if="encontrado!==null">
-                        <span v-if="encontrado">El código que ingresaste corresponde a:
+                    <div v-if="encontrado!==null && !encontrado_url">
+                        <span v-if="encontrado && !encontrado_url">El código que ingresaste corresponde a:
                             <i style="font-size:1.1rem" class="font-weight-bold">@{{ referencia }}</i>
                         </span>
-                        <span v-else
+                        <span v-if="!encontrado && !encontrado_url"
                               class="font-weight-bold">[No se encontró al alguien con ese código de referencia]</span>
-                    </div-->
+                    </div>
                 </div>
                 <div v-if="informacion.medio=='Por medio de un entrenador'" class="text-left">
                     <span style="color: #929292">
@@ -1494,12 +1494,12 @@
                     <input class="form-control col-6" v-model="informacion.codigo" placeholder="REFERENCIA"
                            @blur="buscarReferenciaCoach()" maxlength="7">
                     <form-error name="codigo" :errors="errors"></form-error>
-                    <div v-if="encontrado!==null">
+                    <div v-if="encontrado">
                         <span v-if="encontrado">El código que ingresaste corresponde a:
                             <i style="font-size:1.1rem" class="font-weight-bold">@{{ referencia }}</i>
                         </span>
                         <span v-else
-                              class="font-weight-bold">[No se encontró al alguien con ese código de referencia]</span>
+                              class="font-weight-bold">[No se encontró a alguien con ese código de referencia]</span>
                     </div>
                 </div>
                 <div v-if="informacion.medio != ''" class="text-left">
@@ -1528,7 +1528,7 @@
                                 <i style="font-size:1.1rem" class="font-weight-bold">@{{ referencia }}</i>
                             </span>
                             <span v-else
-                                  class="font-weight-bold">[No se encontró al alguien con ese código de referencia]</span>
+                                  class="font-weight-bold">[No se encontró a alguien con ese código de referencia]</span>
                         </div>
                     </div>
                     <div class="mt-4 text-center">
@@ -1655,6 +1655,8 @@
                     pass: '',
                     mostrarDatos: false,
                     mensaje_ref: '',
+                    codigo_url: false,
+                    encontrado_url: false,
 
             }
             },
@@ -1671,7 +1673,10 @@
                 if(params.get("codigo")){
                     this.informacion.medio = "Por medio de un amigo";
                     this.informacion.codigo = params.get("codigo");
+                    this.codigo_url = true;
                     this.buscarReferencia();
+                }else{
+                    this.codigo_url = false;
                 }
 
                 var lasCookies = document.cookie;
@@ -1713,12 +1718,25 @@
                     axios.get('{{url('buscarReferencia')}}/' + vm.informacion.codigo).then(function (response) {
                         vm.referencia = response.data.usuario;
                         vm.loading = false;
-                        vm.encontrado = true;
+                        if(vm.codigo_url==true){
+                            vm.encontrado_url = true;
+                            vm.encontrado = false;
+                        }else{
+                            vm.encontrado = true;
+                            vm.encontrado_url = false;
+                        }
                         vm.mensaje_ref = ''
                         if(vm.sent){
                             vm.saveContacto();
                         }
                     }).catch(function () {
+                        if(vm.codigo_url==true){
+                            vm.encontrado_url = true;
+                            vm.encontrado = false;
+                        }else{
+                            vm.encontrado = true;
+                            vm.encontrado_url = false;
+                        }
                         vm.mensaje_ref = 'No se encontró a alguien con ese código de referencia'
                         if(vm.sent){
                             //vm.saveContacto();

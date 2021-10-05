@@ -265,6 +265,11 @@
             svg{
                 width: 30px;
             }
+            .card, .card-body {
+                background: transparent !important;
+                width: 102%;
+                margin-left: -1%;
+            }
         }
     </style>
 @endsection
@@ -277,13 +282,10 @@
     <template id="encuesta-template">
         <div v-if="!user.validado && !user.encuestado">
             <div class="card">
-                <div class="card-header" v-if="inicio.mostrar && !terminar">
+                <div class="card-header" v-if="inicio.mostrar && !terminar" style="background: transparent !important;">
                     <div class="d-flex flex-wrap" style="padding: 20px">
                         <div class="col-12 col-sm-6 text-center" style="border-right: 1px solid #fff">
-                            <span style="font-size: 1.2em; text-align: right">
-                                Empezaremos con un breve cuestionario que nos permitirá identificar qué tipo de programa
-                                se adapta mejor a tus características físicas y objetivo.
-                            </span>
+                            <img src="{{asset('images/2021/mensaje_inicial_encuesta.png')}}" class="w-100">
                         </div>
                     </div>
                 </div>
@@ -294,6 +296,8 @@
                     <div v-if="inicio.mostrar">
                         <img src="{{asset('images/2021/blanco_negro_encuesta.png')}}" width="100%">
                     </div>
+                    <br>
+                    <br>
                     <div class="col-12 col-sm-6 text-center" v-if="inicio.mostrar">
                         <button class="btn btn-primary text-uppercase font-weight-bold"
                                 style="margin-top: 20px; padding: 10px 80px;"
@@ -645,6 +649,7 @@
                         item.mostrar = true;
                     });
                     this.pregunta = "Peso y Estatura";
+                    document.getElementById('imgheader').style.display = 'block';
                 },
                 mostrarCerradas: function () { //muestra las primera preguntas de preguntasCerradas y oculta las preguntasAbiertas
                     this.numero = 0;
@@ -894,6 +899,7 @@
             },
             created: function () {
                 let vm = this;
+                document.getElementById('imgheader').style.display = 'none';
                 vm.user = vm.p_user;
                 vm.p_preguntas.forEach(function (item) { //separar Preguntas Abiertas de Cerradas
                     if (item.multiple == undefined)
