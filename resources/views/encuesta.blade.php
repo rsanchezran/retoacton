@@ -400,9 +400,9 @@
                                     <span>Comenzar</span>
                                 </a-->
 
-                                <img src="{{asset('images/2021/primeros_30.png')}}" class="w-100 col-12" style="margin-top: 40px;">
+                                <!--img src="{{asset('images/2021/primeros_30.png')}}" class="w-100 col-12" style="margin-top: 40px;">
                                 <label class="peso_ideal">@{{ peso_ideal }} kg</label>
-                                <img src="{{asset('images/2021/apartir_ahora.png')}}" class="w-100 col-12" style="margin-top: 20px; margin-bottom: 30px;">
+                                <img src="{{asset('images/2021/apartir_ahora.png')}}" class="w-100 col-12" style="margin-top: 20px; margin-bottom: 30px;"-->
 
                                 <img src="{{asset('images/2021/primeros_30.png')}}" class="w-100 col-12" style="margin-top: 40px;">
                                 <label class="peso_ideal text-center">@{{ peso_ideal }} kg</label>
