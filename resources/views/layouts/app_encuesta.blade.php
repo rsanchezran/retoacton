@@ -84,14 +84,14 @@
     </nav>
     <main class="d-flex flex-column flex-grow-1 position-relative">
         @if(\Illuminate\Support\Facades\Auth::user()!=null && \Illuminate\Support\Facades\Auth::user()->vencido)
-            <div class="container" id="breathMovil">
+            <!--div class="container" id="breathMovil">
                 <button class="nav-link btn btn-sm btn-warning ld ld-breath ml-auto mr-auto" data-toggle="modal" data-target="#terminoModal">
                     <i class="far fa-exclamation-triangle"></i>
                     <span>Reto concluído</span>
                     <br>
                     <span class="small">(Ver video)</span>
                 </button>
-            </div>
+            </div-->
         @endif
         @yield('content')
     </main>

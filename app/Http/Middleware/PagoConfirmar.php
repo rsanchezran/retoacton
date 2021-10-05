@@ -13,7 +13,7 @@ class PagoConfirmar
     {
         $usuario = auth()->user();
         if ($usuario != null) {
-            if ((auth()->check() && $usuario->encuestado && $usuario->pagado) || $usuario->rol == RolUsuario::ADMIN) {
+            if ((auth()->check() && $usuario->encuestado && $usuario->pagado && $usuario->enviado_validacion=='2' ) || $usuario->rol == RolUsuario::ADMIN) {
                 if ($usuario->rol == RolUsuario::ADMIN) {
                     auth()->user()->vencido = false;
                 } else {

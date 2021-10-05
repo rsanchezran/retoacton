@@ -920,6 +920,8 @@
             },
             mostrarFelicidades() {
                 this.felicidades = true;
+                location.reload();
+
             }
 
         });
