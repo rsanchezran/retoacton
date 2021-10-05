@@ -1466,11 +1466,11 @@
             <br v-if="!encontrado_url">
         </div>
             <div align="center" class="col-12 text-center" style="" v-if="!mostrarDatos">
-                <select class="form-control " v-model="informacion.medio" @change="seleccionarMedio" style="display:none">
+                <select class="form-control " v-model="informacion.medio" @change="seleccionarMedio" id="seleccionamedio">
                     <option value="" disabled>¿Cómo te enteraste de reto acton?</option>
                     <option v-for="medio in medios" :value="medio">@{{medio}}</option>
                 </select>
-                <div v-if="informacion.medio=='Por medio de un amigo'" class="text-left" style="display:none">
+                <div v-if="informacion.medio=='Por medio de un amigo'" class="text-left" style="" id="referenciaCampo">
                     <span style="color: #929292">
                         <i v-if="loading" class="far fa-spinner fa-spin"></i>
                     </span>
@@ -1674,8 +1674,16 @@
                     this.informacion.codigo = params.get("codigo");
                     this.codigo_url = true;
                     this.buscarReferencia();
+                    document.getElementById('seleccionamedio').style.display = 'none';
+                    setTimeout(function(){
+                        document.getElementById('referenciaCampo').style.display = 'none';
+                    }, 1000);
                 }else{
                     this.codigo_url = false;
+                    document.getElementById('seleccionamedio').style.display = 'block';
+                    setTimeout(function(){
+                        document.getElementById('referenciaCampo').style.display = 'block';
+                    }, 1000);
                 }
 
                 var lasCookies = document.cookie;
