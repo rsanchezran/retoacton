@@ -403,9 +403,45 @@
                                 <img src="{{asset('images/2021/primeros_30.png')}}" class="w-100 col-12" style="margin-top: 40px;">
                                 <label class="peso_ideal">@{{ peso_ideal }} kg</label>
                                 <img src="{{asset('images/2021/apartir_ahora.png')}}" class="w-100 col-12" style="margin-top: 20px; margin-bottom: 30px;">
-                                <button class="btn btn-primary btn-md" @click="mostrarFelicidades()" >
-                                    <span>Comenzar</span>
-                                </button>
+
+                                <img src="{{asset('images/2021/primeros_30.png')}}" class="w-100 col-12" style="margin-top: 40px;">
+                                <label class="peso_ideal text-center">@{{ peso_ideal }} kg</label>
+                                <img src="{{asset('images/2021/apartir_ahora.png')}}" class="w-100 col-12" style="margin-top: 20px; margin-bottom: 30px;">
+                                <img src="{{asset('images/2021/top_seleccion.png')}}" class="w-100 col-12" style="margin-top: -30px; margin-bottom: 30px;">
+                                <img v-if="user.genero == 1" src="{{asset('images/2021/credencial_mujer_1.png')}}" class="w-100 col-12" style="margin-top: -20px; margin-bottom: 30px;">
+                                <img v-if="user.genero == 0" src="{{asset('images/2021/seleccion_archivo_1.png')}}" class="w-100 col-12" style="margin-top: -20px; margin-bottom: 30px;">
+                                <div class="image-upload-1">
+                                    <label for="imagen1">
+                                        <img v-if="user.genero == 1" src="{{asset('images/2021/archivo_mujer.png')}}" class="w-100 col-8" style="margin-top: -40px; margin-bottom: 30px;margin-left: 30%;">
+                                        <img v-if="user.genero == 0" src="{{asset('images/2021/boton_archivo.png')}}" class="w-100 col-8" style="margin-top: -40px; margin-bottom: 30px;margin-left: 30%;">
+                                    </label>
+
+                                    <input id="imagen1" type="file"  v-model="archivo1" ref="archivo1" @change="handleFileUpload1()" name="ok2"/>
+                                </div>
+                                <div id="imgfoto1">
+                                    <img v-if="user.archivo_validacion_1" :src="user.archivo_validacion_1">
+                                </div>
+                                <div v-if="ok_imagen_1" class="text-danger text-center"><i class="fas fa-check-circle"></i> Imagen cargada correctamente.</div>
+                                <div v-if="error_imagen_1" class="text-danger text-center"><i class="fas fa-times-circle"></i> Verifica el peso de la imagen.</div>
+
+                                <img v-if="user.genero == 1" src="{{asset('images/2021/selfie_mujer.png')}}" class="w-100 col-12" style="margin-top: 20px; margin-bottom: 30px;">
+                                <img v-if="user.genero == 0" src="{{asset('images/2021/seleccion_archivo_2.png')}}" class="w-100 col-12" style="margin-top: 20px; margin-bottom: 30px;">
+                                <div class="image-upload-2">
+                                    <label for="imagen2">
+                                        <img v-if="user.genero == 1" src="{{asset('images/2021/archivo_mujer.png')}}" class="w-100 col-8" style="margin-top: -40px; margin-bottom: 30px;margin-left: 30%;">
+                                        <img v-if="user.genero == 0" src="{{asset('images/2021/boton_archivo.png')}}" class="w-100 col-8" style="margin-top: -40px; margin-bottom: 30px;margin-left: 30%;">
+                                    </label>
+
+                                    <input id="imagen2" type="file" v-model="archivo2" ref="archivo2" @change="handleFileUpload2()" name="ok"/>
+                                </div>
+                                <div id="imgfoto2">
+                                    <img v-if="user.archivo_validacion_2" :src="user.archivo_validacion_2">
+                                </div>
+                                <div v-if="ok_imagen_2" class="text-danger text-center"><i class="fas fa-check-circle"></i> Imagen cargada correctamente.</div>
+                                <div v-if="error_imagen_2" class="text-danger text-center"><i class="fas fa-times-circle"></i> Verifica el peso de la imagen.</div>
+                                <div v-if="user.archivo_validacion_1 && user.archivo_validacion_2">
+                                    <img src="{{asset('images/2021/subir_archivos.png')}}" class="w-100 col-8" @click="enviarValidacion()">
+                                </div>
 
                         @else
                             <!--a class="btn btn-primary btn-md" href="{{url('/reto/dia/1/0/0')}}"-->
