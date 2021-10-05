@@ -55,9 +55,6 @@
             font-family: unitext_light;
         }
 
-        footer {
-            /*background-color: #007fdc;*/
-        }
 
         .links > a {
             padding: 0 25px;
@@ -142,7 +139,7 @@
                 padding: 1px;
             }
             footer {
-                background-color: white;
+                background-color: transparent !important;
             }footer {
                  margin-top: auto;
                  padding: 0rem 0;

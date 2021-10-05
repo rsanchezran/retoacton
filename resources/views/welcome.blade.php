@@ -689,6 +689,9 @@
                 line-height: 1;
             }
         }
+        footer {
+            background-color: transparent !important;
+        }
     </style>
 
 @endsection
