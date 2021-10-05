@@ -847,6 +847,7 @@
                         this.pregunta = this.preguntasCerradas[this.numero-1].pregunta
                     } else {
                         this.mostrarAbiertas();
+                        
                     }
                 },
                 select: function (pregunta, opcion) {
@@ -857,7 +858,7 @@
                         this.sexosvg = opcion.respuesta + 'svg';
                         this.sexoheader = opcion.respuesta + '_header';
                         this.sexotext = opcion.respuesta + 'text';
-                        document.getElementById("imgheader").style.setProperty('margin-top', '0px', 'important');
+                        document.getElementById("imgheader").style.setProperty('margin-top', '15px', 'important');
                         document.getElementById("imgheader").style.setProperty('margin-left', '0px', 'important');
                         document.getElementById("imgheader").style.setProperty('width', '100%', 'important');
                         if (opcion.respuesta == 'Mujer') {
