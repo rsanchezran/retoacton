@@ -438,8 +438,7 @@ class RegisterController extends Controller
 
     public function buscarReferencia($referencia)
     {
-        $user = User::select('name', 'last_name','id','num_inscripciones','inicio_reto')->where('referencia', $referencia)
-            ->where('id','!=',1)->get()->first();
+        $user = User::select('name', 'last_name','id','num_inscripciones','inicio_reto')->where('referencia', $referencia)->first();
         if ($user == null) {
             abort(403, 'Unauthorized action.');
         }

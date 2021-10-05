@@ -1450,11 +1450,14 @@
             <img src="{{asset('images/2021/logo_degradado.png')}}" id="imagentop" class="w-100">
             <br>
             <br>
-            <img v-if="encontrado!==null" src="{{asset('images/2021/texto_2_semanas.png')}}" id="imagentop" style="width: 90% !important;">
+            <img v-if="encontrado" src="{{asset('images/2021/texto_2_semanas.png')}}" id="imagentop" style="width: 90% !important;">
             <br>
             <br>
-            <h3 v-if="encontrado!==null" class="col-12 text-center">
+            <h3 v-if="encontrado" class="col-12 text-center">
                 @{{ referencia }}
+            </h3>
+            <h3 v-if="mensaje_ref!==''" class="col-12 text-center">
+                @{{ mensaje_ref }}
             </h3>
             <br>
             <img src="{{asset('images/2021/mensaje_gratis.png')}}" id="imagentop" class="w-75">
@@ -1636,7 +1639,7 @@
                     },
                     loading: false,
                     encontrado: null,
-                    referencia: '',
+                    referencia: null,
                     original: '0',
                     monto: '0',
                     descuento: '0',
@@ -1651,6 +1654,7 @@
                     usuario: '',
                     pass: '',
                     mostrarDatos: false,
+                    mensaje_ref: '',
 
             }
             },
@@ -1714,6 +1718,7 @@
                             vm.saveContacto();
                         }
                     }).catch(function () {
+                        vm.mensaje_ref = 'No se encontró a alguien con ese código de referencia'
                         if(vm.sent){
                             //vm.saveContacto();
                         }
