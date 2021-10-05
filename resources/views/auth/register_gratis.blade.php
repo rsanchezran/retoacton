@@ -1714,6 +1714,7 @@
                         vm.referencia = response.data.usuario;
                         vm.loading = false;
                         vm.encontrado = true;
+                        vm.mensaje_ref = ''
                         if(vm.sent){
                             vm.saveContacto();
                         }
