@@ -42,7 +42,7 @@
             background-image: url("{{asset('/images/2021/fondo_footer.png')}}");
             background-repeat: no-repeat;
             background-size: 100% auto;
-            min-height: 350px;
+            min-height: 500px;
             background-position-y: bottom;
         }
 
