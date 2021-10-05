@@ -1460,10 +1460,10 @@
                 @{{ mensaje_ref }}
             </h3>
             <br>
-            <img v-if="!encontrado_url" src="{{asset('images/2021/mensaje_gratis.png')}}" id="imagentop" class="w-75">
-            <br v-if="!encontrado_url">
-            <br v-if="!encontrado_url">
-            <br v-if="!encontrado_url">
+            <img v-if="!encontrado_url && mensaje_gratis" src="{{asset('images/2021/mensaje_gratis.png')}}" id="imagentop" class="w-75">
+            <br v-if="!encontrado_url && mensaje_gratis">
+            <br v-if="!encontrado_url && mensaje_gratis">
+            <br v-if="!encontrado_url && mensaje_gratis">
         </div>
             <div align="center" class="col-12 text-center" style="" v-if="!mostrarDatos">
                 <select class="form-control " v-model="informacion.medio" @change="seleccionarMedio" id="seleccionamedio">
@@ -1656,6 +1656,7 @@
                     mensaje_ref: '',
                     codigo_url: false,
                     encontrado_url: false,
+                    mensaje_gratis: true,
 
             }
             },
@@ -1801,6 +1802,7 @@
 
                     let vm = this;
                     this.loading = true;
+                    this.mensaje_gratis = false;
                     this.errors = {};
                     this.mostrarDatos = true;
                     this.informacion.nombres = this.informacion.nombres.trim();
