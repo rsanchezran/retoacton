@@ -704,7 +704,7 @@
                     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-pause="false">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
-                                <img class="d-lg-none w-100" src="{{asset('images/2021/landing_front.png')}}" alt="First slide">
+                                <img class="d-lg-none w-100" style="height: 100%" src="{{asset('images/2021/landing_front.png')}}" alt="First slide">
                             </div>
                         </div>
                         <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
@@ -722,7 +722,7 @@
             </div>
 
             <div class="text-center">
-                <div class="col-12 col-sm-12" style="padding: 0px 10px; margin-top: -60px">
+                <div class="col-12 col-sm-12" style="padding: 0px 10px; margin-top: -85px">
                     <form method="POST" action="{{ route('login') }}" >
                         @csrf
                         <div class="form-group row  text-right justify-content-end">
@@ -740,8 +740,8 @@
 
                         <div class="form-group row">
 
-                            <div class="col-md-4">
-                                <input id="password" placeholder="Contraseña" type="password" class="form-control @error('password') is-invalid @enderror col-6 offset-6" name="password" required autocomplete="current-password" style=" border-color: #1565C0;">
+                            <div class="col-md-5" style="margin-top: -20px;">
+                                <input id="password" placeholder="Contraseña" type="password" class="form-control @error('password') is-invalid @enderror col-7 offset-5" name="password" required autocomplete="current-password" style=" border-color: #1565C0;">
 
                                 @error('password')
                                 <span class="invalid-feedback" role="alert">
