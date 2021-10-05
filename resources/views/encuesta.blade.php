@@ -663,8 +663,8 @@
                                         }, 3000);
 
 
-                                    var actual = respuesta.data.peso;
-                                    var ideal = respuesta.data.peso_ideal;
+                                    var actual = parseInt(respuesta.data.peso);
+                                    var ideal = parseInt(respuesta.data.peso_ideal);
                                     var alcanzables = 0;
 
                                     if(actual < 50){
@@ -866,8 +866,8 @@
                     vm.felicidades = true;
                 }
 
-                var actual = this.user.peso;
-                var ideal = this.user.peso_ideal;
+                var actual = parseInt(this.user.peso);
+                var ideal = parseInt(this.user.peso_ideal);
                 var alcanzables = 0;
 
                 if(actual < 50){
