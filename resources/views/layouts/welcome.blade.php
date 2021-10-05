@@ -170,10 +170,10 @@
 <footer>
     <div class="container d-lg-none container_foot_2021">
         <div class="d-flex flex-wrap d-none d-md-block">
-            <div class="col-sm-3" style="margin-top: 90px">
+            <div class="col-sm-3" style="margin-top: 130px">
                 <ul class="list-unstyled">
                     <li>
-                        <a href="{{url('dudas')}}">
+                        <a href="{{url('dudas')}}" style="margin-top: 10%;">
                             <img class="d-lg-none w-50" src="{{asset('images/2021/registro_1.png')}}" alt="First slide">
                         </a>
                     </li>
