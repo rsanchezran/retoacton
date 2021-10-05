@@ -139,7 +139,7 @@
                 padding: 1px;
             }
             footer {
-                background-color: transparent !important;
+                background-color: white !important;
             }footer {
                  margin-top: auto;
                  padding: 0rem 0;
@@ -175,7 +175,7 @@
 <footer>
     <div class="container d-lg-none container_foot_2021">
         <div class="d-flex flex-wrap d-none d-md-block">
-            <div class="col-sm-3" style="margin-top: 130px">
+            <div class="col-sm-3" style="margin-top: 170px">
                 <ul class="list-unstyled">
                     <li>
                         <a href="{{url('dudas')}}" style="margin-top: 10%;">

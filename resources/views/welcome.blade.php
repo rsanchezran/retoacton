@@ -690,7 +690,7 @@
             }
         }
         footer {
-            background-color: transparent !important;
+            background-color: white !important;
         }
     </style>
 
