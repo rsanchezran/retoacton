@@ -986,6 +986,9 @@ class UserController extends Controller
         $usuario->idiomas= $idiomas;
         $usuario->intereses = $intereses;
         $usuario->intereses_publico = $request->usuario['intereses_publico'];
+        if($request->usuario['codigo_nuevo']){
+            $usuario->referencia = $request->usuario['codigo_nuevo'];
+        }
         $usuario->genero = $request->usuario['genero'];
         $usuario->genero_2 = $request->usuario['genero_2'];
         $usuario->situacion_actual = $request->usuario['situacion_actual'];

@@ -322,7 +322,7 @@
                             </div>
                             <br>
                             <!--button class="btn btn-primary prevBtn pull-right" type="button">Anterior</button-->
-                            <button class="btn nextBtn pull-right" type="button"><img  src="{{asset('images/2021/ontinuar.png')}}" class="w-100" style="margin-bottom: 20px;"></button>
+                            <button class="btn nextBtn pull-right" type="button" @click="guardarLugar"><img  src="{{asset('images/2021/ontinuar.png')}}" class="w-100" style="margin-bottom: 20px;"></button>
                         </div>
                     </div>
 
@@ -456,8 +456,8 @@
                             </div>
                             <br>
                             <div class="col-12 text-center">
-                                <button class="prevBtn pull-right" type="button" style="background: transparent !important;border: 0px !important;}"><img src="{{asset('images/2021/anterior.png')}}" class="w-25"></button>
-                                <button class="nextBtn pull-right" type="button" style="background: transparent !important;border: 0px !important;}"><img src="{{asset('images/2021/siguiente.png')}}" class="w-25"> </button>
+                                <button class="prevBtn pull-right" @click="guardarLugar" type="button" style="background: transparent !important;border: 0px !important;}"><img src="{{asset('images/2021/anterior.png')}}" class="w-25"></button>
+                                <button class="nextBtn pull-right" @click="guardarLugar" type="button" style="background: transparent !important;border: 0px !important;}"><img src="{{asset('images/2021/siguiente.png')}}" class="w-25"> </button>
                             </div>
                         </div>
                     </div>
