@@ -42,7 +42,7 @@
             background-image: url("{{asset('/images/2021/fondo_footer.png')}}");
             background-repeat: no-repeat;
             background-size: 100% auto;
-            min-height: 500px;
+            height: 500px;
             background-position-y: bottom;
         }
 
@@ -153,6 +153,11 @@
                 background-position: center;
                 background-repeat: no-repeat;
                 background-size: cover;
+            }
+        }
+        @media only screen and (max-width: 400px) {
+            .container_foot_2021{
+                height: auto;
             }
         }
     </style>
