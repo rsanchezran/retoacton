@@ -151,7 +151,6 @@
 
 
             main{
-                background-image: url("{{asset('images/2021/fondo_rayo.png')}}");
                 background-size: 100%;
                 background-attachment: fixed;
                 background-position: center;
