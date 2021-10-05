@@ -292,7 +292,7 @@
                 </div>
                 <div class="card-body" :style="inicio.mostrar?'padding:0':''">
                     <div v-if="inicio.mostrar">
-                        <img src="{{asset('images/2021/encuesta_1.png')}}" width="100%">
+                        <img src="{{asset('images/2021/blanco_negro_encuesta.png')}}" width="100%">
                     </div>
                     <div class="col-12 col-sm-6 text-center" v-if="inicio.mostrar">
                         <button class="btn btn-primary text-uppercase font-weight-bold"
