@@ -857,6 +857,9 @@
                         this.sexosvg = opcion.respuesta + 'svg';
                         this.sexoheader = opcion.respuesta + '_header';
                         this.sexotext = opcion.respuesta + 'text';
+                        document.getElementById("imgheader").style.setProperty('margin-top', '0px', 'important');
+                        document.getElementById("imgheader").style.setProperty('margin-left', '0px', 'important');
+                        document.getElementById("imgheader").style.setProperty('width', '100%', 'important');
                         if (opcion.respuesta == 'Mujer') {
                             document.getElementById("imgheader").src = "/images/2021/logo_movil_rosa.png";
                         }else {
