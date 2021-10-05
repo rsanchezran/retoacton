@@ -1472,10 +1472,9 @@
                 </select>
                 <div v-if="informacion.medio=='Por medio de un amigo'" class="text-left" style="display:none">
                     <span style="color: #929292">
-                        Ingrésa su código
                         <i v-if="loading" class="far fa-spinner fa-spin"></i>
                     </span>
-                    <input class="form-control col-6" v-model="informacion.codigo" placeholder="REFERENCIA"
+                    <input class="form-control col-6" v-model="informacion.codigo" placeholder="Ingrésa su código"
                            @blur="buscarReferencia()" maxlength="7">
                     <form-error name="codigo" :errors="errors"></form-error>
                     <div v-if="encontrado!==null && !encontrado_url">
