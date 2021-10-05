@@ -1414,6 +1414,26 @@
             -moz-appearance: none;
             appearance: none;
         }
+        ::-webkit-input-placeholder {
+            font-style: italic;
+            font-weight: lighter;
+            font-family: 'Arial', sans-serif;
+        }
+        :-moz-placeholder {
+            font-style: italic;
+            font-weight: lighter;
+            font-family: 'Arial', sans-serif;
+        }
+        ::-moz-placeholder {
+            font-style: italic;
+            font-weight: lighter;
+            font-family: 'Arial', sans-serif;
+        }
+        :-ms-input-placeholder {
+            font-style: italic;
+            font-weight: lighter;
+            font-family: 'Arial', sans-serif;
+        }
 
     </style>
 @endsection
@@ -1444,7 +1464,7 @@
         </div>
             <div align="center" class="col-12 text-center" style="" v-if="!mostrarDatos">
                 <select class="form-control " v-model="informacion.medio" @change="seleccionarMedio">
-                    <option value="" disabled>¿Cómo te enteraste del reto acton?</option>
+                    <option value="" disabled>¿Cómo te enteraste de reto acton?</option>
                     <option v-for="medio in medios" :value="medio">@{{medio}}</option>
                 </select>
                 <div v-if="informacion.medio=='Por medio de un amigo'" class="text-left">
