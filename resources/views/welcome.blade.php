@@ -697,6 +697,7 @@
         <inicio></inicio>
     </div>
     <template id="inicio-template">
+        <div>
         <div class="d-lg-none">
             <div v-animate="'slide-up'" align="center">
                 <div id="inicioFeature">
@@ -724,31 +725,31 @@
                 <div class="col-12 col-sm-12" style="padding: 0px 10px; margin-top: -60px">
                     <form method="POST" action="{{ route('login') }}" >
                         @csrf
-                            <div class="form-group row  text-right justify-content-end">
+                        <div class="form-group row  text-right justify-content-end">
 
-                                <div class="col-md-4 justify-content-end">
-                                    <input id="email" placeholder="Correo Electronico" type="email" class="form-control @error('email') is-invalid @enderror col-6 offset-6" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus style="width: 100%; border-color: #1565C0;">
+                            <div class="col-md-4 justify-content-end">
+                                <input id="email" placeholder="Correo Electronico" type="email" class="form-control @error('email') is-invalid @enderror col-6 offset-6" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus style="width: 100%; border-color: #1565C0;">
 
-                                    @error('email')
-                                    <span class="invalid-feedback" role="alert">
+                                @error('email')
+                                <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
-                                    @enderror
-                                </div>
+                                @enderror
                             </div>
+                        </div>
 
-                            <div class="form-group row">
+                        <div class="form-group row">
 
-                                <div class="col-md-4">
-                                    <input id="password" placeholder="Contraseña" type="password" class="form-control @error('password') is-invalid @enderror col-6 offset-6" name="password" required autocomplete="current-password" style=" border-color: #1565C0;">
+                            <div class="col-md-4">
+                                <input id="password" placeholder="Contraseña" type="password" class="form-control @error('password') is-invalid @enderror col-6 offset-6" name="password" required autocomplete="current-password" style=" border-color: #1565C0;">
 
-                                    @error('password')
-                                    <span class="invalid-feedback" role="alert">
+                                @error('password')
+                                <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
-                                    @enderror
-                                </div>
+                                @enderror
                             </div>
+                        </div>
 
                         <div class="form-group row">
                             <div class="col-md-6 offset-md-4">
@@ -792,6 +793,9 @@
         </div>
 
 
+
+
+
         <div class="d-none d-md-block">
             <div v-animate="'slide-up'" align="center">
                 <div id="inicioFeature">
@@ -815,7 +819,7 @@
                     </div>
                 </div>
             </div>
-            <div class="info text-center">
+            <!--div class="info text-center">
                 <div class="col-12 col-sm-8 mr-auto ml-auto" style="padding: 40px 10px">
                     <h6 class="text-uppercase bigger thin" style="color:#929494; font-size: 2.4rem">El mejor
                         momento</h6>
@@ -823,8 +827,76 @@
                     <h6 class="text-uppercase font-weight-bold biggest"> es este</h6>
                     <br>
                 </div>
-            </div>
-            <div class="">
+            </div-->
+
+            <div class="text-center">
+                <div class="col-12 col-sm-12" style="padding: 0px 10px; margin-top: 30px">
+                    <form method="POST" action="{{ route('login') }}" >
+                        @csrf
+                        <div class="form-group row  text-right ">
+
+                            <div class="col-md-8 ">
+                                <input id="email" placeholder="Correo Electronico" type="email" class="form-control @error('email') is-invalid @enderror col-6 offset-6" name="email" value="{{ old('email') }}" required autocomplete="email">
+
+                                @error('email')
+                                <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+
+                            <div class="col-md-8">
+                                <input id="password" placeholder="Contraseña" type="password" class="form-control @error('password') is-invalid @enderror col-6 offset-6" name="password" required autocomplete="current-password" style=" border-color: #1565C0;">
+
+                                @error('password')
+                                <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <!--div class="form-group row">
+                            <div class="col-md-6 offset-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="remember"> Recordar credenciales</label>
+                                </div>
+                            </div>
+                        </div-->
+
+                        <div class="form-group row mb-0">
+                            <div class="col-md-4 offset-md-4">
+                                <button type="submit" class="" style="border: 0px; background-color: white;">
+                                    <img class=" w-75" src="{{asset('images/2021/iniciar_sesion-100.jpg')}}" alt="First slide">
+                                </button>
+
+                                @if (Route::has('password.request'))
+                                    <a class="btn btn-link" href="{{ route('password.request') }}">
+                                        ¿Olvidaste tu contraseña?
+                                    </a>
+                                @endif
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="text-center">
+                        <div class="col-6 col-sm-8 mr-auto ml-auto" style="padding: 40px 10px">
+                            <a class="btn btn-link" href="registro/gratis"><img class="w-75" src="{{asset('images/2021/prueba_gratis.png')}}" alt="First slide"></a>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <div class="col-12 col-sm-8 mr-auto ml-auto" style="padding: 40px 10px">
+                            <img class="w-100" src="{{asset('images/2021/mejor_momento-100.jpg')}}" alt="First slide">
+                        </div>
+                    </div>
+
+                </div>
+            <!--div class="">
                 <div id="features" class="d-flex flex-wrap mr-auto ml-auto">
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
                         <div id="comidasFeature" class="feature" @click="features.comidas=false" @mouseover="features.comidas=false"
@@ -902,8 +974,8 @@
                     <br>
                 </div>
             </div>
-            <br>
-            <div class="section">
+            <br-->
+            <!--div class="section">
                 <div id="curva"></div>
                 <div id="pipo" class="d-flex flex-wrap">
                     <div class="col-sm-5 col-5" id="pipoDiv">
@@ -912,12 +984,6 @@
                     <div class="col-sm-7 col-7" id="quote">
                         <div id="frase">
                             <div id="cree">
-                                <!--p class="text-uppercase">Tus más grandes deseos llegarán a ti tarde o temprano</p>
-                                <br>
-                                <p class="text-uppercase">La rapidez con la que aparecerán en</p>
-                                <p class="text-uppercase">tu vida depende de tu nivel de fe</p>
-                                <p class="text-uppercase">en que lo conseguirás</p>
-                                <br-->
                                 <p class="text-uppercase">¡Cree en ti y </p>
                                 <p class="text-uppercase">todo será</p>
                                 <p class="text-uppercase">posible! </p>
@@ -931,7 +997,7 @@
                                         class="turquesa">Tu momento </span> es hoy</h6>
                         </div>
                     </div>
-                </div>
+                </div-->
             <!--div id="desicion" class="section container text-center">
                     <h6 class="text-uppercase bigger thin" style="color:#929494">Ranking de participantes actualizado</h6>
                     <table id="ranking" class="table text-left">
@@ -1232,7 +1298,7 @@
                     <br>
                     <br-->
                     <div id="monitores" class="d-flex flex-wrap">
-                        <!--div class="col-sm-4 col-12 monitor">
+                    <!--div class="col-sm-4 col-12 monitor">
                             <img src="{{asset('images/imagesremodela/pasouno.png')}}" width="90%">
                         </div>
                         <div class="col-sm-4 col-12 monitor">
@@ -1296,31 +1362,36 @@
                         </p>
                     </div>
                     <hr-->
-                    <!--div>
-                        <div @click="cambiarFaqs('dudas')" class="in-cursor">
-                            <h3 class="subtitle">¿HABRÁ QUIÉN ME RESUELVA DUDAS?</h3>
-                            <i :class="'fas fa-sort-'+(!faqs.dudas?'down':'up')+' float-right'"></i>
-                        </div>
-                        <p class="subinfo" v-show="faqs.dudas">
-                            Sí, contamos con soporte para aclarar tus dudas, el cual estará disponible de lunes a viernes de 9:00 am a 6:00 pm y sábados de 10:00
-                            am a 2:00 pm
-                        </p>
+                <!--div>
+                    <div @click="cambiarFaqs('dudas')" class="in-cursor">
+                        <h3 class="subtitle">¿HABRÁ QUIÉN ME RESUELVA DUDAS?</h3>
+                        <i :class="'fas fa-sort-'+(!faqs.dudas?'down':'up')+' float-right'"></i>
                     </div>
-                    <hr>
-                    <div>
-                        <div @click="cambiarFaqs('mundo')" class="in-cursor">
-                            <h3 class="subtitle">
-                                ¿PUEDO INSCRIBIRME DESDE CUALQUIER PARTE DEL MUNDO?
-                            </h3>
-                            <i :class="'fas fa-sort-'+(!faqs.mundo?'down':'up')+' float-right'"></i>
-                        </div>
-                        <p class="subinfo" v-show="faqs.mundo">
-                            Sí, como el programa es 100% en línea puedes empezarlo desde
-                            cualquier lugar.
-                        </p>
-                    </div-->
+                    <p class="subinfo" v-show="faqs.dudas">
+                        Sí, contamos con soporte para aclarar tus dudas, el cual estará disponible de lunes a viernes de 9:00 am a 6:00 pm y sábados de 10:00
+                        am a 2:00 pm
+                    </p>
+                </div>
+                <hr>
+                <div>
+                    <div @click="cambiarFaqs('mundo')" class="in-cursor">
+                        <h3 class="subtitle">
+                            ¿PUEDO INSCRIBIRME DESDE CUALQUIER PARTE DEL MUNDO?
+                        </h3>
+                        <i :class="'fas fa-sort-'+(!faqs.mundo?'down':'up')+' float-right'"></i>
+                    </div>
+                    <p class="subinfo" v-show="faqs.mundo">
+                        Sí, como el programa es 100% en línea puedes empezarlo desde
+                        cualquier lugar.
+                    </p>
+                </div-->
                 <!--/div-->
-            </div>
+
+        </div>
+
+
+        </div>
+
     </template>
 @endsection
 
