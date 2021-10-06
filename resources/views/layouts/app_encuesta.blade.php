@@ -61,22 +61,47 @@
         .badge-warning {
             font-size: 15px;
         }
+
+        ::-webkit-input-placeholder {
+            color: #808080;
+            font-style: italic !important;
+            font-weight: lighter !important;
+            font-family: 'Arial', sans-serif !important;
+        }
+        :-moz-placeholder {
+            color: #808080;
+            font-style: italic !important;
+            font-weight: lighter !important;
+            font-family: 'Arial', sans-serif !important;
+        }
+        ::-moz-placeholder {
+            color: #808080;
+            font-style: italic !important;
+            font-weight: lighter !important;
+            font-family: 'Arial', sans-serif !important;
+        }
+        :-ms-input-placeholder {
+            color: #808080;
+            font-style: italic !important;
+            font-weight: lighter !important;
+            font-family: 'Arial', sans-serif !important;
+        }
     </style>
     @yield('header')
 </head>
 <body class="h-100">
 
-<div id="app" class="d-flex flex-column" style="min-height: 100%;">
+<div id="app" class="d-flex flex-column" >
     <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
         <div class="container">
             <a class="text-center" href="{{ url('/home') }}">
             <!--a class="navbar-brand" href="{{ url('/home') }}"-->
                 @guest
-                    <img src="/images/2021/logo_degradado.png" id="imgheader" class="w-100" style="    width: 110% !important;margin-left: -5%;margin-top: -3%;">
-                    <!--img src="{{asset('images/2021/logo_movil_azul.png')}}"  style="z-index: 2; position: absolute; top: 5px;" id="imgheader"-->
+                    <img src="/images/2021/logo_degradado.png" id="imgheader" class="w-100" style="    width: 110% !important;margin-left: -5%;margin-top: -3%;margin-bottom: -10px;">
+                    <!--img src="{{asset('images/2021/logo_blanco_b.png')}}"  style="z-index: 2; position: absolute; top: 5px;" id="imgheader"-->
                 @else
-                    <img src="/images/2021/logo_degradado.png" id="imgheader" class="w-100" style="    width: 110% !important;margin-left: -5%;margin-top: -3%;">
-                    <!--img src="{{asset('images/2021/logo_movil_azul.png')}}" id="imgheader"-->
+                    <img src="/images/2021/logo_degradado.png" id="imgheader" class="w-100" style="    width: 110% !important;margin-left: -5%;margin-top: -3%;margin-bottom: -10px;">
+                    <!--img src="{{asset('images/2021/logo_blanco_b.png')}}" id="imgheader"-->
                 @endguest
             </a>
 

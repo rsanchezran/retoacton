@@ -76,7 +76,7 @@
 
         .pregunta label{
             background: #F2F2F2;
-            padding: 5px;
+            padding: 3px;
             width: 80%;
             font-size: 15px;
         }
@@ -101,7 +101,7 @@
         }
 
         label.cuestionario {
-            font-size: 0.9rem;
+            font-size: 0.5rem;
         }
 
         input.form-control {
@@ -109,9 +109,9 @@
         }
 
         input.form-control.encuesta {
-            padding-bottom: 30px;
-            padding-top: 30px;
-            font-size: 13pt;
+            padding-bottom: 15px;
+            padding-top: 15px;
+            font-size: 10pt;
         }
 
         .siguiente, .anterior {
@@ -182,13 +182,13 @@
         }
 
         .Hombre{
-            border: 2px solid #0080DD;
+            border: 2px solid #0080DD !important;
         }
 
 
 
         .Mujer{
-            border: 2px solid #B400B9;
+            border: 2px solid #B400B9 !important;
         }
 
 
@@ -198,6 +198,19 @@
 
         .Mujertext { /* Microsoft Edge */
             color: #B400B9 !important;
+        }
+
+
+        .Hombretext2 { /* Microsoft Edge */
+            color: #0080DD !important;
+            font-family: "Nunito", sans-serif;
+            font-weight: bold;
+        }
+
+        .Mujertext2 { /* Microsoft Edge */
+            color: #B400B9 !important;
+            font-family: "Nunito", sans-serif;
+            font-weight: bold;
         }
 
 
@@ -223,6 +236,16 @@
         .ayuda_pregunta{
             color: #0080DD;
             background: transparent !important;
+            margin-top: -40px;
+            margin-bottom: 40px;
+            font-family: Arial;
+            font-weight: lighter;
+            color: #0080DD;
+            background: transparent !important;
+            margin-top: -40px;
+            margin-bottom: 10px;
+            font-family: Arial;
+            font-weight: lighter;
         }
         .card, .card-body{
             background: transparent !important;
@@ -252,10 +275,30 @@
             position: absolute;
             height: 93px;
         }
+        .card-header-pregunta-singenero{
+            background: transparent !important;
+            padding: 0px !important;
+            margin-bottom: -63px !important;
+            border-bottom: 0px solid rgba(0, 0, 0, 0.125) !important;
+            margin-top: 55px !important;
+        }
+        #app {
+            background-image: url("{{asset('images/2021/fondo_rayo.png')}}") !important;
+            background-size: 100% !important;
+            background-attachment: fixed !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            background-size: cover !important;
+            max-height: 100%;
+        }
 
         @media only screen and (max-width: 420px) {
             .card-body{
                 padding: 2px;
+                padding: 2px;
+                max-height: 410px;
+                min-height: 410px;
+
             }
 
             label.cuestionario {
@@ -263,13 +306,30 @@
             }
 
             svg{
-                width: 30px;
+                width: 20px;
+                margin-left: 20px;
             }
             .card, .card-body {
                 background: transparent !important;
-                width: 102%;
-                margin-left: -1%;
+                width: 100%;
+                margin-left: 0%;
+                margin-top: -2%;
+                margin-bottom: 40px;
+                overflow-y: auto;
+                overflow-x: hidden;
             }
+        }
+        .cuenta_circulo{
+            position: absolute;
+            left: 0;
+            bottom: 0;
+        }
+        .justify-content-between{
+            position: absolute;
+            /* top: 0; */
+            bottom: 0;
+            margin-left: 40%;
+            margin-bottom: 5px;
         }
     </style>
 @endsection
@@ -282,6 +342,10 @@
     <template id="encuesta-template">
         <div v-if="!user.validado && !user.encuestado">
             <div class="card">
+
+                <div v-else-if="!terminar && !continuar && pregunta!=='Sexo'">
+                    <br><br>
+                </div>
                 <div class="card-header" v-if="inicio.mostrar && !terminar" style="background: transparent !important;">
                     <div class="d-flex flex-wrap" style="padding: 20px">
                         <div class="col-12 col-sm-6 text-center" style="border-right: 1px solid #fff">
@@ -289,8 +353,17 @@
                         </div>
                     </div>
                 </div>
-                <div v-else-if="!terminar && !continuar" class="card-header text-center card-header-pregunta" :class="sexoheader" style="padding: 20px; font-size: 1.2rem;">
-                    @{{ pregunta }}
+                <div v-else-if="!terminar && !continuar && pregunta!=='Sexo'" class="card-header text-center card-header-pregunta" :class="sexoheader" style="padding: 20px; font-size: 1.2rem;">
+                    <span v-if="cuenta_circulo==2">
+                        PESO Y ESTATURA
+                    </span>
+                    <span v-else>
+                        @{{ pregunta }}
+                    </span>
+
+                </div>
+                <div v-if="!terminar && pregunta=='Sexo'" class="card-header text-center card-header-pregunta-singenero" style="padding: 20px; font-size: 1.2rem;">
+                    <h3 style="font-family: 'Nunito';font-weight: bolder;">SOY</h3>
                 </div>
                 <div class="card-body" :style="inicio.mostrar?'padding:0':''">
                     <div v-if="inicio.mostrar">
@@ -301,19 +374,44 @@
                     <div class="col-12 col-sm-6 text-center" v-if="inicio.mostrar">
                         <button class="btn btn-primary text-uppercase font-weight-bold"
                                 style="margin-top: 20px; padding: 10px 80px;"
-                                @click="mostrarAbiertas()">Comenzar
+                                @click="mostrarCerradasUno()">Comenzar
                         </button>
                     </div>
 
                     <transition :name="mostrarEncuesta.animacion">
                         <div v-if="mostrarEncuesta.mostrar" class="col-sm-8 d-block mr-auto ml-auto">
                             <div v-for="(pregunta,key,index) in preguntasAbiertas">
-                                <input v-if="key < 2 || key == 3" class="form-control encuesta" :class="sexo" v-model="pregunta.respuesta"
-                                       :placeholder="pregunta.pregunta">
-                                <form-error v-if="key < 2 || key == 3" align="left" :name="pregunta.pregunta+'.respuesta'"
-                                            :errors="errors"></form-error>
+                                <div v-if="(key < 2 || key == 3) && key !== 0">
+                                    <div class="form-group row">
+                                        <label v-if="key == 3" for="staticEmail" class="col-6 col-form-label" :class="sexotext2">@{{ pregunta.pregunta }}</label>
+                                        <label v-else for="staticEmail" class="col-4 col-form-label" :class="sexotext2">@{{ pregunta.pregunta }}</label>
+                                        <div class="col-6">
+                                            <input class="form-control encuesta" :class="sexo" v-model="pregunta.respuesta"
+                                               :placeholder="pregunta.pregunta">
+                                            <form-error align="left" :name="pregunta.pregunta+'.respuesta'"
+                                                :errors="errors" class="col-12 text-center"></form-error>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div v-if="key == 0">
+                                    <div class="form-group row">
+                                        <label for="staticEmail" class="col-4 col-form-label" :class="sexotext2">@{{ pregunta.pregunta }}</label>
+                                        <div class="col-4">
+                                            <input class="form-control encuesta" :class="sexo" v-model="pregunta.respuesta"
+                                                   placeholder="Metros" :name="pregunta.respuesta">
+                                            <form-error align="left" :name="pregunta.pregunta+'.respuesta'"
+                                                        :errors="errors" class="col-12 text-center"></form-error>
+                                        </div>
+                                        <div class="col-4">
+                                            <input class="form-control encuesta" :class="sexo" v-model="pregunta.respuesta"
+                                                   placeholder="Centimetros" :class="sexotext2">
+                                            <form-error align="left" :name="pregunta.pregunta+'.respuesta'"
+                                                        :errors="errors" class="col-12 text-center"></form-error>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div style="display: flex; justify-content: space-between">
+                            <div style="display: flex; justify-content: space-between; margin-top: 125px;">
                                 <button class="siguiente" @click="comprobarAbiertas()">
                                     <i class="far fa-chevron-double-right"></i>
                                 </button>
@@ -321,7 +419,7 @@
                             <form-error name="siguiente" :errors="errors"></form-error>
                         </div>
                     </transition>
-                    <div class="flex-row" v-for="(pregunta, indexP) in preguntasCerradas">
+                    <div v-if="!mostrar_abiertas" class="flex-row" v-for="(pregunta, indexP) in preguntasCerradas">
                         <transition name="encuesta"
                                     v-if="pregunta.multiple != undefined"> {{--animacion de la pantalla de css--}}
                             <div v-if="pregunta.mostrar">
@@ -355,24 +453,28 @@
                                                 <input :id="pregunta.id+''+indexR" type="checkbox" v-show="false"
                                                        v-model="opcion.selected"
                                                        @change="seleccionar(pregunta, opcion)">
-                                                <div class="row">
+                                                <div class="row" style="margin-top: 50px">
                                                     <img v-if="indexP==0 && indexR==0" src="{{asset('images/2021/mujer.png')}}" @click="select(pregunta, opcion)" class="w-100 col-12" :class="">
                                                     <img v-if="indexP==0 && indexR==1" src="{{asset('images/2021/hombre.png')}}" @click="select(pregunta, opcion)" class="w-100 col-12" :class="">
                                                 </div>
                                             </div>
 
-                                            <form-error name="seleccion" :errors="errors"></form-error>
+                                            <form-error name="seleccion" :errors="errors" class="col-12 text-center"></form-error>
                                         </div>
                                     </div>
-                                    <div class="d-flex justify-content-between">
-                                        <button v-if="!terminar" class="anterior"
+                                    <div class="d-flex justify-content-between" style="">
+                                        <button v-if="!terminar && indexP>0" class="anterior"
                                                 @click="comprobarCerrada(pregunta, 0)">
                                             <i class="far fa-chevron-double-left"></i>
                                         </button>
-                                        <button v-if="!terminar" class="siguiente"
+                                        <button v-if="!terminar && indexP>0" class="siguiente"
                                                 @click="comprobarCerrada(pregunta, 1)">
                                             <i class="far fa-chevron-double-right"></i>
                                         </button>
+                                        <!--button v-else-if="!terminar && indexP==0" class="siguiente"
+                                                @click="mostrarAbiertas()">
+                                            <i class="far fa-chevron-double-right"></i>
+                                        </button-->
                                     </div>
                                 </div>
                             </div>
@@ -426,7 +528,7 @@
                                     <img v-if="user.archivo_validacion_1" :src="user.archivo_validacion_1">
                                 </div>
                                 <div v-if="ok_imagen_1" class="text-danger text-center"><i class="fas fa-check-circle"></i> Imagen cargada correctamente.</div>
-                                <div v-if="error_imagen_1" class="text-danger text-center"><i class="fas fa-times-circle"></i> Verifica el peso de la imagen.</div>
+                                <div v-if="error_imagen_1" class="text-danger text-center col-12"><i class="fas fa-times-circle"></i> Verifica el peso de la imagen.</div>
 
                                 <img v-if="user.genero == 1" src="{{asset('images/2021/selfie_mujer.png')}}" class="w-100 col-12" style="margin-top: 20px; margin-bottom: 30px;">
                                 <img v-if="user.genero == 0" src="{{asset('images/2021/seleccion_archivo_2.png')}}" class="w-100 col-12" style="margin-top: 20px; margin-bottom: 30px;">
@@ -456,15 +558,15 @@
                         </div>
                     </transition>
                 </div>
-            </div>
 
-            <div v-if="cuenta_circulo>0 && cuenta_circulo<17" class="col-12 text-center" >
-                <span v-for="index in 16" :key="index">
-                    <!--img v-if="cuenta_circulo==index" src="{{asset('images/2021/punto_azul.png')}}" style="width: 10px; margin-left: 5px;"-->
-                    <img v-if="cuenta_circulo==index" src="{{asset('images/2021/circulo_relleno_g.png')}}" style="width: 10px; margin-left: 5px;">
-                    <img v-else src="{{asset('images/2021/circulo_gris.png')}}" style="width: 10px; margin-left: 5px;">
-                    <!--img v-else src="{{asset('images/2021/punto.png')}}" style="width: 10px; margin-left: 5px;"-->
-                </span>
+                <div v-if="cuenta_circulo>0 && cuenta_circulo<17" class="col-12 text-center cuenta_cirulo" >
+                    <span v-for="index in 16" :key="index">
+                        <!--img v-if="cuenta_circulo==index" src="{{asset('images/2021/punto_azul.png')}}" style="width: 10px; margin-left: 5px;"-->
+                        <img v-if="cuenta_circulo==index" src="{{asset('images/2021/circulo_relleno_g.png')}}" style="width: 10px;">
+                        <img v-else src="{{asset('images/2021/circulo_gris.png')}}" style="width: 10px; margin-left: 5px">
+                        <!--img v-else src="{{asset('images/2021/punto.png')}}" style="width: 10px; margin-left: 5px;"-->
+                    </span>
+                </div>
             </div>
 
         </div>
@@ -582,6 +684,7 @@
                     pregunta: '',
                     errorAbierta: false,
                     sexo: 'Hombre',
+                    sexotxt2: 'Hombre',
                     sexosvg: 'Hombre',
                     sexoheader: 'Hombre_header',
                     sexotext: 'Hombretext',
@@ -599,6 +702,7 @@
                     },
                     cuenta_circulo: 0,
                     espera: false,
+                    mostrar_abiertas: false,
                 }
             },
             methods: {
@@ -644,6 +748,7 @@
                 mostrarAbiertas: function () { //muestra la siguiente pantalla inicio con solo preguntasAbiertas
                     this.inicio.mostrar = false;
                     this.cuenta_circulo = 1;
+                    this.mostrar_abiertas = true;
                     this.mostrarEncuesta.mostrar = true;
                     this.preguntasAbiertas.forEach(function (item, index) {
                         item.mostrar = true;
@@ -652,9 +757,25 @@
                     document.getElementById('imgheader').style.display = 'block';
                 },
                 mostrarCerradas: function () { //muestra las primera preguntas de preguntasCerradas y oculta las preguntasAbiertas
-                    this.numero = 0;
+                    this.numero = 1;
+                    this.mostrar_abiertas = false;
                     this.cuenta_circulo = this.cuenta_circulo+1;
                     this.mostrarEncuesta.mostrar = false;
+                    this.preguntasAbiertas.forEach(function (item, index) {
+                        item.mostrar = false;
+                    });
+                    if (this.preguntasCerradas.length != 0) {
+                        this.pregunta = this.preguntasCerradas[this.numero].pregunta
+                        this.preguntasCerradas[this.numero++].mostrar = true;
+                    }
+                },
+                mostrarCerradasUno: function () { //muestra las primera preguntas de preguntasCerradas y oculta las preguntasAbiertas
+                    this.numero = 0;
+                    this.inicio.mostrar = false;
+                    this.mostrar_abiertas = false;
+                    this.cuenta_circulo = this.cuenta_circulo+1;
+                    this.mostrarEncuesta.mostrar = false;
+                    document.getElementById('imgheader').style.display = 'block';
                     this.preguntasAbiertas.forEach(function (item, index) {
                         item.mostrar = false;
                     });
@@ -700,7 +821,8 @@
                                         vm.espera = false;
                                         vm.continuar = true;
                                         vm.terminar = false;
-                                        vm.pregunta = ""
+                                        vm.pregunta = "";
+                                        location.reload();
                                         }, 3000);
 
 
@@ -863,12 +985,16 @@
                         this.sexosvg = opcion.respuesta + 'svg';
                         this.sexoheader = opcion.respuesta + '_header';
                         this.sexotext = opcion.respuesta + 'text';
-                        document.getElementById("imgheader").style.setProperty('margin-top', '15px', 'important');
+                        this.sexotext2 = opcion.respuesta + 'text2';
+                        document.getElementById("imgheader").style.setProperty('margin-top', '30px', 'important');
+                        document.getElementById("imgheader").style.setProperty('margin-bottom', '30px', 'important');
                         document.getElementById("imgheader").style.setProperty('margin-left', '0px', 'important');
                         document.getElementById("imgheader").style.setProperty('width', '100%', 'important');
                         if (opcion.respuesta == 'Mujer') {
+                            this.mostrarAbiertas();
                             document.getElementById("imgheader").src = "/images/2021/logo_movil_rosa.png";
                         }else {
+                            this.mostrarAbiertas();
                             document.getElementById("imgheader").src = "/images/2021/logo_movil_azul.png";
                         }
                         this.comprobarCerrada(pregunta, 1);

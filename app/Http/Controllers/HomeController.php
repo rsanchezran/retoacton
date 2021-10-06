@@ -190,7 +190,7 @@ class HomeController extends Controller
         $alimentosIgnorados = Dieta::whereIn('comida', $ignorar)->get()->pluck('id');
         $sexo = Pregunta::where('pregunta', 'like', '%Sexo%')->first();
         $objetivo = Pregunta::where('pregunta', 'like', '%Mi objetivo%')->first();
-        $preguntaPeso = Pregunta::where('pregunta', 'like', '%peso en%')->first();
+        $preguntaPeso = Pregunta::where('pregunta', 'like', '%peso a%')->first();
         $preguntaPesoIdeal = Pregunta::where('pregunta', 'like', '%peso ideal%')->first();
         $objetivo = strpos($respuestas->get($objetivo->id)->respuesta, "Bajar de peso rápidamente") ? 'bajar' : 'subir';
         $sexo = json_decode($respuestas->get($sexo->id)->respuesta);
@@ -474,28 +474,28 @@ class HomeController extends Controller
 
         Validator::make($preguntas,
             [
-                'Peso en Kg.respuesta' => ['required', 'numeric', 'min:40', 'max:180',
+                'Peso actual.respuesta' => ['required', 'numeric', 'min:40', 'max:180',
                     'regex:/^([1-9]([0-9]{1,2}))(\.([0-9][0-9]?))?$/'],
-                'Estatura en cm.respuesta' => 'required|numeric|min:100|max:230|integer',
-                'Peso ideal.respuesta' => ['required', 'numeric', 'min:40', 'max:180',
+                'Estatura.respuesta' => 'required|numeric|min:100|max:230|integer',
+                'Cual seria tu peso ideal.respuesta' => ['required', 'numeric', 'min:40', 'max:180',
                     'regex:/^([1-9]([0-9]{1,2}))(\.([0-9][0-9]?))?$/'],
             ],
             [
-                'Peso en Kg.respuesta.required' => 'El peso en kg es requerido',
-                'Peso en Kg.respuesta.numeric' => 'Debe capturar solo números',
-                'Peso en Kg.respuesta.min' => 'Debe ingresar un valor mínimo de 40',
-                'Peso en Kg.respuesta.max' => 'Debe ingresar un valor máximo de 180',
-                'Peso en Kg.respuesta.regex' => 'Debe capturar máximo 3 enteros y hasta 2 decimales',
-                'Estatura en cm.respuesta.required' => 'La estatura en cm es requerida',
-                'Estatura en cm.respuesta.numeric' => 'Debe capturar solo números',
-                'Estatura en cm.respuesta.min' => 'Debe ingresar un valor mínimo de 100',
-                'Estatura en cm.respuesta.max' => 'Debe ingresar un valor máximo de 230',
-                'Estatura en cm.respuesta.integer' => 'Debe capturar números enteros',
-                'Peso ideal.respuesta.required' => 'El peso ideal es requerido',
-                'Peso ideal.respuesta.numeric' => 'Debe capturar solo números',
-                'Peso ideal.respuesta.min' => 'Debe ingresar un valor mínimo de 40',
-                'Peso ideal.respuesta.max' => 'Debe ingresar un valor máximo de 180',
-                'Peso ideal.respuesta.regex' => 'Debe capturar máximo 3 enteros y hasta 2 decimales',
+                'Peso actual.respuesta.required' => 'El peso en kg es requerido',
+                'Peso actual.respuesta.numeric' => 'Debe capturar solo números',
+                'Peso actual.respuesta.min' => 'Debe ingresar un valor mínimo de 40',
+                'Peso actual.respuesta.max' => 'Debe ingresar un valor máximo de 180',
+                'Peso actual.respuesta.regex' => 'Debe capturar máximo 3 enteros y hasta 2 decimales',
+                'Estatura.respuesta.required' => 'La estatura en cm es requerida',
+                'Estatura.respuesta.numeric' => 'Debe capturar solo números',
+                'Estatura.respuesta.min' => 'Debe ingresar un valor mínimo de 100',
+                'Estatura.respuesta.max' => 'Debe ingresar un valor máximo de 230',
+                'Estatura.respuesta.integer' => 'Debe capturar números enteros',
+                'Cual seria tu peso ideal.respuesta.required' => 'El peso ideal es requerido',
+                'Cual seria tu peso ideal.respuesta.numeric' => 'Debe capturar solo números',
+                'Cual seria tu peso ideal.respuesta.min' => 'Debe ingresar un valor mínimo de 40',
+                'Cual seria tu peso ideal.respuesta.max' => 'Debe ingresar un valor máximo de 180',
+                'Cual seria tu peso ideal.respuesta.regex' => 'Debe capturar máximo 3 enteros y hasta 2 decimales',
             ]
         )->validate();
     }
