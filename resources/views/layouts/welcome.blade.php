@@ -148,6 +148,7 @@
 
 
             main{
+                background-image: url("{{asset('images/2021/fondo_generales.png')}}");
                 background-size: 100%;
                 background-attachment: fixed;
                 background-position: center;
@@ -211,7 +212,7 @@
             <br>
             <br>
             <div class="col-sm-3">
-                <img src="{{asset('images/2021/logo_blanco_1.png')}}" width="250">
+                <img src="{{asset('images/2021/logo_blanco.png')}}" width="250">
             </div>
         </div>
 

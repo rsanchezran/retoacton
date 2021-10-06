@@ -1543,13 +1543,13 @@
 
             <div class="col-12"  v-if="mostrarDatos">
                 <div id="header" align="center" class="col-12 text-center">
-                    <img src="{{asset('images/2021/logo_movil_azul.png')}}" id="imagentop" class="w-75">
+                    <!--img src="{{asset('images/2021/logo_movil_azul.png')}}" id="imagentop" class="w-75">
                     <br>
                     <br>
                     <img src="{{asset('images/2021/mensaje_ingreso.png')}}" id="imagentop" class="w-75">
                     <br>
                     <br>
-                    <br>
+                    <br-->
                 </div>
                 <div class="col-12 text-center">
                     <h3>Usuario: @{{ informacion.email }}</h3>
