@@ -1447,7 +1447,7 @@
     <template id="registro-template">
         <div class="">
         <div id="header" align="center" class="">
-            <img src="{{asset('images/2021/logo_degradado.png')}}" id="imagentop" class="w-100">
+            <img src="{{asset('images/2021/logo_blanco_b.png')}}" id="imagentop" class="w-75" style="margin-top: 50px">
             <br>
             <br>
             <img v-if="encontrado_url && mensaje_ref==''" src="{{asset('images/2021/texto_2_semanas.png')}}" id="imagentop" style="width: 90% !important;">
