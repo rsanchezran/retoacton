@@ -414,7 +414,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div style="display: flex; justify-content: space-between; margin-top: 125px;">
+                            <div style="display: flex; justify-content: space-between; margin-top: 100px;">
                                 <button class="siguiente" @click="comprobarAbiertas()">
                                     <i class="far fa-chevron-double-right"></i>
                                 </button>
