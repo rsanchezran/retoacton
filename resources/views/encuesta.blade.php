@@ -907,6 +907,7 @@
                             if (error.response) {
                                 vm.ok_imagen_1 = false;
                                 vm.error_imagen_1 = true;
+                                alert();
                                 if(error.response.status == '422'){
                                     this.error_imagen_1 = "okas";
                                     Vue.set(vm.errores_imagen, 'error_imagen_1', '123th avenue.');
