@@ -1028,6 +1028,11 @@
                 let vm = this;
                 document.getElementById('imgheader').style.display = 'none';
                 vm.user = vm.p_user;
+                if(vm.user.genero == 1){
+                    vm.sexotext = 'Mujer_text';
+                }else{
+                    vm.sexotext = 'Hombre_text';
+                }
                 vm.p_preguntas.forEach(function (item) { //separar Preguntas Abiertas de Cerradas
                     if (item.multiple == undefined)
                         vm.preguntasAbiertas.push(item);
