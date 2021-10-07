@@ -201,6 +201,15 @@
         }
 
 
+        .Hombre_text { /* Microsoft Edge */
+            color: #0080DD !important;
+        }
+
+        .Mujer_text { /* Microsoft Edge */
+            color: #B400B9 !important;
+        }
+
+
         .Hombretext2 { /* Microsoft Edge */
             color: #0080DD !important;
             font-family: "Nunito", sans-serif;
