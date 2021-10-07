@@ -611,6 +611,19 @@
                     <br>
                     <br>
                     <img src="{{asset('images/2021/espera_enviado_1.png')}}" class="w-100 col-12" style="margin-top: 20px; margin-bottom: 30px;">
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
 
                 </div>
                 <div v-if="user.enviado_validacion==0" class="text-center">
