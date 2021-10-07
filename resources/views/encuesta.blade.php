@@ -986,6 +986,7 @@
                 anteriorCerrada: function (pregunta) {
                     pregunta.mostrar = false;
                     this.numero--;
+                    this.cuenta_circulo--;
                     if (this.numero > 0) {
                         this.preguntasCerradas[this.numero-1].mostrar = true;
                         this.pregunta = this.preguntasCerradas[this.numero-1].pregunta
