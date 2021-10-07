@@ -296,8 +296,8 @@
             .card-body{
                 padding: 2px;
                 padding: 2px;
-                max-height: 410px;
-                min-height: 410px;
+                max-height: 395px;
+                min-height: 395px;
 
             }
 
@@ -562,7 +562,7 @@
                 <div v-if="cuenta_circulo>0 && cuenta_circulo<17" class="col-12 text-center cuenta_cirulo" >
                     <span v-for="index in 16" :key="index">
                         <!--img v-if="cuenta_circulo==index" src="{{asset('images/2021/punto_azul.png')}}" style="width: 10px; margin-left: 5px;"-->
-                        <img v-if="cuenta_circulo==index" src="{{asset('images/2021/circulo_relleno_g.png')}}" style="width: 10px;">
+                        <img v-if="cuenta_circulo==index" src="{{asset('images/2021/circulo_relleno_g.png')}}" style="width: 10px; margin-left: 5px;">
                         <img v-else src="{{asset('images/2021/circulo_gris.png')}}" style="width: 10px; margin-left: 5px">
                         <!--img v-else src="{{asset('images/2021/punto.png')}}" style="width: 10px; margin-left: 5px;"-->
                     </span>
