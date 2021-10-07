@@ -511,7 +511,7 @@
                                 <img src="{{asset('images/2021/apartir_ahora.png')}}" class="w-100 col-12" style="margin-top: 20px; margin-bottom: 30px;"-->
 
                                 <img src="{{asset('images/2021/primeros_30.png')}}" class="w-100 col-12" style="margin-top: 40px;">
-                                <label class="peso_ideal text-center">@{{ peso_ideal }} kg</label>
+                                <label class="peso_ideal text-center" :class="sexotxt">@{{ peso_ideal }} kg</label>
                                 <img src="{{asset('images/2021/apartir_ahora.png')}}" class="w-100 col-12" style="margin-top: 20px; margin-bottom: 30px;">
                                 <img src="{{asset('images/2021/top_seleccion.png')}}" class="w-100 col-12" style="margin-top: -30px; margin-bottom: 30px;">
                                 <img v-if="user.genero == 1" src="{{asset('images/2021/credencial_mujer_1.png')}}" class="w-100 col-12" style="margin-top: -20px; margin-bottom: 30px;">
@@ -606,7 +606,7 @@
                 </div>
                 <div v-if="user.enviado_validacion==0" class="text-center">
                     <img src="{{asset('images/2021/primeros_30.png')}}" class="w-100 col-12" style="margin-top: 40px;">
-                    <label class="peso_ideal text-center">@{{ peso_ideal }} kg</label>
+                    <label class="peso_ideal text-center" :class="sexotext">@{{ peso_ideal }} kg</label>
                     <img src="{{asset('images/2021/apartir_ahora.png')}}" class="w-100 col-12" style="margin-top: 20px; margin-bottom: 30px;">
                     <img src="{{asset('images/2021/top_seleccion.png')}}" class="w-100 col-12" style="margin-top: -30px; margin-bottom: 30px;">
                     <img v-if="user.genero == 1" src="{{asset('images/2021/credencial_mujer_1.png')}}" class="w-100 col-12" style="margin-top: -20px; margin-bottom: 30px;">
