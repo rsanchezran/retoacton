@@ -407,13 +407,7 @@
                                         <label for="staticEmail" class="col-4 col-form-label" :class="sexotext2">@{{ pregunta.pregunta }}</label>
                                         <div class="col-4">
                                             <input class="form-control encuesta" :class="sexo" v-model="pregunta.respuesta"
-                                                   placeholder="Metros" :name="pregunta.respuesta">
-                                            <form-error align="left" :name="pregunta.pregunta+'.respuesta'"
-                                                        :errors="errors" class="col-12 text-center"></form-error>
-                                        </div>
-                                        <div class="col-4">
-                                            <input class="form-control encuesta" :class="sexo" v-model="pregunta.respuesta"
-                                                   placeholder="Centimetros" :class="sexotext2">
+                                                   placeholder="Metros" :name="pregunta.respuesta" pattern="[0-9]{3}">
                                             <form-error align="left" :name="pregunta.pregunta+'.respuesta'"
                                                         :errors="errors" class="col-12 text-center"></form-error>
                                         </div>
