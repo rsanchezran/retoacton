@@ -796,11 +796,11 @@ class HomeController extends Controller
     public function subirArchivo2(Request $request)
     {
         $user = $request->user();
-        $request->validate([
+        /*$request->validate([
 
             'file' => 'required|mimes:jpg,png|max:2048',
 
-        ]);
+        ]);*/
 
 
         $fileName = $user->id.'_2.jpg';
