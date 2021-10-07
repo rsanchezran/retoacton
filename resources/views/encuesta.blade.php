@@ -393,7 +393,7 @@
                                 <div v-if="(key < 2 || key == 3) && key !== 0">
                                     <div class="form-group row">
                                         <label v-if="key == 3" for="staticEmail" class="col-6 col-form-label" :class="sexotext2">@{{ pregunta.pregunta }}</label>
-                                        <label v-else for="staticEmail" class="col-4 col-form-label" :class="sexotext2">@{{ pregunta.pregunta }}</label>
+                                        <label v-else for="staticEmail" class="col-6 col-form-label" :class="sexotext2">@{{ pregunta.pregunta }}</label>
                                         <div class="col-6">
                                             <input class="form-control encuesta" :class="sexo" v-model="pregunta.respuesta"
                                                :placeholder="pregunta.pregunta">
@@ -404,8 +404,8 @@
                                 </div>
                                 <div v-if="key == 0">
                                     <div class="form-group row">
-                                        <label for="staticEmail" class="col-4 col-form-label" :class="sexotext2">@{{ pregunta.pregunta }}</label>
-                                        <div class="col-4">
+                                        <label for="staticEmail" class="col-6 col-form-label" :class="sexotext2">@{{ pregunta.pregunta }}</label>
+                                        <div class="col-6">
                                             <input class="form-control encuesta" :class="sexo" v-model="pregunta.respuesta"
                                                    placeholder="Metros" :name="pregunta.respuesta" pattern="[0-9]{3}">
                                             <form-error align="left" :name="pregunta.pregunta+'.respuesta'"
