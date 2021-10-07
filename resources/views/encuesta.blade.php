@@ -605,7 +605,7 @@
                 <br>
             </div>
             <div v-else class="text-center">
-                <div v-if="user.enviado_validacion==1" class="text-center">
+                <div v-if="user.enviado_validacion==1" class="text-center" style="min-height: 100%;">
                     <br>
                     <br>
                     <br>
