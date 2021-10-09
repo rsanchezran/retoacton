@@ -108,8 +108,8 @@
             </modal>
             <modal ref="agregarSemanas" title=" Validar solicitud" @ok="aumentaSemanas">
                 <h5>Vaidar solicitud de @{{ usuario.name +' '+usuario.last_name }}</h5>
-                <img :src="'/images/' + usuario.id +'_1.png'" width="700px">
-                <img :src="'/images/' + usuario.id +'_2.png'" width="700px">
+                <img :src="'/images/' + usuario.id +'_1.jpg'" width="700px">
+                <img :src="'/images/' + usuario.id +'_2.jpg'" width="700px">
                 <button class="col-5 btn btn-success btn-lg" @click="Valida(usuario.id)">Validar</button>
                 <button class="col-5 btn btn-danger btn-lg" @click="Rechazo(usuario.id)">Rechazar</button>
             </modal>
