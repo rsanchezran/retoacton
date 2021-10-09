@@ -348,7 +348,6 @@ class RetoController extends Controller
 
                 app('App\Http\Controllers\HomeController')->generarDieta($request->user(), $objetivo, $peso, $alimentosIgnorados, $numDieta);
             }
-
             $diasTranscurridosuno = (Carbon::now()->startOfDay()->diffInDays($inicioReto)+1);
             if(intval($diasTranscurridosuno) != $dia){
                 $diasTranscurridosuno = $dia;
@@ -360,6 +359,12 @@ class RetoController extends Controller
 
             if(intval($user->dias) < $dia){
                 $diasTranscurridosuno = intval($user->dias);
+            }
+
+            $ldate = Carbon::now();
+            if(Carbon::parse($inicioReto)->gt(Carbon::parse($ldate))){
+                $diasTranscurridosuno = 0;
+                $dias = 0;
             }
 
             error_log('DIASSS');
@@ -532,7 +537,7 @@ class RetoController extends Controller
         $diasRetoOriginal = intval($user->dias);
         $diasReto = intval($user->dias);
         $inicioReto = Carbon::parse($user->inicio_reto)->startOfDay();
-        $ldate = Carbon::now()->startOfDay();
+        $ldate = Carbon::now();
         if ($user->num_inscripciones > 1) {
             $teoricos = $diasRetoOriginal + (($user->num_inscripciones - 2) * $diasReto) + (Carbon::now()->startOfDay()->diffInDays($inicioReto)+1);
             if (Carbon::parse($user->fecha_inscripcion)->startOfDay() == $inicioReto->startOfDay()) {
@@ -553,6 +558,9 @@ class RetoController extends Controller
         $dia = (Carbon::now()->startOfDay()->diffInDays($inicioReto)+1);
         if ($dia == 0){
             $dia = 1;
+        }
+        if(Carbon::parse($user->inicio_reto)->gt(Carbon::parse($ldate))){
+            $dia = 0;
         }
         return $this->dia($request, $dia, $user->genero, $user->objetivo, $diasReto);
     }
