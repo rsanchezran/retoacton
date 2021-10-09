@@ -367,6 +367,9 @@
                         })
                         .catch(function (error) {
                         });
+                    setTimeout(function(){
+                        location.reload();
+                    }, 1000);
                 },
                 Rechazo: function (usuario) { //muestra la siguiente pregunta y cierra la anteriror
                     axios.post('{{url('encuesta/enviarRechazo/')}}/'+usuario,
@@ -380,6 +383,9 @@
                         })
                         .catch(function (error) {
                         });
+                    setTimeout(function(){
+                        location.reload();
+                    }, 1000);
                 }
 
             },
