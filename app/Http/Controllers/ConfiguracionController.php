@@ -795,6 +795,7 @@ class ConfiguracionController extends Controller
                 $contacto->estado = "1";
                 $contacto->colonia = "1";
                 $contacto->ciudad = "1";
+                $contacto->enviado_validacion = "2";
                 $contacto->save();
                 $mensaje = '';
                 $status = 'ok';
