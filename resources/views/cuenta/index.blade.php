@@ -497,7 +497,7 @@
                                         <i class="fas fa-home" style="font-size: 30px"></i>
                                     </button>
                                     <br>
-                                    <button class="btn btn-success col-8" @click="guardarInfoGeneral">
+                                    <button class="btn btn-success col-8" @click="guardarInfoGeneralFin">
                                         <img src="{{asset('images/2021/guardar_1.png')}}" class="w-100">
                                     </button>
                                 </div>
@@ -682,6 +682,41 @@
                         this.colonias=[];
                         this.ciudades.push(response.data);
                         this.guardado = true;
+                    }).catch(function (error) {
+                        console.log(error);
+                        vm.errors = error.response;
+                    });
+                },
+                guardarInfoGeneralFin: function(){
+                    /*axios.post('{{url('/usuarios/guardaInfoGeneral')}}',*/
+                    this.finalizar = true;
+                    axios.post('{{url('/usuarios/guardaUbicacion')}}',
+                        {
+                            estado: this.filtros.estado,
+                            ciudad: this.filtros.ciudad,
+                            cp: this.filtros.cp,
+                            colonia: this.filtros.colonia,
+                            usuario: this.user,
+                            edad: this.user.edad,
+                            gym: this.user.gym,
+                            intereses: this.user.intereses,
+                            empleo: this.user.empleo,
+                            estudios: this.user.estudios,
+                            idiomas: this.user.idiomas,
+                            edad_publico: this.user.edad_publico,
+                            estudios_publico: this.user.estudios_publico,
+                            gym_publico: this.user.gym_publico,
+                            intereses_publico: this.user.intereses_publico,
+                            empleo_publico: this.user.empleo_publico,
+                            idiomas_publico: this.user.idiomas_publico,
+                        }
+                        ).then((response) => {
+                        this.ciudades=[];
+                        this.cps=[];
+                        this.colonias=[];
+                        this.ciudades.push(response.data);
+                        this.guardado = true;
+                        window.location.href = '/home';
                     }).catch(function (error) {
                         console.log(error);
                         vm.errors = error.response;
