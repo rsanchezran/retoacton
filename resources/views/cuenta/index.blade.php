@@ -493,6 +493,10 @@
 
                                 <div class="col-12 text-center">
                                     <br>
+                                    <button v-if="finalizar" class="btn btn-default col-8">
+                                        <i class="fas fa-home" style="font-size: 30px"></i>
+                                    </button>
+                                    <br>
                                     <button class="btn btn-success col-8" @click="guardarInfoGeneral">
                                         <img src="{{asset('images/2021/guardar_1.png')}}" class="w-100">
                                     </button>
@@ -593,6 +597,7 @@
                         mensaje: '',
                         sexo: '',
                     },
+                    finalizar: false,
                     value: null,
                     intereses: ['Deportes','Cine','Espiritualidad','Bailar','Viajar','Música','Leer','Gastronomía','Animales','Idiomas','Astrología','Cantar','Futbol','Yoga','Arte','Politica','Negocios'],
                     genero: ['Hombre', 'Mujer'],
@@ -650,6 +655,7 @@
                 },
                 guardarInfoGeneral: function(){
                     /*axios.post('{{url('/usuarios/guardaInfoGeneral')}}',*/
+                    this.finalizar = true;
                     axios.post('{{url('/usuarios/guardaUbicacion')}}',
                         {
                             estado: this.filtros.estado,
