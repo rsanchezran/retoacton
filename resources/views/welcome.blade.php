@@ -731,7 +731,7 @@
                         <div class="form-group row  text-right justify-content-end">
 
                             <div class="col-md-4 justify-content-end">
-                                <input id="email" placeholder="Correo Electronico" type="email" class="form-control @error('email') is-invalid @enderror col-6 offset-6" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus style="width: 100%; border-color: #1565C0;">
+                                <input id="email" placeholder="Correo Electronico" type="email" class="form-control @error('email') is-invalid @enderror col-6 offset-6" name="email" value="{{ old('email') }}" required autocomplete="email" style="width: 100%; border-color: #1565C0;">
 
                                 @error('email')
                                 <span class="invalid-feedback" role="alert">
