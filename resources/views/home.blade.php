@@ -1070,6 +1070,7 @@
                     if(this.descripcion != '' && this.imgURL != ''){
                         axios.post('{{url('cuenta/mialbum/nuevaFoto/')}}', fm).then(function (response) {
                             vm.loadingFoto = false;
+                            window.location.reload();
                             if (response.data.status == 'ok'){
                             }
                         }).catch(function (error) {
@@ -1392,13 +1393,16 @@
                     var vm = this;
                     axios.post('{{url('cuenta/aceptarreto/')}}', {'id': id, 'tipo': 'aceptar', 'id_notificacion': vm.reto_notificacion}
                     ).then(function (response) {
-
+                        vm.mostrar_subida =true;
+                        vm.reto_respondido =false;
+                        vm.horas_reto = 24;
                     });
                 },
                 declinar: function(id){
                     var vm = this;
                     axios.post('{{url('cuenta/aceptarreto/')}}', {'id': id, 'tipo': 'declinar', 'id_notificacion': vm.reto_notificacion}
                     ).then(function (response) {
+                        vm.mostrar_subida = true;
                     });
                 },
                 videoDuracion: function(){
