@@ -439,6 +439,32 @@ class UserController extends Controller
         if ($campos->codigo_personal != null) {
             $usuarios = $usuarios->where('referencia', 'like', '%' . strtoupper($campos->codigo_personal).'%');
         }
+        if ($campos->sexo != null) {
+            $usuarios = $usuarios->where('genero', 'like', '%' . $campos->sexo.'%');
+        }
+        if ($campos->orientacion != null) {
+            $usuarios = $usuarios->where('genero_2', 'like', '%' . $campos->orientacion.'%');
+        }
+        if ($campos->orientacion != null) {
+            $usuarios = $usuarios->where('genero_2', 'like', '%' . $campos->orientacion.'%');
+        }
+        if (count($campos->intereses) > 0) {
+            $campos->intereses = implode('% ', $campos->intereses);
+            $usuarios = $usuarios->where('intereses', 'like', '%' . $campos->intereses. '%');
+        }
+        if (count($campos->idiomas) > 0) {
+            $campos->idiomas = implode('% ', $campos->idiomas);
+            $usuarios = $usuarios->where('intereses', 'like', '%' . $campos->idiomas. '%');
+        }
+        if (count($campos->estatus) > 0) {
+            foreach ($campos->estatus as $valor) {
+                $usuarios = $usuarios->where('situacion_actual', 'like', '%' . $valor . '%');
+            }
+        }
+        if ($campos->edad_inicio != null && $campos->edad_fin != null) {
+            $usuarios = $usuarios->where('edad', '>=', '' . $campos->edad_inicio.'');
+            $usuarios = $usuarios->where('edad', '<=', '' . $campos->edad_fin.'');
+        }
         /*if ($campos->estado != 0) {
             if ($campos->estado == 1) {
                 $consulta = 'CURDATE() >= DATE_ADD(fecha_inscripcion, interval ' . (env('DIAS') - 1) . ' DAY)';

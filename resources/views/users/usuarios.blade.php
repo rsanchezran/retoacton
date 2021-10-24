@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app_interiores')
 @section('header')
     <style>
         .usuario{
@@ -15,6 +15,8 @@
             background-color: lightgray;
         }
     </style>
+    <script src="https://unpkg.com/vue-multiselect@2.1.0"></script>
+    <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
 @endsection
 @section('content')
     <div id="vue">
@@ -30,14 +32,6 @@
                 <div class="card-body">
                     <div style="display: flex; flex-wrap: wrap">
                         <div class="col-sm-3">
-                            <label>Nombre</label>
-                            <input class="form-control" v-model="filtros.nombre" @keyup.enter="buscar">
-                        </div>
-                        <div class="col-sm-3">
-                            <label>Codigo Personal</label>
-                            <input class="form-control" v-model="filtros.codigo_personal" name="codigo_personal">
-                        </div>
-                        <div class="col-sm-3">
                             <label>Conexiones</label>
                             <select class="form-control" v-model="filtros.conexion" @keyup.enter="buscar">
                                 <option></option>
@@ -48,10 +42,20 @@
                             </select>
                         </div>
                         <div class="col-sm-3">
-                            <label>Tiendas/GYM</label>
-                            <select class="form-control" v-model="filtros.tiendagym" @keyup.enter="buscar">
+                            <label>Sexo</label>
+                            <select class="form-control" v-model="filtros.sexo" @keyup.enter="buscar">
                                 <option></option>
-                                <option v-for="p in this.tiendas[0]" :selected="p == filtros.tiendagym">@{{ p.name }}</option>
+                                <option value="1">Hombre</option>
+                                <option value="0">Mujer</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Orientación</label>
+                            <select class="form-control" v-model="filtros.orientacion" @keyup.enter="buscar">
+                                <option>Hetero</option>
+                                <option>Gay</option>
+                                <option>Bi</option>
+                                <option>Trans</option>
                             </select>
                         </div>
                         <div class="col-sm-3">
@@ -81,6 +85,23 @@
                                 <option></option>
                                 <option  v-for="p in this.colonias[0]">@{{ p.colonia }}</option>
                             </select>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Intereses</label>
+                            <vue-multiselect v-model="filtros.intereses" :options="intereses" :preselect-first="false" :multiple="true" placeholder="Buscar personas que les interese"  :preserve-search="false"></vue-multiselect>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Idiomas</label>
+                            <vue-multiselect v-model="filtros.idiomas" :options="idiomas" :preselect-first="false" :multiple="true" placeholder="Buscar personas que hablen:"  :preserve-search="false"></vue-multiselect>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Estatus</label>
+                            <vue-multiselect v-model="filtros.estatus" :options="situacion" :preselect-first="false" :multiple="true" placeholder="Buscar personas que esten en:"  :preserve-search="false"></vue-multiselect>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Edad entre</label>
+                            <input type="number" class="form-control col-5" v-model="filtros.edad_inicio" @keyup.enter="buscar"> y
+                            <input type="number" class="form-control col-5" v-model="filtros.edad_fin" @keyup.enter="buscar">
                         </div>
                         <div class="col-sm-3">
                             <label>&nbsp;</label>
@@ -233,6 +254,8 @@
 @section('scripts')
     <script>
 
+        Vue.component('vue-multiselect', window.VueMultiselect.default);
+
         Vue.component('temp-retos', {
             template: '#temp',
             props: [
@@ -264,6 +287,13 @@
                         conexion: '0',
                         ingresadosReto: '',
                         codigo_personal: '',
+                        intereses: [],
+                        orientacion: '',
+                        sexo: '',
+                        edad_inicio: '',
+                        edad_fin: '',
+                        estatus: [],
+                        idiomas: [],
                     },
                     usuario: {
                         id: '',
@@ -283,7 +313,12 @@
                     colonias:[],
                     tiendas:[],
                     conexiones:[],
-                    compras:[]
+                    compras:[],
+                    intereses: ['Deportes','Cine','Espiritualidad','Bailar','Viajar','Música','Leer','Gastronomía','Animales','Idiomas','Astrología','Cantar','Futbol','Yoga','Arte','Politica','Negocios'],
+                    genero: ['Hombre', 'Mujer'],
+                    genero_2: ['Hetero', 'Gay', 'Bi', 'Trans'],
+                    situacion: ['Casado(a)', 'Soltero(a)', 'Divorciado(a)','Viudo(a)','Union Libre'],
+                    idiomas: ['Español', 'Ingles', 'Aleman', 'Japones', 'Chino', 'Portugues'],
                 }
             },
             methods: {
