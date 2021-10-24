@@ -2,14 +2,16 @@
 
 namespace App\Notifications;
 
+use App\InteraccionAlbum;
+use App\MiAlbum;
 use Illuminate\Support\Collection;
-use App\Retos;
+use App\ComprasCoins;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class RetosNotification extends Notification
+class ReaccionesNotification extends Notification
 {
     use Queueable;
 
@@ -18,9 +20,9 @@ class RetosNotification extends Notification
      *
      * @return void
      */
-    public function __construct(Retos $retos)
+    public function __construct(InteraccionAlbum $interaccion)
     {
-        $this->retos = $retos;
+        $this->interaccion = $interaccion;
     }
 
     /**
@@ -43,9 +45,9 @@ class RetosNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->line('The introduction to the notification.')
+            ->action('Notification Action', url('/'))
+            ->line('Thank you for using our application!');
     }
 
     /**
@@ -56,11 +58,14 @@ class RetosNotification extends Notification
      */
     public function toArray($notifiable)
     {
+        $album = MiAlbum::where('id', $this->interaccion->album_id)->first();
         return [
-            'id' => $this->retos->id,
-            'descripcion' => $this->retos->descripcion,
-            'usuario_reta_id' => $this->retos->usuario_reta_id,
-            'usuario_retador_id' => $this->retos->usuario_retador_id,
+            'id' => $this->interaccion->id,
+            'usuario_like_id' => $this->interaccion->usuario_like_id,
+            'dinero_acton' => $this->interaccion->dinero_acton,
+            'tipo_like' => $this->interaccion->tipo_like,
+            'album_id' => $this->interaccion->album_id,
+            'imagen' => $album->imagen,
         ];
     }
 }

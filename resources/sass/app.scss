@@ -1,12 +1,7 @@
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
 
-$fa-font-path: "~@fortawesome/fontawesome-pro/webfonts" !default;
-@import "~@fortawesome/fontawesome-pro/scss/fontawesome";
-@import "~@fortawesome/fontawesome-pro/scss/solid";
-@import "~@fortawesome/fontawesome-pro/scss/regular";
-@import "~@fortawesome/fontawesome-pro/scss/light";
-@import "~@fortawesome/fontawesome-pro/scss/brands";
+
 @import "~bootstrap-select/dist/css/bootstrap-select.css";
 @import "~bootstrap-datepicker/dist/css/bootstrap-datepicker3.css";
 @import "~vue-wysiwyg/dist/vueWysiwyg.css";

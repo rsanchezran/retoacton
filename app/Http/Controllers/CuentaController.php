@@ -3,12 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Amistades;
+use App\CompraRetos;
+use App\ComprasCoins;
+use App\Events\ReaccionesEvent;
+use App\Events\RetosEvent;
+use App\Events\CoinsEvent;
 use App\Code\Utils;
 use App\Code\ValidarCorreo;
+use App\InteraccionAlbum;
+use App\MiAlbum;
+use App\Retos;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Intervention\Image\Facades\Image;
 
 class CuentaController extends Controller
 {
@@ -29,7 +41,9 @@ class CuentaController extends Controller
         $user->intereses = str_replace(',', ', ', $user->intereses);
         $user->idiomas = str_replace(',', ', ', $user->idiomas);
         $amistades = Amistades::where('usuario_amigo_id', $request->id)->get()->count();
-        return view('cuenta.perfil', ['user' => $user, 'amistades' => $amistades]);
+        $all_fotos = MiAlbum::where('usuario_id', $request->id)->take(9)->get();
+        $fotos = $all_fotos;
+        return view('cuenta.perfil', ['usuario' => $user, 'amistades' => $amistades, 'fotos' => $fotos]);
     }
 
     public function saveuno(Request $request)
@@ -151,5 +165,219 @@ class CuentaController extends Controller
         $user->modo = $request->lugar;
         $user->save();
         return response()->json(['status' => 'ok']);
+    }
+
+    public function nuevaFoto(Request $request)
+    {
+        $user = $request->user();
+        $data = Input::all();
+        $png_url = $user->id."-".time().".png";
+        $path = 'images/2021/' . $png_url;
+        $path = 'storage/app/public/mialbum/'.$user->id.'/' . $png_url;
+        if(!File::isDirectory('storage/app/public/mialbum/'.$user->id)){
+
+            File::makeDirectory('storage/app/public/mialbum/'.$user->id, 0777, true, true);
+
+        }
+
+        Image::make(file_get_contents($request->imagen))->save(public_path($path));
+        MiAlbum::create([
+            'archivo' => $path,
+            'usuario_id' => $user->id,
+            'descripcion' => $request->descripcion,
+        ]);
+
+        $response = array(
+            'status' => 'success',
+        );
+        return response()->json(['status' => 'ok']);
+    }
+
+    public function darLike(Request $request)
+    {
+        $user = $request->user();
+        $data = Input::all();
+        $interaccion = InteraccionAlbum::where('usuario_like_id', $user->id)->where('tipo_like', $request->tipo)->where('album_id', $request->id)->first();
+        if($interaccion == null) {
+            $interaccion = InteraccionAlbum::create([
+                'usuario_like_id' => $user->id,
+                'tipo_like' => $request->tipo,
+                'album_id' => $request->id,
+            ]);
+
+            event(new ReaccionesEvent($interaccion));
+            return response()->json(['status' => 'agregado']);
+        }else{
+            $interaccion->delete();
+            return response()->json(['status' => 'borrado']);
+        }
+    }
+
+    public function reacciones(Request $request)
+    {
+        $user = $request->user();
+        $interaccion = InteraccionAlbum::where('album_id', $request->id)->get();
+
+        return response()->json($interaccion);
+    }
+
+    public function darCoins(Request $request)
+    {
+        $user = $request->user();
+        $data = Input::all();
+        if((int)$user->saldo >= (int)$request->coins){
+            $user->saldo = $user->saldo-(int)$request->coins;
+            $user->save();
+            InteraccionAlbum::create([
+                'usuario_like_id' => $user->id,
+                'tipo_like' => 'coins',
+                'album_id' => $request->id,
+                'dinero_acton' => $request->coins
+            ]);
+            $album = MiAlbum::where('id', $request->id)->first();
+            $compra = ComprasCoins::create([
+                'usuario_id' => $album->usuario_id,
+                'referencia' => $album->id,
+                'tipo_compra' => 'album',
+                'monto' => $request->coins,
+                'pagado' => 1,
+            ]);
+            event(new CoinsEvent($compra));
+            return response()->json(['status' => 'agregado']);
+        }else{
+            return response()->json(['status' => 'sin dinero']);
+        }
+    }
+
+    public function guardaPublico(Request $request)
+    {
+        $user = $request->user();
+        $data = Input::all();
+        $album = MiAlbum::where('id', (int)$request->id)->first();
+        print_r($album);
+        if(isset($album)){
+            if($request->tipo == 'privacidad'){
+                $album->publica = $request->publico;
+            }
+            if($request->tipo == 'comentarios'){
+                $album->comentarios_publico = $request->publico;
+            }
+            if($request->tipo == 'conteo'){
+                $album->conteo_publico = $request->publico;
+            }
+            if($request->tipo == 'descripcion'){
+                $album->descripcion = $request->publico;
+            }
+            $album->save();
+            return response()->json(['status' => 'agregado']);
+        }else{
+            return response()->json(['status' => 'no generado']);
+        }
+    }
+
+    public function eliminarElemento(Request $request)
+    {
+        $user = $request->user();
+        $data = Input::all();
+        $album = MiAlbum::find((int)$request->id);
+        if(isset($album)){
+            $interacciones = InteraccionAlbum::where('album_id', (int)$request->id)->get();
+            foreach($interacciones as $i){
+                $i->delete();
+            }
+            $album->delete();
+            return response()->json(['status' => 'agregado']);
+        }else{
+            return response()->json(['status' => 'no generado']);
+        }
+    }
+
+    public function enviarreto(Request $request)
+    {
+        $user = $request->user();
+        $data = Input::all();
+        if((int)$user->saldo > (int)$request->pago) {
+            $reto = Retos::create([
+                'usuario_retado_id' => $request->id,
+                'usuario_reta_id' => $user->id,
+                'descripcion' => $request->descripcion,
+                'coins' => $request->pago,
+            ]);
+            $user->saldo = $user->saldo - (int)$request->pago;
+            $user->save();
+            event(new RetosEvent($reto));
+            return response()->json(['status' => 'Reto enviado']);
+        }else{
+            return response()->json(['status' => 'No cuenta con saldo suficiente']);
+        }
+    }
+
+    public function aceptarreto(Request $request)
+    {
+        $user = $request->user();
+        $reto = Retos::where('id', $request->id)->first();
+        if($request->tipo == 'aceptar'){
+            $reto->aceptado = true;
+        }else{
+            $reto->aceptado = false;
+            $usuario_retador = User::where('id', $reto->usuario_reta_id)->first();
+            $usuario_retador->saldo = $usuario_retador->saldo+$reto->coins;
+            $usuario_retador->save();
+            $notification = auth()->user()->notifications()->find($request->id_notificacion);
+            if($notification) {
+                $notification->markAsRead();
+            }
+        }
+        $reto->save();
+        $reto->fecha_aceptado = $reto->updated_at;
+        $reto->save();
+        return response()->json(['status' => 'Reto']);
+    }
+
+    public function retoRespuesta(Request $request)
+    {
+        ini_set('memory_limit', '-1');
+        Storage::disk('local')->makeDirectory('storage/app/public/retos/'.$request->id);
+
+        $image = $request->file('video');
+        $destinationPath = public_path("storage/app/public/retos/$request->id");
+        $image->move($destinationPath, "$request->id.mp4");
+        $reto = Retos::where('id', $request->id)->first();
+        $reto->video = "storage/app/public/retos/$request->id/$request->id.mp4";
+        $reto->save();
+        $user = $request->user();
+        $user->saldo = $user->saldo+$reto->coins;
+        $user->save();
+        return response()->json(['status' => 'ok', 'video' => $reto->video]);
+    }
+
+    public function getVideo(Request $request, $video)
+    {
+        $valido = false;
+        $usuario = $request->user()->id;
+        $usuario_valido = Retos::where(function ($query) use ($video, $usuario) {
+            $query->where('id', '=', $video);
+        })->where(function ($query) use ($video, $usuario) {
+            $query->where('usuario_retado_id', '=', $usuario)
+                ->orWhere('usuario_reta_id', '=', $usuario);
+        })->count();
+        if($usuario_valido>0){
+            $valido = true;
+        }else{
+            $usuario_compra = CompraRetos::where(function ($query) use ($video, $usuario) {
+                $query->where('reto_id', '=', $video);
+            })->where(function ($query) use ($video, $usuario) {
+                $query->where('usuario_id', '=', $usuario);
+            })->count();
+            if($usuario_compra > 0){
+                $valido = true;
+            }
+        }
+        if($valido) {
+            $retos = Retos::where('id', $video)->first();
+            return response()->file($retos->video);
+        }else{
+            return response()->json(['status' => 'no']);
+        }
     }
 }

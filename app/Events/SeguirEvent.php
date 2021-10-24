@@ -10,20 +10,20 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class RetosEvent
+class SeguirEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
 
-    public $retos;
+    public $seguir;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($retos)
+    public function __construct($seguir)
     {
-        $this->retos = $retos;
+        $this->seguir = $seguir;
     }
 
     /**

@@ -3,13 +3,13 @@
 namespace App\Notifications;
 
 use Illuminate\Support\Collection;
-use App\Retos;
+use App\Amistades;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class RetosNotification extends Notification
+class AmistadesNotification extends Notification
 {
     use Queueable;
 
@@ -18,9 +18,9 @@ class RetosNotification extends Notification
      *
      * @return void
      */
-    public function __construct(Retos $retos)
+    public function __construct(Amistades $amistades)
     {
-        $this->retos = $retos;
+        $this->amistades = $amistades;
     }
 
     /**
@@ -58,9 +58,8 @@ class RetosNotification extends Notification
     {
         return [
             'id' => $this->retos->id,
-            'descripcion' => $this->retos->descripcion,
-            'usuario_reta_id' => $this->retos->usuario_reta_id,
-            'usuario_retador_id' => $this->retos->usuario_retador_id,
+            'usuario_solicita_id' => $this->amistades->usuario_reta_id,
+            'usuario_amigo_id' => $this->amistades->usuario_retador_id,
         ];
     }
 }

@@ -12,6 +12,8 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
+    <script src="https://kit.fontawesome.com/7e2ce69f20.js" crossorigin="anonymous"></script>
+
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="shortcut icon" href="{{asset('img/favicon.png')}}"/>
@@ -52,6 +54,63 @@
         .badge-warning {
             font-size: 15px;
         }
+        .navbar-light .navbar-toggler {
+            color: red;
+            border: 0px solid;
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+        .navbar {
+            padding: 3px !important;
+        }
+        .navbar-light .navbar-nav .nav-link {
+            color: white !important;
+            background: #cccccc !important;
+            border: 1px solid white !important;
+            border-radius: 5px !important;
+            font-family: 'Nunito' !important;
+            padding-left: 10px;
+            font-size: 15px;
+        }
+        .fa-chevron-down:before {
+            padding-left: 10px;
+        }
+        .dropdown-toggle::after {
+            display: none;
+        }
+        .acton_coins_verde{
+            background: #65B32E;
+            color: white;
+            border-radius: 5px;
+            padding: 10px;
+        }
+        .reto_rojo{
+            background: #D30C00;
+            color: white;
+            border-radius: 5px;
+            padding: 10px;
+        }
+        .aviso_azul{
+            background: #29ABE2;
+            color: white;
+            border-radius: 5px;
+            padding: 10px;
+        }
+        .seguir_blanco{
+            background: #ffffff;
+            color: #cccccc;
+            border-radius: 5px;
+            padding: 10px;
+        }
+        .reaccion_amarillo{
+            background: #FFD500;
+            color: white;
+            border-radius: 5px;
+            padding: 10px;
+        }
+        .dropdown-menu.show {
+            padding: 0px !important;
+        }
+
     </style>
     @yield('header')
 </head>
@@ -60,53 +119,55 @@
 <div id="app" class="d-flex flex-column" style="min-height: 100%;">
     <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
         <div class="container">
-            <a class="navbar-brand" href="{{ url('/home') }}">
-                @guest
-                    <img src="{{asset('img/header.png')}}"  style="z-index: 2; position: absolute; top: 5px;">
-                @else
-                    <img src="{{asset('img/header.png')}}">
-                @endguest
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false"
-                    aria-label="{{ __('Toggle navigation') }}">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+            <div class="row col-12">
+                <button class="navbar-toggler col-2" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false"
+                        aria-label="{{ __('Toggle navigation') }}" style="height: 50px">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <a class="navbar-brand col-8 offset-1" href="{{ url('/home') }}">
+                    @guest
+                        <img src="{{asset('images/2021/logo_movil_azul.png')}}" id="imgheader" class="" style="background: transparent !important; margin-top: 5px; margin-bottom: 0px; width: 96%; margin-left: 2%">
+                    @else
+                        <img src="{{asset('images/2021/logo_movil_azul.png')}}" id="imgheader" class="" style="background: transparent !important; margin-top: 5px; margin-bottom: 0px; width: 96%; margin-left: 2%">
+                    @endguest
+                </a>
+            </div>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     @guest
                     @else
-                        <a class="nav-link" href="{{ url('/home') }}">
+                        <!--a class="nav-link" href="{{ url('/home') }}">
                             <i class="far fa-home"></i> Inicio
-                        </a>
+                        </a-->
                         @if(\Illuminate\Support\Facades\Auth::user()->rol==\App\Code\RolUsuario::CLIENTE)
                             @if(\Illuminate\Support\Facades\Auth::user()->tarjeta=='')
-                                <a class="nav-link" href="{{url('cuenta')}}" title="Es necesario que registres una tarjeta para depositarte tus comisiones">
-                                    <i class="fas fa-user"></i> Mi cuenta
-                                </a>
+                                <!--a class="nav-link" href="{{url('cuenta')}}" title="Es necesario que registres una tarjeta para depositarte tus comisiones">
+                                    <i class="fas fa-chevron-down"></i> Mi cuenta
+                                </a-->
                             @else
-                                <a class="nav-link" href="{{url('cuenta')}}">
-                                    <i class="far fa-user"></i> Mi cuenta
-                                </a>
+                                <!--a class="nav-link" href="{{url('cuenta')}}">
+                                    <i class="fas fa-chevron-down"></i> Mi cuenta
+                                </a-->
                             @endif
                         @else
-                            <a class="nav-link" href="{{url('cuenta')}}">
-                                <i class="far fa-user"></i> Mi cuenta
-                            </a>
+                            <!--a class="nav-link" href="{{url('cuenta')}}">
+                                <i class="fas fa-chevron-down"></i> Mi cuenta
+                            </a-->
                         @endif
                         @if(\Illuminate\Support\Facades\Auth::user()->rol==\App\Code\RolUsuario::CLIENTE)
                             @if(\Illuminate\Support\Facades\Auth::user()->inicio_reto!=null)
-                                <a class="nav-link" href="{{ url('/reto/cliente') }}"><i class="far fa-running"></i> Mi Vida Fit</a>
+                                <!--a class="nav-link" href="{{ url('/reto/cliente') }}"><i class="far fa-running"></i> Mi Vida Fit</a-->
                             @endif
                             <a class="nav-link" href="{{ url('/reto/programa') }}">
-                                <i class="far fa-calendar-alt"></i> Programa</a>
+                                <i class="fas fa-chevron-down"></i> Mi Plan Acton</a>
                         @else
-                            <a class="nav-link" href="{{ url('/reto/configuracion') }}">
-                                <i class="far fa-running"></i> Mi Vida Fit</a>
+                            <!--a class="nav-link" href="{{ url('/reto/configuracion') }}">
+                                <i class="fas fa-chevron-down"></i> Mi Vida Fit</a-->
                         @endif
-                        <a class="nav-link" href="{{ url('/usuarios/seguir') }}">
-                            <i class="fas fa-user-friends"></i> Personas</a>
+                        <!--a class="nav-link" href="{{ url('/usuarios/seguir') }}">
+                            <i class="fas fa-chevron-down"></i> Personas</a-->
                         @if(\Illuminate\Support\Facades\Auth::user()!=null && \Illuminate\Support\Facades\Auth::user()->vencido)
                             <!--button id="breathPC" class="nav-link btn btn-sm btn-warning ld x2 ld-breath" data-toggle="modal" data-target="#terminoModal">
                                 <i class="far fa-exclamation-triangle"></i>
@@ -119,7 +180,7 @@
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button"
                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="far fa-cogs"></i> Configuración
+                                    <i class="fas fa-chevron-down"></i> Configuración
                                 </a>
                                 <div class="dropdown-menu" aria-lab elledby="administracion">
                                     <a class="dropdown-item" href="{{ url('/configuracion/videos') }}">
@@ -149,7 +210,7 @@
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button"
                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="far fa-cogs"></i> Configuración
+                                    <i class="fas fa-chevron-down"></i> Configuración
                                 </a>
                                 <div class="dropdown-menu" aria-lab elledby="administracion">
                                     <a class="dropdown-item" href="{{ url('/configuracion/videos_coach') }}">
@@ -163,7 +224,7 @@
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button"
                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="far fa-cogs"></i> Configuración
+                                    <i class="fas fa-chevron-down"></i> Configuración
                                 </a>
                                 <div class="dropdown-menu" aria-lab elledby="administracion">
                                     <a class="dropdown-item" href="{{ url('/configuracion/generar-codigo') }}">
@@ -172,10 +233,10 @@
                             </li>
                         @endif
                         @if(\Illuminate\Support\Facades\Auth::user()->rol==\App\Code\RolUsuario::ADMIN)
-                            <li class="nav-item dropdown">
+                            <!--li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button"
                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-poll-h"></i> Encuesta
+                                    <i class="fas fa-chevron-down"></i> Encuesta
                                 </a>
                                 <div class="dropdown-menu" aria-lab elledby="administracion">
                                     <a class="dropdown-item" href="{{ url('/encuesta') }}">
@@ -189,21 +250,32 @@
                                     <a class="dropdown-item" href="{{ url('/reto/dia/43/0/0') }}">
                                         <i class="far fa-clipboard-list"></i> Dieta 4</a>
                                 </div>
-                            </li>
+                            </li-->
                         @endif
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-chevron-down"></i> Avisos
+                            </a>
+                            <div class="dropdown-menu" aria-lab elledby="administracion">
+                                @yield('notificaciones')
+                            </div>
+                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle @if (auth()->user()->unreadnotifications) animate__heartBeat @endif" href="#" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-comment"></i> Mensajes @if (auth()->user()->unreadnotifications)<span class="badge badge-warning">{{ count(auth()->user()->unreadNotifications) }}</span>@endif
+                                <i class="fas fa-chevron-down"></i> Mensajes @if (auth()->user()->unreadnotifications)<span class="badge badge-warning">{{ count(auth()->user()->unreadNotifications) }}</span>@endif
                             </a>
                             <div class="dropdown-menu" aria-lab elledby="administracion">
-                                <a class="dropdown-item" href="{{ url('/configuracion/mensajes') }}">
-                                <i class="far fa-comment"></i> Ver Todos los Mensajes </a>
+
                                 @foreach(auth()->user()->unreadNotifications as $notification)
+                                    @if($notification->type == 'App\Notifications\MensajeNotification')
                                     <a class="dropdown-item" href="{{ url('/configuracion/mensajes') }}">
                                         <i class="far fa-comment"></i> {{ \App\User::where(['id' => $notification->data['usuario_emisor_id']])->pluck('name')->first() }} {{ \App\User::where(['id' => $notification->data['usuario_emisor_id']])->pluck('last_name')->first() }}
                                         <span class="float-right text-muted text-sm" style="padding-right: 5px;">{{ $notification->created_at->diffForHumans() }}</span>
                                     </a>
+                                    @endif
                                 @endforeach
                                 @forelse(auth()->user()->unreadNotifications as $notification)
                                     @empty
@@ -212,6 +284,30 @@
                                 <a class="dropdown-item dropdown-footer" href="{{ url('markAsRead') }}">
                                 <i class="far fa-comment"></i> Marcar como leido </a>
 
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-chevron-down"></i> Estado de Cuenta
+                            </a>
+                            <div class="dropdown-menu" aria-lab elledby="administracion">
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-chevron-down"></i> Mis referidos
+                            </a>
+                            <div class="dropdown-menu" aria-lab elledby="administracion">
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-chevron-down"></i> Solicitudes de Retos
+                            </a>
+                            <div class="dropdown-menu" aria-lab elledby="administracion">
                             </div>
                         </li>
                     @endguest
@@ -244,6 +340,8 @@
         </div>
     </nav>
     <main class="d-flex flex-column flex-grow-1 position-relative">
+
+
         @if(\Illuminate\Support\Facades\Auth::user()!=null && \Illuminate\Support\Facades\Auth::user()->vencido)
             <!--div class="container" id="breathMovil">
                 <button class="nav-link btn btn-sm btn-warning ld ld-breath ml-auto mr-auto" data-toggle="modal" data-target="#terminoModal">
@@ -256,7 +354,7 @@
         @endif
         @yield('content')
     </main>
-    <footer>
+    <!--footer>
         <div class="container">
             <div class="row col-sm-10">
                 <div class="col-sm-3">
@@ -288,7 +386,9 @@
                 </div>
             </div>
         </div>
-    </footer>
+    </footer-->
+
+
     <div class="modal fade" id="terminoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -311,6 +411,12 @@
         </div>
     </div>
 </div>
+<script src="https://unpkg.com/@chenfengyuan/vue-qrcode@1.0.1/dist/vue-qrcode.min.js"></script>
+<script src="https://www.paypal.com/sdk/js?client-id={{env('PAYPAL_SANDBOX_API_PASSWORD')}}&currency=MXN"></script>
+<script type="text/javascript" src="https://cdn.conekta.io/js/latest/conekta.js"></script>
+<script src="https://openpay.s3.amazonaws.com/openpay.v1.min.js"></script>
+<script src="https://openpay.s3.amazonaws.com/openpay-data.v1.min.js"></script>
+
 <script>
     $('#terminoModal').on('show.bs.modal', function (event) {
         let elemento = $('video').first();

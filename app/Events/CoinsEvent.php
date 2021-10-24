@@ -10,20 +10,20 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class RetosEvent
+class CoinsEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
 
-    public $retos;
+    public $coins;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($retos)
+    public function __construct($coins)
     {
-        $this->retos = $retos;
+        $this->coins = $coins;
     }
 
     /**

@@ -10,20 +10,20 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class MensajesDirectosEvent
+class RetosEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
 
-    public $mensaje;
+    public $retos;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($mensaje)
+    public function __construct($retos)
     {
-        $this->mensaje = $mensaje;
+        $this->retos = $retos;
     }
 
     /**

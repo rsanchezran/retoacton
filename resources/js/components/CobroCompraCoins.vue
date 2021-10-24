@@ -35,7 +35,7 @@
                 <button class="bigbutton" @click="$refs.referencia.showModal()">Ver ficha</button>
             </div>
 
-            <modal ref="tarjeta" title="Pago con tarjeta" @ok="tarjeta()" :high="'500'" :okdisabled="!acuerdo">
+            <modal ref="tarjeta" title="Pago con tarjeta" @ok="tarjeta()" :high="'500'" :ok="!acuerdo">
                 <div style="background-color: #f6f6f6; color: #0b2e13">
                     <div class="d-flex">
                         <div class="col-6">
@@ -51,11 +51,11 @@
                     <p>Al concluir tu pago se enviará tu usuario y contraseña al correo que proporcionaste en tus datos de
                         contacto</p>
                     <div class="payment" align="left">
-                        <input class="form-control" v-model="informacion.nombres" placeholder="Nombres" disabled/>
+                        <input class="form-control" v-model="informacion.nombres" placeholder="Nombres" />
                         <form-error name="nombres" :errors="errors"></form-error>
-                        <input class="form-control" v-model="informacion.apellidos" placeholder="Apellidos" disabled/>
+                        <input class="form-control" v-model="informacion.apellidos" placeholder="Apellidos" />
                         <form-error name="apellidos" :errors="errors"></form-error>
-                        <input class="form-control" v-model="informacion.email" placeholder="Correo electrónico" disabled/>
+                        <input class="form-control" v-model="informacion.email" placeholder="Correo electrónico" />
                         <form-error name="email" :errors="errors"></form-error>
                         <input class="form-control" v-model="informacion.email_confirmation"
                                placeholder="Por favor ingresa de nuevo tu correo electrónico"/>
@@ -91,17 +91,17 @@
                     </div>
                 </div>
             </modal>
-            <modal ref="oxxo" :title="'Pago en oxxo'" @ok="OxxoSpei" :okdisabled="!acuerdo">
+            <modal ref="oxxo" :title="'Pago en oxxo'" @ok="OxxoSpei" :ok="!acuerdo">
                 <div style="background-color: #f6f6f6; color: #0b2e13">
                     <p class="text-center">La cantidad a cobrar será de <money :caracter="true" :cantidad="cobro" :decimales="0"></money></p>
                     <p>Al concluir el ingreso de tus datos de contacto envíaremos a tu correo la ficha de déposito para que acudas a cualquier tienda Oxxo y hagas el pago correspondiente</p>
                     <p class="small">Si la ficha no llega a tu correo, porfavor revisa la bande de SPAM y agreganos como correo confiable</p>
                     <div class="payment">
-                        <input class="form-control" v-model="informacion.nombres" placeholder="Nombre" disabled />
+                        <input class="form-control" v-model="informacion.nombres" placeholder="Nombre"  />
                         <form-error name="nombres" :errors="errors"></form-error>
-                        <input class="form-control" v-model="informacion.apellidos" placeholder="Apellidos" disabled />
+                        <input class="form-control" v-model="informacion.apellidos" placeholder="Apellidos"  />
                         <form-error name="apellidos" :errors="errors"></form-error>
-                        <input class="form-control" v-model="informacion.email" placeholder="Correo electrónico" disabled />
+                        <input class="form-control" v-model="informacion.email" placeholder="Correo electrónico"  />
                         <form-error name="email" :errors="errors"></form-error>
                         <input class="form-control" v-model="informacion.email_confirmation" placeholder="Por favor ingresa de nuevo tu correo electrónico"/>
                         <form-error name="email_confirmation" :errors="errors"></form-error>
@@ -117,17 +117,17 @@
                     </div>
                 </div>
             </modal>
-            <modal ref="spei" :title="'Pago con SPEI'" @ok="OxxoSpei" :okdisabled="!acuerdo">
+            <modal ref="spei" :title="'Pago con SPEI'" @ok="OxxoSpei" :ok="!acuerdo">
                 <div style="background-color: #f6f6f6; color: #0b2e13">
                     <p class="text-center">La cantidad a cobrar será de <money :caracter="true" :cantidad="cobro" :decimales="0"></money></p>
                     <p>Al concluir el ingreso de tus datos de contacto envíaremos a tu correo la ficha de déposito para que entres a tu banco en línea y hagas la transferencia a la cuenta CLABE proporcionada en esa ficha</p>
                     <p class="small">Si la ficha no llega a tu correo, porfavor revisa la bande de SPAM y agreganos como correo confiable</p>
                     <div class="payment">
-                        <input class="form-control" v-model="informacion.nombres" placeholder="Nombres" disabled />
+                        <input class="form-control" v-model="informacion.nombres" placeholder="Nombres"  />
                         <form-error name="nombres" :errors="errors"></form-error>
-                        <input class="form-control" v-model="informacion.apellidos" placeholder="Apellidos" disabled />
+                        <input class="form-control" v-model="informacion.apellidos" placeholder="Apellidos"  />
                         <form-error name="apellidos" :errors="errors"></form-error>
-                        <input class="form-control" v-model="informacion.email" placeholder="Correo electrónico" disabled />
+                        <input class="form-control" v-model="informacion.email" placeholder="Correo electrónico"  />
                         <form-error name="email" :errors="errors"></form-error>
                         <input class="form-control" v-model="informacion.email_confirmation" placeholder="Por favor ingresa de nuevo tu correo electrónico"/>
                         <form-error name="email_confirmation" :errors="errors"></form-error>
@@ -309,7 +309,7 @@
             },
             OxxoSpei: function () {
                 let vm = this;
-                axios.post('/pago/' + vm.pago, vm.informacion).then(function (response) {
+                axios.post('/pago/' + vm.pago+'/coins', vm.informacion).then(function (response) {
                     if (response.data.status == 'ok') {
                         vm.$refs[vm.pago].closeModal();
                         vm.response.referencia = response.data.referencia;
@@ -347,7 +347,7 @@
             successConekta: function (token) {
                 let vm = this;
                 vm.informacion.conektaTokenId = token.id;
-                axios.post(vm.url + '/pago/tarjeta', vm.informacion).then(function (respuesta) {
+                axios.post(vm.url + '/pago/tarjeta'+'/coins', vm.informacion).then(function (respuesta) {
                     if (respuesta.data.status == 'ok') {
                         vm.$refs.tarjeta.closeModal();
                         vm.$refs.pago_tarjeta.showModal();

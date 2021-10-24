@@ -115,12 +115,15 @@
         .stepwizard-step a:hover{
             color: #0080DD !important;
         }
+        a.btn-success {
+            color: #0080DD !important;
+        }
         .cambiacolor{
             color: #0080DD !important;
             border-bottom: 3px solid #0080DD !important;
         }
         .multiselect__tag {
-            background: gray !important;
+            background: #cccccc !important;
         }
     </style>
     <script src="https://unpkg.com/vue-multiselect@2.1.0"></script>

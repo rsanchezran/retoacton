@@ -3,7 +3,13 @@
 namespace App\Providers;
 
 use App\Events\MensajesDirectosEvent;
+use App\Events\RetosEvent;
+use App\Listeners\CoinsListener;
+use App\Listeners\ReaccionesListener;
 use App\Listeners\MensajesDirectosListener;
+use App\Events\CoinsEvent;
+use App\Events\ReaccionesEvent;
+use App\Events\SeguirListenerEvent;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -31,6 +37,18 @@ class EventServiceProvider extends ServiceProvider
         ],
         MensajesDirectosEvent::class => [
             MensajesDirectosListener::class,
+        ],
+        RetosEvent::class => [
+            RetosListener::class,
+        ],
+        CoinsEvent::class => [
+            CoinsListener::class,
+        ],
+        ReaccionesEvent::class => [
+            ReaccionesListener::class,
+        ],
+        SeguirEvent::class => [
+            SeguirListener::class,
         ],
     ];
 

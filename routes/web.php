@@ -61,6 +61,16 @@ Route::group(['prefix' => 'cuenta', 'middleware' => ['auth', 'pago']], function 
     Route::post('subirFoto', 'CuentaController@subirFoto');
     Route::get('getFotografia/{id}/{random}', 'CuentaController@getFotografia');
     Route::post('cambiarModo', 'CuentaController@cambiarModo');
+    Route::post('mialbum/nuevaFoto/', 'CuentaController@nuevaFoto');
+    Route::post('mialbum/darlike/', 'CuentaController@darLike');
+    Route::post('mialbum/reacciones/', 'CuentaController@reacciones');
+    Route::post('mialbum/enviarcoins/', 'CuentaController@darCoins');
+    Route::post('guardaPublico/', 'CuentaController@guardaPublico');
+    Route::post('eliminarElemento/', 'CuentaController@eliminarElemento');
+    Route::post('enviarreto/', 'CuentaController@enviarreto');
+    Route::post('aceptarreto/', 'CuentaController@aceptarreto');
+    Route::post('retos/respuesta/', 'CuentaController@retoRespuesta');
+    Route::get('/getVideo/{video}/', 'CuentaController@getVideo');
 });
 
 Route::group(['prefix' => 'configuracion', 'middleware' => ['auth', 'pago']], function () {
@@ -184,10 +194,14 @@ Route::group(['prefix'=>'pago'], function (){
     Route::get('/', 'PagoController@index');
     Route::post('openpay', 'PagoController@openpay');
     Route::post('oxxo', 'PagoController@oxxo');
+    Route::post('oxxo/coins/', 'PagoController@oxxoCoins');
     Route::post('spei', 'PagoController@spei');
+    Route::post('spei/coins/', 'PagoController@speiCoins');
     Route::post('paypal', 'PagoController@paypal');
+    Route::post('paypal/coins/', 'PagoController@paypalCoins');
     Route::post('validarOpenpay', 'PagoController@validarOpenpay');
     Route::post('tarjeta', 'PagoController@tarjeta');
+    Route::post('tarjeta/coins/', 'PagoController@tarjetaCoins');
 });
 
 Route::group(['prefix'=>'encuesta', 'middleware'=>['auth']], function (){

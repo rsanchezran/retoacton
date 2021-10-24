@@ -3,13 +3,13 @@
 namespace App\Notifications;
 
 use Illuminate\Support\Collection;
-use App\MensajesDirectos;
+use App\Retos;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class MensajeNotification extends Notification
+class RetosNotification extends Notification
 {
     use Queueable;
 
@@ -18,9 +18,9 @@ class MensajeNotification extends Notification
      *
      * @return void
      */
-    public function __construct(MensajesDirectos $mensajesDirectos)
+    public function __construct(Retos $retos)
     {
-        $this->mensajeDirecto = $mensajesDirectos;
+        $this->retos = $retos;
     }
 
     /**
@@ -57,10 +57,15 @@ class MensajeNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'id' => $this->mensajeDirecto->id,
-            'mensaje' => $this->mensajeDirecto->mensaje,
-            'usuario_emisor_id' => $this->mensajeDirecto->usuario_emisor_id,
-            'usuario_receptor_id' => $this->mensajeDirecto->usuario_receptor_id,
+            'id' => $this->retos->id,
+            'descripcion' => $this->retos->descripcion,
+            'usuario_reta_id' => $this->retos->usuario_reta_id,
+            'usuario_retador_id' => $this->retos->usuario_retador_id,
+            'coins' => $this->retos->coins,
+            'publico' => $this->retos->publico,
+            'video' => $this->retos->video,
+            'aceptado' => $this->retos->aceptado,
+            'updated' => $this->retos->updated_at,
         ];
     }
 }

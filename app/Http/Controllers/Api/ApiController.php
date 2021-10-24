@@ -8,7 +8,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\ComprasCoins;
 use App\Contacto;
+use App\Events\CoinsEvent;
 use App\Http\Controllers\PagoController;
 use App\User;
 use Illuminate\Http\Request;
@@ -55,18 +57,24 @@ class ApiController extends Controller
                 if (array_key_exists('id', $object)) {
                     if ($object['payment_status'] == 'paid') {
                         $order_id = $object["id"];
-                        $cobro = $object["amount"] / 100;
-                        $contacto = Contacto::where("order_id", $order_id)->first();
-                        if ($contacto !== null) {
-                            $usuario = User::withTrashed()->where('email', $contacto->email)->first();
-                            if ($usuario == null) {
-                                User::crear($contacto->nombres, $contacto->apellidos, $contacto->email,
-                                    $object["charges"]["data"][0]["payment_method"]["type"], 0, $contacto->codigo, $cobro);
-                            } else {
-                                $usuario->refrendarPago($cobro, $contacto->telefono);
+                        if($object['description'] == 'CompraCoins'){
+                            $compra = ComprasCoins::where('referencia', $order_id)->first();
+                            $compra->pagado = 1;
+                            $compra->save();
+                            event(new CoinsEvent($compra));
+                        }else {
+                            $cobro = $object["amount"] / 100;
+                            $contacto = Contacto::where("order_id", $order_id)->first();
+                            if ($contacto !== null) {
+                                $usuario = User::withTrashed()->where('email', $contacto->email)->first();
+                                if ($usuario == null) {
+                                    User::crear($contacto->nombres, $contacto->apellidos, $contacto->email,
+                                        $object["charges"]["data"][0]["payment_method"]["type"], 0, $contacto->codigo, $cobro);
+                                } else {
+                                    $usuario->refrendarPago($cobro, $contacto->telefono);
+                                }
                             }
                         }
-
                     }
 
                 }

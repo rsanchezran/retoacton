@@ -14,6 +14,7 @@ use App\Console\Commands\Mailchimp;
 use App\Contacto;
 use App\Dieta;
 use App\EncuestaEntrada;
+use App\MiAlbum;
 use App\Renovaciones;
 use App\Events\EnviarCorreosEvent;
 use App\Events\EnviarDudasEvent;
@@ -21,6 +22,7 @@ use App\Kits;
 use App\Pago;
 use App\Pregunta;
 use App\Rango;
+use App\Retos;
 use App\User;
 use App\UsuarioDieta;
 use App\UsuarioKit;
@@ -38,10 +40,14 @@ class HomeController extends Controller
     {
         $comision = intval(env('COMISION'));
         $usuario = User::where('id', $request->user()->id)->get()->first();
+        $usuario = User::where('id', $request->user()->id)->get()->first();
         $usuario->total = $usuario->ingresados * $comision;
+        $all_fotos = MiAlbum::where('usuario_id', $request->user()->id)->take(9)->get();
+        $fotos = $all_fotos;
         $usuario->depositado = $usuario->total - $usuario->saldo;
         $usuario->intereses = str_replace(',', ', ', $usuario->intereses);
         $usuario->idiomas = str_replace(',', ', ', $usuario->idiomas);
+        $retos = Retos::where('usuario_retado_id', $request->user()->id)->orWhere('usuario_retado_id', $request->user()->id)->take(9)->get();
         $referencias = User::select(['id', 'name', 'email', 'created_at', 'num_inscripciones'])
             ->where('codigo', $request->user()->referencia)
             ->where('pagado', true)->whereNotNull('codigo')->get();
@@ -66,7 +72,7 @@ class HomeController extends Controller
             $original = env('COBRO_REFRENDO4');
         }
         $descuento = 0;
-        return view('home', ['usuario' => $usuario, 'referencias' => $referencias,
+        return view('home', ['usuario' => $usuario, 'referencias' => $referencias, 'fotos' => $fotos, 'retos' => $retos,
             'monto' => $monto, 'descuento' => $descuento, 'original' => $original, 'saldo' => $usuario->saldo]);
     }
 

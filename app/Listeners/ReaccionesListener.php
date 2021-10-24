@@ -2,13 +2,14 @@
 
 namespace App\Listeners;
 
-use App\Notifications\RetosNotification;
+use App\Notifications\ReaccionesNotification;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\User;
+use App\MiAlbum;
 
-class RetosListener
+class ReaccionesListener
 {
     /**
      * Create the event listener.
@@ -28,9 +29,10 @@ class RetosListener
      */
     public function handle($event)
     {
-        User::where('id', $event->retos->usuario_retado_id)
+        $album = MiAlbum::where('id', $event->interaccion->album_id)->first();
+        User::where('id', $album->usuario_id)
             ->each(function (User $user) use($event){
-                Notification::send($user, new RetosNotification($event->retos));
+                Notification::send($user, new ReaccionesNotification($event->interaccion));
             });
     }
 }

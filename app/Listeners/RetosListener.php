@@ -2,13 +2,13 @@
 
 namespace App\Listeners;
 
-use App\Notifications\MensajeNotification;
+use App\Notifications\RetosNotification;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\User;
 
-class MensajesDirectosListener
+class RetosListener
 {
     /**
      * Create the event listener.
@@ -28,9 +28,9 @@ class MensajesDirectosListener
      */
     public function handle($event)
     {
-        User::where('id', $event->mensaje->usuario_receptor_id)
+        User::where('id', $event->retos->usuario_retado_id)
             ->each(function (User $user) use($event){
-                Notification::send($user, new MensajeNotification($event->mensaje));
+                Notification::send($user, new RetosNotification($event->retos));
             });
     }
 }

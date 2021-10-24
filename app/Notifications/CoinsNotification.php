@@ -3,13 +3,13 @@
 namespace App\Notifications;
 
 use Illuminate\Support\Collection;
-use App\Retos;
+use App\ComprasCoins;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class RetosNotification extends Notification
+class CoinsNotification extends Notification
 {
     use Queueable;
 
@@ -18,9 +18,9 @@ class RetosNotification extends Notification
      *
      * @return void
      */
-    public function __construct(Retos $retos)
+    public function __construct(ComprasCoins $coins)
     {
-        $this->retos = $retos;
+        $this->coins = $coins;
     }
 
     /**
@@ -57,10 +57,11 @@ class RetosNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'id' => $this->retos->id,
-            'descripcion' => $this->retos->descripcion,
-            'usuario_reta_id' => $this->retos->usuario_reta_id,
-            'usuario_retador_id' => $this->retos->usuario_retador_id,
+            'id' => $this->coins->id,
+            'tipo_compra' => $this->coins->tipo_compra,
+            'usuario_id' => $this->coins->usuario_id,
+            'monto' => $this->coins->monto,
+            'referencia' => $this->coins->referencia,
         ];
     }
 }

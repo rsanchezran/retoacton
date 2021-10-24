@@ -16,7 +16,8 @@ Vue.component('form-error', require('./components/FormError.vue').default);
 Vue.component('money', require('./components/Money.vue').default);
 Vue.component('form-error', require('./components/FormError.vue').default);
 Vue.component('paginador', require('./components/Paginador.vue').default);
-Vue.component('cobro', require('./components/Cobro.vue'));
+Vue.component('cobro', require('./components/Cobro.vue').default);
+Vue.component('cobro_compra_coins', require('./components/CobroCompraCoins.vue').default);
 Vue.component('fecha', require('./components/Fecha.vue').default);
 Vue.component('img_dia', require('./components/DiaImagen.vue').default);
 import { ToggleButton } from 'vue-js-toggle-button'
@@ -25,7 +26,22 @@ import wysiwyg from "vue-wysiwyg";
 import captcha from "vue-recaptcha";
 import Vue from 'vue'
 import VTooltip from 'v-tooltip'
+import VueRx from 'vue-rx'
+import VuejsClipper from 'vuejs-clipper'
+// install vue-rx
+Vue.use(VueRx)
+// install vuejs-clipper
+Vue.use(VuejsClipper)
 
+Vue.use(VuejsClipper, {
+    components: {
+        clipperBasic: true,
+        clipperPreview: true
+    }
+})
+
+Vue.use(VueRx);
+Vue.use(VuejsClipper);
 Vue.component('ToggleButton', ToggleButton);
 Vue.component('captcha', captcha);
 Vue.use(VueAnimate);

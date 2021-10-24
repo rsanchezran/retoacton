@@ -2,13 +2,13 @@
 
 namespace App\Listeners;
 
-use App\Notifications\RetosNotification;
+use App\Notifications\CoinsNotification;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\User;
 
-class RetosListener
+class CoinsListener
 {
     /**
      * Create the event listener.
@@ -28,9 +28,9 @@ class RetosListener
      */
     public function handle($event)
     {
-        User::where('id', $event->retos->usuario_retado_id)
+        User::where('id', $event->coins->usuario_id)
             ->each(function (User $user) use($event){
-                Notification::send($user, new RetosNotification($event->retos));
+                Notification::send($user, new CoinsNotification($event->coins));
             });
     }
 }

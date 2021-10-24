@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Code\ValidarCorreo;
+use App\ComprasCoins;
 use App\Contacto;
 use App\Mail\EnviarFicha;
 use App\User;
+use App\Events\CoinsEvent;
 use Conekta\Conekta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -507,5 +509,194 @@ class PagoController extends Controller
             }
         });
         $validator->validate();
+    }
+
+    public function oxxoCoins(Request $request)
+    {
+        Conekta::setApiKey(env("CONEKTA_PRIVATE"));
+        Conekta::setApiVersion("2.0.0");
+        $valid_order =
+            array(
+                'line_items' => array(
+                    array(
+                        'name' => 'Acton',
+                        'description' => 'CompraCoins',
+                        'unit_price' => $request->monto * 100,
+                        'quantity' => 1,
+                    )
+                ),
+                'currency' => 'mxn',
+                'customer_info' => array(
+                    'name' => $request->nombres,
+                    'phone' => '52' . $request->telefono,
+                    'email' => $request->email
+                ),
+                'charges' => array(
+                    array(
+                        'payment_method' => array(
+                            'type' => 'oxxo_cash',
+                            'expires_at' => strtotime(date("Y-m-d H:i:s")) + "72000"
+                        ),
+                    )
+                ),
+            );
+        try {
+            $order = \Conekta\Order::create($valid_order);
+            $orden = new \stdClass();
+            $orden->id = $order->id;
+            $orden->referencia = $order->charges[0]->payment_method->reference;
+            $orden->monto = ($order->amount / 100);
+            $orden->origen = "oxxo";
+            $compra = ComprasCoins::create([
+                'usuario_id' => $request->user()->id,
+                'referencia' => $orden->referencia,
+                'tipo_compra' => 'oxxo',
+                'monto' => $request->monto,
+                'pagado' => 0,
+
+            ]);
+            event(new CoinsEvent($compra));
+            return response()->json(['status' => 'ok', 'referencia' => $orden->referencia, 'monto' => $orden->monto,
+                'origen' => $orden->origen]);
+        } catch (\Conekta\ProcessingError $e) {
+            echo $e->getMessage();
+        } catch (\Conekta\ParameterValidationError $e) {
+            echo $e->getMessage();
+        }
+        return response()->json(['status' => 'error']);
+    }
+
+
+
+    public function speiCoins(Request $request)
+    {
+
+        Conekta::setApiKey(env("CONEKTA_PRIVATE"));
+        Conekta::setApiVersion("2.0.0");
+        $valid_order =
+            array(
+                "line_items" => array(
+                    array(
+                        "name" => "Acton",
+                        "description" => "CompraCoins",
+                        'unit_price' => $request->monto * 100,
+                        "quantity" => 1
+                    )//first line_item
+                ), //line_items
+                "currency" => "MXN",
+                "customer_info" => array(
+                    "name" => $request->nombres,
+                    "email" => $request->email,
+                    'phone' => '52' . $request->telefono,
+                ), //customer_info
+                "charges" => array(
+                    array(
+                        "payment_method" => array(
+                            "type" => "spei",
+                            'expires_at' => strtotime(date("Y-m-d H:i:s")) + "72000"
+                        ),//payment_method
+                    ) //first charge
+                ) //charges
+            );
+        try {
+            $order = \Conekta\Order::create($valid_order);
+            $orden = new \stdClass();
+            $orden->id = $order->id;
+            $orden->referencia = $order["charges"][0]["payment_method"]["clabe"];
+            $orden->monto = ($order->amount / 100);
+            $orden->origen = "spei";
+            $compra = ComprasCoins::create([
+                'usuario_id' => $request->user()->id,
+                'referencia' => $orden->referencia,
+                'tipo_compra' => 'spei',
+                'monto' => $request->monto,
+                'pagado' => 0,
+
+            ]);
+            return response()->json(['status' => 'ok', 'referencia' => $orden->referencia, 'monto' => $orden->monto,
+                'origen' => $orden->origen]);
+        } catch (\Conekta\ProcessingError $e) {
+            echo $e->getMessage();
+        } catch (\Conekta\ParameterValidationError $e) {
+            echo $e->getMessage();
+        }
+        return response()->json(['status' => 'error']);
+    }
+
+    public function paypalCoins(Request $request)
+    {
+        $usuario = User::withTrashed()->orderBy('created_at')->where('email', $request->email)->get()->last();
+        $cobro = $request->monto;
+        $compra = ComprasCoins::create([
+            'usuario_id' => $request->user()->id,
+            'referencia' => 'paypal',
+            'tipo_compra' => 'paypal',
+            'monto' => $request->monto,
+            'pagado' => 1,
+
+        ]);
+        return response()->json(['status' => 'ok']);
+    }
+
+    public function tarjetaCoins(Request $request)
+    {
+        try {
+
+            Conekta::setApiKey(env("CONEKTA_PRIVATE"));
+            Conekta::setApiVersion("2.0.0");
+            if (isset($request->telefono)){
+                $telefono = $request->telefono;
+            }else{
+                $telefono = '4686883409';
+            }
+            $valid_order =
+                array(
+                    'line_items' => array(
+                        array(
+                            'name' => 'Acton',
+                            'description' => 'Acton reto',
+                            'unit_price' => $request->monto * 100,
+                            'quantity' => 1,
+                        )
+                    ),
+                    'currency' => 'mxn',
+                    'customer_info' => array(
+                        'name' => $request->nombres,
+                        'phone' => $telefono,
+                        'email' => $request->email
+                    ),
+                    'charges' => array(
+                        array(
+                            'payment_method' => array(
+                                "type" => "card",
+                                "token_id" => $request->conektaTokenId,
+                            ),
+                        )
+                    ),
+                );
+            if ($request->meses) {
+                $valid_order['charges'][0]['payment_method']['monthly_installments'] = '3';
+            }
+            $order = \Conekta\Order::create($valid_order);
+
+            $compra = ComprasCoins::create([
+                'usuario_id' => $request->user()->id,
+                'referencia' => $order->referencia,
+                'tipo_compra' => 'spei',
+                'monto' => $request->monto,
+                'pagado' => 1,
+
+            ]);
+
+            event(new CoinsEvent($compra));
+
+            $usuario = User::withTrashed()->where('id', $request->user()->id)->get()->last();
+            $usuario->saldo = $usuario->saldo+$request->monto;
+            $usuario->save();
+
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'redirect' => url('login'), 'codigo' => $e->getCode(), 'error' => $e->getMessage()]);
+        }
+        return response()->json(['status' => 'ok', 'redirect' => url('login')]);
     }
 }
