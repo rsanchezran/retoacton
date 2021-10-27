@@ -1804,13 +1804,11 @@
                     this.loading = true;
                     this.mensaje_gratis = false;
                     this.errors = {};
-                    this.mostrarDatos = true;
                     this.informacion.nombres = this.informacion.nombres.trim();
                     this.informacion.apellidos = this.informacion.apellidos.trim();
                     this.informacion.email = this.informacion.email.trim();
                     this.informacion.telefono = this.informacion.telefono.trim();
                     this.informacion.codigo = this.informacion.codigo.trim();
-
 
                     if(this.informacion.nombres==''){
                         this.errors.nombres = ['El nombre es obligatorio'];
@@ -1824,10 +1822,14 @@
                     if (this.informacion.email==''){
                         this.errors.email = ['El correo electrónico es obligatorio'];
                     }
-                    if (this.informacion.password==''){
+                    if (this.informacion.password=='' || this.informacion.password == undefined){
                         this.errors.password = ['La contraseña es obligatoria'];
                     }
+                    if (this.informacion.password=='' || this.informacion.password_dos == undefined){
+                        this.errors.password_dos = ['Debes confirmar tu contraseña'];
+                    }
                     if (Object.keys(this.errors).length == 0) {
+                        this.mostrarDatos = true;
                         axios.post("{{url("crearCuentaFree")}}", this.informacion).then(function (response) {
                             vm.sent = true;
                             vm.loading = false;
@@ -1848,10 +1850,8 @@
                             vm.loading = false;
                             vm.errors = error;
                         });
-                    }else{
-                        this.sent = false;
-                        this.loading = false;
                     }
+                    vm.loading = false;
 
 
 
