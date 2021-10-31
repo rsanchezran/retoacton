@@ -345,6 +345,7 @@
     <template id="encuesta-template">
         <div v-if="!user.validado && !user.encuestado">
             <div class="card">
+                <input type="text" autofocus="autofocus" style="display:none" />
 
                 <div v-else-if="!terminar && !continuar && pregunta!=='Sexo'">
                     <br><br>
