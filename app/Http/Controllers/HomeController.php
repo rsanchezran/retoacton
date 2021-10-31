@@ -493,7 +493,7 @@ class HomeController extends Controller
             [
                 'Peso actual.respuesta' => ['required', 'numeric', 'min:40', 'max:180',
                     'regex:/^([1-9]([0-9]{1,2}))(\.([0-9][0-9]?))?$/'],
-                'Estatura.respuesta' => 'required|numeric|min:1|max:2.3|double',
+                'Estatura.respuesta' => 'required|numeric|min:1|max:2.3|float',
                 'Cual seria tu peso ideal.respuesta' => ['required', 'numeric', 'min:40', 'max:180',
                     'regex:/^([1-9]([0-9]{1,2}))(\.([0-9][0-9]?))?$/'],
             ],
