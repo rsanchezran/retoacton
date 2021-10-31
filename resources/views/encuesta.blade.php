@@ -488,8 +488,8 @@
                                           :placeholder="pregunta.pregunta" rows="5" :class="sexo"></textarea>
                             </div>
                             <div v-if="!espera" style="display: flex; justify-content: space-between">
-                                <button class="siguiente" @click="termina">
-                                    <img src="{{asset('images/2021/derecha_1.png')}}" style="width: 50%">
+                                <button class="siguiente" @click="termina"  style="margin: 10px auto !important;">
+                                    <img src="{{asset('images/2021/derecha_1.png')}}" style="width: 50%" >
                                 </button>
                             </div>
                             <div v-if="espera" class="col-12 text-center">
