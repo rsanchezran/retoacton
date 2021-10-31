@@ -88,6 +88,7 @@
             font-family: 'Arial', sans-serif !important;
         }
     </style>
+
     @yield('header')
 </head>
 <body class="h-100">
