@@ -120,9 +120,8 @@
             border: none;
             font-size: 1.5em;
             display: block;
-            margin: 25px auto;
-            margin-left: -20px;
             z-index: 9999999999;
+            display: table;
         }
 
         .pregunta {
@@ -412,7 +411,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div style="display: flex; justify-content: space-between; margin-top: 100px;">
+                            <div style="display: flex; justify-content: center; margin-top: 100px;">
                                 <button class="siguiente" @click="comprobarAbiertas()" style="margin: 10px auto !important;">
                                     <img src="{{asset('images/2021/derecha_1.png')}}" style="width: 50%">
                                 </button>
@@ -425,7 +424,7 @@
                                     v-if="pregunta.multiple != undefined"> {{--animacion de la pantalla de css--}}
                             <div v-if="pregunta.mostrar">
                                 <div class="d-block mr-auto ml-auto">
-                                    <div class="form-group" style="min-height: 390px;">
+                                    <div class="form-group" style="min-height: 300px;">
                                         <div class="row pregunta"> {{--Preguntas con opciones--}}
                                             <label class="ayuda_pregunta text-center col-12 col-sm-12" :class="sexotext" v-html="pregunta.ayuda"></label>
 
@@ -463,7 +462,7 @@
                                             <form-error name="seleccion" :errors="errors" class="col-12 text-center"></form-error>
                                         </div>
                                     </div>
-                                    <div class="d-flex justify-content-between" style="margin-top: -3%">
+                                    <div class="d-flex  " style="margin-top: -3%; justify-content: center !important;">
                                         <button v-if="!terminar && indexP>0" class="anterior"
                                                 @click="comprobarCerrada(pregunta, 0)">
                                             <img src="{{asset('images/2021/izquiera_1.png')}}" style="width: 50%">
@@ -488,7 +487,7 @@
                                 <textarea v-if="key == 2 || key == 4 || key == 5 || key == 6 || key == 7 || key == 8" class="form-control encuesta" v-model="pregunta.respuesta"
                                           :placeholder="pregunta.pregunta" rows="5" :class="sexo"></textarea>
                             </div>
-                            <div v-if="!espera" style="display: flex; justify-content: space-between">
+                            <div v-if="!espera" style="display: flex; justify-content: center">
                                 <button class="siguiente" @click="termina"  style="margin: 10px auto !important;">
                                     <img src="{{asset('images/2021/derecha_1.png')}}" style="width: 50%" >
                                 </button>
