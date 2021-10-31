@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Amistades;
+use App\Carrito;
 use App\Code\RolUsuario;
 use App\Code\Utils;
 use App\CodigosPostales;
@@ -80,6 +81,8 @@ class UserController extends Controller
         $campos = json_decode($request->campos);
         $usuarios = User::where('rol', '!=', RolUsuario::ADMIN);
         $usuarios = $usuarios->where('rol', '!=', RolUsuario::TIENDA);
+        $usuarios = $usuarios->where('tipo_referencia', 3);
+        $usuarios = $usuarios->where('dias', 7);
 
         if ($campos->nombre != null) {
             $usuarios = $usuarios->where('name', 'like', '%' . $campos->nombre . '%');
@@ -1119,6 +1122,112 @@ class UserController extends Controller
         $compra->save();
 
         return $usuario;
+    }
+
+    public function suplementos()
+    {
+        return view('users.suplementos');
+    }
+
+    public function fichasSuplementos($tipo)
+    {
+        return view('users.fichas_suplementos', ['tipo' => $tipo]);
+    }
+
+    public function agregarCarrito(Request $request)
+    {
+        $existe = Carrito::where('producto', $request->tipo)->where('pagado', 0)->first();
+        $existe_c = Carrito::where('producto', $request->tipo)->where('pagado', 0)->count();
+        $cantidad = 0;
+        if(($existe_c)>0) {
+            $cantidad = $existe->cantidad;
+            $existe->delete();
+        }else{
+            $existe = 0;
+        }
+        $precio = 0;
+        if($request->tipo == 'maximal'){
+            $precio = 650;
+        }
+        if($request->tipo == 'creatina'){
+            $precio = 450;
+        }
+        if($request->tipo == 'ergogen'){
+            $precio = 450;
+        }
+        if($request->tipo == 'glutamina'){
+            $precio = 450;
+        }
+        if($request->tipo == 'whey'){
+            $precio = 1250;
+        }
+        if($request->tipo == 'bcaa'){
+            $precio = 550;
+        }
+        $comision = $precio*.10;
+        Carrito::create([
+            'producto' => $request->tipo,
+            'cantidad' => $cantidad+1,
+            'usuario_id' => $request->user()->id,
+            'precio' => $precio*($cantidad+1),
+            'guia' => '',
+            'servicio' => '',
+            'comentarios' => '',
+            'comision' => $comision,
+        ]);
+        return "{'status': 'ok'}";
+    }
+
+    public function verCarrito(Request $request)
+    {
+        $carrito = Carrito::where('pagado', 0)->where('usuario_id', $request->user()->id)->get();
+        return view('users.carrito', ['carrito' => $carrito]);
+    }
+
+    public function pagarCarrito(Request $request)
+    {
+        $suma = Carrito::Where('usuario_id', $request->user()->id)->where('pagado', 0)
+        ->selectRaw("SUM(precio) as total")
+        ->groupBy('usuario_id')
+        ->get();
+        if($suma[0]->total > $request->user()->saldo) {
+            return "No cuentas con saldo suficiente";
+        }else{
+            $carrito = Carrito::Where('usuario_id', $request->user()->id)->where('pagado', 0)->get();
+            foreach ($carrito as $c){
+                $c->pagado = 1;
+                $c->save();
+            }
+            $request->user()->saldo = $request->user()->saldo-$suma[0]->total;
+            $request->user()->save();
+            return "Pagado";
+        }
+    }
+
+    public function eliminarCarrito(Request $request)
+    {
+        $existe = Carrito::where('id', $request->id)->first();
+        $existe->delete();
+        return "Se elimino el producto";
+    }
+
+    public function verPedidos(Request $request)
+    {
+        $carrito = Carrito::select('usuario_id')->where('pagado', 1)->where('enviado', 0)->get();
+        $usuarios = User::whereIn('id', $carrito)->get();
+        return view('users.pedidos', ['usuarios' => $usuarios]);
+    }
+
+    public function detallePedidos(Request $request)
+    {
+        $carrito = Carrito::where('usuario_id', $request->id)->where('pagado', 1)->where('enviado', 0)->get();
+        return $carrito;
+    }
+
+    public function usuarioPedidos(Request $request)
+    {
+        $carrito = User::where('id', $request->id)->first();
+        return $carrito;
     }
 
 

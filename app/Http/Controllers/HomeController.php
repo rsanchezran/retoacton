@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Amistades;
 use App\Code\Genero;
 use App\Code\Objetivo;
 use App\Code\RolUsuario;
@@ -10,6 +11,7 @@ use App\Code\TipoRespuesta;
 use App\Code\Utils;
 use App\Code\ValidarCorreo;
 use App\Compra;
+use App\ComprasCoins;
 use App\Console\Commands\Mailchimp;
 use App\Contacto;
 use App\Dieta;
@@ -51,6 +53,8 @@ class HomeController extends Controller
         $referencias = User::select(['id', 'name', 'email', 'created_at', 'num_inscripciones'])
             ->where('codigo', $request->user()->referencia)
             ->where('pagado', true)->whereNotNull('codigo')->get();
+        $seguidos = Amistades::where('usuario_solicita_id', $usuario->id)->count();
+        $siguen = Amistades::where('usuario_amigo_id', $usuario->id)->count();
 
         $monto = env('COBRO_REFRENDO1');
         $original = env('COBRO_REFRENDO1');
@@ -73,7 +77,8 @@ class HomeController extends Controller
         }
         $descuento = 0;
         return view('home', ['usuario' => $usuario, 'referencias' => $referencias, 'fotos' => $fotos, 'retos' => $retos,
-            'monto' => $monto, 'descuento' => $descuento, 'original' => $original, 'saldo' => $usuario->saldo]);
+            'monto' => $monto, 'descuento' => $descuento, 'original' => $original, 'saldo' => $usuario->saldo,
+            'seguidos' => $seguidos, 'siguen' => $siguen ]);
     }
 
     public function index()
@@ -168,7 +173,13 @@ class HomeController extends Controller
     {
         \DB::beginTransaction();
         $user = $request->user();
-        $dialunes = Carbon::parse("monday next week");
+        $today = new Carbon();
+        if($today->dayOfWeek == Carbon::THURSDAY || $today->dayOfWeek == Carbon::FRIDAY || $today->dayOfWeek == Carbon::SATURDAY || $today->dayOfWeek == Carbon::SUNDAY){
+            $dialunes = Carbon::parse("monday next week");
+            $dialunes = $dialunes->addDays(7);
+        }else{
+            $dialunes = Carbon::parse("monday next week");
+        }
         $user->inicio_reto = $dialunes;
         if ($user->inicio_reto != null) {
             Respuesta::where('usuario_id', $user->id)->delete();
@@ -925,5 +936,22 @@ class HomeController extends Controller
         return view('encuesta_entrada', ['preguntas' => $preguntas, 'urls' => $urls]);
 
     }
+
+    public function estadoCuenta(Request $request)
+    {
+        $estado_cuenta = ComprasCoins::where('usuario_id', $request->user()->id)->get();
+
+        $suma = ComprasCoins::Where('usuario_id', $request->user()->id)->where('pagado', 0)->where('porpagar', 0)
+            ->selectRaw("SUM(monto) as total")
+            ->groupBy('usuario_id')
+            ->get();
+        if(isset($suma[0])){
+            $sumatoria = $suma[0]->total;
+        }else{
+            $sumatoria = 0;
+        }
+        return view('users.estado_cuenta', ['estado_cuenta' => $estado_cuenta, 'suma' => $sumatoria ]);
+    }
+
 }
 

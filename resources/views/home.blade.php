@@ -257,7 +257,7 @@
 @section('content')
     <div id="vue" class="flex-center">
         <inicio :usuario="{{ $usuario}}" :referencias="{{$referencias}}" :monto="{{$monto}}" :descuento="{{$descuento}}"
-                :original="{{$original}}" :saldo="{{$saldo}}" :fotos="{{$fotos}}" :retos="{{$retos}}"></inicio>
+                :original="{{$original}}" :saldo="{{$saldo}}" :fotos="{{$fotos}}" :retos="{{$retos}}" :seguidos="{{$seguidos}}" :siguen="{{$siguen}}"></inicio>
     </div>
 
     <template id="inicio-template">
@@ -290,7 +290,7 @@
                         <h2>@{{ usuario.name }} @{{ usuario.last_name }}</h2>
                     </div>
                     <div class="col-2" style="margin-top: 10px;">
-                        <i class="fas fa-pen"></i>
+                        <a href="/cuenta"><i class="fas fa-pen"></i></a>
                     </div>
                 </div>
                 <div class="col-12 text-center">
@@ -386,11 +386,11 @@
                         <div class="card-body">
                             <div class="row col-12">
                                 <div class="col-6">
-                                    <h2>112</h2>
+                                    <h2>@{{siguen}}</h2>
                                     Seguidores
                                 </div>
                                 <div class="col-6 mb-4">
-                                    <h2>112</h2>
+                                    <h2>@{{seguidos}}</h2>
                                     Seguidos
                                 </div>
                                 <div class="col-12 mb-2" v-if="usuario.edad_publico">
@@ -956,7 +956,7 @@
 
         Vue.component('inicio', {
             template: '#inicio-template',
-            props: ['usuario', 'referencias','monto','original','descuento','saldo', 'fotos', 'retos'],
+            props: ['usuario', 'referencias','monto','original','descuento','saldo', 'fotos', 'retos', 'seguidos', 'siguen'],
             data: function(){
                 return{
                     nombre:'',

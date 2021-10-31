@@ -35,7 +35,7 @@ Route::post('savePeso', 'Auth\RegisterController@savePeso');
 Route::post('webhook', 'Auth\RegisterController@webhook');
 Route::get('buscarReferencia/{referencia}', 'Auth\RegisterController@buscarReferencia');
 Route::get('buscarReferenciaTienda/{referencia}/{email}', 'Auth\RegisterController@buscarReferenciaTienda');//AQUI
-Route::get('buscarReferenciaCoach/{referencia}/{email}', 'Auth\RegisterController@buscarReferenciaCoach');//AQUI
+Route::get('buscarReferenciaCoach/{referencia}', 'Auth\RegisterController@buscarReferenciaCoach');//AQUI
 Route::get('register/{dias}/', 'Auth\RegisterController@showRegistrationForm');
 Route::get('registro/gratis/', 'Auth\RegisterController@registroGratis');
 Route::post('crearCuentaFree', 'Auth\RegisterController@crearCuentaFree');
@@ -53,6 +53,7 @@ Route::group(['prefix' => '/', 'middleware' => ['auth', 'pago']], function () {
     Route::get('dudas', 'HomeController@dudas');
     Route::post('dudas', 'HomeController@saveDudas');
     Route::get('verPagos/{user}', 'HomeController@verPagos');
+    Route::get('/estado-cuenta/', 'HomeController@estadoCuenta');
 });
 Route::group(['prefix' => 'cuenta', 'middleware' => ['auth', 'pago']], function () {
     Route::get('/', 'CuentaController@index');
@@ -71,6 +72,8 @@ Route::group(['prefix' => 'cuenta', 'middleware' => ['auth', 'pago']], function 
     Route::post('aceptarreto/', 'CuentaController@aceptarreto');
     Route::post('retos/respuesta/', 'CuentaController@retoRespuesta');
     Route::get('/getVideo/{video}/', 'CuentaController@getVideo');
+    Route::post('/cobrar/', 'CuentaController@cobrar');
+    Route::post('/mensajes-eliminar/', 'CuentaController@mensajesEliminar');
 });
 
 Route::group(['prefix' => 'configuracion', 'middleware' => ['auth', 'pago']], function () {
@@ -163,6 +166,15 @@ Route::group(['prefix' => 'usuarios', 'middleware'=>['auth', 'pago']], function 
     Route::get('getSemana/{usuario}/{semana}', 'UserController@getSemana');
     Route::get('actualizar_dias/{dias}', 'UserController@actualizarDias');
     Route::post('refrendar_ceros/', 'UserController@refrendarPagoCeros');
+    Route::get('suplementos/', 'UserController@suplementos');
+    Route::get('fichas/{tipo}', 'UserController@fichasSuplementos');
+    Route::post('agregar-carrito/', 'UserController@agregarCarrito');
+    Route::get('ver-carrito/', 'UserController@verCarrito');
+    Route::post('eliminar-carrito/', 'UserController@eliminarCarrito');
+    Route::post('pagar-carrito/', 'UserController@pagarCarrito');
+    Route::get('pedidos/', 'UserController@verPedidos');
+    Route::post('pedidos-detalle/', 'UserController@detallePedidos');
+    Route::post('info-pedido/', 'UserController@usuarioPedidos');
 });
 
 Route::group(['prefix'=>'reto', 'middleware'=>['auth', 'pago'] ],function (){

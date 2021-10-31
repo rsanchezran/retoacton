@@ -605,7 +605,7 @@
                     intereses: ['Deportes','Cine','Espiritualidad','Bailar','Viajar','Música','Leer','Gastronomía','Animales','Idiomas','Astrología','Cantar','Futbol','Yoga','Arte','Politica','Negocios'],
                     genero: ['Hombre', 'Mujer'],
                     genero_2: ['Hetero', 'Gay', 'Bi', 'Trans'],
-                    situacion: ['Casado(a)', 'Soltero(a)', 'Divorciado(a)','Viudo(a)','Union Libre'],
+                    situacion: ['Casado(a)', 'Soltero(a)', 'Divorciado(a)','Viudo(a)','Union Libre', 'Abierto a conocer a alguien'],
                     idiomas: ['Español', 'Ingles', 'Aleman', 'Japones', 'Chino', 'Portugues'],
                 }
             },

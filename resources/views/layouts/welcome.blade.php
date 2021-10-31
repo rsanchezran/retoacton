@@ -148,10 +148,10 @@
 
 
             main{
-                background-image: url("{{asset('images/2021/fondo_generales.png')}}") !important;
-                background-size: 100%;
-                background-attachment: fixed;
-                background-position: center;
+                background-image: url("{{asset('images/2021/acton_fondo_gris.png')}}") !important;
+                background-size: 100% !important;
+                background-attachment: initial;
+                background-position: top;
                 background-repeat: no-repeat;
                 background-size: cover;
             }
@@ -212,7 +212,7 @@
             <br>
             <br>
             <div class="col-sm-3">
-                <img src="{{asset('images/2021/logo_blanco_b.png')}}" width="250">
+                <!--img src="{{asset('images/2021/logo_blanco_b.png')}}" width="250"-->
             </div>
         </div>
 

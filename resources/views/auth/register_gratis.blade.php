@@ -1434,6 +1434,10 @@
             font-weight: lighter;
             font-family: 'Arial', sans-serif;
         }
+        .form-control{
+            border: 1px solid #999;
+            border-radius: 5px;
+        }
 
     </style>
 @endsection
@@ -1447,10 +1451,10 @@
     <template id="registro-template">
         <div class="">
         <div id="header" align="center" class="">
-            <img src="{{asset('images/2021/logo_blanco_b.png')}}" id="imagentop" class="w-75" style="margin-top: 50px">
+            <!--img src="{{asset('images/2021/logo_blanco_b.png')}}" id="imagentop" class="w-75" style="margin-top: 50px"-->
             <br>
             <br>
-            <img v-if="encontrado_url && mensaje_ref==''" src="{{asset('images/2021/texto_2_semanas.png')}}" id="imagentop" style="width: 90% !important;">
+            <img v-if="encontrado_url && mensaje_ref==''" src="{{asset('images/2021/texto_2_semanas.png')}}" id="imagentop" style="width: 90% !important; margin-top: 5%;">
             <br>
             <br>
             <h3 v-if="encontrado_url && mensaje_ref==''" class="col-12 text-center">
@@ -1460,7 +1464,7 @@
                 @{{ mensaje_ref }}
             </h3>
             <br>
-            <img v-if="!encontrado_url && mensaje_gratis" src="{{asset('images/2021/mensaje_gratis.png')}}" id="imagentop" class="w-75">
+            <img v-if="!encontrado_url && mensaje_gratis" src="{{asset('images/2021/mensaje_gratis.png')}}" id="imagentop" class="w-75 mt-3">
             <br v-if="!encontrado_url && mensaje_gratis">
             <br v-if="!encontrado_url && mensaje_gratis">
             <br v-if="!encontrado_url && mensaje_gratis">
@@ -1478,14 +1482,14 @@
                            @blur="buscarReferencia()" maxlength="7">
                     <form-error name="codigo" :errors="errors"></form-error>
                     <div v-if="encontrado!==null && !encontrado_url">
-                        <span v-if="encontrado && !encontrado_url">El código que ingresaste corresponde a:
+                        <span v-if="encontrado && !encontrado_url">
                             <i style="font-size:1.1rem" class="font-weight-bold">@{{ referencia }}</i>
                         </span>
                         <span v-if="!encontrado && !encontrado_url"
                               class="font-weight-bold">[No se encontró al alguien con ese código de referencia]</span>
                     </div>
                 </div>
-                <div v-if="informacion.medio=='Por medio de un entrenador'" class="text-left">
+                <div v-if="informacion.medio=='Por medio de un coach'" class="text-left">
                     <span style="color: #929292">
                         Si conoces el código de referencia de tu amigo, por favor ingrésalo aquí
                         <i v-if="loading" class="far fa-spinner fa-spin"></i>
@@ -1494,7 +1498,7 @@
                            @blur="buscarReferenciaCoach()" maxlength="7">
                     <form-error name="codigo" :errors="errors"></form-error>
                     <div v-if="encontrado">
-                        <span v-if="encontrado">El código que ingresaste corresponde a:
+                        <span v-if="encontrado">
                             <i style="font-size:1.1rem" class="font-weight-bold">@{{ referencia }}</i>
                         </span>
                         <span v-else
@@ -1778,8 +1782,8 @@
                     vm.referencia = '';
                     vm.loading = true;
                     this.informacion.tipocontacto = 1;
-                    axios.get('{{url('buscarReferenciaCoach')}}/' + vm.informacion.codigo+'/'+vm.informacion.email).then(function (response) {
-                        vm.referencia = response.data.usuario;
+                    axios.get('{{url('buscarReferenciaCoach')}}/' + vm.informacion.codigo).then(function (response) {
+                        vm.referencia = 'El código que ingresaste corresponde a: '+response.data.usuario;
                         vm.loading = false;
                         vm.encontrado = true;
                         if(vm.sent){
@@ -1791,6 +1795,8 @@
                         }
                         vm.loading = false;
                         vm.encontrado = false;
+                        vm.encontrado = true;
+                        vm.referencia = 'No se encontro el coach';
                     });
                 },
                 saveContacto: function () {

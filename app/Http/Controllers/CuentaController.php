@@ -11,6 +11,7 @@ use App\Events\CoinsEvent;
 use App\Code\Utils;
 use App\Code\ValidarCorreo;
 use App\InteraccionAlbum;
+use App\MensajesDirectos;
 use App\MiAlbum;
 use App\Retos;
 use App\User;
@@ -379,5 +380,35 @@ class CuentaController extends Controller
         }else{
             return response()->json(['status' => 'no']);
         }
+    }
+
+    public function cobrar(Request $request)
+    {
+        $usuario = $request->user();
+        $estado_cuenta = ComprasCoins::where('usuario_id', $request->user()->id)->get();
+
+        $suma = ComprasCoins::Where('usuario_id', $request->user()->id)->where('pagado', 0)->where('porpagar', 0)
+            ->selectRaw("SUM(monto) as total")
+            ->groupBy('usuario_id')
+            ->get();
+
+        foreach ($estado_cuenta as $ec){
+            $ec->porpagar = 1;
+            $ec->save();
+        }
+
+    }
+
+    public function mensajesEliminar(Request $request)
+    {
+        $estado_cuenta = MensajesDirectos::where('usuario_emisor_id', $request->user()->id)
+            ->where('usuario_receptor_id', $request->id)
+            ->delete();
+        $estado_cuenta = MensajesDirectos::where('usuario_receptor_id', $request->user()->id)
+            ->where('usuario_emisor_id', $request->id)
+            ->delete();
+
+        return response()->json(['status' => 'ok']);
+
     }
 }

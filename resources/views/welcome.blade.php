@@ -1,4 +1,4 @@
-@extends('layouts.welcome')
+@extends('layouts.welcome_landing')
 @section('header')
     <style>
         .fade-enter-active, .fade-leave-active {

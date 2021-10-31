@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app_interiores')
 @section('header')
     <style>
         .usuario{
@@ -33,124 +33,43 @@
 
     <template id="temp">
         <div>
-            <div class="card mb-3">
-                <div class="card-header"><i class="far fa-clipboard"></i> Mis conversaciones</div>
-
-
-
-            <div class="card mb-3">
-                    <a :href="'mensaje-directo/1'" class="btn btn-success text-white">Solución de dudas</a>
-                <div class="card-body">
-                    <div v-for="usuario in usuarios.data" class="d-flex usuario">
-                        <div class="col-4 d-flex flex-column align-items-start">
-                            <!--span v-if="usuario.vigente"-->
-                                <a :href="'/cuenta/'+usuario.id+'/'"><img :src="'/cuenta/getFotografia/'+usuario.id+'/232'"
-                                                                          width="50px"></a>
-                                <span>@{{ usuario.name+' '+usuario.last_name }}</span>
-                            <!--/span-->
-                        </div>
-                        <div class="col-4 d-flex flex-column align-items-end">
-
-                                    <a :href="'mensaje-directo/'+usuario.id" v-tooltip="{content:'Enviar mensaje'}" class="btn btn-sm btn-default" >
-                                        <i class="fas fa-comments"></i> <div v-if="usuario.sin_leer>0" class="sin_leer"></div>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div v-if="usuarios.length == 0 || usuarios.data.length == 0" align="center">
-                        <h6 colspan="6">[No hay datos para mostrar]</h6>
-                    </div>
-                    <div class="float-right">
-                        <paginador ref="paginador" :url="'{{url('/configuracion/buscarSeguir')}}'" @loaded="loaded"></paginador>
-                    </div>
+            <div class="row col-12">
+                <div class="col-6 offset-3">
+                    <img src="{{asset('images/2021/mensajes.png')}}" class="col-12 mt-4">
+                </div>
+                <div class="col-3">
+                    <img src="{{asset('images/2021/pencil.png')}}" class="col-11 mt-4" @click="verEliminar">
                 </div>
             </div>
-            <modal ref="agregarSaldo" title="DejarSeguir" @ok="aumentaSaldo">
-                <h5>Actualización de saldo de @{{ usuario.name +' '+usuario.last_name }}</h5>
-                <input type="text" class="form-control" v-model="usuario.saldoAumentado" @keyup.enter="aumentaSaldo">
-            </modal>
-            <modal ref="comisionModal" :title="'Pago de comisión a usuario'" @ok="pagar()" height="400" :oktext="'Pagar'">
-                <div class="d-flex flex-column">
-                    <span><b>Email : </b>@{{ usuario.email }}</span>
-                    <span><b>Nombre : </b>@{{ usuario.name }}</span>
-                    <span><b>No. Tarjeta : </b>@{{ usuario.tarjeta==null?'[Este cliente no ha registrado su tarjeta]':usuario.tarjeta }}</span>
-                    <span><b>Cantidad a pagar : </b> $<money :cantidad="''+usuario.pagar"></money></span>
+            <!--a :href="'mensaje-directo/1'" class="btn btn-success text-white">Solución de dudas</a-->
+            <div v-for="usuario in usuarios.data" class="d-flex usuario mt-4">
+                <div class="col-6 d-flex flex-column align-items-start">
+                    <!--span v-if="usuario.vigente"-->
+                    <a :href="'mensaje-directo/'+usuario.id" class=""><img :src="'/cuenta/getFotografia/'+usuario.id+'/232'"
+                    width="50px" style="border-radius: 30px">      @{{ usuario.name+' '+usuario.last_name }}</a>
+                    <!--/span-->
                 </div>
-                <table class="table mt-2">
-                    <tr v-for="compra in referencias.data" :class="(compra.activo?'inactivo':'')">
-                        <td>
-                            <i v-if="compra.activo" class="fa fa-minus"></i>
-                            <i v-else class="fa fa-check"></i>
-                            <span> @{{  compra.name+' '+compra.last_name }}</span>
-                        </td>
-                        <td><fecha :fecha="compra.created_at"></fecha></td>
-                        <td><money :cantidad="compra.monto"></money></td>
-                    </tr>
-                </table>
-                <div class="float-right">
-                    <paginador ref="paginadorComision" :url="'{{url('/usuarios/verComprasByReferencia')}}'" @loaded="loadedComision"></paginador>
+                <div class="col-6 d-flex flex-column align-items-end">
+
+                    <div v-if="eliminar_mensajes" @click="eliminarMensajes(usuario.id)" class="text-danger" >
+                        <i class="fas fa-times mt-2"></i> <!--div v-if="usuario.sin_leer>0" class="sin_leer"></div-->
+                    </div>
+
+                    <!--a :href="'mensaje-directo/'+usuario.id" v-tooltip="{content:'Enviar mensaje'}" class="btn btn-sm btn-default" >
+                        <i class="fas fa-comments"></i> <div v-if="usuario.sin_leer>0" class="sin_leer"></div>
+                    </a-->
                 </div>
-            </modal>
-            <modal ref="baja" title="Baja de usuario" @ok="bajar">
-                <h5>¿Quiere desactivar dar de baja a @{{ usuario.name +' '+usuario.last_name }}?</h5>
-            </modal>
-            <modal ref="referenciasModal" :title="'Personas que han usado el código : '+usuario.referencia" :showok="false" :showcancel="false">
-                <table class="table">
-                    <tr>
-                        <th>Cliente</th>
-                        <th>Correo</th>
-                        <th>Fecha de inscripción</th>
-                        <th>Inicio del reto</th>
-                    </tr>
-                    <tr v-for="referencia in referencias.data">
-                        <td>@{{ referencia.name+' '+referencia.last_name }}</td>
-                        <td>@{{ referencia.email}}</td>
-                        <td><fecha :fecha="referencia.fecha_inscripcion"></fecha></td>
-                        <td><fecha :fecha="referencia.inicio_reto"></fecha></td>
-                    </tr>
-                </table>
-                <div class="float-right">
-                    <paginador ref="paginadorReferencias" :url="'{{url('/usuarios/verReferencias')}}'" @loaded="loadedReferencias"></paginador>
-                </div>
-            </modal>
-            <modal ref="pagosModal" :title="'Pagos efectuados al usuario : '+usuario.name" :showok="false" :showcancel="false">
-                <table class="table">
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Monto</th>
-                    </tr>
-                    <tr v-for="pago in pagos.data">
-                        <td><fecha :fecha="pago.created_at"></fecha></td>
-                        <td><money :cantidad="pago.monto"></money></td>
-                    </tr>
-                </table>
-                <div class="float-right">
-                    <paginador ref="paginadorPagos" :url="'{{url('/usuarios/verPagos')}}'" @loaded="loadedPagos"></paginador>
-                </div>
-            </modal>
-            <modal ref="comprasModal" :title="'Compras realizadas por el usuario : '+usuario.name" :showok="false" :showcancel="false">
-                <table class="table">
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Monto</th>
-                    </tr>
-                    <tr v-for="compra in compras.data">
-                        <td><fecha :fecha="compra.created_at"></fecha></td>
-                        <td><money :cantidad="compra.monto"></money></td>
-                    </tr>
-                </table>
-                <div class="float-right">
-                    <paginador ref="paginadorCompras" :url="'{{url('/usuarios/verCompras')}}'" @loaded="loadedCompras"></paginador>
-                </div>
-            </modal>
-            <modal ref="cambiarDiasModal" title="Cambiar inicio de reto del usuario" @ok="cambiarDias">
-                <span>Especifica cuantos días lleva el usuario en el reto : </span>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control" v-model="usuario.dias_reto" />
-                </div>
-            </modal>
+            </div>
+
+            <div v-if="usuarios.length == 0 || usuarios.data.length == 0" align="center">
+                <h6 colspan="6">[No hay datos para mostrar]</h6>
+            </div>
+            <div class="float-right">
+                <paginador ref="paginador" :url="'{{url('/configuracion/buscarSeguir')}}'" @loaded="loaded"></paginador>
+            </div>
+
         </div>
+
     </template>
 
 @endsection
@@ -186,7 +105,8 @@
                         data:[]
                     },
                     pagos:[],
-                    compras:[]
+                    compras:[],
+                    eliminar_mensajes: false,
                 }
             },
             methods: {
@@ -198,104 +118,20 @@
                     this.buscando = true;
                     this.$refs.paginador.consultar(this.filtros);
                 },
-                pagar: function () {
-                    let vm = this;
-                    axios.post('{{url('/usuarios/pagar')}}', this.usuario).then(function (respuesta) {
-                        vm.$refs.comisionModal.closeModal();
-                        vm.buscar();
-                    }).catch(function (error) {
-                        console.error('Error generado en la consulta' + error.response.data);
+                verEliminar: function(){
+                    var vm = this;
+                    if(vm.eliminar_mensajes) {
+                        vm.eliminar_mensajes = false;
+                    }else{
+                        vm.eliminar_mensajes = true;
+                    }
+                },
+                eliminarMensajes: function(id){
+                    var vm = this;
+                    axios.post('{{url('cuenta/mensajes-eliminar/')}}', {'id': id}
+                    ).then(function (response) {
                     });
                 },
-                mostrarTarjeta: function (usuario) {
-                    this.usuario = usuario;
-                    this.$refs.comisionModal.showModal();
-                    Vue.nextTick(()=> {
-                        this.$refs.paginadorComision.consultar(this.usuario);
-                    });
-                },
-                confirmar: function (usuario) {
-                    this.usuario = usuario;
-                    this.$refs.baja.showModal();
-                },
-                bajar: function () {
-                    axios.post('{{url('/usuarios/bajar')}}', this.usuario).then(function (response) {
-                        if (response.data.status=='ok'){
-                            window.location.href = response.data.redirect;
-                        }
-                    }).catch(function () {
-
-                    });
-                },
-                confirmarDias: function (usuario) {
-                    this.usuario = usuario;
-                    this.$refs.cambiarDiasModal.showModal();
-                },
-                cambiarDias: function () {
-                    let vm = this;
-                    axios.post('{{url('/usuarios/cambiarDias')}}', this.usuario).then(function (response) {
-                        vm.$refs.cambiarDiasModal.closeModal();
-                        vm.buscar();
-                    });
-                },
-                exportar: function () {
-                    window.open('{{url('/usuarios/exportar')}}/'+JSON.stringify(this.filtros),'_blank');
-                },
-                verPagos: function (usuario) {
-                    this.usuario = usuario;
-                    this.$refs.pagosModal.showModal();
-                    Vue.nextTick(()=> {
-                        this.$refs.paginadorPagos.consultar(this.usuario);
-                    });
-                },
-                verCompras: function (usuario) {
-                    this.usuario = usuario;
-                    this.$refs.comprasModal.showModal();
-                    Vue.nextTick(()=> {
-                        this.$refs.paginadorCompras.consultar(this.usuario);
-                    });
-                },
-                verReferencias: function (usuario) {
-                    this.usuario = usuario;
-                    this.$refs.referenciasModal.showModal();
-                    Vue.nextTick(()=> {
-                        this.$refs.paginadorReferencias.consultar(this.usuario);
-                    });
-                },
-                loadedCompras: function (compras) {
-                    this.compras = compras;
-                },
-                loadedPagos: function (pagos) {
-                    this.pagos = pagos;
-                },
-                loadedReferencias: function (referencias) {
-                    this.referencias = referencias;
-                },
-                loadedComision: function (referencias) {
-                    let now = new Date().toISOString().substring(0,10);
-                    this.referencias = referencias;
-                    this.usuario.pagar = _.sumBy(referencias.data,function (compra) {
-                        if(compra.created_at.substring(0,10) != now){
-                            compra.activo = false;
-                            return parseInt('{{env('COMISION')}}');
-                        }else{
-                            compra.activo = true;
-                            return 0;
-                        }
-                    })
-                },
-                agregarSaldo: function (usuario, saldo) {
-                    this.usuario = usuario;
-                    this.usuario.saldoAumentado = saldo;
-                    this.$refs.agregarSaldo.showModal();
-                },
-                aumentaSaldo: function (){
-                    let vm = this;
-                    axios.post('{{url('/usuarios/aumentarSaldo')}}', this.usuario).then(function (response) {
-                        vm.$refs.agregarSaldo.closeModal();
-                        vm.buscar();
-                    });
-                }
 
             },
             mounted: function () {
