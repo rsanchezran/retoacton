@@ -494,7 +494,7 @@ class HomeController extends Controller
                 'Peso actual.respuesta' => ['required', 'numeric', 'min:40', 'max:180',
                     'regex:/^([1-9]([0-9]{1,2}))(\.([0-9][0-9]?))?$/'],
                 'Estatura.respuesta' => 'required|numeric|min:1|max:2.3',
-                'Cual seria tu peso ideal.respuesta' => ['required', 'numeric', 'min:40', 'max:180',
+                'Cual sería tu peso ideal.respuesta' => ['required', 'numeric', 'min:40', 'max:180',
                     'regex:/^([1-9]([0-9]{1,2}))(\.([0-9][0-9]?))?$/'],
             ],
             [
@@ -508,11 +508,11 @@ class HomeController extends Controller
                 'Estatura.respuesta.min' => 'Debe ingresar un valor mínimo de 1',
                 'Estatura.respuesta.max' => 'Debe ingresar un valor máximo de 2.3',
                 'Estatura.respuesta.integer' => 'Debe capturar números enteros',
-                'Cual seria tu peso ideal.respuesta.required' => 'El peso ideal es requerido',
-                'Cual seria tu peso ideal.respuesta.numeric' => 'Debe capturar solo números',
-                'Cual seria tu peso ideal.respuesta.min' => 'Debe ingresar un valor mínimo de 40',
-                'Cual seria tu peso ideal.respuesta.max' => 'Debe ingresar un valor máximo de 180',
-                'Cual seria tu peso ideal.respuesta.regex' => 'Debe capturar máximo 3 enteros y hasta 2 decimales',
+                'Cual sería tu peso ideal.respuesta.required' => 'El peso ideal es requerido',
+                'Cual sería tu peso ideal.respuesta.numeric' => 'Debe capturar solo números',
+                'Cual sería tu peso ideal.respuesta.min' => 'Debe ingresar un valor mínimo de 40',
+                'Cual sería tu peso ideal.respuesta.max' => 'Debe ingresar un valor máximo de 180',
+                'Cual sería tu peso ideal.respuesta.regex' => 'Debe capturar máximo 3 enteros y hasta 2 decimales',
             ]
         )->validate();
     }
