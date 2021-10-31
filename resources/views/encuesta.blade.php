@@ -168,6 +168,7 @@
             border-top-right-radius: 15px !important;
             text-transform: uppercase;
             font-weight: bolder;
+            z-index: 9999999999999 !important;
         }
 
         .card{
