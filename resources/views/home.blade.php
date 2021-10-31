@@ -386,11 +386,11 @@
                         <div class="card-body">
                             <div class="row col-12">
                                 <div class="col-6">
-                                    <h2><a href="usuarios/seguir/?q=siguen">@{{siguen}}</a></h2>
+                                    <h2><a href="usuarios/seguir/?q=siguen#a">@{{siguen}}</a></h2>
                                     Seguidores
                                 </div>
                                 <div class="col-6 mb-4">
-                                    <h2><a href="usuarios/seguir/?q=seguidos">@{{seguidos}}</a></h2>
+                                    <h2><a href="usuarios/seguir/?q=seguidos#a">@{{seguidos}}</a></h2>
                                     Seguidos
                                 </div>
                                 <div class="col-12 mb-2" v-if="usuario.edad_publico">
