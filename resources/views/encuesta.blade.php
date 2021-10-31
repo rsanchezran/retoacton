@@ -122,6 +122,7 @@
             display: block;
             margin: 25px auto;
             margin-left: -20px;
+            z-index: 9999999999;
         }
 
         .pregunta {
@@ -424,7 +425,7 @@
                                     v-if="pregunta.multiple != undefined"> {{--animacion de la pantalla de css--}}
                             <div v-if="pregunta.mostrar">
                                 <div class="d-block mr-auto ml-auto">
-                                    <div class="form-group">
+                                    <div class="form-group" style="min-height: 390px;">
                                         <div class="row pregunta"> {{--Preguntas con opciones--}}
                                             <label class="ayuda_pregunta text-center col-12 col-sm-12" :class="sexotext" v-html="pregunta.ayuda"></label>
 
