@@ -388,8 +388,10 @@
                                         <label v-if="key == 3" for="staticEmail" class="col-6 col-form-label" :class="sexotext2">@{{ pregunta.pregunta }}</label>
                                         <label v-else for="staticEmail" class="col-6 col-form-label" :class="sexotext2">@{{ pregunta.pregunta }}</label>
                                         <div class="col-6">
-                                            <input class="form-control encuesta" :class="sexo" v-model="pregunta.respuesta"
+                                            <input v-if="pregunta.pregunta  == 'Estatura'" class="form-control encuesta" :class="sexo" v-model="pregunta.respuesta"
                                                :placeholder="pregunta.pregunta">
+                                            <input v-else class="form-control encuesta" :class="sexo" v-model="pregunta.respuesta"
+                                               :placeholder="pregunta.pregunta+' en kg'">
                                             <form-error align="left" :name="pregunta.pregunta+'.respuesta'"
                                                 :errors="errors" class="col-12 text-center"></form-error>
                                         </div>
