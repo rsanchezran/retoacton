@@ -1,4 +1,4 @@
-@extends('layouts.app_interiores')
+@extends('layouts.app_interiores_dos')
 @section('header')
     <style>
         .usuario{
@@ -27,9 +27,9 @@
 
     <template id="temp">
         <div>
-            <div class="card mb-3">
-                <div class="card-header"><i class="far fa-clipboard"></i> Personas en ACTON</div>
+            <div class="card mb-3" style="margin-top: 40%">
                 <div class="card-body">
+                    <h3 class="text-center" style="color: #999">Busca personas con<br> las siguientes caracteristicas</h3>
                     <div style="display: flex; flex-wrap: wrap">
                         <div class="col-sm-3">
                             <label>Conexiones</label>
