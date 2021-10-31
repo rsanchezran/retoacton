@@ -390,7 +390,7 @@
                                         <label v-else for="staticEmail" class="col-6 col-form-label" :class="sexotext2">@{{ pregunta.pregunta }}</label>
                                         <div class="col-6">
                                             <input v-if="pregunta.pregunta  == 'Estatura'" class="form-control encuesta" :class="sexo" v-model="pregunta.respuesta"
-                                               :placeholder="pregunta.pregunta">
+                                               :placeholder="pregunta.pregunta" :keydown="keyhander">
                                             <input v-else class="form-control encuesta" :class="sexo" v-model="pregunta.respuesta"
                                                :placeholder="Kg'">
                                             <form-error align="left" :name="pregunta.pregunta+'.respuesta'"
@@ -1036,6 +1036,12 @@
                     this.archivo2 = this.$refs.archivo2.files[0];
                     this.subir_archivo_2();
                 },
+                keyhandler: function(event) {
+                    if (event.key == ".")
+                    {
+                        // do something
+                        event.preventDefault();
+                    },
             },
             created: function () {
                 let vm = this;
