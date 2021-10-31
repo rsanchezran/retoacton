@@ -364,7 +364,7 @@ class HomeController extends Controller
             $numDieta = $dietaAnterior == null ? 1 : $dietaAnterior->dieta + 1;
             $days = $user->dias/7;
             var_dump('iijij');
-            for ($i=$numDieta; $i<$days; $i++) {
+            for ($i=$numDieta-1; $i<$days; $i++) {
                 var_dump('iijij');
                 $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $i);
             }
