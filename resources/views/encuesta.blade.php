@@ -292,13 +292,6 @@
             margin-top: 55px !important;
         }
         #app {
-            background-image: url("{{asset('images/2021/fondo_rayo.png')}}") !important;
-            background-size: 100% !important;
-            background-attachment: fixed !important;
-            background-position: center !important;
-            background-repeat: no-repeat !important;
-            background-size: cover !important;
-            max-height: 100%;
         }
 
         @media only screen and (max-width: 420px) {
@@ -457,8 +450,8 @@
                                                        v-model="opcion.selected"
                                                        @change="seleccionar(pregunta, opcion)">
                                                 <div class="row" style="margin-top: 50px">
-                                                    <img v-if="indexP==0 && indexR==0" src="{{asset('images/2021/mujer.png')}}" @click="select(pregunta, opcion)" class="w-100 col-12" :class="">
-                                                    <img v-if="indexP==0 && indexR==1" src="{{asset('images/2021/hombre.png')}}" @click="select(pregunta, opcion)" class="w-100 col-12" :class="">
+                                                    <img v-if="indexP==0 && indexR==0" src="{{asset('images/2021/mujer.png')}}" @click="select(pregunta, opcion)" class="w-100 col-12" :class="" style="max-height: 190px;">
+                                                    <img v-if="indexP==0 && indexR==1" src="{{asset('images/2021/hombre.png')}}" @click="select(pregunta, opcion)" class="w-100 col-12" :class="" style="max-height: 190px;">
                                                 </div>
                                             </div>
 
