@@ -120,7 +120,8 @@
             border: none;
             font-size: 1.5em;
             display: block;
-            margin: 10px auto;
+            margin: 25px auto;
+            margin-left: -20px;
         }
 
         .pregunta {
@@ -410,8 +411,8 @@
                                 </div>
                             </div>
                             <div style="display: flex; justify-content: space-between; margin-top: 100px;">
-                                <button class="siguiente" @click="comprobarAbiertas()">
-                                    <i class="far fa-chevron-double-right"></i>
+                                <button class="siguiente" @click="comprobarAbiertas()" style="margin: 10px auto !important;">
+                                    <img src="{{asset('images/2021/derecha_1.png')}}" style="width: 50%">
                                 </button>
                             </div>
                             <form-error name="siguiente" :errors="errors"></form-error>
@@ -460,14 +461,14 @@
                                             <form-error name="seleccion" :errors="errors" class="col-12 text-center"></form-error>
                                         </div>
                                     </div>
-                                    <div class="d-flex justify-content-between" style="">
+                                    <div class="d-flex justify-content-between" style="margin-top: -3%">
                                         <button v-if="!terminar && indexP>0" class="anterior"
                                                 @click="comprobarCerrada(pregunta, 0)">
-                                            <i class="far fa-chevron-double-left"></i>
+                                            <img src="{{asset('images/2021/izquiera_1.png')}}" style="width: 50%">
                                         </button>
                                         <button v-if="!terminar && indexP>0" class="siguiente"
                                                 @click="comprobarCerrada(pregunta, 1)">
-                                            <i class="far fa-chevron-double-right"></i>
+                                            <img src="{{asset('images/2021/derecha_1.png')}}" style="width: 50%">
                                         </button>
                                         <!--button v-else-if="!terminar && indexP==0" class="siguiente"
                                                 @click="mostrarAbiertas()">
@@ -487,7 +488,7 @@
                             </div>
                             <div v-if="!espera" style="display: flex; justify-content: space-between">
                                 <button class="siguiente" @click="termina">
-                                    <i class="far fa-chevron-double-right"></i>
+                                    <img src="{{asset('images/2021/derecha_1.png')}}" style="width: 50%">
                                 </button>
                             </div>
                             <div v-if="espera" class="col-12 text-center">
