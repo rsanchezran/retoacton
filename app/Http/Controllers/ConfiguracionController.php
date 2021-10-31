@@ -231,6 +231,7 @@ class ConfiguracionController extends Controller
             $diasDB = $diasDB->dia;
         }
         $diasTranscurridos = $diasDB < $diasReto ? $diasReto : $diasDB;
+        $semana = 1;
         if ($diasTranscurridos == 0) {
             $semana = 1;
         } else {
