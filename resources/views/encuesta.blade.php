@@ -376,7 +376,7 @@
                     <br>
                     <div class="col-12 col-sm-6 text-center" v-if="inicio.mostrar">
                         <button class="btn btn-primary text-uppercase font-weight-bold"
-                                style="margin-top: 20px; padding: 10px 80px;"
+                                style="margin-top: 10px; padding: 10px 80px;"
                                 @click="mostrarCerradasUno()">Comenzar
                         </button>
                     </div>
@@ -403,7 +403,7 @@
                                         <label for="staticEmail" class="col-6 col-form-label" :class="sexotext2">@{{ pregunta.pregunta }}</label>
                                         <div class="col-6">
                                             <input class="form-control encuesta" :class="sexo" v-model="pregunta.respuesta"
-                                                   placeholder="Centimetros" :name="pregunta.respuesta" pattern="[0-9]{3}" :keydown="keyhander">
+                                                   placeholder="Metros" :name="pregunta.respuesta" pattern="[0-9]{3}" >
                                             <form-error align="left" :name="pregunta.pregunta+'.respuesta'"
                                                         :errors="errors" class="col-12 text-center"></form-error>
                                         </div>
