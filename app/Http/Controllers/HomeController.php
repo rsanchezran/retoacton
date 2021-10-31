@@ -351,16 +351,13 @@ class HomeController extends Controller
         }
         $ignorar->push(24);
         var_dump('iijij');
+
         $alimentosIgnorados = Dieta::whereIn('comida', $ignorar)->get()->pluck('id');
-        $sexo = Pregunta::where('pregunta', 'like', '%Sexo%')->first();
-        $objetivo = Pregunta::where('pregunta', 'like', '%Objetivo fitness%')->first();
-        var_dump('iijij');
+        $objetivo = Pregunta::where('pregunta', 'like', '%Mi objetivo%')->first();
         $preguntaPeso = Pregunta::where('pregunta', 'like', '%peso%')->first();
         $objetivo = strpos($respuestas->get($objetivo->id)->respuesta, "Bajar") ? 'bajar' : 'subir';
-        $sexo = json_decode($respuestas->get($sexo->id)->respuesta);
         $peso = json_decode($respuestas->get($preguntaPeso->id)->respuesta);
         var_dump('iijij');
-
 
         $dietaAnterior = UsuarioDieta::where('usuario_id', $user->id)->where('dieta', '>', 1)->get()->last();
         if ($user->rol == RolUsuario::CLIENTE) {
