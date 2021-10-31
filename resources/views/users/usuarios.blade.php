@@ -517,7 +517,7 @@
                 if(params.get("q")) {
                     var q = '';
                     if(params.get('q') == 'siguen'){
-                        q = 'Me Siguen';
+                        q = 'Me siguen';
                     }else{
                         q = 'Siguiendo';
                     }
