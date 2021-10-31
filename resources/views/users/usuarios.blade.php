@@ -120,7 +120,7 @@
                     <div v-for="usuario in usuarios.data" class="d-flex usuario" id="lstUsuarios" ><a href="#a"></a>
                         <div class="col-4 d-flex flex-column align-items-start">
                             <span>
-                                <a :href="'cuenta/'+usuario.id"><i v-if="usuario.vigente" class="fa fa-user text-info"></i>
+                                <a :href="'/cuenta/'+usuario.id"><i v-if="usuario.vigente" class="fa fa-user text-info"></i>
                                 <i v-else class="fa fa-user text-default"></i>
                                     @{{ usuario.name+' '+usuario.last_name }}</a>
                             </span>
