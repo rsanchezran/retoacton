@@ -514,6 +514,16 @@
                 if(params.get("_token")) {
                     this.buscar();
                 }
+                if(params.get("q")) {
+                    var q = '';
+                    if(params.get('q') == 'siguen'){
+                        q = 'Me Siguen';
+                    }else{
+                        q = 'Siguiendo';
+                    }
+                    this.filtros.conexion = q;
+                    this.buscar();
+                }
             }
         });
 
