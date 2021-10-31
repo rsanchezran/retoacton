@@ -392,7 +392,7 @@
                                             <input v-if="pregunta.pregunta  == 'Estatura'" class="form-control encuesta" :class="sexo" v-model="pregunta.respuesta"
                                                :placeholder="pregunta.pregunta" :keydown="keyhander">
                                             <input v-else class="form-control encuesta" :class="sexo" v-model="pregunta.respuesta"
-                                               :placeholder="Kg">
+                                               placeholder="Kg">
                                             <form-error align="left" :name="pregunta.pregunta+'.respuesta'"
                                                 :errors="errors" class="col-12 text-center"></form-error>
                                         </div>
@@ -403,7 +403,7 @@
                                         <label for="staticEmail" class="col-6 col-form-label" :class="sexotext2">@{{ pregunta.pregunta }}</label>
                                         <div class="col-6">
                                             <input class="form-control encuesta" :class="sexo" v-model="pregunta.respuesta"
-                                                   placeholder="Metros" :name="pregunta.respuesta" pattern="[0-9]{3}">
+                                                   placeholder="Centimetros" :name="pregunta.respuesta" pattern="[0-9]{3}" :keydown="keyhander">
                                             <form-error align="left" :name="pregunta.pregunta+'.respuesta'"
                                                         :errors="errors" class="col-12 text-center"></form-error>
                                         </div>
