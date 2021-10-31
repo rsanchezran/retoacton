@@ -299,6 +299,7 @@ class RetoController extends Controller
         }else{
             $teorico = $diasTranscurridosuno;
         }
+        $semana = 0;
         if ($teorico == 0) {
             $semana = 1;
             $teorico++;
