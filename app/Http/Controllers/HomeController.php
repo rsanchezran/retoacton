@@ -527,13 +527,13 @@ class HomeController extends Controller
                 '¿Porqué quiere obtener esta asesoria?.respuesta' => 'required',
                 'Pasatiempo favorito.respuesta' => 'required',
                 'Un logro del cúal te sientas orgulloso.respuesta' => 'required',
-                '3 cualidades que veas en ti.respuesta' => 'required',
+                '3 cualidades valiosa que veas en ti.respuesta' => 'required',
             ],
             [
                 '¿Porqué quiere obtener esta asesoria?.respuesta.required' => 'Es requerido',
                 '¿A que te dedicas?.respuesta.required' => 'Es requerido',
                 'Un logro del cúal te sientas orgulloso.respuesta.required' => 'Es requerido',
-                '3 cualidades que veas en ti.respuesta.required' => 'Es requerido',
+                '3 cualidades valiosa que veas en ti.respuesta.required' => 'Es requerido',
             ]
         )->validate();
 
