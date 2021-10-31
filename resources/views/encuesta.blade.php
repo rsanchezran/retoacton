@@ -1041,6 +1041,7 @@
                     {
                         // do something
                         event.preventDefault();
+                    }
                     },
             },
             created: function () {
