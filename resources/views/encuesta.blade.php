@@ -392,7 +392,7 @@
                                             <input v-if="pregunta.pregunta  == 'Estatura'" class="form-control encuesta" :class="sexo" v-model="pregunta.respuesta"
                                                :placeholder="pregunta.pregunta">
                                             <input v-else class="form-control encuesta" :class="sexo" v-model="pregunta.respuesta"
-                                               :placeholder="pregunta.pregunta+' en kg'">
+                                               :placeholder="Kg'">
                                             <form-error align="left" :name="pregunta.pregunta+'.respuesta'"
                                                 :errors="errors" class="col-12 text-center"></form-error>
                                         </div>
