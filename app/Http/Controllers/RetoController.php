@@ -320,8 +320,11 @@ class RetoController extends Controller
             $dia->ejercicioss = collect();
             //return view('reto.dia', ['dia' => $dia, 'genero' => $genero, 'objetivo' => $objetivo, 'lugar' => $user->modo,
             //'dias' => env('DIAS')]);
-            return view('reto.dia', ['dia' => $dia, 'genero' => $genero, 'objetivo' => $objetivo, 'lugar' => $user->modo,
-                'dias' => $user->dias,  'semana' => $semana, 'diasReto' => $diasReto]);
+            return view('reto.dia', ['dia' => $dia, 'genero' => $genero, 'objetivo' => $objetivo,
+                'dias' => $dias, 'lugar' => $user->modo, 'semana' => $semana, 'maximo' => $diasTranscurridos,
+                'teorico' => $teorico, 'diasReto' => $diasReto]);
+//            return view('reto.dia', ['dia' => $dia, 'genero' => $genero, 'objetivo' => $objetivo, 'lugar' => $user->modo,
+  //              'dias' => $user->dias,  'semana' => $semana, 'diasReto' => $diasReto]);
         } else {
             $sem = $dia % 7 == 0 ? intval($dia / 7) : intval($dia / 7) + 1;
             //$numDieta = $sem % 2 == 0 ? intval($sem / 2) : intval($sem / 2) + 1; //Se obtiene el numero de dieta con base en la cantidad de dias del reto
