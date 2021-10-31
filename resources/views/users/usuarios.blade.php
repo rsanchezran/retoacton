@@ -116,8 +116,8 @@
             </div>
 
             <div class="card mb-3">
-                <div class="card-body">
-                    <div v-for="usuario in usuarios.data" class="d-flex usuario" id="lstUsuarios" ><a href="#a"></a>
+                <div class="card-body"  id="lstUsuarios">
+                    <div v-for="usuario in usuarios.data" class="d-flex usuario" >
                         <div class="col-4 d-flex flex-column align-items-start">
                             <span>
                                 <a :href="'/cuenta/'+usuario.id"><i v-if="usuario.vigente" class="fa fa-user text-info"></i>
