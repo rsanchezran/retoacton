@@ -860,6 +860,14 @@ class HomeController extends Controller
         try {
             $user->enviado_validacion = 2;
             $user->save();
+            $amistad = Amistades::create([
+                'usuario_solicita_id'=> $id,
+                'usuario_amigo_id' => 1
+            ]);
+            $amistad = Amistades::create([
+                'usuario_solicita_id'=> 1,
+                'usuario_amigo_id' => $id
+            ]);
         } catch (Exception $e) {
             $result['error'] = $e->getMessage();
             return json_encode($result);
