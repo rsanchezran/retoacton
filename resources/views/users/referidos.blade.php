@@ -72,7 +72,7 @@
                             <!--/div>
                         </div-->
                     </div>
-                    <div v-if="usuarios.length == 0 || usuarios.data.length == 0" align="center">
+                    <div v-if="usuarios.length == 0 || usuarios.data.length == 0" align="center" style="margin-top: 40%;">
                         <h6 colspan="6">[No hay datos para mostrar]</h6>
                     </div>
                     <div class="float-right">
