@@ -339,7 +339,7 @@ class RegisterController extends Controller
             $contacto->pagado = 1;
             $contacto->modo = 1;
             $contacto->referencia = strtoupper($random);
-            $contacto->codigo = $request->referencia;
+            $contacto->codigo = $request->codigo;
             $contacto->cp = '1';
             $contacto->estado = '1';
             $contacto->ciudad = '1';
