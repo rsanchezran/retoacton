@@ -122,7 +122,7 @@
                         <div class="col-12 row d-flex flex-column align-items-start">
                             <span class="col-9">
                                 <a :href="'/cuenta/'+usuario.id">
-                                    <img :src="'cuenta/getFotografia/'+usuario.id+'/343234'"
+                                    <img :src="'/cuenta/getFotografia/'+usuario.id+'/343234'"
                                          style="
                                         height: 100px;
                                         min-height: 50px;
