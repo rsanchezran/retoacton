@@ -282,7 +282,6 @@
                                     <br>
                                     <h3>Tú codigo QR</h3>
                                     <br>
-                                    <qrcode :value="'https://retoacton.com/registro/gratis/?codigo='+user.referencia" :options="{ width: 200 }"></qrcode>
                                     <!--button class="btn btn-success" :disabled="loading" @click="save()">
                                         <i v-if="loading" class="far fa-spinner fa-spin"></i>
                                         <i v-else class="far fa-save"></i>
