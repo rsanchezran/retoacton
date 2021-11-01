@@ -411,11 +411,11 @@
         </div>
     </div>
 </div>
-<script src="https://unpkg.com/@chenfengyuan/vue-qrcode@1.0.1/dist/vue-qrcode.min.js"></script>
 <script src="https://www.paypal.com/sdk/js?client-id={{env('PAYPAL_SANDBOX_API_PASSWORD')}}&currency=MXN"></script>
 <script type="text/javascript" src="https://cdn.conekta.io/js/latest/conekta.js"></script>
 <script src="https://openpay.s3.amazonaws.com/openpay.v1.min.js"></script>
 <script src="https://openpay.s3.amazonaws.com/openpay-data.v1.min.js"></script>
+<script src="https://unpkg.com/@chenfengyuan/vue-qrcode@1.0.1/dist/vue-qrcode.min.js"></script>
 
 <script>
     $('#terminoModal').on('show.bs.modal', function (event) {
