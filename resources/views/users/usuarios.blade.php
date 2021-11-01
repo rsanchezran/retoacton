@@ -120,7 +120,7 @@
                     <img src="{{asset('images/2021/personas.png')}}" style="width: 60%; margin-left: 15%;">
                     <div v-for="usuario in usuarios.data" class="d-flex usuario" >
                         <div class="col-12 row d-flex flex-column align-items-start">
-                            <span class="col-8">
+                            <span class="col-9">
                                 <a :href="'/cuenta/'+usuario.id">
                                     <img :src="'{{url('cuenta/getFotografia/'.\Illuminate\Support\Facades\Auth::user()->id.'/'.rand(0,10))}}'"
                                          style="
@@ -131,7 +131,7 @@
                                         border-radius: 30px;">
                                     @{{ usuario.name+' '+usuario.last_name }}</a>
                             </span>
-                            <div v-if="usuario.amistad=='si'" class="col-4 mt-2">
+                            <div v-if="usuario.amistad=='no'" class="col-3 mt-2">
                                 <a v-tooltip="{content:'Seguir'}" class="btn btn-sm btn-danger" :href="'{{ url('/cuenta/') }}/' + usuario.id" style="background: #9B0000 !important;">
                                     Conocer
                                 </a>
