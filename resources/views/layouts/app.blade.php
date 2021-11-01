@@ -295,12 +295,8 @@
                             </div>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="/usuarios/referidos" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-chevron-down"></i> Mis referidos
-                            </a>
-                            <div class="dropdown-menu" aria-lab elledby="administracion">
-                            </div>
+                            <a class="nav-link" href="{{ url('/usuarios/referidos') }}">
+                                <i class="fas fa-chevron-down"></i> Mis Referidos</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button"
