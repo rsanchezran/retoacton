@@ -117,26 +117,38 @@
 
             <div class="card mb-3">
                 <div class="card-body"  id="lstUsuarios">
+                    <img src="{{asset('images/2021/personas.png')}}" style="width: 60%; margin-left: 15%;">
                     <div v-for="usuario in usuarios.data" class="d-flex usuario" >
-                        <div class="col-4 d-flex flex-column align-items-start">
-                            <span>
-                                <a :href="'/cuenta/'+usuario.id"><i v-if="usuario.vigente" class="fa fa-user text-info"></i>
-                                <i v-else class="fa fa-user text-default"></i>
+                        <div class="col-12 row d-flex flex-column align-items-start">
+                            <span class="col-8">
+                                <a :href="'/cuenta/'+usuario.id">
+                                    <img :src="'{{url('cuenta/getFotografia/'.\Illuminate\Support\Facades\Auth::user()->id.'/'.rand(0,10))}}'"
+                                         style="
+                                        height: 100px;
+                                        min-height: 50px;
+                                        height: 50px;
+                                        width: 50px;
+                                        border-radius: 30px;">
                                     @{{ usuario.name+' '+usuario.last_name }}</a>
                             </span>
+                            <div v-if="usuario.amistad=='si'" class="col-4 mt-2">
+                                <a v-tooltip="{content:'Seguir'}" class="btn btn-sm btn-danger" :href="'{{ url('/cuenta/') }}/' + usuario.id" style="background: #9B0000 !important;">
+                                    Conocer
+                                </a>
+                            </div>
                             <!--span>@{{ usuario.medio }}</span-->
                         </div>
-                        <div class="col-4 d-flex flex-column text-center">
+                        <!--div class="col-4 d-flex flex-column text-center">
                         </div>
-                        <div class="col-4 d-flex flex-column align-items-end">
-                            <div class="d-flex settings">
-                                <div>
+                        <div class="col-4 d-flex flex-column align-items-end"-->
+                            <!--div class="d-flex settings"-->
+                                <!--div>
                                     <a v-tooltip="{content:'Ver perfil'}" class="btn btn-sm btn-default" :href="'{{ url('/cuenta/') }}/' + usuario.id">
                                         <i class="fas fa-user"></i>
                                     </a>
-                                </div>
-                                <div v-if="usuario.amistad=='si'">
-                                    <a v-tooltip="{content:'Ver reto'}" class="btn btn-sm btn-default" :href="'{{ url('/usuarios/imagenes') }}/' + usuario.id">
+                                </div-->
+                                <!--div v-if="usuario.amistad=='si'">
+                                    <a v-tooltip="{content:'Ver reto'}" class="btn btn-sm btn-default" :href="'{{ url('/cuenta/') }}/' + usuario.id">
                                         <i class="fas fa-running"></i>
                                     </a>
                                 </div>
@@ -144,14 +156,9 @@
                                     <button v-tooltip="{content:'Dejar de Seguir'}" class="btn btn-sm btn-default" @click="dejar(usuario)">
                                         <i class="fas fa-user-minus"></i>
                                     </button>
-                                </div>
-                                <div v-if="usuario.amistad=='no'">
-                                    <button v-tooltip="{content:'Seguir'}" class="btn btn-sm btn-default" @click="sigue(usuario)">
-                                        <i class="fas fa-handshake"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                                </div-->
+                            <!--/div>
+                        </div-->
                     </div>
                     <div v-if="usuarios.length == 0 || usuarios.data.length == 0" align="center">
                         <h6 colspan="6">[No hay datos para mostrar]</h6>
