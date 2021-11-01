@@ -117,7 +117,7 @@
 
             <div class="card mb-3">
                 <div class="card-body"  id="lstUsuarios">
-                    <img src="{{asset('images/2021/personas.png')}}" style="width: 60%; margin-left: 15%;">
+                    <img src="{{asset('images/2021/personas.png')}}" style="width: 60%; margin-left: 20%;">
                     <div v-for="usuario in usuarios.data" class="d-flex usuario" >
                         <div class="col-12 row d-flex flex-column align-items-start">
                             <span class="col-9">
