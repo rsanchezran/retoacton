@@ -461,7 +461,7 @@
                             <div class="row text-center">
                                 <div v-for="f in retos" class="text-center col-4 ">
                                     <a class="thumbnail" href="#" :data-image-id="f.id" data-toggle="" data-title=""
-                                       @click="mostrarmini({{ \App\User::where(['id' => 1])->pluck('name')->first() }}, f.coins, f.descripcion, f.created_at, f.publico, 'reto', f.id, f.id,  f.aceptado, f.updated_at,  f.video)"
+                                       @click="mostrarmini('usuario.name', f.coins, f.descripcion, f.created_at, f.publico, 'reto', f.id, f.id,  f.aceptado, f.updated_at,  f.video)"
                                     >
                                         <img :src="f.archivo" class="col-12 mialbum_card">
                                     </a>
