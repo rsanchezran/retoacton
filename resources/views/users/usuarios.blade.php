@@ -506,6 +506,7 @@
 
             },
             mounted: function () {
+                var vm = this;
                 this.getEstados();
                 this.getTiendas();
                 this.filtros.nombre = '{{$nombre_prop}}';
@@ -523,6 +524,7 @@
                 }
                 if(params.get("q")) {
                     var q = '';
+                    vm.mostrarfiltros = false
                     if(params.get('q') == 'siguen'){
                         q = 'Me siguen';
                     }else{
