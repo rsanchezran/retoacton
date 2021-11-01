@@ -164,7 +164,7 @@
 @endsection
 @section('content')
     <div id="vue" class="flex-center">
-        <inicio :usuario="{{ $usuario}}" :fotos="{{$fotos}}" ></inicio>
+        <inicio :usuario="{{ $usuario}}" :fotos="{{$fotos}}" :seguidos="{{$seguidos}}" :siguen="{{$siguen}}" ></inicio>
     </div>
 
     <template id="inicio-template">
@@ -180,7 +180,7 @@
                 @endif
                 <div style="">
                     <div class="" align="center" style="">
-                        <div :src="'{{url('cuenta/getFotografia/'.\Illuminate\Support\Facades\Auth::user()->id.'/'.rand(0,10))}}'"
+                        <div :src="'/cuenta/getFotografia/'+usuario.id+'/4353'"
                              width="100%" style=" min-height: 300px;" :style="{
                                     height: '100px',
                                     backgroundColor: '#323232',
@@ -203,7 +203,7 @@
                 <div class="col-12 text-center">
                     <div class="col-12">
                         <br>
-                        <h6>Tu código es: {{\Illuminate\Support\Facades\Auth::user()->referencia}}</h6>
+                        <h6>Tu código es: @{{usuario.referencia}}</h6>
                         <qrcode :value="'https://retoacton.com/registro/gratis/?codigo='+{{\Illuminate\Support\Facades\Auth::user()->referencia}}" :options="{ width: 200 }" @ready="onReady"></qrcode>
                         <br>
                     </div>
@@ -235,11 +235,11 @@
                         <div class="card-body">
                             <div class="row col-12">
                                 <div class="col-6">
-                                    <h2>112</h2>
+                                    <h2><a href="usuarios/seguir/?q=siguen#lstUsuarios">@{{siguen}}</a></h2>
                                     Seguidores
                                 </div>
                                 <div class="col-6 mb-4">
-                                    <h2>112</h2>
+                                    <h2><a href="usuarios/seguir/?q=seguidos#lstUsuarios">@{{seguidos}}</a></h2>
                                     Seguidos
                                 </div>
                                 <div class="col-12 mb-2" v-if="usuario.edad_publico">
@@ -737,7 +737,7 @@
 
         Vue.component('inicio', {
             template: '#inicio-template',
-            props: ['usuario', 'referencias','monto','original','descuento','saldo', 'fotos'],
+            props: ['usuario', 'referencias','monto','original','descuento','saldo', 'fotos', 'seguidos', 'siguen'],
             data: function(){
                 return{
                     nombre:'',
@@ -795,7 +795,7 @@
                     descripcion_edicion: '',
                     descripcion_reto: '',
                     pago: 0,
-                    imagen_perfil: '{{url('cuenta/getFotografia/'.\Illuminate\Support\Facades\Auth::user()->id.'/'.rand(0,10))}}',
+                    imagen_perfil: '/cuenta/getFotografia/'+this.usuario.id+'/33434',
                 }},
             methods: {
                 sigue: function () {

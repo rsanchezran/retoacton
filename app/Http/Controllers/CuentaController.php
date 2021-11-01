@@ -44,7 +44,10 @@ class CuentaController extends Controller
         $amistades = Amistades::where('usuario_amigo_id', $request->id)->get()->count();
         $all_fotos = MiAlbum::where('usuario_id', $request->id)->take(9)->get();
         $fotos = $all_fotos;
-        return view('cuenta.perfil', ['usuario' => $user, 'amistades' => $amistades, 'fotos' => $fotos]);
+        $seguidos = Amistades::where('usuario_solicita_id', $user->id)->count();
+        $siguen = Amistades::where('usuario_amigo_id', $user->id)->count();
+        return view('cuenta.perfil', ['usuario' => $user, 'amistades' => $amistades, 'fotos' => $fotos,
+            'seguidos' => $seguidos, 'siguen' => $siguen]);
     }
 
     public function saveuno(Request $request)
