@@ -216,7 +216,7 @@
                             </div>
                             <div class="d-block ml-auto mr-auto text-center">
                                 <h6 class="font-weight-bold">¿Aún no cuentas con tus suplementos?</h6>
-                                <a href="{{env("APP_TIENDA")}}" class="btn btn-sm btn-warning" target="_blank">
+                                <a href="/usuarios/suplementos" class="btn btn-sm btn-warning" target="_blank">
                                     Pídelos aquí <i class="fa fa-shopping-cart"></i>
                                 </a>
                             </div>
