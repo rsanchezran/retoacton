@@ -472,7 +472,7 @@ class RegisterController extends Controller
     public function buscarReferenciaCoach($referencia)
     {
         $user = User::select('name', 'last_name','id','num_inscripciones','inicio_reto')->where('referencia', $referencia)
-            ->where('id','!=',1)->where('rol', 'entrenador')->get()->first();
+            ->where('id','!=',1)->where('rol', 'coach')->get()->first();
         if ($user == null) {
             abort(403, 'Unauthorized action.');
         }
