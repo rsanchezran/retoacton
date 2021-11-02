@@ -277,13 +277,13 @@
                             <div class="row text-center">
                                 <div v-for="f in fotos" class="text-center col-4 ">
                                     <a class="thumbnail" href="#" :data-image-id="f.id" data-toggle="modal" data-title=""
-                                       :data-image="f.archivo"
+                                       :data-image="'/'+f.archivo"
                                        :id="f.id"
-                                       :data-descripcion="f.descripcion"
+                                       :data-descripcion="'/'+f.descripcion"
                                        data-target="#image-gallery"
                                        @click="interacciones"
                                     >
-                                        <img :src="f.archivo" class="col-12 mialbum_card">
+                                        <img :src="'/'+f.archivo" class="col-12 mialbum_card">
                                     </a>
                                 </div>
                             </div>
