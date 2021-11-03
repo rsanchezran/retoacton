@@ -31,17 +31,7 @@
                 <div class="card-body">
                     <h3 class="text-center" style="color: #999">Busca personas con<br> las siguientes caracteristicas</h3>
                     <div style="display: flex; flex-wrap: wrap">
-                        <div class="col-sm-3">
-                            <label>Conexiones</label>
-                            <select class="form-control" v-model="filtros.conexion" @keyup.enter="buscar">
-                                <option></option>
-                                <option>Siguiendo</option>
-                                <option>Me siguen</option>
-                                <option>Sin conexión</option>
-                                <option>Tiendas</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-3">
+                        <div v-if="mostrarfiltros" class="col-sm-3">
                             <label>Sexo</label>
                             <select class="form-control" v-model="filtros.sexo" @keyup.enter="buscar">
                                 <option></option>
@@ -49,7 +39,7 @@
                                 <option value="0">Mujer</option>
                             </select>
                         </div>
-                        <div class="col-sm-3">
+                        <div v-if="mostrarfiltros" class="col-sm-3">
                             <label>Orientación</label>
                             <select class="form-control" v-model="filtros.orientacion" @keyup.enter="buscar">
                                 <option>Hetero</option>
@@ -58,52 +48,52 @@
                                 <option>Trans</option>
                             </select>
                         </div>
-                        <div class="col-sm-3">
+                        <div v-if="mostrarfiltros" class="col-sm-3">
                             <label>Estado</label>
                             <select class="form-control" v-model="filtros.estado" @keyup.enter="buscar" @change="getCiudades()">
                                 <option></option>
                                 <option v-for="p in this.estados[0]">@{{ p.estado }}</option>
                             </select>
                         </div>
-                        <div class="col-sm-3">
+                        <div v-if="mostrarfiltros" class="col-sm-3">
                             <label>Ciudad</label>
                             <select class="form-control" v-model="filtros.ciudad" @keyup.enter="buscar" @change="getCPs()">
                                 <option></option>
                                 <option v-for="p in this.ciudades[0]">@{{ p.ciudad }}</option>
                             </select>
                         </div>
-                        <div class="col-sm-3">
+                        <div v-if="mostrarfiltros" class="col-sm-3">
                             <label>Codigo Postal</label>
                             <select class="form-control" v-model="filtros.cp" @keyup.enter="buscar" @change="getColonias()">
                                 <option></option>
                                 <option v-for="p in this.cps[0]">@{{ p.cp }}</option>
                             </select>
                         </div>
-                        <div class="col-sm-3">
+                        <div v-if="mostrarfiltros" class="col-sm-3">
                             <label>Colonias</label>
                             <select class="form-control" v-model="filtros.colonia" @keyup.enter="buscar">
                                 <option></option>
                                 <option  v-for="p in this.colonias[0]">@{{ p.colonia }}</option>
                             </select>
                         </div>
-                        <div class="col-sm-3">
+                        <div v-if="mostrarfiltros" class="col-sm-3">
                             <label>Intereses</label>
                             <vue-multiselect v-model="filtros.intereses" :options="intereses" :preselect-first="false" :multiple="true" placeholder="Buscar personas que les interese"  :preserve-search="false"></vue-multiselect>
                         </div>
-                        <div class="col-sm-3">
+                        <div v-if="mostrarfiltros" class="col-sm-3">
                             <label>Idiomas</label>
                             <vue-multiselect v-model="filtros.idiomas" :options="idiomas" :preselect-first="false" :multiple="true" placeholder="Buscar personas que hablen:"  :preserve-search="false"></vue-multiselect>
                         </div>
-                        <div class="col-sm-3">
+                        <div v-if="mostrarfiltros" class="col-sm-3">
                             <label>Estatus</label>
                             <vue-multiselect v-model="filtros.estatus" :options="situacion" :preselect-first="false" :multiple="true" placeholder="Buscar personas que esten en:"  :preserve-search="false"></vue-multiselect>
                         </div>
-                        <div class="col-sm-3">
+                        <div v-if="mostrarfiltros" class="col-sm-3">
                             <label>Edad entre</label>
                             <input type="number" class="form-control col-5" v-model="filtros.edad_inicio" @keyup.enter="buscar"> y
                             <input type="number" class="form-control col-5" v-model="filtros.edad_fin" @keyup.enter="buscar">
                         </div>
-                        <div class="col-sm-3">
+                        <div v-if="mostrarfiltros" class="col-sm-3">
                             <label>&nbsp;</label>
                             <br>
                             <button class="btn btn-primary" @click="buscar" :disabled=" buscando" class="col-sm-12">
@@ -117,7 +107,7 @@
 
             <div class="card mb-3">
                 <div class="card-body"  id="lstUsuarios">
-                    <img src="{{asset('images/2021/personas.png')}}" style="width: 60%; margin-left: 20%;">
+                    <img v-if="mostrarfiltros" src="{{asset('images/2021/personas.png')}}" style="width: 60%; margin-left: 20%;">
                     <div v-for="usuario in usuarios.data" class="d-flex usuario" >
                         <div class="col-12 row d-flex flex-column align-items-start">
                             <span class="col-9">
@@ -321,6 +311,7 @@
                     tiendas:[],
                     conexiones:[],
                     compras:[],
+                    mostrarfiltros: true,
                     intereses: ['Deportes','Cine','Espiritualidad','Bailar','Viajar','Música','Leer','Gastronomía','Animales','Idiomas','Astrología','Cantar','Futbol','Yoga','Arte','Politica','Negocios'],
                     genero: ['Hombre', 'Mujer'],
                     genero_2: ['Hetero', 'Gay', 'Bi', 'Trans'],
