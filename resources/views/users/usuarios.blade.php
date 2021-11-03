@@ -29,7 +29,7 @@
         <div>
             <div class="card mb-3" style="margin-top: 40%">
                 <div class="card-body">
-                    <h3 class="text-center" style="color: #999">Busca personas con<br> las siguientes caracteristicas</h3>
+                    <h3 v-if="mostrarfiltros" class="text-center" style="color: #999">Busca personas con<br> las siguientes caracteristicas</h3>
                     <div style="display: flex; flex-wrap: wrap">
                         <div v-if="mostrarfiltros" class="col-sm-3">
                             <label>Sexo</label>
