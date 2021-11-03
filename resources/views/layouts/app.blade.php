@@ -193,6 +193,8 @@
                                         <i class="far fa-users"></i> Contactos</a>
                                     <a class="dropdown-item" href="{{ url('/usuarios/') }}">
                                         <i class="far fa-clipboard-list"></i> Usuarios</a>
+                                    <a class="dropdown-item" href="{{ url('/usuarios/usuarios_gratis/') }}">
+                                        <i class="far fa-clipboard-list"></i> Usuarios Gratis</a>
                                     <a class="dropdown-item" href="{{ url('/configuracion/registro-usuario') }}">
                                         <i class="fas fa-clipboard-list"></i> Alta de Usuarios</a>
                                     <a class="dropdown-item" href="{{ url('/usuarios/usuarios_validar') }}">
