@@ -29,20 +29,45 @@
                 <div class="card-header"><i class="far fa-clipboard"></i> Usuarios</div>
                 <div class="card-body">
                     <div style="display: flex; flex-wrap: wrap">
-                        <!--div class="col-sm-3">
+                        <div class="col-sm-3">
                             <label>Nombre</label>
                             <input class="form-control" v-model="filtros.nombre" @keyup.enter="buscar">
                         </div>
                         <div class="col-sm-3">
                             <label>Correo electrónico</label>
                             <input class="form-control" v-model="filtros.email" @keyup.enter="buscar">
-                        </div-->
+                        </div>
                         <div class="col-sm-5">
                             <label>Fechas de reto</label>
                             <div class="d-flex ">
                                 <datepicker class="col-sm-4" v-model="filtros.fecha_inicio"
                                             placeholder="fecha inicio"></datepicker>
+                                <div class="btn-sm btn-default" style="padding-top: 7px; background-color: #F3f3f3">
+                                    <span>A</span></div>
+                                <datepicker class="col-sm-4" v-model="filtros.fecha_final"
+                                            placeholder="fecha final"></datepicker>
                             </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <label>Dinero Acton</label>
+                            <input class="form-control" v-model="filtros.saldo" @keyup.enter="buscar"
+                                   placeholder="0.00">
+                        </div>
+                        <div class="col-sm-2">
+                            <label>Personas ingresadas</label>
+                            <input class="form-control" v-model="filtros.ingresados" @keyup.enter="buscar">
+                        </div>
+                        <div class="col-sm-2">
+                            <label>Ingresados por reto</label>
+                            <input class="form-control" v-model="filtros.ingresadosReto" @keyup.enter="buscar">
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Estado del reto</label>
+                            <select class="selectpicker" v-model="filtros.estado" @change="buscar">
+                                <option value="0">Todos</option>
+                                <option value="1">Reto terminado</option>
+                                <option value="2">Reto pendiente</option>
+                            </select>
                         </div>
                         <div class="col-sm-3">
                             <label>&nbsp;</label>
@@ -72,6 +97,7 @@
                             <span>@{{ usuario.email }}</span>
                             <span>@{{ usuario.telefono }}</span>
                             <span>@{{ usuario.medio }}</span>
+                            <button class="btn btn-sm btn-default text-capitalize" @click="verCompras(usuario)">@{{ usuario.tipo_pago }}</button>
                         </div>
                         <div class="col-4 d-flex flex-column text-center">
                             <div>
@@ -86,10 +112,28 @@
                                 Inicio Reto:
                                 <fecha :fecha="usuario.inicio_reto" formato="dd/mm/yyyy"></fecha>
                             </div>
+                            @if(env('MODIFICAR_DIAS'))
+                                <button class="btn btn-sm btn-light" @click="confirmarDias(usuario)">
+                                    Dias activo : @{{ usuario.dias_reto }}
+                                </button>
+                            @else
+                                <span>Dias activo : @{{ usuario.dias_reto }}
+                                <i v-if="usuario.dias_reto<{{env('DIASREEMBOLSO')}}" class="fa fa-undo-alt"></i>
+                                </span>
+                            @endif
+                            <button class="btn btn-sm btn-light" @click="verPagos(usuario)">
+                                Pagos efectuados
+                            </button>
                         </div>
                         <div class="col-4 d-flex flex-column align-items-end">
+                            <button class="btn btn-sm btn-light" @click="verReferencias(usuario)">
+                                <span>@{{ usuario.ingresados }}</span>
+                                (<money :cantidad="''+usuario.total" :caracter="true"></money>)
+                            </button>
+                            <span>@{{ usuario.pagados }} (<money :cantidad="''+usuario.depositado" :caracter="true"></money>)</span>
+                            <span>@{{ usuario.pendientes }} (<money :cantidad="''+usuario.saldo" :caracter="true"></money>)</span>
                             <div class="d-flex settings">
-                                <a v-tooltip="{content:'Ver encuesta'}" class="btn btn-sm btn-info text-light" :href="'{{ url('/usuarios/encuesta') }}/' + usuario.id">
+                                <a v-tooltip="{content:'Ver encuesta'}" class="btn btn-sm btn-info text-light" :href="'{{ url('/usuarios/encuesta_gratis') }}/' + usuario.id">
                                     <i class="fas fa-clipboard-list"></i>
                                 </a>
 
