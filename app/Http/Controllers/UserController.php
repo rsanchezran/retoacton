@@ -142,6 +142,8 @@ class UserController extends Controller
             $usuario->medio = $contacto == null ? '' : $contacto->medio;
             $usuario->telefono = $contacto == null ? '' : $contacto->telefono;
             $usuario->vigente = !$usuario->vencido;
+            $referenciado_por = User::where('referencia', $usuario->codigo)->first();
+            $usuario->referenciado_por = $referenciado_por->name.' '.$referenciado_por->last_name;
         }
 
         return $usuarios;

@@ -72,6 +72,7 @@
                             <span>@{{ usuario.email }}</span>
                             <span>@{{ usuario.telefono }}</span>
                             <span>@{{ usuario.medio }}</span>
+                            <span v-if="usuario.medio=='Por medio de un amigo'">@{{ usuario.referenciado_por }}</span>
                         </div>
                         <div class="col-4 d-flex flex-column text-center">
                             <div>
