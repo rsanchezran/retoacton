@@ -53,15 +53,6 @@
             font-size: 15px;
         }
 
-        main{
-            background-image: url("{{asset('images/2021/fondo_generales.png')}}");
-            background-size: 100%;
-            background-attachment: fixed;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-        }
-
         .card, .card-body, nav{
             background: transparent !important;
             border: 0px;
@@ -72,9 +63,22 @@
 <body class="h-100">
 
 <div id="app" class="d-flex flex-column" style="min-height: 100%;">
+    <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
+        <div class="container">
+            <a class="text-center" href="{{ url('/home') }}">
+            <!--a class="navbar-brand" href="{{ url('/home') }}"-->
+                @guest
+                    <img src="/images/2021/logo_degradado.png" id="imgheader" class="w-100" style="    width: 110% !important;margin-left: -5%;margin-top: -13%;margin-bottom: -10px;">
+                <!--img src="{{asset('images/2021/logo_blanco_b.png')}}"  style="z-index: 2; position: absolute; top: 5px;" id="imgheader"-->
+                @else
+                    <img src="/images/2021/logo_degradado.png" id="imgheader" class="w-100" style="    width: 110% !important;margin-left: -5%;margin-top: -13%;margin-bottom: -10px;">
+                <!--img src="{{asset('images/2021/logo_blanco_b.png')}}" id="imgheader"-->
+                @endguest
+            </a>
 
+        </div>
+    </nav>
     <main class="d-flex flex-column flex-grow-1 position-relative">
-    <img src="{{asset('images/2021/logo_blanco_2.png')}}" id="imgheader" class="" style="background: transparent !important; margin-top: 30px; margin-bottom: 30px; width: 96%; margin-left: 2%">
         @if(\Illuminate\Support\Facades\Auth::user()!=null && \Illuminate\Support\Facades\Auth::user()->vencido)
             <!--div class="container" id="breathMovil">
                 <button class="nav-link btn btn-sm btn-warning ld ld-breath ml-auto mr-auto" data-toggle="modal" data-target="#terminoModal">

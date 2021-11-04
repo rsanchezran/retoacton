@@ -297,7 +297,7 @@
                     <div class="col-12">
                         <br>
                         <h6>Tu código es: {{\Illuminate\Support\Facades\Auth::user()->referencia}}</h6>
-                        <qrcode :value="'https://retoacton.com/registro/gratis/?codigo={{\Illuminate\Support\Facades\Auth::user()->referencia}}" :options="{ width: 200 }" ></qrcode>
+                        <qrcode :value="'https://retoacton.com/registro/gratis/?codigo={{\Illuminate\Support\Facades\Auth::user()->referencia}}'" :options="{ width: 200 }" ></qrcode>
                         <br>
                     </div>
                     <div class="col-12">
