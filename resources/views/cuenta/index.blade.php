@@ -221,34 +221,46 @@
                     $("#pasotres").removeClass('cambiacolorMujer');
                     $("#pasodos").removeClass('cambiacolorMujer');
                     $("#pasodos").removeClass('cambiacolorMujer');
+                    $("#pasotres").removeClass('cambiacolorHombre');
+                    $("#pasotres").removeClass('cambiacolorHombre');
+                    $("#pasodos").removeClass('cambiacolorHombre');
+                    $("#pasodos").removeClass('cambiacolorHombre');
                 }
                 if($(this).attr('href') == '#step-2'){
                     $("#pasouno").removeClass('cambiacolor');
                     $("#pasodos").addClass('cambiacolor');
                     $("#pasotres").removeClass('cambiacolor');
+                    $("#pasouno").removeClass('cambiacolorMujer');
+                    $("#pasouno").removeClass('cambiacolorMujer');
+                    $("#pasotres").removeClass('cambiacolorMujer');
+                    $("#pasotres").removeClass('cambiacolorMujer');
+                    $("#pasouno").removeClass('cambiacolorHombre');
+                    $("#pasouno").removeClass('cambiacolorHombre');
+                    $("#pasotres").removeClass('cambiacolorHombre');
+                    $("#pasotres").removeClass('cambiacolorHombre');
                     if($("#pasodos").hasClass('MujerEtapa')){
                         $("#pasodos").addClass('cambiacolorMujer');
                     }else{
                         $("#pasodos").addClass('cambiacolorHombre');
                     }
-                    $("#pasouno").removeClass('cambiacolorMujer');
-                    $("#pasouno").removeClass('cambiacolorMujer');
-                    $("#pasotres").removeClass('cambiacolorMujer');
-                    $("#pasotres").removeClass('cambiacolorMujer');
                 }
                 if($(this).attr('href') == '#step-3'){
                     $("#pasouno").removeClass('cambiacolor');
                     $("#pasodos").removeClass('cambiacolor');
                     $("#pasotres").addClass('cambiacolor');
+                    $("#pasouno").removeClass('cambiacolorMujer');
+                    $("#pasouno").removeClass('cambiacolorMujer');
+                    $("#pasodos").removeClass('cambiacolorMujer');
+                    $("#pasodos").removeClass('cambiacolorMujer');
+                    $("#pasouno").removeClass('cambiacolorHombre');
+                    $("#pasouno").removeClass('cambiacolorHombre');
+                    $("#pasodos").removeClass('cambiacolorHombre');
+                    $("#pasodos").removeClass('cambiacolorHombre');
                     if($("#pasotres").hasClass('MujerEtapa')){
                         $("#pasotres").addClass('cambiacolorMujer');
                     }else{
                         $("#pasotres").addClass('cambiacolorHombre');
                     }
-                    $("#pasouno").removeClass('cambiacolorMujer');
-                    $("#pasouno").removeClass('cambiacolorMujer');
-                    $("#pasodos").removeClass('cambiacolorMujer');
-                    $("#pasodos").removeClass('cambiacolorMujer');
                 }
 
                 if (!$item.hasClass('disabled')) {
@@ -453,8 +465,6 @@
                                 <div class="col-12 text-center">
                                     <br>
                                     <div :class="sexo" class="text-center">SOY</div>
-                                    <br>
-                                    <!--label>Soy</label-->
                                     <br>
                                 </div>
                                 <div class="col-sm-3">
