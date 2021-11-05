@@ -168,8 +168,12 @@
             box-shadow: 0 0 0 0rem rgb(1 1 1 / 50%) !important;
         }
         .multiselect__tags {
-            min-height: 30px !important;
+            min-height: 18px !important;
             font-size: 13px !important;
+            border-radius: 13px !important;
+        }
+        .multiselect__tags {
+            padding: 2px 40px 0 8px !important;
         }
         .multiselect__single {
             font-size: 13px !important;
@@ -458,6 +462,9 @@
                                     <div class="row mostrar_o_publico">
                                         <input type="radio" name="intereses_publico" v-model="user.intereses_publico" :checked="user.intereses_publico == '1'" value="1"> Mostrar público en mi perfil<br>
                                         <input type="radio" name="intereses_publico" v-model="user.intereses_publico" :checked="user.intereses_publico == '0'" value="0"> Solo yo lo puedo ver<br>
+                                    </div>
+                                    <div class="col-12 text-center">
+                                        <img src="{{asset('images/2021/varias_opciones.png')}}" class="w-50">
                                     </div>
                                     <form-error name="intereses" :errors="errors"></form-error>
                                 </div>
@@ -1016,6 +1023,12 @@
                 setTimeout(() => this.filtros.cp = this.user.cp, 1000);
                 setTimeout(() => this.getColonias() = false, 1100);
                 setTimeout(() => this.filtros.colonia = this.user.colonia, 1300);
+                if(vm.user.idiomas == ''){
+                    vm.user.idiomas = null;
+                }
+                if(vm.user.intereses == ''){
+                    vm.user.intereses = null;
+                }
                 if (vm.user.genero == 1){
                     vm.sexo = 'Mujer';
                     vm.sexo_etapa = 'MujerEtapa';
