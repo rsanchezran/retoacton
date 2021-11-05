@@ -468,9 +468,12 @@
                                     </div>
                                     <form-error name="intereses" :errors="errors"></form-error>
                                 </div>
+                                <div class="col-sm-3">
+                                    <br>
+                                    <hr style="color: #f3f3f3;">
+                                </div>
 
                                 <div class="col-12 text-center">
-                                    <br>
                                     <div :class="sexo" class="text-center">SOY</div>
                                     <br>
                                 </div>
@@ -478,6 +481,10 @@
                                     <vue-multiselect v-model="user.genero" :options="genero" :preselect-first="false" :multiple="false" placeholder="Sexo"  :preserve-search="false"></vue-multiselect>
                                     <vue-multiselect v-model="user.genero_2" :options="genero_2" :preselect-first="false" :multiple="false" placeholder="Genero"  :preserve-search="false"></vue-multiselect>
                                     <form-error name="idiomas" :errors="errors"></form-error>
+                                </div>
+                                <div class="col-sm-3">
+                                    <br>
+                                    <hr style="color: #f3f3f3;">
                                 </div>
 
                                 <div class="col-12 text-center">
@@ -495,6 +502,10 @@
                                         <input type="radio" name="situacion_actual_publico" v-model="user.situacion_actual_publico" :checked="user.situacion_actual_publico == '0'" value="0"> Solo yo lo puedo ver<br>
                                     </div>
                                     <form-error name="idiomas" :errors="errors"></form-error>
+                                </div>
+                                <div class="col-sm-3">
+                                    <br>
+                                    <hr style="color: #c3c3c3;">
                                 </div>
 
                                 <div class="col-12 text-center">
@@ -515,6 +526,10 @@
                                         <img src="{{asset('images/2021/varias_opciones.png')}}" class="w-50">
                                     </div>
                                     <form-error name="idiomas" :errors="errors"></form-error>
+                                </div>
+                                <div class="col-sm-3">
+                                    <br>
+                                    <hr style="color: #c3c3c3;">
                                 </div>
 
                                 <div class="col-12 text-center">
@@ -547,10 +562,15 @@
                                     <!--input type="text" class="form-control" v-model="user.gym_ciudad" placeholder="Ciudad"-->
                                     <form-error name="gym_ciudad" :errors="errors"></form-error>
                                 </div>
+                                <div class="col-sm-3">
+                                    <br>
+                                    <hr style="color: #c3c3c3;">
+                                </div>
 
                                 <div class="col-12 text-center">
                                     <br>
                                     <div :class="sexo" class="text-center">Mi ubicación</div>
+                                    <label>Me encuentro en</label>
                                     <br>
                                 </div>
 
@@ -579,6 +599,10 @@
                                 <div class="col-12 text-center">
                                     <img src="{{asset('images/2021/paqueteria.png')}}" class="w-75">
                                 </div>
+                                <div class="col-sm-3">
+                                    <br>
+                                    <hr style="color: #c3c3c3;">
+                                </div>
 
                                 <div class="col-12 text-center">
                                     <br>
@@ -602,6 +626,8 @@
                                 <button class="prevBtn pull-right" @click="guardarLugar" type="button" style="background: transparent !important;border: 0px !important;}"><img src="{{asset('images/2021/anterior.png')}}" class="w-25"></button>
                                 <button class="nextBtn pull-right" @click="guardarLugar" type="button" style="background: transparent !important;border: 0px !important;}"><img src="{{asset('images/2021/siguiente.png')}}" class="w-25"> </button>
                             </div>
+                            <br>
+                            <br>
                         </div>
                     </div>
 
