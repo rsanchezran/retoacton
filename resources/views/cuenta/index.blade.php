@@ -68,6 +68,8 @@
             font-size: 25px;
             font-weight: bold;
             text-transform: uppercase;
+            font-family: 'Nunito' !important;
+            font-style: italic !important;
         }
 
         .Hombre { /* Microsoft Edge */
@@ -75,6 +77,8 @@
             font-size: 25px;
             font-weight: bold;
             text-transform: uppercase;
+            font-family: 'Nunito' !important;
+            font-style: italic !important;
         }
         .btn-circle {
             width: auto;
