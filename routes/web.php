@@ -73,6 +73,7 @@ Route::group(['prefix' => 'cuenta', 'middleware' => ['auth', 'pago']], function 
     Route::post('retos/respuesta/', 'CuentaController@retoRespuesta');
     Route::get('/getVideo/{video}/', 'CuentaController@getVideo');
     Route::post('/cobrar/', 'CuentaController@cobrar');
+    Route::post('/agregarGYM/', 'CuentaController@agregarGYM');
     Route::post('/mensajes-eliminar/', 'CuentaController@mensajesEliminar');
 });
 
@@ -141,6 +142,9 @@ Route::group(['prefix' => 'usuarios', 'middleware'=>['auth', 'pago']], function 
     Route::post('comentario_nuevo/{dia}/{id}','UserController@comentarioNuevo');
     Route::post('getEstados/','UserController@getEstados');
     Route::post('getCiudades/','UserController@getCiudades');
+    Route::post('getGYM/','UserController@getGYM');
+    Route::post('getEstadosGYM/','UserController@getEstadosGYM');
+    Route::post('getCiudadesGYM/','UserController@getCiudadesGYM');
     Route::post('getCP/','UserController@getCPs');
     Route::post('getColonias/','UserController@getColonias');
     Route::post('getTiendas/','UserController@getTiendas');

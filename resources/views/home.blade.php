@@ -980,6 +980,8 @@
                         ingresados: ''
                     },
                     buscando: false,
+                    imgURL: '',
+                    resultURL: '',
                     descripcion: '',
                     montopago: 0,
                     dias_hasta: 0,

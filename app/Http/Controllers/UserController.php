@@ -156,6 +156,8 @@ class UserController extends Controller
         $usuarios = User::where('rol', '!=', RolUsuario::ADMIN);
         $usuarios = $usuarios->where('rol', '!=', RolUsuario::TIENDA);
         $usuarios = $usuarios->where('enviado_validacion', 1);
+        $usuarios = $usuarios->where('archivo_validacion_1', '!=', NULL);
+        $usuarios = $usuarios->where('archivo_validacion_2', '!=', NULL);
 
         if ($campos->nombre != null) {
             $usuarios = $usuarios->where('name', 'like', '%' . $campos->nombre . '%');
@@ -948,6 +950,37 @@ class UserController extends Controller
     }
 
 
+    public function getGYM()
+    {
+        $estados = User::select('gym')
+            ->distinct()->get();
+
+        return $estados;
+
+    }
+
+
+    public function getEstadosGYM()
+    {
+        $estados = CodigosPostales::select('estado')
+            ->distinct()->get();
+
+        return $estados;
+
+    }
+
+
+    public function getCiudadesGYM(Request $request)
+    {
+        $estado = $request->estado;
+        $ciudades = CodigosPostales::where('estado', $estado)->select('ciudad')
+        ->distinct()->get();
+
+        return $ciudades;
+
+    }
+
+
     public function getEstados()
     {
         $estados = CodigosPostales::select('estado')
@@ -1003,9 +1036,6 @@ class UserController extends Controller
 
     public function guardaUbicacion(Request $request)
     {
-        print_r('*********************');
-        print_r($request->usuario);
-        print_r('++++++++++++++++++');
         $intereses = implode(', ', $request->usuario['intereses']);
         $idiomas = implode(', ', $request->usuario['idiomas']);
         $estado = $request->estado;
@@ -1020,13 +1050,19 @@ class UserController extends Controller
         if(isset($request->usuario['codigo_nuevo'])){
             $usuario->referencia = $request->usuario['codigo_nuevo'];
         }
-        $usuario->genero = $request->usuario['genero'];
+        if ($request->usuario['genero'] == 'Hombre'){
+            $genero = 0;
+        }else{
+            $genero = 1;
+        }
+        $usuario->genero = $genero;
         $usuario->genero_2 = $request->usuario['genero_2'];
         $usuario->situacion_actual = $request->usuario['situacion_actual'];
         $usuario->situacion_actual_publico = $request->usuario['situacion_actual_publico'];
         $usuario->gym = $request->usuario['gym'];
+        //$usuario->gym_ciudad = $request->usuario['gym_ciudad'];
         $usuario->gym_ciudad = $request->usuario['gym_ciudad'];
-        $usuario->gym_publico = $request->usuario['gym_publico'];
+        $usuario->estado_gym = $request->usuario['estado_gym'];
         $usuario->numero = $request->usuario['numero'];
         $usuario->estado = $estado;
         $usuario->ciudad = $ciudad;

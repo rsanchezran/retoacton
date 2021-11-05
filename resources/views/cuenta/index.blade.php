@@ -125,6 +125,72 @@
         .multiselect__tag {
             background: #cccccc !important;
         }
+        .multiselect__tags{
+            background: rgb(245,245,245) !important;
+            background: linear-gradient(180deg, rgba(245,245,245,1) 35%, rgba(166,166,166,1) 100%) !important;
+            margin-bottom: 5px;
+        }
+        .multiselect__single {
+            background: transparent !important;
+        }
+        .multiselect__input, .multiselect__single {
+            background: transparent !important;
+        }
+        .multiselect__option--highlight {
+            background: #0080DD !important;
+        }
+        .mostrar_o_publico {
+            font-size: 10px !important;
+            margin-left: 5px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+        .mostrar_o_publico input{
+            padding: 3px;
+        }
+        .mostrar_o_publico input {
+            padding: 14px;
+            margin-left: 3px;
+            margin-right: 3px;
+        }
+        .btn-success:not(:disabled):not(.disabled):active, .btn-success:not(:disabled):not(.disabled).active, .show > .btn-success.dropdown-toggle {
+            color: #0080DD !important;
+            background-color: transparent !important;
+            border-color: transparent !important;
+        }
+        .btn-success:focus, .btn-success.focus {
+            color: #0080DD !important;
+            background-color: transparent !important;
+            border-color: transparent !important;
+            box-shadow: 0 0 0 0rem rgb(1 1 1 / 50%) !important;
+        }
+        .btn-success:not(:disabled):not(.disabled):active:focus, .btn-success:not(:disabled):not(.disabled).active:focus, .show > .btn-success.dropdown-toggle:focus {
+            box-shadow: 0 0 0 0rem rgb(1 1 1 / 50%) !important;
+        }
+        .multiselect__tags {
+            min-height: 30px !important;
+            font-size: 13px !important;
+        }
+        .multiselect__single {
+            font-size: 13px !important;
+        }
+        .subir_foto {
+            border: 1px solid #ccc;
+            display: inline-block;
+            padding: 6px 12px;
+            cursor: pointer;
+        }
+        .MujerEtapa a.btn-success {
+            color: #B400B9 !important;
+        }
+        .cambiacolorMujer{
+            color: #B400B9 !important;
+            border-bottom: 3px solid #B400B9 !important;
+        }
+        .cambiacolorHombre{
+            color: #0080DD !important;
+            border-bottom: 3px solid #0080DD !important;
+        }
     </style>
     <script src="https://unpkg.com/vue-multiselect@2.1.0"></script>
     <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
@@ -144,18 +210,45 @@
                     $item = $(this);
                 if($(this).attr('href') == '#step-1'){
                     $("#pasouno").addClass('cambiacolor');
+                    if($("#pasouno").hasClass('MujerEtapa')){
+                        $("#pasouno").addClass('cambiacolorMujer');
+                    }else{
+                        $("#pasouno").addClass('cambiacolorHombre');
+                    }
                     $("#pasodos").removeClass('cambiacolor');
                     $("#pasotres").removeClass('cambiacolor');
+                    $("#pasotres").removeClass('cambiacolorMujer');
+                    $("#pasotres").removeClass('cambiacolorMujer');
+                    $("#pasodos").removeClass('cambiacolorMujer');
+                    $("#pasodos").removeClass('cambiacolorMujer');
                 }
                 if($(this).attr('href') == '#step-2'){
                     $("#pasouno").removeClass('cambiacolor');
                     $("#pasodos").addClass('cambiacolor');
                     $("#pasotres").removeClass('cambiacolor');
+                    if($("#pasodos").hasClass('MujerEtapa')){
+                        $("#pasodos").addClass('cambiacolorMujer');
+                    }else{
+                        $("#pasodos").addClass('cambiacolorHombre');
+                    }
+                    $("#pasouno").removeClass('cambiacolorMujer');
+                    $("#pasouno").removeClass('cambiacolorMujer');
+                    $("#pasotres").removeClass('cambiacolorMujer');
+                    $("#pasotres").removeClass('cambiacolorMujer');
                 }
                 if($(this).attr('href') == '#step-3'){
                     $("#pasouno").removeClass('cambiacolor');
                     $("#pasodos").removeClass('cambiacolor');
                     $("#pasotres").addClass('cambiacolor');
+                    if($("#pasotres").hasClass('MujerEtapa')){
+                        $("#pasotres").addClass('cambiacolorMujer');
+                    }else{
+                        $("#pasotres").addClass('cambiacolorHombre');
+                    }
+                    $("#pasouno").removeClass('cambiacolorMujer');
+                    $("#pasouno").removeClass('cambiacolorMujer');
+                    $("#pasodos").removeClass('cambiacolorMujer');
+                    $("#pasodos").removeClass('cambiacolorMujer');
                 }
 
                 if (!$item.hasClass('disabled')) {
@@ -220,15 +313,15 @@
 
                 <div class="stepwizard">
                     <div class="stepwizard-row setup-panel">
-                        <div class="stepwizard-step col-xs-3" id="pasouno" style="border-bottom:1px solid #c2c2c2;">
+                        <div class="stepwizard-step col-xs-3" id="pasouno" style="border-bottom:1px solid #c2c2c2;"  :class="sexo_etapa">
                             <a href="#step-1" type="button" class="btn btn-success btn-circle">ETAPA 1</a>
                             <p><small></small></p>
                         </div>
-                        <div class="stepwizard-step col-xs-3" id="pasodos" style="border-bottom:1px solid #c2c2c2;">
+                        <div class="stepwizard-step col-xs-3" id="pasodos" style="border-bottom:1px solid #c2c2c2;" :class="sexo_etapa">
                             <a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled">ETAPA 2</a>
                             <p><small></small></p>
                         </div>
-                        <div class="stepwizard-step col-xs-3 " id="pasotres" style="border-bottom:1px solid #c2c2c2;">
+                        <div class="stepwizard-step col-xs-3 " id="pasotres" style="border-bottom:1px solid #c2c2c2;" :class="sexo_etapa">
                             <a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled">ETAPA 3</a>
                             <p><small></small></p>
                         </div>
@@ -244,20 +337,28 @@
                         <div class="panel-body">
                             <div class="d-flex flex-wrap">
                                 <div class="col-sm-4 col-12 text-center" style="border: 0px dashed grey; padding: 5px;" @drop.prevent="cargarFoto($event)" @dragover.prevent>
-                                    <img id="fotografia" src="{{asset('images/2021/sube_foto_text.png')}}" class="w-100" style="margin-bottom: 20px;">
+                                    <img v-if="user.genero == 'Hombre'" id="fotografia" src="{{asset('images/2021/sube_foto_text.png')}}" class="w-100" style="margin-bottom: 20px;">
+                                    <img v-if="user.genero == 'Mujer'" id="fotografia" src="{{asset('images/2021/sube_perfil_rosa.png')}}" class="w-100" style="margin-bottom: 20px;">
                                     <div>
                                         <i v-if="loadingFoto" class="fa fa-spinner fa-spin"></i>
                                         <img v-else id="fotografia" :src="fotografia"
                                              width="200">
                                     </div>
                                     <div>
-                                        <label for="foto" :class="loading?'disabled':''" class="custom-file-upload">
-                                            <i class="fa fa-cloud-upload"></i> Sube tu foto
-                                        </label>
-                                        <br>
-                                        <input id="foto" type="file" @change="cargarFoto($event)" :disabled="loading">
+                                        <div class="row col-12">
+                                            <clipper-upload v-model="imgURL" class="subir_foto col-4 text-center offset-1">Subir foto</clipper-upload>
+                                            <a @click="getResult" class="subir_foto col-4 offset-3">Guardar</a>
+                                        </div>
+                                        <div class="col-12 text-center">
+                                            <clipper-basic class="my-clipper" ref="clipper" :src="imgURL" ratio="1" class="col-12">
+                                                <div class="placeholder" slot="placeholder"></div>
+                                            </clipper-basic>
+                                        </div>
+                                        <!--input id="foto" type="file" @change="cargarFoto($event)" :disabled="loading"-->
                                         <form-error name="imagen" :errors="errors"></form-error>
                                     </div>
+
+
                                 </div>
 
                                 <div class="col-sm-6 col-12 text-center">
@@ -341,15 +442,19 @@
 
                                 <div class="col-sm-3">
                                     <vue-multiselect v-model="user.intereses" :options="intereses" :preselect-first="false" :multiple="true" placeholder="Intereses personales"  :preserve-search="false"></vue-multiselect>
-                                    <input type="checkbox" id="intereses_publico" v-model="user.intereses_publico"> <label for="publico">Mostrar público en mi perfil</label>
+                                    <!--input type="checkbox" id="intereses_publico" v-model="user.intereses_publico"> <label for="publico">Mostrar público en mi perfil</label-->
+                                    <div class="row mostrar_o_publico">
+                                        <input type="radio" name="intereses_publico" v-model="user.intereses_publico" :checked="user.intereses_publico == '1'" value="1"> Mostrar público en mi perfil<br>
+                                        <input type="radio" name="intereses_publico" v-model="user.intereses_publico" :checked="user.intereses_publico == '0'" value="0"> Solo yo lo puedo ver<br>
+                                    </div>
                                     <form-error name="intereses" :errors="errors"></form-error>
                                 </div>
 
                                 <div class="col-12 text-center">
                                     <br>
-                                    <div :class="sexo" class="text-center">sexo</div>
+                                    <div :class="sexo" class="text-center">SOY</div>
                                     <br>
-                                    <label>Soy</label>
+                                    <!--label>Soy</label-->
                                     <br>
                                 </div>
                                 <div class="col-sm-3">
@@ -367,7 +472,11 @@
                                 <div class="col-sm-3">
                                     <vue-multiselect v-model="user.situacion_actual" :options="situacion" :preselect-first="false" :multiple="false" placeholder="En este momento me encuentro"  :preserve-search="false"></vue-multiselect>
 
-                                    <input type="checkbox" id="edad_publico" v-model="user.situacion_actual_publico"> <label for="publico">Mostrar público en mi perfil</label>
+                                    <!--input type="checkbox" id="edad_publico" v-model="user.situacion_actual_publico"> <label for="publico">Mostrar público en mi perfil</label-->
+                                    <div class="row mostrar_o_publico">
+                                        <input type="radio" name="situacion_actual_publico" v-model="user.situacion_actual_publico" :checked="user.situacion_actual_publico == '1'" value="1"> Mostrar público en mi perfil<br>
+                                        <input type="radio" name="situacion_actual_publico" v-model="user.situacion_actual_publico" :checked="user.situacion_actual_publico == '0'" value="0"> Solo yo lo puedo ver<br>
+                                    </div>
                                     <form-error name="idiomas" :errors="errors"></form-error>
                                 </div>
 
@@ -380,7 +489,14 @@
                                 <div class="col-sm-3">
                                     <vue-multiselect v-model="user.idiomas" :options="idiomas" :preselect-first="false" :multiple="true" placeholder="Idiomas"  :preserve-search="false"></vue-multiselect>
 
-                                    <input type="checkbox" id="edad_publico" v-model="user.idiomas_publico"> <label for="publico">Mostrar público en mi perfil</label>
+                                    <!--input type="checkbox" id="edad_publico" v-model="user.idiomas_publico"> <label for="publico">Mostrar público en mi perfil</label-->
+                                    <div class="row mostrar_o_publico">
+                                        <input type="radio" name="idiomas_publico" v-model="user.idiomas_publico" :checked="user.idiomas_publico == '1'" value="1"> Mostrar público en mi perfil<br>
+                                        <input type="radio" name="idiomas_publico" v-model="user.idiomas_publico" :checked="user.idiomas_publico == '0'" value="0"> Solo yo lo puedo ver<br>
+                                    </div>
+                                    <div class="col-12 text-center">
+                                        <img src="{{asset('images/2021/varias_opciones.png')}}" class="w-50">
+                                    </div>
                                     <form-error name="idiomas" :errors="errors"></form-error>
                                 </div>
 
@@ -401,12 +517,17 @@
                                         <label class="btn btn-outline-primary" for="btnradio3">Gym</label>
                                     </div-->
 
-                                    <input type="text" placeholder="GYM" class="form-control" v-model="user.gym">
-                                    <input type="checkbox" id="edad_publico" v-model="user.gym_publico"> <label for="publico">Mostrar público en mi perfil</label>
+                                    <!--input type="text" placeholder="GYM" class="form-control" v-model="user.gym"-->
+                                    <!--input type="checkbox" id="edad_publico" v-model="user.gym_publico"> <label for="publico">Mostrar público en mi perfil</label-->
+                                    <vue-multiselect class="mb-1" v-model="user.gym" :options="this.gyms" :preselect-first="false" :multiple="false" placeholder="GYM"  :preserve-search="true" :taggable="true" @tag="addTag"></vue-multiselect>
+                                    <vue-multiselect class="mb-1" v-model="user.estado_gym" :options="this.gym_estado" :preselect-first="false" :multiple="false" placeholder="Estado" @input="getCiudadesGYM()"  :preserve-search="false"></vue-multiselect>
+                                    <vue-multiselect class="mb-1" v-model="user.gym_ciudad" :options="this.gym_ciudad" :preselect-first="false" :multiple="false" placeholder="Ciudad"  :preserve-search="false"></vue-multiselect>
+                                    <div class="row mostrar_o_publico">
+                                        <input type="radio" name="gym_publico" v-model="user.gym_publico" :checked="user.gym_publico == '1'" value="1"> Mostrar público en mi perfil<br>
+                                        <input type="radio" name="gym_publico" v-model="user.gym_publico" :checked="user.gym_publico == '0'" value="0"> Solo yo lo puedo ver<br>
+                                    </div>
                                     <form-error name="gym" :errors="errors"></form-error>
-                                    <vue-multiselect v-model="filtros.estado_gym" :options="this.estados_gym" :preselect-first="false" :multiple="false" placeholder="Estado" @input="getCiudades()"  :preserve-search="false"></vue-multiselect>
-                                    <vue-multiselect v-model="filtros.ciudad_gym" :options="this.ciudades_gym" :preselect-first="false" :multiple="false" placeholder="Ciudad" @input="getCPs()"  :preserve-search="false"></vue-multiselect>
-                                    <input type="text" class="form-control" v-model="user.gym_ciudad" placeholder="Ciudad">
+                                    <!--input type="text" class="form-control" v-model="user.gym_ciudad" placeholder="Ciudad"-->
                                     <form-error name="gym_ciudad" :errors="errors"></form-error>
                                 </div>
 
@@ -417,31 +538,29 @@
                                 </div>
 
                                 <div class="col-sm-3">
-                                    <vue-multiselect v-model="filtros.estado" :options="this.estados" :preselect-first="false" :multiple="false" placeholder="Estado" @input="getCiudades()"  :preserve-search="false"></vue-multiselect>
+                                    <vue-multiselect class="mb-1" v-model="filtros.estado" :options="this.estados" :preselect-first="false" :multiple="false" placeholder="Estado" @input="getCiudades()"  :preserve-search="false"></vue-multiselect>
                                 </div>
-                                <br>
                                 <div class="col-sm-3">
-                                    <vue-multiselect v-model="filtros.ciudad" :options="this.ciudades" :preselect-first="false" :multiple="false" placeholder="Ciudad" @input="getCPs()"  :preserve-search="false"></vue-multiselect>
+                                    <vue-multiselect class="mb-1" v-model="filtros.ciudad" :options="this.ciudades" :preselect-first="false" :multiple="false" placeholder="Ciudad" @input="getCPs()"  :preserve-search="false"></vue-multiselect>
                                 </div>
-                                <br>
                                 <div class="col-sm-3">
-                                    <vue-multiselect v-model="filtros.cp" :options="this.cps" :preselect-first="false" :multiple="false" placeholder="CP" @input="getColonias()"  :preserve-search="false"></vue-multiselect>
+                                    <vue-multiselect class="mb-1" v-model="filtros.cp" :options="this.cps" :preselect-first="false" :multiple="false" placeholder="CP" @input="getColonias()"  :preserve-search="false"></vue-multiselect>
                                 </div>
-                                <br>
                                 <div class="col-sm-3">
-                                    <vue-multiselect v-model="filtros.colonia" :options="this.colonias" :preselect-first="false" :multiple="false" placeholder="Colonia" @input="getColonias()"  :preserve-search="false"></vue-multiselect>
+                                    <vue-multiselect class="mb-1" v-model="filtros.colonia" :options="this.colonias" :preselect-first="false" :multiple="false" placeholder="Colonia" @input="getColonias()"  :preserve-search="false"></vue-multiselect>
                                 </div>
-                                <br>
 
                                 <div class="col-sm-3">
-                                    <input type="text" class="form-control" v-model="user.calle" placeholder="Calle">
+                                    <input type="text" class="form-control mb-2" v-model="user.calle" placeholder="Calle">
                                     <form-error name="calle" :errors="errors"></form-error>
                                 </div>
-                                <br>
 
                                 <div class="col-sm-3">
-                                    <input type="text" class="form-control" v-model="user.numero" placeholder="Número interior y exterior">
+                                    <input type="text" class="form-control mb-1" v-model="user.numero" placeholder="Número interior y exterior">
                                     <form-error name="numero" :errors="errors"></form-error>
+                                </div>
+                                <div class="col-12 text-center">
+                                    <img src="{{asset('images/2021/paqueteria.png')}}" class="w-75">
                                 </div>
 
                                 <div class="col-12 text-center">
@@ -452,7 +571,11 @@
 
                                 <div class="col-sm-3">
                                     <input type="number" min="0" class="form-control" v-model="user.edad" placeholder="Edad">
-                                    <input type="checkbox" id="edad_publico" v-model="user.edad_publico"> <label for="publico">Mostrar público en mi perfil</label>
+                                    <!--input type="checkbox" id="edad_publico" v-model="user.edad_publico"> <label for="publico">Mostrar público en mi perfil</label-->
+                                    <div class="row mostrar_o_publico">
+                                        <input type="radio" name="edad_publico" v-model="user.edad_publico" :checked="user.edad_publico == '1'" value="1"> Mostrar público en mi perfil<br>
+                                        <input type="radio" name="edad_publico" v-model="user.edad_publico" :checked="user.edad_publico == '0'" value="0"> Solo yo lo puedo ver<br>
+                                    </div>
                                     <form-error name="edad" :errors="errors"></form-error>
                                 </div>
 
@@ -472,7 +595,8 @@
                         <div class="panel-body">
                             <div class="col-12">
                                 <div class="col-12 text-center">
-                                        <img src="{{asset('images/2021/datos_bancarios.png')}}" class="w-100">
+                                        <img v-if="user.genero=='Hombre'" src="{{asset('images/2021/datos_bancarios.png')}}" class="w-100">
+                                        <img v-if="user.genero=='Mujer'" src="{{asset('images/2021/banco_rosa.png')}}" class="w-100">
                                 </div>
                                 <BR>
 
@@ -602,27 +726,35 @@
                     },
                     finalizar: false,
                     value: null,
+                    imgURL: '',
+                    resultURL: '',
                     intereses: ['Deportes','Cine','Espiritualidad','Bailar','Viajar','Música','Leer','Gastronomía','Animales','Idiomas','Astrología','Cantar','Futbol','Yoga','Arte','Politica','Negocios'],
                     genero: ['Hombre', 'Mujer'],
                     genero_2: ['Hetero', 'Gay', 'Bi', 'Trans'],
                     situacion: ['Casado(a)', 'Soltero(a)', 'Divorciado(a)','Viudo(a)','Union Libre', 'Abierto a conocer a alguien'],
                     idiomas: ['Español', 'Ingles', 'Aleman', 'Japones', 'Chino', 'Portugues'],
+                    gym_estado: [],
+                    gym_ciudad: [],
+                    gyms: [],
+                    sexo_etapa: 'HombreEtapa'
                 }
             },
             methods: {
-                cargarFoto: function (event) {
+                //cargarFoto: function (event) {
+                cargarFoto: function () {
                     let imagen = null;
-                    if (event.dataTransfer == undefined){
+                    /*if (event.dataTransfer == undefined){
                         imagen = event.target.files[0];
                     }else{
                         imagen = event.dataTransfer.files[0];
-                    }
+                    }*/
                     let vm = this;
                     let fm = new FormData();
                     vm.loadingFoto = true;
                     vm.errors = [];
                     fm.append('id', this.user.id);
-                    fm.append('imagen', imagen);
+                    fm.append('imagen', vm.resultURL);
+                    //fm.append('imagen', imagen);
                     axios.post('{{url('cuenta/subirFoto')}}', fm).then(function (response) {
                         vm.loadingFoto = false;
                         if (response.data.status == 'ok'){
@@ -725,6 +857,42 @@
                         vm.errors = error.response;
                     });
                 },
+                getGYM: function () {
+                    let vm = this;
+                    axios.post('{{url('/usuarios/getGYM')}}').then((response) => {
+                        vm.gyms=[];
+                        for(var e in response.data){
+                            vm.gyms.push(response.data[e].gym);
+                        }
+                    }).catch(function (error) {
+                        console.log(error);
+                        vm.errors = error.response;
+                    });
+                },
+                getEstadosGYM: function () {
+                    let vm = this;
+                    axios.post('{{url('/usuarios/getEstadosGYM')}}').then((response) => {
+                        vm.gym_estado=[];
+                        //this.estados.push(response.data);
+                        for(var e in response.data){
+                            vm.gym_estado.push(response.data[e].estado);
+                        }
+                    }).catch(function (error) {
+                        console.log(error);
+                        vm.errors = error.response;
+                    });
+                },
+                getCiudadesGYM: function () {
+                    let vm = this;
+                    axios.post('{{url('/usuarios/getCiudadesGYM')}}', {estado:this.gym_estado}).then((response) => {
+                        this.gym_ciudad=[];
+                        for(var e in response.data){
+                            vm.gym_ciudad.push(response.data[e].ciudad);
+                        }
+                    }).catch(function (error) {
+                        vm.errors = error.response;
+                    });
+                },
                 getEstados: function () {
                     let vm = this;
                     axios.post('{{url('/usuarios/getEstados')}}').then((response) => {
@@ -801,12 +969,34 @@
                         vm.errors = error.response.data.errors;
                         vm.loading = false;
                     });
+                },
+                upload: function(e){
+                    if (e.target.files.length !== 0) {
+                        if(this.imgURL) URL.revokeObjectURL(this.imgURL)
+                        this.imgURL = window.URL.createObjectURL(e.target.files[0]);
+                    }
+                },
+                getResult: function () {
+                    const canvas = this.$refs.clipper.clip();//call component's clip method
+                    this.resultURL = canvas.toDataURL("image/jpeg", 1);//canvas->image
+                    this.cargarFoto();
+                },
+                addTag (newTag) {
+                    var vm = this;
+                    vm.user.gym = newTag;
+                    axios.post('{{url('cuenta/agregarGYM')}}', {gym:vm.user.gym}).then(function (response) {
+                        this.getGYM();
+                    }).catch(function (error) {
+                    });
                 }
             },
             mounted: function () {
                 this.getEstados();
+                this.getEstadosGYM();
+                this.getGYM();
             },
             created: function () {
+                var vm = this;
                 this.user = this.p_user;
                 this.user.codigo_nuevo = this.user.codigo_nuevo;
                 this.filtros.estado = this.user.estado;
@@ -816,10 +1006,14 @@
                 setTimeout(() => this.filtros.cp = this.user.cp, 1000);
                 setTimeout(() => this.getColonias() = false, 1100);
                 setTimeout(() => this.filtros.colonia = this.user.colonia, 1300);
-                if (this.user.genero == 1){
-                    this.sexo = 'Mujer';
+                if (vm.user.genero == 1){
+                    vm.sexo = 'Mujer';
+                    vm.sexo_etapa = 'MujerEtapa';
+                    vm.user.genero = 'Mujer';
                 }else{
-                    this.sexo = 'Hombre';
+                    vm.sexo = 'Hombre';
+                    vm.sexo_etapa = 'HombreEtapa';
+                    vm.user.genero = 'Hombre';
                 }
 
             }

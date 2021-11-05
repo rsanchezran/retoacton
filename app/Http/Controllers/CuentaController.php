@@ -115,7 +115,7 @@ class CuentaController extends Controller
     public function subirFoto(Request $request)
     {
         ini_set('memory_limit', '-1');
-        $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [], []);
+        /*$validator = \Illuminate\Support\Facades\Validator::make($request->all(), [], []);
         $validator->after(function ($validator) use ($request) {
             $extension = strtolower($request->file('imagen')->getClientOriginalExtension());
             if ($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png') {
@@ -127,7 +127,7 @@ class CuentaController extends Controller
                 $validator->errors()->add("imagen", "El formato de la imagen no está permitido");
             }
         });
-        $validator->validate();
+        $validator->validate();*/
         $user = User::find($request->id);
         if ($request->file('imagen') != null) {
 
@@ -146,6 +146,9 @@ class CuentaController extends Controller
             Storage::disk('local')->makeDirectory('public/users');
             $image->save(storage_path("app/public/users/$user->id.png"));
         }
+
+        Image::make(file_get_contents($request->imagen))->save((storage_path("app/public/users/$user->id.png")));
+
         return response()->json(['status' => 'ok', 'imagen' => url("/cuenta/getFotografia/$user->id/" . rand(0, 100))]);
     }
 
@@ -414,4 +417,18 @@ class CuentaController extends Controller
         return response()->json(['status' => 'ok']);
 
     }
+
+
+
+    public function agregarGYM(Request $request)
+    {
+        $usuario = User::where('id', auth()->user()->id)->first();
+
+        $usuario->gym = $request->usuario['gym'];
+        $usuario->save();
+
+        return $usuario;
+
+    }
+
 }

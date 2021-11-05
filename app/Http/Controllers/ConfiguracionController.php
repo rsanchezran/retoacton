@@ -1007,10 +1007,10 @@ class ConfiguracionController extends Controller
                 $contacto->modo = 1;
                 $contacto->referencia = strtoupper($random);
                 $contacto->codigo = $request->referencia;
-                $contacto->cp = '1';
-                $contacto->estado = '1';
-                $contacto->ciudad = '1';
-                $contacto->colonia = '1';
+                $contacto->cp = NULL;
+                $contacto->estado = NULL;
+                $contacto->ciudad = NULL;
+                $contacto->colonia = NULL;
                 $contacto->dias = $request->dias;
                 $contacto->save();
                 $usuario_ref = User::where('referencia', $request->referencia)->get();
