@@ -663,11 +663,12 @@
 
                 <modal ref="seguir" title="Nueva foto" @ok="GuardarNuevaFoto">
                     <div class="row col-12">
-                        <clipper-upload v-model="imgURL" class="subir_foto col-4 text-center offset-1">Subir foto</clipper-upload>
-                        <button @click="getResult" class="subir_foto col-4 offset-3">Cortar</button>
+                        <clipper-upload v-model="imgURL" class="subir_foto col-3 text-center offset-1">Subir foto</clipper-upload>
+                        <button @click="getResult" class="subir_foto col-3 offset-3">Cortar</button>
+                        <button @click="mostrarOriginal" class="subir_foto col-3 offset-3">Ver imagen</button>
                     </div>
                     <div class="col-12 text-center">
-                        <clipper-basic class="my-clipper" ref="clipper" :src="imgURL" ratio="1" class="col-12">
+                        <clipper-basic v-if="hide_original" class="my-clipper" ref="clipper" :src="imgURL" ratio="1" class="col-12">
                             <div class="placeholder" slot="placeholder">Sin foto</div>
                         </clipper-basic>
                         <div>Resultado:</div>
@@ -1036,6 +1037,7 @@
                     reto_video: '',
                     tipo_album: '',
                     imagen_album: '',
+                    hide_original: true,
                 }},
             methods: {
                 sigue: function () {
@@ -1061,8 +1063,14 @@
                     }
                 },
                 getResult: function () {
+                    var vm = this;
+                    vm.hide_original = false;
                     const canvas = this.$refs.clipper.clip();//call component's clip method
                     this.resultURL = canvas.toDataURL("image/jpeg", 1);//canvas->image
+                },
+                mostrarOriginal: function () {
+                    var vm = this;
+                    vm.hide_original = true;
                 },
                 GuardarNuevaFoto: function() {
                     let vm = this;
