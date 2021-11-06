@@ -143,7 +143,11 @@ class UserController extends Controller
             $usuario->telefono = $contacto == null ? '' : $contacto->telefono;
             $usuario->vigente = !$usuario->vencido;
             $referenciado_por = User::where('referencia', $usuario->codigo)->first();
-            $usuario->referenciado_por = $referenciado_por->name.' '.$referenciado_por->last_name;
+            if($referenciado_por != null) {
+                $usuario->referenciado_por = $referenciado_por->name . ' ' . $referenciado_por->last_name;
+            }else{
+                $usuario->referenciado_por = '';
+            }
         }
 
         return $usuarios;
