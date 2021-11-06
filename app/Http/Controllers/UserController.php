@@ -92,7 +92,7 @@ class UserController extends Controller
         }
         if ($campos->fecha_inicio != null) {
             $fecha = join('-', array_reverse(explode('/', $campos->fecha_inicio)));
-            $usuarios = $usuarios->where('inicio_reto', '>=', $fecha);
+            $usuarios = $usuarios->where('inicio_reto', $fecha);
         }
         if ($campos->fecha_final != null) {
             $fecha = join('-', array_reverse(explode('/', $campos->fecha_final)));
