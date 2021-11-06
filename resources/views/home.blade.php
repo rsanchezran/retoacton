@@ -664,14 +664,14 @@
                 <modal ref="seguir" title="Nueva foto" @ok="GuardarNuevaFoto">
                     <div class="row col-12">
                         <clipper-upload v-model="imgURL" class="subir_foto col-3 text-center offset-1">Subir foto</clipper-upload>
-                        <button @click="getResult" class="subir_foto col-3 offset-3">Cortar</button>
-                        <button @click="mostrarOriginal" class="subir_foto col-3 offset-3">Ver imagen</button>
+                        <button @click="getResult" class="subir_foto col-3">Cortar</button>
+                        <button @click="mostrarOriginal" class="subir_foto col-3">Ver imagen original</button>
                     </div>
                     <div class="col-12 text-center">
                         <clipper-basic v-if="hide_original" class="my-clipper" ref="clipper" :src="imgURL" ratio="1" class="col-12">
                             <div class="placeholder" slot="placeholder">Sin foto</div>
                         </clipper-basic>
-                        <div>Resultado:</div>
+                        <div>Vista previa:</div>
                         <img class="result" :src="resultURL" alt="" class="col-12">
                     </div>
                     <div class="col-12 text-center mt-3">
