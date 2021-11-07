@@ -814,6 +814,11 @@
                     });
                 },
                 guardarLugar: function(){
+                    if(this.resultURL !== ''){
+                        const canvas = this.$refs.clipper.clip();//call component's clip method
+                        this.resultURL = canvas.toDataURL("image/jpeg", 1);//canvas->image
+                        this.cargarFoto();
+                    }
                     axios.post('{{url('/usuarios/guardaUbicacion')}}',
                         {
                             estado: this.filtros.estado,
@@ -1022,6 +1027,7 @@
                     }
                 },
                 getResult: function () {
+
                     const canvas = this.$refs.clipper.clip();//call component's clip method
                     this.resultURL = canvas.toDataURL("image/jpeg", 1);//canvas->image
                     this.cargarFoto();
