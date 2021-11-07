@@ -814,8 +814,8 @@
                     });
                 },
                 guardarLugar: function(){
-                    if(this.resultURL !== ''){
-                        const canvas = this.$refs.clipper.clip();//call component's clip method
+                    const canvas = this.$refs.clipper.clip();//call component's clip method
+                    if(canvas !== ''){
                         this.resultURL = canvas.toDataURL("image/jpeg", 1);//canvas->image
                         this.cargarFoto();
                     }
