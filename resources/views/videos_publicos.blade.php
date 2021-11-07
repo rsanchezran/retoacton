@@ -486,11 +486,11 @@
 
             <br>
             <br>
-            <img src="{{asset('/images/imagesremodela/masretos.png')}}" id="masretos" style="width: 26%;margin-top: 50px;margin-bottom: 50px;margin-left: 37%;">
+            <!--img src="{{asset('/images/imagesremodela/masretos.png')}}" id="masretos" style="width: 26%;margin-top: 50px;margin-bottom: 50px;margin-left: 37%;">
             <a href="https://suplementos.retoacton.com/" class="accesoSuple" style="width: 50%; margin-left: 0%;">
                 <img src="{{asset('/images/imagesremodela/suplementosbtn.png')}}" id="" style="    width: 54.5%;margin-top: 0px;margin-bottom: 0px;margin-left: 23%;"></a>
             <br>
-            <br>
+            <br-->
             <div class="planesacton">
                 <div id="features" class="d-flex flex-wrap mr-auto ml-auto">
                     <div class="col-sm-6 col-md-6 col-lg-3 col-12">
