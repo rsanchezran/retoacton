@@ -193,7 +193,8 @@
                             vm.loading = false;
                         }).catch(function (error) {
                             vm.loading = false;
-                            vm.errors = error.response.data.errors;
+                            console.log(error.response);
+                            //vm.errors = error.response.data.errors;
                         });
                     } else {
                         vm.loading = false;
