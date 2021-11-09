@@ -171,7 +171,7 @@
                         <h6 colspan="6">[No hay datos para mostrar]</h6>
                     </div>
                     <div class="float-right">
-                        <paginador ref="paginador" :url="'{{url('/usuarios/buscar')}}'" @loaded="loaded"></paginador>
+                        <paginador ref="paginador" :url="'{{url('/usuarios/buscarall')}}'" @loaded="loaded"></paginador>
                     </div>
                 </div>
             </div>

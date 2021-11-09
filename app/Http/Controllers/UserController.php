@@ -75,6 +75,82 @@ class UserController extends Controller
             ]);
     }
 
+    public function buscarAll(Request $request)
+    {
+        $this->authorize('usuarios');
+        $campos = json_decode($request->campos);
+        $usuarios = User::where('rol', '!=', RolUsuario::ADMIN);
+        $usuarios = $usuarios->where('rol', '!=', RolUsuario::TIENDA);
+
+        if ($campos->nombre != null) {
+            $usuarios = $usuarios->where('name', 'like', '%' . $campos->nombre . '%');
+        }
+        if ($campos->email != null) {
+            $usuarios = $usuarios->where('email', 'like', '%' . $campos->email . '%');
+        }
+        if ($campos->fecha_inicio != null) {
+            $fecha = join('-', array_reverse(explode('/', $campos->fecha_inicio)));
+            $usuarios = $usuarios->where('inicio_reto', $fecha);
+        }
+        if ($campos->fecha_final != null) {
+            $fecha = join('-', array_reverse(explode('/', $campos->fecha_final)));
+            $usuarios = $usuarios->where('inicio_reto', '<=', $fecha);
+        }
+        if ($campos->saldo != null) {
+            if (is_numeric($campos->saldo))
+                $usuarios = $usuarios->where('saldo', $campos->saldo);
+            else
+                return collect();
+        }
+        if ($campos->ingresados != null) {
+            if (is_numeric($campos->ingresados))
+                $usuarios = $usuarios->where('ingresados', $campos->ingresados);
+            else
+                return collect();
+        }
+        if ($campos->ingresadosReto != null) {
+            if (is_numeric($campos->ingresadosReto))
+                $usuarios = $usuarios->where('ingresados_reto', $campos->ingresadosReto);
+            else
+                return collect();
+        }
+        if ($campos->estado != 0) {
+            if ($campos->estado == 1) {
+                $consulta = 'CURDATE() >= DATE_ADD(fecha_inscripcion, interval ' . (env('DIAS') - 1) . ' DAY)';
+            } else if ($campos->estado == 2) {
+                $consulta = 'CURDATE() < DATE_ADD(fecha_inscripcion, interval ' . (env('DIAS')) . ' DAY)';
+            }
+            $usuarios = $usuarios->whereRaw($consulta);
+        }
+        $usuarios = $usuarios->orderByDesc('created_at');
+        $usuarios = $usuarios->select(['users.*'])->paginate(15);
+        $comision = intval(env('COMISION'));
+        $contactos = Contacto::whereIn('email', $usuarios->pluck('email'))->get()->keyBy('email');
+        foreach ($usuarios as $usuario) {
+            $usuario->dias_reto = 0;
+            $usuario->isVencido();
+            if ($usuario->inicio_reto != null) {
+                $usuario->dias_reto = Carbon::now()->startOfDay()->diffInDays(Carbon::parse($usuario->inicio_reto)->startOfDay()) + 1;
+            }
+            $usuario->total = $usuario->ingresados * $comision;
+            $usuario->depositado = $usuario->total - $usuario->saldo;
+            $usuario->pendientes = $usuario->saldo / $comision;
+            $usuario->pagados = $usuario->depositado / $comision;
+            $contacto = $contactos->get($usuario->email);
+            $usuario->medio = $contacto == null ? '' : $contacto->medio;
+            $usuario->telefono = $contacto == null ? '' : $contacto->telefono;
+            $usuario->vigente = !$usuario->vencido;
+            $referenciado_por = User::where('referencia', $usuario->codigo)->first();
+            if($referenciado_por != null) {
+                $usuario->referenciado_por = $referenciado_por->name . ' ' . $referenciado_por->last_name;
+            }else{
+                $usuario->referenciado_por = '';
+            }
+        }
+
+        return $usuarios;
+    }
+
     public function buscar(Request $request)
     {
         $this->authorize('usuarios');
@@ -82,7 +158,6 @@ class UserController extends Controller
         $usuarios = User::where('rol', '!=', RolUsuario::ADMIN);
         $usuarios = $usuarios->where('rol', '!=', RolUsuario::TIENDA);
         $usuarios = $usuarios->where('tipo_referencia', 3);
-        $usuarios = $usuarios->where('dias', 7);
 
         if ($campos->nombre != null) {
             $usuarios = $usuarios->where('name', 'like', '%' . $campos->nombre . '%');

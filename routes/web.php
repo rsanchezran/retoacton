@@ -130,6 +130,7 @@ Route::group(['prefix' => 'usuarios', 'middleware'=>['auth', 'pago']], function 
     Route::get('usuarios_gratis','UserController@usuarios_gratis');
     Route::get('usuarios_validar','UserController@usuarios_validar');
     Route::get('buscar','UserController@buscar');
+    Route::get('buscarall','UserController@buscarAll');
     Route::get('buscar_gratis','UserController@buscar_gratis');
     Route::get('buscar_coach','UserController@buscar_coach');
     Route::get('buscar/validar','UserController@buscar_validar');
