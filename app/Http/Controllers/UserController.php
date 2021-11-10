@@ -1377,7 +1377,6 @@ class UserController extends Controller
         $usuarios = User::where('rol', '!=', RolUsuario::ADMIN);
         $usuarios = $usuarios->where('rol', '!=', RolUsuario::TIENDA);
         $usuarios = $usuarios->where('tipo_referencia', 3);
-        $usuarios = $usuarios->where('dias', 7);
         $usuarios = $usuarios->where('codigo', $request->user()->referencia);
 
         if ($campos->nombre != null) {
