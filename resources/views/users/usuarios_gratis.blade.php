@@ -63,7 +63,7 @@
             <div class="card mb-3">
                 <div class="card-body">
                     <div v-for="usuario in usuarios.data" class="d-flex usuario">
-                        <div class="col-4 d-flex flex-column align-items-start">
+                        <div class="col-6 d-flex flex-column align-items-start">
                             <span>
                                 <i v-if="usuario.vigente" class="fa fa-user text-info"></i>
                                 <i v-else class="fa fa-user text-default"></i>
@@ -74,6 +74,7 @@
                             <span>@{{ usuario.medio }}</span>
                             <span v-if="usuario.medio=='Por medio de un amigo'">@{{ usuario.referenciado_por }}</span>
                             <span v-if="usuario.medio=='Por medio de un coach'">@{{ usuario.referenciado_por }}</span>
+                            <span>Referidos: @{{ usuario.referidos }}</span>
                         </div>
                         <div class="col-4 d-flex flex-column text-center">
                             <div>
@@ -89,7 +90,7 @@
                                 <fecha :fecha="usuario.inicio_reto" formato="dd/mm/yyyy"></fecha>
                             </div>
                         </div>
-                        <div class="col-4 d-flex flex-column align-items-end">
+                        <div class="col-2 d-flex flex-column align-items-end">
                             <div class="d-flex settings">
                                 <a v-tooltip="{content:'Ver encuesta'}" class="btn btn-sm btn-info text-light" :href="'{{ url('/usuarios/encuesta') }}/' + usuario.id">
                                     <i class="fas fa-clipboard-list"></i>

@@ -204,6 +204,7 @@ class UserController extends Controller
         $comision = intval(env('COMISION'));
         $contactos = Contacto::whereIn('email', $usuarios->pluck('email'))->get()->keyBy('email');
         foreach ($usuarios as $usuario) {
+            $referidos = User::where('codigo', $usuario->referecia)->count();
             $usuario->dias_reto = 0;
             $usuario->isVencido();
             if ($usuario->inicio_reto != null) {
@@ -217,6 +218,7 @@ class UserController extends Controller
             $usuario->medio = $contacto == null ? '' : $contacto->medio;
             $usuario->telefono = $contacto == null ? '' : $contacto->telefono;
             $usuario->vigente = !$usuario->vencido;
+            $usuario->referidos = $referidos;
             $referenciado_por = User::where('referencia', $usuario->codigo)->first();
             if($referenciado_por != null) {
                 $usuario->referenciado_por = $referenciado_por->name . ' ' . $referenciado_por->last_name;
@@ -1128,6 +1130,11 @@ class UserController extends Controller
         $usuario->intereses_publico = $request->usuario['intereses_publico'];
         if(isset($request->usuario['codigo_nuevo'])){
             $usuario->referencia = $request->usuario['codigo_nuevo'];
+            $referidos = User::where('codigo', $request->usuario['codigo_nuevo'])->get();
+            foreach ($referidos as $c){
+                $c->codigo = $request->usuario['codigo_nuevo'];
+                $c->save();
+            }
         }
         if ($request->usuario['genero'] == 'Hombre'){
             $genero = 0;
@@ -1374,58 +1381,17 @@ class UserController extends Controller
     public function buscarReferidos(Request $request)
     {
         $campos = json_decode($request->campos);
-        $usuarios = User::where('rol', '!=', RolUsuario::ADMIN);
-        $usuarios = $usuarios->where('rol', '!=', RolUsuario::TIENDA);
-        $usuarios = $usuarios->where('tipo_referencia', 3);
-        $usuarios = $usuarios->where('codigo', $request->user()->referencia);
+        //$usuarios = User::where('rol', '!=', RolUsuario::ADMIN);
+        //$usuarios = $usuarios->where('rol', '!=', RolUsuario::TIENDA);
+        //$usuarios = $usuarios->where('tipo_referencia', 3);
+        $usuarios = User::where('codigo', $request->user()->referencia);
 
-        if ($campos->nombre != null) {
-            $usuarios = $usuarios->where('name', 'like', '%' . $campos->nombre . '%');
-        }
-        if ($campos->email != null) {
-            $usuarios = $usuarios->where('email', 'like', '%' . $campos->email . '%');
-        }
-        if ($campos->fecha_inicio != null) {
-            $fecha = join('-', array_reverse(explode('/', $campos->fecha_inicio)));
-            $usuarios = $usuarios->where('inicio_reto', '>=', $fecha);
-        }
-        if ($campos->fecha_final != null) {
-            $fecha = join('-', array_reverse(explode('/', $campos->fecha_final)));
-            $usuarios = $usuarios->where('inicio_reto', '<=', $fecha);
-        }
-        if ($campos->saldo != null) {
-            if (is_numeric($campos->saldo))
-                $usuarios = $usuarios->where('saldo', $campos->saldo);
-            else
-                return collect();
-        }
-        if ($campos->ingresados != null) {
-            if (is_numeric($campos->ingresados))
-                $usuarios = $usuarios->where('ingresados', $campos->ingresados);
-            else
-                return collect();
-        }
-        if ($campos->ingresadosReto != null) {
-            if (is_numeric($campos->ingresadosReto))
-                $usuarios = $usuarios->where('ingresados_reto', $campos->ingresadosReto);
-            else
-                return collect();
-        }
-        if ($campos->estado != 0) {
-            if ($campos->estado == 1) {
-                $consulta = 'CURDATE() >= DATE_ADD(fecha_inscripcion, interval ' . (env('DIAS') - 1) . ' DAY)';
-            } else if ($campos->estado == 2) {
-                $consulta = 'CURDATE() < DATE_ADD(fecha_inscripcion, interval ' . (env('DIAS')) . ' DAY)';
-            }
-            $usuarios = $usuarios->whereRaw($consulta);
-        }
         $usuarios = $usuarios->orderByDesc('created_at');
         $usuarios = $usuarios->select(['users.*'])->paginate(15);
         $comision = intval(env('COMISION'));
         $contactos = Contacto::whereIn('email', $usuarios->pluck('email'))->get()->keyBy('email');
         foreach ($usuarios as $usuario) {
             $usuario->dias_reto = 0;
-            $usuario->isVencido();
             if ($usuario->inicio_reto != null) {
                 $usuario->dias_reto = Carbon::now()->startOfDay()->diffInDays(Carbon::parse($usuario->inicio_reto)->startOfDay()) + 1;
             }

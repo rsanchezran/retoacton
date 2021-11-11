@@ -14,6 +14,17 @@
         .inactivo{
             background-color: lightgray;
         }
+        .multiselect__tags {
+            min-height: 18px !important;
+            font-size: 13px !important;
+            border-radius: 13px !important;
+        }
+        .multiselect__tags {
+            padding: 2px 40px 0 8px !important;
+        }
+        .multiselect__single {
+            font-size: 13px !important;
+        }
     </style>
     <script src="https://unpkg.com/vue-multiselect@2.1.0"></script>
     <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">

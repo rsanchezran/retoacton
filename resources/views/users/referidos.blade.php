@@ -4,7 +4,6 @@
         .usuario{
             padding: 5px;
             margin: 5px;
-            border-bottom: 1px solid lightgray;
         }
 
         .settings a, .settings button{
@@ -27,10 +26,13 @@
 
     <template id="temp">
         <div>
+            <div class="card mb-3" style="margin-top: 40%">
+
+            </div>
 
             <div class="card mb-3">
                 <div class="card-body"  id="lstUsuarios">
-                    <div v-for="usuario in usuarios.data" class="d-flex usuario" style="margin-top: 40%">
+                    <div v-for="usuario in usuarios.data" class="d-flex usuario" >
                         <div class="col-12 row d-flex flex-column align-items-start">
                             <span class="col-9">
                                 <a :href="'/cuenta/'+usuario.id">
@@ -53,13 +55,13 @@
                         <!--div class="col-4 d-flex flex-column text-center">
                         </div>
                         <div class="col-4 d-flex flex-column align-items-end"-->
-                            <!--div class="d-flex settings"-->
-                                <!--div>
+                        <!--div class="d-flex settings"-->
+                    <!--div>
                                     <a v-tooltip="{content:'Ver perfil'}" class="btn btn-sm btn-default" :href="'{{ url('/cuenta/') }}/' + usuario.id">
                                         <i class="fas fa-user"></i>
                                     </a>
                                 </div-->
-                                <!--div v-if="usuario.amistad=='si'">
+                    <!--div v-if="usuario.amistad=='si'">
                                     <a v-tooltip="{content:'Ver reto'}" class="btn btn-sm btn-default" :href="'{{ url('/cuenta/') }}/' + usuario.id">
                                         <i class="fas fa-running"></i>
                                     </a>
@@ -69,10 +71,10 @@
                                         <i class="fas fa-user-minus"></i>
                                     </button>
                                 </div-->
-                            <!--/div>
-                        </div-->
+                        <!--/div>
+                    </div-->
                     </div>
-                    <div v-if="usuarios.length == 0 || usuarios.data.length == 0" align="center" style="margin-top: 40%;">
+                    <div v-if="usuarios.length == 0 || usuarios.data.length == 0" align="center">
                         <h6 colspan="6">[No hay datos para mostrar]</h6>
                     </div>
                     <div class="float-right">
@@ -233,6 +235,7 @@
                     tiendas:[],
                     conexiones:[],
                     compras:[],
+                    mostrarfiltros: true,
                     intereses: ['Deportes','Cine','Espiritualidad','Bailar','Viajar','Música','Leer','Gastronomía','Animales','Idiomas','Astrología','Cantar','Futbol','Yoga','Arte','Politica','Negocios'],
                     genero: ['Hombre', 'Mujer'],
                     genero_2: ['Hetero', 'Gay', 'Bi', 'Trans'],
@@ -418,6 +421,7 @@
 
             },
             mounted: function () {
+                var vm = this;
                 this.buscar();
             }
         });
