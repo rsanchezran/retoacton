@@ -204,7 +204,7 @@ class UserController extends Controller
         $comision = intval(env('COMISION'));
         $contactos = Contacto::whereIn('email', $usuarios->pluck('email'))->get()->keyBy('email');
         foreach ($usuarios as $usuario) {
-            $referidos = User::where('codigo', $usuario->referecia)->count();
+            $referidos = User::where('codigo', $usuario->referencia)->count();
             $usuario->dias_reto = 0;
             $usuario->isVencido();
             if ($usuario->inicio_reto != null) {
