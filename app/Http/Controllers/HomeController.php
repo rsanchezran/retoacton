@@ -49,7 +49,8 @@ class HomeController extends Controller
         $usuario->depositado = $usuario->total - $usuario->saldo;
         $usuario->intereses = str_replace(',', ', ', $usuario->intereses);
         $usuario->idiomas = str_replace(',', ', ', $usuario->idiomas);
-        $retos = Retos::where('usuario_retado_id', $request->user()->id)->orWhere('usuario_retado_id', $request->user()->id)->take(9)->get();
+        $retos = Retos::where('usuario_retado_id', $request->user()->id)->orWhere('usuario_reta_id', $request->user()->id)->take(9)->get();
+        //$retos = Retos::where('usuario_retado_id', $request->user()->id)->take(9)->get();
         $referencias = User::select(['id', 'name', 'email', 'created_at', 'num_inscripciones'])
             ->where('codigo', $request->user()->referencia)
             ->where('pagado', true)->whereNotNull('codigo')->get();

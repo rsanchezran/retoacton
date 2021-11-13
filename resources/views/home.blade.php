@@ -219,6 +219,13 @@
             right: 15px;
             font-size: 25px;
         }
+        .retos_div{
+            border: 1px solid rgba(0,0,0,.125);
+            border-radius: 20px;
+            margin-left: 0px;
+            padding: 10px;
+            box-shadow: 2px 2px rgba(0,0,0,.125);
+        }
 
     </style>
 @endsection
@@ -308,7 +315,7 @@
                         @foreach(auth()->user()->unreadNotifications as $notification)
                             @if($notification->type == 'App\Notifications\CoinsNotification')
                                 <a class="dropdown-item acton_coins_verde" id="{{$notification->id}}"
-                                   @click="mostrarminicoins('{{$notification->data['monto']}}', '{{$notification->data['tipo_compra']}}', '{{ \App\MiAlbum::where(['id' => $notification->data['referencia']])->pluck('archivo')->first() }}')">
+                                   @click="mostrarminicoins('{{$notification->data['monto']}}', '{{$notification->data['tipo_compra']}}', '{{ \App\MiAlbum::where(['id' => $notification->data['referencia']])->pluck('archivo')->first() }}', '{{ \App\Retos::where(['id' => $notification->data['referencia']])->pluck('descripcion')->first() }}')">
                                     <img src="{{asset('images/2021/moneda_mini.png')}}" class="mr-2 ml-2" width="6%"> Obtuviste Acton Coins</a>
                             @endif
                         @endforeach
@@ -448,23 +455,42 @@
                         </div>
                     </div>
                 </div>
-                <div-- class="card">
-                    <div class="card-header" id="headingThree">
+                <div class="card">
+                    <div v-if="ocultareto" class="card-header" id="headingThree">
                         <h5 class="mb-0">
                             <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                                 <i class="fas fa-sort-down mr-1"></i> Mis retos
                             </button>
                         </h5>
                     </div>
-                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                    <div v-if="ocultareto" id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
                         <div class="card-body">
                             <div class="row text-center">
-                                <div v-for="f in retos" class="text-center col-4 ">
-                                    <a class="thumbnail" href="#" :data-image-id="f.id" data-toggle="" data-title=""
+                                <div v-for="f in retos" class="text-center col-12 text-info">
+                                    <!--a class="thumbnail" href="#" :data-image-id="f.id" data-toggle="" data-title=""
                                        @click="mostrarmini('usuario.name', f.coins, f.descripcion, f.created_at, f.publico, 'reto', f.id, f.id,  f.aceptado, f.updated_at,  f.video)"
-                                    >
-                                        <img :src="f.archivo" class="col-12 mialbum_card">
-                                    </a>
+                                    -->
+                                    <div class="row col-12 mt-2 retos_div">
+                                        <div class="col-4">
+                                            <img @click="mostrarmini('usuario.name', f.coins, f.descripcion, f.created_at, f.publico, 'reto', f.id, f.id,  f.aceptado, f.updated_at,  f.video)" src="{{asset('images/2021/video_prev.png')}}" class="w-100">
+                                        </div>
+                                        <div class="col-8 text-left text-secondary">
+                                            <label>El reto consiste en:</label>
+                                            <br/>
+                                            <label>@{{ f.descripcion }}</label>
+                                            <br/>
+                                            <div class="row col-12 text-left">
+                                                <img src="{{asset('images/2021/moneda_mini.png')}}" class="mt-1 mb-1" style="width: 40px; width: 35px; height: 35px; margin-left: -15px; margin-right: 10px;">
+                                                <h5 class=" mt-2 mb-1">@{{ f.coins }} Acton Coins</h5>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left col-12">
+                                        </div>
+                                        <div class="text-center col-12">
+                                            <img @click="mostrarmini(usuario.name, f.coins, f.descripcion, f.created_at, f.publico, 'reto', f.id, f.id,  f.aceptado, f.updated_at,  f.video)" src="{{asset('images/2021/ver_reto.png')}}" class="col-6">
+                                        </div>
+                                    </div>
+                                    <!--/a-->
                                 </div>
                         </div>
                     </div>
@@ -522,7 +548,7 @@
 
             <div class="card">
             @if(\Illuminate\Support\Facades\Auth::user()->vencido)
-                <!--div class="">
+                <div class="">
                                 <div class="">
                                     <label style="font-size: 1.4rem; font-family: unitext_bold_cursive">
                                         <money v-if="descuento>0" id="cobro_anterior" :cantidad="''+original" :decimales="0"
@@ -646,14 +672,14 @@
                                     </div>
                                     <br>
                                     <div>
-                                        <button id="pagarceros" @click="pagaRefrendo" class="btn btn-primary col-md-4 offset-4">Pagar</button>
+                                        <button id="pagarceros" @click="pagaRefrendo" class="btn btn-primary col-md-4">Pagar</button>
                                     </div>
                                     <cobro ref="cobro" :cobro="''+montopago" :url="'{{url('/')}}'" :id="'{{env('OPENPAY_ID')}}'"
                                            :llave="'{{env('CONEKTA_PUBLIC')}}'" :sandbox="'{{env('SANDBOX')}}'==true" :meses="true"
                                            @terminado="terminado"></cobro>
                                 </div>
                             </div>
-                            <hr-->
+                            <hr>
                 @endif
 
 
@@ -891,10 +917,21 @@
                                     </div>
                                 </div>
                             </div>
-                            <div v-if="!mostrar_subida" class="text-center col-12 mt-4">
+                            <div v-if="!mostrar_subida && horas_reto>0 && minutos_reto>0 && segundos_reto>0" class="text-center col-12 mt-4">
                                 <img src="{{asset('images/2021/aceptar_reto.png')}}" @click="aceptar( reto_id )" class="" width="48%">
                                 <img src="{{asset('images/2021/declinar_reto.png')}}" @click="declinar( reto_id )" class="" width="48%">
                             </div>
+                            <div v-if="mostrarcalif" class="text-center col-12 mt-4 row">
+                                <div class="col-6">
+                                    <img @click="califica(reto_id, 'si')" src="{{asset('images/2021/gusta_reto.png')}}" class="w-75">
+                                </div>
+                                <div class="col-6">
+                                    <img @click="califica(reto_id, 'no')" src="{{asset('images/2021/no_gusta_reto.png')}}" class="w-75">
+                                </div>
+                            </div>
+                            <!--div v-if="mostrar_subida && horas_reto==0 && minutos_reto==0 && segundos_reto==0" class="text-center col-12 mt-4">
+                                <h2>Ya no puedes aceptar este reto</h2>
+                            </div-->
                             <div v-if="mostrar_subida && !reto_respondido && horas_reto > 0" class="text-center col-12 mt-4">
                                 <div class="image-upload">
                                     <label for="file-input">
@@ -918,6 +955,7 @@
                             <h3 class="mt-5">Obtuviste Acton Coins.</h3>
                             <div v-html="tipo_album"></div>
                             <h3><img src="{{asset('images/2021/moneda_mini.png')}}" class="mr-2 ml-2" width="6%"> @{{notificacion_coins}}</h3>
+                            <h3>@{{ tipo_compra }}</h3>
                         </div>
                     </div>
                     <div v-if="modal_reacciones" class="card modal_reacciones" style="padding: 20px;">
@@ -1038,6 +1076,8 @@
                     tipo_album: '',
                     imagen_album: '',
                     hide_original: true,
+                    mostrarcalif: false,
+                    ocultareto: false,
                 }},
             methods: {
                 sigue: function () {
@@ -1046,13 +1086,6 @@
                 obtenercoins: function () {
                     var vm = this;
                     this.$refs.obtenercoins.showModal();
-                    vm.$refs.cobro_compra_coins.configurar(
-                        vm.usuario.name,
-                        vm.usuario.last_name,
-                        vm.usuario.email,
-                        '0987654321',
-                        vm.monto,
-                    );
 
 
                 },
@@ -1290,9 +1323,9 @@
                     const today = new Date(that.fecha_reto)
                     const tomorrow = new Date(today)
                     tomorrow.setDate(tomorrow.getDate() + 1)
-                    var now = new Date().getTime();
-                    var distance = tomorrow - now;
                     setInterval(function() {
+                        var now = new Date().getTime();
+                        var distance = tomorrow - now;
                         var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                         var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
@@ -1348,6 +1381,7 @@
                 },
                 mostrarmini: function(nombre, coins, descripcion, fecha, publico, tipo, id, id_reto, aceptado, update, video){
                     var vm = this;
+                    console.log(video);
                     vm.modal_reto = true;
                     vm.reto_nombre = nombre;
                     vm.reto_descripcion = descripcion;
@@ -1369,14 +1403,37 @@
                         vm.mostrar_subida = true;
                     }
                     vm.countdownReto();
+                    vm.verificaCalificacion(id_reto);
                 },
-                mostrarminicoins: function(monto, tipo, imagen=''){
+                verificaCalificacion: function(id_reto){
+                    var vm = this;
+                    axios.post('{{url('cuenta/retos/verificacalificacion/')}}', {'id': id_reto}
+                    ).then(function (response) {
+                        if (response.data.status == 'no'){
+                            vm.mostrarcalif = true;
+                        }else{
+                            vm.mostrarcalif = false;
+                        }
+                    });
+                },
+                califica: function(id_reto, califica){
+                    var vm = this;
+                    axios.post('{{url('cuenta/retos/calificacion/')}}', {'id': id_reto, 'cal': califica}
+                    ).then(function (response) {
+                        vm.mostrarcalif = false;
+                    });
+                },
+                mostrarminicoins: function(monto, tipo, imagen='', referencia=''){
                     var vm = this;
                     vm.modal_coins = true;
                     vm.notificacion_coins = monto;
                     vm.tipo_album = '';
+                    vm.tipo_compra = '';
                     if(tipo == 'oxxo' || tipo == 'spei' || tipo == 'tarjeta'){
                         vm.tipo_compra = tipo;
+                    }
+                    if(tipo == 'reto'){
+                        vm.tipo_compra = 'Por el reto: '+referencia;
                     }
                     if(tipo=='album'){
                         vm.tipo_album = '<div class="col-12 text-center"><img src="'+imagen+'" width="100%"></div>';
@@ -1423,8 +1480,8 @@
                     vid.src = fileURL;
                     // wait for duration to change from NaN to the actual duration
                     vid.ondurationchange = function() {
-                        if (this.duration>14) {
-                            vm.error_video = 'El video no puede durar mas de 14 segundos.';
+                        if (this.duration>20) {
+                            vm.error_video = 'El video no puede durar mas de 20 segundos.';
                             $('#file-input').empty();
                         }else{
                             let fm = new FormData();
@@ -1442,7 +1499,137 @@
                             }
                         }
                     };
-                }
+                },
+                diasChange: function (d) {
+                    this.dias = d;
+                    if(this.saldo >= 0) {
+                        if (this.dias == 14) {
+                            if (this.saldochk) {
+                                if (this.saldo > 500) {
+                                    this.montopago = 0
+                                } else {
+                                    this.montopago = 500 - this.saldo
+                                }
+                            } else {
+                                this.montopago = 500
+                            }
+                        }
+                        if (this.dias == 28) {
+                            if (this.saldochk) {
+                                if (this.saldo > 1000) {
+                                    this.montopago = 0
+                                } else {
+                                    this.montopago = 1000 - this.saldo
+                                }
+                            } else {
+                                this.montopago = 1000
+                            }
+                        }
+                        if (this.dias == 56) {
+                            if (this.saldochk) {
+                                if (this.saldo > 1000) {
+                                    this.montopago = 0
+                                } else {
+                                    this.montopago = 2000 - this.saldo
+                                }
+                            } else {
+                                this.montopago = 2000
+                            }
+                        }
+                        if (this.dias == 84) {
+                            if (this.saldochk) {
+                                if (this.saldo > 3000) {
+                                    this.montopago = 0
+                                } else {
+                                    this.montopago = 3000 - this.saldo
+                                }
+                            } else {
+                                this.montopago = 3000
+                            }
+                        }
+                        if (this.montopago == 0) {
+                            $("#pagarceros").show();
+                        } else {
+                            $("#pagarceros").hide();
+
+                        }
+                    }
+                    this.saveDiasNuevo();
+                },
+                saveDiasNuevo: function(){
+                    if (this.saldochk) {
+                        axios.get('{{url('/usuarios/actualizar_dias/')}}/' + this.dias+'001', {saldo: this.saldo, operacion: 'resta', usa: 1}).then(function (response) {
+                        });
+                    }else{
+                        axios.get('{{url('/usuarios/actualizar_dias/')}}/' + this.dias+'000', {saldo: this.saldo, operacion: 'suma', usa: 0}).then(function (response) {
+                        });
+                    }
+                },
+                pagaRefrendo: function () {
+                    let vm = this;
+                    axios.post('{{url('/usuarios/refrendar_ceros')}}', {dias: this.dias}).then((response) => {
+                        location.reload();
+                    }).catch(function (error) {
+                        console.log(error);
+                        vm.errors = error.response;
+                    });
+                },
+                check: function(e) {
+                    if(this.saldo > 0) {
+                        console.log(this.saldochk)
+                        if (this.dias == 14) {
+                            if (this.saldochk) {
+                                if (this.saldo > 500) {
+                                    this.montopago = 0
+                                } else {
+                                    this.montopago = 500 - this.saldo
+                                }
+                            } else {
+                                this.montopago = 500
+                            }
+                        }
+                        if (this.dias == 28) {
+                            if (this.saldochk) {
+                                if (this.saldo > 1000) {
+                                    this.montopago = 0
+                                } else {
+                                    this.montopago = 1000 - this.saldo
+                                }
+                            } else {
+                                this.montopago = 1000
+                            }
+                        }
+                        if (this.dias == 56) {
+                            if (this.saldochk) {
+                                if (this.saldo > 1000) {
+                                    this.montopago = 0
+                                } else {
+                                    this.montopago = 2000 - this.saldo
+                                }
+                            } else {
+                                this.montopago = 2000
+                            }
+                        }
+                        if (this.dias == 84) {
+                            if (this.saldochk) {
+                                if (this.saldo > 3000) {
+                                    this.montopago = 0
+                                } else {
+                                    this.montopago = 3000 - this.saldo
+                                }
+                            } else {
+                                this.montopago = 3000
+                            }
+                        }
+                        if (this.montopago == 0) {
+                            $("#pagarceros").show();
+                        } else {
+                            $("#pagarceros").hide();
+
+                        }
+                    }
+                    this.saveDiasNuevo();
+                },
             },
             mounted: function () {
                 $("#pagarceros").hide();

@@ -33,7 +33,7 @@
             <div class="card mb-3">
                 <div class="card-body"  id="lstUsuarios">
                     <div v-for="usuario in usuarios.data" class="d-flex usuario" >
-                        <div class="col-12 row d-flex flex-column align-items-start">
+                        <div class="col-12 row ">
                             <span class="col-9">
                                 <a :href="'/cuenta/'+usuario.id">
                                     <img :src="'/cuenta/getFotografia/'+usuario.id+'/343234'"
@@ -45,7 +45,7 @@
                                         border-radius: 30px;">
                                     @{{ usuario.name+' '+usuario.last_name }}</a>
                             </span>
-                            <div v-if="usuario.amistad=='no'" class="col-3 mt-2">
+                            <div class="col-3 mt-2" style="margin-bottom: -40px;">
                                 <a v-tooltip="{content:'Seguir'}" class="btn btn-sm btn-danger" :href="'{{ url('/cuenta/') }}/' + usuario.id" style="background: #9B0000 !important;">
                                     Conocer
                                 </a>

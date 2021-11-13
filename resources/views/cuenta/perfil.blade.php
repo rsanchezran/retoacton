@@ -159,12 +159,84 @@
                 color: #c2c2c2;
             }
         }
+        .retos_div{
+            border: 1px solid rgba(0,0,0,.125);
+            border-radius: 20px;
+            margin-left: 0px;
+            padding: 10px;
+            box-shadow: 2px 2px rgba(0,0,0,.125);
+        }
+        .modal_reto{
+            padding: 20px;
+            position: absolute;
+            margin: 0;
+            width: 98%;
+            background: #D30C00 !important;
+            color: white;
+            height: 95vh;
+            position: fixed;
+            z-index: 10000;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+        .modal_coins{
+            padding: 20px;
+            position: absolute;
+            margin: 0;
+            width: 98%;
+            background: #65B32E !important;
+            color: white;
+            height: 95vh;
+            position: fixed;
+            z-index: 10000;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+        .modal_reacciones{
+            padding: 20px;
+            position: absolute;
+            margin: 0;
+            width: 98%;
+            background: #FFD500 !important;
+            color: white;
+            height: 95vh;
+            position: fixed;
+            z-index: 10000;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+        .modal_mensaje_alert{
+            padding: 20px;
+            position: absolute;
+            margin: 0;
+            width: 98%;
+            background: #FFFFFF !important;
+            color: black;
+            height: 30vh;
+            position: fixed;
+            z-index: 10000;
+            width: 100%;
+            height: 40%;
+            top: 20px;
+            left: 0;
+            font-size: 27px;
+        }
+        .countdown-reto{
+            font-family: 'Nunito';
+            font-size: 23px;
+        }
 
     </style>
 @endsection
 @section('content')
     <div id="vue" class="flex-center">
-        <inicio :usuario="{{ $usuario}}" :fotos="{{$fotos}}" :seguidos="{{$seguidos}}" :siguen="{{$siguen}}" ></inicio>
+        <inicio :usuario="{{ $usuario}}" :fotos="{{$fotos}}" :seguidos="{{$seguidos}}" :siguen="{{$siguen}}" :retos="{{$retos}}" ></inicio>
     </div>
 
     <template id="inicio-template">
@@ -204,7 +276,7 @@
                     <div class="col-12">
                         <br>
                         <h6>Tu código es: @{{usuario.referencia}}</h6>
-                        <qrcode :value="'https://retoacton.com/registro/gratis/?codigo='+usuario.referencia" :options="{ width: 200 }" @ready="onReady"></qrcode>
+                        <qrcode :value="'https://retoacton.com/registro/gratis/?codigo='+usuario.referencia" :options="{ width: 200 }" ></qrcode>
                         <br>
                     </div>
                     <br>
@@ -212,7 +284,7 @@
                         <a href="#" class="col-6"><img src="{{asset('images/2021/btn_seguir.png')}}" class="col-8"></a>
                     </div>
                     <br>
-                    <div class="col-12 text-center mt-3">
+                    <div  v-if="ocultareto" class="col-12 text-center mt-3">
                         <a href="#" data-toggle="modal" data-title=""
                            data-target="#ponerreto"  class="col-6"><img src="{{asset('images/2021/ponme_reto.png')}}" class="col-10"></a>
                     </div>
@@ -291,199 +363,47 @@
                     </div>
                 </div>
                 <div class="card">
-                    <div class="card-header" id="headingThree">
+                    <div v-if="ocultareto" class="card-header" id="headingThree">
                         <h5 class="mb-0">
                             <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                                 <i class="fas fa-sort-down mr-1"></i> Mis retos
                             </button>
                         </h5>
                     </div>
-                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                    <div v-if="ocultareto" id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
                         <div class="card-body">
                             <div class="row text-center">
-                                <div v-for="f in retos" class="text-center col-4 ">
-                                    <a class="thumbnail" href="#" :data-image-id="f.id" data-toggle="" data-title=""
+                                <div v-for="f in retos" class="text-center col-4 col-12 text-info">
+                                    <!--a class="thumbnail" href="#" :data-image-id="f.id" data-toggle="" data-title=""
                                        @click="mostrarmini('usuario.name', f.coins, f.descripcion, f.created_at, f.publico, 'reto', f.id, f.id,  f.aceptado, f.updated_at,  f.video)"
-                                    >
-                                        <img :src="f.archivo" class="col-12 mialbum_card">
-                                    </a>
+                                    -->
+                                    <div v-if="f.video!=''" class="row col-12 mt-2 retos_div">
+                                        <div class="col-4">
+                                            <img @click="mostrarmini('usuario.name', f.coins, f.descripcion, f.created_at, f.publico, 'reto', f.id, f.id,  f.aceptado, f.updated_at,  f.video)" src="{{asset('images/2021/video_prev.png')}}" class="w-100">
+                                        </div>
+                                        <div class="col-8 text-left text-secondary">
+                                            <label>El reto consiste en:</label>
+                                            <br/>
+                                            <label>@{{ f.descripcion }}</label>
+                                            <br/>
+                                            <div class="row col-12 text-left">
+                                                <img src="{{asset('images/2021/moneda_mini.png')}}" class="mt-1 mb-1" style="width: 40px; width: 35px; height: 35px; margin-left: -15px; margin-right: 10px;">
+                                                <h5 class=" mt-2 mb-1">@{{ f.coins }} Acton Coins</h5>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left col-12">
+                                        </div>
+                                        <div class="text-center col-12">
+                                            <img @click="mostrarmini('usuario.name', f.coins, f.descripcion, f.created_at, f.publico, 'reto', f.id, f.id,  f.aceptado, f.updated_at,  f.video)" src="{{asset('images/2021/ver_reto.png')}}" class="col-6">
+                                        </div>
+                                    </div>
+                                    <!--/a-->
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-        <!--br>
-                    <br>
-                    <h4 class="" style="color:#007FDC;">Edad: @{{ usuario.edad }}</h4>
-                    <h4 class="" style="color:#007FDC;">Empleo: @{{ usuario.empleo }}</h4>
-                    <h4 class="" style="color:#007FDC;">Estudios: @{{ usuario.estudios }}</h4>
-                    <h4 class="" style="color:#007FDC;">Intereses: @{{ usuario.intereses }}</h4>
-                    <h4 class="" style="color:#007FDC;">Idiomas: @{{ usuario.idiomas }}</h4>
-                    <h4 class="" style="color:#007FDC;">Gym: @{{ usuario.gym }}</h4>
-                    <br>
-                    <h4 class="" style="color:#007FDC;">@{{ usuario.estado }}, @{{ usuario.ciudad }}, @{{ usuario.colonia }}</h4>
-                    @if(\Illuminate\Support\Facades\Auth::user()->rol!==\App\Code\RolUsuario::TIENDA && \Illuminate\Support\Facades\Auth::user()->rol!==\App\Code\RolUsuario::COACH && \Illuminate\Support\Facades\Auth::user()->rol!==\App\Code\RolUsuario::ENTRENADOR)
-            <a-- v-if="usuario.inicio_reto==null" class="btn btn-lg btn-primary" href="{{url('/reto/comenzar/')}}">
-                        <span>EMPEZAR RETO</span>
-                    </a-->
-        @endif
-        <!--a v-else class="btn btn-lg btn-primary" href="{{url('/reto/programa')}}">
-                                <span>Mi programa</span>
-                            </a-->
-        <!--br>
-                    <br>
-                    <a href="{{asset('/assets/cuaderno.pdf')}}" target="_blank"-->
-            <!--i class="fa fa-file-pdf"></i> Descarga aquí tu manual de apoyo-->
-            <!--/a-->
-
-
-
-
-
-        @if(\Illuminate\Support\Facades\Auth::user()->vencido)
-            <!--div class="card col-md-5 d-block ml-auto mr-auto text-center">
-                        <img src="{{asset('/images/imagesremodela/copa.png')}}" width="45%" class="copa">
-                </div-->
-            @endif
-
-
-            <div class="card">
-            @if(\Illuminate\Support\Facades\Auth::user()->vencido)
-                <!--div class="">
-                                <div class="">
-                                    <label style="font-size: 1.4rem; font-family: unitext_bold_cursive">
-                                        <money v-if="descuento>0" id="cobro_anterior" :cantidad="''+original" :decimales="0"
-                                               estilo="font-size:1.2em; color:#000000" adicional=" MXN"
-                                               :caracter="true"></money>
-                                    </label>
-
-
-
-                                    <div class="estas_listo text-center">
-                                        <div class="row" style="width: 100%;">
-                                            <div class="col-sm-12">
-                                                <div>
-                                                    <h1>¿Estas listo para elegir<br>
-                                                        tu plan de seguimiento?</h1>
-                                                </div>
-                                                <div>
-                                                    <img src="{{asset('/images/imagesremodela/tablaok.png')}}" width="50">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="planes text-center flex-column d-none d-md-block d-lg-block">
-                                        <div class="row col-sm-11" style="margin-left: 4%;padding-top: 20px;padding-bottom: 20px;">
-                                            <div class="col-sm-3">
-                                                <img src="{{asset('/images/imagesremodela/2semanasrenovar.png')}}" width="95%" @click="diasChange(14)">
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <img src="{{asset('/images/imagesremodela/4semanasrenovar.png')}}" width="95%" @click="diasChange(28)">
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <img src="{{asset('/images/imagesremodela/8semanasrenovar.png')}}" width="95%" @click="diasChange(56)">
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <img src="{{asset('/images/imagesremodela/12semanasrenovar.png')}}" width="95%" @click="diasChange(84)">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="planes text-center flex-column d-none d-sm-block d-block d-md-none">
-
-
-                                        <div id="multi-item-example" class="carousel slide carousel-multi-item" data-ride="carousel">
-
-                                            <div class="controls-top">
-                                                <a class="btn-floating" href="#multi-item-example" data-slide="prev"><i class="fa fa-chevron-left"></i></a>
-                                                <a class="btn-floating" href="#multi-item-example" data-slide="next"><i class="fa fa-chevron-right"></i></a>
-                                            </div>
-
-                                            <ol class="carousel-indicators">
-                                                <li data-target="#multi-item-example" data-slide-to="0" class="active"></li>
-                                                <li data-target="#multi-item-example" data-slide-to="1"></li>
-                                                <li data-target="#multi-item-example" data-slide-to="2"></li>
-                                                <li data-target="#multi-item-example" data-slide-to="3"></li>
-                                            </ol>
-
-                                            <div class="carousel-inner" role="listbox">
-
-                                                <div class="carousel-item active">
-
-                                                    <div class="row">
-                                                        <img class="card-img-top" src="{{asset('/images/imagesremodela/2semanasrenovar.png')}}" width="50%" @click="diasChange(14)">
-                                                    </div>
-
-                                                </div>
-                                                <div class="carousel-item">
-
-                                                    <div class="row">
-                                                        <img class="card-img-top" src="{{asset('/images/imagesremodela/4semanasrenovar.png')}}" width="50%" @click="diasChange(28)">
-                                                    </div>
-
-                                                </div>
-                                                <div class="carousel-item ">
-
-                                                    <div class="row">
-                                                        <img class="card-img-top" src="{{asset('/images/imagesremodela/8semanasrenovar.png')}}" width="50%" @click="diasChange(56)">
-                                                    </div>
-
-                                                </div>
-                                                <div class="carousel-item ">
-
-                                                    <div class="row">
-                                                        <img class="card-img-top" src="{{asset('/images/imagesremodela/12semanasrenovar.png')}}" width="50%" @click="diasChange(84)">
-                                                    </div>
-
-                                                </div>
-
-
-
-                                            </div>
-
-                                        </div>
-
-
-                                    </div>
-                                    <br>
-
-
-                                    <div id="infoPago" v-if="descuento>0">
-                                        <label style="font-size: 1rem; color: #000; font-family: unitext_bold_cursive">aprovecha
-                                            el </label>
-                                        <label style="font-size: 1.4rem; margin-top: -5px; font-family: unitext_bold_cursive">@{{descuento }}% de descuento </label>
-                                        <label style="color: #000; font-weight: bold; font-family: unitext_bold_cursive">ÚLTIMO DIA</label>
-                                    </div>
-                                    <div id="pagar" class="text-center" style="widows: 13% !important; color: black;">
-                                        <div>
-                                            <img src="{{asset('/images/imagesremodela/medalla.png')}}" width="95%">
-                                        </div>
-                                        <div style="font-size: 1.5rem;margin-left: 10%;">
-                                                <input
-                                                        type="checkbox"
-                                                        :value="saldochk"
-                                                        id="saldochk"
-                                                        v-model="saldochk"
-                                                        @change="check($event)">
-                                                Usar saldo<br>
-                                                a sólo<br>
-                                            <money :cantidad="''+montopago" :caracter="true" :decimales="0"
-                                                   estilo="font-size:1.5em; font-weight: bold"></money>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <br>
-                                    <div>
-                                        <button id="pagarceros" @click="pagaRefrendo" class="btn btn-primary col-md-4 offset-4">Pagar</button>
-                                    </div>
-                                    <cobro ref="cobro" :cobro="''+montopago" :url="'{{url('/')}}'" :id="'{{env('OPENPAY_ID')}}'"
-                                           :llave="'{{env('CONEKTA_PUBLIC')}}'" :sandbox="'{{env('SANDBOX')}}'==true" :meses="true"
-                                           @terminado="terminado"></cobro>
-                                </div>
-                            </div>
-                            <hr-->
-                @endif
 
 
                 <hr>
@@ -514,25 +434,25 @@
                         <div class="modal-content">
                             <div class="modal-body modal-body-reto">
 
-                                <div class="card mt-4" style="padding: 20px;">
+                                <div v-if="!mostrar_mensaje_enviado" class="card mt-4" style="padding: 20px;">
                                     <div class="text-center col-12 mb-3">
                                         Describe tu reto
                                     </div>
                                     <textarea class="form-control" v-model="descripcion_reto" placeholder="Describe tu reto"></textarea>
                                 </div>
 
-                                <div class="card mt-4" style="padding: 20px;">
+                                <div v-if="!mostrar_mensaje_enviado" class="card mt-4" style="padding: 20px;">
                                     <div class="text-center col-12 mb-3">
                                         Ofrezco por este reto
                                     </div>
                                     <div class="col-12 text-center row ml-2">
                                         <img src="{{asset('images/2021/moneda_mini.png')}}" class="col-1 offset-1 mt-1 ml-4 mr-2" style="width: 78% !important; height: 25px;">
-                                        <input type="number" class="form-control col-4" min="0" v-model="pago">
+                                        <input type="number" class="form-control col-4" min="10" step="10" v-model="pago">
                                         <span class="col-5">Acton Coins</span>
                                     </div>
                                 </div>
 
-                                <div class="card mt-4 mb-3" style="padding: 20px;">
+                                <div v-if="!mostrar_mensaje_enviado" class="card mt-4 mb-3" style="padding: 20px;">
                                     <div class="text-center col-12 mb-3">
                                         ESTE RETO SERÁ
                                     </div>
@@ -548,9 +468,16 @@
                                     </div>
                                 </div>
 
-                                <div class="col-12 text-center">
+                                <div v-if="!mostrar_mensaje_enviado" class="col-12 text-center">
                                     <button class="btn btn-success mb-3" @click="enviarReto">Enviar Reto</button>
                                 </div>
+
+                                <div v-if="mostrar_mensaje_enviado" class="col-12 text-center">
+                                    <br>
+                                        <img src="{{asset('images/2021/explicacion.png')}}" style="width: 100% !important;" class="mt-2">
+                                    <br>
+                                </div>
+
 
                             </div>
                         </div>
@@ -561,6 +488,107 @@
 
                 <!--modal ref="nuevasfoto" title="Nueva foto">
                 </modal-->
+
+
+            <div class="modal_mini_">
+                <div v-if="modal_reto" class="card modal_reto" style="padding: 20px;">
+                    <i class="fas fa-times close-top" @click="ocultarmini"></i>
+                    <div class="text-center col-12 mb-3 mt-4">
+                        <h3 v-if="!reto_privado"><img src="{{asset('images/2021/monito.png')}}" class="mr-2" width="13%"> @{{reto_nombre}}</h3>
+                        <h3 v-else><img src="{{asset('images/2021/monito.png')}}" class="mr-2" width="13%"> Privado</h3>
+                        <div v-if="reto_respondido" class="text-center col-12 mt-3">
+                            <!--video-- width="100%" controls>
+                                <source :src="reto_video" type="video/mp4">
+                            </video-->
+                            <video autoplay :src="'/cuenta/getVideo/'+ reto_id"  width="100%" controls>
+                                <source :src="'/cuenta/getVideo/'+ reto_id">
+                            </video>
+                        </div>
+                        <div class="text-center col-12 mt-3">
+                            <h3><img src="{{asset('images/2021/moneda_mini.png')}}" class="mr-2" width="13%"> @{{reto_coins}} Acton Coins</h3>
+                        </div>
+                        <div class="text-center col-12 mt-3">
+                            <h4>El reto consiste en:</h4>
+                            <h3>@{{reto_descripcion}}</h3>
+                        </div>
+                        <div v-if="!reto_respondido" class="col-12 countdown-reto">
+                            <br>
+                            <div class="col-12"><h6 class="text-center">Tu tiempo para realizar este reto:</h6></div>
+                            <br>
+                            <div v-if="!reto_respondido" class="row ">
+                                <div class="col-4 text-center">
+                                    @{{ horas_reto }}<br>
+                                    Horas
+                                </div>
+                                <div class="col-4 text-center">
+                                    @{{ minutos_reto }}<br>
+                                    Min.
+                                </div>
+                                <div class="col-4 text-center">
+                                    @{{ segundos_reto }}<br>
+                                    Seg.
+                                </div>
+                            </div>
+                        </div>
+                        <div v-if="mostrarcalif" class="text-center col-12 mt-4">
+                            <div class="col-6">
+                                <img :click="califica(reto_id, 'si')" src="{{asset('images/2021/gusta_reto.png')}}" class="col-3 offset-1">
+                            </div>
+                            <div class="col-6">
+                                <img :click="califica(reto_id, 'no')" src="{{asset('images/2021/no_gusta_reto.png')}}" class="col-3 offset-1">
+                            </div>
+                        </div>
+                        <div v-if="!mostrar_subida" class="text-center col-12 mt-4">
+                            <img src="{{asset('images/2021/aceptar_reto.png')}}" @click="aceptar( reto_id )" class="" width="48%">
+                            <img src="{{asset('images/2021/declinar_reto.png')}}" @click="declinar( reto_id )" class="" width="48%">
+                        </div>
+                        <div v-if="mostrar_subida && !reto_respondido && horas_reto > 0" class="text-center col-12 mt-4">
+                            <div class="image-upload">
+                                <label for="file-input">
+                                    <img src="{{asset('images/2021/subir_reto.png')}}" width="60%"/>
+                                </label>
+
+                                <input id="file-input" type="file" @change="videoDuracion"/>
+                                <label>@{{error_video}}</label>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div v-if="modal_coins" class="card modal_coins" style="padding: 20px;">
+                    <i class="fas fa-times close-top" @click="ocultarmini"></i>
+                    <div class="text-center">
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <h3 class="mt-5">Obtuviste Acton Coins.</h3>
+                        <div v-html="tipo_album"></div>
+                        <h3><img src="{{asset('images/2021/moneda_mini.png')}}" class="mr-2 ml-2" width="6%"> @{{notificacion_coins}}</h3>
+                    </div>
+                </div>
+                <div v-if="modal_reacciones" class="card modal_reacciones" style="padding: 20px;">
+                    <i class="fas fa-times close-top" @click="ocultarmini"></i>
+                    <div class="text-center">
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+
+                        <div v-html="imagen_album"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div v-if="mostrar_mensaje_alert" class="card modal_mensaje_alert" style="padding: 20px;">
+                <i class="fas fa-times close-top" @click="ocultarmini"></i>
+                <div class="text-center">
+                    <div v-html="mensaje_alert"></div>
+                    <br>
+                    <button @click="ocultarmini" class=" btn btn-success col-6 offset-1">Aceptar</button>
+                </div>
+            </div>
+
 
                 <div class="modal fade" id="image-gallery" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
@@ -731,7 +759,7 @@
 
         Vue.component('inicio', {
             template: '#inicio-template',
-            props: ['usuario', 'referencias','monto','original','descuento','saldo', 'fotos', 'seguidos', 'siguen'],
+            props: ['usuario', 'referencias','monto','original','descuento','saldo', 'fotos', 'seguidos', 'retos', 'siguen'],
             data: function(){
                 return{
                     nombre:'',
@@ -790,6 +818,34 @@
                     descripcion_reto: '',
                     pago: 0,
                     imagen_perfil: '/cuenta/getFotografia/'+this.usuario.id+'/33434',
+
+                    modal_reto: false,
+                    modal_coins: false,
+                    modal_reacciones: false,
+                    notificacion_coins: 0,
+                    reto_nombre: '',
+                    reto_descripcion: '',
+                    reto_coins: '',
+                    reto_privado: '',
+                    fecha_reto: '',
+                    horas_reto: 0,
+                    minutos_reto: 0,
+                    segundos_reto: 0,
+                    reto_id: 0,
+                    reto_notificacion: '',
+                    aceptado_reto: '',
+                    error_video: '',
+                    mostrar_subida: false,
+                    reto_respondido: false,
+                    reto_video: '',
+                    tipo_album: '',
+                    imagen_album: '',
+                    hide_original: true,
+                    mensaje_alert: '',
+                    mostrar_mensaje_alert: false,
+                    mostrar_mensaje_enviado: false,
+                    mostrarcalif: false,
+                    ocultareto: false,
                 }},
             methods: {
                 sigue: function () {
@@ -1008,13 +1064,15 @@
                     var element = document.getElementById('image-gallery-image');
                     var coins = document.getElementById('txtactoncoins').value;
                     var dataID = element.getAttribute('data-id');
+                    vm.mensaje_alert = '';
                     axios.post('{{url('cuenta/mialbum/enviarcoins/')}}', {'id': dataID, 'coins': coins}
                     ).then(function (response) {
                         if (response.data.status == 'agregado'){
                             vm.dar_acton = true;
                             vm.darCoins = false;
                         }else{
-                            alert('No cuentas con suficiente acton coins');
+                            vm.mensaje_alert = 'No cuentas con suficiente acton coins';
+                            vm.mostrar_mensaje_alert = true;
                             vm.dar_acton = false;
                             vm.darCoins = true;
                         }
@@ -1039,19 +1097,115 @@
                     vm.administrar_mini = false;
                     vm.privacidad_mini = false;
                     vm.conteo_mini = false;
+                    vm.mostrar_mensaje_alert = false;
                 },
                 enviarReto: function(){
                     var vm = this;
+                    vm.mensaje_alert = '';
                     axios.post('{{url('cuenta/enviarreto/')}}', {'id': vm.usuario.id, 'pago': vm.pago, 'descripcion': vm.descripcion_reto}
                     ).then(function (response) {
                         if (response.data.status == 'No cuenta con saldo suficiente'){
-                            alert('No cuenta con saldo suficiente');
+                            vm.mensaje_alert = 'No cuenta con saldo suficiente';
+                            vm.mostrar_mensaje_alert = true;
+                        }else{
+                            vm.mostrar_mensaje_enviado = true;
                         }
                     });
-                }
+                },
+                mostrarmenumodal: function(){
+                    var vm = this;
+                    if(vm.mostrarAcordion){
+                        vm.mostrarAcordion = false;
+                    }else {
+                        vm.mostrarAcordion = true;
+                    }
+                },
+                ocultarmini: function(){
+                    var vm = this;
+                    vm.modal_reto = false;
+                    vm.modal_coins = false;
+                    vm.modal_reacciones = false;
+                    vm.eliminar_mini = false;
+                    vm.editar_mini = false;
+                    vm.administrar_mini = false;
+                    vm.privacidad_mini = false;
+                    vm.conteo_mini = false;
+                    vm.mostrar_mensaje_alert = false;
+                },
+                countdownReto: function(){
+                    var that = this;
+                    const today = new Date(that.fecha_reto)
+                    const tomorrow = new Date(today)
+                    tomorrow.setDate(tomorrow.getDate() + 1)
+                    var now = new Date().getTime();
+                    var distance = tomorrow - now;
+                    setInterval(function() {
+                        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                        that.horas_reto = ("00" + hours).slice(-2);
+                        that.minutos_reto = ("00" + minutes).slice(-2);
+                        that.segundos_reto = ("00" + seconds).slice(-2);
+                        if (distance <= 0){
+                            that.horas_reto = 0;
+                            that.minutos_reto = 0;
+                            that.segundos_reto = 0;
+                        }
+                    }, 1000);
+                },
+                mostrarmini: function(nombre, coins, descripcion, fecha, publico, tipo, id, id_reto, aceptado, update, video){
+                    var vm = this;
+                    vm.mensaje_alert = '';
+                    axios.post('{{url('cuenta/pagarvideo/')}}', {'id': id_reto}
+                    ).then(function (response) {
+                        if (response.data.status == 'No cuenta con saldo suficiente'){
+                            vm.mensaje_alert = 'No cuenta con saldo suficiente';
+                            vm.mostrar_mensaje_alert = true;
+                        }
+                    });
+                    vm.modal_reto = true;
+                    vm.reto_nombre = nombre;
+                    vm.reto_descripcion = descripcion;
+                    vm.reto_coins = coins;
+                    vm.reto_publico = publico;
+                    vm.fecha_reto = fecha;
+                    vm.reto_id = id_reto;
+                    vm.reto_notificacion = id;
+                    vm.aceptado_reto = aceptado;
+                    vm.update = update;
+                    if(video !== ''){
+                        vm.reto_respondido = true;
+                    }else{
+                        vm.reto_respondido = false;
+                    }
+                    vm.reto_video = video;
+                    if(aceptado){
+                        vm.fecha_reto = update;
+                        vm.mostrar_subida = true;
+                    }
+                    vm.verificaCalificacion(id_reto);
+                },
+                verificaCalificacion: function(id_reto){
+                    var vm = this;
+                    axios.post('{{url('retos/verificacalificacion/')}}', {'id': id_reto}
+                    ).then(function (response) {
+                        if (response.data.status == 'no'){
+                            vm.mostrarcalif = true;
+                        }else{
+                            vm.mostrarcalif = false;
+                        }
+                    });
+                },
+                califica: function(id_reto, califica){
+                    var vm = this;
+                    axios.post('{{url('retos/calificacion/')}}', {'id': id_reto, 'cal': califica}
+                    ).then(function (response) {
+                        vm.mostrarcalif = false;
+                    });
+                },
             },
             mounted: function () {
-                this.countdown();
+                //this.countdown();
                 $("#pagarceros").hide();
                 //this.diasChange(14);
                 /*this.filtros.referencia = this.usuario.referencia;

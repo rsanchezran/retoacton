@@ -7,6 +7,7 @@ use App\Events\RetosEvent;
 use App\Listeners\CoinsListener;
 use App\Listeners\ReaccionesListener;
 use App\Listeners\MensajesDirectosListener;
+use App\Listeners\RetosListener;
 use App\Events\CoinsEvent;
 use App\Events\ReaccionesEvent;
 use App\Events\SeguirListenerEvent;

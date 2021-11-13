@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Amistades;
 use App\CompraRetos;
 use App\ComprasCoins;
+use App\EstadoCuenta;
 use App\Events\ReaccionesEvent;
 use App\Events\RetosEvent;
 use App\Events\CoinsEvent;
@@ -43,11 +44,12 @@ class CuentaController extends Controller
         $user->idiomas = str_replace(',', ', ', $user->idiomas);
         $amistades = Amistades::where('usuario_amigo_id', $request->id)->get()->count();
         $all_fotos = MiAlbum::where('usuario_id', $request->id)->take(9)->get();
+        $retos = Retos::where('usuario_retado_id', $request->id)->take(9)->get();
         $fotos = $all_fotos;
         $seguidos = Amistades::where('usuario_solicita_id', $user->id)->count();
         $siguen = Amistades::where('usuario_amigo_id', $user->id)->count();
         return view('cuenta.perfil', ['usuario' => $user, 'amistades' => $amistades, 'fotos' => $fotos,
-            'seguidos' => $seguidos, 'siguen' => $siguen]);
+            'seguidos' => $seguidos, 'siguen' => $siguen, 'retos' => $retos]);
     }
 
     public function saveuno(Request $request)
@@ -303,7 +305,7 @@ class CuentaController extends Controller
     {
         $user = $request->user();
         $data = Input::all();
-        if((int)$user->saldo > (int)$request->pago) {
+        if((int)$user->saldo >= (int)$request->pago) {
             $reto = Retos::create([
                 'usuario_retado_id' => $request->id,
                 'usuario_reta_id' => $user->id,
@@ -356,6 +358,38 @@ class CuentaController extends Controller
         $user->saldo = $user->saldo+$reto->coins;
         $user->save();
         return response()->json(['status' => 'ok', 'video' => $reto->video]);
+    }
+
+    public function retoRespuestaCalificacion(Request $request)
+    {
+        $user = $request->user();
+        $respuesta = $request->respuesta;
+        $reto = Retos::where('id', $request->id)->first();
+        if ($respuesta == 'si'){
+            $reto->aceptado_retador = 1;
+        }else{
+            $reto->aceptado_retador = 0;
+            $retorno = $reto->coins/2;
+            $user->saldo = $user->saldo+$retorno;
+            $user->save();
+            $retado = User::where('id', $reto->usuario_retado_id)->first();
+            $retado->saldo = $retado->saldo-$retorno;
+            $retado->save();
+        }
+        $reto->save();
+        return response()->json(['status' => 'ok']);
+    }
+
+    public function retoverificaCalificacion(Request $request)
+    {
+        $user = $request->user();
+        $reto = Retos::where('id', $request->id)->first();
+        if($reto->aceptado_retador == null){
+            $status = 'no';
+        }else{
+            $status = 'si';
+        }
+        return response()->json(['status' => $status]);
     }
 
     public function getVideo(Request $request, $video)
@@ -429,6 +463,67 @@ class CuentaController extends Controller
 
         return $usuario;
 
+    }
+
+    public function pagarvideo(Request $request)
+    {
+        $user = $request->user();
+        $data = Input::all();
+        $reto = Retos::where('id', $request->id)->first();
+
+        if((int)$user->saldo > (int)$reto->coins) {
+            $comprado = CompraRetos::where('usuario_id', $user->id)->where('reto_id', $request->id)->count();
+            //error_log($comprado);
+            if($comprado == 0) {
+                $reto_compra = CompraRetos::create([
+                    'reto_id' => $request->id,
+                    'usuario_id' => $user->id,
+                    'like' => 1,
+                ]);
+                $estado_cuenta = EstadoCuenta::create([
+                    'descripcion' => 'Compra de reto',
+                    'usuario_transfiere_id' => $user->id,
+                    'usuario_id' => $reto->usuario_retado_id,
+                    'coins' => $reto->coins,
+                ]);
+                $coins = ComprasCoins::create([
+                    'tipo_compra' =>'reto',
+                    'usuario_id' => $reto->usuario_retado_id,
+                    'monto' => ($reto->coins/2),
+                    'referencia' => $reto->id,
+                ]);
+                event(new CoinsEvent($coins));
+                $estado_cuenta = EstadoCuenta::create([
+                    'descripcion' => 'Compra de reto',
+                    'usuario_transfiere_id' => $user->id,
+                    'usuario_id' => $reto->usuario_reta_id,
+                    'coins' => $reto->coins,
+                ]);
+                $coins = ComprasCoins::create([
+                    'tipo_compra' =>'reto',
+                    'usuario_id' => $reto->usuario_reta_id,
+                    'monto' => ($reto->coins/2),
+                    'referencia' => $reto->id,
+                ]);
+                event(new CoinsEvent($coins));
+                event(new CoinsEvent($coins));
+                $user->saldo = $user->saldo - (int)$reto->coins;
+                $user->save();
+                $partes_iguales = $reto->coins/2;
+                $retado = User::where('id', $reto->usuario_retado_id)->first();
+                $retado->saldo = $retado->saldo+$partes_iguales;
+                $retado->save();
+                $reta = User::where('id', $reto->usuario_reta_id)->first();
+                $reta->saldo = $reta->saldo+$partes_iguales;
+                $reta->save();
+                //event(new RetosEvent($reto));
+                return response()->json(['status' => 'Reto comprado']);
+            }else {
+                return response()->json(['status' => 'Reto dueno']);
+            }
+        }else{
+            return response()->json(['status' => 'No cuenta con saldo suficiente']);
+        }
     }
 
 }

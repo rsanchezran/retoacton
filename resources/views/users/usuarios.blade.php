@@ -10,20 +10,53 @@
         .settings a, .settings button{
             margin-left: 5px;
         }
+        .multiselect__tag, select{
+            background: #cccccc !important;
+        }
+        .multiselect__single, select {
+            background: transparent !important;
+        }
+        .multiselect__input, .multiselect__single, select {
+            background: transparent !important;
+        }
+        .multiselect__option--highlight {
+            background: #0080DD !important;
+        }
 
         .inactivo{
             background-color: lightgray;
         }
-        .multiselect__tags {
+        .multiselect__tags, select {
             min-height: 18px !important;
             font-size: 13px !important;
             border-radius: 13px !important;
         }
-        .multiselect__tags {
+        .multiselect__tags, select {
             padding: 2px 40px 0 8px !important;
         }
-        .multiselect__single {
+        .multiselect__single, select {
             font-size: 13px !important;
+        }
+        .multiselect__tags, select{
+            background: rgb(245,245,245) !important;
+            background: linear-gradient(180deg, rgba(245,245,245,1) 35%, rgba(166,166,166,1) 100%) !important;
+            margin-bottom: 5px;
+        }
+        .multiselect--disabled {
+            background: transparent !important;
+            pointer-events: none !important;
+        }
+        .multiselect--disabled .multiselect__current, .multiselect--disabled .multiselect__select, .multiselect__option--disabled {
+            background: transparent !important;
+            color: #a6a6a6 !important;
+        }
+        .form-control:disabled, .form-control[readonly] {
+            background-color: #e9ecef !important;
+            opacity: 0.5;
+        }
+        .usuario {
+            border-bottom: 0px solid lightgray;
+            margin-bottom: -40px;
         }
     </style>
     <script src="https://unpkg.com/vue-multiselect@2.1.0"></script>
@@ -41,72 +74,132 @@
             <div class="card mb-3" style="margin-top: 40%">
                 <div class="card-body">
                     <h3 v-if="mostrarfiltros" class="text-center" style="color: #999">Busca personas con<br> las siguientes caracteristicas</h3>
-                    <div style="display: flex; flex-wrap: wrap">
-                        <div v-if="mostrarfiltros" class="col-sm-3">
-                            <label>Sexo</label>
-                            <select class="form-control" v-model="filtros.sexo" @keyup.enter="buscar">
-                                <option></option>
-                                <option value="1">Hombre</option>
-                                <option value="0">Mujer</option>
-                            </select>
+                    <div style="" class="">
+                        <div v-if="mostrarfiltros" class="row ">
+                            <div v-if="mostrarfiltros" class="col-12">
+                                <label>Buscar por</label>
+                            </div>
                         </div>
-                        <div v-if="mostrarfiltros" class="col-sm-3">
-                            <label>Orientación</label>
-                            <select class="form-control" v-model="filtros.orientacion" @keyup.enter="buscar">
-                                <option>Hetero</option>
-                                <option>Gay</option>
-                                <option>Bi</option>
-                                <option>Trans</option>
-                            </select>
+                        <div v-if="mostrarfiltros" class="row ">
+                            <!--div v-if="mostrarfiltros" class="col-2">
+                                <input type="checkbox" class="col-12 mt-3" v-model="actsexo" style="width: 40px; height: 20px;">
+                            </div-->
+                            <div v-if="mostrarfiltros" class="col-12">
+                                <select class="form-control" v-model="filtros.sexo" @keyup.enter="buscar" >
+                                    <option value="">Sexo</option>
+                                    <option value="1">Hombre</option>
+                                    <option value="0">Mujer</option>
+                                </select>
+                            </div>
                         </div>
-                        <div v-if="mostrarfiltros" class="col-sm-3">
-                            <label>Estado</label>
-                            <select class="form-control" v-model="filtros.estado" @keyup.enter="buscar" @change="getCiudades()">
-                                <option></option>
-                                <option v-for="p in this.estados[0]">@{{ p.estado }}</option>
-                            </select>
+                        <div v-if="mostrarfiltros" class="row">
+                            <!--div v-if="mostrarfiltros" class="col-2">
+                                <input type="checkbox" class="col-12 mt-3" v-model="actorientacion" style="width: 40px; height: 20px;">
+                            </div-->
+                            <div v-if="mostrarfiltros" class="col-8 offset-2">
+                                <label>Orientación</label>
+                                <select class="form-control" v-model="filtros.orientacion" @keyup.enter="buscar">
+                                    <option value="">Orientación</option>
+                                    <option>Hetero</option>
+                                    <option>Gay</option>
+                                    <option>Bi</option>
+                                    <option>Trans</option>
+                                </select>
+                            </div>
                         </div>
-                        <div v-if="mostrarfiltros" class="col-sm-3">
-                            <label>Ciudad</label>
-                            <select class="form-control" v-model="filtros.ciudad" @keyup.enter="buscar" @change="getCPs()">
-                                <option></option>
-                                <option v-for="p in this.ciudades[0]">@{{ p.ciudad }}</option>
-                            </select>
+                        <br v-if="mostrarfiltros">
+                        <div v-if="mostrarfiltros" class="row ">
+                            <div v-if="mostrarfiltros" class="col-12">
+                                <label>Cerca de mi</label>
+                            </div>
                         </div>
-                        <div v-if="mostrarfiltros" class="col-sm-3">
-                            <label>Codigo Postal</label>
-                            <select class="form-control" v-model="filtros.cp" @keyup.enter="buscar" @change="getColonias()">
-                                <option></option>
-                                <option v-for="p in this.cps[0]">@{{ p.cp }}</option>
-                            </select>
+                        <div v-if="mostrarfiltros" class="row ">
+                            <div v-if="mostrarfiltros" class="col-2">
+                                <input type="checkbox" class="col-12 mt-2" v-model="actestado" style="width: 40px; height: 20px;">
+                            </div>
+                            <div v-if="mostrarfiltros" class="col-10">
+                                <select class="form-control" v-model="filtros.estado" @keyup.enter="buscar" @change="getCiudades()" :disabled="actestado == false">
+                                    <option value="">Estado</option>
+                                    <option v-for="p in this.estados[0]">@{{ p.estado }}</option>
+                                </select>
+                            </div>
                         </div>
-                        <div v-if="mostrarfiltros" class="col-sm-3">
-                            <label>Colonias</label>
-                            <select class="form-control" v-model="filtros.colonia" @keyup.enter="buscar">
-                                <option></option>
-                                <option  v-for="p in this.colonias[0]">@{{ p.colonia }}</option>
-                            </select>
+                        <div v-if="mostrarfiltros" class="row ">
+                            <div v-if="mostrarfiltros" class="col-2">
+                                <input type="checkbox" class="col-12 mt-2" v-model="actciudad" style="width: 40px; height: 20px;">
+                            </div>
+                            <div v-if="mostrarfiltros" class="col-10">
+                                <select class="form-control" v-model="filtros.ciudad" @keyup.enter="buscar" @change="getCPs()" :disabled="actciudad == false">
+                                    <option value="">Ciudad</option>
+                                    <option v-for="p in this.ciudades[0]">@{{ p.ciudad }}</option>
+                                </select>
+                            </div>
                         </div>
-                        <div v-if="mostrarfiltros" class="col-sm-3">
-                            <label>Intereses</label>
-                            <vue-multiselect v-model="filtros.intereses" :options="intereses" :preselect-first="false" :multiple="true" placeholder="Buscar personas que les interese"  :preserve-search="false"></vue-multiselect>
+                        <div v-if="mostrarfiltros" class="row ">
+                            <div v-if="mostrarfiltros" class="col-2">
+                                <input type="checkbox" class="col-12 mt-2" v-model="actcp" style="width: 40px; height: 20px;">
+                            </div>
+                            <div v-if="mostrarfiltros" class="col-10">
+                                <select class="form-control" v-model="filtros.cp" @keyup.enter="buscar" @change="getColonias()" :disabled="actcp == false">
+                                    <option value="">Codigo postal</option>
+                                    <option v-for="p in this.cps[0]">@{{ p.cp }}</option>
+                                </select>
+                            </div>
                         </div>
-                        <div v-if="mostrarfiltros" class="col-sm-3">
-                            <label>Idiomas</label>
-                            <vue-multiselect v-model="filtros.idiomas" :options="idiomas" :preselect-first="false" :multiple="true" placeholder="Buscar personas que hablen:"  :preserve-search="false"></vue-multiselect>
+                        <div v-if="mostrarfiltros" class="row ">
+                            <div v-if="mostrarfiltros" class="col-2">
+                                <input type="checkbox" class="col-12 mt-2" v-model="actcolonia" style="width: 40px; height: 20px;">
+                            </div>
+                            <div v-if="mostrarfiltros" class="col-10">
+                                <select class="form-control" v-model="filtros.colonia" @keyup.enter="buscar" :disabled="actcolonia == false">
+                                    <option value="">Colonia</option>
+                                    <option  v-for="p in this.colonias[0]">@{{ p.colonia }}</option>
+                                </select>
+                            </div>
                         </div>
-                        <div v-if="mostrarfiltros" class="col-sm-3">
-                            <label>Estatus</label>
-                            <vue-multiselect v-model="filtros.estatus" :options="situacion" :preselect-first="false" :multiple="true" placeholder="Buscar personas que esten en:"  :preserve-search="false"></vue-multiselect>
+                        <br v-if="mostrarfiltros">
+                        <div v-if="mostrarfiltros" class="row ">
+                            <div v-if="mostrarfiltros" class="col-2">
+                                <input type="checkbox" class="col-12 mt-3" v-model="actinteres" style="width: 40px; height: 20px;">
+                            </div>
+                                <div v-if="mostrarfiltros" class="col-10">
+                                    <label>Intereses</label>
+                                    <vue-multiselect :disabled="actinteres == false" v-model="filtros.intereses" :options="intereses" :preselect-first="false" :multiple="true" placeholder="Buscar personas que les interese"  :preserve-search="false"></vue-multiselect>
+                                </div>
                         </div>
-                        <div v-if="mostrarfiltros" class="col-sm-3">
-                            <label>Edad entre</label>
-                            <input type="number" class="form-control col-5" v-model="filtros.edad_inicio" @keyup.enter="buscar"> y
-                            <input type="number" class="form-control col-5" v-model="filtros.edad_fin" @keyup.enter="buscar">
+                        <div v-if="mostrarfiltros" class="row ">
+                            <div v-if="mostrarfiltros" class="col-2">
+                                <input type="checkbox" class="col-12 mt-3" v-model="actidioma" style="width: 40px; height: 20px;">
+                            </div>
+                            <div v-if="mostrarfiltros" class="col-10">
+                                <label>Idiomas</label>
+                                <vue-multiselect :disabled="actidioma == false" v-model="filtros.idiomas" :options="idiomas" :preselect-first="false" :multiple="true" placeholder="Buscar personas que hablen:"  :preserve-search="false"></vue-multiselect>
+                            </div>
+                        </div>
+                        <div v-if="mostrarfiltros" class="row ">
+                            <div v-if="mostrarfiltros" class="col-2">
+                                <input type="checkbox" class="col-12 mt-3" v-model="actsituacion" style="width: 40px; height: 20px;">
+                            </div>
+                            <div v-if="mostrarfiltros" class="col-10">
+                                <label>Estatus</label>
+                                <vue-multiselect :disabled="actsituacion == false" v-model="filtros.estatus" :options="situacion" :preselect-first="false" :multiple="true" placeholder="Buscar personas que esten en:"  :preserve-search="false"></vue-multiselect>
+                            </div>
+                        </div>
+                        <div v-if="mostrarfiltros" class="row ">
+                            <div v-if="mostrarfiltros" class="col-2">
+                                <input type="checkbox" class="col-12 mt-3" v-model="actedad" style="width: 40px; height: 20px;">
+                            </div>
+                            <div v-if="mostrarfiltros" class="col-10">
+                                <label>Edad entre</label>
+                                <div class="row col-12">
+                                    <input type="number" class="form-control col-5 mr-3" v-model="filtros.edad_inicio" @keyup.enter="buscar" :disabled="actedad == false"> y
+                                    <input type="number" class="form-control col-5 ml-3" v-model="filtros.edad_fin" @keyup.enter="buscar" :disabled="actedad == false">
+                                </div>
+                            </div>
                         </div>
                         <div v-if="mostrarfiltros" class="col-sm-3">
                             <label>&nbsp;</label>
-                            <br>
+                            <br v-if="mostrarfiltros">
                             <button class="btn btn-primary" @click="buscar" :disabled=" buscando" class="col-sm-12">
                                 <i v-if="buscando" class="fa fa-spinner fa-spin"></i>
                                 <i v-else class="fas fa-search"></i>&nbsp;Buscar
@@ -116,12 +209,13 @@
                 </div>
             </div>
 
+            <div v-if="!mostrarfiltros" v-on:click="muestralosfiltros()" style="font-size: 20px"><i class="fas fa-filter"></i></div>
             <div class="card mb-3">
                 <div class="card-body"  id="lstUsuarios">
-                    <img v-if="mostrarfiltros" src="{{asset('images/2021/personas.png')}}" style="width: 60%; margin-left: 20%;">
-                    <div v-for="usuario in usuarios.data" class="d-flex usuario" >
+                    <img v-if="mostrarfiltrosimg" src="{{asset('images/2021/personas.png')}}" style="width: 60%; margin-left: 20%;">
+                    <div v-for="usuario in usuarios.data" class="usuario row" >
                         <div class="col-12 row d-flex flex-column align-items-start">
-                            <span class="col-9">
+                            <span class="col-10">
                                 <a :href="'/cuenta/'+usuario.id">
                                     <img :src="'/cuenta/getFotografia/'+usuario.id+'/343234'"
                                          style="
@@ -132,7 +226,7 @@
                                         border-radius: 30px;">
                                     @{{ usuario.name+' '+usuario.last_name }}</a>
                             </span>
-                            <div v-if="usuario.amistad=='no'" class="col-3 mt-2">
+                            <div class="col-3 mt-2">
                                 <a v-tooltip="{content:'Seguir'}" class="btn btn-sm btn-danger" :href="'{{ url('/cuenta/') }}/' + usuario.id" style="background: #9B0000 !important;">
                                     Conocer
                                 </a>
@@ -323,10 +417,21 @@
                     conexiones:[],
                     compras:[],
                     mostrarfiltros: true,
+                    mostrarfiltrosimg: true,
+                    actsexo: false,
+                    actorientacion: false,
+                    actestado: false,
+                    actcp: false,
+                    actcolonia: false,
+                    actedad: false,
+                    actsituacion: false,
+                    actidioma: false,
+                    actinteres: false,
+                    actciudad: false,
                     intereses: ['Deportes','Cine','Espiritualidad','Bailar','Viajar','Música','Leer','Gastronomía','Animales','Idiomas','Astrología','Cantar','Futbol','Yoga','Arte','Politica','Negocios'],
                     genero: ['Hombre', 'Mujer'],
                     genero_2: ['Hetero', 'Gay', 'Bi', 'Trans'],
-                    situacion: ['Casado(a)', 'Soltero(a)', 'Divorciado(a)','Viudo(a)','Union Libre'],
+                    situacion: ['Casado(a)', 'Soltero(a)', 'Divorciado(a)','Viudo(a)','Union Libre', 'Abierto a conocer gente'],
                     idiomas: ['Español', 'Ingles', 'Aleman', 'Japones', 'Chino', 'Portugues'],
                 }
             },
@@ -335,9 +440,20 @@
                     this.usuarios = usuarios;
                     this.buscando = false;
                 },
+                muestralosfiltros: function () {
+                    var vm = this;
+                    vm.mostrarfiltros = true;
+                    /*
+                    if(vm.mostrarfiltros){
+                        vm.mostrarfiltros = false;
+                    }else{
+                    }*/
+                },
                 buscar: function () {
+                    var vm = this;
                     this.buscando = true;
                     this.$refs.paginador.consultar(this.filtros);
+                    vm.mostrarfiltros = false;
                 },
                 pagar: function () {
                     let vm = this;
@@ -526,7 +642,7 @@
                 }
                 if(params.get("q")) {
                     var q = '';
-                    vm.mostrarfiltros = false
+                    vm.mostrarfiltros = false;
                     if(params.get('q') == 'siguen'){
                         q = 'Me siguen';
                     }else{
@@ -534,6 +650,8 @@
                     }
                     this.filtros.conexion = q;
                     this.buscar();
+                }else{
+                    vm.mostrarfiltrosimg = true;
                 }
             }
         });

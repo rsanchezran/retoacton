@@ -28,17 +28,27 @@ class ApiController extends Controller
                 'num_inscripciones'])->first();
 
             if ($usuario != null && password_verify($request->password, $usuario->password)) {
-                $usuario->isVencido();
-                $contacto = Contacto::withTrashed()->where('email', $usuario->email)->first();
-                $user = new \stdClass();
-                $user->telefono = $contacto->telefono;
-                $user->name = $usuario->name;
-                $user->last_name = $usuario->last_name;
-                $user->email = $usuario->email;
-                $user->inicio_reto = $usuario->inicio_reto;
-                $user->num_inscripciones = $usuario->num_inscripciones;
-                $user->vencido = $usuario->vencido;
-                return response()->json(['result' => 'ok', 'user' => $user]);
+                $remember = $request->has('remember') ? true : false;
+                if (Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')], $remember))
+                {
+                    if(Auth::viaRemember())
+                    {
+                        dd("remembered successfully");
+                    }else{
+                        dd("failed to remember");
+                    }
+                    $usuario->isVencido();
+                    $contacto = Contacto::withTrashed()->where('email', $usuario->email)->first();
+                    $user = new \stdClass();
+                    $user->telefono = $contacto->telefono;
+                    $user->name = $usuario->name;
+                    $user->last_name = $usuario->last_name;
+                    $user->email = $usuario->email;
+                    $user->inicio_reto = $usuario->inicio_reto;
+                    $user->num_inscripciones = $usuario->num_inscripciones;
+                    $user->vencido = $usuario->vencido;
+                    return response()->json(['result' => 'ok', 'user' => $user]);
+                }
             }
             return response()->json(['result' => 'error', 'error' => 'El usuario y/o la contraseña son incorrectos.']);
         } catch (\Exception $e) {

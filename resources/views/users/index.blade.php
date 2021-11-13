@@ -97,6 +97,9 @@
                             <span>@{{ usuario.email }}</span>
                             <span>@{{ usuario.telefono }}</span>
                             <span>@{{ usuario.medio }}</span>
+                            <span v-if="usuario.dias==7" class="bg-warning col-1" style="border-radius: 10px;"></span>
+                            <span v-else-if="usuario.dias>usuario.dias_reto" class="bg-success col-1" style="border-radius: 10px;"></span>
+                            <span v-else-if="usuario.dias<usuario.dias_reto" class="bg-danger col-1" style="border-radius: 10px;"></span>
                             <button class="btn btn-sm btn-default text-capitalize" @click="verCompras(usuario)">@{{ usuario.tipo_pago }}</button>
                         </div>
                         <div class="col-4 d-flex flex-column text-center">
@@ -132,7 +135,7 @@
                             </button>
                             <span>@{{ usuario.pagados }} (<money :cantidad="''+usuario.depositado" :caracter="true"></money>)</span>
                             <span>@{{ usuario.pendientes }} (<money :cantidad="''+usuario.saldo" :caracter="true"></money>)</span>
-                            <div class="d-flex settings">
+                            <div class="settings">
                                 <button v-tooltip="{content:'Cambiar fecha de inicio'}"
                                         class="btn btn-sm btn-warning" @click="mostrarCambioFecha(usuario)">
                                     <i class="fas fa-calendar-day"></i>
@@ -141,12 +144,14 @@
                                         class="btn btn-sm btn-warning" @click="mostrarCambioContrania(usuario)">
                                     <i class="fas fa-unlock-alt"></i>
                                 </button>
+                                <br>
                                 <a v-tooltip="{content:'Ver encuesta'}" class="btn btn-sm btn-info text-light" :href="'{{ url('/usuarios/encuesta') }}/' + usuario.id">
                                     <i class="fas fa-clipboard-list"></i>
                                 </a>
                                 <a v-tooltip="{content:'Ver reto'}" class="btn btn-sm btn-default" :href="'{{ url('/usuarios/imagenes') }}/' + usuario.id">
                                     <i class="fas fa-running"></i>
                                 </a>
+                                <br>
                                 <button v-tooltip="{content:'Pagar'}" v-if="usuario.saldo > 0"
                                         class="btn btn-sm btn-warning" @click="mostrarTarjeta(usuario)">
                                     <i class="far fa-bell"></i>
@@ -154,6 +159,7 @@
                                 <button v-tooltip="{content:'Eliminar usuario'}" class="btn btn-sm btn-danger" @click="confirmar(usuario)">
                                     <i class="fa fa-trash"></i>
                                 </button>
+                                <br>
                                 <div>
                                     <button v-tooltip="{content:'Modificar saldo'}" class="btn btn-sm btn-default" @click="agregarSaldo(usuario, usuario.saldo)">
                                         <i class="fas fa-money-bill-wave"></i>
@@ -314,6 +320,7 @@
                         saldo: '',
                         referencia: '',
                         dias_reto:'',
+                        dias:0,
                         saldoAumentado: 0,
                         nuevaSemanas: 0,
                         fecha: '',

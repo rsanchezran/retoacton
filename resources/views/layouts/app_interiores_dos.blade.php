@@ -6,7 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Laravel') }}</title>
     <!-- Scripts -->
-    <script src="https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit" async defer></script>
+    <!--script src="https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit" async defer></script-->
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/bootstrap-datepicker.es.js') }}"></script>
     <!-- Fonts -->
@@ -235,7 +235,7 @@
         </div>
     </div>
 </div>
-<script src="https://www.paypal.com/sdk/js?client-id={{env('PAYPAL_SANDBOX_API_PASSWORD')}}&currency=MXN"></script>
+<!--script src="https://www.paypal.com/sdk/js?client-id={{env('PAYPAL_SANDBOX_API_PASSWORD')}}&currency=MXN"></script-->
 <script type="text/javascript" src="https://cdn.conekta.io/js/latest/conekta.js"></script>
 <script src="https://openpay.s3.amazonaws.com/openpay.v1.min.js"></script>
 <script src="https://openpay.s3.amazonaws.com/openpay-data.v1.min.js"></script>

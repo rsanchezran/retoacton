@@ -30,6 +30,13 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-12 col-sm-6">
+                    <div class="formaPago">
+                        <h6>La forma rápida de pagar</h6>
+                        <br>
+                        <div id="paypalDiv" class="d-block ml-auto mr-auto" style="width:80%"></div>
+                    </div>
+                </div>
             </div>
             <div v-if="response.referencia!=''">
                 <button class="bigbutton" @click="$refs.referencia.showModal()">Ver ficha</button>
@@ -143,7 +150,7 @@
                     </div>
                 </div>
             </modal>
-            <modal ref="referencia" :title="'Ficha de pago'" @ok="" :showcancel="false" :btncerrar="false" :oktext="'Salir'">
+            <modal ref="referencia" :title="'Ficha de pago'" @ok="" :showcancel="false" :btncerrar="true">
                 <div class="opps">
                     <div class="opps-header">
                         <div class="opps-reminder">Ficha digital. No es necesario imprimir.</div>

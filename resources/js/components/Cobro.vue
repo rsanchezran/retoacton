@@ -30,6 +30,13 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-12 col-sm-6">
+                    <div class="formaPago">
+                        <h6>La forma rápida de pagar</h6>
+                        <br>
+                        <div id="paypalDiv" class="d-block ml-auto mr-auto" style="width:80%"></div>
+                    </div>
+                </div>
             </div>
             <div v-if="response.referencia!=''">
                 <button class="bigbutton" @click="$refs.referencia.showModal()">Ver ficha</button>

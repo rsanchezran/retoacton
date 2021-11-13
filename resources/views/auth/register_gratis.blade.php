@@ -1454,7 +1454,7 @@
             <!--img src="{{asset('images/2021/logo_blanco_b.png')}}" id="imagentop" class="w-75" style="margin-top: 50px"-->
             <br>
             <br>
-            <img v-if="encontrado_url && mensaje_ref==''" src="{{asset('images/2021/texto_2_semanas.png')}}" id="imagentop" style="width: 90% !important; margin-top: 5%;">
+            <img v-if="encontrado_url && mensaje_ref==''" src="{{asset('images/2021/texto_2_semanas.png')}}" id="imagentop" style="width: 90% !important; margin-top: 25% !important;">
             <br>
             <br>
             <h3 v-if="encontrado_url && mensaje_ref==''" class="col-12 text-center">

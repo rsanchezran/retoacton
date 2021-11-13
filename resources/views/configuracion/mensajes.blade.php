@@ -41,6 +41,10 @@
                     <img src="{{asset('images/2021/pencil.png')}}" class="col-11 mt-4" @click="verEliminar">
                 </div>
             </div>
+            <br>
+            <div class="col-12">
+                <a :href="'mensaje-directo/1'" class="btn btn-primary col-12" style="background: #0080DD !important;">¿Tienes una duda?<br>Pregunta a tu coach</a>
+            </div>
             <!--a :href="'mensaje-directo/1'" class="btn btn-success text-white">Solución de dudas</a-->
             <div v-for="usuario in usuarios.data" class="d-flex usuario mt-4">
                 <div class="col-6 d-flex flex-column align-items-start">

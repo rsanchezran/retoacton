@@ -71,10 +71,13 @@ Route::group(['prefix' => 'cuenta', 'middleware' => ['auth', 'pago']], function 
     Route::post('enviarreto/', 'CuentaController@enviarreto');
     Route::post('aceptarreto/', 'CuentaController@aceptarreto');
     Route::post('retos/respuesta/', 'CuentaController@retoRespuesta');
+    Route::post('retos/calificacion/', 'CuentaController@retoRespuestaCalificacion');
+    Route::post('retos/verificacalificacion/', 'CuentaController@retoverificaCalificacion');
     Route::get('/getVideo/{video}/', 'CuentaController@getVideo');
     Route::post('/cobrar/', 'CuentaController@cobrar');
     Route::post('/agregarGYM/', 'CuentaController@agregarGYM');
     Route::post('/mensajes-eliminar/', 'CuentaController@mensajesEliminar');
+    Route::post('/pagarvideo/', 'CuentaController@pagarvideo');
 });
 
 Route::group(['prefix' => 'configuracion', 'middleware' => ['auth', 'pago']], function () {
