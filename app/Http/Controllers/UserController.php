@@ -1411,5 +1411,15 @@ class UserController extends Controller
     }
 
 
+    public function detalleReferido(Request $request, $id)
+    {
+        $referido = User::where('id', $id)->first();
+
+        return view('users.detalle_referido')
+            ->with([
+                'referido'=>$referido,
+            ]);
+    }
+
 
 }

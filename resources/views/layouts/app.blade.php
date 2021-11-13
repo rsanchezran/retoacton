@@ -270,7 +270,10 @@
                                 <i class="fas fa-chevron-down"></i> Mensajes @if (auth()->user()->unreadnotifications)<span class="badge badge-warning">{{ count(auth()->user()->unreadNotifications) }}</span>@endif
                             </a>
                             <div class="dropdown-menu" aria-lab elledby="administracion">
-
+                                <a class="dropdown-item" href="{{ url('/configuracion/mensajes') }}">
+                                    <i class="far fa-comment"></i>
+                                    <span class="float-right text-muted text-sm" style="padding-right: 5px;">Mensajes</span>
+                                </a>
                                 @foreach(auth()->user()->unreadNotifications as $notification)
                                     @if($notification->type == 'App\Notifications\MensajeNotification')
                                     <a class="dropdown-item" href="{{ url('/configuracion/mensajes') }}">

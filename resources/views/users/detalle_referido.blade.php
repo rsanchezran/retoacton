@@ -20,7 +20,7 @@
 @section('content')
     <div id="vue">
         <div class="container">
-            <temp-retos></temp-retos>
+            <temp-retos :referido="{{$referido}}"></temp-retos>
         </div>
     </div>
 
@@ -32,27 +32,31 @@
 
             <div class="card mb-3">
                 <div class="card-body"  id="lstUsuarios">
-                    <div v-for="usuario in usuarios.data" class="usuario mb-2" style="border-bottom: 1px solid #c2c2c2; height: 75px;">
-                        <div class="row ">
-                            <span class="col-8">
-                                <a :href="'/cuenta/'+usuario.id">
-                                    <img :src="'/cuenta/getFotografia/'+usuario.id+'/343234'"
+                    <div class="">
+                        <div class="col-12 text-center">
+                            <span class="">
+                                    <img :src="'/cuenta/getFotografia/'+referido.id+'/343234'"
                                          style="
                                         height: 100px;
                                         min-height: 50px;
-                                        height: 50px;
-                                        width: 50px;
+                                        height: 60px;
+                                        width: 60px;
                                         border-radius: 30px;">
-                                    @{{ usuario.name+' '+usuario.last_name }}</a>
                             </span>
-                            <div class="col-4 mt-2 row" style="margin-bottom: -40px;">
-
-                                <span v-if="usuario.dias==7" class="bg-warning" style="width: 20px; height: 20px; border-radius: 10px;"></span>
-                                <span v-else-if="usuario.dias>usuario.dias_reto" class="bg-success" style="width: 20px; height: 20px; border-radius: 10px;"></span>
-                                <span v-else-if="usuario.dias<usuario.dias_reto" class="bg-danger" style="width: 20px; height: 20px; border-radius: 10px;"></span>
-                                <a v-tooltip="{content:'Ver info'}" class="btn btn-sm btn-danger" :href="'{{ url('/usuarios/referido/') }}/' + usuario.id" style="background: #9B0000 !important;margin-left: 3px; height: 30px">
-                                    Ver info
-                                </a>
+                            <div class="col-12 text-center mt-2" style="margin-bottom: 0px; color: #666666;">
+                                <h2>@{{ referido.name+' '+referido.last_name }}</h2>
+                                <div class="color: #808080">@{{ referido.referencia }}</div>
+                            </div>
+                            <div class="col-12 text-center mt-2" style="margin-top: 40px; color: #666666;">
+                                <h5>Total generado gracias a este perfil</h5>
+                            </div>
+                            <div class="col-12 row text-center mt-2" style="margin-top: 40px; color: #666666;">
+                                <img src="{{asset('images/2021/moneda_mini.png')}}" class="col-3 offset-2 mt-2" style="height: 40px"><h5 style="font-family: 'Nunito' !important; font-weight: bolder;" class="col-5 mt-3">0 Acton coins</h5>
+                            </div>
+                            <div class="col-12 text-center mt-2" style="margin-top: 40px; color: #666666;">
+                                <div v-if="referido.dias==14 || referido.dias==7" class="row"> <div class="bg-warning mr-2 "  style="width: 20px; height: 20px; border-radius: 10px;"></div> <span style="color: #666666;">Este perfil se encuentra en periodo de prueba</span></div>
+                                <div v-else-if="referido.dias>referido.dias_reto" class="row"> <div class="bg-success mr-2 "  style="width: 20px; height: 20px; border-radius: 10px; "></div> <span style="color: #666666;">Este perfil se encuentra activo</span></div>
+                                <div v-else-if="referido.dias<referido.dias_reto" class="row"> <div class="bg-danger mr-2"  style="width: 20px; height: 20px; border-radius: 10px; "></div> <span style="color: #666666;">Este perfil se encuentra inactivo</span></div>
                             </div>
                             <!--span>@{{ usuario.medio }}</span-->
                         </div>
@@ -83,11 +87,6 @@
                     </div>
                     <div class="float-right">
                         <paginador ref="paginador" :url="'{{url('/usuarios/buscar-referidos')}}'" @loaded="loaded"></paginador>
-                    </div>
-                    <div class="col-12 text-center mt-5" style="margin-top: 40px; color: #666666;">
-                        <div class="row"> <div class="bg-warning mr-2 "  style="width: 20px; height: 20px; border-radius: 10px;"></div> <span style="color: #666666;">Este perfil se encuentra en periodo de prueba</span></div>
-                        <div class="row"> <div class="bg-success mr-2 "  style="width: 20px; height: 20px; border-radius: 10px; "></div> <span style="color: #666666;">Este perfil se encuentra activo</span></div>
-                        <div class="row"> <div class="bg-danger mr-2"  style="width: 20px; height: 20px; border-radius: 10px; "></div> <span style="color: #666666;">Este perfil se encuentra inactivo</span></div>
                     </div>
                 </div>
             </div>
@@ -189,14 +188,7 @@
         Vue.component('temp-retos', {
             template: '#temp',
             props: [
-                'nombre_prop',
-                'conexion_prop',
-                'estado_prop',
-                'ciudad_prop',
-                'cp_prop',
-                'colonia_prop',
-                'tienda_prop',
-                'codigo_personal_prop'
+                'referido',
             ],
             data: function () {
                 return {
