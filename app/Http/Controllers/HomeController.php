@@ -181,7 +181,12 @@ class HomeController extends Controller
         }else{
             $dialunes = Carbon::parse("monday next week");
         }
-        $user->inicio_reto = $dialunes;
+        if($user->inicio_reto == null) {
+            $user->inicio_reto = $dialunes;
+        }
+        /*else{
+            $user->inicio_reto = Carbon::now()->subDays($user->dias);
+        }*/
         if ($user->inicio_reto != null) {
             Respuesta::where('usuario_id', $user->id)->delete();
         }
