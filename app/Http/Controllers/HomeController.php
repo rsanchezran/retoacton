@@ -182,7 +182,7 @@ class HomeController extends Controller
             $dialunes = Carbon::parse("monday next week");
         }
         if($user->inicio_reto == null) {
-            $user->inicio_reto = $dialunes;
+            //$user->inicio_reto = $dialunes;
         }
         /*else{
             $user->inicio_reto = Carbon::now()->subDays($user->dias);
@@ -865,14 +865,20 @@ class HomeController extends Controller
 
         try {
             $user->enviado_validacion = 2;
+            $today = new Carbon();
+            if($today->dayOfWeek == Carbon::THURSDAY || $today->dayOfWeek == Carbon::FRIDAY || $today->dayOfWeek == Carbon::SATURDAY || $today->dayOfWeek == Carbon::SUNDAY){
+                $dialunes = Carbon::parse("monday next week");
+                $dialunes = $dialunes->addDays(7);
+            }else{
+                $dialunes = Carbon::parse("monday next week");
+            }
+            if($user->inicio_reto == null){
+                $user->inicio_reto = $dialunes;
+            }
             $user->save();
             $amistad = Amistades::create([
                 'usuario_solicita_id'=> $id,
                 'usuario_amigo_id' => 1
-            ]);
-            $amistad = Amistades::create([
-                'usuario_solicita_id'=> 1,
-                'usuario_amigo_id' => $id
             ]);
         } catch (Exception $e) {
             $result['error'] = $e->getMessage();
@@ -889,6 +895,8 @@ class HomeController extends Controller
 
         try {
             $user->enviado_validacion = 0;
+            $user->archivo_validacion_1 = '';
+            $user->archivo_validacion_2 = '';
             $user->save();
         } catch (Exception $e) {
             $result['error'] = $e->getMessage();

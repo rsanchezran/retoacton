@@ -158,6 +158,7 @@ class UserController extends Controller
         $usuarios = User::where('rol', '!=', RolUsuario::ADMIN);
         $usuarios = $usuarios->where('rol', '!=', RolUsuario::TIENDA);
         $usuarios = $usuarios->where('tipo_referencia', 3);
+        $usuarios = $usuarios->where('enviado_validacion', 2);
 
         if ($campos->nombre != null) {
             $usuarios = $usuarios->where('name', 'like', '%' . $campos->nombre . '%');
