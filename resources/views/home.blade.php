@@ -1139,7 +1139,7 @@
                             $('.btn-success').prop('disabled', false);
                         }
                         if(this.imgURL != ''){
-                            vm.error_nueva_foto = vm.error_nueva_foto+'<span class="text-danger">Selecciona la fotografia.</span>';
+                            vm.error_nueva_foto += '<span class="text-danger">Selecciona la fotografia.</span>';
                             $('.btn-success').prop('disabled', false);
                         }
                     }
