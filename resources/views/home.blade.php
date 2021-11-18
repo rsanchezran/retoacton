@@ -226,6 +226,10 @@
             padding: 10px;
             box-shadow: 2px 2px rgba(0,0,0,.125);
         }
+        .btn-link:hover {
+            color: white !important;
+            text-decoration: none !important;
+        }
 
     </style>
 @endsection
