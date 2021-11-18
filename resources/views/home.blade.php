@@ -687,7 +687,7 @@
 
 
 
-                <modal ref="seguir" title="Nueva foto" @okdisabled="true">
+                <modal ref="seguir" title="Nueva foto" :showok="false">
                     <div class="row col-12">
                         <clipper-upload v-model="imgURL" class="subir_foto col-3 text-center offset-1">Subir foto</clipper-upload>
                         <button @click="getResult" class="subir_foto col-3 offset-3">Cortar</button>
