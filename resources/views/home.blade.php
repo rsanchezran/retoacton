@@ -1091,7 +1091,10 @@
                 }},
             methods: {
                 sigue: function () {
+                    var vm = this;
                     this.$refs.seguir.showModal();
+                    vm.imgURL = '';
+                    vm.resultURL = '';
                 },
                 obtenercoins: function () {
                     var vm = this;
