@@ -694,7 +694,7 @@
                         <button @click="mostrarOriginal" class="subir_foto col-3 offset-4 mt-2">Ver imagen</button>
                     </div>
                     <div class="col-12 text-center">
-                        <clipper-basic v-if="hide_original" class="my-clipper" ref="clipper" :src="imgURL" ratio="1" class="col-12">
+                        <clipper-basic v-if="hide_original" class="my-clipper" ref="clipper" :src="imgURL" ratio=1 class="col-12">
                             <div class="placeholder" slot="placeholder">Sin foto</div>
                         </clipper-basic>
                         <h3>Vista previa</h3>
