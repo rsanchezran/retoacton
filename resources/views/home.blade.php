@@ -1135,7 +1135,7 @@
                         });
                     }else{
                         if(this.descripcion == ''){
-                            vm.error_nueva_foto = '<span class="text-danger">Llena la descripción.</span>';
+                            vm.error_nueva_foto = '<span class="text-danger">Llena la descripción.</span><br>';
                             $('.btn-success').prop('disabled', false);
                         }
                         if(this.imgURL == ''){
