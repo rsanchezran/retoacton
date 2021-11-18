@@ -1095,6 +1095,7 @@
                     this.$refs.seguir.showModal();
                     vm.imgURL = '';
                     vm.resultURL = '';
+                    vm.error_nueva_foto = '';
                 },
                 obtenercoins: function () {
                     var vm = this;
