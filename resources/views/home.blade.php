@@ -698,10 +698,11 @@
                             <div class="placeholder" slot="placeholder">Sin foto</div>
                         </clipper-basic>
                         <h3>Vista previa</h3>
-                        <img class="result" :src="resultURL" alt="" class="col-12">
+                        <img class="result w-100" :src="resultURL" alt="">
                     </div>
                     <div class="col-12 text-center mt-3">
                         <textarea rows="2" cols="40" id="txtDescripcion" v-model="descripcion" placeholder="Descripción"></textarea>
+                        <div v-html="error_nueva_foto"></div>
                     </div>
 
                 </modal>
@@ -1078,6 +1079,7 @@
                     hide_original: true,
                     mostrarcalif: false,
                     ocultareto: false,
+                    error_nueva_foto: '',
                 }},
             methods: {
                 sigue: function () {
@@ -1110,6 +1112,7 @@
                     let fm = new FormData();
                     fm.append('imagen', this.resultURL);
                     fm.append('descripcion', this.descripcion);
+                    vm.error_nueva_foto = '';
                     if(this.descripcion != '' && this.imgURL != ''){
                         axios.post('{{url('cuenta/mialbum/nuevaFoto/')}}', fm).then(function (response) {
                             vm.loadingFoto = false;
@@ -1119,6 +1122,9 @@
                         }).catch(function (error) {
                             console.log(error.response.data.errors);
                         });
+                    }else{
+                        vm.error_nueva_foto = '<span class="text-danger">Llena todos los datos.</span>';
+                        $('.btn-success').prop('disabled', false);
                     }
                 },
                 galeria: function(){
