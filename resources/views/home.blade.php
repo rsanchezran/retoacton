@@ -1134,11 +1134,11 @@
                             console.log(error.response.data.errors);
                         });
                     }else{
-                        if(this.descripcion != ''){
+                        if(this.descripcion == ''){
                             vm.error_nueva_foto = '<span class="text-danger">Llena la descripción.</span>';
                             $('.btn-success').prop('disabled', false);
                         }
-                        if(this.imgURL != ''){
+                        if(this.imgURL == ''){
                             vm.error_nueva_foto += '<span class="text-danger">Selecciona la fotografia.</span>';
                             $('.btn-success').prop('disabled', false);
                         }
