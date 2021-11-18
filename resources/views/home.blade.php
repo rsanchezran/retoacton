@@ -687,7 +687,7 @@
 
 
 
-                <modal ref="seguir" title="Nueva foto" :showok="false">
+                <modal ref="seguir" title="Nueva foto" :showok="false" :showcancel="false">
                     <div class="row col-12">
                         <clipper-upload v-model="imgURL" class="subir_foto col-3 text-center offset-1">Subir foto</clipper-upload>
                         <button @click="getResult" class="subir_foto col-3 offset-3">Cortar</button>
@@ -705,7 +705,7 @@
                         <div v-html="error_nueva_foto"></div>
                     </div>
                     <div class="col-12 text-center mt-3">
-                        <button @click="GuardarNuevaFoto" class="col-6">Guardar</button>
+                        <button @click="GuardarNuevaFoto" class="col-6 btn btn-primary">Guardar</button>
                     </div>
 
 
