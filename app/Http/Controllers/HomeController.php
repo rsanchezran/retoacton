@@ -379,9 +379,9 @@ class HomeController extends Controller
 
         $dietaAnterior = UsuarioDieta::where('usuario_id', $user->id)->where('dieta', '>', 1)->get()->last();
         if ($user->rol == RolUsuario::CLIENTE) {
-            $numDieta = $dietaAnterior == null ? 0 : $dietaAnterior->dieta + 1;
+            $numDieta = $dietaAnterior == null ? 1 : $dietaAnterior->dieta + 1;
             $days = $user->dias/7;
-            for ($i=$numDieta-1; $i<$days+1; $i++) {
+            for ($i=$numDieta-1; $i<$days+2; $i++) {
                 $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $i);
             }
         }
