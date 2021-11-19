@@ -225,6 +225,10 @@ class HomeController extends Controller
         $user->save();
 
         if ($user->inicio_reto == null) { //Se generan 4 dietas a lo largo del reto
+            if($user->dias == 7){
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 1);
+                $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 2);
+            }
             if($user->dias == 14){
                 $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 1);
                 $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 2);
@@ -265,6 +269,10 @@ class HomeController extends Controller
                     $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta);
                     $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta + 1);
                 }else{
+                    if($user->dias == 7){
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta);
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta+1);
+                    }
                     if($user->dias == 14){
                         $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta);
                         $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $numDieta+1);
@@ -301,6 +309,10 @@ class HomeController extends Controller
                 $this->agregarKit($user, $kits->count() == 0 ? 2 : 1);
             } else {
                 if($user->dias == 14){
+                    $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 1);
+                    $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 2);
+                }
+                if($user->dias == 7){
                     $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 1);
                     $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, 2);
                 }

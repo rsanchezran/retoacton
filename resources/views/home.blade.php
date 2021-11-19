@@ -230,6 +230,31 @@
             color: white !important;
             text-decoration: none !important;
         }
+        .btnagregar{
+            background: #0080DD !important;
+            border: 1px solid #0080DD;
+            color: white;
+        }
+        .tarjeta_precios{
+            border: 1px solid rgba(0,0,0,.125);
+            border-radius: 20px;
+            margin-left: 10px;
+            padding: 10px;
+            box-shadow: 2px 2px 10px 2px rgb(0 0 0 / 13%);
+            margin-right: 10px;
+            color: #666666;
+            font-size: 0.7em;
+        }
+        .tarjeta_precios table tr {
+            border-bottom: 1px solid #d2d2d2;
+        }
+        .tarjeta_precios table td{
+            padding-bottom: 5px;
+            padding-top: 5px;
+        }
+        .tarjeta_precios table tr:last-child {
+            border-bottom: 0px solid #d2d2d2;
+        }
 
     </style>
 @endsection
@@ -376,7 +401,8 @@
                         </div>
                     </div>
                     <div class="col-12 text-center mt-3">
-                        <a href="#" @click="obtenercoins" class="col-6"><img src="{{asset('images/2021/obtener_coins.png')}}" class="col-8"></a>
+                        <!--a href="#" @click="obtenercoins" class="col-6"><img src="{{asset('images/2021/obtener_semanas.png')}}" class="col-8"></a-->
+                        <!--a href="#" @click="obtenersemanas" class="col-6"><img src="{{asset('images/2021/obtener_semanas.png')}}" class="col-8"></a-->
                     </div>
                 </div>
             </div>
@@ -685,6 +711,8 @@
                             </div>
                             <hr>
                 @endif
+            </div>
+
 
 
                 <hr>
@@ -723,6 +751,64 @@
                         <cobro_compra_coins ref="cobro" :cobro="''+monto" :url="'{{url('/')}}'" :id="'{{env('OPENPAY_ID')}}'"
                                             :llave="'{{env('CONEKTA_PUBLIC')}}'" :sandbox="'{{env('SANDBOX')}}'==true" :meses="true"
                                             @terminado="terminado"></cobro_compra_coins>
+                    </div>
+                </modal>
+
+
+                <modal ref="obtenersemanas" title="" :showok="false">
+                    <div style="padding: 10px">
+
+                        <div class="row text-center">
+                            <img src="{{asset('images/2021/actualizar_plan.png')}}" class="col-8 offset-2">
+                            <div class="card tarjeta_precios">
+                                <div class="card-body">
+                                    <table class="col-12">
+                                        <tbody>
+                                        <tr class="col-12">
+                                            <td class="col-6 text-left">Quiero agregar 1 semana</td>
+                                            <td class="col-4 text-left"><img src="{{asset('images/2021/moneda_mini.png')}}" style="width: 10px;"> 100 Acton coins</td>
+                                            <td class="col-2"><button class="col-12 btnagregar">Agregar</button></td>
+                                        </tr>
+                                        <tr class="col-12">
+                                            <td class="col-6 text-left">Quiero agregar 2 semanas</td>
+                                            <td class="col-4 text-left"><img src="{{asset('images/2021/moneda_mini.png')}}" style="width: 10px;"> 200 Acton coins</td>
+                                            <td class="col-2"><button class="col-12 btnagregar">Agregar</button></td>
+                                        </tr>
+                                        <tr class="col-12">
+                                            <td class="col-6 text-left">Quiero agregar 4 semanas</td>
+                                            <td class="col-4 text-left"><img src="{{asset('images/2021/moneda_mini.png')}}" style="width: 10px;"> 400 Acton coins</td>
+                                            <td class="col-2"><button class="col-12 btnagregar">Agregar</button></td>
+                                        </tr>
+                                        <tr class="col-12">
+                                            <td class="col-6 text-left">Quiero agregar 8 semanas</td>
+                                            <td class="col-4 text-left"><img src="{{asset('images/2021/moneda_mini.png')}}" style="width: 10px;"> 500 Acton coins</td>
+                                            <td class="col-2"><button class="col-12 btnagregar">Agregar</button></td>
+                                        </tr>
+                                        <tr class="col-12">
+                                            <td class="col-6 text-left">Quiero agregar 12 semanas</td>
+                                            <td class="col-4 text-left"><img src="{{asset('images/2021/moneda_mini.png')}}" style="width: 10px;"> 750 Acton coins</td>
+                                            <td class="col-2"><button class="col-12 btnagregar">Agregar</button></td>
+                                        </tr>
+                                        <tr class="col-12">
+                                            <td class="col-6 text-left">Quiero agregar 26 semanas</td>
+                                            <td class="col-4 text-left"><img src="{{asset('images/2021/moneda_mini.png')}}" style="width: 10px;"> 1500 Acton coins</td>
+                                            <td class="col-2"><button class="col-12 btnagregar">Agregar</button></td>
+                                        </tr>
+                                        <tr class="col-12">
+                                            <td class="col-6 text-left">Quiero agregar 52 semanas</td>
+                                            <td class="col-4 text-left"><img src="{{asset('images/2021/moneda_mini.png')}}" style="width: 10px;"> 2500 Acton coins</td>
+                                            <td class="col-2"><button class="col-12 btnagregar">Agregar</button></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <cobro_compra_coins ref="cobro" :cobro="''+monto" :url="'{{url('/')}}'" :id="'{{env('OPENPAY_ID')}}'"
+                                            :llave="'{{env('CONEKTA_PUBLIC')}}'" :sandbox="'{{env('SANDBOX')}}'==true" :meses="true"
+                                            @terminado="terminado"></cobro_compra_coins>
+
                     </div>
                 </modal>
 
@@ -1100,6 +1186,12 @@
                 obtenercoins: function () {
                     var vm = this;
                     this.$refs.obtenercoins.showModal();
+
+
+                },
+                obtenersemanas: function () {
+                    var vm = this;
+                    this.$refs.obtenersemanas.showModal();
 
 
                 },
