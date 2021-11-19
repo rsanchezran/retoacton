@@ -381,7 +381,7 @@ class HomeController extends Controller
         if ($user->rol == RolUsuario::CLIENTE) {
             $numDieta = $dietaAnterior == null ? 1 : $dietaAnterior->dieta + 1;
             $days = $user->dias/7;
-            for ($i=$numDieta-1; $i<$days; $i++) {
+            for ($i=$numDieta-1; $i<$days+1; $i++) {
                 $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $i);
             }
         }

@@ -402,7 +402,7 @@
                     </div>
                     <div class="col-12 text-center mt-3">
                         <!--a href="#" @click="obtenercoins" class="col-6"><img src="{{asset('images/2021/obtener_semanas.png')}}" class="col-8"></a-->
-                        <!--a href="#" @click="obtenersemanas" class="col-6"><img src="{{asset('images/2021/obtener_semanas.png')}}" class="col-8"></a-->
+                        <a href="#" @click="obtenersemanas" class="col-6"><img src="{{asset('images/2021/obtener_semanas.png')}}" class="col-8"></a>
                     </div>
                 </div>
             </div>
