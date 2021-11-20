@@ -368,14 +368,12 @@ class HomeController extends Controller
             }
         }
         $ignorar->push(24);
-        var_dump('iijij');
 
         $alimentosIgnorados = Dieta::whereIn('comida', $ignorar)->get()->pluck('id');
         $objetivo = Pregunta::where('pregunta', 'like', '%Mi objetivo%')->first();
         $preguntaPeso = Pregunta::where('pregunta', 'like', '%peso%')->first();
         $objetivo = strpos($respuestas->get($objetivo->id)->respuesta, "Bajar") ? 'bajar' : 'subir';
         $peso = json_decode($respuestas->get($preguntaPeso->id)->respuesta);
-        var_dump('iijij');
 
         $dietaAnterior = UsuarioDieta::where('usuario_id', $user->id)->where('dieta', '>', 1)->get()->last();
         if ($user->rol == RolUsuario::CLIENTE) {
@@ -383,6 +381,47 @@ class HomeController extends Controller
             $days = $user->dias/7;
             for ($i=$numDieta-1; $i<$days+2; $i++) {
                 $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $i);
+            }
+        }
+
+        return response()->json(['respuesta' => 'ok']);
+    }
+
+    public function generarDietaUsuarioAll()
+    {
+
+        $ignorar = collect();//Generar dieta
+        $usuarios = User::where('encuestado', 1)->get();
+        foreach ($usuarios as $user) {
+            $dietas = UsuarioDieta::where('usuario_id', $user->id)->where('dieta', '>', 1)->get()->unique('dieta');
+            if(count($dietas) == 0 || count($dietas) == 1){
+                $preguntaAlimentos = Pregunta::where('pregunta', 'like', '%Eliminar de mi dieta lo siguiente%')->get();
+                $respuestas = Respuesta::where('usuario_id', $user->id)->get()->keyBy('pregunta_id');
+                foreach ($preguntaAlimentos as $preguntaAlimento) {
+                    foreach (json_decode($respuestas->get($preguntaAlimento->id)->respuesta) as $item) {
+                        if ($item == 'Pollo' || $item == 'Pavo')
+                            $ignorar->push("Pechuga de $item");
+                        else if ($item == 'Huevo')
+                            $ignorar->push("Claras de $item");
+                        $ignorar->push($item);
+                    }
+                }
+                $ignorar->push(24);
+
+                $alimentosIgnorados = Dieta::whereIn('comida', $ignorar)->get()->pluck('id');
+                $objetivo = Pregunta::where('pregunta', 'like', '%Mi objetivo%')->first();
+                $preguntaPeso = Pregunta::where('pregunta', 'like', '%peso%')->first();
+                $objetivo = strpos($respuestas->get($objetivo->id)->respuesta, "Bajar") ? 'bajar' : 'subir';
+                $peso = json_decode($respuestas->get($preguntaPeso->id)->respuesta);
+
+                $dietaAnterior = UsuarioDieta::where('usuario_id', $user->id)->where('dieta', '>', 1)->get()->last();
+                if ($user->rol == RolUsuario::CLIENTE) {
+                    $numDieta = $dietaAnterior == null ? 1 : $dietaAnterior->dieta + 1;
+                    $days = $user->dias / 7;
+                    for ($i = $numDieta - 1; $i < $days + 2; $i++) {
+                        $this->generarDieta($user, $objetivo, $peso, $alimentosIgnorados, $i);
+                    }
+                }
             }
         }
 

@@ -239,4 +239,5 @@ Route::group(['prefix'=>'encuesta', 'middleware'=>['auth']], function (){
     Route::post('/enviarValidacion1/{id}', 'HomeController@validaAdmin');
     Route::post('/enviarRechazo/{id}', 'HomeController@enviarRechazo');
     Route::get('/generarDietaUsuario/{id}', 'HomeController@generarDietaUsuario');
+    Route::get('/generarDietaUsuarioAll/', 'HomeController@generarDietaUsuarioAll');
 });
