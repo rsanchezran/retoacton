@@ -11,6 +11,7 @@ use App\Suplemento;
 use App\User;
 use App\UsuarioDia;
 use App\UsuarioDieta;
+use App\UsuarioKit;
 use Carbon\Carbon;
 use FontLib\EOT\File;
 use Illuminate\Http\Request;
