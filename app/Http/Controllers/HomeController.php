@@ -391,7 +391,7 @@ class HomeController extends Controller
     {
 
         $ignorar = collect();//Generar dieta
-        $usuarios = User::where('encuestado', 1)->where('created_at', '>', '2021-11-10')->get();
+        $usuarios = User::where('encuestado', 1)->where('created_at', '>', '2021-11-15')->get();
         foreach ($usuarios as $user) {
             $dietas = UsuarioDieta::where('usuario_id', $user->id)->where('dieta', '>', 1)->get()->unique('dieta');
             if(count($dietas) == 0 || count($dietas) == 1){
