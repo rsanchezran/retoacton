@@ -373,11 +373,41 @@ class RetoController extends Controller
 
             error_log('DIASSS');
             error_log($diasTranscurridosuno);
+            $kits = UsuarioKit::where('user_id', $user->id)->get();
+            $this->agregarKit($user, $kits->count() == 0 ? 2 : 1);
 
             $diaDB = Dia::buildDia($diasTranscurridosuno, $genero, $objetivo, $request->user(), $numDietas, $numSemanaSuplementacion);
             return view('reto.dia', ['dia' => $diaDB, 'genero' => $genero, 'objetivo' => $objetivo,
                 'dias' => $dias, 'lugar' => $user->modo, 'semana' => $semana, 'maximo' => $diasTranscurridos,
                 'teorico' => $teorico, 'diasReto' => $diasReto]);
+        }
+    }
+
+    public function agregarKit($usuario, $No_kits = 1)
+    {
+        if ($No_kits == 2) {
+            $kit_id = Kits::select('id')->where('objetivo', $usuario->objetivo)->where('genero', $usuario->genero)->get();
+            $dias = intval(env('DIAS2') - 1);
+            $dia = -1;
+            foreach ($kit_id as $kit) { //agregar kits
+                $d = $dia + 1;
+                $usuario_kit = new UsuarioKit();
+                $usuario_kit->user_id = $usuario->id;
+                $usuario_kit->kit_id = $kit->id;
+                $usuario_kit->fecha_inicio = Carbon::now()->startOfDay()->addDays($d);
+                $usuario_kit->fecha_fin = Carbon::now()->startOfDay()->addDays($d + $dias);
+                $usuario_kit->save();
+                $dia += $dias;
+            }
+        } else { //escoger un solo kit descpues de la reinscripcion
+            $kits = UsuarioKit::withTrashed()->where('user_id', $usuario->id)->get();
+            $eliminado = rand(0, 1);
+            $restaurado = $eliminado == 0 ? 1 : 0;
+            $kits->get($eliminado)->delete();
+            $kits->get($restaurado)->deleted_at = null;
+            $kits->get($restaurado)->fecha_inicio = Carbon::now();
+            $kits->get($restaurado)->fecha_fin = Carbon::now()->addDays((int)env('DIAS') / 2);
+            $kits->get($restaurado)->save();
         }
     }
 
