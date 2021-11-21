@@ -2713,6 +2713,520 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CobroCompraCoinsDos.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/CobroCompraCoinsDos.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    cobro: {
+      type: String,
+      "default": "0.0"
+    },
+    dias: {
+      type: String,
+      "default": "0"
+    },
+    url: {
+      type: String,
+      "default": "/"
+    },
+    id: {
+      type: String,
+      "default": ''
+    },
+    sandbox: {
+      type: Boolean,
+      "default": true
+    },
+    llave: {
+      type: String,
+      "default": ''
+    },
+    meses: {
+      type: Boolean,
+      "default": false
+    }
+  },
+  data: function data() {
+    return {
+      errors: {},
+      acuerdo: false,
+      loading: false,
+      response: {
+        referencia: '',
+        monto: '',
+        origen: 'oxxo'
+      },
+      informacion: {
+        name: '',
+        nombres: '',
+        apellidos: '',
+        email: '',
+        email_confirmation: '',
+        telefono: '',
+        codigo: '',
+        number: '',
+        exp_year: '',
+        exp_month: '',
+        cvc: '',
+        meses: false,
+        conektaTokenId: '',
+        deposito: false,
+        monto: this.cobro
+      }
+    };
+  },
+  methods: {
+    metodoPago: function metodoPago(pago) {
+      this.errors = [];
+      this.pago = "pago";
+      this.$refs[pago].showModal();
+      this.pago = pago;
+    },
+    limpiarInformacion: function limpiarInformacion() {
+      this.informacion.nombres = this.informacion.nombres.trim();
+      this.informacion.apellidos = this.informacion.apellidos.trim();
+      this.informacion.email = this.informacion.email.trim();
+      this.informacion.telefono = this.informacion.telefono.trim();
+      this.informacion.number = this.informacion.number.trim();
+      this.informacion.exp_year = this.informacion.exp_year.trim();
+      this.informacion.exp_month = this.informacion.exp_month.trim();
+      this.informacion.cvc = this.informacion.cvc.trim();
+      this.informacion.name = '';
+    },
+    openpay: function openpay() {
+      var vm = this;
+      vm.errors = {};
+      vm.terminar = false;
+    },
+    OxxoSpei: function OxxoSpei() {
+      var vm = this;
+      axios.post('/pago/' + vm.pago + '/coins', vm.informacion).then(function (response) {
+        if (response.data.status == 'ok') {
+          vm.$refs[vm.pago].closeModal();
+          vm.response.referencia = response.data.referencia;
+          vm.response.monto = response.data.monto;
+          vm.response.origen = response.data.origen;
+          vm.$refs.referencia.showModal();
+        }
+
+        vm.$refs[vm.pago].working = false;
+      })["catch"](function (errors) {
+        vm.errors = errors.response.data.errors;
+        vm.$refs[vm.pago].working = false;
+      });
+    },
+    redirect: function redirect() {
+      window.location.href = '/login';
+    },
+    configurar: function configurar(nombres, apellidos, email, telefono, codigo, monto) {
+      this.informacion.nombres = nombres;
+      this.informacion.apellidos = apellidos;
+      this.informacion.email = email;
+      this.informacion.telefono = telefono;
+      this.informacion.codigo = codigo;
+      this.informacion.monto = monto;
+    },
+    terminado: function terminado() {
+      this.$emit('terminado');
+    },
+    tarjeta: function tarjeta() {
+      var _this = this;
+
+      var vm = this;
+      vm.errors = {};
+      vm.terminar = false;
+      vm.informacion.name = vm.informacion.nombres + ' ' + vm.informacion.apellidos;
+      Conekta.Token.create({
+        card: this.informacion
+      }, function (token) {
+        return _this.successConekta(token);
+      }, function (error) {
+        return _this.errorConecta(error);
+      });
+    },
+    successConekta: function successConekta(token) {
+      var vm = this;
+      vm.informacion.conektaTokenId = token.id;
+      axios.post(vm.url + '/pago/tarjeta' + '/coins', vm.informacion).then(function (respuesta) {
+        if (respuesta.data.status == 'ok') {
+          vm.$refs.tarjeta.closeModal();
+          vm.$refs.pago_tarjeta.showModal();
+        } else if (respuesta.data.status == 'error') {
+          if (respuesta.data.codigo == 3203) {
+            vm.errors = {
+              tarjeta: ['Esta tarjeta no se puede utilizar a meses sin intereses']
+            };
+          } else {
+            vm.errors = {
+              tarjeta: [respuesta.data.error]
+            };
+          }
+        }
+
+        vm.$refs.tarjeta.working = false;
+      })["catch"](function (errors) {
+        vm.errors = errors.response.data.errors;
+        vm.$refs.tarjeta.working = false;
+      });
+    },
+    errorConecta: function errorConecta(error) {
+      var vm = this;
+      vm.errors = {};
+      vm.errors.tarjeta = [error.message_to_purchaser];
+      vm.$refs.tarjeta.working = false;
+    }
+  },
+  mounted: function mounted() {
+    var vm = this;
+    setTimeout(function () {
+      vm.informacion.nombres = vm.nombres;
+      vm.informacion.email = vm.email;
+      Conekta.setPublicKey(vm.llave);
+      Vue.nextTick(function () {
+        document.getElementById('paypalDiv').innerHTML = "";
+        paypal.Buttons({
+          style: {
+            color: "silver",
+            layout: 'horizontal',
+            tagline: 'false',
+            shape: 'rect',
+            size: 'responsive'
+          },
+          funding: {
+            disallowed: [paypal.FUNDING.CREDIT, paypal.FUNDING.CARD]
+          },
+          createOrder: function createOrder(data, actions) {
+            return actions.order.create({
+              purchase_units: [{
+                amount: {
+                  value: vm.cobro
+                }
+              }]
+            });
+          },
+          onApprove: function onApprove(data, actions) {
+            vm.loading = true;
+            vm.$refs.pagando.showModal();
+            return actions.order.capture().then(function (details) {
+              axios.post(vm.url + '/pago/paypal', vm.informacion).then(function (response) {
+                if (response.data.status == 'ok') {
+                  vm.loading = false;
+                  vm.$refs.pagando.closeModal();
+                  vm.$refs.pago_confirmado.showModal();
+                }
+              })["catch"](function (errors) {
+                vm.errors = {
+                  tarjeta: ['Su tarjeta no es valida']
+                };
+              });
+            });
+          }
+        }).render('#paypalDiv');
+        $("#buttons-container").addClass(".buttons-container");
+      });
+    }, 1000);
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/DatePicker.vue?vue&type=script&lang=js&":
 /*!*********************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/DatePicker.vue?vue&type=script&lang=js& ***!
@@ -13107,6 +13621,25 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 // module
 exports.push([module.i, "\n.formaPago[data-v-f5908248] {\n    border: 2px solid #e6e6e6;\n    border-radius: 20px;\n    padding: 10px;\n    margin: 10px;\n    align-content: center;\n    text-align: center;\n}\n.payment[data-v-f5908248] {\n    margin-right: 15px;\n}\n.payment input[data-v-f5908248] {\n    margin: 10px;\n}\n.left[data-v-f5908248] {\n    text-align: justify;\n}\n.imagen[data-v-f5908248] {\n    border: 1px solid #6c757d;\n    padding: 5px;\n    margin: 5px;\n}\n.opps[data-v-f5908248] {\n    border: 1px solid grey;\n    width: 450px;\n    margin: 10px auto;\n    padding: 20px;\n    text-align: left;\n    font-size: 12px;\n}\n.opps-reminder[data-v-f5908248] {\n    padding: 9px 0 10px;\n    font-size: 11px;\n    text-transform: uppercase;\n    text-align: center;\n    color: #ffffff;\n    background: #000000;\n}\n.opps-info[data-v-f5908248] {\n    display: flex;\n    align-content: center;\n    text-align: center;\n    padding: 20px;\n}\n.reference[data-v-f5908248] {\n    text-align: center;\n    padding: 6px 0 7px;\n    border: 1px solid #b0afb5;\n    border-radius: 4px;\n    background: #f8f9fa;\n}\n@media only screen and (max-width: 420px) {\n.opps[data-v-f5908248] {\n        width: 95%;\n}\n.reference[data-v-f5908248]{\n        font-size:1.5rem;\n}\n#monto[data-v-f5908248]{\n        font-size:1.2rem;\n}\n.formaPago h6[data-v-f5908248]{\n        font-size: .8rem;\n}\n.formaPago img[data-v-f5908248]{\n        width: 50px;\n}\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CobroCompraCoinsDos.vue?vue&type=style&index=0&id=31cf48fc&scoped=true&lang=css&":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/CobroCompraCoinsDos.vue?vue&type=style&index=0&id=31cf48fc&scoped=true&lang=css& ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.formaPago[data-v-31cf48fc] {\n    border: 2px solid #e6e6e6;\n    border-radius: 20px;\n    padding: 10px;\n    margin: 10px;\n    align-content: center;\n    text-align: center;\n}\n.payment[data-v-31cf48fc] {\n    margin-right: 15px;\n}\n.payment input[data-v-31cf48fc] {\n    margin: 10px;\n}\n.left[data-v-31cf48fc] {\n    text-align: justify;\n}\n.imagen[data-v-31cf48fc] {\n    border: 1px solid #6c757d;\n    padding: 5px;\n    margin: 5px;\n}\n.opps[data-v-31cf48fc] {\n    border: 1px solid grey;\n    width: 450px;\n    margin: 10px auto;\n    padding: 20px;\n    text-align: left;\n    font-size: 12px;\n}\n.opps-reminder[data-v-31cf48fc] {\n    padding: 9px 0 10px;\n    font-size: 11px;\n    text-transform: uppercase;\n    text-align: center;\n    color: #ffffff;\n    background: #000000;\n}\n.opps-info[data-v-31cf48fc] {\n    display: flex;\n    align-content: center;\n    text-align: center;\n    padding: 20px;\n}\n.reference[data-v-31cf48fc] {\n    text-align: center;\n    padding: 6px 0 7px;\n    border: 1px solid #b0afb5;\n    border-radius: 4px;\n    background: #f8f9fa;\n}\n@media only screen and (max-width: 420px) {\n.opps[data-v-31cf48fc] {\n        width: 95%;\n}\n.reference[data-v-31cf48fc]{\n        font-size:1.5rem;\n}\n#monto[data-v-31cf48fc]{\n        font-size:1.2rem;\n}\n.formaPago h6[data-v-31cf48fc]{\n        font-size: .8rem;\n}\n.formaPago img[data-v-31cf48fc]{\n        width: 50px;\n}\n}\n", ""]);
 
 // exports
 
@@ -62820,6 +63353,36 @@ if(false) {}
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CobroCompraCoinsDos.vue?vue&type=style&index=0&id=31cf48fc&scoped=true&lang=css&":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/CobroCompraCoinsDos.vue?vue&type=style&index=0&id=31cf48fc&scoped=true&lang=css& ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./CobroCompraCoinsDos.vue?vue&type=style&index=0&id=31cf48fc&scoped=true&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CobroCompraCoinsDos.vue?vue&type=style&index=0&id=31cf48fc&scoped=true&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Modal.vue?vue&type=style&index=0&id=53ab54d2&scoped=true&lang=css&":
 /*!***************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Modal.vue?vue&type=style&index=0&id=53ab54d2&scoped=true&lang=css& ***!
@@ -71262,6 +71825,1596 @@ var staticRenderFns = [
     return _c("div", { staticClass: "col-12 col-sm-6" }, [
       _c("div", { staticClass: "formaPago" }, [
         _c("h6", [_vm._v("La forma rápida de pagar")]),
+        _vm._v(" "),
+        _c("br"),
+        _vm._v(" "),
+        _c("div", {
+          staticClass: "d-block ml-auto mr-auto",
+          staticStyle: { width: "80%" },
+          attrs: { id: "paypalDiv" }
+        })
+      ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CobroCompraCoinsDos.vue?vue&type=template&id=31cf48fc&scoped=true&":
+/*!**********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/CobroCompraCoinsDos.vue?vue&type=template&id=31cf48fc&scoped=true& ***!
+  \**********************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "div",
+      {
+        staticClass:
+          "col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 d-block mr-auto ml-auto"
+      },
+      [
+        _c("div", { staticClass: "d-flex flex-wrap" }, [
+          _c(
+            "div",
+            {
+              staticClass: "col-12 col-sm-6",
+              on: {
+                click: function($event) {
+                  return _vm.metodoPago("oxxo")
+                }
+              }
+            },
+            [
+              _c("div", { staticClass: "formaPago row" }, [
+                _c("div", { staticClass: "col-6" }, [_vm._v("OXXO PAY")]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-6" }, [
+                  _c("img", {
+                    attrs: { src: _vm.url + "/img/oxxo.png", width: "50%" }
+                  })
+                ])
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "col-12 col-sm-6",
+              on: {
+                click: function($event) {
+                  return _vm.metodoPago("spei")
+                }
+              }
+            },
+            [
+              _c("div", { staticClass: "formaPago row" }, [
+                _c("div", { staticClass: "col-6" }, [_vm._v("SPEI")]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-6" }, [
+                  _c("img", {
+                    attrs: { src: _vm.url + "/img/spei.png", width: "50%" }
+                  })
+                ])
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "col-12 col-sm-6",
+              on: {
+                click: function($event) {
+                  return _vm.metodoPago("tarjeta")
+                }
+              }
+            },
+            [
+              _c("div", { staticClass: "formaPago row" }, [
+                _c("div", { staticClass: "col-6" }, [
+                  _vm._v("Tarjeta de débito/crédito")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "d-flex flex-wrap col-6" }, [
+                  _c("div", { staticClass: "col-6" }, [
+                    _c("img", {
+                      attrs: { src: _vm.url + "/img/visa.png", width: "20%" }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-6" }, [
+                    _c("img", {
+                      attrs: {
+                        src: _vm.url + "/img/mastercard.png",
+                        width: "20%"
+                      }
+                    })
+                  ])
+                ])
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "col-12 col-sm-6",
+              on: {
+                click: function($event) {
+                  return _vm.metodoPago("deposito")
+                }
+              }
+            },
+            [
+              _c("div", { staticClass: "formaPago row" }, [
+                _c("div", { staticClass: "col-6" }, [_vm._v("Depósito")]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-6" }, [
+                  _c("img", {
+                    attrs: {
+                      src: _vm.url + "/images/imagesremodela/deposito.png",
+                      width: "120"
+                    }
+                  })
+                ])
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _vm._m(0)
+        ]),
+        _vm._v(" "),
+        _vm.response.referencia != ""
+          ? _c("div", [
+              _c(
+                "button",
+                {
+                  staticClass: "bigbutton",
+                  on: {
+                    click: function($event) {
+                      return _vm.$refs.referencia.showModal()
+                    }
+                  }
+                },
+                [_vm._v("Ver ficha")]
+              )
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _c(
+          "modal",
+          {
+            ref: "deposito",
+            attrs: { title: "Depósito o Transferencia" },
+            on: { ok: _vm.deposito }
+          },
+          [
+            _c("div", { staticClass: "opps" }, [
+              _c("div", { staticClass: "opps-header" }, [
+                _c("div", { staticClass: "opps-reminder" }, [
+                  _vm._v("Ficha digital. No es necesario imprimir.")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "opps-info" }, [
+                  _c(
+                    "div",
+                    { staticClass: "opps-ammount" },
+                    [
+                      _c("h3", [_vm._v("Monto a pagar")]),
+                      _vm._v(" "),
+                      _c("money", {
+                        attrs: {
+                          caracter: true,
+                          cantidad: _vm.cobro,
+                          decimales: 0
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "opps-reference" }, [
+                  _c("h3", [_vm._v("Referencia")]),
+                  _vm._v(" "),
+                  _c("h1", { staticClass: "reference" }, [
+                    _vm._v("Banamex 5204 1653 0217 4390")
+                  ]),
+                  _vm._v(" "),
+                  _c("h1", { staticClass: "reference" }, [
+                    _vm._v("HSBC 4213 1661 0039 0750")
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("p", [
+                  _vm._v("Este código es válido las siguientes 6 horas.")
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "opps-instructions" }, [
+                _c("h3", [_vm._v("Instrucciones")]),
+                _vm._v(" "),
+                _c("ol", [
+                  _c("li", [
+                    _vm._v(
+                      "En esta opción de pago se hace el depósito a cualquiera de estas cuentas:\n                        "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v("Banamex 5204 1653 0217 4390")]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v("HSBC 4213 1661 0039 0750")]),
+                  _vm._v(" "),
+                  _c("li", [
+                    _vm._v(
+                      "Al confirmar tu pago, el cajero te entregará un comprobante impreso. "
+                    ),
+                    _c("strong", [
+                      _vm._v(
+                        "En el podrás\n                            verificar que se haya realizado correctamente."
+                      )
+                    ]),
+                    _vm._v(
+                      " Conserva este comprobante de\n                            pago para cualquier aclaración.\n                        "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("li", [
+                    _vm._v(
+                      "Manda el comprobante ya sea por medio de WhatsApp ("
+                    ),
+                    _c(
+                      "a",
+                      { attrs: { href: "wa.link/b3peq4", target: "_blank" } },
+                      [_vm._v("4775581937")]
+                    ),
+                    _vm._v(") o por correo (pagos@retoacton.com).")
+                  ]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v("Anexando junto con tu comprobante:")]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v("-Nombre completo")]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v("-Correo electrónico")]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v("-Número de teléfono ")])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "opps-footnote" }, [
+                  _vm._v(
+                    "Y a la brevedad empezaremos el proceso de inscripción.\n                    "
+                  )
+                ])
+              ])
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "modal",
+          {
+            ref: "tarjeta",
+            attrs: { title: "Pago con tarjeta", high: "500", ok: !_vm.acuerdo },
+            on: {
+              ok: function($event) {
+                return _vm.tarjeta()
+              }
+            }
+          },
+          [
+            _c(
+              "div",
+              {
+                staticStyle: { "background-color": "#f6f6f6", color: "#0b2e13" }
+              },
+              [
+                _c("div", { staticClass: "d-flex" }, [
+                  _c("div", { staticClass: "col-6" }, [
+                    _c("img", {
+                      attrs: { src: _vm.url + "/img/visa.png", width: "40" }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-6" }, [
+                    _c("img", {
+                      attrs: {
+                        src: _vm.url + "/img/mastercard.png",
+                        width: "40"
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "p",
+                  { staticClass: "text-center" },
+                  [
+                    _vm._v(
+                      "La cantidad a cobrar será de\n                    "
+                    ),
+                    _c("money", {
+                      attrs: {
+                        caracter: true,
+                        cantidad: _vm.cobro,
+                        decimales: 0
+                      }
+                    })
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c("p", [
+                  _vm._v(
+                    "Al concluir tu pago se enviará tu usuario y contraseña al correo que proporcionaste en tus datos de\n                    contacto"
+                  )
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "payment", attrs: { align: "left" } },
+                  [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.informacion.nombres,
+                          expression: "informacion.nombres"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { placeholder: "Nombres" },
+                      domProps: { value: _vm.informacion.nombres },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.informacion,
+                            "nombres",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("form-error", {
+                      attrs: { name: "nombres", errors: _vm.errors }
+                    }),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.informacion.apellidos,
+                          expression: "informacion.apellidos"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { placeholder: "Apellidos" },
+                      domProps: { value: _vm.informacion.apellidos },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.informacion,
+                            "apellidos",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("form-error", {
+                      attrs: { name: "apellidos", errors: _vm.errors }
+                    }),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.informacion.email,
+                          expression: "informacion.email"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { placeholder: "Correo electrónico" },
+                      domProps: { value: _vm.informacion.email },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.informacion,
+                            "email",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("form-error", {
+                      attrs: { name: "email", errors: _vm.errors }
+                    }),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.informacion.email_confirmation,
+                          expression: "informacion.email_confirmation"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        placeholder:
+                          "Por favor ingresa de nuevo tu correo electrónico"
+                      },
+                      domProps: { value: _vm.informacion.email_confirmation },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.informacion,
+                            "email_confirmation",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("form-error", {
+                      attrs: { name: "email_confirmation", errors: _vm.errors }
+                    }),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.informacion.number,
+                          expression: "informacion.number"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { placeholder: "Número de tarjeta" },
+                      domProps: { value: _vm.informacion.number },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.informacion,
+                            "number",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("form-error", {
+                      attrs: { name: "numero", errors: _vm.errors }
+                    }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "d-flex" }, [
+                      _c(
+                        "div",
+                        { staticClass: "col-sm-4" },
+                        [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.informacion.exp_month,
+                                expression: "informacion.exp_month"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: { placeholder: "Mes" },
+                            domProps: { value: _vm.informacion.exp_month },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.informacion,
+                                  "exp_month",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("form-error", {
+                            attrs: { name: "mes", errors: _vm.errors }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "col-sm-4" },
+                        [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.informacion.exp_year,
+                                expression: "informacion.exp_year"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: { placeholder: "Año" },
+                            domProps: { value: _vm.informacion.exp_year },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.informacion,
+                                  "exp_year",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("form-error", {
+                            attrs: { name: "ano", errors: _vm.errors }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "col-sm-4" },
+                        [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.informacion.cvc,
+                                expression: "informacion.cvc"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: { placeholder: "CVV" },
+                            domProps: { value: _vm.informacion.cvc },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.informacion,
+                                  "cvc",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("form-error", {
+                            attrs: { name: "codigo", errors: _vm.errors }
+                          })
+                        ],
+                        1
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _vm.meses
+                      ? _c("div", [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.informacion.meses,
+                                expression: "informacion.meses"
+                              }
+                            ],
+                            attrs: { type: "checkbox", id: "meses" },
+                            domProps: {
+                              checked: Array.isArray(_vm.informacion.meses)
+                                ? _vm._i(_vm.informacion.meses, null) > -1
+                                : _vm.informacion.meses
+                            },
+                            on: {
+                              change: function($event) {
+                                var $$a = _vm.informacion.meses,
+                                  $$el = $event.target,
+                                  $$c = $$el.checked ? true : false
+                                if (Array.isArray($$a)) {
+                                  var $$v = null,
+                                    $$i = _vm._i($$a, $$v)
+                                  if ($$el.checked) {
+                                    $$i < 0 &&
+                                      _vm.$set(
+                                        _vm.informacion,
+                                        "meses",
+                                        $$a.concat([$$v])
+                                      )
+                                  } else {
+                                    $$i > -1 &&
+                                      _vm.$set(
+                                        _vm.informacion,
+                                        "meses",
+                                        $$a
+                                          .slice(0, $$i)
+                                          .concat($$a.slice($$i + 1))
+                                      )
+                                  }
+                                } else {
+                                  _vm.$set(_vm.informacion, "meses", $$c)
+                                }
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("label", { attrs: { for: "meses" } }, [
+                            _vm._v(
+                              "3 meses sin intereses con tarjeta de crédito"
+                            )
+                          ])
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.informacion.conektaTokenId,
+                          expression: "informacion.conektaTokenId"
+                        }
+                      ],
+                      attrs: { type: "hidden" },
+                      domProps: { value: _vm.informacion.conektaTokenId },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.informacion,
+                            "conektaTokenId",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("form-error", {
+                      staticStyle: { "text-align": "center" },
+                      attrs: { name: "tarjeta", errors: _vm.errors }
+                    })
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "payment", attrs: { align: "left" } },
+                  [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.acuerdo,
+                          expression: "acuerdo"
+                        }
+                      ],
+                      attrs: { type: "checkbox", id: "acuerdoTarjeta" },
+                      domProps: {
+                        checked: Array.isArray(_vm.acuerdo)
+                          ? _vm._i(_vm.acuerdo, null) > -1
+                          : _vm.acuerdo
+                      },
+                      on: {
+                        change: function($event) {
+                          var $$a = _vm.acuerdo,
+                            $$el = $event.target,
+                            $$c = $$el.checked ? true : false
+                          if (Array.isArray($$a)) {
+                            var $$v = null,
+                              $$i = _vm._i($$a, $$v)
+                            if ($$el.checked) {
+                              $$i < 0 && (_vm.acuerdo = $$a.concat([$$v]))
+                            } else {
+                              $$i > -1 &&
+                                (_vm.acuerdo = $$a
+                                  .slice(0, $$i)
+                                  .concat($$a.slice($$i + 1)))
+                            }
+                          } else {
+                            _vm.acuerdo = $$c
+                          }
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("label", { attrs: { for: "acuerdoTarjeta" } }, [
+                      _vm._v(
+                        "He leído y estoy de acuerdo con los\n                        "
+                      ),
+                      _c(
+                        "a",
+                        {
+                          attrs: {
+                            href: _vm.url + "/terminos",
+                            target: "_blank"
+                          }
+                        },
+                        [_vm._v("términos y condiciones")]
+                      )
+                    ])
+                  ]
+                )
+              ]
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "modal",
+          {
+            ref: "oxxo",
+            attrs: { title: "Pago en oxxo", ok: !_vm.acuerdo },
+            on: { ok: _vm.OxxoSpei }
+          },
+          [
+            _c(
+              "div",
+              {
+                staticStyle: { "background-color": "#f6f6f6", color: "#0b2e13" }
+              },
+              [
+                _c(
+                  "p",
+                  {
+                    staticClass: "text-center",
+                    staticStyle: { "font-size": "20px" }
+                  },
+                  [
+                    _vm._v("La cantidad a cobrar será de "),
+                    _c("money", {
+                      attrs: {
+                        caracter: true,
+                        cantidad: _vm.cobro,
+                        decimales: 0
+                      }
+                    })
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c("p", [
+                  _vm._v(
+                    "Al concluir el ingreso de tus datos de contacto envíaremos a tu correo la ficha de déposito para que acudas a cualquier tienda Oxxo y hagas el pago correspondiente"
+                  )
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "small" }, [
+                  _vm._v(
+                    "Si la ficha no llega a tu correo, porfavor revisa la bande de SPAM y agreganos como correo confiable"
+                  )
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "payment" },
+                  [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.informacion.nombres,
+                          expression: "informacion.nombres"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { placeholder: "Nombre" },
+                      domProps: { value: _vm.informacion.nombres },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.informacion,
+                            "nombres",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("form-error", {
+                      attrs: { name: "nombres", errors: _vm.errors }
+                    }),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.informacion.apellidos,
+                          expression: "informacion.apellidos"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { placeholder: "Apellidos" },
+                      domProps: { value: _vm.informacion.apellidos },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.informacion,
+                            "apellidos",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("form-error", {
+                      attrs: { name: "apellidos", errors: _vm.errors }
+                    }),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.informacion.email,
+                          expression: "informacion.email"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { placeholder: "Correo electrónico" },
+                      domProps: { value: _vm.informacion.email },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.informacion,
+                            "email",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("form-error", {
+                      attrs: { name: "email", errors: _vm.errors }
+                    }),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.informacion.email_confirmation,
+                          expression: "informacion.email_confirmation"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        placeholder:
+                          "Por favor ingresa de nuevo tu correo electrónico"
+                      },
+                      domProps: { value: _vm.informacion.email_confirmation },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.informacion,
+                            "email_confirmation",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("form-error", {
+                      attrs: { name: "email_confirmation", errors: _vm.errors }
+                    }),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.informacion.telefono,
+                          expression: "informacion.telefono"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { placeholder: "Teléfono" },
+                      domProps: { value: _vm.informacion.telefono },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.informacion,
+                            "telefono",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("form-error", {
+                      attrs: { name: "telefono", errors: _vm.errors }
+                    }),
+                    _vm._v(" "),
+                    _c("form-error", {
+                      attrs: { name: "codigo", errors: _vm.errors }
+                    })
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "payment", attrs: { align: "left" } },
+                  [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.acuerdo,
+                          expression: "acuerdo"
+                        }
+                      ],
+                      attrs: { type: "checkbox", id: "acuerdoOxxo" },
+                      domProps: {
+                        checked: Array.isArray(_vm.acuerdo)
+                          ? _vm._i(_vm.acuerdo, null) > -1
+                          : _vm.acuerdo
+                      },
+                      on: {
+                        change: function($event) {
+                          var $$a = _vm.acuerdo,
+                            $$el = $event.target,
+                            $$c = $$el.checked ? true : false
+                          if (Array.isArray($$a)) {
+                            var $$v = null,
+                              $$i = _vm._i($$a, $$v)
+                            if ($$el.checked) {
+                              $$i < 0 && (_vm.acuerdo = $$a.concat([$$v]))
+                            } else {
+                              $$i > -1 &&
+                                (_vm.acuerdo = $$a
+                                  .slice(0, $$i)
+                                  .concat($$a.slice($$i + 1)))
+                            }
+                          } else {
+                            _vm.acuerdo = $$c
+                          }
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("label", { attrs: { for: "acuerdoOxxo" } }, [
+                      _vm._v(
+                        "He leído y estoy de acuerdo con los\n                        "
+                      ),
+                      _c(
+                        "a",
+                        {
+                          attrs: {
+                            href: _vm.url + "/terminos",
+                            target: "_blank"
+                          }
+                        },
+                        [_vm._v("términos y condiciones")]
+                      )
+                    ])
+                  ]
+                )
+              ]
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "modal",
+          {
+            ref: "spei",
+            attrs: { title: "Pago con SPEI", ok: !_vm.acuerdo },
+            on: { ok: _vm.OxxoSpei }
+          },
+          [
+            _c(
+              "div",
+              {
+                staticStyle: { "background-color": "#f6f6f6", color: "#0b2e13" }
+              },
+              [
+                _c(
+                  "p",
+                  {
+                    staticClass: "text-center",
+                    staticStyle: { "font-size": "20px" }
+                  },
+                  [
+                    _vm._v("La cantidad a cobrar será de "),
+                    _c("money", {
+                      attrs: {
+                        caracter: true,
+                        cantidad: _vm.cobro,
+                        decimales: 0
+                      }
+                    })
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c("p", [
+                  _vm._v(
+                    "Al concluir el ingreso de tus datos de contacto envíaremos a tu correo la ficha de déposito para que entres a tu banco en línea y hagas la transferencia a la cuenta CLABE proporcionada en esa ficha"
+                  )
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "small" }, [
+                  _vm._v(
+                    "Si la ficha no llega a tu correo, porfavor revisa la bande de SPAM y agreganos como correo confiable"
+                  )
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "payment" },
+                  [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.informacion.nombres,
+                          expression: "informacion.nombres"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { placeholder: "Nombres" },
+                      domProps: { value: _vm.informacion.nombres },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.informacion,
+                            "nombres",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("form-error", {
+                      attrs: { name: "nombres", errors: _vm.errors }
+                    }),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.informacion.apellidos,
+                          expression: "informacion.apellidos"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { placeholder: "Apellidos" },
+                      domProps: { value: _vm.informacion.apellidos },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.informacion,
+                            "apellidos",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("form-error", {
+                      attrs: { name: "apellidos", errors: _vm.errors }
+                    }),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.informacion.email,
+                          expression: "informacion.email"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { placeholder: "Correo electrónico" },
+                      domProps: { value: _vm.informacion.email },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.informacion,
+                            "email",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("form-error", {
+                      attrs: { name: "email", errors: _vm.errors }
+                    }),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.informacion.email_confirmation,
+                          expression: "informacion.email_confirmation"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        placeholder:
+                          "Por favor ingresa de nuevo tu correo electrónico"
+                      },
+                      domProps: { value: _vm.informacion.email_confirmation },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.informacion,
+                            "email_confirmation",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("form-error", {
+                      attrs: { name: "email_confirmation", errors: _vm.errors }
+                    }),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.informacion.telefono,
+                          expression: "informacion.telefono"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { placeholder: "Teléfono" },
+                      domProps: { value: _vm.informacion.telefono },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.informacion,
+                            "telefono",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("form-error", {
+                      attrs: { name: "telefono", errors: _vm.errors }
+                    }),
+                    _vm._v(" "),
+                    _c("form-error", {
+                      attrs: { name: "codigo", errors: _vm.errors }
+                    })
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "payment", attrs: { align: "left" } },
+                  [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.acuerdo,
+                          expression: "acuerdo"
+                        }
+                      ],
+                      attrs: { type: "checkbox", id: "acuerdoSpei" },
+                      domProps: {
+                        checked: Array.isArray(_vm.acuerdo)
+                          ? _vm._i(_vm.acuerdo, null) > -1
+                          : _vm.acuerdo
+                      },
+                      on: {
+                        change: function($event) {
+                          var $$a = _vm.acuerdo,
+                            $$el = $event.target,
+                            $$c = $$el.checked ? true : false
+                          if (Array.isArray($$a)) {
+                            var $$v = null,
+                              $$i = _vm._i($$a, $$v)
+                            if ($$el.checked) {
+                              $$i < 0 && (_vm.acuerdo = $$a.concat([$$v]))
+                            } else {
+                              $$i > -1 &&
+                                (_vm.acuerdo = $$a
+                                  .slice(0, $$i)
+                                  .concat($$a.slice($$i + 1)))
+                            }
+                          } else {
+                            _vm.acuerdo = $$c
+                          }
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("label", { attrs: { for: "acuerdoSpei" } }, [
+                      _vm._v(
+                        "He leído y estoy de acuerdo con los\n                        "
+                      ),
+                      _c(
+                        "a",
+                        {
+                          attrs: {
+                            href: _vm.url + "/terminos",
+                            target: "_blank"
+                          }
+                        },
+                        [_vm._v("términos y condiciones")]
+                      )
+                    ])
+                  ]
+                )
+              ]
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "modal",
+          {
+            ref: "referencia",
+            attrs: {
+              title: "Ficha de pago",
+              showcancel: false,
+              btncerrar: true
+            },
+            on: { ok: function($event) {} }
+          },
+          [
+            _c("div", { staticClass: "opps" }, [
+              _c("div", { staticClass: "opps-header" }, [
+                _c("div", { staticClass: "opps-reminder" }, [
+                  _vm._v("Ficha digital. No es necesario imprimir.")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "opps-info" }, [
+                  _c("div", { staticClass: "opps-brand" }, [
+                    _vm.response.origen == "oxxo"
+                      ? _c("img", {
+                          attrs: {
+                            src: _vm.url + "/img/oxxo.png",
+                            alt: "oxxo",
+                            width: "100"
+                          }
+                        })
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.response.origen == "spei"
+                      ? _c("img", {
+                          attrs: {
+                            src: _vm.url + "/img/spei.png",
+                            alt: "spei",
+                            width: "100"
+                          }
+                        })
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "opps-ammount" }, [
+                    _c("h3", [_vm._v("Monto a pagar")]),
+                    _vm._v(" "),
+                    _c(
+                      "h2",
+                      { attrs: { id: "monto" } },
+                      [
+                        _c("money", {
+                          attrs: {
+                            cantidad: "" + _vm.response.monto,
+                            caracter: true,
+                            adicional: " MXN",
+                            decimales: 0
+                          }
+                        })
+                      ],
+                      1
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "opps-reference" }, [
+                  _c("h3", [_vm._v("Referencia")]),
+                  _vm._v(" "),
+                  _c("h1", { staticClass: "reference" }, [
+                    _vm._v(_vm._s(_vm.response.referencia))
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("p", [
+                  _vm._v("Este código es válido las siguientes 24 horas.")
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "opps-instructions" }, [
+                _c("h3", [_vm._v("Instrucciones")]),
+                _vm._v(" "),
+                _c("ol", [
+                  _vm.response.origen == "oxxo"
+                    ? _c("li", [
+                        _vm._v("Acude a la tienda OXXO de tu preferencia. "),
+                        _c(
+                          "a",
+                          {
+                            attrs: {
+                              href:
+                                "https://www.google.com.mx/maps/search/oxxo/",
+                              target: "_blank"
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "Encuéntrala\n                            aquí"
+                            )
+                          ]
+                        ),
+                        _vm._v(".\n                        ")
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.response.origen == "oxxo"
+                    ? _c("li", [
+                        _vm._v(
+                          "\n                            Indica en caja que quieres ralizar un pago de "
+                        ),
+                        _c("strong", [_vm._v("OXXOPay")]),
+                        _vm._v(".\n                        ")
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.response.origen == "oxxo"
+                    ? _c("li", [
+                        _vm._v(
+                          "\n                            Dicta al cajero el número de referencia en esta ficha para que tecleé directamete en la\n                            pantalla de venta.\n                        "
+                        )
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.response.origen == "oxxo"
+                    ? _c("li", [
+                        _vm._v(
+                          "Realiza el pago correspondiente con dinero en efectivo."
+                        )
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.response.origen == "spei"
+                    ? _c("li", [_vm._v("Accede a tu banca en línea.")])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.response.origen == "spei"
+                    ? _c("li", [
+                        _vm._v(
+                          "\n                            Da de alta la CLABE en esta ficha. El banco deberá de ser STP.\n                        "
+                        )
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.response.origen == "spei"
+                    ? _c("li", [
+                        _vm._v(
+                          "\n                            Realiza la transferencia correspondiente por la cantidad exacta en esta ficha, de lo\n                            contrario se rechazará el cargo.\n                        "
+                        )
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("li", [
+                    _vm._v(
+                      "Al confirmar tu pago, el cajero te entregará un comprobante impreso. "
+                    ),
+                    _c("strong", [
+                      _vm._v(
+                        "En él podrás\n                            verificar que se haya realizado correctamente."
+                      )
+                    ]),
+                    _vm._v(
+                      " Conserva este comprobante de\n                            pago para cualquier aclaración.\n                        "
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "opps-footnote" }, [
+                  _vm._v("Al completar estos pasos recibirás un correo de "),
+                  _c("strong", [_vm._v("soporte@retoacton.com")]),
+                  _vm._v("\n                        confirmando tu pago."),
+                  _c("br"),
+                  _c("br"),
+                  _vm._v(
+                    "Una vez efectuado el pago, inmediatamente recibirás un correo con tu\n                        usuario y contraseña para que puedas acceder a tu cuenta, no es necesario enviar el comprobante de pago a ningún lado.\n                    "
+                  )
+                ])
+              ])
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "modal",
+          {
+            ref: "pago_confirmado",
+            attrs: {
+              title: "Pago confirmado",
+              showcancel: false,
+              btncerrar: false
+            },
+            on: { ok: _vm.terminado }
+          },
+          [
+            _c("div", [
+              _c("h3", [_vm._v("Gracias por tu compra.")]),
+              _vm._v(" "),
+              _c("p", [
+                _c("span", { staticClass: "font-weight-bold" }, [
+                  _vm._v("Felicidades! ")
+                ]),
+                _vm._v(" Tu programa esta casi listo.\n                ")
+              ]),
+              _vm._v(" "),
+              _c("p", [
+                _vm._v(
+                  "Te hemos enviado un correo con tu usuario y contraseña para que puedas ingresar a tu sesión.\n                    Recuerda que al ingresar por primera vez llenarás un cuestionario que te llevará aproximadamente 5 minutos."
+                )
+              ]),
+              _vm._v(" "),
+              _c("p", { staticClass: "small" }, [
+                _vm._v(
+                  "Si no ves el correo dentro de tu bandeja, por favor revisa tu carpeta SPAM y agreganos como un sitio de confianza"
+                )
+              ])
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "modal",
+          {
+            ref: "pago_tarjeta",
+            attrs: {
+              title: "Pago con tarjeta",
+              showcancel: false,
+              btncerrar: false
+            },
+            on: { ok: _vm.terminado }
+          },
+          [
+            _c("div", [
+              _c("h3", [_vm._v("Gracias por tu compra.")]),
+              _vm._v(" "),
+              _c("p", [
+                _c("span", { staticClass: "font-weight-bold" }, [
+                  _vm._v("Felicidades! ")
+                ]),
+                _vm._v(" Tu programa esta casi listo.\n                ")
+              ]),
+              _vm._v(" "),
+              _c("p", [
+                _vm._v(
+                  "Estamos procesando tu pago, al terminar te enviaremos un correo con tu usuario y contraseña para que puedas ingresar a tu sesión.\n                    Recuerda que al ingresar por primera vez llenarás un cuestionario que te llevará aproximadamente 5 minutos."
+                )
+              ]),
+              _vm._v(" "),
+              _c("p", { staticClass: "small" }, [
+                _vm._v(
+                  "Si no ves el correo dentro de tu bandeja, por favor revisa tu carpeta SPAM y agreganos como un sitio de confianza"
+                )
+              ])
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "modal",
+          {
+            ref: "pagando",
+            attrs: {
+              title: "Aplicando pago con paypal",
+              showok: false,
+              showcancel: false
+            }
+          },
+          [
+            _c("p", [_vm._v("Estamos procesando tu pago con Paypal")]),
+            _vm._v(" "),
+            _vm.loading
+              ? _c("i", { staticClass: "fa fa-spinner fa-spin" })
+              : _vm._e()
+          ]
+        )
+      ],
+      1
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-12 col-sm-6" }, [
+      _c("div", { staticClass: "formaPago" }, [
+        _c("div", [_vm._v("PAYPAL")]),
         _vm._v(" "),
         _c("br"),
         _vm._v(" "),
@@ -86142,6 +88295,7 @@ vue__WEBPACK_IMPORTED_MODULE_4___default.a.component('form-error', __webpack_req
 vue__WEBPACK_IMPORTED_MODULE_4___default.a.component('paginador', __webpack_require__(/*! ./components/Paginador.vue */ "./resources/js/components/Paginador.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_4___default.a.component('cobro', __webpack_require__(/*! ./components/Cobro.vue */ "./resources/js/components/Cobro.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_4___default.a.component('cobro_compra_coins', __webpack_require__(/*! ./components/CobroCompraCoins.vue */ "./resources/js/components/CobroCompraCoins.vue")["default"]);
+vue__WEBPACK_IMPORTED_MODULE_4___default.a.component('cobro_compra_coins_dos', __webpack_require__(/*! ./components/CobroCompraCoinsDos.vue */ "./resources/js/components/CobroCompraCoinsDos.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_4___default.a.component('fecha', __webpack_require__(/*! ./components/Fecha.vue */ "./resources/js/components/Fecha.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_4___default.a.component('img_dia', __webpack_require__(/*! ./components/DiaImagen.vue */ "./resources/js/components/DiaImagen.vue")["default"]);
 
@@ -86422,6 +88576,93 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CobroCompraCoins_vue_vue_type_template_id_f5908248_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CobroCompraCoins_vue_vue_type_template_id_f5908248_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/CobroCompraCoinsDos.vue":
+/*!*********************************************************!*\
+  !*** ./resources/js/components/CobroCompraCoinsDos.vue ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _CobroCompraCoinsDos_vue_vue_type_template_id_31cf48fc_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CobroCompraCoinsDos.vue?vue&type=template&id=31cf48fc&scoped=true& */ "./resources/js/components/CobroCompraCoinsDos.vue?vue&type=template&id=31cf48fc&scoped=true&");
+/* harmony import */ var _CobroCompraCoinsDos_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CobroCompraCoinsDos.vue?vue&type=script&lang=js& */ "./resources/js/components/CobroCompraCoinsDos.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _CobroCompraCoinsDos_vue_vue_type_style_index_0_id_31cf48fc_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CobroCompraCoinsDos.vue?vue&type=style&index=0&id=31cf48fc&scoped=true&lang=css& */ "./resources/js/components/CobroCompraCoinsDos.vue?vue&type=style&index=0&id=31cf48fc&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _CobroCompraCoinsDos_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _CobroCompraCoinsDos_vue_vue_type_template_id_31cf48fc_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _CobroCompraCoinsDos_vue_vue_type_template_id_31cf48fc_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "31cf48fc",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/CobroCompraCoinsDos.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/CobroCompraCoinsDos.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/CobroCompraCoinsDos.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CobroCompraCoinsDos_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./CobroCompraCoinsDos.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CobroCompraCoinsDos.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CobroCompraCoinsDos_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/CobroCompraCoinsDos.vue?vue&type=style&index=0&id=31cf48fc&scoped=true&lang=css&":
+/*!******************************************************************************************************************!*\
+  !*** ./resources/js/components/CobroCompraCoinsDos.vue?vue&type=style&index=0&id=31cf48fc&scoped=true&lang=css& ***!
+  \******************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CobroCompraCoinsDos_vue_vue_type_style_index_0_id_31cf48fc_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./CobroCompraCoinsDos.vue?vue&type=style&index=0&id=31cf48fc&scoped=true&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CobroCompraCoinsDos.vue?vue&type=style&index=0&id=31cf48fc&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CobroCompraCoinsDos_vue_vue_type_style_index_0_id_31cf48fc_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CobroCompraCoinsDos_vue_vue_type_style_index_0_id_31cf48fc_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CobroCompraCoinsDos_vue_vue_type_style_index_0_id_31cf48fc_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CobroCompraCoinsDos_vue_vue_type_style_index_0_id_31cf48fc_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+
+
+/***/ }),
+
+/***/ "./resources/js/components/CobroCompraCoinsDos.vue?vue&type=template&id=31cf48fc&scoped=true&":
+/*!****************************************************************************************************!*\
+  !*** ./resources/js/components/CobroCompraCoinsDos.vue?vue&type=template&id=31cf48fc&scoped=true& ***!
+  \****************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CobroCompraCoinsDos_vue_vue_type_template_id_31cf48fc_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./CobroCompraCoinsDos.vue?vue&type=template&id=31cf48fc&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CobroCompraCoinsDos.vue?vue&type=template&id=31cf48fc&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CobroCompraCoinsDos_vue_vue_type_template_id_31cf48fc_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CobroCompraCoinsDos_vue_vue_type_template_id_31cf48fc_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

@@ -78,6 +78,8 @@ Route::group(['prefix' => 'cuenta', 'middleware' => ['auth', 'pago']], function 
     Route::post('/agregarGYM/', 'CuentaController@agregarGYM');
     Route::post('/mensajes-eliminar/', 'CuentaController@mensajesEliminar');
     Route::post('/pagarvideo/', 'CuentaController@pagarvideo');
+    Route::get('/massemanas/{id}', 'CuentaController@obtenersemanas');
+    Route::post('/agregarsemanas/', 'CuentaController@agregarsemanas');
 });
 
 Route::group(['prefix' => 'configuracion', 'middleware' => ['auth', 'pago']], function () {

@@ -18,6 +18,7 @@ Vue.component('form-error', require('./components/FormError.vue').default);
 Vue.component('paginador', require('./components/Paginador.vue').default);
 Vue.component('cobro', require('./components/Cobro.vue').default);
 Vue.component('cobro_compra_coins', require('./components/CobroCompraCoins.vue').default);
+Vue.component('cobro_compra_coins_dos', require('./components/CobroCompraCoinsDos.vue').default);
 Vue.component('fecha', require('./components/Fecha.vue').default);
 Vue.component('img_dia', require('./components/DiaImagen.vue').default);
 import { ToggleButton } from 'vue-js-toggle-button'

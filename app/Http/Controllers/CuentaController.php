@@ -14,6 +14,7 @@ use App\Code\ValidarCorreo;
 use App\InteraccionAlbum;
 use App\MensajesDirectos;
 use App\MiAlbum;
+use App\Renovaciones;
 use App\Retos;
 use App\User;
 use Carbon\Carbon;
@@ -524,6 +525,90 @@ class CuentaController extends Controller
         }else{
             return response()->json(['status' => 'No cuenta con saldo suficiente']);
         }
+    }
+
+    public function agregarsemanas(Request $request)
+    {
+        $user = $request->user();
+        $semanas = $request->semanas;
+        $start  = new Carbon($user->inicio_reto);
+        $end  = Carbon::now();
+        $dif = $start->diffInHours($end);
+        switch ((int)$semanas){
+            case 1:
+                if($dif<24){
+                    $cobro = 100;
+                }else{
+                    $cobro = 200;
+                }
+                break;
+            case 2:
+                if($dif<24){
+                    $cobro = 200;
+                }else{
+                    $cobro = 400;
+                }
+                break;
+            case 4:
+                if($dif<24){
+                    $cobro = 400;
+                }else{
+                    $cobro = 800;
+                }
+                break;
+            case 8:
+                if($dif<24){
+                    $cobro = 500;
+                }else{
+                    $cobro = 1000;
+                }
+                break;
+            case 12:
+                if($dif<24){
+                    $cobro = 750;
+                }else{
+                    $cobro = 1500;
+                }
+                break;
+            case 26:
+                if($dif<24){
+                    $cobro = 1500;
+                }else{
+                    $cobro = 3000;
+                }
+                break;
+            case 52:
+                if($dif<24){
+                    $cobro = 2500;
+                }else{
+                    $cobro = 5000;
+                }
+                break;
+        }
+        error_log($user->saldo);
+        error_log($cobro);
+        if((int)$user->saldo > (int)$cobro) {
+            $dias = $request->semanas * 7;
+            $user->dias = $user->dias+$dias;
+            $user->saldo = $user->saldo-$cobro;
+            $renovacion = Renovaciones::create([
+                'usuario_id' => $user->id,
+                'dias' => $dias,
+            ]);
+            $user->save();
+            $dialunes = Carbon::parse("monday next week");
+            $mes = new Carbon('first day of next month');
+            return response()->json(['status' => 'ok', 'lunes' => $dialunes, 'mes' => $mes]);
+        }else{
+            return response()->json(['status' => 'No cuenta con saldo suficiente']);
+        }
+    }
+
+
+    public function obtenersemanas(Request $request)
+    {
+        $user = $request->user();
+        return view('cuenta.obtenersemanas', ['user' => $user]);
     }
 
 }
