@@ -402,9 +402,7 @@
                     </div>
                     <div class="col-12 text-center mt-3">
                         <!--a href="#" @click="obtenercoins" class="col-6"><img src="{{asset('images/2021/obtener_semanas.png')}}" class="col-8"></a-->
-                        @if(\Illuminate\Support\Facades\Auth::user()->rol==\App\Code\RolUsuario::ADMIN)
                         <a href="/cuenta/massemanas/1" class="col-6"><img src="{{asset('images/2021/obtener_semanas.png')}}" class="col-8"></a>
-                        @endif
                     </div>
                 </div>
             </div>
