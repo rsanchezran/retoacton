@@ -531,9 +531,13 @@ class CuentaController extends Controller
     {
         $user = $request->user();
         $semanas = $request->semanas;
-        $start  = new Carbon($user->inicio_reto);
+        $fecha = explode(' ', $user->created_at);
+        $start  = new Carbon($fecha[0].' 08:00:00');
         $end  = Carbon::now();
         $dif = $start->diffInHours($end);
+        error_log($start);
+        error_log($end);
+        error_log($dif);
         switch ((int)$semanas){
             case 1:
                 if($dif<24){
@@ -585,8 +589,6 @@ class CuentaController extends Controller
                 }
                 break;
         }
-        error_log($user->saldo);
-        error_log($cobro);
         if((int)$user->saldo > (int)$cobro) {
             $dias = $request->semanas * 7;
             $user->dias = $user->dias+$dias;
@@ -595,6 +597,9 @@ class CuentaController extends Controller
                 'usuario_id' => $user->id,
                 'dias' => $dias,
             ]);
+            if($dif<24){
+                $user->pago_vitalicio = 1;
+            }
             $user->save();
             $dialunes = Carbon::parse("monday next week");
             $mes = new Carbon('first day of next month');
@@ -602,6 +607,18 @@ class CuentaController extends Controller
         }else{
             return response()->json(['status' => 'No cuenta con saldo suficiente']);
         }
+    }
+
+    public function setDia(Request $request)
+    {
+        $user = $request->user();
+        $dias = $user->dias-($request->semanas*7);
+        $fecha = $request->inicio;
+        $fecha = explode(' ', $fecha);
+        $hoy = new Carbon($fecha[0]);
+        $user->inicio_reto = $hoy->subDays($dias);
+        $user->save();
+        return response()->json(['status' => 'ok']);
     }
 
 
