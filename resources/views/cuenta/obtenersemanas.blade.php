@@ -672,7 +672,7 @@
                 agregar: function (semanas) {
                     let vm = this;
                     vm.errors = [];
-                    axios.get('/cuenta/agregarsemanas/1', {semanas: semanas}).then(function (response) {
+                    axios.get('/cuenta/agregarsemanas/'+semanas).then(function (response) {
                         if (response.data.status == 'ok'){
                             vm.pagadodiv = true;
                             vm.menosdia = false;
@@ -724,7 +724,7 @@
                     }
                     if (fecha == 2){ f = vm.ffecha2}
                     if (fecha == 3){ f = vm.ffecha3}
-                    axios.get('/cuenta/setDia/1', {semanas: vm.semanas, inicio: f}).then(function (response) {
+                    axios.post('/cuenta/setDia/', {semanas: vm.semanas, inicio: f}).then(function (response) {
                         if (response.data.status == 'ok'){
                             window.location = '/home';
                         }else{

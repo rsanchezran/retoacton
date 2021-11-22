@@ -80,7 +80,7 @@ Route::group(['prefix' => 'cuenta', 'middleware' => ['auth', 'pago']], function 
     Route::post('/pagarvideo/', 'CuentaController@pagarvideo');
     Route::get('/massemanas/{id}', 'CuentaController@obtenersemanas');
     Route::get('agregarsemanas/{id}', 'CuentaController@agregarsemanas');
-    Route::get('setDia/{id}', 'CuentaController@setDia');
+    Route::post('setDia/', 'CuentaController@setDia');
 });
 
 Route::group(['prefix' => 'configuracion', 'middleware' => ['auth', 'pago']], function () {
