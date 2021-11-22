@@ -531,7 +531,7 @@ class CuentaController extends Controller
     {
         $user = $request->user();
         $semanas = $request->semanas;
-        $fecha = explode(' ', $user->created_at);
+        $fecha = explode(' ', $user->inicio_reto);
         $start  = new Carbon($fecha[0].' 08:00:00');
         $end  = Carbon::now();
         $dif = $start->diffInHours($end);

@@ -737,7 +737,7 @@
                 countdown: function(){
                     var that = this;
                     setInterval(function() {
-                        var diaInicioReto = that.user.created_at;
+                        var diaInicioReto = that.user.inicio_reto;
                         var mdy = diaInicioReto.split(' ');
                         mdy = mdy[0].split('-');
                         var dia_inicio = new Date(mdy[0], mdy[1]-1, mdy[2], 8, 0, 0, 0);
@@ -773,7 +773,7 @@
             mounted: function () {
                 var vm = this;
                 var that = this;
-                var diaInicioReto = that.user.created_at;
+                var diaInicioReto = that.user.inicio_reto;
                 var mdy = diaInicioReto.split(' ');
                 mdy = mdy[0].split('-');
                 var dia_inicio = new Date(mdy[0], mdy[1]-1, mdy[2], 8, 0, 0, 0);
