@@ -590,7 +590,7 @@ class CuentaController extends Controller
                 break;
         }
         if((int)$user->saldo > (int)$cobro) {
-            $dias = $request->semanas * 7;
+            $dias = $request->id * 7;
             $user->dias = $user->dias+$dias;
             $user->saldo = $user->saldo-$cobro;
             $renovacion = Renovaciones::create([
