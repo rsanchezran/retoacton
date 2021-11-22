@@ -630,7 +630,7 @@ class PagoController extends Controller
         $compra = ComprasCoins::create([
             'usuario_id' => $request->user()->id,
             'referencia' => 'paypal',
-            'tipo_compra' => 'paypal',
+            'tipo_compra' => 'CompraCoins',
             'monto' => $request->monto,
             'pagado' => 1,
 
@@ -654,7 +654,7 @@ class PagoController extends Controller
                     'line_items' => array(
                         array(
                             'name' => 'Acton',
-                            'description' => 'Acton reto',
+                            'description' => 'CompraCoins',
                             'unit_price' => $request->monto * 100,
                             'quantity' => 1,
                         )
