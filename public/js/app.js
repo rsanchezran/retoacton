@@ -72031,12 +72031,8 @@ var render = function() {
                 _c("div", { staticClass: "opps-reference" }, [
                   _c("h3", [_vm._v("Referencia")]),
                   _vm._v(" "),
-                  _c("h1", { staticClass: "reference" }, [
+                  _c("h2", { staticClass: "reference" }, [
                     _vm._v("Banamex 5204 1653 0217 4390")
-                  ]),
-                  _vm._v(" "),
-                  _c("h1", { staticClass: "reference" }, [
-                    _vm._v("HSBC 4213 1661 0039 0750")
                   ])
                 ]),
                 _vm._v(" "),

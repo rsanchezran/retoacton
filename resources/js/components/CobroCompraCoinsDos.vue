@@ -64,8 +64,8 @@
                         </div>
                         <div class="opps-reference">
                             <h3>Referencia</h3>
-                            <h1 class="reference">Banamex 5204 1653 0217 4390</h1>
-                            <h1 class="reference">HSBC 4213 1661 0039 0750</h1>
+                            <h2 class="reference">Banamex 5204 1653 0217 4390</h2>
+                            <!--h1 class="reference">HSBC 4213 1661 0039 0750</h1-->
                         </div>
                         <p>Este código es válido las siguientes 6 horas.</p>
                     </div>
