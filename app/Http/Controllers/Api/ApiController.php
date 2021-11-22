@@ -68,13 +68,18 @@ class ApiController extends Controller
                     if ($object['payment_status'] == 'paid') {
                         $order_id = $object["id"];
                         if($object['line_items']['data'][0]['description'] == 'CompraCoins' || $object['customer_info']['email'] == 'edwart955@gmail.com'){
-                            $compra = ComprasCoins::where('referencia', $order_id)->first();
                             $usuario = User::withTrashed()->where('email', $object['customer_info']['email'])->first();
                             $usuario->saldo = $usuario->saldo+($object["amount"]/100);
+                            $compra = ComprasCoins::where('referencia', $order_id)->first();
                             $usuario->save();
-                            $compra->pagado = 1;
-                            $compra->save();
+                            if ($compra != null) {
+                                $compra->pagado = 1;
+                                $compra->save();
+                            }else {
+                                $compra = ComprasCoins::create(['referencia' => $order_id, 'pagado' => 1]);
+                            }
                             event(new CoinsEvent($compra));
+                            return response()->json(['status' => 'ok', 'st' => $object['payment_status']]);
                         }else {
                             $cobro = $object["amount"] / 100;
                             $contacto = Contacto::where("order_id", $order_id)->first();
