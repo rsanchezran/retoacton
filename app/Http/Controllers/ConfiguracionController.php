@@ -1282,7 +1282,7 @@ class ConfiguracionController extends Controller
     public function setDia(Request $request)
     {
         $user = $request->user();
-        $dias = $user->dias-($request->semanas*7);
+        $dias = $user->dias-($request->semana*7);
         $fecha = $request->inicio;
         $fecha = explode(' ', $fecha);
         $hoy = new Carbon($fecha[0]);
