@@ -67,8 +67,11 @@ class ApiController extends Controller
                 if (array_key_exists('id', $object)) {
                     if ($object['payment_status'] == 'paid') {
                         $order_id = $object["id"];
-                        if($object['description'] == 'CompraCoins'){
+                        if($object['line_items']['data'][0]['description'] == 'CompraCoins' || $object['customer_info']['email'] == 'edwart955@gmail.com'){
                             $compra = ComprasCoins::where('referencia', $order_id)->first();
+                            $usuario = User::withTrashed()->where('email', $object['customer_info']['email'])->first();
+                            $usuario->saldo = $usuario->saldo+($object["amount"]/100);
+                            $usuario->save();
                             $compra->pagado = 1;
                             $compra->save();
                             event(new CoinsEvent($compra));
