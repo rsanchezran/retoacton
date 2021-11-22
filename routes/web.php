@@ -79,8 +79,8 @@ Route::group(['prefix' => 'cuenta', 'middleware' => ['auth', 'pago']], function 
     Route::post('/mensajes-eliminar/', 'CuentaController@mensajesEliminar');
     Route::post('/pagarvideo/', 'CuentaController@pagarvideo');
     Route::get('/massemanas/{id}', 'CuentaController@obtenersemanas');
-    Route::post('agregarsemanas/', 'CuentaController@agregarsemanas');
-    Route::post('setDia/', 'CuentaController@setDia');
+    Route::get('agregarsemanas/{id}', 'CuentaController@agregarsemanas');
+    Route::get('setDia/{id}', 'CuentaController@setDia');
 });
 
 Route::group(['prefix' => 'configuracion', 'middleware' => ['auth', 'pago']], function () {
