@@ -71,13 +71,13 @@ class ApiController extends Controller
                             $usuario = User::withTrashed()->where('email', $object['customer_info']['email'])->first();
                             $usuario->saldo = $usuario->saldo+($object["amount"]/100);
                             $compra = ComprasCoins::where('referencia', $order_id)->first();
-                            $usuario->save();
                             if ($compra != null) {
                                 $compra->pagado = 1;
                                 $compra->save();
                             }else {
-                                $compra = ComprasCoins::create(['referencia' => $order_id, 'pagado' => 1]);
+                                $compra = ComprasCoins::create(['referencia' => $order_id, 'pagado' => 1, 'monto' => $object["amount"]/100, 'usuario_id' => $usuario->id, 'tipo_compra' => 'tarjetacoins']);
                             }
+                            $usuario->save();
                             event(new CoinsEvent($compra));
                             return response()->json(['status' => 'ok', 'st' => $object['payment_status']]);
                         }else {
