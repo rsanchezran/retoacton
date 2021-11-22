@@ -530,7 +530,7 @@ class CuentaController extends Controller
     public function agregarsemanas(Request $request)
     {
         $user = $request->user();
-        $semanas = $request->semanas;
+        $semanas = $request->id;
         $fecha = explode(' ', $user->inicio_reto);
         $start  = new Carbon($fecha[0].' 08:00:00');
         $end  = Carbon::now();
