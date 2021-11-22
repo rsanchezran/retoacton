@@ -1279,4 +1279,16 @@ class ConfiguracionController extends Controller
         return view('configuracion.usuarios_coach', ['referencias' => $referencias]);
     }
 
+    public function setDia(Request $request)
+    {
+        $user = $request->user();
+        $dias = $user->dias-($request->semanas*7);
+        $fecha = $request->inicio;
+        $fecha = explode(' ', $fecha);
+        $hoy = new Carbon($fecha[0]);
+        $user->inicio_reto = $hoy->subDays($dias);
+        $user->save();
+        return response()->json(['status' => 'ok']);
+    }
+
 }

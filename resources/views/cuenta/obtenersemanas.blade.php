@@ -724,7 +724,7 @@
                     }
                     if (fecha == 2){ f = vm.ffecha2}
                     if (fecha == 3){ f = vm.ffecha3}
-                    axios.post('/cuenta/setDia/', {semanas: vm.semanas, inicio: f}).then(function (response) {
+                    axios.post('/configuracion/setDia/', {semanas: vm.semanas, inicio: f}).then(function (response) {
                         if (response.data.status == 'ok'){
                             window.location = '/home';
                         }else{
