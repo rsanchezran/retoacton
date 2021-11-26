@@ -17,6 +17,9 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="shortcut icon" href="{{asset('img/favicon.png')}}"/>
     <link href="{{asset('css/breathing.css')}}" rel="stylesheet" type="text/css" />
+    <script type="text/javascript">
+        window.CSRF_TOKEN = '{{ csrf_token() }}';
+    </script>
     <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"

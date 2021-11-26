@@ -15,6 +15,9 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="shortcut icon" href="{{asset('img/favicon.png')}}"/>
+    <script type="text/javascript">
+        window.CSRF_TOKEN = '{{ csrf_token() }}';
+    </script>
     <style>
         @font-face {
             font-family: unitext;
