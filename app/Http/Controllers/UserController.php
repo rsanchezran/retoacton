@@ -1128,6 +1128,7 @@ class UserController extends Controller
 
         $usuario->idiomas= $idiomas;
         $usuario->intereses = $intereses;
+        $usuario->primer_inicio = 1;
         $usuario->intereses_publico = $request->usuario['intereses_publico'];
         if(isset($request->usuario['codigo_nuevo'])){
             $usuario->referencia = $request->usuario['codigo_nuevo'];

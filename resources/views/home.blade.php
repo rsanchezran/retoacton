@@ -1,5 +1,13 @@
 @extends('layouts.app')
 @section('header')
+
+    @if(\Illuminate\Support\Facades\Auth::user()->primer_inicio == 0)
+        @php
+        {{  header("Location: /cuenta"); }}
+        {{  die();    }}
+        @endphp
+    @endif
+
     <style>
         hr{
             margin-top: 5px;
