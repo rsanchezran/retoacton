@@ -7,6 +7,7 @@ use App\MensajesDirectos;
 use App\Notifications\MensajeNotification;
 use Auth;
 use App\Categoria;
+use App\Notifications;
 use App\CodigosTienda;
 use App\Code\MedioContacto;
 use App\Code\TipoEjercicio;
@@ -1205,6 +1206,13 @@ class ConfiguracionController extends Controller
 
     public function mensaje_directo($id, Request $request)
     {
+        $mensajes = Notifications::where('notifiable_id', auth()->user()->id)->get();
+
+        foreach ($mensajes as $a) {
+            $a->read_at = \Carbon\Carbon::now();
+            $a->save();
+        }
+
         return view('configuracion.mensaje_directo', ['id' => $id]);
     }
 
