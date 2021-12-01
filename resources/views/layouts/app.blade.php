@@ -270,7 +270,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle @if (auth()->user()->unreadnotifications) animate__heartBeat @endif" href="#" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-chevron-down"></i> Mensajes @if (auth()->user()->unreadnotifications)<span class="badge badge-warning">{{ count(auth()->user()->unreadNotifications) }}</span>@endif
+                                <i class="fas fa-chevron-down"></i> Mensajes @if (auth()->user()->unreadnotifications)<span class="badge badge-warning">{{ \App\Notifications::where('data', 'like', '%"usuario_receptor_id":'.auth()->user()->id.'%')->where('type', 'App\Notifications\MensajeNotification')->whereNull('read_at')->count() }}</span>@endif
                             </a>
                             <div class="dropdown-menu" aria-lab elledby="administracion">
                                 <a class="dropdown-item" href="{{ url('/configuracion/mensajes') }}">
@@ -280,8 +280,10 @@
                                 @foreach(auth()->user()->unreadNotifications as $notification)
                                     @if($notification->type == 'App\Notifications\MensajeNotification')
                                     <a class="dropdown-item" href="{{ url('/configuracion/mensajes') }}">
-                                        <i class="far fa-comment"></i> {{ \App\User::where(['id' => $notification->data['usuario_emisor_id']])->pluck('name')->first() }} {{ \App\User::where(['id' => $notification->data['usuario_emisor_id']])->pluck('last_name')->first() }}
-                                        <span class="float-right text-muted text-sm" style="padding-right: 5px;">{{ $notification->created_at->diffForHumans() }}</span>
+                                        @if(isset($notification->data['usuario_emisor_id']))
+                                            <i class="far fa-comment"></i> {{ \App\User::where(['id' => $notification->data['usuario_emisor_id']])->pluck('name')->first() }} {{ \App\User::where(['id' => $notification->data['usuario_emisor_id']])->pluck('last_name')->first() }}
+                                            <span class="float-right text-muted text-sm" style="padding-right: 5px;">{{ $notification->created_at->diffForHumans() }}</span>
+                                        @endif
                                     </a>
                                     @endif
                                 @endforeach
