@@ -586,7 +586,7 @@
 
             <div class="card">
             @if(\Illuminate\Support\Facades\Auth::user()->vencido)
-                <div class="">
+                <!--div class="">
                                 <div class="">
                                     <label style="font-size: 1.4rem; font-family: unitext_bold_cursive">
                                         <money v-if="descuento>0" id="cobro_anterior" :cantidad="''+original" :decimales="0"
@@ -717,7 +717,7 @@
                                            @terminado="terminado"></cobro>
                                 </div>
                             </div>
-                            <hr>
+                            <hr-->
                 @endif
             </div>
 
