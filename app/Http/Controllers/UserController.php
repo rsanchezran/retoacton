@@ -758,13 +758,7 @@ class UserController extends Controller
     {
         $usuario = User::find($request->id);
         if ($usuario !== null) {
-            $date = Carbon::parse($usuario->inicio_reto.' 00:00:00');
-            $now = Carbon::now();
-            $diff = $date->diffInDays($now);
             $dias_nuevo = intval($request->nuevaSemanas)*7+1;
-            if($diff > 0){
-                $dias_nuevo = $dias_nuevo+$diff;
-            }
 
             $usuario->inicio_reto = Carbon::now()->subDays($dias_nuevo);
             $usuario->dias = $usuario->dias+intval($request->nuevaSemanas)*7;
