@@ -541,9 +541,9 @@ class CuentaController extends Controller
         switch ((int)$semanas){
             case 1:
                 if($dif<24){
-                    $cobro = 100;
+                    $cobro = 15;
                 }else{
-                    $cobro = 200;
+                    $cobro = 20;
                 }
                 break;
             case 2:
