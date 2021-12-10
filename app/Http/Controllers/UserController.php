@@ -1122,9 +1122,13 @@ class UserController extends Controller
     {
         if(isset($request->usuario['intereses'])) {
             $intereses = implode(', ', $request->usuario['intereses']);
+        }else{
+            $intereses = '';
         }
         if(isset($request->usuario['idiomas'])) {
             $idiomas = implode(', ', $request->usuario['idiomas']);
+        }else{
+            $idiomas = '';
         }
         $estado = $request->estado;
         $ciudad = $request->ciudad;
