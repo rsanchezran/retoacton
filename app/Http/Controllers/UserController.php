@@ -1120,8 +1120,12 @@ class UserController extends Controller
 
     public function guardaUbicacion(Request $request)
     {
-        $intereses = implode(', ', $request->usuario['intereses']);
-        $idiomas = implode(', ', $request->usuario['idiomas']);
+        if(isset($request->usuario['intereses'])) {
+            $intereses = implode(', ', $request->usuario['intereses']);
+        }
+        if(isset($request->usuario['idiomas'])) {
+            $idiomas = implode(', ', $request->usuario['idiomas']);
+        }
         $estado = $request->estado;
         $ciudad = $request->ciudad;
         $cp = $request->cp;

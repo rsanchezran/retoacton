@@ -47,13 +47,13 @@
             </div>
             <!--a :href="'mensaje-directo/1'" class="btn btn-success text-white">Solución de dudas</a-->
             <div v-for="usuario in usuarios.data" class="d-flex usuario mt-4">
-                <div class="col-6 d-flex flex-column align-items-start">
+                <div class="col-8 d-flex flex-column align-items-start">
                     <!--span v-if="usuario.vigente"-->
                     <a :href="'mensaje-directo/'+usuario.id" class=""><img :src="'/cuenta/getFotografia/'+usuario.id+'/232'"
                     width="50px" style="border-radius: 30px">      @{{ usuario.name+' '+usuario.last_name }}</a>
                     <!--/span-->
                 </div>
-                <div class="col-6 d-flex flex-column align-items-end">
+                <div class="col-4 d-flex flex-column align-items-end">
 
                     <div v-if="eliminar_mensajes" @click="eliminarMensajes(usuario.id)" class="text-danger" >
                         <i class="fas fa-times mt-2"></i> <!--div v-if="usuario.sin_leer>0" class="sin_leer"></div-->
