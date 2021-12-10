@@ -330,7 +330,8 @@ class RetoController extends Controller
             $sem = $dia % 7 == 0 ? intval($dia / 7) : intval($dia / 7) + 1;
             //$numDieta = $sem % 2 == 0 ? intval($sem / 2) : intval($sem / 2) + 1; //Se obtiene el numero de dieta con base en la cantidad de dias del reto
             $numDieta = $sem; //Se obtiene el numero de dieta con base en la cantidad de dias del reto
-            $numSemanaSuplementacion = $sem % 4 == 0 ? intval($sem / 4) : intval($sem / 4) + 1;
+            //$numSemanaSuplementacion = $sem % 4 == 0 ? intval($sem / 4) : intval($sem / 4) + 1;
+            $numSemanaSuplementacion = $sem % 4 == 0 ? 0 : 1;
             $dietaCreada = UsuarioDieta::where('usuario_id', $user->id)->where('dieta', $numDietas)->count();
             if ($dietaCreada==0){
                 $ignorar = collect();//Generar dieta
@@ -376,6 +377,8 @@ class RetoController extends Controller
             error_log($diasTranscurridosuno);
             $kits = UsuarioKit::where('user_id', $user->id)->get();
             $this->agregarKit($user, $kits->count() == 0 ? 2 : 1);
+
+            error_log($numSemanaSuplementacion);
 
             $diaDB = Dia::buildDia($diasTranscurridosuno, $genero, $objetivo, $request->user(), $numDietas, $numSemanaSuplementacion);
             return view('reto.dia', ['dia' => $diaDB, 'genero' => $genero, 'objetivo' => $objetivo,
