@@ -274,7 +274,7 @@
                             </a>
                             <div class="dropdown-menu" aria-lab elledby="administracion">
                                 <a class="dropdown-item" href="{{ url('/configuracion/mensajes') }}">
-                                    <i class="far fa-comment"></i>
+                                    <i class="far fa-comment"></i> Mensajes
                                     <span class="float-right text-muted text-sm" style="padding-right: 5px;">Mensajes</span>
                                 </a>
                                 @foreach(auth()->user()->unreadNotifications as $notification)
