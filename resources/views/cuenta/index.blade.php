@@ -673,7 +673,7 @@
                                         <img src="{{asset('images/2021/guardar_1.png')}}" class="w-100">
                                     </button>
                                     <a class="btn btn-success col-8" @click="irahome">
-                                        <img src="{{asset('images/2021/home.png')}}" class="w-100">
+                                        <img src="{{asset('images/2021/home.png')}}" class="">
                                     </a>
                                 </div>
                             </div>
