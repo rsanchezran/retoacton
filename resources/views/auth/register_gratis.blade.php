@@ -1466,6 +1466,12 @@
             <br>
             <img v-if="!encontrado_url && mensaje_gratis" src="{{asset('images/2021/mensaje_gratis.png')}}" id="imagentop" class="w-75 mt-3">
             <br v-if="!encontrado_url && mensaje_gratis">
+            <div v-if="!encontrado_url && mensaje_gratis" class="w-75 mt-3">
+                <video width="100%" controls>
+                    <source src="{{asset('images/2021/mensaje_gratis.mp4')}}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
             <br v-if="!encontrado_url && mensaje_gratis">
             <br v-if="!encontrado_url && mensaje_gratis">
         </div>
