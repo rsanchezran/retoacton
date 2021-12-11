@@ -1208,7 +1208,7 @@ class ConfiguracionController extends Controller
     {
         $usuarios = User::where('rol', '!=', '111');
 
-        $amistad = Amistades::where('usuario_amigo_id', auth()->user()->id)->select('usuario_solicita_id')->get();
+        $amistad = Amistades::where('usuario_solicita_id', auth()->user()->id)->select('usuario_amigo_id')->get();
         $amistad_dos = MensajesDirectos::where('usuario_receptor_id', auth()->user()->id)->select('usuario_emisor_id')->get();
         $usuarios = $usuarios->where(function ($query) use ($amistad,$amistad_dos) {
             $query->whereIn('id', $amistad)
