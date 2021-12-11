@@ -121,7 +121,13 @@
         .image-upload>input {
             display: none;
         }
-
+        .input-group-prepend {
+            z-index: 999999999999999;
+        }
+        .navbar{
+            position: sticky;
+            top: 0;
+        }
         @media only screen and (max-width: 800px) {
             .boxleft {
                 margin-left: 0px !important;
