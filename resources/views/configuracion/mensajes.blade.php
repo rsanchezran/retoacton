@@ -69,7 +69,7 @@
                 <h6 colspan="6">[No hay datos para mostrar]</h6>
             </div>
             <div class="float-right">
-                <paginador ref="paginador" :url="'{{url('/configuracion/buscarSeguir')}}'" @loaded="loaded"></paginador>
+                <paginador ref="paginador" :url="'{{url('/configuracion/buscarSeguirMensajes')}}'" @loaded="loaded"></paginador>
             </div>
 
         </div>

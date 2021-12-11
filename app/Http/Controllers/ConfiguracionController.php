@@ -1204,6 +1204,64 @@ class ConfiguracionController extends Controller
     }
 
 
+    public function buscarSeguirMensajes(Request $request)
+    {
+        $usuarios = User::where('rol', '!=', '111');
+
+        $amistad = Amistades::where('usuario_amigo_id', auth()->user()->id)->select('usuario_solicita_id')->get();
+        $amistad_dos = MensajesDirectos::where('usuario_receptor_id', auth()->user()->id)->select('usuario_emisor_id')->get();
+        $usuarios = $usuarios->where(function ($query) use ($amistad,$amistad_dos) {
+            $query->whereIn('id', $amistad)
+                ->orWhereIn('id', $amistad_dos);
+        });
+        //$amistad_me_siguen = Amistades::where('usuario_amigo_id', auth()->user()->id)->select('usuario_solicita_id')->get();
+        //$usuarios = $usuarios->whereIn('id', $amistad_me_siguen);
+
+        $usuarios = $usuarios->orderByDesc('created_at');
+        $usuarios = $usuarios->select(['users.*'])->paginate(15);
+        $comision = intval(env('COMISION'));
+        $contactos = Contacto::whereIn('email', $usuarios->pluck('email'))->get()->keyBy('email');
+        foreach ($usuarios as $usuario) {
+            $usuario->dias_reto = 0;
+            //$usuario->isVencido();
+            if ($usuario->inicio_reto != null) {
+                $usuario->dias_reto = Carbon::now()->startOfDay()->diffInDays(Carbon::parse($usuario->inicio_reto)->startOfDay()) + 1;
+            }
+
+            $mio = Auth::id();
+            $mensajes_e = MensajesDirectos::where(function($query) use ($usuario,$mio){
+                $query->where('usuario_receptor_id', '=', $usuario->id);
+                $query->where('usuario_emisor_id', '=', $mio);
+            })->where('visto', '0')->count();
+
+            $mensajes_r = MensajesDirectos::where(function($query) use ($usuario,$mio){
+                $query->where('usuario_emisor_id', '=', $usuario->id);
+                $query->where('usuario_receptor_id', '=', $mio);
+            })->where('visto', '0')->count();
+
+
+            $usuario->sin_leer = $mensajes_e+$mensajes_r;
+
+            $usuario->total = $usuario->ingresados * $comision;
+            $usuario->depositado = $usuario->total - $usuario->saldo;
+            $usuario->pendientes = $usuario->saldo / $comision;
+            $usuario->pagados = $usuario->depositado / $comision;
+            $contacto = $contactos->get($usuario->email);
+            $usuario->medio = $contacto == null ? '' : $contacto->medio;
+            $usuario->telefono = $contacto == null ? '' : $contacto->telefono;
+            //$usuario->vigente = !$usuario->vencido;
+            $amistad = Amistades::where('usuario_amigo_id', $usuario->id)->where('usuario_solicita_id', Auth::id())->first();
+            $usuario->amistad = 'no';
+            if($amistad){
+                $usuario->amistad = 'si';
+            }
+
+        }
+
+        return $usuarios;
+    }
+
+
     public function mensaje_directo($id, Request $request)
     {
         $mensajes = Notifications::where('notifiable_id', auth()->user()->id)->get();
