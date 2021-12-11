@@ -127,6 +127,7 @@
         .navbar{
             position: sticky;
             top: 0;
+            z-index: 9999999999999999;
         }
         @media only screen and (max-width: 800px) {
             .boxleft {
