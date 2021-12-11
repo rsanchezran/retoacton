@@ -101,6 +101,8 @@
         .conversacion{
             max-height: 500px;
             overflow: scroll;
+            min-height: 100px;
+            height: 500px;
         }
         #txtmensaje{
             border-top-left-radius: 20px;
