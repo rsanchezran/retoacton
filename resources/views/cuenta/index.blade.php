@@ -672,6 +672,9 @@
                                     <button class="btn btn-success col-8" @click="guardarInfoGeneralFin">
                                         <img src="{{asset('images/2021/guardar_1.png')}}" class="w-100">
                                     </button>
+                                    <a class="btn btn-success col-8" @click="irahome">
+                                        <i class="fas fa-home"></i>
+                                    </a>
                                 </div>
                             </div>
                             <br>
@@ -906,6 +909,9 @@
                         console.log(error);
                         vm.errors = error.response;
                     });
+                },
+                irahome: function(){
+                    window.location.href = '/home';
                 },
                 getGYM: function () {
                     let vm = this;
