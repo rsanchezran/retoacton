@@ -318,7 +318,7 @@
                 <div style="">
                     <div class="" align="center" style="">
                         <!--div :src="'{{url('cuenta/getFotografia/'.\Illuminate\Support\Facades\Auth::user()->id.'/'.rand(0,1970))}}'"-->
-                        <div src="{{asset('users/'.\Illuminate\Support\Facades\Auth::user()->id.'.png')}}"
+                        <div  class="NO-CACHE" src="{{asset('users/'.\Illuminate\Support\Facades\Auth::user()->id.'.png')}}"
                              width="100%" style=" min-height: 300px;" :style="{
                                     height: '100px',
                                     backgroundColor: '#323232',
@@ -1092,6 +1092,10 @@
                 l.click();
             }
         }
+        $(document).ready(function ()
+        {
+            $('.NO-CACHE').attr('src',function () { return $(this).attr('src') + "?a=" + Math.random() });
+        });
     </script>
     <script>
 
