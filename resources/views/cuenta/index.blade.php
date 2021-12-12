@@ -625,8 +625,13 @@
                             </div>
                             <br>
                             <div class="col-12 text-center">
+                                <a class="btn btn-success col-8" @click="guardarLugarD">
+                                    <img src="{{asset('images/2021/guardar_1.png')}}" class="w-100">
+                                </a>
+                            </div>
+                            <div class="col-12 text-center">
                                 <button class="prevBtn pull-right" @click="guardarLugar" type="button" style="background: transparent !important;border: 0px !important;}"><img src="{{asset('images/2021/anterior.png')}}" class="w-25"></button>
-                                <button class="nextBtn pull-right" @click="guardarLugar" type="button" style="background: transparent !important;border: 0px !important;}"><img src="{{asset('images/2021/siguiente.png')}}" class="w-25"> </button>
+                                <!--button class="nextBtn pull-right" @click="guardarLugar" type="button" style="background: transparent !important;border: 0px !important;}"><img src="{{asset('images/2021/siguiente.png')}}" class="w-25"> </button-->
 
                                 <!--a class="btn btn-success" @click="irahome">
                                     <img src="{{asset('images/2021/home.png')}}" class="">
@@ -821,6 +826,31 @@
                     });
                 },
                 guardarLugar: function(){
+                    const canvas = this.$refs.clipper.clip();//call component's clip method
+                    if(canvas !== ''){
+                        this.resultURL = canvas.toDataURL("image/jpeg", 1);//canvas->image
+                        this.cargarFoto();
+                    }
+                    axios.post('{{url('/usuarios/guardaUbicacion')}}',
+                        {
+                            estado: this.filtros.estado,
+                            ciudad: this.filtros.ciudad,
+                            cp: this.filtros.cp,
+                            colonia: this.filtros.colonia,
+                            usuario: this.user,
+                        }
+                        ).then((response) => {
+                        this.ciudades=[];
+                        this.cps=[];
+                        this.colonias=[];
+                        this.ciudades.push(response.data);
+                        this.guardado = true;
+                    }).catch(function (error) {
+                        console.log(error);
+                        vm.errors = error.response;
+                    });
+                },
+                guardarLugarD: function(){
                     const canvas = this.$refs.clipper.clip();//call component's clip method
                     if(canvas !== ''){
                         this.resultURL = canvas.toDataURL("image/jpeg", 1);//canvas->image
