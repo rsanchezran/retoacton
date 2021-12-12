@@ -4,6 +4,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta Http-Equiv="Cache" content="no-cache">
+    <meta Http-Equiv="Pragma-Control" content="no-cache">
+    <meta Http-Equiv="Cache-directive" Content="no-cache">
+    <meta Http-Equiv="Pragma-directive" Content="no-cache">
+    <meta Http-Equiv="Cache-Control" Content="no-cache">
+    <meta Http-Equiv="Pragma" Content="no-cache">
+    <meta Http-Equiv="Expires" Content="0">
+    <meta Http-Equiv="Pragma-directive: no-cache">
+    <meta Http-Equiv="Cache-directive: no-cache">
     <title>{{ config('app.name', 'Laravel') }}</title>
     <!-- Scripts -->
     <script src="https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit" async defer></script>
