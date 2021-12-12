@@ -317,7 +317,7 @@
                 @endif
                 <div style="">
                     <div class="" align="center" style="">
-                        <div :src="'{{url('cuenta/getFotografia/'.\Illuminate\Support\Facades\Auth::user()->id.'/'.rand(0,10))}}'"
+                        <div :src="'{{url('cuenta/getFotografia/'.\Illuminate\Support\Facades\Auth::user()->id.'/'.rand(0,1970))}}'"
                              width="100%" style=" min-height: 300px;" :style="{
                                     height: '100px',
                                     backgroundColor: '#323232',
