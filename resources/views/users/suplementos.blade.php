@@ -18,22 +18,22 @@
     <template id="temp">
         <div class="w-100 row" style="margin-top: 35% !important;margin-left: 0%; position: relative">
             <div class="col-6">
-                <img src="{{asset('images/2021/maximal_ficha.png')}}" width="100%">
+                <a href="/usuarios/fichas/maximal"><img src="{{asset('images/2021/maximal_ficha.png')}}" width="100%"></a>
             </div>
             <div class="col-6">
-                <img src="{{asset('images/2021/ergo_gen_ficha.png')}}" width="100%">
+                <a href="/usuarios/fichas/ergogen"><img src="{{asset('images/2021/ergo_gen_ficha.png')}}" width="100%"></a>
             </div>
             <div class="col-6" style="margin-top: 4%">
-                <img src="{{asset('images/2021/glutamina_ficha.png')}}" width="100%">
+                <a href="/usuarios/fichas/glutamina"><img src="{{asset('images/2021/glutamina_ficha.png')}}" width="100%"></a>
             </div>
             <div class="col-6" style="margin-top: 4%">
-                <img src="{{asset('images/2021/bcaa_ficha.png')}}" width="100%">
+                <a href="/usuarios/fichas/bcaa"><img src="{{asset('images/2021/bcaa_ficha.png')}}" width="100%"></a>
             </div>
             <div class="col-6" style="margin-top: -5%">
-                <img src="{{asset('images/2021/whey_ficha.png')}}" width="100%">
+                <a href="/usuarios/fichas/whey"><img src="{{asset('images/2021/whey_ficha.png')}}" width="100%"></a>
             </div>
             <div class="col-6 mb-5" style="margin-top: -5%">
-                <img src="{{asset('images/2021/creatina_ficha.png')}}" width="100%">
+                <a href="/usuarios/fichas/creatina"><img src="{{asset('images/2021/creatina_ficha.png')}}" width="100%"></a>
             </div>
         </div>
     </template>

@@ -1336,7 +1336,7 @@ class UserController extends Controller
             }
             $request->user()->saldo = $request->user()->saldo-$suma[0]->total;
             $request->user()->save();
-            return "Pagado";
+            return "Se ha completado la compra";
         }
     }
 

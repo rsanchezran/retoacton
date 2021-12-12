@@ -74,7 +74,7 @@
                     var vm = this;
                     axios.post('{{url('usuarios/eliminar-carrito/')}}', {'id': id}
                     ).then(function (response) {
-                        alert(response.data.mensaje);
+                        //alert(response.data.mensaje);
                         window.location.reload();
                     });
                 },
