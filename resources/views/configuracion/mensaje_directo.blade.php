@@ -250,6 +250,10 @@
                     var objDiv = document.getElementById("conversacion");
                     objDiv.scrollTop = objDiv.scrollHeight;
                 }, 500);
+                setTimeout(function(){
+                    var objDiv = document.getElementById("conversacion");
+                    objDiv.scrollTop = objDiv.scrollHeight;
+                }, 1000);
                 setInterval(() => {
                     this.getMensajes();
                 }, 2000)
