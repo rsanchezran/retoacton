@@ -339,10 +339,10 @@
                             <a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled">ETAPA 2</a>
                             <p><small></small></p>
                         </div>
-                        <div class="stepwizard-step col-xs-3 " id="pasotres" style="border-bottom:1px solid #c2c2c2;" :class="sexo_etapa">
+                        <!--div class="stepwizard-step col-xs-3 " id="pasotres" style="border-bottom:1px solid #c2c2c2;" :class="sexo_etapa">
                             <a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled">ETAPA 3</a>
                             <p><small></small></p>
-                        </div>
+                        </div-->
                     </div>
                 </div>
                 <br>
@@ -627,6 +627,10 @@
                             <div class="col-12 text-center">
                                 <button class="prevBtn pull-right" @click="guardarLugar" type="button" style="background: transparent !important;border: 0px !important;}"><img src="{{asset('images/2021/anterior.png')}}" class="w-25"></button>
                                 <button class="nextBtn pull-right" @click="guardarLugar" type="button" style="background: transparent !important;border: 0px !important;}"><img src="{{asset('images/2021/siguiente.png')}}" class="w-25"> </button>
+
+                                <!--a class="btn btn-success" @click="irahome">
+                                    <img src="{{asset('images/2021/home.png')}}" class="">
+                                </a-->
                             </div>
                             <br>
                             <br>
@@ -840,6 +844,7 @@
                         console.log(error);
                         vm.errors = error.response;
                     });
+                    window.location.href = '/home';
                 },
                 guardarInfoGeneral: function(){
                     /*axios.post('{{url('/usuarios/guardaInfoGeneral')}}',*/

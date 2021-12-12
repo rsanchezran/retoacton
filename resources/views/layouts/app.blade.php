@@ -281,6 +281,8 @@
                                     @if($notification->type == 'App\Notifications\MensajeNotification')
                                     <a class="dropdown-item" href="{{ url('/configuracion/mensaje-directo/'.$notification->data['usuario_emisor_id']) }}">
                                         @if(isset($notification->data['usuario_emisor_id']))
+                                            <!--i class="far fa-comment"></i> {{ \App\User::where(['id' => $notification->data['usuario_emisor_id']])->pluck('name')->first() }} {{ \App\User::where(['id' => $notification->data['usuario_emisor_id']])->pluck('last_name')->first() }}
+                                            <span class="float-right text-muted text-sm" style="padding-right: 5px;">{{ $notification->created_at->diffForHumans() }}</span-->
                                             <i class="far fa-comment"></i> {{ \App\User::where(['id' => $notification->data['usuario_emisor_id']])->pluck('name')->first() }} {{ \App\User::where(['id' => $notification->data['usuario_emisor_id']])->pluck('last_name')->first() }}
                                             <span class="float-right text-muted text-sm" style="padding-right: 5px;">{{ $notification->created_at->diffForHumans() }}</span>
                                         @endif
