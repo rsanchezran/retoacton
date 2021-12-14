@@ -1396,7 +1396,7 @@ class UserController extends Controller
         //$usuarios = User::where('rol', '!=', RolUsuario::ADMIN);
         //$usuarios = $usuarios->where('rol', '!=', RolUsuario::TIENDA);
         //$usuarios = $usuarios->where('tipo_referencia', 3);
-        $usuarios = User::where('codigo', $request->user()->referencia);
+        $usuarios = User::where('codigo', $request->user()->referencia)->where('enviado_validacion', 2);
 
         $usuarios = $usuarios->orderByDesc('created_at');
         $usuarios = $usuarios->select(['users.*'])->paginate(15);
