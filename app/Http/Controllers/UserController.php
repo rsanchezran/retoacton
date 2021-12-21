@@ -1395,7 +1395,7 @@ class UserController extends Controller
         $campos = json_decode($request->campos);
         //$usuarios = User::where('rol', '!=', RolUsuario::ADMIN);
         //$usuarios = $usuarios->where('rol', '!=', RolUsuario::TIENDA);
-        //$usuarios = $usuarios->where('tipo_referencia', 3);top_seleccion
+        //$usuarios = $usuarios->where('tipo_referencia', 3);
         $usuarios = User::where('codigo', $request->user()->referencia)->where('enviado_validacion', 2);
 
         $usuarios = $usuarios->orderByDesc('created_at');
