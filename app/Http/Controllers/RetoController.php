@@ -321,6 +321,25 @@ class RetoController extends Controller
             $dia->ejercicioss = collect();
             //return view('reto.dia', ['dia' => $dia, 'genero' => $genero, 'objetivo' => $objetivo, 'lugar' => $user->modo,
             //'dias' => env('DIAS')]);
+            $ignorar = collect();//Generar dieta
+            $preguntaAlimentos = Pregunta::where('pregunta', 'like', '%no quiero%')->get();
+            $respuestas = Respuesta::where('usuario_id', $user->id)->get()->keyBy('pregunta_id');
+            foreach ($preguntaAlimentos as $preguntaAlimento) {
+                foreach (json_decode($respuestas->get($preguntaAlimento->id)->respuesta) as $item) {
+                    if ($item == 'Pollo' || $item == 'Pavo')
+                        $ignorar->push("Pechuga de $item");
+                    else if ($item == 'Huevo')
+                        $ignorar->push("Claras de $item");
+                    $ignorar->push($item);
+                }
+            }
+            $alimentosIgnorados = Dieta::whereIn('comida', $ignorar)->get()->pluck('id');
+            $objetivo = Pregunta::where('pregunta', 'like', '%Mi objetivo%')->first();
+            $preguntaPeso = Pregunta::where('pregunta', 'like', '%peso%')->first();
+            $objetivo = strpos($respuestas->get($objetivo->id)->respuesta, "Bajar") ? 'bajar' : 'subir';
+            $peso = json_decode($respuestas->get($preguntaPeso->id)->respuesta);
+
+            app('App\Http\Controllers\HomeController')->generarDieta($request->user(), $objetivo, $peso, $alimentosIgnorados, $numDieta);
             return view('reto.dia', ['dia' => $dia, 'genero' => $genero, 'objetivo' => $objetivo,
                 'dias' => $dias, 'lugar' => $user->modo, 'semana' => $semana, 'maximo' => $diasTranscurridos,
                 'teorico' => $teorico, 'diasReto' => $diasReto]);
