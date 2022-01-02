@@ -322,7 +322,7 @@ class RetoController extends Controller
             //return view('reto.dia', ['dia' => $dia, 'genero' => $genero, 'objetivo' => $objetivo, 'lugar' => $user->modo,
             //'dias' => env('DIAS')]);
             $ignorar = collect();//Generar dieta
-            $preguntaAlimentos = Pregunta::where('pregunta', 'like', '%no quiero%')->get();
+            $preguntaAlimentos = Pregunta::where('pregunta', 'like', '%Eliminar de mi dieta lo siguiente%')->get();
             $respuestas = Respuesta::where('usuario_id', $user->id)->get()->keyBy('pregunta_id');
             foreach ($preguntaAlimentos as $preguntaAlimento) {
                 foreach (json_decode($respuestas->get($preguntaAlimento->id)->respuesta) as $item) {
