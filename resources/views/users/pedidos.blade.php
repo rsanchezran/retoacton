@@ -54,7 +54,7 @@
                         <td>@{{ i.cantidad }}</td>
                         <td>@{{ i.precio }}</td>
                         <td>
-                            <i v-if="i.enviado == 0" class="fas fa-check-circle text-success"></i>
+                            <i v-if="i.enviado == 1" class="fas fa-check-circle text-success"></i>
                             <i v-else class="fas fa-exclamation-circle text-danger"></i>
                         </td>
                     </tr>
