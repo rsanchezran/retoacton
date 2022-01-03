@@ -186,6 +186,7 @@ Route::group(['prefix' => 'usuarios', 'middleware'=>['auth', 'pago']], function 
     Route::post('pagar-carrito/', 'UserController@pagarCarrito');
     Route::get('pedidos/', 'UserController@verPedidos');
     Route::post('pedidos-detalle/', 'UserController@detallePedidos');
+    Route::post('enviar-carrito/', 'UserController@enviarPedidos');
     Route::post('info-pedido/', 'UserController@usuarioPedidos');
     Route::get('buscar-referidos','UserController@buscarReferidos');
     Route::get('referidos/','UserController@listadoReferidos');

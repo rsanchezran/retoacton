@@ -63,7 +63,7 @@
                 <div>
                     Direccion: @{{ usuario.estado }}, @{{ usuario.ciudad }}, @{{ usuario.colonia }}, @{{ usuario.cp }}, @{{ usuario.calle }} @{{ usuario.numero }}
                 </div>
-                <button v-if="enviado == 0" class="btn btn-success" @click="enviar">Marcar Como Enviado</button>
+                <button class="btn btn-success" @click="enviar">Marcar Como Enviado</button>
             </div>
         </div>
     </template>
