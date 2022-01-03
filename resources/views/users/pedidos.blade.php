@@ -26,12 +26,17 @@
                     <thead>
                     <tr>
                         <td>Usuario</td>
+                        <td>Enviado</td>
                         <td>Ver info</td>
                     </tr>
                     </thead>
                     <tbody>
                     <tr v-for="i in usuarios">
                         <td>@{{ i.name }} @{{ i.last_name  }}</td>
+                        <td>
+                            <i v-if="i.enviado == 0" class="fas fa-check-circle text-success"></i>
+                            <i v-else class="fas fa-exclamation-circle text-danger"></i>
+                        </td>
                         <td @click="verDetalle(i.id)"><i class="fas fa-info-circle text-info"></i></td>
                     </tr>
                     </tbody>

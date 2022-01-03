@@ -1349,7 +1349,7 @@ class UserController extends Controller
 
     public function verPedidos(Request $request)
     {
-        $carrito = Carrito::select('usuario_id')->where('pagado', 1)->where('enviado', 0)->get();
+        $carrito = Carrito::select('usuario_id')->where('pagado', 1)->get();
         $usuarios = User::whereIn('id', $carrito)->get();
         return view('users.pedidos', ['usuarios' => $usuarios]);
     }
