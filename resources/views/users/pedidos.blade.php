@@ -37,7 +37,7 @@
                             <i v-if="i.enviado == 0" class="fas fa-check-circle text-success"></i>
                             <i v-else class="fas fa-exclamation-circle text-danger"></i>
                         </td>
-                        <td @click="verDetalle(i.id)"><i class="fas fa-info-circle text-info"></i></td>
+                        <td @click="verDetalle(i.id, i.enviado)"><i class="fas fa-info-circle text-info"></i></td>
                     </tr>
                     </tbody>
                 </table>
@@ -63,6 +63,7 @@
                 <div>
                     Direccion: @{{ usuario.estado }}, @{{ usuario.ciudad }}, @{{ usuario.colonia }}, @{{ usuario.cp }}, @{{ usuario.calle }} @{{ usuario.numero }}
                 </div>
+                <button v-if="enviado == 0" class="btn btn-success" @click="enviar">Marcar Como Enviado</button>
             </div>
         </div>
     </template>
@@ -77,6 +78,7 @@
             data: function () {
                 return {
                     id: 0,
+                    enviado: 0,
                     aut: 0,
                     mensaje: '',
                     scrollr: true,
@@ -86,8 +88,10 @@
                 }
             },
             methods: {
-                verDetalle: function(id){
+                verDetalle: function(id, enviado){
                     var vm = this;
+                    vm.id = id;
+                    vm.enviado = enviado;
                     axios.post('{{url('usuarios/pedidos-detalle/')}}', {'id': id}
                     ).then(function (response) {
                         vm.carritos = response.data;
@@ -99,6 +103,13 @@
                         });
                     });
                 },
+                enviar: function () {
+                    var vm = this;
+                    axios.post('{{url('usuarios/enviar-carrito/')}}', {'id': vm.id}
+                    ).then(function (response) {
+                        alert('Enviado');
+                    });
+                }
             },
             mounted: function () {
                 this.aut = '{{ Auth::user()->id }}';

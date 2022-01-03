@@ -1356,7 +1356,15 @@ class UserController extends Controller
 
     public function detallePedidos(Request $request)
     {
-        $carrito = Carrito::where('usuario_id', $request->id)->where('pagado', 1)->where('enviado', 0)->get();
+        $carrito = Carrito::where('usuario_id', $request->id)->where('pagado', 1)->get();
+        return $carrito;
+    }
+
+    public function enviarPedidos(Request $request)
+    {
+        $carrito = Carrito::where('id', $request->id)->get();
+        $carrito->enviado = 1;
+        $carrito->save();
         return $carrito;
     }
 
