@@ -1362,9 +1362,11 @@ class UserController extends Controller
 
     public function enviarPedidos(Request $request)
     {
-        $carrito = Carrito::where('id', $request->id)->get();
-        $carrito->enviado = 1;
-        $carrito->save();
+        $carrito = Carrito::where('usuario_id', $request->id)->get();
+        foreach ($carrito as $c){
+            $c->enviado = 1;
+            $c->save();
+        }
         return $carrito;
     }
 
