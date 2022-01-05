@@ -458,7 +458,7 @@
                                     <img src="{{asset('images/2021/estado_info.png')}}" width="30px" class="mr-2">@{{ usuario.situacion_actual }}
                                 </div>
                                 <div class="col-12 mt-4 text-center">
-                                    <a href="usuarios/seguir" class="col-12"><img class="w-100" src="{{asset('images/2021/haz_match.png')}}"></a>
+                                    <!--a href="usuarios/seguir" class="col-12"><img class="w-100" src="{{asset('images/2021/haz_match.png')}}"></a-->
                                 </div>
                             </div>
                         </div>
