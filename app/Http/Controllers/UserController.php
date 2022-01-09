@@ -1141,12 +1141,12 @@ class UserController extends Controller
         $usuario->primer_inicio = 1;
         $usuario->intereses_publico = $request->usuario['intereses_publico'];
         if(isset($request->usuario['codigo_nuevo'])){
-            $usuario->referencia = $request->usuario['codigo_nuevo'];
-            $referidos = User::where('codigo', $request->usuario['codigo_nuevo'])->get();
+            $referidos = User::where('codigo', $usuario->referencia)->get();
             foreach ($referidos as $c){
                 $c->codigo = $request->usuario['codigo_nuevo'];
                 $c->save();
             }
+            $usuario->referencia = $request->usuario['codigo_nuevo'];
         }
         if ($request->usuario['genero'] == 'Hombre'){
             $genero = 0;
