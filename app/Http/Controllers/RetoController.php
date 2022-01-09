@@ -271,6 +271,9 @@ class RetoController extends Controller
         $diaparabuild = $dia;
 
         $numDietas = $dia % 7 == 0 ? intval($dia / 7) : intval($dia / 7) + 1; //Se obtiene el numero de dieta con base en la cantidad de dias del reto
+        if($dia % 7 == 0){
+            $numDietas = $numDietas+1;
+        }
 
         //$diasRetoOriginal = intval(env('DIAS'));
         //$diasReto = intval(env('DIAS2'));
