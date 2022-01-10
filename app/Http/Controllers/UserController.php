@@ -1446,7 +1446,7 @@ class UserController extends Controller
         $filt = User::select('codigo', \DB::raw("count(codigo) as count"))
             ->groupBy('codigo')
             ->orderBy('count', 'DESC')
-            ->limit(10)->get();
+            ->limit(14)->get();
         $cont = 0;
         $ids = array($filt[0]['codigo'],$filt[1]['codigo'],$filt[2]['codigo'],$filt[3]['codigo'],$filt[4]['codigo'],$filt[5]['codigo'],$filt[6]['codigo'],$filt[7]['codigo'],$filt[8]['codigo'],$filt[9]['codigo'],$filt[10]['codigo'],$filt[11]['codigo'],$filt[12]['codigo']);
         $ids_ordered=array();
