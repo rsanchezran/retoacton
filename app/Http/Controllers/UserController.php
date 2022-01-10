@@ -1453,7 +1453,7 @@ class UserController extends Controller
         foreach ($ids as $i) {
             if($i !== NULL && $i !== 'NULL' && $i !== ''){
                 $v = User::where('referencia', $i)->first();
-                $ids_ordered = array_push($ids_ordered, $v->id);
+                array_push($ids_ordered, $v->id);
             }
             $cont++;
         }
