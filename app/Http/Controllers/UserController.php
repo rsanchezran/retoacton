@@ -1451,11 +1451,11 @@ class UserController extends Controller
         $ids = array($filt[0]['codigo'],$filt[1]['codigo'],$filt[2]['codigo'],$filt[3]['codigo'],$filt[4]['codigo'],$filt[5]['codigo'],$filt[6]['codigo'],$filt[7]['codigo'],$filt[8]['codigo'],$filt[9]['codigo']);
         $ids_ordered=array();
         foreach ($ids as $i) {
+            print_r($i);
             $v = User::where('referencia', $i)->first();
             $ids_ordered = array_push($ids_ordered, $v->id);
             $cont++;
         }
-        print_r($ids_ordered);
 
         $usuarios = User::whereIn('id', $ids_ordered)->orderByRaw("FIELD(id, $ids_ordered)");
 
