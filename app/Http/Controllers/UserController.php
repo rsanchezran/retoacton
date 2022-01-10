@@ -1444,8 +1444,7 @@ class UserController extends Controller
 
 
         $filt = User::select('codigo', \DB::raw("count(codigo) as count"))
-            ->whereNotNull('codigo')
-            ->groupBy('codigo', 'id')
+            ->groupBy('codigo')
             ->orderBy('count', 'DESC')
             ->limit(10)->get();
 
