@@ -2,8 +2,9 @@
 @section('header')
     <style>
         .usuario{
-            padding: 5px;
+            padding: 2px;
             margin: 5px;
+            padding-top: 3px;
         }
 
         .settings a, .settings button{
@@ -31,19 +32,19 @@
             </div>
 
             <div class="card mb-3">
-                <div class="card-body"  id="lstUsuarios">
-                    <div v-for="usuario in usuarios.data" class="usuario mb-2" style="border-bottom: 1px solid #c2c2c2; height: 75px;">
+                <div class="card-body"  id="lstUsuarios" style="margin-top: 21%; margin-left: 40px">
+                    <div v-for="usuario in usuarios.data" class="usuario" style="">
                         <div class="row ">
                             <span class="col-12">
                                 <a :href="'/cuenta/'+usuario.id">
                                     <img :src="'/cuenta/getFotografia/'+usuario.id+'/343234'"
                                          style="
                                         height: 100px;
-                                        min-height: 50px;
-                                        height: 50px;
-                                        width: 50px;
+                                        min-height: 30px;
+                                        height: 30px;
+                                        width: 30px;
                                         border-radius: 30px;">
-                                    @{{ usuario.name+' '+usuario.last_name }}</a>
+                                    <strong>@{{ usuario.name+' '+usuario.last_name }}</strong></a>
                             </span>
                         </div>
                     </div>

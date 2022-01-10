@@ -146,7 +146,7 @@
         }
 
         main{
-            background-image: url("{{asset('images/2021/acton_fondo_gris.png')}}");
+            background-image: url("{{asset('images/2021/referidos.png')}}");
             background-size: 100% !important;
             background-attachment: initial;
             background-position: top;
