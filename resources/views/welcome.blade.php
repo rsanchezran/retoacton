@@ -770,9 +770,9 @@
                                 </button>
 
                                 @if (Route::has('password.request'))
-                                    <a class="btn" href="{{ route('password.request') }}" style="color:#808080">
+                                    <!--a class="btn" href="{{ route('password.request') }}" style="color:#808080">
                                         ¿Olvidaste tu contraseña?
-                                    </a>
+                                    </a-->
                                 @endif
                             </div>
                         </div>

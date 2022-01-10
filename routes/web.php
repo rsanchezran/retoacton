@@ -191,6 +191,8 @@ Route::group(['prefix' => 'usuarios', 'middleware'=>['auth', 'pago']], function 
     Route::get('buscar-referidos','UserController@buscarReferidos');
     Route::get('referidos/','UserController@listadoReferidos');
     Route::get('referido/{id}','UserController@detalleReferido');
+    Route::get('referidos_top/','UserController@listadoReferidosTop');
+    Route::get('buscar-referidos-top','UserController@buscarReferidosTop');
 });
 
 Route::group(['prefix'=>'reto', 'middleware'=>['auth', 'pago'] ],function (){

@@ -24,6 +24,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Illuminate\Support\Facades\Auth;
 use Crypt;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -1400,6 +1401,12 @@ class UserController extends Controller
             ]);
     }
 
+    public function listadoReferidosTop(Request $request)
+    {
+
+        return view('users.referidos_top');
+    }
+
     public function buscarReferidos(Request $request)
     {
         $campos = json_decode($request->campos);
@@ -1428,6 +1435,24 @@ class UserController extends Controller
         }
 
 
+
+        return $usuarios;
+    }
+
+    public function buscarReferidosTop(Request $request)
+    {
+
+
+        $filt = User::select('id', \DB::raw("count(codigo) as count"))->groupBy('codigo', 'id')
+            ->orderBy('count', 'DESC')
+            ->limit(10)->get();
+
+        $ids = array($filt[0]['id'],$filt[1]['id'],$filt[2]['id'],$filt[3]['id'],$filt[4]['id'],$filt[5]['id'],$filt[6]['id'],$filt[7]['id'],$filt[8]['id'],$filt[9]['id']);
+        $ids_ordered = implode(',', $ids);
+
+        $usuarios = User::whereIn('id', $ids)->orderByRaw("FIELD(id, $ids_ordered)");
+
+        $usuarios = $usuarios->select(['users.*'])->paginate(15);
 
         return $usuarios;
     }
