@@ -1452,16 +1452,13 @@ class UserController extends Controller
         $ids_ordered=array();
         foreach ($ids as $i) {
             if($i !== NULL && $i !== 'NULL' && $i !== '' && $i !== 'Pipolan' && $i != 'GC5ZG8J'){
-                print_r($i);
-                print_r('++++++++++');
                 $v = User::where('referencia', $i)->first();
-                print_r($v->id);
                 array_push($ids_ordered, $v->id);
-                print_r($ids_ordered);
-                print_r('++++++++++');
             }
             $cont++;
         }
+
+        $ids_ordered = implode(',', $ids_ordered);
 
         $usuarios = User::whereIn('id', $ids_ordered)->orderByRaw("FIELD(id, $ids_ordered)");
 
