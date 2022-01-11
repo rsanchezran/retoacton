@@ -1451,7 +1451,7 @@ class UserController extends Controller
         $ids = array($filt[0]['codigo'],$filt[1]['codigo'],$filt[2]['codigo'],$filt[3]['codigo'],$filt[4]['codigo'],$filt[5]['codigo'],$filt[6]['codigo'],$filt[7]['codigo'],$filt[8]['codigo'],$filt[9]['codigo'],$filt[10]['codigo'],$filt[11]['codigo'],$filt[12]['codigo']);
         $ids_ordered=array();
         foreach ($ids as $i) {
-            if($i !== NULL && $i !== 'NULL' && $i !== ''){
+            if($i !== NULL && $i !== 'NULL' && $i !== '' && $i !== 'Pipolan' && $i != 'GC5ZG8J'){
                 print_r($i);
                 print_r('++++++++++');
                 $v = User::where('referencia', $i)->first();
