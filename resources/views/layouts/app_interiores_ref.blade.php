@@ -147,7 +147,7 @@
 
         main{
             background-image: url("{{asset('images/2021/referidos.png')}}");
-            background-size: 100% !important;
+            background-size: auto 100% !important;
             background-attachment: initial;
             background-position: top;
             background-repeat: no-repeat;
