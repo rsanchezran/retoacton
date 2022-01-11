@@ -1457,10 +1457,9 @@ class UserController extends Controller
             }
             $cont++;
         }
-        $ids_ordered = implode(',', $ids_ordered);
-        print_r($ids_ordered);
+        $orden = implode(',', $ids_ordered);
 
-        $usuarios = User::whereIn('id', $ids_ordered)->orderByRaw("FIELD(id, $ids_ordered)");
+        $usuarios = User::whereIn('id', $ids_ordered)->orderByRaw("FIELD(id, $orden)");
 
         $usuarios = $usuarios->select(['users.*'])->paginate(10);
 
