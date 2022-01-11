@@ -32,7 +32,7 @@
             </div>
 
             <div class="card mb-3">
-                <div class="card-body"  id="lstUsuarios" style="margin-top: 21%; margin-left: 40px">
+                <div class="card-body"  id="lstUsuarios" style="margin-top: 24%; margin-left: 40px">
                     <div v-for="usuario in usuarios.data" class="usuario" style="">
                         <div class="row ">
                             <span class="col-12">
