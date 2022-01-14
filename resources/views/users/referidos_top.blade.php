@@ -22,7 +22,7 @@
                 margin: 8px !important;
                 padding-top: 3px !important;
             }
-            .lstUsuarios {
+            #lstUsuarios {
                 margin-top: 22% !important;
                 margin-left: 46px !important;
             }
