@@ -14,6 +14,19 @@
         .inactivo{
             background-color: lightgray;
         }
+
+
+        @media only screen and (max-width: 411px) {
+            .usuario {
+                padding: 3px !important;
+                margin: 8px !important;
+                padding-top: 3px !important;
+            }
+            .lstUsuarios {
+                margin-top: 22% !important;
+                margin-left: 46px !important;
+            }
+        }
     </style>
     <script src="https://unpkg.com/vue-multiselect@2.1.0"></script>
     <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
