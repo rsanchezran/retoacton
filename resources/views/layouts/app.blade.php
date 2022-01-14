@@ -174,6 +174,8 @@
                             @endif
                             <a class="nav-link" href="{{ url('/reto/programa') }}">
                                 <i class="fas fa-chevron-down"></i> Mi Plan Acton</a>
+                            <a class="nav-link" href="{{ url('/usuarios/referidos_top') }}">
+                                <i class="fas fa-chevron-down"></i> Top Referidos</a>
                         @else
                             <!--a class="nav-link" href="{{ url('/reto/configuracion') }}">
                                 <i class="fas fa-chevron-down"></i> Mi Vida Fit</a-->
