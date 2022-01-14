@@ -1444,7 +1444,7 @@ class UserController extends Controller
 
 
         $filt = User::select('codigo', \DB::raw("count(codigo) as count"))
-            ->where('fecha_inicio', '>=', '2022-01-03')
+            ->where('id', 411)
             ->groupBy('codigo')
             ->orderBy('count', 'DESC')
             ->limit(14)->get();
