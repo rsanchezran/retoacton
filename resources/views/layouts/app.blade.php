@@ -196,6 +196,8 @@
                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fas fa-chevron-down"></i> Configuración
                                 </a>
+                                <a class="nav-link" href="{{ url('/usuarios/referidos_top') }}">
+                                    <i class="fas fa-chevron-down"></i> Top Referidos</a>
                                 <div class="dropdown-menu" aria-lab elledby="administracion">
                                     <a class="dropdown-item" href="{{ url('/configuracion/videos') }}">
                                         <i class="far fa-video"></i> Videos</a>
