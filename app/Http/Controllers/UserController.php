@@ -1473,9 +1473,6 @@ class UserController extends Controller
         $orden = implode(',', $ids_ordered);
 
         $usuarios = User::whereIn('id', $ids_ordered)->orderByRaw("FIELD(id, $orden)");
-        foreach ($total as $t) {
-            $usuarios->total = $t;
-        }
 
         $usuarios = $usuarios->select(['users.*'])->paginate(10);
 

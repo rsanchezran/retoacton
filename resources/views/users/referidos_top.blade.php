@@ -27,6 +27,19 @@
                 margin-left: 46px !important;
             }
         }
+
+
+        @media only screen and (max-width: 380px) {
+            .usuario {
+                padding: 2px;
+                margin: 5px;
+                padding-top: 3px;
+            }
+            #lstUsuarios {
+                margin-top: 24% !important;
+                margin-left: 40px !important;
+            }
+        }
     </style>
     <script src="https://unpkg.com/vue-multiselect@2.1.0"></script>
     <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
