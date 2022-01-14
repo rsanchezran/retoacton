@@ -16,7 +16,7 @@
         }
 
 
-        @media only screen and (max-width: 411px) {
+        @media only screen and (max-width: 414px) {
             .usuario {
                 padding: 3px !important;
                 margin: 8px !important;
