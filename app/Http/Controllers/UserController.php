@@ -1449,6 +1449,8 @@ class UserController extends Controller
             ->groupBy('codigo')
             ->orderBy('count', 'DESC')
             ->get();
+        print_r($filt);
+        var_dump($filt);
         $cont = 0;
         $ids=array();
         if(isset($filt[0]['codigo'])){array_push($ids, $filt[0]['codigo']);}
