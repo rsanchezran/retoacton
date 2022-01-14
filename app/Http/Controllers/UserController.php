@@ -1447,7 +1447,7 @@ class UserController extends Controller
             ->whereIn('codigo', $q)
             ->groupBy('codigo')
             ->orderBy('count', 'DESC')
-            ->limit(30)
+            ->limit(10)
             ->get();
         $cont = 0;
         $ids=array();
