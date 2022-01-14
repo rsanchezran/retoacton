@@ -1450,7 +1450,21 @@ class UserController extends Controller
             ->orderBy('count', 'DESC')
             ->limit(14)->get();
         $cont = 0;
-        $ids = array($filt[0]['codigo'],$filt[1]['codigo'],$filt[2]['codigo'],$filt[3]['codigo'],$filt[4]['codigo'],$filt[5]['codigo'],$filt[6]['codigo'],$filt[7]['codigo'],$filt[8]['codigo'],$filt[9]['codigo'],$filt[10]['codigo'],$filt[11]['codigo'],$filt[12]['codigo']);
+        $ids=array();
+        if(isset($filt[0]['codigo'])){array_push($ids, $filt[0]['codigo']);}
+        if(isset($filt[1]['codigo'])){array_push($ids, $filt[1]['codigo']);}
+        if(isset($filt[2]['codigo'])){array_push($ids, $filt[2]['codigo']);}
+        if(isset($filt[3]['codigo'])){array_push($ids, $filt[3]['codigo']);}
+        if(isset($filt[4]['codigo'])){array_push($ids, $filt[4]['codigo']);}
+        if(isset($filt[5]['codigo'])){array_push($ids, $filt[5]['codigo']);}
+        if(isset($filt[6]['codigo'])){array_push($ids, $filt[6]['codigo']);}
+        if(isset($filt[7]['codigo'])){array_push($ids, $filt[7]['codigo']);}
+        if(isset($filt[8]['codigo'])){array_push($ids, $filt[8]['codigo']);}
+        if(isset($filt[9]['codigo'])){array_push($ids, $filt[9]['codigo']);}
+        if(isset($filt[10]['codigo'])){array_push($ids, $filt[10]['codigo']);}
+        if(isset($filt[11]['codigo'])){array_push($ids, $filt[11]['codigo']);}
+        if(isset($filt[12]['codigo'])){array_push($ids, $filt[12]['codigo']);}
+        //$ids = array($filt[0]['codigo'],$filt[1]['codigo'],$filt[2]['codigo'],$filt[3]['codigo'],$filt[4]['codigo'],$filt[5]['codigo'],$filt[6]['codigo'],$filt[7]['codigo'],$filt[8]['codigo'],$filt[9]['codigo'],$filt[10]['codigo'],$filt[11]['codigo'],$filt[12]['codigo']);
         $ids_ordered=array();
         foreach ($ids as $i) {
             if($i !== NULL && $i !== 'NULL' && $i !== '' && $i !== 'Pipolan' && $i != 'GC5ZG8J'){
