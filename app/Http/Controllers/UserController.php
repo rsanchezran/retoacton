@@ -1448,6 +1448,7 @@ class UserController extends Controller
             ->orWhere('inicio_reto', '>=', '2022-01-01')
             ->groupBy('codigo')
             ->orderBy('count', 'DESC')
+            ->limit(30)
             ->get();
         $cont = 0;
         $ids=array();
@@ -1461,7 +1462,17 @@ class UserController extends Controller
         if(isset($filt[7]['codigo'])){array_push($ids, $filt[7]['codigo']);}
         if(isset($filt[8]['codigo'])){array_push($ids, $filt[8]['codigo']);}
         if(isset($filt[9]['codigo'])){array_push($ids, $filt[9]['codigo']);}
-        print_r($ids);
+        if(isset($filt[10]['codigo'])){array_push($ids, $filt[10]['codigo']);}
+        if(isset($filt[11]['codigo'])){array_push($ids, $filt[11]['codigo']);}
+        if(isset($filt[12]['codigo'])){array_push($ids, $filt[12]['codigo']);}
+        if(isset($filt[13]['codigo'])){array_push($ids, $filt[13]['codigo']);}
+        if(isset($filt[14]['codigo'])){array_push($ids, $filt[14]['codigo']);}
+        if(isset($filt[15]['codigo'])){array_push($ids, $filt[15]['codigo']);}
+        if(isset($filt[16]['codigo'])){array_push($ids, $filt[16]['codigo']);}
+        if(isset($filt[17]['codigo'])){array_push($ids, $filt[17]['codigo']);}
+        if(isset($filt[18]['codigo'])){array_push($ids, $filt[18]['codigo']);}
+        if(isset($filt[19]['codigo'])){array_push($ids, $filt[19]['codigo']);}
+        if(isset($filt[20]['codigo'])){array_push($ids, $filt[20]['codigo']);}
         //$ids = array($filt[0]['codigo'],$filt[1]['codigo'],$filt[2]['codigo'],$filt[3]['codigo'],$filt[4]['codigo'],$filt[5]['codigo'],$filt[6]['codigo'],$filt[7]['codigo'],$filt[8]['codigo'],$filt[9]['codigo'],$filt[10]['codigo'],$filt[11]['codigo'],$filt[12]['codigo']);
         $ids_ordered=array();
         foreach ($ids as $i) {
