@@ -1441,10 +1441,10 @@ class UserController extends Controller
 
     public function buscarReferidosTop(Request $request)
     {
-        $q = array(60,94,95,99,101,105,106,108,112,117,123,124,128,151,152,156,158,160,171,174,180,184,186,190,191,203,205,213,214,218,226,233,242,243,284,301,306,310,359,410,463,474,477,482,486,500,504,505,512,521,522,539,543,546,548,560,713,727,732,766,771,780,782,791,792,801,804,809,812,838,839,852,907,911,925,942,1028,1114,1116,1124,1131,1138,1218,1219,1220,1221,1222,1223,1224,1225,1226,1227,1228,1229,1230,1231,1232,1233,1234,1235,1236,1237,1238,1240,1241,1244,1245,1246,1247,1248,1249,1250,1251,1252,1253,1254,1255,1256,1258,1259,1260,1261,1262,1265,1266,1267,1268,1269,1271,1277,1284,1293,1305,1313,1315,411);
+        $q = array('BKD8FLU','VDIG6UL','0JDGLNV','MANTES','CAGI278','186KU8I','WWRIQWS','SWLBLHH','Maza17.','V31@Gzz','GHXDZRE','Leb1Ab','Hatsu','GIBRANN','Gallo','JESUSGO','BARD664','H58Q7Y1','ALFARO','ADTZXJC','H61JEUJ','Erik','MXDLOZV','Siki999','QY1U1UY','TMOGAMI','AH9SYOY','A38WCTL','Sergio','Je1488','VJUZ9DK','XIHMCX0','8FEUHWR','JJTAO3O','SLV2NBW','39YTLO0','UZE05N9','Litzi17','SERGE69','Celis23','GRLS053','D5F3KAJ','D2575','198I7PJ','Harper','VTDPNAZ','Cache79','RUCR88','Erika91','Nax8101','0CBNK2W','FWYS1OE','Qwertu','DE04LDZ','K49RYRD','B17M*','TW3IQYY','MQEFN4Q','ONFCC4P','EALS987','K2U1NR7','Astratt','KOZ2CCG','ALONSIN','150728L','IRVIN81','PHWGSFG','Biskuit','2GLIN4Z','Brito21','27MMS99','Pipo21','QXIEKVJ','JR3BY4P','GTE3SF7','EIFISLV','AJ7TFYT','VirusL','YL8OJER','CJCAB13','SNT6T2O','9VO7QRQ','QXYU1IJ','Anahi','ALCDS','JYV8N','A24680','PYH2EIB','CARANG2','VBXHD5Z','Luiss','MALMCLM','QQK9XGH','3041064','8XMIUMU','ARY_CV','CUERVO','XVE9MCY','GPCGJ81','EIVOLYZ','ARICO21','Jesus19','VAEPDKD','402572','R6EUAGP','XJUPERZ','CHPYKAG','David7','EXY15HR','Jafet71','117','G2FFUW7','AJS5GPB','Xavi33_','N1QQB4D','1987','WOR8NJS','Saul246','DDO1984','ZNGAA3I','BK5CM52','ORN7Z4I','CWOZYHG','DanSax','UDM95XM','YAQJANJ','Amita98','Mena.83','VALE020','Elbruce','Leo16','KEFFSCN','KDCR86','GWECEKM','ARA15NA','YEYEYJJ');
 
         $filt = User::select('codigo', \DB::raw("count(codigo) as count"))
-            ->whereIn('id', $q)
+            ->whereIn('codigo', $q)
             ->groupBy('codigo')
             ->orderBy('count', 'DESC')
             ->limit(30)
@@ -1455,9 +1455,9 @@ class UserController extends Controller
             array_push($ids, $f['codigo']);
         }
         //if(isset($filt[0]['codigo'])){array_push($ids, $filt[0]['codigo']);}
-        print_r($ids);
         //$ids = array($filt[0]['codigo'],$filt[1]['codigo'],$filt[2]['codigo'],$filt[3]['codigo'],$filt[4]['codigo'],$filt[5]['codigo'],$filt[6]['codigo'],$filt[7]['codigo'],$filt[8]['codigo'],$filt[9]['codigo'],$filt[10]['codigo'],$filt[11]['codigo'],$filt[12]['codigo']);
         $ids_ordered=array();
+        $count = array();
         foreach ($ids as $i) {
             if($i !== NULL && $i !== 'NULL' && $i !== '' && $i !== 'Pipolan' && $i != 'GC5ZG8J'){
                 $v = User::where('referencia', $i)->first();
