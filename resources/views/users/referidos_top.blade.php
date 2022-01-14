@@ -31,9 +31,9 @@
 
         @media only screen and (max-width: 380px) {
             .usuario {
-                padding: 2px;
-                margin: 5px;
-                padding-top: 3px;
+                padding: 2px !important;
+                margin: 5px !important;
+                padding-top: 3px !important;
             }
             #lstUsuarios {
                 margin-top: 24% !important;
