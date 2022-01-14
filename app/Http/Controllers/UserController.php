@@ -1444,8 +1444,6 @@ class UserController extends Controller
 
 
         $filt = User::select('codigo', \DB::raw("count(codigo) as count"))
-            ->where('id', 411)
-            ->orWhere('inicio_reto', '>', '2022-01-01')
             ->groupBy('codigo')
             ->orderBy('count', 'DESC')
             ->limit(30)
