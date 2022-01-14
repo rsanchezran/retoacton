@@ -1452,6 +1452,7 @@ class UserController extends Controller
             ->get();
         $cont = 0;
         $ids=array();
+        print_r($filt);
         if(isset($filt[0]['codigo'])){array_push($ids, $filt[0]['codigo']);}
         if(isset($filt[1]['codigo'])){array_push($ids, $filt[1]['codigo']);}
         if(isset($filt[2]['codigo'])){array_push($ids, $filt[2]['codigo']);}
@@ -1473,6 +1474,7 @@ class UserController extends Controller
         if(isset($filt[18]['codigo'])){array_push($ids, $filt[18]['codigo']);}
         if(isset($filt[19]['codigo'])){array_push($ids, $filt[19]['codigo']);}
         if(isset($filt[20]['codigo'])){array_push($ids, $filt[20]['codigo']);}
+        print_r($ids);
         //$ids = array($filt[0]['codigo'],$filt[1]['codigo'],$filt[2]['codigo'],$filt[3]['codigo'],$filt[4]['codigo'],$filt[5]['codigo'],$filt[6]['codigo'],$filt[7]['codigo'],$filt[8]['codigo'],$filt[9]['codigo'],$filt[10]['codigo'],$filt[11]['codigo'],$filt[12]['codigo']);
         $ids_ordered=array();
         foreach ($ids as $i) {
