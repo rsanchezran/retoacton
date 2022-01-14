@@ -1451,18 +1451,21 @@ class UserController extends Controller
             ->get();
         $cont = 0;
         $ids=array();
+        $count = array();
         foreach ($filt as $f){
             array_push($ids, $f['codigo']);
+            array_push($count, $f['count']);
         }
         //if(isset($filt[0]['codigo'])){array_push($ids, $filt[0]['codigo']);}
         //$ids = array($filt[0]['codigo'],$filt[1]['codigo'],$filt[2]['codigo'],$filt[3]['codigo'],$filt[4]['codigo'],$filt[5]['codigo'],$filt[6]['codigo'],$filt[7]['codigo'],$filt[8]['codigo'],$filt[9]['codigo'],$filt[10]['codigo'],$filt[11]['codigo'],$filt[12]['codigo']);
         $ids_ordered=array();
-        $count = array();
+        $total=array();
         foreach ($ids as $i) {
             if($i !== NULL && $i !== 'NULL' && $i !== '' && $i !== 'Pipolan' && $i != 'GC5ZG8J'){
                 $v = User::where('referencia', $i)->first();
                 if($v != NULL) {
                     array_push($ids_ordered, $v->id);
+                    array_push($total, $count[$cont]);
                 }
             }
             $cont++;
@@ -1470,6 +1473,9 @@ class UserController extends Controller
         $orden = implode(',', $ids_ordered);
 
         $usuarios = User::whereIn('id', $ids_ordered)->orderByRaw("FIELD(id, $orden)");
+        foreach ($total as $t) {
+            $usuarios->total = $t;
+        }
 
         $usuarios = $usuarios->select(['users.*'])->paginate(10);
 
