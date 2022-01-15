@@ -773,10 +773,11 @@
                                     <!--a class="btn" href="{{ route('password.request') }}" style="color:#808080">
                                         ¿Olvidaste tu contraseña?
                                     </a-->
+                                    <br>
                                 @endif
                             </div>
                         </div>
-                        <div class="col-7 col-sm-7 mr-auto ml-auto" style="padding: 40px 10px; margin-top: -3px">
+                        <div class="col-7 col-sm-7 mr-auto ml-auto" style="padding: 0px 10px; margin-top: 0px">
                             <a class="btn btn-link" href="registro/gratis"><img class="d-lg-none w-100" src="{{asset('images/2021/prueba_gratis_1.png')}}" alt="First slide"></a>
                         </div>
                     </form>
