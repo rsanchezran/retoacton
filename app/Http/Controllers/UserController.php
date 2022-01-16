@@ -1445,6 +1445,7 @@ class UserController extends Controller
 
         $filt = User::select('codigo', \DB::raw("count(codigo) as count"))
             ->whereIn('codigo', $q)
+            ->where('enviado_validacion', 2)
             ->groupBy('codigo')
             ->orderBy('count', 'DESC')
             ->limit(10)
