@@ -1478,8 +1478,10 @@ class UserController extends Controller
 
         $usuarios = $usuarios->paginate(10);
 
+        $contador = 0;
         foreach ($usuarios as $usuario) {
-            $usuario->vigente = 11;
+            $usuario->vigente = $total[$contador];
+            $contador++;
         }
 
         return $usuarios;
