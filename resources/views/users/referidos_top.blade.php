@@ -70,7 +70,7 @@
                                         height: 30px;
                                         width: 30px;
                                         border-radius: 30px;">
-                                    <strong>@{{ usuario.name+' '+usuario.last_name }} <button class="btn btn-success">{{usuario.vigente}}</button></strong></a>
+                                    <strong>@{{ usuario.name+' '+usuario.last_name }} <button class="btn btn-success">@{{usuario.vigente}}</button></strong></a>
                             </span>
                         </div>
                     </div>
