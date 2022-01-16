@@ -18,6 +18,10 @@
             background: #007FDC;
             color: white;
             padding: 2px;
+            float: right;
+            min-width: 24px;
+            text-align: center;
+            border-radius: 20px;
         }
 
 
