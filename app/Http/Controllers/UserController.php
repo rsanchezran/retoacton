@@ -1481,7 +1481,9 @@ class UserController extends Controller
             $contador++;
         }
 
-        $usuarios = $usuarios->select(['users.*'])->paginate(10);
+        print_r($usuarios);
+
+        $usuarios = $usuarios->paginate(10);
 
         return $usuarios;
     }
