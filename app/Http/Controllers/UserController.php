@@ -1477,7 +1477,7 @@ class UserController extends Controller
         $contador = 0;
         $contadort = 0;
         foreach ($usuarios as $u) {
-            $usuarios->total = $total[$contador];
+            $u->total = $total[$contador];
             $contador++;
         }
 
