@@ -14,6 +14,11 @@
         .inactivo{
             background-color: lightgray;
         }
+        .total-ref{
+            background: #007FDC;
+            color: white;
+            padding: 2px;
+        }
 
 
         @media only screen and (max-width: 414px) {
@@ -70,7 +75,7 @@
                                         height: 30px;
                                         width: 30px;
                                         border-radius: 30px;">
-                                    <strong>@{{ usuario.name+' '+usuario.last_name }} <button class="btn btn-success">@{{usuario.vigente}}</button></strong></a>
+                                    <strong>@{{ usuario.name+' '+usuario.last_name }} <span class="total-ref">@{{usuario.vigente}}</span></strong></a>
                             </span>
                         </div>
                     </div>
