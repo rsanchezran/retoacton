@@ -1479,7 +1479,6 @@ class UserController extends Controller
             $usuario->vigente = 11;
         }
 
-        $usuarios = $usuarios->paginate(10);
 
         return $usuarios;
     }
