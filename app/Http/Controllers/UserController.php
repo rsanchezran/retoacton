@@ -1476,7 +1476,7 @@ class UserController extends Controller
 
 
         foreach ($usuarios as $usuario) {
-            $usuario->vigente = $total[0];
+            $usuario->vigente = 11;
         }
 
         $usuarios = $usuarios->paginate(10);
