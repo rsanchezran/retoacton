@@ -1475,10 +1475,12 @@ class UserController extends Controller
         $usuarios = User::whereIn('id', $ids_ordered)->orderByRaw("FIELD(id, $orden)");
 
 
+
+        $usuarios = $usuarios->paginate(10);
+
         foreach ($usuarios as $usuario) {
             $usuario->vigente = 11;
         }
-
 
         return $usuarios;
     }
