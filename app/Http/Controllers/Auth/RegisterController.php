@@ -344,7 +344,7 @@ class RegisterController extends Controller
             $contacto->estado = NULL;
             $contacto->ciudad = NULL;
             $contacto->colonia = NULL;
-            $contacto->dias = 7;
+            $contacto->dias = 14;
             $contacto->save();
             $mensaje = '';
             $status = 'ok';
