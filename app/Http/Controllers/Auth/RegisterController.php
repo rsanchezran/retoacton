@@ -308,7 +308,7 @@ class RegisterController extends Controller
             }
             $contacto->nombres = $result = preg_replace('/\d/', '', $request->nombres);
             $contacto->apellidos = $request->apellidos;
-            $contacto->fill(['dias' => 7]);
+            $contacto->fill(['dias' => 14]);
             $contacto->telefono = $request->telefono;
             $contacto->medio = $request->medio;
             $contacto->codigo = $request->codigo;

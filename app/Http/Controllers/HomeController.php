@@ -177,7 +177,7 @@ class HomeController extends Controller
         $today = new Carbon();
         if($today->dayOfWeek == Carbon::THURSDAY || $today->dayOfWeek == Carbon::FRIDAY || $today->dayOfWeek == Carbon::SATURDAY || $today->dayOfWeek == Carbon::SUNDAY){
             $dialunes = Carbon::parse("monday next week");
-            $dialunes = $dialunes->addDays(7);
+            //$dialunes = $dialunes->addDays(7);
         }else{
             $dialunes = Carbon::parse("monday next week");
         }
@@ -921,7 +921,7 @@ class HomeController extends Controller
             $today = new Carbon();
             if($today->dayOfWeek == Carbon::THURSDAY || $today->dayOfWeek == Carbon::FRIDAY || $today->dayOfWeek == Carbon::SATURDAY || $today->dayOfWeek == Carbon::SUNDAY){
                 $dialunes = Carbon::parse("monday next week");
-                $dialunes = $dialunes->addDays(7);
+                //$dialunes = $dialunes->addDays(7);
             }else{
                 $dialunes = Carbon::parse("monday next week");
             }
