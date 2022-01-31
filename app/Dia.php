@@ -50,9 +50,7 @@ class Dia extends Model
         if($dia>0){
             $diacardio = $dia;
         }
-        $diaDB = Dia::with(['cardio', function ($query) use ($genero, $objetivo) {
-            return $query->where('genero', $genero)->where('objetivo', $objetivo);
-        }])
+        $diaDB = Dia::with(['cardio' => $filtro, 'notas' => $filtro])
             ->where('dia', $diacardio)->get()->first();
         if ($diaDB == null) {
             $diaDB = new Dia();
