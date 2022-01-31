@@ -46,7 +46,7 @@ class Dia extends Model
         $filtro = function ($datos) use ($genero, $objetivo) { //funcion para cad with
             $datos->where('genero', $genero)->where('objetivo', $objetivo);
         };
-        $diacardio = 1;
+        $diacardio = $dia-54;
         if($dia>0){
             $diacardio = $dia;
         }
