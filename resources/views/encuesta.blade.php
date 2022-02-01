@@ -1116,7 +1116,11 @@
                 if(actual === ideal){
                     alcanzables = (actual);
                 }
-                vm.peso_ideal = alcanzables;
+                if(alcanzables >= ideal){
+                    vm.peso_ideal = alcanzables;
+                }else{
+                    vm.peso_ideal = ideal;
+                }
             },
             mostrarFelicidades() {
                 this.felicidades = true;
