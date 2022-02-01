@@ -339,8 +339,13 @@ class RetoController extends Controller
             $alimentosIgnorados = Dieta::whereIn('comida', $ignorar)->get()->pluck('id');
             $objetivo = Pregunta::where('pregunta', 'like', '%Mi objetivo%')->first();
             $preguntaPeso = Pregunta::where('pregunta', 'like', '%peso%')->first();
-            $objetivo = strpos($respuestas->get(13)->respuesta, "Bajar") ? 'bajar' : 'subir';
-            $peso = json_decode($respuestas->get($preguntaPeso->id)->respuesta);
+            $objetivo = strpos($respuestas->get(13)->respuesta, "Bajar");
+            if(is_numeric($objetivo)){
+                $objetivo = 'bajar';
+            }else{
+                $objetivo = 'subir';
+            }
+            $peso = json_decode($respuestas->get(2)->respuesta);
 
             app('App\Http\Controllers\HomeController')->generarDieta($request->user(), $objetivo, $peso, $alimentosIgnorados, 1);
             app('App\Http\Controllers\HomeController')->generarDieta($request->user(), $objetivo, $peso, $alimentosIgnorados, 0);
