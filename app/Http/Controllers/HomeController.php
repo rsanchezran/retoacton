@@ -215,7 +215,7 @@ class HomeController extends Controller
         $objetivo = Pregunta::where('pregunta', 'like', '%Mi objetivo%')->first();
         $preguntaPeso = Pregunta::where('pregunta', 'like', '%peso a%')->first();
         $preguntaPesoIdeal = Pregunta::where('pregunta', 'like', '%peso ideal%')->first();
-        $objetivo = strpos($respuestas->get($objetivo->id)->respuesta, "Bajar de peso rápidamente") ? 'bajar' : 'subir';
+        $objetivo = strpos($respuestas->get($objetivo->id)->respuesta, "Bajar") ? 'bajar' : 'subir';
         $sexo = json_decode($respuestas->get($sexo->id)->respuesta);
         $peso = json_decode($respuestas->get($preguntaPeso->id)->respuesta);
         $user->genero = $sexo[0] == 'H' ? Genero::HOMBRE : Genero::MUJER;
