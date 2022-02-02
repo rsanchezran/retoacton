@@ -1327,7 +1327,7 @@ class UserController extends Controller
         ->selectRaw("SUM(precio) as total")
         ->groupBy('usuario_id')
         ->get();
-        if($suma[0]->total > $request->user()->saldo) {
+        if(($suma[0]->total+220) > $request->user()->saldo) {
             return "No cuentas con saldo suficiente";
         }else{
             $carrito = Carrito::Where('usuario_id', $request->user()->id)->where('pagado', 0)->get();
@@ -1335,7 +1335,7 @@ class UserController extends Controller
                 $c->pagado = 1;
                 $c->save();
             }
-            $request->user()->saldo = $request->user()->saldo-$suma[0]->total;
+            $request->user()->saldo = $request->user()->saldo-($suma[0]->total+220);
             $request->user()->save();
             return "Se ha completado la compra";
         }

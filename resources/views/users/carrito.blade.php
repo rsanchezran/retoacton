@@ -38,6 +38,11 @@
                         <td>@{{ i.precio }}</td>
                         <td @click="eliminarCarrito(i.id)"><i class="fas fa-times-circle text-danger"></i></td>
                     </tr>
+                    <tr>
+                        <td>Envio</td>
+                        <td>1</td>
+                        <td>$220</td>
+                    </tr>
                     </tbody>
                 </table>
                 <button class="btn btn-primary" @click="pagarCarrito">Pagar</button>
