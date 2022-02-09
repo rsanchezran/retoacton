@@ -488,8 +488,8 @@ class HomeController extends Controller
     public function generarDieta($user, $txtobjetivo, $peso, $alimentosIgnorados, $numDieta)
     {
         $now = Carbon::now();
-        $existe = UsuarioDieta::where('dieta', $numDieta)->count();
-        if($existe>0){
+        $dietaCreada = UsuarioDieta::where('usuario_id', $user->id)->where('dieta', $numDieta)->count();
+        if ($dietaCreada==0){
             $alimentosIgnorados = $this->checarAlimentosIgnorados($alimentosIgnorados, $peso, $txtobjetivo);
             $rango = Rango::with(['rango_dietas' => function ($query) use ($txtobjetivo, $alimentosIgnorados) {
                 $query->where('tipo', $txtobjetivo);
