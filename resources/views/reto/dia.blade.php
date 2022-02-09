@@ -136,7 +136,7 @@
     <template id="dia-template">
         <div class="card">
             <div class="card-header-new text-center">
-                <span>DÍA @{{ dia.dia }}</span>
+                <span>DÍA @{{ dia.diaoriginal }}</span>
             </div>
             <div class="card-body">
                 @if(\Illuminate\Support\Facades\Auth::user()->rol==\App\Code\RolUsuario::CLIENTE)

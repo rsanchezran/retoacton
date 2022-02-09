@@ -46,6 +46,7 @@ class Dia extends Model
         $filtro = function ($datos) use ($genero, $objetivo) { //funcion para cad with
             $datos->where('genero', $genero)->where('objetivo', $objetivo);
         };
+        $diaoriginal = $dia;
         $diacardio = 1;
         if($dia>0){
             $diacardio = $dia;
@@ -60,6 +61,7 @@ class Dia extends Model
         if ($diaDB == null) {
             $diaDB = new Dia();
             $diaDB->dia = $dia;
+            $diaDB->diaoriginal = $diaoriginal;
             $diaDB->cardio = collect();
             $diaDB->nota = new \stdClass();
             $diaDB->nota->descripcion = "";
