@@ -345,12 +345,14 @@ class RetoController extends Controller
             }else{
                 $objetivo = 'subir';
             }
+            error_log('hhdkjhjkashdkjhaskjdhkjashdkjhaskjdhkjahsdkjhaskdj');
+            error_log($objetivo);
             $peso = json_decode($respuestas->get(2)->respuesta);
 
             app('App\Http\Controllers\HomeController')->generarDieta($request->user(), $objetivo, $peso, $alimentosIgnorados, 1);
             app('App\Http\Controllers\HomeController')->generarDieta($request->user(), $objetivo, $peso, $alimentosIgnorados, 0);
-            //app('App\Http\Controllers\HomeController')->generarDieta($request->user(), $objetivo, $peso, $alimentosIgnorados, 2);
-            //app('App\Http\Controllers\HomeController')->generarDieta($request->user(), $objetivo, $peso, $alimentosIgnorados, 3);
+            app('App\Http\Controllers\HomeController')->generarDieta($request->user(), $objetivo, $peso, $alimentosIgnorados, 2);
+            app('App\Http\Controllers\HomeController')->generarDieta($request->user(), $objetivo, $peso, $alimentosIgnorados, 3);
             return view('reto.dia', ['dia' => $dia, 'genero' => $genero, 'objetivo' => $objetivo,
                 'dias' => $dias, 'lugar' => $user->modo, 'semana' => $semana, 'maximo' => $diasTranscurridos,
                 'teorico' => $teorico, 'diasReto' => $diasReto]);
