@@ -61,7 +61,6 @@ class Dia extends Model
         if ($diaDB == null) {
             $diaDB = new Dia();
             $diaDB->dia = $dia;
-            $diaDB->diaoriginal = $diaoriginal;
             $diaDB->cardio = collect();
             $diaDB->nota = new \stdClass();
             $diaDB->nota->descripcion = "";
@@ -103,6 +102,7 @@ class Dia extends Model
                 $ejercicio->subseries = json_decode($ejercicio->subseries);
             }
         }
+        $diaDB->diaoriginal = $diaoriginal;
         return $diaDB;
     }
 }
