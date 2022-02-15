@@ -334,6 +334,12 @@
         #promo{
             color: #FFFFFF;
         }
+
+        @media only screen and (max-width: 360px) {
+            .tarjeta_precios{
+                font-size: 0.5em !important;
+            }
+        }
     </style>
     <script src="https://unpkg.com/vue-multiselect@2.1.0"></script>
     <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
@@ -397,9 +403,9 @@
                     <img src="{{asset('images/2021/aprovechar.png')}}" @click="muestraPromo" class="col-12">
                     <div class="card tarjeta_precios mb-5" v-if="mostrar_promo">
                         <div class="card-body">
-                            <table class="col-12">
+                            <table class="">
                                 <tbody>
-                                <tr class="col-12">
+                                <tr class="">
                                     <td class="col-6 text-left">Quiero agregar 1 semana</td>
                                     <td class="col-5 text-left"><img src="{{asset('images/2021/solo_100.png')}}" style="width: 100%;"></td>
                                     <td class="col-1"><button class="col-12 btnagregar" @click="agregar(1)">Agregar</button></td>
