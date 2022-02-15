@@ -377,7 +377,7 @@ class RetoController extends Controller
                     }
                 }
                 $alimentosIgnorados = Dieta::whereIn('comida', $ignorar)->get()->pluck('id');
-                print_r($alimentosIgnorados);
+                //print_r($alimentosIgnorados);
                 $objetivo = Pregunta::where('pregunta', 'like', '%Mi objetivo%')->first();
                 $preguntaPeso = Pregunta::where('pregunta', 'like', '%peso%')->first();
                 $objetivo = strpos($respuestas->get($objetivo->id)->respuesta, "Bajar") ? 'bajar' : 'subir';
