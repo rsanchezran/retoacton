@@ -365,7 +365,7 @@ class RetoController extends Controller
             $dietaCreada = UsuarioDieta::where('usuario_id', $user->id)->where('dieta', $numDietas)->count();
             if ($dietaCreada==0){
                 $ignorar = collect();//Generar dieta
-                $preguntaAlimentos = Pregunta::where('pregunta', 'like', '%no quiero%')->get();
+                $preguntaAlimentos = Pregunta::where('pregunta', 'like', '%Eliminar de mi dieta lo siguiente%')->get();
                 $respuestas = Respuesta::where('usuario_id', $user->id)->get()->keyBy('pregunta_id');
                 foreach ($preguntaAlimentos as $preguntaAlimento) {
                     foreach (json_decode($respuestas->get($preguntaAlimento->id)->respuesta) as $item) {
@@ -377,6 +377,7 @@ class RetoController extends Controller
                     }
                 }
                 $alimentosIgnorados = Dieta::whereIn('comida', $ignorar)->get()->pluck('id');
+                print_r($alimentosIgnorados);
                 $objetivo = Pregunta::where('pregunta', 'like', '%Mi objetivo%')->first();
                 $preguntaPeso = Pregunta::where('pregunta', 'like', '%peso%')->first();
                 $objetivo = strpos($respuestas->get($objetivo->id)->respuesta, "Bajar") ? 'bajar' : 'subir';
