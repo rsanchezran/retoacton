@@ -337,7 +337,7 @@
 
         @media only screen and (max-width: 360px) {
             .tarjeta_precios{
-                font-size: 0.5em !important;
+                font-size: 0.6em !important;
             }
         }
     </style>
