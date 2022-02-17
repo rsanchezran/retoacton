@@ -56,6 +56,12 @@ class Dia extends Model
         if($diacardio<=0){
             $diacardio = $dia;
         }
+        if($diacardio>54){
+            $diacardio = $dia-108;
+            if($diacardio<=0){
+                $diacardio = $dia;
+            }
+        }
         $diaDB = Dia::with(['cardio' => $filtro, 'notas' => $filtro])
             ->where('dia', $diacardio)->get()->first();
         if ($diaDB == null) {
@@ -75,6 +81,12 @@ class Dia extends Model
         $dia_gym = $dia-54;
         if($dia_gym<0){
             $dia_gym = $dia;
+        }
+        if($dia_gym>54){
+            $dia_gym = $dia-108;
+            if($dia_gym<0){
+                $dia_gym = $dia;
+            }
         }
         if($dia_gym==0){
             $dia_gym = 1;
