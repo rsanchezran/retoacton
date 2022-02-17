@@ -52,12 +52,12 @@ class Dia extends Model
             $diacardio = $dia;
         }
 
-        $diacardio = $dia-54;
+        $diacardio = $dia-56;
         if($diacardio<=0){
             $diacardio = $dia;
         }
-        if($diacardio>54){
-            $diacardio = $dia-108;
+        if($diacardio>56){
+            $diacardio = $dia-112;
             if($diacardio<=0){
                 $diacardio = $dia;
             }
@@ -78,12 +78,12 @@ class Dia extends Model
             ->join('suplementos as s', 'kit_id', 'kits.id')->where('kits.objetivo', $objetivo)
             ->where('genero', $genero)->where('descripcion', 'like', '%'.($semanaSuplementacion).'%')->get();
         $diaDB->comidas = UsuarioDieta::where('usuario_id', $user->id)->where('dieta', $dieta)->get()->groupBy('comida')->values();
-        $dia_gym = $dia-54;
+        $dia_gym = $dia-56;
         if($dia_gym<0){
             $dia_gym = $dia;
         }
-        if($dia_gym>54){
-            $dia_gym = $dia-108;
+        if($dia_gym>56){
+            $dia_gym = $dia-112;
             if($dia_gym<0){
                 $dia_gym = $dia;
             }
@@ -91,6 +91,7 @@ class Dia extends Model
         if($dia_gym==0){
             $dia_gym = 1;
         }
+
 
         $diaDB->gym = Serie::with(['ejercicios'=>function($q){
             $q->orderBy('orden');
