@@ -284,10 +284,13 @@
                         <a href="#" class="col-6"><img src="{{asset('images/2021/btn_seguir.png')}}" class="col-8"></a>
                     </div>
                     <br>
+
+                    @if(\Illuminate\Support\Facades\Auth::user()->email == 'ajj.villalpando@gmail.com' || \Illuminate\Support\Facades\Auth::user()->email == 'pipolandin@icloud.com' || \Illuminate\Support\Facades\Auth::user()->email == 'pp_9012@hotmail.com')
                     <div  v-if="ocultareto" class="col-12 text-center mt-3">
                         <a href="#" data-toggle="modal" data-title=""
                            data-target="#ponerreto"  class="col-6"><img src="{{asset('images/2021/ponme_reto.png')}}" class="col-10"></a>
                     </div>
+                    @endif
                 </div>
             </div>
 
@@ -363,6 +366,7 @@
                     </div>
                 </div>
                 <div class="card">
+                    @if(\Illuminate\Support\Facades\Auth::user()->email == 'ajj.villalpando@gmail.com' || \Illuminate\Support\Facades\Auth::user()->email == 'pipolandin@icloud.com' || \Illuminate\Support\Facades\Auth::user()->email == 'pp_9012@hotmail.com')
                     <div v-if="ocultareto" class="card-header" id="headingThree">
                         <h5 class="mb-0">
                             <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
@@ -402,6 +406,7 @@
                             </div>
                         </div>
                     </div>
+                        @endif
                 </div>
             </div>
 
@@ -845,7 +850,7 @@
                     mostrar_mensaje_alert: false,
                     mostrar_mensaje_enviado: false,
                     mostrarcalif: false,
-                    ocultareto: false,
+                    ocultareto: true,
                 }},
             methods: {
                 sigue: function () {
