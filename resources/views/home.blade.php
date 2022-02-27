@@ -496,7 +496,7 @@
                 </div>
                 <div class="card">
 
-                    @if(\Illuminate\Support\Facades\Auth::user()->email == 'ajj.villalpando@gmail.com' || \Illuminate\Support\Facades\Auth::user()->email == 'pipolandin@icloud.com' || \Illuminate\Support\Facades\Auth::user()->email == 'pp_9012@hotmail.com')
+                    @if(\Illuminate\Support\Facades\Auth::user()->email == 'ind.a.judith.j.villalpando@gmail.com' || \Illuminate\Support\Facades\Auth::user()->email == 'pipolandin@icloud.com' || \Illuminate\Support\Facades\Auth::user()->email == 'pp_9012@hotmail.com')
                     <div v-if="ocultareto" class="card-header" id="headingThree">
                         <h5 class="mb-0">
                             <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
