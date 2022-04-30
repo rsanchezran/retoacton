@@ -103,13 +103,13 @@ class Dia extends Model
         if($diacardio>56){
             $diacardio = $dia-168;
             if($diacardio<=0){
-                $diacardio = $dia;
+                $dia_gym = $dia;
             }
         }
         if($diacardio>56){
             $diacardio = $dia-224;
             if($diacardio<=0){
-                $diacardio = $dia;
+                $dia_gym = $dia;
             }
         }
         if($dia_gym==0){
