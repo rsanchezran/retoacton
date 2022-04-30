@@ -62,6 +62,18 @@ class Dia extends Model
                 $diacardio = $dia;
             }
         }
+        if($diacardio>56){
+            $diacardio = $dia-168;
+            if($diacardio<=0){
+                $diacardio = $dia;
+            }
+        }
+        if($diacardio>56){
+            $diacardio = $dia-224;
+            if($diacardio<=0){
+                $diacardio = $dia;
+            }
+        }
         $diaDB = Dia::with(['cardio' => $filtro, 'notas' => $filtro])
             ->where('dia', $diacardio)->get()->first();
         if ($diaDB == null) {
@@ -86,6 +98,18 @@ class Dia extends Model
             $dia_gym = $dia-112;
             if($dia_gym<0){
                 $dia_gym = $dia;
+            }
+        }
+        if($diacardio>56){
+            $diacardio = $dia-168;
+            if($diacardio<=0){
+                $diacardio = $dia;
+            }
+        }
+        if($diacardio>56){
+            $diacardio = $dia-224;
+            if($diacardio<=0){
+                $diacardio = $dia;
             }
         }
         if($dia_gym==0){
