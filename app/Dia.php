@@ -100,14 +100,14 @@ class Dia extends Model
                 $dia_gym = $dia;
             }
         }
-        if($diacardio>56){
-            $diacardio = $dia-168;
-            if($diacardio<=0){
+        if($dia_gym>56){
+            $dia_gym = $dia-168;
+            if($dia_gym<=0){
                 $dia_gym = $dia;
             }
         }
-        if($diacardio>56){
-            $diacardio = $dia-224;
+        if($dia_gym>56){
+            $dia_gym = $dia-224;
             if($diacardio<=0){
                 $dia_gym = $dia;
             }
